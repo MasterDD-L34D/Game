@@ -499,24 +499,27 @@ test('consumer stress_reduction: damage_dealt non toccato dal bonus', () => {
   assert.equal(u.sg, 1);
 });
 
-test('consumer move_bonus: branch numerico move budget = ap + move_bonus_bonus', () => {
-  // validatePlayerIntent è closure interna a createRoundBridge non esposta
-  // come testable export. Verifichiamo il branch numerico canonical (mirror
-  // della formula in sessionRoundBridge.js validatePlayerIntent line ~161).
+test('consumer move_bonus: Ennea move_bonus_bonus sconta il costo AP del move', () => {
+  // validatePlayerIntent e' closure interna a createRoundBridge, non export
+  // testabile. Mirror della decisione admit/reject canonical: il gate AP
+  // declare-time prezza un in-grid move a apLedger.resolveMoveApCost = max(1, dist
+  // - move_bonus_bonus) e lo rigetta (AP_INSUFFICIENT) se il costo supera
+  // ap_remaining. Non esiste piu' un ceiling MOVE_TOO_FAR separato (era
+  // irraggiungibile per ogni pending sum non-negativo, rimosso).
+  const moveCost = (d, bonus) => Math.max(1, d - Math.max(0, Number(bonus || 0)));
   const actor = { id: 'p1', hp: 10, ap: 1, ap_remaining: 1, position: { x: 0, y: 0 } };
   const dist = 2;
   const apAvail = Number(actor.ap_remaining);
-  const moveBudgetNoBonus = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-  assert.equal(moveBudgetNoBonus, 1);
-  assert.ok(dist > moveBudgetNoBonus, 'no bonus → MOVE_TOO_FAR per dist 2');
+  // No bonus: costo max(1, 2-0)=2 > 1 AP → rigettato.
+  assert.equal(moveCost(dist, actor.move_bonus_bonus), 2);
+  assert.ok(moveCost(dist, actor.move_bonus_bonus) > apAvail, 'no bonus → over budget per dist 2');
+  // Bonus +1: costo max(1, 2-1)=1 <= 1 AP → ammesso.
   actor.move_bonus_bonus = 1;
-  const moveBudgetWithBonus = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-  assert.equal(moveBudgetWithBonus, 2);
-  assert.ok(dist <= moveBudgetWithBonus, 'bonus +1 → 2 hex move ammesso');
-  // Negativo: bonus negativo non riduce budget.
+  assert.equal(moveCost(dist, actor.move_bonus_bonus), 1);
+  assert.ok(moveCost(dist, actor.move_bonus_bonus) <= apAvail, 'bonus +1 → 2 hex move ammesso');
+  // Negativo: bonus negativo floored a 0, nessuno sconto.
   actor.move_bonus_bonus = -3;
-  const moveBudgetNeg = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-  assert.equal(moveBudgetNeg, 1, 'bonus negativo floored a 0');
+  assert.equal(moveCost(dist, actor.move_bonus_bonus), 2, 'bonus negativo floored a 0');
 });
 
 test('decay coerenza: 3 nuovi mechanical → bonus zeroed dopo round end', () => {
