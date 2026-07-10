@@ -33,6 +33,16 @@ function declareFor(session) {
     stepTowards,
     manhattanDistance: manhattan,
     gridSize: 16,
+    // Load-bearing: senza aiProfiles resolveUseUtilityBrain() -> false e la
+    // decisione passa dal path legacy (selectAiPolicy), dove il gate non vive:
+    // i test ON diventerebbero vacui (verificato RED: rule REGOLA_001).
+    // Mirror di packs/.../ai_profiles.yaml profiles.aggressive (use_utility_brain
+    // true + overrides.retreat_hp_pct 0.15), la stessa shape che il gate legge.
+    aiProfiles: {
+      profiles: {
+        aggressive: { use_utility_brain: true, overrides: { retreat_hp_pct: 0.15 } },
+      },
+    },
   });
   return declare(session);
 }
@@ -76,6 +86,11 @@ test('gate ON: unita ferita sopra soglia NON dichiara retreat', () => {
     const { decisions } = declareFor(woundedSession());
     const d = decisions.find((x) => x.unit_id === 'sis_w');
     assert.ok(d, 'decisione emessa');
+    // Anti-vacuita': il gate vive SOLO nel branch utility di declareSistemaIntents.
+    // Se declareFor perde aiProfiles (o il profilo perde use_utility_brain) la
+    // decisione esce dal path legacy (REGOLA_*) e questo assert DEVE fallire --
+    // altrimenti il notEqual sotto passerebbe anche cancellando il gate.
+    assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
     assert.notEqual(d.intent, 'retreat', `atteso non-retreat, avuto ${d.intent} (${d.rule})`);
   });
 });
@@ -85,7 +100,11 @@ test('gate ON: sotto soglia (hp 10%) il declare loop non crasha', () => {
     const s = woundedSession();
     s.units[0].hp = 1;
     const { decisions } = declareFor(s);
-    assert.ok(decisions.find((x) => x.unit_id === 'sis_w'), 'decisione emessa');
+    const d = decisions.find((x) => x.unit_id === 'sis_w');
+    assert.ok(d, 'decisione emessa');
+    // Stessa anti-vacuita' del test sopra: sotto soglia (10% < 0.15) il gate
+    // NON scatta (retreat resta legale) ma il path deve essere quello utility.
+    assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
   });
 });
 
