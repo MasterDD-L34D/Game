@@ -122,6 +122,19 @@ jobs:
               # test:api). A codex-only edit matched 'data' (-> dataset-checks)
               # but not 'stack', so the authoring gate it polices never ran.
               - 'data/codex/**/*.yaml'
+              # 2026-07-10 -- same blind spot found on PR #3244 (issue #2744
+              # backport): encounter YAML + the evo schema feed AJV/author-guard
+              # gates inside test:api (tests/scripts/encounterSchema.test.js on
+              # docs/planning/encounters, tests/services/combat/
+              # encounterGridSchema.test.js on schemas/evo/encounter.schema.json,
+              # tests/difficulty + tests/codex species_hint cross-check on
+              # data/encounters), but none of these paths matched 'stack', so an
+              # encounter-only or schema-only PR skipped stack-quality entirely
+              # (every check "skipping" on #3244; gate covered by local run only).
+              - 'data/encounters/**/*.yaml'
+              - 'docs/planning/encounters/**/*.yaml'
+              - 'docs/planning/encounters-draft/**/*.yaml'
+              - 'schemas/evo/**'
               - 'packs/**/*.yaml'
               - 'packages/contracts/schemas/**'
               # OD-038 — sim bridge JS must hit stack-quality (Prettier).
