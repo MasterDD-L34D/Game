@@ -569,7 +569,13 @@ function createDeclareSistemaIntents(deps) {
           // scoring (utilityBrain PERSISTENT_THREAT_RETREAT_BONUS) puo' vincere.
           // Deterministico; nessun encounter di misura ha persistent_high_threat ->
           // bande flag-ON invariate.
-          if (threatCtx && threatCtx.persistent_high_threat) {
+          // Precedenza legacy: l'escalation passive/critical forza engage/all-in
+          // (REGOLA_004_THREAT) PRIMA della soglia, quindi il widening NON scatta
+          // sotto escalation attiva (invariante pinnato in sistemaDefendBias.test.js).
+          const escalationAllIn =
+            threatCtx &&
+            (threatCtx.escalation_tier === 'passive' || threatCtx.escalation_tier === 'critical');
+          if (threatCtx && threatCtx.persistent_high_threat && !escalationAllIn) {
             threshold *= 1.2;
           }
           const hpRatio =

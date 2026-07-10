@@ -156,7 +156,7 @@ const NORMAL_THREAT = { kills_vs_sistema: 1, sightings: 2, threat_level: 'normal
 // declareSistemaIntents non calcola persistent_high_threat (resterebbe assente) e
 // il widening non potrebbe mai scattare. L'oggetto tornato e' indifferente --
 // declareSistemaIntents vi scrive persistent_high_threat = computePersistentHighThreat(session).
-function declareWithThreat(session) {
+function declareWithThreat(session, extraThreat = {}) {
   const declare = createDeclareSistemaIntents({
     pickLowestHpEnemy,
     stepTowards,
@@ -167,7 +167,9 @@ function declareWithThreat(session) {
         aggressive: { use_utility_brain: true, overrides: { retreat_hp_pct: 0.15 } },
       },
     },
-    computeThreatIndex: () => ({}),
+    // extraThreat permette di iniettare escalation_tier et al. nel threatCtx
+    // (declareSistemaIntents vi sovrascrive solo persistent_high_threat).
+    computeThreatIndex: () => ({ ...extraThreat }),
   });
   return declare(session);
 }
@@ -238,6 +240,43 @@ test('gate ON senza persistent threat: stesso HP nella banda resta gated', () =>
       d.intent,
       'retreat',
       `senza persistent threat la soglia resta 0.15: a hpRatio 0.16 la ritirata e gated (avuto ${d.intent})`,
+    );
+  });
+});
+
+// Precedenza legacy (policy.js REGOLA_004_THREAT): l'escalation passive/critical
+// forza engage/all-in PRIMA della soglia di ritirata, quindi il widening +20% non
+// deve trasformare quel round in una ritirata (invariante pinnato dal path legacy in
+// sistemaDefendBias.test.js). Il gate deve onorare la stessa precedenza: nella banda
+// (0.15, 0.18] con persistent threat MA escalation attiva la ritirata resta gated.
+test('gate ON + persistent + escalation critical: widening soppresso, retreat resta gated', () => {
+  withFlag('true', () => {
+    const { decisions } = declareWithThreat(bandSession(HIGH_THREAT), {
+      escalation_tier: 'critical',
+    });
+    const d = decisions.find((x) => x.unit_id === 'sis_w');
+    assert.ok(d, 'decisione emessa');
+    assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
+    assert.notEqual(
+      d.intent,
+      'retreat',
+      `escalation critical: l'all-in vince sul widening, retreat gated (avuto ${d.intent})`,
+    );
+  });
+});
+
+test('gate ON + persistent + escalation passive: widening soppresso, retreat resta gated', () => {
+  withFlag('true', () => {
+    const { decisions } = declareWithThreat(bandSession(HIGH_THREAT), {
+      escalation_tier: 'passive',
+    });
+    const d = decisions.find((x) => x.unit_id === 'sis_w');
+    assert.ok(d, 'decisione emessa');
+    assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
+    assert.notEqual(
+      d.intent,
+      'retreat',
+      `escalation passive: engage forzato, retreat gated (avuto ${d.intent})`,
     );
   });
 });
