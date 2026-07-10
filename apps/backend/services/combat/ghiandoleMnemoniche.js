@@ -64,6 +64,23 @@ function hasTrait(unit, traitId) {
 }
 
 /**
+ * Guardia di fazione. La route di attacco NON valida la fazione del bersaglio
+ * (`session.units.find((u) => u.id === body.target_id)`), quindi un attacco puo'
+ * colpire un alleato: senza questa guardia un tratto di SABOTAGGIO deruberebbe un
+ * compagno di squadra. Stesso criterio di combat/telepathicReveal, che salta le
+ * unita' della stessa fazione.
+ *
+ * Conservativa: se una delle due unita' non dichiara `controlled_by` (fixture legacy,
+ * sim units) non si puo' dimostrare che siano alleate, e il furto procede.
+ *
+ * @returns {boolean} true solo quando entrambe dichiarano la STESSA fazione
+ */
+function isSameFaction(actor, target) {
+  return Boolean(actor.controlled_by && target.controlled_by) &&
+    actor.controlled_by === target.controlled_by;
+}
+
+/**
  * Durata attenuata: 50% arrotondato per eccesso, con floor 1 su input positivi.
  *
  * @param {number} turns
@@ -87,6 +104,7 @@ function stealBuff({ actor, target }) {
   if (!actor || typeof actor !== 'object') return null;
   if (!target || typeof target !== 'object') return null;
   if (!hasTrait(actor, GHIANDOLE_TRAIT)) return null;
+  if (isSameFaction(actor, target)) return null;
 
   const targetStatus = target.status;
   if (!targetStatus || typeof targetStatus !== 'object' || Array.isArray(targetStatus)) {
@@ -118,6 +136,12 @@ module.exports = {
   stealBuff,
   attenuate,
   hasTrait,
+  isSameFaction,
   GHIANDOLE_TRAIT,
-  STEALABLE,
+  // Copia difensiva: l'ordine della whitelist E' il design (frenzy-first = sabotaggio).
+  // Esportare l'array vivo lascerebbe a un consumatore la possibilita' di riordinarlo
+  // o svuotarlo a runtime, cambiando il comportamento del tratto ovunque.
+  get STEALABLE() {
+    return [...STEALABLE];
+  },
 };

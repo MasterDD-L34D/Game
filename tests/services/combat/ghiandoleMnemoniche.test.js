@@ -119,6 +119,48 @@ test('furto: non abbassa un buff gia posseduto piu a lungo dal portatore', () =>
   assert.equal(actor.status.linked, 3); // max(3, 1)
 });
 
+// Guardia di fazione. La route di attacco NON valida la fazione del bersaglio
+// (session.js: `session.units.find((u) => u.id === body.target_id)`), quindi un
+// attacco puo' colpire un alleato. Senza questa guardia il tratto di SABOTAGGIO
+// deruberebbe un compagno di squadra. Stesso criterio di computeTelepathicReveal,
+// che salta le unita' della stessa fazione.
+test('furto: nessun furto da un alleato (stessa fazione)', () => {
+  const actor = { id: 'a1', controlled_by: 'player', traits: [GHIANDOLE_TRAIT], status: {} };
+  const ally = { id: 't1', controlled_by: 'player', traits: [], status: { linked: 4 } };
+  assert.equal(stealBuff({ actor, target: ally }), null);
+  assert.equal(ally.status.linked, 4);
+  assert.deepEqual(actor.status, {});
+});
+
+test('furto: ruba da una fazione avversa', () => {
+  const actor = { id: 'a1', controlled_by: 'player', traits: [GHIANDOLE_TRAIT], status: {} };
+  const enemy = { id: 't1', controlled_by: 'sistema', traits: [], status: { linked: 4 } };
+  assert.equal(stealBuff({ actor, target: enemy }).stato, 'linked');
+  assert.equal(actor.status.linked, 2);
+});
+
+// Fazione assente su una delle due unita' (fixture legacy, sim units): non si puo'
+// dimostrare che siano alleate -> il furto procede. Conserva i test esistenti.
+test('furto: fazione mancante -> non blocca il furto', () => {
+  const actor = { id: 'a1', traits: [GHIANDOLE_TRAIT], status: {} };
+  const target = { id: 't1', traits: [], status: { linked: 4 } };
+  assert.equal(stealBuff({ actor, target }).stato, 'linked');
+});
+
+// STEALABLE e' esposto come copia: l'ordine E' il design, un consumatore non deve
+// poterlo riordinare o svuotare a runtime cambiando il tratto ovunque.
+test('whitelist: STEALABLE e una copia difensiva, non larray vivo', () => {
+  const mod = require('../../../apps/backend/services/combat/ghiandoleMnemoniche');
+  const first = mod.STEALABLE;
+  first.length = 0; // tentativo di sabotaggio
+  assert.deepEqual(mod.STEALABLE[0], 'frenzy');
+
+  // e il furto continua a funzionare dopo il tentativo
+  const actor = carrier();
+  const target = prey({ frenzy: 2 });
+  assert.equal(stealBuff({ actor, target }).stato, 'frenzy');
+});
+
 test('hasTrait: accetta stringhe e oggetti {id}', () => {
   assert.equal(hasTrait({ traits: [GHIANDOLE_TRAIT] }, GHIANDOLE_TRAIT), true);
   assert.equal(hasTrait({ traits: [{ id: GHIANDOLE_TRAIT }] }, GHIANDOLE_TRAIT), true);
