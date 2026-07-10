@@ -15,7 +15,20 @@
 // Uso:
 //   node tools/sim/intent-mix-probe.js --encounter <enc_id> [--seed 1] [--pressure 50]
 //   SISTEMA_PER_UNIT_ACTIONS_ENABLED=true node tools/sim/intent-mix-probe.js --encounter <id>
-// Output: una riga JSON (jsonl-friendly per batch).
+// Output: stdout = SOLO una riga JSON (jsonl-friendly: `... >> runs.jsonl` e' safe).
+//
+// stdout JSON-only (Codex P2 su PR #3246): i moduli del backend loggano su console.log
+// al require-time ([prisma], [jobs], [trait-effects], [xpBudget audit], ...). Se stdout
+// li raccoglie, il .jsonl del batch nasce corrotto. Rimappiamo console.* su stderr PRIMA
+// di qualunque require del backend: la diagnostica resta visibile (e redirigibile con
+// 2>), stdout resta un canale dati puro. Il risultato finale va su process.stdout.write.
+for (const level of ['log', 'info', 'debug']) {
+  const orig = console[level].bind(console);
+  console[level] = (...a) => {
+    if (process.env.INTENT_MIX_KEEP_STDOUT === 'true') return orig(...a);
+    process.stderr.write(a.map(String).join(' ') + '\n');
+  };
+}
 
 const path = require('node:path');
 const fs = require('node:fs');
@@ -167,7 +180,8 @@ async function main() {
   }
 
   const acted = tally.attack + tally.approach + tally.retreat;
-  console.log(
+  // process.stdout.write, non console.log: quest'ultimo e' rimappato su stderr sopra.
+  process.stdout.write(
     JSON.stringify({
       arm: process.env.SISTEMA_PER_UNIT_ACTIONS_ENABLED === 'true' ? 'uncapped' : 'control',
       encounter: args.encounter,
@@ -180,7 +194,7 @@ async function main() {
       capped: tally.capped,
       acted,
       attack_pct: acted ? Number(((100 * tally.attack) / acted).toFixed(1)) : 0,
-    }),
+    }) + '\n',
   );
 }
 
