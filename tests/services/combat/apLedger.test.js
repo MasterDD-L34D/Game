@@ -111,3 +111,52 @@ test('canAfford: uno skip a costo negativo non finanzia attacchi successivi', ()
   const attack = { type: 'attack' };
   assert.equal(ledger.canAfford(actor, [freeSkip, attack], attack), false);
 });
+
+test('apBreakdown: espone i numeri che AP_INSUFFICIENT deve stampare', () => {
+  // validatePlayerIntent formatta "costo totale N (pending P + nuovo C), disponibili A".
+  // Il breakdown e' l'unica fonte di quei 4 numeri: nessun ricalcolo lato route.
+  const actor = { ap_remaining: 3, position: { x: 0, y: 0 } };
+  const attack = { type: 'attack' };
+  const b = ledger.apBreakdown(actor, [attack], attack);
+  assert.deepEqual(b, { pending: 1, cost: 1, total: 2, available: 3, affordable: true });
+});
+
+test('apBreakdown: total = pending + cost, affordable = total <= available', () => {
+  const actor = { ap_remaining: 2, position: { x: 0, y: 0 } };
+  const attack = { type: 'attack' };
+  const b = ledger.apBreakdown(actor, [attack, attack], attack);
+  assert.equal(b.pending, 2);
+  assert.equal(b.cost, 1);
+  assert.equal(b.total, b.pending + b.cost);
+  assert.equal(b.available, 2);
+  assert.equal(b.affordable, false);
+});
+
+test('apBreakdown: prezza server-side i move e unwrappa gli intent wrapper', () => {
+  // Stesse due garanzie di canAfford: il pending sum non si fida di ap_cost
+  // client sui move in-grid, e un {unit_id, action} non viene prezzato 0.
+  const actor = { ap_remaining: 5, position: { x: 0, y: 0 } };
+  const move = { type: 'move', move_to: { x: 2, y: 0 }, ap_cost: 0 }; // costo server 2
+  const wrapped = { unit_id: 'x', action: { type: 'attack' } };
+  const b = ledger.apBreakdown(actor, [move, wrapped], { type: 'attack' });
+  assert.equal(b.pending, 3); // 2 (move) + 1 (attack unwrappato)
+  assert.equal(b.total, 4);
+});
+
+test('apBreakdown: fail-closed su actor null (available 0, non NaN)', () => {
+  const b = ledger.apBreakdown(null, [], { type: 'attack' });
+  assert.equal(b.available, 0);
+  assert.equal(b.affordable, false);
+});
+
+test('canAfford: resta un wrapper booleano su apBreakdown.affordable', () => {
+  // Anti-drift: se le due funzioni divergono, la ledger ha di nuovo due autorita'.
+  const actor = { ap_remaining: 2, position: { x: 0, y: 0 } };
+  const attack = { type: 'attack' };
+  for (const declared of [[], [attack], [attack, attack]]) {
+    assert.equal(
+      ledger.canAfford(actor, declared, attack),
+      ledger.apBreakdown(actor, declared, attack).affordable,
+    );
+  }
+});

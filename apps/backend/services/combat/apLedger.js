@@ -124,28 +124,50 @@ function createApLedger({ manhattanDistance, gridSize }) {
   }
 
   /**
-   * Pending-sum affordability gate (the P1-3 multi-intent hardening,
-   * reusable for the Sistema declare-side).
+   * Priced breakdown of the pending-sum affordability gate (the P1-3
+   * multi-intent hardening, reusable for the Sistema declare-side).
    *
-   * Keep in lockstep with the hand-rolled pending-sum gate in
-   * routes/sessionRoundBridge.js validatePlayerIntent (extraction
-   * follow-up: rewire that gate onto this ledger).
+   * This is the ONLY place the pending sum is computed. Callers that must
+   * report the numbers (routes/sessionRoundBridge.js validatePlayerIntent
+   * formats them into the AP_INSUFFICIENT message) read them off this object
+   * instead of recomputing -- a recompute would resurrect the second AP
+   * authority this ledger exists to remove.
    *
    * @param {Object|null} actor - priced via resolveIntentApCost + apAvailable.
    * @param {Array<Object>} declaredActions - array of raw ACTION objects
-   *   ({type, ap_cost, move_to, ability_id, ...}), NOT {unit_id, action}
-   *   intent wrappers, already pre-filtered to THIS actor. Passing intent
-   *   wrappers would price everything at 0 and fail OPEN -- as insurance,
-   *   an element carrying an `.action` key is unwrapped before pricing.
+   *   ({type, ap_cost, move_to, ability_id, ...}), already pre-filtered to
+   *   THIS actor. A naked {unit_id, action} intent wrapper carries no type or
+   *   ability_id, so it would price at 0 and fail OPEN -- as insurance, an
+   *   element carrying an `.action` key is unwrapped before pricing.
    * @param {Object} action - the candidate raw action to admit.
-   * @returns {boolean} true when pending + candidate fits in apAvailable(actor).
+   * @returns {{pending: number, cost: number, total: number,
+   *   available: number, affordable: boolean}} pending = sum over
+   *   declaredActions, cost = candidate, total = pending + cost,
+   *   available = apAvailable(actor), affordable = total <= available.
    */
-  function canAfford(actor, declaredActions, action) {
+  function apBreakdown(actor, declaredActions, action) {
     const pending = (declaredActions || []).reduce((sum, a) => {
       const act = a && a.action ? a.action : a;
       return sum + resolveIntentApCost(actor, act);
     }, 0);
-    return pending + resolveIntentApCost(actor, action) <= apAvailable(actor);
+    const cost = resolveIntentApCost(actor, action);
+    const total = pending + cost;
+    const available = apAvailable(actor);
+    return { pending, cost, total, available, affordable: total <= available };
+  }
+
+  /**
+   * Boolean form of apBreakdown: true when pending + candidate fits in
+   * apAvailable(actor). Fails CLOSED on an unknown actor or NaN AP (any
+   * comparison against NaN is false).
+   *
+   * @param {Object|null} actor
+   * @param {Array<Object>} declaredActions
+   * @param {Object} action
+   * @returns {boolean}
+   */
+  function canAfford(actor, declaredActions, action) {
+    return apBreakdown(actor, declaredActions, action).affordable;
   }
 
   return {
@@ -154,6 +176,7 @@ function createApLedger({ manhattanDistance, gridSize }) {
     resolveIntentApCost,
     isValidGridDest,
     apAvailable,
+    apBreakdown,
     canAfford,
   };
 }

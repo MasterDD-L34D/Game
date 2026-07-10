@@ -141,6 +141,42 @@ test('validation: AP insufficienti rigettato (AP_INSUFFICIENT)', async (t) => {
   assert.equal(r.body.code, 'AP_INSUFFICIENT');
 });
 
+test('validation: AP_INSUFFICIENT riporta total/pending/cost/available distinti', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  // Pinna la SHAPE del messaggio, che i test su `code` non vedono. I 4 numeri
+  // arrivano da apLedger.apBreakdown: qui sono resi tutti diversi (4/1/3/2) in
+  // modo che uno scambio posizionale nel template (es. total al posto di cost)
+  // faccia fallire l'assert invece di passare inosservato.
+  // p1 ap=2 at (2,2), sis at (3,2). Attack (costo canon 1) passa il gate e resta
+  // pending; poi move di 3 celle costa 3 lato server -> 1 + 3 = 4 > 2.
+  const sid = await startSession(app, twoUnits({ p1Pos: { x: 2, y: 2 }, sisPos: { x: 3, y: 2 } }));
+  const first = await declare(app, sid, 'p1', {
+    id: 'p1-atk',
+    type: 'attack',
+    actor_id: 'p1',
+    target_id: 'sis',
+    ap_cost: 1,
+  });
+  assert.equal(first.status, 200, `pending intent must be accepted, got ${first.status}`);
+
+  const r = await declare(app, sid, 'p1', {
+    id: 'p1-mv',
+    type: 'move',
+    actor_id: 'p1',
+    ap_cost: 0,
+    move_to: { x: 2, y: 5 },
+  });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.code, 'AP_INSUFFICIENT');
+  assert.equal(
+    r.body.error,
+    'AP insufficienti: costo totale 4 (pending 1 + nuovo 3), disponibili 2',
+  );
+});
+
 test('validation: move fuori griglia rigettato (OUT_OF_GRID)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
