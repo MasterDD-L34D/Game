@@ -13920,6 +13920,19 @@
       "track": "active"
     },
     {
+      "path": "docs/research/2026-07-10-sistema-symmetry-factorial.md",
+      "title": "Fattoriale 2x2 simmetria Sistema -- il ceiling WR 1.0 e' ROTTO (gate+AP, N=40)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-07-10",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md",
       "title": "Simmetria d'azione del Sistema -- 2 AP per creatura, retreat gated, telegraph solo-minacce (design)",
       "doc_status": "active",

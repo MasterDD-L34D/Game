@@ -106,6 +106,23 @@ test('ordine: furto normale -> la preda perde, il ladro guadagna', () => {
   assert.equal(thief.status.linked, 2);
 });
 
+// Codex P2 su #3260: il clamp fatto a meta' attacco (dentro stealBuff) viene
+// ANNULLATO dal rebuild tracked->dict, che gira prima del drain. Il drain e' l'unico
+// punto in cui il valore finale esiste, quindi il cap va imposto qui.
+test('drain: il cap si applica al valore fuso dopo il rebuild del round-state', () => {
+  const thief = { id: 'a', hp: 10, status: { frenzy: 100 }, status_intensity: {} }; // 100 ripristinato dal rebuild
+  const session = { _pendingStatusApplies: [{ unit_id: 'a', status: 'frenzy', duration: 5 }] };
+  drainLikeBridge(session, unitsMap([thief]));
+  assert.equal(thief.status.frenzy, 5, 'Math.max(100,5) deve essere cappato a 5');
+});
+
+test('drain: uno status senza cap non viene toccato', () => {
+  const u = { id: 'a', hp: 10, status: { linked: 100 }, status_intensity: {} };
+  const session = { _pendingStatusApplies: [{ unit_id: 'a', status: 'linked', duration: 2 }] };
+  drainLikeBridge(session, unitsMap([u]));
+  assert.equal(u.status.linked, 100); // `linked` non e' in STATUS_DURATION_CAPS
+});
+
 test('drain: coda assente o vuota -> no-op', () => {
   const u = { id: 't1', hp: 10, status: { frenzy: 2 } };
   assert.equal(drainStatusRemovals({}, unitsMap([u])), 0);
