@@ -559,9 +559,25 @@ function createDeclareSistemaIntents(deps) {
               ? aiProfiles.profiles[actor.ai_profile]
               : null;
           const gateOverrides = (gateProf && gateProf.overrides) || {};
-          const threshold = Number(
+          let threshold = Number(
             gateOverrides.retreat_hp_pct ?? retreatGateBaseCfg.LOW_HP_RETREAT_THRESHOLD,
           );
+          // D2 (ADR-2026-07-10) -- M1 persistent-threat widening. Mirror del path
+          // legacy (policy.js REGOLA_002: LOW_HP_RETREAT_THRESHOLD * 1.2): quando un
+          // PG persistent-high-threat e' sul campo, la soglia di ritirata si allarga
+          // del 20% cosi' la ritirata resta legale a HP piu' alti e l'overlay di
+          // scoring (utilityBrain PERSISTENT_THREAT_RETREAT_BONUS) puo' vincere.
+          // Deterministico; nessun encounter di misura ha persistent_high_threat ->
+          // bande flag-ON invariate.
+          // Precedenza legacy: l'escalation passive/critical forza engage/all-in
+          // (REGOLA_004_THREAT) PRIMA della soglia, quindi il widening NON scatta
+          // sotto escalation attiva (invariante pinnato in sistemaDefendBias.test.js).
+          const escalationAllIn =
+            threatCtx &&
+            (threatCtx.escalation_tier === 'passive' || threatCtx.escalation_tier === 'critical');
+          if (threatCtx && threatCtx.persistent_high_threat && !escalationAllIn) {
+            threshold *= 1.2;
+          }
           const hpRatio =
             Number(actor.max_hp) > 0 ? Number(actor.hp || 0) / Number(actor.max_hp) : 1;
           retreatGated = hpRatio > threshold;
