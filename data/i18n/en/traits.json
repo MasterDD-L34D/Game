@@ -5,29 +5,64 @@
     "direction": "ltr",
     "version": 1,
     "updated": "2026-07-10",
-    "completion_percent": 4
+    "completion_percent": 12
   },
   "traits": {
     "aculei_velenosi": {
       "label": "Venomous Spines",
       "mutazione_indotta": "Dorsal bristles have turned hollow, grafted onto sacs that distil hemolytic toxins.",
-      "spinta_selettiva": "Against predators too large to repel, only making the bite costly remained.",
-      "uso_funzione": "Melee attackers wound themselves on the spines and bleed at length.",
-      "debolezza": "It guards against nothing that strikes from afar: the punishment needs contact."
+      "spinta_selettiva": "One bite was not enough: the wound had to keep killing after the contact.",
+      "uso_funzione": "Every melee hit applies 3 turns of bleeding through vascular breakdown.",
+      "debolezza": "The toxins must get in: against thick armour the spines draw no blood."
+    },
+    "adattamento_volo": {
+      "label": "Gliding Adaptation",
+      "mutazione_indotta": "Skin folds stretch between the limbs, turning every jump into a controlled glide.",
+      "spinta_selettiva": "The worst ground was also the safest: those who glided over it stopped paying its price.",
+      "uso_funzione": "At grade 1 the glide cancels the extra movement cost of normal terrain.",
+      "debolezza": "A glide cannot be corrected midway: whoever starts one no longer picks the landing."
     },
     "ali_ioniche": {
       "label": "Ionic Wings",
       "mutazione_indotta": "Wing membranes gather charge along metallic veins and release it in micro-pulses.",
       "spinta_selettiva": "In the ionic canopy the air is already electric: whoever can spend it moves first.",
-      "uso_funzione": "Grants sudden directional dashes and rapid altitude changes while scouting.",
-      "debolezza": "Each dash drains the charge; without ionised air the wings are inert membranes."
+      "uso_funzione": "An attack delivered from an elevated position applies 1 turn of stun.",
+      "debolezza": "The stun lasts an instant: if the pack does not exploit it at once, it is wasted."
     },
     "antenne_flusso_mareale": {
       "label": "Tidal-Flow Antennae",
       "mutazione_indotta": "The antennae tuned themselves to the tide's rhythm, storing the surge in muscular ducts.",
       "spinta_selettiva": "In the bioreactive lagoon, striking off-beat means striking water and nothing else.",
-      "uso_funzione": "Discharges the stored energy into a single blow that cracks enemy defences.",
-      "debolezza": "The surge must be released: held too long, it discharges into its bearer."
+      "uso_funzione": "On a clean hit (margin 5 or more) perfect timing adds 2 damage.",
+      "debolezza": "A sloppy blow misses the surge: without precision the antennae add nothing."
+    },
+    "artigli_psionici": {
+      "label": "Psionic Claws",
+      "mutazione_indotta": "The claws conduct thought: every grip lifts a fragment of the mind they touch.",
+      "spinta_selettiva": "Whoever hunts the same pack twice learns that knowing the prey beats wounding it.",
+      "uso_funzione": "A melee hit reads the prey: defending against that same prey accrues damage reduction, up to 3.",
+      "debolezza": "The read comes only by contact: against those who keep their distance the claws learn nothing."
+    },
+    "aura_glaciale": {
+      "label": "Glacial Aura",
+      "mutazione_indotta": "Peripheral blood drops below freezing and the air around the body condenses into rime.",
+      "spinta_selettiva": "Slowing the prey costs less than chasing it, and cold never tires.",
+      "uso_funzione": "Each hit applies 2 turns of chill: the target loses 1 AP on reset and suffers -1 to attack rolls.",
+      "debolezza": "Rime dissolves where the air is warm: in scorching biomes the aura cannot condense."
+    },
+    "canto_di_richiamo": {
+      "label": "Calling Chant",
+      "mutazione_indotta": "The vocal sacs widened into chambers that hold a note as long as an entire breath.",
+      "spinta_selettiva": "A pack that does not honour its prey forgets why it hunts together.",
+      "uso_funzione": "After a kill the chant amplifies fury for 2 turns and honours the fallen prey.",
+      "debolezza": "Two turns of fury are few: the chant arrives when the fight is already decided."
+    },
+    "cervello_predittivo": {
+      "label": "Predictive Brain",
+      "mutazione_indotta": "The cortex runs one step ahead of the present and sees the motion before it happens.",
+      "spinta_selettiva": "Between equals, the winner arrives where the other will be, not where the other is.",
+      "uso_funzione": "On an excellent hit (margin 6 or more) the target is stunned for 2 turns.",
+      "debolezza": "Prediction assumes a rule: against the random, the cortex is confidently wrong."
     },
     "corteccia_memetica": {
       "label": "Memetic Bark",
@@ -40,8 +75,15 @@
       "label": "Adaptive Cryostasis",
       "mutazione_indotta": "The blood loads with cryoprotective enzymes that halt metabolism without shattering tissue.",
       "spinta_selettiva": "Those who cannot cross the winter must learn to sleep through it.",
-      "uso_funzione": "Suspends metabolism to survive extreme seasons and prolonged famine.",
-      "debolezza": "Asleep, the body filters nothing: every poison works undisturbed."
+      "uso_funzione": "Once activated it stiffens the tissues and grants +2 defence for 1 turn.",
+      "debolezza": "The stasis lasts a single turn: outside that window the body stands exposed."
+    },
+    "cuore_in_furia": {
+      "label": "Heart in Fury",
+      "mutazione_indotta": "The myocardium has grown past measure and sustains a tachycardia that would kill a normal heart.",
+      "spinta_selettiva": "The first kill opens the rest: those who cannot ride the surge waste it.",
+      "uso_funzione": "After a kill the heart races into tachycardia, unleashing 3 turns of adrenal rage.",
+      "debolezza": "It takes a kill to light it: in a stalemate the heart never starts."
     },
     "denti_seghettati": {
       "label": "Serrated Teeth",
@@ -57,12 +99,68 @@
       "uso_funzione": "A single pulse marks the ground as a resonant zone for 2 rounds.",
       "debolezza": "The echo tells no friend from foe: the zone reveals its own maker too."
     },
+    "ferocia": {
+      "label": "Ferocity",
+      "mutazione_indotta": "The adrenal glands stay half-open and pain always arrives a moment too late.",
+      "spinta_selettiva": "Under pressure hesitation kills more than the wound: the one who doubles the blow survives.",
+      "uso_funzione": "Every kill unleashes 3 turns of rage: no retreat, and +1 damage on successful hits.",
+      "debolezza": "In rage retreat is barred: whoever enters fury stays on the field even while losing."
+    },
+    "filtri_bioattivi": {
+      "label": "Bioactive Filters",
+      "mutazione_indotta": "A lattice of glands filters circulating blood and stitches tissue as it passes through.",
+      "spinta_selettiva": "In fouled water a wound festers before it closes: a body had to wash itself.",
+      "uso_funzione": "Each round it purges 1 bleed and 1 fracture, healing 1 for every status removed.",
+      "debolezza": "The filter works one ailment at a time: under many statuses at once it falls behind."
+    },
     "ghiandole_mnemoniche": {
       "label": "Mnemonic Glands",
       "mutazione_indotta": "Synaptic glands condense altered states into secretions that keep them attenuated.",
       "spinta_selettiva": "In the synaptic fracture every boon fades: those who keep a copy survive.",
       "uso_funzione": "Stores a weakened copy of a buff and redistributes it later.",
       "debolezza": "The copy is always poorer than the original, and occupies the gland until spent."
+    },
+    "intimidatore": {
+      "label": "Intimidating Aura",
+      "mutazione_indotta": "The posture has set into a silhouette the prey's brain reads as inevitable.",
+      "spinta_selettiva": "Prey that flees does not fight: frightening costs less than winning.",
+      "uso_funzione": "Each successful melee hit applies 2 turns of panic to adjacent enemies.",
+      "debolezza": "Terror needs eyes and nearness: from afar it remains only a silhouette."
+    },
+    "legame_di_branco": {
+      "label": "Pack Bond",
+      "mutazione_indotta": "Vocalisations have shrunk to brief signals the pack decodes without looking at one another.",
+      "spinta_selettiva": "A pack that discovers the threat together suffers it only once.",
+      "uso_funzione": "When an adjacent packmate of the same species attacks, it gains +1 attack and +1 defence until the end of the round.",
+      "debolezza": "The bond recognises only its own species: in a mixed squad it stays mute."
+    },
+    "marchio_predatorio": {
+      "label": "Predatory Mark",
+      "mutazione_indotta": "Axillary glands release a pheromone that clings to the prey and makes it legible to the pack.",
+      "spinta_selettiva": "Hunting in numbers means little if each hunter chases a different quarry.",
+      "uso_funzione": "Each hit marks the target for 2 turns: the next attack against it gains +1 damage and consumes the mark.",
+      "debolezza": "The mark is worth a single blow, spent by whoever strikes first, not by whoever strikes best."
+    },
+    "membrane_osmotiche": {
+      "label": "Osmotic Membranes",
+      "mutazione_indotta": "The outer membrane drinks what strikes it, holding part of it back before it reaches the blood.",
+      "spinta_selettiva": "Where every touch is venom, an impermeable body wastes less time healing.",
+      "uso_funzione": "Shortens every incoming status by 1 turn: a 1-turn status is absorbed entirely.",
+      "debolezza": "Against a long status the absorption is a delay, not a defence."
+    },
+    "mente_lucida": {
+      "label": "Lucid Mind",
+      "mutazione_indotta": "Attention does not drift with fear: the gaze holds where the guard opens.",
+      "spinta_selettiva": "In panic everyone sees the weapon. The winner keeps seeing the gap.",
+      "uso_funzione": "A clean hit (margin 5 or more) makes the target feel seen: 2 turns of panic.",
+      "debolezza": "Lucidity is slow: it costs an instant that close melee does not always grant."
+    },
+    "midollo_iperattivo": {
+      "label": "Hyperactive Marrow",
+      "mutazione_indotta": "The bone marrow floods with catecholamines as if every kill were the first.",
+      "spinta_selettiva": "A serial hunter cannot afford to cool between one quarry and the next.",
+      "uso_funzione": "Every kill pumps adrenaline and unleashes 3 turns of rage.",
+      "debolezza": "The marrow consumes itself: the bones regrow slower than they are spent."
     },
     "nodi_micorrizici_oracolari": {
       "label": "Oracular Mycorrhizal Nodes",
@@ -78,6 +176,48 @@
       "uso_funzione": "Cushions every incoming blow and reduces damage taken by 1.",
       "debolezza": "The elastomer blunts impact, not the venom that passes through the skin."
     },
+    "pelli_anti_ustione": {
+      "label": "Burn-Resistant Hide",
+      "mutazione_indotta": "The dermal layer has filled with hollow cells that shed heat before it sinks in.",
+      "spinta_selettiva": "On lava crusts contact is brief and constant: to burn was a slow sentence.",
+      "uso_funzione": "The thermal cushion reduces every incoming hit by 1 damage.",
+      "debolezza": "One point less does not stop a heavy blow: against hard hitters it is nearly nothing."
+    },
+    "pelli_cave": {
+      "label": "Hollow Hide",
+      "mutazione_indotta": "Air pockets have opened beneath the skin, keeping the heat out and the coolness in.",
+      "spinta_selettiva": "In arid land shade is not enough: the body must carry its own.",
+      "uso_funzione": "The air pockets cushion the impact and reduce every hit by 1 damage.",
+      "debolezza": "The pockets blunt the impact but not burns, nor the venom seeping through the pores."
+    },
+    "pelli_fitte": {
+      "label": "Dense Hide",
+      "mutazione_indotta": "The dermal fibres have woven as tight as felt, and water no longer finds a way out.",
+      "spinta_selettiva": "Constant wind does not wound: it drains. Those who hold on survive.",
+      "uso_funzione": "Every melee hit taken is blunted by 2 damage.",
+      "debolezza": "The felt guards melee: against those who strike from afar it blunts nothing."
+    },
+    "radici_ancora_planare": {
+      "label": "Planar Anchor Roots",
+      "mutazione_indotta": "Roots break from the heels and bite into the plane where the body halts.",
+      "spinta_selettiva": "A trunk does not flee. If it must take the blow, better to be impossible to move.",
+      "uso_funzione": "At round start it takes root: while stationary it reduces damage by 2, but moving breaks the anchor.",
+      "debolezza": "An enemy that does not attack it simply ignores it: anchored, the bearer chases no one."
+    },
+    "sensori_sismici": {
+      "label": "Seismic Sensors",
+      "mutazione_indotta": "Cutaneous receptors have sharpened enough to tell shifting weight from settling weight.",
+      "spinta_selettiva": "A predator betrays the strike with its foot before its eyes.",
+      "uso_funzione": "On a clean melee hit (margin 5 or more) it finds the opening and deals 1 extra damage.",
+      "debolezza": "The ground must carry: on water and shifting sand the sensors fall silent."
+    },
+    "spirito_combattivo": {
+      "label": "Combative Spirit",
+      "mutazione_indotta": "The amygdala has recalibrated downward: the threat arrives, but never takes command.",
+      "spinta_selettiva": "A pack that scatters at the first scream loses before it even fights.",
+      "uso_funzione": "When an adjacent ally attacks, the bearer gains +1 to attack until the end of the round.",
+      "debolezza": "Alone it is worth nothing: with no ally beside it, the morale never kindles."
+    },
     "spore_paniche": {
       "label": "Panic Spores",
       "mutazione_indotta": "Sporal sacs ripen beneath the skin and burst at the first sign of threat.",
@@ -85,19 +225,54 @@
       "uso_funzione": "Neurotoxic spores induce hallucinations and rout the target: 3 turns of panic.",
       "debolezza": "The cloud does not choose its lungs: nearby allies breathe the same terror."
     },
+    "sussurro_psichico": {
+      "label": "Psychic Whisper",
+      "mutazione_indotta": "A sublingual sac emits frequencies the eardrum misses and the nerve does not.",
+      "spinta_selettiva": "Confusing a stronger foe costs a breath; facing it costs the pack.",
+      "uso_funzione": "Each solid hit (margin 5 or more) applies 1 turn of disorientation: -2 to attack rolls.",
+      "debolezza": "It needs a clean blow: a barely landed touch never carries the whisper to the nerve."
+    },
+    "tela_appiccicosa": {
+      "label": "Sticky Web",
+      "mutazione_indotta": "Abdominal glands spin a secretion that hardens only when something tries to pull free.",
+      "spinta_selettiva": "There is no need to outrun the prey: it only has to be slower than yesterday.",
+      "uso_funzione": "Each hit applies 3 turns of slow: -1 AP on reset, with at least 1 AP guaranteed.",
+      "debolezza": "Prey that stops pulling does not stay caught: the web punishes only those who struggle."
+    },
+    "tentacoli_uncinati": {
+      "label": "Hooked Tentacles",
+      "mutazione_indotta": "Keratin hooks stud the tentacles and close backward like barbs.",
+      "spinta_selettiva": "Holding the prey one instant longer was worth a second bite.",
+      "uso_funzione": "Every melee hit applies 1 turn of fracture, limiting the target's AP.",
+      "debolezza": "A hook that goes in must come out: tearing free of armoured prey snaps them."
+    },
+    "tessuti_adattivi": {
+      "label": "Adaptive Tissues",
+      "mutazione_indotta": "The tissues sample what wounds them and reorganise against that very channel.",
+      "spinta_selettiva": "An environment that strikes the same way twice teaches its survivors quickly.",
+      "uso_funzione": "After taking 2 or more damage of one channel, it gains +15% resistance to that channel for 3 rounds and heals 1.",
+      "debolezza": "The adaptation looks backward: whoever alternates damage channels never lets it learn."
+    },
     "voce_imperiosa": {
       "label": "Imperious Voice",
       "mutazione_indotta": "The vocal cords thickened into a chamber that resonates below the threshold of hearing.",
       "spinta_selettiva": "In a pack the order to flee arrives before the predator: whoever speaks it commands.",
-      "uso_funzione": "In melee the voice breaks the target's will: 2 turns of panic.",
+      "uso_funzione": "In melee, a clean hit (margin 5 or more) applies 2 turns of panic.",
       "debolezza": "It works only within earshot, and never touches what has no will to break."
     },
     "zampe_a_molla": {
       "label": "Spring-Loaded Limbs",
       "mutazione_indotta": "The hind tendons have coiled into springs that hold the thrust between one leap and the next.",
       "spinta_selettiva": "In the mycelial forest the ground gives way: those who stand still long enough sink.",
-      "uso_funzione": "Stores energy and releases it in a leap that repositions the unit clear of the threat.",
-      "debolezza": "The run-up needs room: in tight quarters the springs have nowhere to unload."
+      "uso_funzione": "Striking from an elevated position with a margin of 5 or more deals 1 extra damage.",
+      "debolezza": "The leap only serves to climb: without a precise strike from above the springs never pay."
+    },
+    "zampe_radianti": {
+      "label": "Radiant Paws",
+      "mutazione_indotta": "The paw pads store the shock of the fall and give it back on impact.",
+      "spinta_selettiva": "Whoever strikes from above already holds the energy: it only had to survive the landing.",
+      "uso_funzione": "Attacking from an elevated position, the kinetic pulse adds 2 damage on impact.",
+      "debolezza": "It needs a drop: on level ground the paws have no fall to convert."
     }
   }
 }
