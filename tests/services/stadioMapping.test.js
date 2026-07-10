@@ -16,12 +16,11 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-let yaml;
-try {
-  yaml = require('js-yaml');
-} catch {
-  yaml = null;
-}
+// Fail-closed on missing deps (helper registers the fail/skip test); the
+// pure-logic tests below still run, only the YAML-fixture test bails out.
+const { requireTestDeps } = require('../helpers/requireTestDeps');
+const yamlDep = requireTestDeps('stadio mapping', { yaml: 'js-yaml' });
+const yaml = yamlDep.ok ? yamlDep.mods.yaml : null;
 
 const LIFECYCLE_PATH = path.resolve(
   __dirname,
@@ -70,7 +69,7 @@ function phaseToStadi(phase) {
 }
 
 test('stadio mapping: 10 stadi totali coprono 5 macro-fasi (2:1)', () => {
-  if (!yaml) return; // js-yaml not installed → skip silently
+  if (!yaml) return; // missing-dep fail/skip already registered by requireTestDeps
   const data = loadLifecycle();
   assert.ok(data, 'lifecycle YAML caricato');
   const phases = data.phases;
