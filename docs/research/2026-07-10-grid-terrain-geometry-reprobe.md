@@ -100,11 +100,14 @@ Struttura invariata: `hazard_set`, il gate su MOVE_TERRAIN_COST in `xpBudget.js`
 test (resi config-driven) restano -- un valore futuro non-zero riattiva il termine senza
 toccare codice.
 
-**v2 candidata (OD, decider Eduardo)**: predittore path-tax geometrico (costo del
-cheapest-path spawn->contatto sotto profilo medium vs Manhattan) al posto della massa
-per-tile; e' l'unica shape coerente con entrambe le falsificazioni. Non implementata qui
-(SDMG: metodo self-designed = ipotesi, serve falsificazione esterna prima
-dell'integrazione).
+**v2 candidata -- ora tracciata come [OD-061]** (`OPEN_DECISIONS.md`, verdetto owner
+2026-07-10: piano "warn poi promuovi" confermato, questo OD e' il gate tecnico del "poi"):
+predittore path-tax geometrico (costo del cheapest-path spawn->contatto sotto profilo
+medium vs Manhattan) al posto della massa per-tile; e' l'unica shape coerente con entrambe
+le falsificazioni. Non implementata qui (SDMG: metodo self-designed = ipotesi, serve
+falsificazione esterna + evidence non-ceiling dal lever D4 zone-defense prima
+dell'integrazione). Nota: senza questo termine `auditEncounter` e' cieco alla geometria --
+innocuo finche' D9 e' warn-only, bloccante-a-caso al flip.
 
 ## 5. Effetto sul prod (Lenovo CODEMASTERDD)
 
