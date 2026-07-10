@@ -75,7 +75,7 @@
       "label": "Criostasi Adattiva",
       "mutazione_indotta": "Il sangue si carica di enzimi crioprotettivi che fermano il metabolismo senza spezzare i tessuti.",
       "spinta_selettiva": "Chi non sa attraversare l'inverno deve saperlo dormire.",
-      "uso_funzione": "Attivata, irrigidisce i tessuti e concede +2 alla difesa per 1 turno.",
+      "uso_funzione": "Attivata, irrigidisce i tessuti: +2 alla difesa per 1 turno e +20% di resistenza al canale ionico.",
       "debolezza": "La stasi dura un turno soltanto: fuori da quella finestra il corpo resta scoperto."
     },
     "cuore_in_furia": {
@@ -112,13 +112,6 @@
       "spinta_selettiva": "Nelle acque marce la ferita infetta prima di chiudersi: serviva un corpo che si lavasse da solo.",
       "uso_funzione": "Ogni round purga 1 sanguinamento e 1 frattura, e cura 1 per ogni stato rimosso.",
       "debolezza": "Il filtro lavora un male alla volta: sotto molti stati insieme resta indietro."
-    },
-    "ghiandole_mnemoniche": {
-      "label": "Ghiandole Mnemoniche",
-      "mutazione_indotta": "Ghiandole sinaptiche condensano gli stati alterati in secrezioni che li conservano attenuati.",
-      "spinta_selettiva": "Nella frattura sinaptica ogni potenziamento svanisce: sopravvive chi ne serba una copia.",
-      "uso_funzione": "Conserva una copia indebolita di un potenziamento e la ridistribuisce più tardi.",
-      "debolezza": "La copia è sempre più povera dell'originale e occupa la ghiandola finché non viene spesa."
     },
     "intimidatore": {
       "label": "Aura Intimidatoria",
@@ -161,13 +154,6 @@
       "spinta_selettiva": "Chi caccia in serie non può permettersi di raffreddarsi fra una preda e l'altra.",
       "uso_funzione": "Ogni uccisione pompa adrenalina e scatena 3 turni di furia.",
       "debolezza": "Il midollo consuma sé stesso: le ossa si rigenerano più lente di quanto si spendano."
-    },
-    "nodi_micorrizici_oracolari": {
-      "label": "Nodi Micorrizici Oracolari",
-      "mutazione_indotta": "Radici dermiche si innestano nella rete fungina e ne leggono in anticipo i segnali chimici.",
-      "spinta_selettiva": "Nelle reti micorriziche il bosco sa prima di te: conviene ascoltarlo.",
-      "uso_funzione": "Anticipa le minacce e trasmette letture tattiche alla squadra prima del contatto.",
-      "debolezza": "Recisa la rete, i presagi tacciono e resta solo disorientamento."
     },
     "pelle_elastomera": {
       "label": "Pelle Elastomera",

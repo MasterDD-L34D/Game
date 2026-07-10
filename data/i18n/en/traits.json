@@ -75,7 +75,7 @@
       "label": "Adaptive Cryostasis",
       "mutazione_indotta": "The blood loads with cryoprotective enzymes that halt metabolism without shattering tissue.",
       "spinta_selettiva": "Those who cannot cross the winter must learn to sleep through it.",
-      "uso_funzione": "Once activated it stiffens the tissues and grants +2 defence for 1 turn.",
+      "uso_funzione": "Once activated it stiffens the tissues: +2 defence for 1 turn and +20% resistance to the ionic channel.",
       "debolezza": "The stasis lasts a single turn: outside that window the body stands exposed."
     },
     "cuore_in_furia": {
@@ -112,13 +112,6 @@
       "spinta_selettiva": "In fouled water a wound festers before it closes: a body had to wash itself.",
       "uso_funzione": "Each round it purges 1 bleed and 1 fracture, healing 1 for every status removed.",
       "debolezza": "The filter works one ailment at a time: under many statuses at once it falls behind."
-    },
-    "ghiandole_mnemoniche": {
-      "label": "Mnemonic Glands",
-      "mutazione_indotta": "Synaptic glands condense altered states into secretions that keep them attenuated.",
-      "spinta_selettiva": "In the synaptic fracture every boon fades: those who keep a copy survive.",
-      "uso_funzione": "Stores a weakened copy of a buff and redistributes it later.",
-      "debolezza": "The copy is always poorer than the original, and occupies the gland until spent."
     },
     "intimidatore": {
       "label": "Intimidating Aura",
@@ -161,13 +154,6 @@
       "spinta_selettiva": "A serial hunter cannot afford to cool between one quarry and the next.",
       "uso_funzione": "Every kill pumps adrenaline and unleashes 3 turns of rage.",
       "debolezza": "The marrow consumes itself: the bones regrow slower than they are spent."
-    },
-    "nodi_micorrizici_oracolari": {
-      "label": "Oracular Mycorrhizal Nodes",
-      "mutazione_indotta": "Dermal roots graft into the fungal network and read its chemical signals in advance.",
-      "spinta_selettiva": "In the mycorrhizal networks the forest knows before you do: better to listen.",
-      "uso_funzione": "Anticipates threats and relays tactical reads to the squad before contact.",
-      "debolezza": "Sever the network and the omens fall silent, leaving only disorientation."
     },
     "pelle_elastomera": {
       "label": "Elastomeric Skin",
