@@ -442,6 +442,19 @@ function createRoundBridge(deps) {
       }
       session._pendingStatusApplies = [];
     }
+
+    // Canale di RIMOZIONE (buff-steal, ghiandole_mnemoniche). Il drain sopra sa solo
+    // AGGIUNGERE (applyMoraleStatus = Math.max(cur,dur)) e il rebuild tracked->dict
+    // poco sopra ripristinerebbe un delete fatto a meta' attacco. Qui siamo DOPO quel
+    // rebuild: il prossimo adaptSessionToRoundState ri-deriva l'array tracciato dal
+    // dict, quindi la cancellazione sopravvive. Best-effort; mai bloccante.
+    // Spec: docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+    try {
+      const { drainStatusRemovals } = require('../services/combat/pendingStatusRemovals');
+      drainStatusRemovals(session, unitsById);
+    } catch {
+      /* modulo assente -> nessuna rimozione, il round prosegue */
+    }
   }
 
   function placeholderResolveAction(state, action, _catalog, _rng) {

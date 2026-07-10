@@ -7884,3 +7884,28 @@ traits:
       premonitori. Il portatore percepisce le intenzioni delle creature ostili
       entro tre caselle prima che agiscano (fase di pianificazione). Non conferisce
       alcun bonus di attacco o difesa: e' informazione, non potenza.
+
+  # Buff-steal -- spec docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+  # persistent_marker = sola REGISTRAZIONE: la logica vive in
+  # apps/backend/services/combat/ghiandoleMnemoniche.js, wired post-attacco in
+  # routes/session.js. Stesso pattern di corteccia_memetica / artigli_psionici.
+  # Il canone dice "al 50%": e' reso sulla DURATA, non sulla magnitudo (status_intensity
+  # e' letto solo per abbagliato). Whitelist ordinata frenzy-first: la priorita' e'
+  # togliere al nemico, non massimizzare il guadagno.
+  # Band-neutral: nessuna sim unit porta questo tratto.
+  ghiandole_mnemoniche:
+    tier: T2
+    category: supporto
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: ghiandole_mnemoniche
+      log_tag: ghiandole_mnemoniche
+    description_it: |
+      Ghiandole mnemoniche: secrezioni che trattengono copie attenuate dei buff.
+      Su un colpo andato a segno il portatore strappa alla preda un potenziamento
+      temporaneo (priorita': frenesia, legame, percezione, coordinamento, risonanza)
+      e ne indossa una copia per meta' della durata residua. Rubare la frenesia non
+      e' un affare pulito: se ne eredita anche la guardia abbassata.
