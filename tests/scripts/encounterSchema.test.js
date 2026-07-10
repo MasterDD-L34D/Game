@@ -5,17 +5,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-let Ajv, yaml;
-try {
-  Ajv = require('ajv/dist/2020');
-  yaml = require('js-yaml');
-} catch {
-  // Skip if deps not available
-  test('encounterSchema: skip (ajv or js-yaml not installed)', () => {
-    assert.ok(true);
-  });
-  process.exit(0);
-}
+// Fail-closed on missing deps: in CI / run-test-api a soft skip here would be
+// a false-green gate (the AJV validation would silently not run).
+const { requireTestDeps } = require('../helpers/requireTestDeps');
+const deps = requireTestDeps('encounterSchema', { Ajv: 'ajv/dist/2020', yaml: 'js-yaml' });
+if (!deps.ok) return; // fail/skip test already registered by the helper
+const { Ajv, yaml } = deps.mods;
 
 const SCHEMA_PATH = path.join(__dirname, '../../schemas/evo/encounter.schema.json');
 const ENCOUNTERS_DIR = path.join(__dirname, '../../docs/planning/encounters');

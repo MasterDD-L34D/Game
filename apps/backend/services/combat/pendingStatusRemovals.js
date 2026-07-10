@@ -22,6 +22,8 @@
 
 'use strict';
 
+const { clampDuration } = require('./statusDurationCaps');
+
 /**
  * Applica e svuota session._pendingStatusRemovals.
  *
@@ -79,6 +81,12 @@ function drainPendingStatusEffects(session, unitsById, applyStatus) {
         const unit = unitsById && unitsById.get(String(pending.unit_id));
         if (unit && Number(unit.hp) > 0) {
           applyStatus(unit, pending.status, pending.duration);
+          // Il cap va imposto QUI, sul valore fuso, e non a monte. `applyStatus`
+          // (applyMoraleStatus) e' `Math.max(current, duration)`, e `current` e' stato
+          // appena ricostruito dall'array tracciato del round-state: un clamp fatto a
+          // meta' attacco viene sovrascritto prima di arrivare qui. Questo e' l'unico
+          // punto in cui il valore finale esiste. Status senza cap -> invariato.
+          unit.status[pending.status] = clampDuration(pending.status, unit.status[pending.status]);
           applied += 1;
         }
       }

@@ -148,19 +148,19 @@ function createRoundBridge(deps) {
     // client Wave 8N budget check (2 attack ap_cost=2 cada, actor.ap=3: backend
     // accettava entrambi singolarmente, resolveFn scalava -1 cada = consumo
     // 2 AP invece di 4 richiesti).
-    // 2026-07 hardening: the sum uses resolveIntentApCost (server-authoritative for
-    // attack/ability), so declaring ap_cost:0/negative no longer bypasses the gate.
-    // Keep in lockstep with apLedger.canAfford (extraction follow-up: rewire onto the ledger).
-    const apCost = resolveIntentApCost(actor, action);
-    const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
-    const pendingForActor = ((session.roundState && session.roundState.pending_intents) || [])
+    // 2026-07 hardening: the gate IS apLedger.apBreakdown -- server-authoritative
+    // pricing (attack canon / ability registry / in-grid move) means declaring
+    // ap_cost:0 or negative no longer bypasses it. The route only formats the
+    // rejection: it must NOT recompute the pending sum, or the ledger stops being
+    // the single AP authority and the two copies drift.
+    const pendingActions = ((session.roundState && session.roundState.pending_intents) || [])
       .filter((i) => String(i.unit_id || '') === String(actorId))
-      .reduce((sum, i) => sum + resolveIntentApCost(actor, i && i.action), 0);
-    const totalProposed = pendingForActor + apCost;
-    if (totalProposed > apAvail) {
+      .map((i) => i && i.action);
+    const ap = apBreakdown(actor, pendingActions, action);
+    if (!ap.affordable) {
       return {
         code: 'AP_INSUFFICIENT',
-        message: `AP insufficienti: costo totale ${totalProposed} (pending ${pendingForActor} + nuovo ${apCost}), disponibili ${apAvail}`,
+        message: `AP insufficienti: costo totale ${ap.total} (pending ${ap.pending} + nuovo ${ap.cost}), disponibili ${ap.available}`,
       };
     }
 
@@ -212,21 +212,14 @@ function createRoundBridge(deps) {
           message: `posizione (${dest.x},${dest.y}) fuori griglia ${size}x${size}`,
         };
       }
-      if (typeof manhattanDistance === 'function') {
-        const dist = manhattanDistance(actor.position, dest);
-        // Ennea Esploratore(7) move_bonus consumer: estende il budget di move
-        // di N celle oltre AP disponibili. Bonus consumato qui, non scalato
-        // dall'ap_cost in resolveFn — valido solo per move action, non altre.
-        const moveBudget = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-        if (dist > moveBudget) {
-          return {
-            code: 'MOVE_TOO_FAR',
-            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail}${
-              actor.move_bonus_bonus ? ` +${actor.move_bonus_bonus} bonus` : ''
-            })`,
-          };
-        }
-      }
+      // No declare-time distance ceiling here: the AP gate above already prices an
+      // in-grid move at resolveMoveApCost = max(1, dist - move_bonus) (the Ennea
+      // Esploratore(7) move_bonus is consumed there), so an over-far move is rejected
+      // as AP_INSUFFICIENT before this point. A former MOVE_TOO_FAR branch
+      // (dist > apAvail + move_bonus) was unreachable for any non-negative pending
+      // sum -- AP_INSUFFICIENT always fired first -- and is removed. The pending sum
+      // is floored >= 0 in apLedger.resolveIntentApCost so it cannot be revived by a
+      // negative/NaN client ap_cost.
       const blocker = (session.units || []).find(
         (u) =>
           u.id !== actor.id &&
@@ -275,12 +268,13 @@ function createRoundBridge(deps) {
     return null;
   }
 
-  // AP cost authority (resolveMoveApCost / resolveActionApCost /
-  // resolveIntentApCost / isValidGridDest) -- extracted to apLedger (spec
+  // AP cost authority -- extracted to apLedger (spec
   // docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md sez. 4.1).
   // Load-bearing comments (anti-double-charge, OWASP A04 hardening) live with
-  // the code there now.
-  const { resolveMoveApCost, resolveActionApCost, resolveIntentApCost, isValidGridDest } =
+  // the code there now. Only what this route CALLS is bound here: the declare
+  // gate goes through apBreakdown, so resolveIntentApCost / isValidGridDest are
+  // ledger internals and must not be re-exposed as a second pricing path.
+  const { resolveMoveApCost, resolveActionApCost, apBreakdown } =
     require('../services/combat/apLedger').createApLedger({ manhattanDistance, gridSize });
 
   // ────────────────────────────────────────────────────────────────
@@ -461,6 +455,12 @@ function createRoundBridge(deps) {
         }
         session._pendingStatusApplies = [];
       }
+      // Simmetria: senza questo, su un throw la coda delle rimozioni resterebbe
+      // popolata e verrebbe drenata al sync successivo, cioe' un round dopo il colpo
+      // che l'ha prodotta. Meglio scartarla: il furto perde la meta' "rimozione" in
+      // quel round (degrada a copia, gia' segnalato dal console.warn sopra) invece di
+      // rubare un buff a distanza di un round.
+      session._pendingStatusRemovals = [];
     }
   }
 

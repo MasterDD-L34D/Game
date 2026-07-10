@@ -13,7 +13,8 @@
  *   inherited verbatim from the bridge (falls back to 6 when falsy).
  *   Rectangular {width,height} support is explicitly a follow-up of the
  *   Sistema task and MUST NOT be added here.
- * @returns {Object} ledger: the 4 verbatim resolvers + apAvailable/canAfford.
+ * @returns {Object} ledger: the 4 verbatim resolvers + apAvailable and the
+ *   pending-sum gate (apBreakdown, plus its boolean form canAfford).
  */
 function createApLedger({ manhattanDistance, gridSize }) {
   // Server-authoritative move AP cost (security fix 2026-07-05). The resolver
@@ -41,8 +42,10 @@ function createApLedger({ manhattanDistance, gridSize }) {
   //   - attack             -> ATTACK_BASE_AP_COST (canon), client value ignored
   //   - ability_id present -> registry cost_ap (same source the ability executor
   //                           deducts); unknown ability floors at 1 AP
-  //   - anything else (skip/pass/...) -> legacy client default; no server cost
-  //     source exists for these, so behavior is preserved (out of scope).
+  //   - anything else (skip/pass/...) -> legacy client default (falsy -> 1), but
+  //     floored non-negative and NaN-safe. A negative/non-numeric client ap_cost
+  //     would otherwise deduct a negative cost at execute-time and INFLATE
+  //     ap_remaining (max(0, ap - (-N)) = ap + N; OWASP A04). The floor closes that.
   // NOTE: the round-bridge `else` branch deducts this cost but does NOT execute
   // the ability effect (effects run on /round/execute -> abilityExecutor, which
   // self-deducts cost_ap). If a future change dispatches the effect on the bridge
@@ -61,9 +64,9 @@ function createApLedger({ manhattanDistance, gridSize }) {
       // if a future jobs.yaml entry ships a negative/NaN cost_ap); cost_ap:0 (e.g.
       // intercept) is a legitimate 0-AP reaction and passes through.
       if (spec && spec.cost_ap != null) return Math.max(0, Number(spec.cost_ap) || 0);
-      return Math.max(1, Number(action.ap_cost || 1));
+      return Math.max(1, Number(action.ap_cost || 1) || 1);
     }
-    return Number(action.ap_cost || 1);
+    return Math.max(0, Number(action.ap_cost || 1) || 0);
   }
 
   // True when a move destination is a valid, in-grid cell (mirrors the NO_DEST +
@@ -86,10 +89,13 @@ function createApLedger({ manhattanDistance, gridSize }) {
   // over-declaration still executes N actions while paying for fewer (OWASP A04):
   // for moves this means N short moves at ap_cost:0 all clear the pending-sum gate
   // and the (N+1)th still resolves for free. Charging max(1, dist - move_bonus) per
-  // move in the pending sum closes that. AP_INSUFFICIENT now precedes MOVE_TOO_FAR
-  // for a single over-far in-grid move (both 400 rejections; the over-far move IS
-  // over-budget). skip/off-grid/other keep the client value: skip legitimately
-  // costs 0, and an off-grid dest is rejected by OUT_OF_GRID before this matters.
+  // move in the pending sum closes that. An over-far single in-grid move is caught
+  // by AP_INSUFFICIENT (its server cost already exceeds the budget) -- there is no
+  // separate MOVE_TOO_FAR ceiling in validatePlayerIntent anymore; it was
+  // unreachable for any non-negative pending sum and was removed. skip/off-grid/
+  // other floor the client ap_cost at 0 (non-negative, NaN-safe): a negative/
+  // non-numeric value would poison the pending sum (P < 0), revive that dead
+  // branch, AND inflate AP at execute-time.
   function resolveIntentApCost(actor, act) {
     if (act && (act.type === 'attack' || act.ability_id)) {
       return resolveActionApCost(actor, act);
@@ -97,7 +103,7 @@ function createApLedger({ manhattanDistance, gridSize }) {
     if (act && act.type === 'move' && isValidGridDest(act.move_to)) {
       return resolveMoveApCost(actor, actor && actor.position, act.move_to);
     }
-    return Number((act && act.ap_cost) || 0);
+    return Math.max(0, Number(act && act.ap_cost) || 0);
   }
 
   /**
@@ -118,28 +124,77 @@ function createApLedger({ manhattanDistance, gridSize }) {
   }
 
   /**
-   * Pending-sum affordability gate (the P1-3 multi-intent hardening,
-   * reusable for the Sistema declare-side).
+   * Recover the inner action from an intent wrapper ({unit_id, action}), while
+   * refusing to unwrap anything that is ALREADY priceable.
    *
-   * Keep in lockstep with the hand-rolled pending-sum gate in
-   * routes/sessionRoundBridge.js validatePlayerIntent (extraction
-   * follow-up: rewire that gate onto this ledger).
+   * The guard is load-bearing, not defensive noise. Callers hand this function
+   * raw ACTION objects, and on a raw action `.action` is a client-controlled
+   * key: an unguarded `a.action ? a.action : a` lets an attacker post
+   * {type:'attack', action:true} and have it priced as the inner value (0)
+   * instead of as an attack (1). The pending sum then stays 0 forever and a
+   * 1-AP unit queues unlimited attacks -- the exact multi-intent exploit the
+   * gate exists to stop (OWASP A04 / CWE-840, caught pre-merge on PR #3252).
+   *
+   * A genuine wrapper carries neither `type` nor `ability_id`, so keying the
+   * unwrap on their ABSENCE makes it unreachable for any action the resolvers
+   * price server-side. An action with neither is already priced from its own
+   * client `ap_cost` floored at 0, so unwrapping it cannot go below that floor.
+   *
+   * @param {*} a - a raw action, or an {unit_id, action} intent wrapper.
+   * @returns {*} the action to price.
+   */
+  function unwrapIntent(a) {
+    if (!a || typeof a !== 'object') return a;
+    if (a.type || a.ability_id) return a; // already priceable -- never downgrade
+    return a.action ? a.action : a;
+  }
+
+  /**
+   * Priced breakdown of the pending-sum affordability gate (the P1-3
+   * multi-intent hardening, reusable for the Sistema declare-side).
+   *
+   * This is the ONLY place the pending sum is computed. Callers that must
+   * report the numbers (routes/sessionRoundBridge.js validatePlayerIntent
+   * formats them into the AP_INSUFFICIENT message) read them off this object
+   * instead of recomputing -- a recompute would resurrect the second AP
+   * authority this ledger exists to remove.
    *
    * @param {Object|null} actor - priced via resolveIntentApCost + apAvailable.
    * @param {Array<Object>} declaredActions - array of raw ACTION objects
-   *   ({type, ap_cost, move_to, ability_id, ...}), NOT {unit_id, action}
-   *   intent wrappers, already pre-filtered to THIS actor. Passing intent
-   *   wrappers would price everything at 0 and fail OPEN -- as insurance,
-   *   an element carrying an `.action` key is unwrapped before pricing.
+   *   ({type, ap_cost, move_to, ability_id, ...}), already pre-filtered to
+   *   THIS actor. A naked {unit_id, action} intent wrapper carries no type or
+   *   ability_id, so it would price at 0 and fail OPEN -- as insurance,
+   *   unwrapIntent recovers the inner action. See unwrapIntent for why that
+   *   insurance must never fire on an action that is already priceable.
    * @param {Object} action - the candidate raw action to admit.
-   * @returns {boolean} true when pending + candidate fits in apAvailable(actor).
+   * @returns {{pending: number, cost: number, total: number,
+   *   available: number, affordable: boolean}} pending = sum over
+   *   declaredActions, cost = candidate, total = pending + cost,
+   *   available = apAvailable(actor), affordable = total <= available.
+   */
+  function apBreakdown(actor, declaredActions, action) {
+    const pending = (declaredActions || []).reduce(
+      (sum, a) => sum + resolveIntentApCost(actor, unwrapIntent(a)),
+      0,
+    );
+    const cost = resolveIntentApCost(actor, action);
+    const total = pending + cost;
+    const available = apAvailable(actor);
+    return { pending, cost, total, available, affordable: total <= available };
+  }
+
+  /**
+   * Boolean form of apBreakdown: true when pending + candidate fits in
+   * apAvailable(actor). Fails CLOSED on an unknown actor or NaN AP (any
+   * comparison against NaN is false).
+   *
+   * @param {Object|null} actor
+   * @param {Array<Object>} declaredActions
+   * @param {Object} action
+   * @returns {boolean}
    */
   function canAfford(actor, declaredActions, action) {
-    const pending = (declaredActions || []).reduce((sum, a) => {
-      const act = a && a.action ? a.action : a;
-      return sum + resolveIntentApCost(actor, act);
-    }, 0);
-    return pending + resolveIntentApCost(actor, action) <= apAvailable(actor);
+    return apBreakdown(actor, declaredActions, action).affordable;
   }
 
   return {
@@ -148,6 +203,7 @@ function createApLedger({ manhattanDistance, gridSize }) {
     resolveIntentApCost,
     isValidGridDest,
     apAvailable,
+    apBreakdown,
     canAfford,
   };
 }

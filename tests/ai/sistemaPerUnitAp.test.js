@@ -12,6 +12,7 @@ const {
   isPerUnitApEnabled,
 } = require('../../apps/backend/services/ai/declareSistemaIntents');
 const { pickLowestHpEnemy, stepTowards } = require('../../apps/backend/routes/sessionHelpers');
+const { createApLedger } = require('../../apps/backend/services/combat/apLedger');
 
 const FLAG = 'SISTEMA_PER_UNIT_AP_ENABLED';
 const manhattan = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -125,4 +126,61 @@ test('ON: ap_remaining 1 -> un intent; 0 -> zero intent con rule NO_AP', () => {
 test('OFF: 1 intent per unita, come oggi', () => {
   const off = withFlag(undefined, () => declareFor(session([sis('s1', 4, 5), pg('p1', 2, 5)])));
   assert.equal(off.intents.filter((i) => i.unit_id === 's1').length, 1);
+});
+
+// --- Il declare-side deve prezzare dal ledger, non da Manhattan grezzo. ---
+// La risoluzione (sessionRoundBridge, ramo action.type === 'move') addebita
+// SEMPRE resolveMoveApCost = max(1, dist - move_bonus_bonus), ricalcolato
+// server-side. Se la dichiarazione prezza la dist grezza, il gate di budget e
+// l'addebito divergono. Le unita' Sistema ricevono move_bonus_bonus davvero:
+// il loop Ennea (bridge, `for (const unit of session.units)`) non filtra fazione.
+//
+// stepTowards reale muove 1 casella -> dist=1 -> max(1, 1-bonus) === 1 === dist:
+// le due formule COINCIDONO e la divergenza resta invisibile in prod. Lo step
+// iniettato qui salta 2 caselle, che e' il "budget-v2 multi-tile" gia' promesso
+// dal commento sul campo ap_cost. E' li' che la divergenza morde.
+function declareWithMultiTileStep(session_) {
+  const jumpTwo = (from, to) => {
+    const next = { ...from };
+    if (from.x !== to.x) next.x += from.x < to.x ? 2 : -2;
+    return next;
+  };
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy,
+    stepTowards: jumpTwo,
+    manhattanDistance: manhattan,
+    gridSize: 16,
+  });
+  return declare(session_);
+}
+
+test('ON: move multi-tile prezzato dal ledger -- move_bonus sconta il gate', () => {
+  withFlag('true', () => {
+    const actor = sis('s1', 6, 5, { ap_remaining: 1, move_bonus_bonus: 1 });
+    const { intents } = declareWithMultiTileStep(session([actor, pg('p1', 2, 5)]));
+    const mine = intents.filter((i) => i.unit_id === 's1');
+    assert.equal(mine.length, 1, 'max(1, 2-1) = 1 AP <= budget 1 -> il move e affordabile');
+    assert.equal(mine[0].action.type, 'move');
+    const led = createApLedger({ manhattanDistance: manhattan, gridSize: 16 });
+    assert.equal(
+      mine[0].action.ap_cost,
+      led.resolveMoveApCost(actor, { x: 6, y: 5 }, mine[0].action.move_to),
+      'ap_cost dichiarato == quello che la risoluzione addebitera',
+    );
+  });
+});
+
+// Caratterizzazione: perche' la divergenza NON ha mai morso in prod. stepTowards
+// muove 1 casella, quindi dist=1 e max(1, 1 - bonus) === 1 === dist qualunque sia
+// il move_bonus. Se un domani il passo diventa multi-tile, questo test resta verde
+// ma quello sopra e' l'unico che cattura la regressione: non cancellarlo.
+test('ON: passo singolo -- ledger e Manhattan coincidono (percio prod era salvo)', () => {
+  withFlag('true', () => {
+    const actor = sis('s1', 4, 5, { ap_remaining: 2, move_bonus_bonus: 1 });
+    const { intents } = declareFor(session([actor, pg('p1', 2, 5)]));
+    const move = intents.find((i) => i.unit_id === 's1' && i.action.type === 'move');
+    assert.ok(move, 'approach a 2 celle -> move');
+    assert.equal(manhattan({ x: 4, y: 5 }, move.action.move_to), 1, 'stepTowards = 1 casella');
+    assert.equal(move.action.ap_cost, 1, 'max(1, 1-1) = 1 = dist grezza: nessuna divergenza');
+  });
 });

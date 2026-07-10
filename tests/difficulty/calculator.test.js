@@ -13,13 +13,12 @@ const {
   computeEnemyBudget,
 } = require('../../services/difficulty/difficultyCalculator');
 
-let yaml;
-try {
-  yaml = require('js-yaml');
-} catch {
-  test('difficulty calculator: skip (js-yaml not available)', () => assert.ok(true));
-  process.exit(0);
-}
+// Fail-closed on missing deps: this suite is the A2 encounter author-guard
+// gate; a soft skip in CI / run-test-api would be a false-green.
+const { requireTestDeps } = require('../helpers/requireTestDeps');
+const deps = requireTestDeps('difficulty calculator', { yaml: 'js-yaml' });
+if (!deps.ok) return; // fail/skip test already registered by the helper
+const { yaml } = deps.mods;
 
 const CONFIG_PATH = path.join(__dirname, '..', '..', 'data', 'core', 'difficulty.yaml');
 const CONFIG = loadDifficultyConfig(yaml.load(fs.readFileSync(CONFIG_PATH, 'utf8')));
