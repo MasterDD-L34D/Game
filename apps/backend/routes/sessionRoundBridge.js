@@ -427,20 +427,40 @@ function createRoundBridge(deps) {
     // adaptSessionToRoundState promotes the re-applied keys to tracked
     // orchestrator statuses (universal decay included). Best-effort; never
     // blocks the round.
-    if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
-      let applyMoraleStatus = null;
-      try {
-        ({ applyMoraleStatus } = require('../services/combat/morale'));
-      } catch {
-        applyMoraleStatus = null;
-      }
-      if (applyMoraleStatus) {
-        for (const pending of session._pendingStatusApplies) {
-          const u = unitsById.get(String(pending.unit_id));
-          if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+    // Il canale di apply sa solo AGGIUNGERE (applyMoraleStatus = Math.max(cur,dur)), e
+    // il rebuild tracked->dict poco sopra ripristinerebbe qualsiasi delete fatto a meta'
+    // attacco. Serve quindi un canale di RIMOZIONE simmetrico (buff-steal,
+    // ghiandole_mnemoniche), drenato qui, DOPO quel rebuild: il prossimo
+    // adaptSessionToRoundState ri-deriva l'array tracciato dal dict, e la cancellazione
+    // sopravvive.
+    //
+    // L'ORDINE (rimozioni, poi applies) vive in combat/pendingStatusRemovals.js perche'
+    // sia coperto da test: invertirlo farebbe annichilire il buff quando due ladri di
+    // fazione opposta rubano lo stesso status nello stesso round.
+    // Spec: docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+    let applyMoraleStatus = null;
+    try {
+      ({ applyMoraleStatus } = require('../services/combat/morale'));
+    } catch {
+      applyMoraleStatus = null;
+    }
+    try {
+      const { drainPendingStatusEffects } = require('../services/combat/pendingStatusRemovals');
+      drainPendingStatusEffects(session, unitsById, applyMoraleStatus);
+    } catch (err) {
+      // Fallback storico: senza il modulo si drenano almeno gli applies, cosi' un
+      // errore qui non regredisce il comportamento pre-esistente. Rumoroso di
+      // proposito: un throw silenzioso degraderebbe il furto in copia.
+      console.warn('[round-bridge] pending-status drain fallback:', err && err.message);
+      if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
+        if (applyMoraleStatus) {
+          for (const pending of session._pendingStatusApplies) {
+            const u = unitsById.get(String(pending.unit_id));
+            if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+          }
         }
+        session._pendingStatusApplies = [];
       }
-      session._pendingStatusApplies = [];
     }
   }
 
