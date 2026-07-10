@@ -138,8 +138,15 @@ test('hazardBudgetContribution: sums hazard tiles x class_scalar', () => {
       ],
     },
   };
-  // 2 lava * hazard_xp 40 * class_scalar standard 1.2 = 96
-  assert.equal(hazardBudgetContribution(enc, 'standard'), 96);
+  // Config-driven (non hardcoded): 2 lava * hazard_xp.lava * class_scalar 1.2.
+  // hazard_xp.lava = 0 dal ratify substrate-ON 2026-07-10 (contributo misurato
+  // 0, docs/research/2026-07-10-grid-terrain-geometry-reprobe.md); il test
+  // verifica la meccanica per qualunque valore futuro.
+  const yaml = require('js-yaml');
+  const fs = require('node:fs');
+  const cfg = yaml.load(fs.readFileSync('data/core/balance/xp_budget.yaml', 'utf8'));
+  const lavaXp = Number(cfg.geometry.hazard_xp.lava || 0);
+  assert.equal(hazardBudgetContribution(enc, 'standard'), Math.round(2 * lavaXp * 1.2));
 });
 
 test('hazardBudgetContribution: no grid -> 0', () => {
@@ -193,7 +200,17 @@ test('auditEncounter: hazard conta solo con MOVE_TERRAIN_COST_ENABLED (flag-ON)'
   delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
   delete process.env.MOVE_TERRAIN_COST_ENABLED;
   _resetCache();
-  assert.equal(conCosto.used, senzaCosto.used + 48, 'substrate ON aggiunge 1 lava * 40 * 1.2');
+  // Config-driven: delta = 1 lava * hazard_xp.lava * 1.2 (0 dal ratify
+  // substrate-ON 2026-07-10 -- il gate resta, il valore e' misurato).
+  const yaml = require('js-yaml');
+  const fs = require('node:fs');
+  const cfg = yaml.load(fs.readFileSync('data/core/balance/xp_budget.yaml', 'utf8'));
+  const lavaXp = Number(cfg.geometry.hazard_xp.lava || 0);
+  assert.equal(
+    conCosto.used,
+    senzaCosto.used + Math.round(1 * lavaXp * 1.2),
+    'substrate ON aggiunge 1 lava * hazard_xp.lava * 1.2',
+  );
 });
 
 test('activationPressure: worst-case cumulative units / party', () => {

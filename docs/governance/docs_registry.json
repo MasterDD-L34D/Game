@@ -13902,6 +13902,19 @@
       "track": "active"
     },
     {
+      "path": "docs/research/2026-07-10-grid-terrain-geometry-reprobe.md",
+      "title": "Re-ratify N=40 substrate-ON -- 3 grid_sized sotto MOVE_TERRAIN_COST + XP_BUDGET_GEOMETRY (hazard_xp misurato 0)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-10",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/reports/2026-07-06-big-maps-stato-test-triage.md",
       "title": "Big-maps arc 2026-07-06 -- quadro stato + test su main + triage delegabile",
       "doc_status": "active",

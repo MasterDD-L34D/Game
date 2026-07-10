@@ -129,16 +129,20 @@ NON si trasferisce a una nuova taglia (la geometria muove la difficolta' reale).
 advisory: `tools/js/validate_encounter_grid_ratify.js` + baseline `data/core/balance/grid_ratify_baseline.json`.
 Aggiorna il baseline (grid_size + evidence_ref) solo dopo l'evidence N=40.
 
-**Bande pace RATIFICATE N=40 -- board grid_sized (2026-07-06).** Semantica banda =
-completion + pace + reinforcement-liveness, NON letalita': sul driver round-model AI-vs-AI
-la letalita' e' ceiling strutturale (WR 1.0 su ogni arm, throughput cappato dal dial
-`intents_per_round` -- vedi "Limite di modello" nell'evidence dorsale). Un resize futuro si
-confronta su completion/pace: fuori banda = il guard L-069 ha morso.
+**Bande pace RATIFICATE N=40 -- board grid_sized (2026-07-06, re-ratify substrate-ON
+2026-07-10).** Semantica banda = completion + pace + reinforcement-liveness, NON letalita':
+sul driver round-model AI-vs-AI la letalita' e' ceiling strutturale (WR 1.0 su ogni arm,
+throughput cappato dal dial `intents_per_round` -- vedi "Limite di modello" nell'evidence
+dorsale). Un resize futuro si confronta su completion/pace: fuori banda = il guard L-069
+ha morso. Le bande sotto valgono con `MOVE_TERRAIN_COST_ENABLED=true` (semantica prod
+2026-07; L-069 NON trasferisce fra semantiche di costo -- il flip 07-06->07-10 ha mosso
+la banda canyon di +11 sul ceiling).
 
-| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato                          | Evidence                                                  |
-| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------- | --------------------------------------------------------- |
-| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [10, 18]                | avg 14.03 (sd 1.9), WR 1.0, reinf 4/4  | `docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md` |
-| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [10, 17]                | avg 12.85 (sd 1.25), WR 1.0, reinf 4/4 | `docs/research/2026-07-06-canyon-lungo-grid-ratify.md`    |
+| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato (substrate-ON 07-10)     | Evidence                                                                         |
+| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------- | -------------------------------------------------------------------------------- |
+| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [10, 18]                | avg 14.07 (sd 1.54), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 dorsale) |
+| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [10, 28]                | avg 19.32 (sd 3.98), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 canyon)  |
+| 18x10                        | `enc_abisso_colata_basaltica_01`                  | [10, 18]                | avg 13.85 (sd 0.98), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 abisso)  |
 
 Probe generico riusabile: `tools/sim/grid-band-probe.js --encounter <id>` (#3230).
 
