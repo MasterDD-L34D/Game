@@ -76,14 +76,18 @@ audit_defaults:
 # Valori PROPOSED (SDMG) -> ratify N=40 via tools/sim/full-loop-batch.js (L-069). NON magic-constant.
 geometry:
   # Shape 1 (hazard-coupled, Frosthaven donor): folds into `used` only flag-ON
-  # E solo con MOVE_TERRAIN_COST_ENABLED=true (calibrazione 2026-07-06: a cost
-  # substrate OFF il pathing evita l'hazard -> contributo misurato 0 su
-  # enc_abisso_colata_basaltica_01, 18 lava, N=40 WR 1.0; hazard_xp resta
-  # PROPOSED e si ratifica quando il substrate flippa).
+  # E solo con MOVE_TERRAIN_COST_ENABLED=true. Ratify substrate-ON 2026-07-10
+  # (evidence docs/research/2026-07-10-grid-terrain-geometry-reprobe.md, N=40
+  # paired sui 3 grid_sized): contributo misurato 0 ANCHE a substrate ON
+  # (abisso 18 lava: delta pace -0.15 CI95 [-0.50, +0.20], WR 1.0 -- il pathing
+  # paga/evita il varco identico). La shape per-tile flat e' FALSIFICATA: il
+  # pace-tax reale del substrate (canyon +6.47 round) viene dalla roccia dei
+  # detour, NON dalle tile hazard. Valori MEASURED-0 (erano PROPOSED 40/30);
+  # un predittore v2 (path-tax geometrico) = OD, decider Eduardo.
   hazard_set: [lava, acqua_profonda]
   hazard_xp:
-    lava: 40
-    acqua_profonda: 30
+    lava: 0
+    acqua_profonda: 0
   # Shape 3 (action-economy, calibrazione D9 2026-07-06, evidence
   # docs/research/2026-07-06-xpbudget-geometry-calibration.md): il modello
   # stat-mass ignora il dial intents_per_round -> over-predice (dorsale ratio
