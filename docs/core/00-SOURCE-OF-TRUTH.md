@@ -575,7 +575,37 @@ simmetria). Il dettaglio storico resta recuperabile dalla history git.
 - **Runtime backend**: resta `Game/` (Node, porta 3334) -- questo repo e' la SoT dei
   sistemi; per la topologia prod vedi i runbook fleet.
 
+### 13.9 Motori Phase-2 -- stato di combattimento persistente
+
+> Sottosezione RIPRISTINATA 2026-07-11 (canone attivo OD-058, non mappa build
+> storica): numerazione 13.9 preservata per i riferimenti cross-doc
+> (`00D-ENGINES_AS_GAME_FEATURES.md` sez.16, specchio canonico).
+
+> Canonizzazione **OD-058 D5** (verdetto 3A, master-dd Eduardo 2026-06-01). I 4 motori di "stato di combattimento persistente" entrano nel design-of-record (chiude lo scope-creep di motori shippati senza backing SoT). Confine **Phase-2 = SOLO questi 4**; **FUORI = esplicito** (anti catch-all): qualsiasi altro motore (narrative, plugin, worldgen/Flow, Atlas, AI-SIS) e la regola overcharge-AP (D1, e' una _regola_ di combat, non un _motore_ Phase-2) NON sono Phase-2. Un motore futuro non e' Phase-2 per default.
+
+| Motore                   | Cosa fa                                                              | Stato                      | Owner-doc                                                        |
+| ------------------------ | -------------------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------- |
+| `morale`                 | panic/rage on ally-death (stile Battle-Brothers)                     | SHIPPED #2390              | `00D sez.16.1`                                                   |
+| ferite a locazione       | hit-location -> malus stat                                           | design `ready`, build D2   | SPEC-D2 / `00D sez.16.2`                                         |
+| `cumulativeStateTracker` | mutazioni cumulative end-of-round                                    | SHIPPED #2383              | `00D sez.16.3`                                                   |
+| vcSnapshot coop          | telemetria combat -> scoring/debrief; server ricostruisce dal ledger | arch-gated, D3 (Opzione 2) | ADR-2026-05-30-coop-server-authoritative-combat / `00D sez.16.4` |
+
+Dettaglio diegetico per-motore: `00D-ENGINES_AS_GAME_FEATURES.md sez.16`. I 2 puntatori (ferite->D2, vcSnapshot->D3) restano gestiti dai rispettivi doc-of-record; D5 li integra, non li ridecide.
+
+#### 13.9.1 Canali di danno + matrice resistenze (OD-058 D4)
+
+Canali canonici (11): `fisico`, `taglio`, `fuoco`, `elettrico`, `psionico`, `mentale`, `gravita`, `ionico`, `earth`, `wind`, `dark`. Semantica `modifier_pct`: **100 = neutro, >100 = vulnerabile, <100 = resistente**. Dato-di-record = `packs/evo_tactics_pack/data/balance/species_resistances.yaml`.
+
+Dead-channel `elettrico` **CHIUSA** (D4 downscope-A): `corazzato elettrico: 120` (vulnerabile) shipped #2381 + N=40-ratify #2389 -> il canale ha finalmente un bersaglio premiante. **Enrichment TKT-D4-ENRICH (#2533) SHIPPED 2026-06-10**: prime 2 fonti di danno/control `elettrico` -- `elettromagnete_biologico` (SPEC-D4 PROPOSTA A, offensivo anti-corazza: extra_damage MoS>=5 + ability `magnetic_overload` 1d8+1 elettrico) + `seta_conduttiva_elettrica` (PROPOSTA C, control: disorient on-hit dc13 + ability `voltaic_web`); retune `bioelettrico elettrico: 70 -> 80` (anti over-shield, famiglia ionico 80). Gate rispettato: scenario-probe dedicata corazzato-vs-attaccante-elettrico (`tools/py/batch_calibrate_electric_probe.py`) + N=40 paired A/B -- evidence `docs/reports/2026-06-10-electric-channel-n40-evidence.md`. Valori **RATIFIED-PROVISIONAL** (verdetto master-dd 2026-06-10, re-validate on player data); PROPOSTA B (chain/AoE) esclusa dal ticket (richiede meccanica nuova abilityExecutor).
+
+---
+
 ## 14. Grid & Map System 🟢 ENGINE OPERATIVO
+
+> **SUPERSEDED (tipo griglia)**: la decisione hex-axial di 14.1 (2026-04-16) e'
+> superata da `ADR-2026-04-28-grid-type-square-final` -- griglia SQUARE, runtime
+> LIVE con elevazione (scala board: `ADR-2026-07-03-authored-grid-board-scale`).
+> La valutazione sotto resta come storia; stato build -> sez.13 (overlay).
 
 Questa sezione copre la struttura spaziale del campo di battaglia. Attualmente il repo ha dati di terreno (biomes.yaml, terrain_defense.yaml) ma **nessuna implementazione grid/pathfinding**.
 

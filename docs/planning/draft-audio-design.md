@@ -157,7 +157,9 @@ world_seed -> scenario_brief -> combat -> debrief.
   questo doc la implementa.
 - Prototipazione: si', placeholder liberi -> shortlist curata in `43-ASSET-SOURCING`.
 - Indicatori visivi deaf/HoH: elenco eventi in `docs/core/45-ACCESSIBILITY.md`.
-- Voci creature: APERTO (sintetiche vs nessuna) -> decisione owner alla slice F-A.
+- Voci creature: canone vigente = NESSUNA voce, solo SFX ambientali e d'azione
+  (`00F` sez.3.2, decisione chiusa); eventuale riapertura (sintetiche vs nessuna)
+  = decisione owner alla slice F-A, non prima.
 
 ## Riferimenti
 
