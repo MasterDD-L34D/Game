@@ -6,7 +6,17 @@
 
 **Architecture:** Solo documentazione, repo Game, UN branch `docs/gdd-refresh-phase1` -> 1 PR. Ogni task = edit -> verifica (governance/grep) -> commit. Nessun cambio runtime. I doc specialistici sono authority, l'hub sintetizza e linka (regola GDD_MASTER).
 
-**Tech Stack:** Markdown ASCII-first (em-dash -> `--`), prettier via lint-staged (nei worktree senza node_modules: `"C:/dev/Game/node_modules/.bin/prettier" --write <file>`), governance check `tools/check_docs_governance.py` (usare Python313 esplicito su Ryzen: `/c/Users/VGit/AppData/Local/Programs/Python/Python313/python.exe`), commit con trailer ADR-0011 (`Coding-Agent: <model-id>` + `Trace-Id: <uuidv7>`), subject <=72 char.
+**Tech Stack:** Markdown ASCII-first (em-dash -> `--`), prettier via lint-staged (nei worktree senza node_modules: `"C:/dev/Game/node_modules/.bin/prettier" --write <file>`), governance check `tools/check_docs_governance.py` (usare Python313 esplicito su Ryzen: `/c/Users/VGit/AppData/Local/Programs/Python/Python313/python.exe`), subject <=72 char.
+
+**Trailer ADR-0011 (OGNI commit):** genera il Trace-Id una volta per commit e passa i trailer con `-m`:
+
+```bash
+TRACE=$(node -e "const b=Buffer.alloc(16);require('crypto').randomFillSync(b);const t=Date.now();b[0]=t/2**40;b[1]=t/2**32;b[2]=t/2**24;b[3]=t/2**16;b[4]=t/2**8;b[5]=t;b[6]=(b[6]&0x0f)|0x70;b[8]=(b[8]&0x3f)|0x80;const h=b.toString('hex');console.log(h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20))")
+# ogni `git commit` dei task sotto va eseguito cosi':
+git commit -m "<subject del task>" -m "Coding-Agent: <model-id della sessione>" -m "Trace-Id: $TRACE"
+```
+
+Gli snippet dei Task 1-5 mostrano solo il subject per brevita': aggiungere SEMPRE i due `-m` trailer come sopra (il commit-msg hook li richiede).
 
 **Vincoli sessione:** lavorare in un worktree proprio (mai checkout in C:\dev\Game); push con `git push origin HEAD:docs/gdd-refresh-phase1`.
 
@@ -271,8 +281,8 @@ Steam, PEGI16, TV-first + companion. Dichiarata BASELINE, non certificazione.
 
 - [ ] **Step 4: verifica governance**
 
-Run: `/c/Users/VGit/AppData/Local/Programs/Python/Python313/python.exe tools/check_docs_governance.py --registry docs/governance/docs_registry.json --strict --report <scratchpad>/gov_report.json`
-Expected: `errors=0` (warnings pre-esistenti ok).
+Run: `/c/Users/VGit/AppData/Local/Programs/Python/Python313/python.exe tools/check_docs_governance.py --registry docs/governance/docs_registry.json --strict --report /c/Users/VGit/AppData/Local/Temp/gov_report.json`
+Expected: `errors=0` (warnings pre-esistenti ok). NB: usare un path REALE per `--report` (un segnaposto tipo scratchpad fra parentesi angolari verrebbe interpretato come redirection dalla shell).
 
 - [ ] **Step 5: prettier + commit**
 
