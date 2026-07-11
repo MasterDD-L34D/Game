@@ -1213,8 +1213,8 @@ Il loop completo che unifica tutti i sistemi:
 Questa sequenza integra:
 
 - il mondo (§3–§4);
-- il combat (§13.1–§13.3);
-- l'identità (§5, §13.4);
+- il combat (`docs/hubs/combat.md`; stato impl. -> sez.13 overlay LIVE);
+- l'identita' (§5; stato impl. MBTI/Ennea -> sez.13 overlay, storico in history git);
 - la progressione a carte (§20);
 - il meta-loop sociale (§5, `27-MATING_NIDO.md`).
 

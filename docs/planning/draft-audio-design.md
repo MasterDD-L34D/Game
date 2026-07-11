@@ -115,12 +115,12 @@ Ogni archetipo da `lore_concepts.md` ha un frammento melodico riconoscibile:
 - **Volume default**: SFX > musica. Rationale: tattica > atmosfera. Il giocatore deve _sentire_ feedback azioni prima della musica. Mix suggerito: SFX 80%, musica 50%, ambiente 60% (default, regolabile). (Fonte: design session)
 - **Accessibilità audio**: framework UDL (Universal Design for Learning) già documentato — "ingressi multipli, modalità di espressione varie (testo/audio/modello)." Indicatori visivi per eventi sonori critici da implementare. (Fonte: `ALIENA_documento_integrato.md`)
 
-## Gap aperti residui
+## Gap aperti residui (STORICO -- tutti risolti, vedi "Gap chiusi 2026-07-10" sotto)
 
-- [ ] Budget musicale: compositore dedicato o libreria royalty-free?
-- [ ] Voci creature: vocalizzazioni sintetiche, registrate, o nessuna?
-- [ ] Prototipazione: freesound.org per placeholder SFX iniziali?
-- [ ] Indicatori visivi: quali suoni richiedono feedback visivo per deaf/HoH? (critico, status, wave spawn)
+- [x] Budget musicale: RISOLTO -- freesound/royalty-free per EA (`00F` sez.3.1).
+- [x] Voci creature: RISOLTO -- nessuna voce, solo SFX (`00F` sez.3.2, decisione chiusa).
+- [x] Prototipazione: RISOLTO -- si', placeholder liberi -> shortlist in `43-ASSET-SOURCING`.
+- [x] Indicatori visivi deaf/HoH: RISOLTO -- elenco eventi in `docs/core/45-ACCESSIBILITY.md`.
 
 ## Mappa eventi Path A -> classi suono (2026-07-10, implementabile)
 
