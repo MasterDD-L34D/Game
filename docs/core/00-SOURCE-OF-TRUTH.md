@@ -817,6 +817,11 @@ difficulty = clamp(raw_score × biome_mult × objective_mult, 1, 5)
 
 ## 16. Networking & Co-op Architecture 🟡 ADR PROPOSTO
 
+> **SUPERSEDED (stato implementativo)**: la valutazione sotto (single-machine
+> only, opzioni Colyseus) e' storica. Il co-op WS 1-8 con reconnect e' LIVE
+> (server-authoritative: `ADR-2026-05-30-coop-server-authoritative-combat`);
+> stato build -> sez.13 (overlay Godot-v2). I requisiti 16.1 restano validi.
+
 Co-op **1-8 giocatori** vs Sistema è pilastro #5 (esteso da 4 a 8 via [ADR-2026-04-17](../adr/ADR-2026-04-17-coop-scaling-4to8.md)). Oggi il sistema gira **single-machine only**.
 
 ### 16.1 Requisiti co-op
