@@ -122,6 +122,43 @@ Ogni archetipo da `lore_concepts.md` ha un frammento melodico riconoscibile:
 - [ ] Prototipazione: freesound.org per placeholder SFX iniziali?
 - [ ] Indicatori visivi: quali suoni richiedono feedback visivo per deaf/HoH? (critico, status, wave spawn)
 
+## Mappa eventi Path A -> classi suono (2026-07-10, implementabile)
+
+Path A = flusso live Godot-v2: lobby -> character_creation -> form_pulse ->
+world_seed -> scenario_brief -> combat -> debrief.
+
+| Schermata Path A    | Eventi                                      | Classe suono                            |
+| ------------------- | ------------------------------------------- | --------------------------------------- |
+| lobby               | join, ready, countdown start                | UI stinger                              |
+| character_creation  | select specie/job, confirm                  | UI (click morbido, tono positivo)       |
+| form_pulse          | pulse, esito                                | evoluzione (cristallino, crescendo)     |
+| world_seed          | reveal bioma                                | ambience bioma (attacco del loop)       |
+| scenario_brief      | briefing in/out                             | drone briefing (10-15s, fade)           |
+| combat (planning)   | selezione unita', intent dichiarato, commit | UI (soft lock-in, sigillo)              |
+| combat (resolution) | attack/miss/crit, status, morte, telegraph  | SFX combat (tabella SFX Taxonomy sopra) |
+| debrief             | vittoria/sconfitta, PE guadagnato           | fanfara / discendente / clink           |
+
+## Criteri asset (input alla fase asset-hunt, spec studio-track Fase 2)
+
+- **Licenze**: SOLO CC0 o CC-BY (con attribution file al primo import); esclusi
+  CC-BY-SA e NC (EA premium).
+- **Formati**: OGG per musica (streaming), WAV per SFX brevi; mono ok per SFX,
+  stereo per musica; niente middleware in prima fase (player Godot nativo, la
+  valutazione FMOD/Wwise resta nota storica sopra).
+- **Tono**: biologico-alieno coerente con art direction (`41-ART-DIRECTION.md`):
+  organico > metallico; UI "soft-organic", mai beep sintetici da menu anni-90.
+- **Budget prima passata**: 40-60 SFX (~30 combat, ~15 UI, ~12 ambience/eventi
+  bioma) + 6-8 tracce musicali (menu, draft, planning, risoluzione, turno critico,
+  vittoria, sconfitta, evoluzione).
+
+## Gap chiusi 2026-07-10 (in-session owner)
+
+- Budget musicale: freesound/royalty-free per EA -- la decisione e' `00F` sez.3.1,
+  questo doc la implementa.
+- Prototipazione: si', placeholder liberi -> shortlist curata in `43-ASSET-SOURCING`.
+- Indicatori visivi deaf/HoH: elenco eventi in `docs/core/45-ACCESSIBILITY.md`.
+- Voci creature: APERTO (sintetiche vs nessuna) -> decisione owner alla slice F-A.
+
 ## Riferimenti
 
 - `docs/planning/research/lore_concepts.md` — archetipi per leitmotif
