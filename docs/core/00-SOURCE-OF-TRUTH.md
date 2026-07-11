@@ -954,6 +954,9 @@ by-design con la leggibilita' P1 come guardrail; aggiornare la sez. Audience di
 
 ### 18.2 Accessibilità
 
+> Authority operativa: `docs/core/45-ACCESSIBILITY.md` (baseline v1, 2026-07-10).
+> Le decisioni sotto restano come storia.
+
 **Decisioni prese (Fase 4, 2026-04-16):**
 
 - **Controlli**: controller primary (TV-first, D-pad), keyboard fallback (PC), touch per companion app
