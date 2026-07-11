@@ -923,25 +923,34 @@ graph LR
 
 ---
 
-## 18. Target Audience & Accessibilità ⚠️ DA DEFINIRE
+## 18. Target Audience & Accessibilita' -- DECISO (audience) + baseline (a11y)
 
-### 18.1 Target audience
+### 18.1 Target audience (DECISO 2026-07-10, owner)
 
-**Non formalizzato.** Segnali impliciti dai doc:
+**Primaria -- creature-strategist**: adulti cresciuti coi creature-collector
+(Pokemon/monster-raising/Spore) che oggi vogliono sostanza tattica. La fantasia
+guida e' "plasmo la mia specie" (P2 evoluzione emergente = pilastro-pitch); la
+tattica d20 e' il mezzo che rende la fantasia consequenziale. Quando le esigenze
+confliggono, si ottimizza per questo giocatore.
 
-| Segnale                 | Fonte                 | Implicazione                        |
-| ----------------------- | --------------------- | ----------------------------------- |
-| "Salotto TV-first"      | §6, draft-screen-flow | Casual-friendly entry point         |
-| "Tattica profonda"      | §1, pilastro #1       | Core gamer depth                    |
-| "Co-op vs Sistema"      | §1, pilastro #5       | Social/party game element           |
-| "MBTI/Ennea"            | §13.4                 | Interesse psicologico/introspezione |
-| "d20, MoS, damage step" | §13.2                 | Tabletop RPG familiarity            |
+**Secondaria -- tattico-profondo** (XCOM / Into the Breach / FFT): lo tengono la
+profondita' del d20 leggibile (P1) e le sconfitte by-design del flip simmetria.
 
-**Proposta player personas** (da validare con Master DD):
+**Anti-audience dichiarata -- party-casual puro** (Jackbox-style): il rito
+TV+companion resta un differenziatore, ma non si ottimizza per sessioni
+mordi-e-fuggi.
 
-1. **Tattico da salotto** — gioca FFT/Fire Emblem, vuole profondità su TV condivisa
-2. **Giocatore di ruolo** — viene dal tabletop, apprezza d20 e personalità creature
-3. **Curioso casual** — attratto dal co-op TV, resta per progressione creature
+**Implicazioni**: store copy guidata dalla fantasia evolutiva, non dal
+tactical-hardcore; onboarding 60s = ponte per la primaria; sconfitte accettabili
+by-design con la leggibilita' P1 come guardrail; aggiornare la sez. Audience di
+`00F` (business) quando si scrive lo store copy EA.
+
+**Personas (ri-rankate, strumento di lavoro):**
+
+1. **Evolutore** (primaria) -- ex-giocatore di creature-collector, resta per la
+   progressione di specie; fonde le vecchie personas 2 (tabletop) e 3 (curioso).
+2. **Tattico da salotto** (secondaria) -- gioca FFT/Fire Emblem, vuole profondita'
+   su TV condivisa.
 
 ### 18.2 Accessibilità
 
