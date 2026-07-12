@@ -12,7 +12,7 @@
 
 ## Vincoli sessione (Game-Godot-v2, self-governed)
 
-- Lavorare in un worktree proprio di Game-Godot-v2 (`git -C C:\dev\Game-Godot-v2 worktree add C:\dev\_godot-wt-audio origin/main` -> branch `feat/audio-foundation`), MAI checkout nel clone condiviso.
+- Lavorare in un worktree proprio di Game-Godot-v2 (`git -C C:\dev\Game-Godot-v2 worktree add -b feat/audio-foundation C:\dev\_godot-wt-audio origin/main` (il `-b` crea il branch: senza, il worktree resta in detached HEAD)), MAI checkout nel clone condiviso.
 - Commit: Conventional Commits + trailer ADR-0011 (`Coding-Agent: <model-id>` + `Trace-Id:` uuidv7, ricetta nel piano Fase 1 `docs/superpowers/plans/2026-07-10-gdd-refresh-phase1.md` del repo Game).
 - Lint: `gdformat` + `gdlint` girano in CI su tutti i `.gd` non-addons (config `gdlintrc`).
 - Regola repo: aggiornare `docs/godot-v2/PRD-BUILD-STATUS-GODOT-V2.md` NELLO STESSO PR che shippa il sistema (Task 7).
@@ -271,7 +271,10 @@ func play_event(event_key: String) -> AudioStreamPlayer:
 	if stream == null:
 		return null
 	if get_child_count() >= MAX_CONCURRENT:
+		# queue_free() alone is deferred: the child would still be counted
+		# this frame and bursts would blow past the cap. Detach immediately.
 		var oldest := get_child(0)
+		remove_child(oldest)
 		oldest.queue_free()
 	var player := AudioStreamPlayer.new()
 	player.stream = stream
