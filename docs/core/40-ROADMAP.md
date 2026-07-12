@@ -42,8 +42,10 @@ Regole di percorso:
 - Le sconfitte by-design (simmetria flag-ON) restano nel tuning: leggibilita' P1
   = guardrail (SoT sez.18.1).
 
-NB scope: i numeri v0.9 (4 specie / 6 job / 3 biomi) SUPERANO il vecchio
-"MVP scope lock" sotto (6 specie / 7 job), che resta come storia.
+NB scope: i numeri v0.9 (4 specie / 6 job / 3 biomi) SOSTITUISCONO (supersede)
+il vecchio "MVP scope lock" sotto (6 specie / 7 job / 5 biomi): e' uno scope
+DELIBERATAMENTE ridotto, deciso dall'owner col freeze v0.9 (decisione 5, spec
+studio-track 2026-07-10). La sezione sotto resta come storia.
 
 ## MVP scope lock (2026-04-20, P0 Q58 default B) -- STORICO, superato dal freeze v0.9
 
