@@ -287,29 +287,31 @@ hanno candidato CC puro -- coprono Pimen (condizionale) o pipeline AI-generated
 - CodeManu "Impact&Hit FX" (44 effetti): PAID $4.95, licenza custom.
 - Collection OGA "Explosions, Bullets, Fire etc" (aab): nessuna label licenza verificabile sulla pagina.
 
-## Manifest download (stato: shortlist APPROVATA owner 2026-07-12, download DA AUTORIZZARE)
+## Manifest download (stato: download AUTORIZZATO ed ESEGUITO 2026-07-12, 5 item manuali residui)
 
-Nessun import massivo in repo: il download avviene per-item dopo autorizzazione
-owner, con licenza ri-verificata al momento del fetch e attribution file aggiornato
-al primo import CC-BY (regola spec studio-track).
+Nessun import massivo in repo: gli asset scaricati stanno in STAGING locale
+`C:\dev\_evo-assets-staging\` (per classe, con `DOWNLOAD-LOG.md` sha256+licenza-al-fetch
+e `ATTRIBUTION.md` per i CC-BY). Import in Game-Godot-v2 = slice F-A con vaglio
+palette/tono. Item [ ] residui = richiedono browser/login (flusso itch name-your-price
+o freesound auth): lista dettagliata in `DOWNLOAD-LOG.md` sez. MANUALI.
 
-- [ ] 80 CC0 creature SFX (CC0) -> SFX combat
-- [ ] Squish Sounds Effects (CC0) -> SFX combat layer
-- [ ] Impact qubodup (CC0) -> SFX combat layer
-- [ ] 51 UI sound effects (CC0, WAV organici) -> SFX UI primario
-- [ ] Interface Sounds Kenney (CC0) -> SFX UI base
-- [ ] UI Audio Kenney (CC0) -> SFX UI complemento
+- [x] 80 CC0 creature SFX (CC0) -> SFX combat -- SCARICATO 2026-07-12
+- [x] Squish Sounds Effects (CC0) -> SFX combat layer -- SCARICATO 2026-07-12
+- [x] Impact qubodup (CC0) -> SFX combat layer -- SCARICATO 2026-07-12
+- [x] 51 UI sound effects (CC0, WAV organici) -> SFX UI primario -- SCARICATO 2026-07-12
+- [x] Interface Sounds Kenney (CC0) -> SFX UI base -- SCARICATO 2026-07-12
+- [x] UI Audio Kenney (CC0) -> SFX UI complemento -- SCARICATO 2026-07-12
 - [ ] Interface SFX Pack 1 ObsydianX (CC0) -> SFX UI, previa audizione anti-beep
 - [ ] Cave Ambience Loop (CC0, WAV) -> ambience caverna
-- [ ] Loopable Dungeon Ambience (CC0) -> ambience caverna alt
-- [ ] Dark Sci-Fi Audio Pack (CC0, OGG) -> musica ancora (5 tracce)
-- [ ] Incompetech: selezione 2-3 tracce Unnerving/Dark (CC-BY 4.0 + attribution) -> slot musica mancanti
+- [x] Loopable Dungeon Ambience (CC0) -> ambience caverna alt -- SCARICATO 2026-07-12
+- [x] Dark Sci-Fi Audio Pack (CC0, OGG) -> musica ancora (5 tracce) -- SCARICATO 2026-07-12
+- [x] Incompetech: SELEZIONATE E SCARICATE 3 tracce (CC-BY 4.0 + attribution): SCP-x6x (Hopes) = sconfitta, The Escalation = evoluzione, Dream Culture = vittoria
 - [ ] Free VFX Asset Pack CodeManu (CC-BY 4.0 + attribution) -> VFX impatti
-- [ ] Pixel art sword slash (CC0) -> VFX slash
+- [x] Pixel art sword slash (CC0) -> VFX slash -- SCARICATO 2026-07-12
 - [ ] Sonniss GDC: cherry-pick creatures/impacts (ECCEZIONE licenza custom) -> SFX combat pro
 - [ ] Pimen: SOLO subset $0 previa verifica termini+prezzo per-pack (ECCEZIONE condizionale, price-gate) -> VFX status/telegraph
-- [ ] Hunt mirata freesound CC0: ambience savana + foresta tossica (GAP)
-- [ ] Hunt mirata: musica vittoria/sconfitta/evoluzione se Incompetech non copre (GAP)
+- [x] Hunt GAP ambience CHIUSA via OGA 2026-07-12: Forest Ambience (TinyWorlds, CC0) + Ambient Bird Sounds (isaiah658, CC0) + JC Sounds Nature Ambient Pack Vol 1 (CC-BY 4.0, attribution) per savana/foresta
+- [x] Hunt musica GAP: coperta dalla selezione incompetech sopra (3 slot chiusi)
 
 ## Disclaimer template (ready-to-use)
 
