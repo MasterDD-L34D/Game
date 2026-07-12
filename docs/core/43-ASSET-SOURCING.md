@@ -271,6 +271,11 @@ art direction 41 (organico > metallico).
   Licenza tipica custom "free, commercial OK, no resell" = NON CC. Trattamento:
   VERIFICA-PER-PACK obbligatoria dei termini sulla pagina di ogni singolo pack
   PRIMA del download; se un pack non dichiara uso commerciale esplicito -> scarto.
+- **PRICE-GATE (zero-cost policy ADR-2026-04-18)**: molti pack Pimen sono freemium
+  (es. Acid Spell Effect: file 01-02 free, 03-15 = $4.99; Hit Spark: full pack
+  $4.25). La verifica per-pack copre anche il PREZZO: si importa SOLO il subset
+  $0; qualsiasi tier a pagamento = deroga zero-cost, autorizzazione owner separata
+  ed esplicita (non coperta da questa eccezione).
 
 **GAP dichiarato**: telegraph marker e status panic/disorient/bleed dedicati non
 hanno candidato CC puro -- coprono Pimen (condizionale) o pipeline AI-generated
@@ -302,7 +307,7 @@ al primo import CC-BY (regola spec studio-track).
 - [ ] Free VFX Asset Pack CodeManu (CC-BY 4.0 + attribution) -> VFX impatti
 - [ ] Pixel art sword slash (CC0) -> VFX slash
 - [ ] Sonniss GDC: cherry-pick creatures/impacts (ECCEZIONE licenza custom) -> SFX combat pro
-- [ ] Pimen: pack singoli previa verifica termini (ECCEZIONE condizionale) -> VFX status/telegraph
+- [ ] Pimen: SOLO subset $0 previa verifica termini+prezzo per-pack (ECCEZIONE condizionale, price-gate) -> VFX status/telegraph
 - [ ] Hunt mirata freesound CC0: ambience savana + foresta tossica (GAP)
 - [ ] Hunt mirata: musica vittoria/sconfitta/evoluzione se Incompetech non copre (GAP)
 
