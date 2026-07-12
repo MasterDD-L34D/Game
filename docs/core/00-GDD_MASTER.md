@@ -33,6 +33,9 @@ Evo Tactics e' un gioco tattico cooperativo a turni con progressione evolutiva l
 
 → [`01-VISIONE.md`](01-VISIONE.md) | [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md) §1
 
+Audience primaria DECISA (SoT sez.18.1, 2026-07-10): creature-strategist -- la
+fantasia "plasmo la mia specie" guida, la tattica d20 e' il mezzo.
+
 ---
 
 ## 2. Prima partita / onboarding
@@ -157,6 +160,10 @@ Il combat loop usa d20 vs DC, Margin of Success, damage step, parata reattiva, s
 
 → [`docs/hubs/combat.md`](../hubs/combat.md) | [`ADR-2026-04-13-rules-engine-d20.md`](../adr/ADR-2026-04-13-rules-engine-d20.md) | [`ADR-2026-04-15-round-based-combat-model.md`](../adr/ADR-2026-04-15-round-based-combat-model.md)
 
+Dal 2026-07-10 la simmetria d'azione del Sistema e' FLAG-ON in prod
+(`ADR-2026-07-10-sistema-action-symmetry`): per-unit AP, retreat gate, telegraph
+threats-only; bande pace quarta ratifica in `15-LEVEL_DESIGN` (sconfitte by-design).
+
 ---
 
 ## Sistemi non-core (appendix / research / historical)
@@ -180,6 +187,8 @@ Il combat loop usa d20 vs DC, Margin of Success, damage step, parata reattiva, s
 3. [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) (ricostruzione narrativa completa)
 4. Hub del workstream di interesse: [`docs/hubs/`](../hubs/README.md)
 5. ADR rilevanti: [`docs/adr/`](../adr/)
+
+- `45-ACCESSIBILITY.md` -- baseline accessibilita' v1 (dopo 42-STYLE-GUIDE-UI)
 
 ---
 
