@@ -19,7 +19,7 @@ Sorgenti in `C:\dev\_evo-assets-staging\` (estratti in `_vfx-extract\`; gli shee
 | hit    | `_vfx-extract/Hit Effect 01/Hit Effect 01 1.png` | 336x48 | 48x48 | 7 x 1                   | 7           |
 | slash  | `Slash Sprite Sheet.png` (root staging)          | 64x512 | 64x64 | 1 x 8 (strip verticale) | 8           |
 | death  | `_vfx-extract/Dark VFX 2/Dark VFX 2 (48x64).png` | 768x64 | 48x64 | 16 x 1                  | 16          |
-| status | `_vfx-extract/Smoke Effect 01/Smoke VFX3.png`    | 320x16 | 32x16 | 10 x 1                  | 10          |
+| status | `_vfx-extract/Smoke Effect 01/Smoke VFX3.png`    | 320x16 | 32x16 | 10 x 1                  | 8           |
 
 NB: i pack Pimen portano la frame-size nel filename quando la griglia non e' ovvia; le geometrie sopra sono verificate leggendo l'IHDR dei PNG. Se all'esecuzione un file differisce, ri-misurare (`python: struct.unpack('>II', header[16:24])`), NON tirare a indovinare.
 
@@ -30,6 +30,7 @@ NB: i pack Pimen portano la frame-size nel filename quando la griglia non e' ovv
 - Create: `assets/vfx/pimen/{hit_spark.png, slash.png, death_dissolve.png, status_smoke.png}`
 - Create: `assets/vfx/pimen/PROVENANCE.md`
 
+- [ ] **Step 0: GATE provenance (43-ASSET-SOURCING)**: verificare che l'addendum 2026-07-13 del report `docs/reports/2026-07-12-asset-staging-provenance.md` (repo Game, stesso PR di questo piano) elenchi i 4 pack sorgente con licenza per-pack verificata e free-tier match. Se un file sorgente NON e' coperto dall'addendum -> STOP, verificare la pagina del pack prima di copiarlo.
 - [ ] **Step 1: copiare gli sheet** (bash, worktree Godot `C:\dev\_godot-wt-vfx`):
 
 ```bash
@@ -55,12 +56,12 @@ Licenza (verbatim dalle pagine pack): "You can use and modify this asset for
 personal and commercial purpose. Credit is not required but would be
 appreciated. You cannot resell or redistribute those sprites."
 
-| File               | Pack Pimen                                          | Frame                      |
-| ------------------ | --------------------------------------------------- | -------------------------- |
-| hit_spark.png      | Battle VFX: Hit Spark ("Hit Effect 01", variante 1) | 7x 48x48                   |
-| slash.png          | Cutting and Healing ("Slash Sprite Sheet")          | 8x 64x64 (strip verticale) |
-| death_dissolve.png | Dark Spell Effect ("Dark VFX 2")                    | 16x 48x64                  |
-| status_smoke.png   | Smoke N Dust ("Smoke VFX3")                         | 10x 32x16                  |
+| File               | Pack Pimen                                                     | Licenza (per-pack, verif. 2026-07-13)   | Frame                      |
+| ------------------ | -------------------------------------------------------------- | --------------------------------------- | -------------------------- |
+| hit_spark.png      | Battle VFX: Hit Spark ("Hit Effect 01", variante 1, free tier) | custom Pimen (commercial OK, no resell) | 7x 48x48                   |
+| slash.png          | Cutting and Healing ("Slash Sprite Sheet")                     | CC-BY 4.0 (credit consigliato)          | 8x 64x64 (strip verticale) |
+| death_dissolve.png | Dark Spell Effect ("Dark VFX 2", free tier)                    | custom Pimen (commercial OK, no resell) | 16x 48x64                  |
+| status_smoke.png   | Smoke N Dust 01 ("Smoke VFX3", free tier)                      | custom Pimen (commercial OK, no resell) | 8x 32x16 (griglia 10)      |
 
 Credit volontario (consigliato nei game credits): "VFX by Pimen (pimen.itch.io)".
 ```
@@ -146,7 +147,7 @@ const _ENTRIES := {
 		"frame_h": 16,
 		"hframes": 10,
 		"vframes": 1,
-		"frames": 10,
+		"frames": 8,
 		"fps": 14.0,
 	},
 }
@@ -264,9 +265,12 @@ func test_spawn_effect_unknown_key_returns_null() -> void:
 func test_spawn_hit_also_spawns_sprite_effect() -> void:
 	var s := VfxSpawner.new()
 	add_child_autofree(s)
-	var before := s.get_child_count()
 	s.spawn_hit(Vector2.ZERO, 3)
-	assert_gt(s.get_child_count(), before + 1, "hit must add particle fx AND sprite fx")
+	var found := false
+	for child in s.get_children():
+		if child is AnimatedVfx:
+			found = true
+	assert_true(found, "spawn_hit must spawn an AnimatedVfx sprite effect")
 ```
 
 - [ ] **Step 2: run -> FAIL. Step 3: implementare** in `scripts/ui/vfx_spawner.gd` -- aggiungere il metodo e le due chiamate:

@@ -56,13 +56,53 @@ nell'HTML scaricato nella stessa richiesta). Staging locale: `C:\dev\_evo-assets
   (https://codemanu.itch.io/vfx-free-pack), CC-BY 4.0 da metadata itch
   (descrizione dice public-domain: attribuire comunque, governa il metadata).
 
-## Item manuali residui (5 -- browser/login)
+## Item manuali residui -- CHIUSI 2026-07-13 (vedi addendum sotto)
 
 1. Interface SFX Pack 1 (ObsydianX, CC0): itch name-your-price, no upload_id headless.
 2. Free VFX Asset Pack (CodeManu, CC-BY 4.0, 90MB): stesso flusso itch.
 3. Pimen subset $0 (eccezione condizionale + price-gate): verifica termini+prezzo per-pack.
 4. Cave Ambience Loop (hushless, CC0 WAV): freesound richiede login.
 5. Sonniss GDC cherry-pick creatures/impacts (eccezione owner, licenza custom).
+
+## Addendum 2026-07-13 -- arrivi manuali owner + verifica per-pack Pimen
+
+I 5 item manuali sono stati chiusi:
+
+1. **Interface SFX Pack 1** (ObsydianX): scaricato dall'owner (wav+ogg zip in
+   staging). CC0 (campo licenza itch, verificato 2026-07-12).
+2. **Free VFX Asset Pack** (CodeManu): scaricato dall'owner. CC-BY 4.0
+   (attribution registrata).
+3. **Pimen**: scaricati dall'owner ~19 pack. VERIFICA PER-PACK (pagine lette
+   2026-07-13, price-gate rispettato -- i rar in staging corrispondono ai file
+   free-tier esatti):
+   - Battle VFX: Hit Spark -- free tier = "Hit Effect 01.rar" (= file in staging);
+     custom: commercial OK, no credit richiesto, no resell.
+   - Dark Spell Effect -- free tier = "Dark VFX 01-02" (= file in staging);
+     stessa licenza custom.
+   - Smoke N Dust 01 (slug smoke-vfx-1) -- free = "Smoke Effect 01.rar" (= file
+     in staging, 3 sheet); stessa licenza custom. NB pagina dice "Smoke VFX 3:
+     7 frames" ma i separated frames nel rar sono 8 (C1-C8): fa fede il file.
+   - Cutting and Healing (Slash/Heal sheets) -- **CC-BY 4.0** (campo licenza
+     itch; l'autore dichiara credits opzionali: attribuire comunque).
+   - Fantasy Platformer Character ("Battlemage"), Fantasy Skeleton Enemies,
+     Halloween Special Effects, Effects, Animation Pack (fonte confermata owner)
+     + spell/elemental vari: stessa licenza pattern custom Pimen; verifica
+     puntuale della singola pagina PRIMA di importare file da pack non ancora
+     elencati qui.
+4. **Cave Ambience Loop**: l'owner ha scaricato un suono DIVERSO dal candidato
+   (freesound #232685, Julius_Galla, **CC-BY 4.0** -- non hushless #770379 CC0):
+   credit obbligatorio, registrato.
+5. **Sonniss cherry-pick**: chiuso DAL POOL LOCALE (workspace evo-tactics-refs,
+   licenza Sonniss royalty-free perpetual gia' documentata): 18 WAV organici
+   copiati in staging `sfx-combat/sonniss-picks/`.
+
+Extra arrivi: Super Pixel Effects Gigapack Free (unTied Games -- custom:
+commercial OK + ATTRIBUTION RICHIESTA + no resell); **Minifantasy Creatures
+Free (Krishna Palacio) BLOCCATO** (FreeLicense.txt = solo non-commerciale,
+incompatibile Steam EA; creature visuals comunque fuori scope asset-hunt).
+
+Gli import Godot-v2 che citano questo report: audio foundation (PR Godot-v2
+#599, merged) e VFX combat (piano `docs/superpowers/plans/2026-07-13-fa-vfx-combat.md`).
 
 ## Selezione musicale (curata contro anti-fit epic/orchestrale)
 
