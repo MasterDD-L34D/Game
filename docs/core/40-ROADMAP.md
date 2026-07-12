@@ -3,18 +3,49 @@ title: Roadmap (MVP → Alpha)
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-07-12
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 related:
+  - docs/superpowers/specs/2026-07-10-studio-track-v09-design.md
   - docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md
   - docs/adr/ADR-2026-04-21-campaign-save-persistence.md
 ---
 
 # Roadmap (MVP → Alpha)
 
-## MVP scope lock (2026-04-20, P0 Q58 default B)
+## Sequenza slice-first verso EA Steam (roadmap-of-record, 2026-07-12)
+
+Decisione owner 2026-07-10 (spec studio-track, sequenza C "v0.9 slice-first"):
+consegnare PRIMA una vertical slice vestita con playtest umano a meta' percorso,
+poi scalare. Traguardo = scope freeze v0.9 completo (4 specie, 6 job, 3 biomi,
+slice meta recruit/nido/mating) -> build EA Steam. Prerequisiti CHIUSI: GDD
+refresh (Fase 1, PR #3269), asset shortlist + download staging (Fase 2, PR
+#3270/#3271, provenance in `docs/reports/2026-07-12-asset-staging-provenance.md`).
+
+| Fase                          | Contenuto                                                                                          | Exit-gate                          |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| **F-A slice vestita**         | 1 bioma (badlands, gia' misurato), 2 specie, Path A con audio+VFX veri (staging Fase 2), polish UI | Slice giocabile end-to-end VESTITA |
+| **F-B playtest N5**           | Co-op real-device CAMP-4 (gate UMANO)                                                              | Report playtest + triage           |
+| **F-C scala contenuto**       | 4 specie, 6 job, 3 biomi (criteri asset validati dalla slice)                                      | Contenuto freeze completo in build |
+| **F-D slice meta + EA-ready** | Recruit/nido/mating + packaging Steam EA                                                           | Build candidata EA                 |
+
+Regole di percorso:
+
+- Ogni fase passa il **Quality Gate 3-step** (smoke verde, ricerca >=3 edge case,
+  tuning >=1 iterazione con delta misurato) PRIMA di dichiararsi chiusa.
+- MAI aprire la fase successiva con il gate precedente rosso.
+- Ogni fase F-A..F-D = writing-plans dedicato -> implementazione (Game-Godot-v2
+  self-governed + Game backend coi suoi gate) -> verifica. Decisioni design-nuove
+  emerse passano da ADR.
+- Le sconfitte by-design (simmetria flag-ON) restano nel tuning: leggibilita' P1
+  = guardrail (SoT sez.18.1).
+
+NB scope: i numeri v0.9 (4 specie / 6 job / 3 biomi) SUPERANO il vecchio
+"MVP scope lock" sotto (6 specie / 7 job), che resta come storia.
+
+## MVP scope lock (2026-04-20, P0 Q58 default B) -- STORICO, superato dal freeze v0.9
 
 **Level cap MVP**: base + veteran + elite (3 tier). **Mythic tier DEFERRED post-release**.
 
@@ -29,7 +60,7 @@ related:
 - Telemetria VC + PI-Pacchetti shop
 - UI identità TV-first
 
-## Sprint cadence
+## Sprint cadence -- STORICO (fotografia 2026-05-06; la sequenza corrente e' slice-first sopra)
 
 Vedi `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` per dettaglio:
 
