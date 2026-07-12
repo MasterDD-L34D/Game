@@ -214,14 +214,19 @@ owner sul manifest (vedi sezione Manifest).
 
 ### Ambience bioma (target ~12)
 
-| Pack                      | Fonte/Autore         | Licenza                         | URL                                                       | Note fit                                                   |
-| ------------------------- | -------------------- | ------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------- |
-| Cave Ambience Loop        | freesound / hushless | CC0 (verif.)                    | https://freesound.org/people/hushless/sounds/770379/      | WAV 32-bit stereo 1:17, loop nato per videogioco; caverna  |
-| Loopable Dungeon Ambience | OGA / JaggedStone    | CC0 (verif.)                    | https://opengameart.org/content/loopable-dungeon-ambience | OGG vento LF + gocce; caverna alternativa                  |
-| CC0 Background Ambience   | OGA / FGResources    | CC0 collection, VERIFY per-item | https://opengameart.org/content/cc0-background-ambience   | Nature beds savana/foresta; verifica per-item obbligatoria |
+| Pack                      | Fonte/Autore         | Licenza                         | URL                                                                 | Note fit                                                   |
+| ------------------------- | -------------------- | ------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Cave Ambience Loop        | freesound / hushless | CC0 (verif.)                    | https://freesound.org/people/hushless/sounds/770379/                | WAV 32-bit stereo 1:17, loop nato per videogioco; caverna  |
+| Loopable Dungeon Ambience | OGA / JaggedStone    | CC0 (verif.)                    | https://opengameart.org/content/loopable-dungeon-ambience           | OGG vento LF + gocce; caverna alternativa                  |
+| CC0 Background Ambience   | OGA / FGResources    | CC0 collection, VERIFY per-item | https://opengameart.org/content/cc0-background-ambience             | Nature beds savana/foresta; verifica per-item obbligatoria |
+| Forest Ambience           | OGA / TinyWorlds     | CC0 (verif. al fetch)           | https://opengameart.org/content/forest-ambience                     | Loop seamless foresta; base per foresta tossica (layering) |
+| Ambient Bird Sounds       | OGA / isaiah658      | CC0 (verif. al fetch)           | https://opengameart.org/content/ambient-bird-sounds                 | Layer uccelli per savana diurna                            |
+| Nature Ambient Pack Vol 1 | OGA / JC Sounds      | CC-BY 4.0 (ATTRIBUTION)         | https://opengameart.org/content/jc-sounds-nature-ambient-pack-vol-1 | Nature/vento/uccelli layered; beds savana                  |
 
-**GAP dichiarato**: savana e foresta tossica senza candidato verificato -- hunt mirata
-freesound (filtro licenza CC0) in fase download, stesso vincolo hard.
+**GAP CHIUSO 2026-07-12** (era: savana e foresta tossica senza candidato): coperto
+dalle 3 righe OGA sopra, licenze verificate al fetch -- evidenza in
+`docs/reports/2026-07-12-asset-staging-provenance.md`. La tinta "tossica" della
+foresta = layering/processing in import, non asset dedicato.
 
 ### Musica (target 6-8 tracce)
 
@@ -290,10 +295,10 @@ hanno candidato CC puro -- coprono Pimen (condizionale) o pipeline AI-generated
 ## Manifest download (stato: download AUTORIZZATO ed ESEGUITO 2026-07-12, 5 item manuali residui)
 
 Nessun import massivo in repo: gli asset scaricati stanno in STAGING locale
-`C:\dev\_evo-assets-staging\` (per classe, con `DOWNLOAD-LOG.md` sha256+licenza-al-fetch
-e `ATTRIBUTION.md` per i CC-BY). Import in Game-Godot-v2 = slice F-A con vaglio
-palette/tono. Item [ ] residui = richiedono browser/login (flusso itch name-your-price
-o freesound auth): lista dettagliata in `DOWNLOAD-LOG.md` sez. MANUALI.
+`C:\dev\_evo-assets-staging\` (Ryzen, per classe). Evidenza di provenance
+REPO-VISIBILE (sha256, licenza ri-verificata al fetch, attribution CC-BY, item
+manuali residui): `docs/reports/2026-07-12-asset-staging-provenance.md`.
+Import in Game-Godot-v2 = slice F-A con vaglio palette/tono.
 
 - [x] 80 CC0 creature SFX (CC0) -> SFX combat -- SCARICATO 2026-07-12
 - [x] Squish Sounds Effects (CC0) -> SFX combat layer -- SCARICATO 2026-07-12
