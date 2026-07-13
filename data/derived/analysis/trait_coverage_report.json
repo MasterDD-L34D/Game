@@ -8,13 +8,13 @@
     "species_affinity": "data/traits/species_affinity.json"
   },
   "summary": {
-    "traits_total": 309,
-    "traits_with_rules": 257,
+    "traits_total": 308,
+    "traits_with_rules": 256,
     "traits_with_species": 192,
     "traits_with_affinity": 200,
-    "rule_combos_total": 287,
+    "rule_combos_total": 286,
     "species_combos_total": 355,
-    "rules_missing_species_total": 74,
+    "rules_missing_species_total": 73,
     "affinity_missing_species_total": 0,
     "affinity_missing_matrix_total": 43,
     "traits_missing_species": [
@@ -38,7 +38,6 @@
       "corazze_ferro_magnetico",
       "corna_psico_conduttive",
       "coscienza_d_alveare_diffusa",
-      "coscienza_dalveare_diffusa",
       "ectotermia_dinamica",
       "elettromagnete_biologico",
       "emettitori_voidsong",
@@ -4828,37 +4827,6 @@
       }
     },
     "coscienza_d_alveare_diffusa": {
-      "label_it": "Coscienza d’Alveare Diffusa",
-      "label_en": "Diffuse Hive Consciousness",
-      "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
-      "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory.",
-      "rules": {
-        "total": 1,
-        "coverage": [
-          {
-            "biome": null,
-            "morphotype": null,
-            "count": 1
-          }
-        ]
-      },
-      "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
-          {
-            "biome": null,
-            "morphotype": null
-          }
-        ],
-        "missing_in_rules": [],
-        "missing_in_affinity": [],
-        "missing_in_matrix": []
-      }
-    },
-    "coscienza_dalveare_diffusa": {
       "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
       "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
