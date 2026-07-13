@@ -1,9 +1,2634 @@
 {
-  "generated_at": "2026-06-29T23:29:10+00:00",
+  "generated_at": "2026-07-13T07:03:33+00:00",
   "summary": {
-    "total": 0,
+    "total": 49,
     "errors": 0,
-    "warnings": 0
+    "warnings": 49
   },
-  "issues": []
+  "issues": [
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/adr/ADR-2026-04-16-session-engine-round-migration.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-07-05) e registry (2026-06-06)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/README_HOWTO_AUTHOR_TRAIT.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/contributing/traits.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/cli-tools.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/drive-sync.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/FAS2D_step1_briefing.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/Frattura_Abissale_Sinaptica_execution_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step1.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step10.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step2.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step3.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step4.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step5.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step6.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step7.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step8.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step9.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SIMULATION_Frattura_Abissale_Sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissale_Sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SPECIE_BIOMA_Frattura_Abissale_Sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ci.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/drive_sync.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ema-metrics.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/roadmap_generator.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/action-items.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/bug-intake.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/feedback_collection_pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incoming_review_log.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/localization.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/milestones.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/operations_calendar.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/qa_hud.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sentience_rollout_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-24-playtest-prep.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-25-parallel-validation.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/ticket-2025-10-27-playwright-deploy-checks.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/training/trait_style_session.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/trait_review.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/web_handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/adaptive-engine-quickstart.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/hud-overlay-quickstart.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-20-session-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "CHANGELOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-06"
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/superpowers/specs/2026-07-04-ai-los-repositioning-design.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-06-sistema-intents-",
+      "message": "citato da apps/backend/services/ai/declareSistemaIntents.js:123, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/research/2026-07-06-dorsale-",
+      "message": "citato da tools/sim/dorsale-ferrosa-band-probe.js:407, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/research/2026-07-06-dorsale-ferrosa-",
+      "message": "citato da tools/sim/grid-band-probe.js:5, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/research/2026-07-06-los-flip-",
+      "message": "citato da apps/backend/services/ai/declareSistemaIntents.js:666, non esiste su disco"
+    }
+  ],
+  "doc_pins": {
+    "docs/00-INDEX.md": [
+      ".github/workflows/daily-tracker-refresh.yml:56",
+      ".github/workflows/daily-tracker-refresh.yml:64",
+      ".github/workflows/daily-tracker-refresh.yml:69",
+      "CLAUDE.md:135",
+      "config/tracker_registry.yaml:2",
+      "config/tracker_registry.yaml:177",
+      "config/tracker_registry.yaml:178",
+      "scripts/daily_tracker_refresh.py:5",
+      "scripts/daily_tracker_refresh.py:227",
+      "scripts/daily_tracker_refresh.py:284"
+    ],
+    "docs/Canvas/feature-updates.md": [
+      "config/feature_flags.yaml:14",
+      "config/tracker_registry.yaml:179",
+      "config/tracker_registry.yaml:180",
+      "tools/feedback/hud_canary_dashboard.yaml:55",
+      "tools/py/daily_pr_report.py:270"
+    ],
+    "docs/PDF/transcripts": [
+      "MODEL_ROUTING.md:126"
+    ],
+    "docs/PILLARS_STATUS.md": [
+      "BACKLOG.md:302",
+      "README.md:77",
+      "RESEARCH_TODO.md:126",
+      "RESEARCH_TODO.md:169"
+    ],
+    "docs/PIPELINE_TEMPLATES.md": [
+      "AGENTS.md:35",
+      "AGENTS.md:38",
+      "AGENTS.md:48",
+      "agent.md:45"
+    ],
+    "docs/PITCH.md": [
+      "README.md:26",
+      "README.md:76",
+      "RESEARCH_TODO.md:49",
+      "RESEARCH_TODO.md:105",
+      "RESEARCH_TODO.md:166"
+    ],
+    "docs/README.md": [
+      "CLAUDE.md:135",
+      "apps/trait-editor/README.md:7"
+    ],
+    "docs/README_FULL_ARCHIVE.md": [
+      "BACKLOG.md:302",
+      "README.md:46"
+    ],
+    "docs/aa01-impronta-reconciliation": [
+      "BACKLOG.md:293"
+    ],
+    "docs/adr-2026-05-05-accepted-phase-a-pending-validation": [
+      "BACKLOG.md:942"
+    ],
+    "docs/adr/": [
+      "CHANGELOG.md:159",
+      "CLAUDE.md:135",
+      "DECISIONS_LOG.md:4",
+      "DECISIONS_LOG.md:5",
+      "DECISIONS_LOG.md:23",
+      "LIBRARY.md:223",
+      "MODEL_ROUTING.md:151",
+      "OPEN_DECISIONS.md:586",
+      "OPEN_DECISIONS.md:618",
+      "PROJECT_BRIEF.md:68",
+      "tools/docs_governance_migrator.py:24",
+      "tools/docs_governance_migrator.py:89",
+      "tools/docs_status_promotion.py:38",
+      "tools/generate_decisions_log.py:2",
+      "tools/generate_decisions_log.py:10",
+      "tools/generate_decisions_log.py:109",
+      "tools/generate_decisions_log.py:120"
+    ],
+    "docs/adr/ADR-2025-11-18-cli-rollout.md": [
+      "DECISIONS_LOG.md:28"
+    ],
+    "docs/adr/ADR-2025-11-refactor-cli.md": [
+      "DECISIONS_LOG.md:27"
+    ],
+    "docs/adr/ADR-2025-12-07-generation-orchestrator.md": [
+      "DECISIONS_LOG.md:29"
+    ],
+    "docs/adr/ADR-2026-04-13-rules-engine-d20.md": [
+      "DECISIONS_LOG.md:16",
+      "DECISIONS_LOG.md:30",
+      "packs/evo_tactics_pack/data/balance/README.md:156"
+    ],
+    "docs/adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md": [
+      "DECISIONS_LOG.md:31"
+    ],
+    "docs/adr/ADR-2026-04-14-game-database-topology.md": [
+      "CLAUDE.md:143",
+      "CLAUDE.md:157",
+      "DECISIONS_LOG.md:32",
+      "WORKSPACE_MAP.md:225",
+      "apps/backend/index.js:12",
+      "apps/backend/index.js:35",
+      "apps/backend/index.js:117",
+      "tools/scripts/phase-4d-scope-b/README.md:136",
+      "tools/scripts/phase-4d-scope-b/pr-body.md:80"
+    ],
+    "docs/adr/ADR-2026-04-15-round-based-combat-model.md": [
+      "DECISIONS_LOG.md:33"
+    ],
+    "docs/adr/ADR-2026-04-16-ai-architecture-utility.md": [
+      "DECISIONS_LOG.md:34",
+      "apps/backend/services/ai/utilityBrain.js:2"
+    ],
+    "docs/adr/ADR-2026-04-16-grid-type-hex-axial.md": [
+      "DECISIONS_LOG.md:35",
+      "apps/backend/services/grid/hexGrid.js:3",
+      "packs/evo_tactics_pack/data/balance/terrain_defense.yaml:8"
+    ],
+    "docs/adr/ADR-2026-04-16-networking-co-op.md": [
+      "DECISIONS_LOG.md:36"
+    ],
+    "docs/adr/ADR-2026-04-16-networking-colyseus.md": [
+      "CHANGELOG.md:148",
+      "DECISIONS_LOG.md:37"
+    ],
+    "docs/adr/ADR-2026-04-16-session-engine-round-migration.md": [
+      "DECISIONS_LOG.md:38"
+    ],
+    "docs/adr/ADR-2026-04-17-coop-scaling-4to8.md": [
+      "CHANGELOG.md:149",
+      "DECISIONS_LOG.md:39"
+    ],
+    "docs/adr/ADR-2026-04-17-utility-ai-default-activation.md": [
+      "DECISIONS_LOG.md:40"
+    ],
+    "docs/adr/ADR-2026-04-17-xp-cipher-official-park.md": [
+      "DECISIONS_LOG.md:41"
+    ],
+    "docs/adr/ADR-2026-04-18-art-direction-placeholder.md": [
+      "DECISIONS_LOG.md:42"
+    ],
+    "docs/adr/ADR-2026-04-18-audio-direction-placeholder.md": [
+      "DECISIONS_LOG.md:43"
+    ],
+    "docs/adr/ADR-2026-04-18-plan-reveal-round.md": [
+      "DECISIONS_LOG.md:44"
+    ],
+    "docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md": [
+      "CREDITS.md:10",
+      "CREDITS.md:112",
+      "DECISIONS_LOG.md:45",
+      "README.md:120"
+    ],
+    "docs/adr/ADR-2026-04-19-kill-python-rules-engine.md": [
+      "CLAUDE.md:152",
+      "DECISIONS_LOG.md:46"
+    ],
+    "docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md": [
+      "DECISIONS_LOG.md:47"
+    ],
+    "docs/adr/ADR-2026-04-19-resistance-convention.md": [
+      "DECISIONS_LOG.md:48"
+    ],
+    "docs/adr/ADR-2026-04-20-damage-scaling-curves.md": [
+      "DECISIONS_LOG.md:49"
+    ],
+    "docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md": [
+      "BACKLOG.md:1229",
+      "DECISIONS_LOG.md:50"
+    ],
+    "docs/adr/ADR-2026-04-20-objective-parametrizzato.md": [
+      "DECISIONS_LOG.md:51"
+    ],
+    "docs/adr/ADR-2026-04-21-campaign-save-persistence.md": [
+      "DECISIONS_LOG.md:52"
+    ],
+    "docs/adr/ADR-2026-04-21-meta-progression-prisma.md": [
+      "DECISIONS_LOG.md:53",
+      "apps/backend/services/metaProgression.js:12"
+    ],
+    "docs/adr/ADR-2026-04-21b-onboarding-narrative-60s.md": [
+      "DECISIONS_LOG.md:54"
+    ],
+    "docs/adr/ADR-2026-04-21c-trait-environmental-costs.md": [
+      "DECISIONS_LOG.md:55"
+    ],
+    "docs/adr/ADR-2026-04-23-m12-phase-a-form-evolution.md": [
+      "DECISIONS_LOG.md:56"
+    ],
+    "docs/adr/ADR-2026-04-24-p3-character-progression.md": [
+      "CHANGELOG.md:109",
+      "DECISIONS_LOG.md:57"
+    ],
+    "docs/adr/ADR-2026-04-24-p6-hardcore-timeout.md": [
+      "CHANGELOG.md:97",
+      "DECISIONS_LOG.md:58"
+    ],
+    "docs/adr/ADR-2026-04-25-skiv-as-monitor.md": [
+      "DECISIONS_LOG.md:59",
+      "PROJECT_BRIEF.md:74"
+    ],
+    "docs/adr/ADR-2026-04-26-cross-bioma-worldstate-persistence.md": [
+      "DECISIONS_LOG.md:60"
+    ],
+    "docs/adr/ADR-2026-04-26-hosting-stack-decision.md": [
+      "DECISIONS_LOG.md:61"
+    ],
+    "docs/adr/ADR-2026-04-26-m15-coop-ui-redesign.md": [
+      "DECISIONS_LOG.md:62"
+    ],
+    "docs/adr/ADR-2026-04-26-multi-stage-encounter-schema.md": [
+      "DECISIONS_LOG.md:63"
+    ],
+    "docs/adr/ADR-2026-04-26-parley-outcome-enum.md": [
+      "DECISIONS_LOG.md:64"
+    ],
+    "docs/adr/ADR-2026-04-26-pincer-followup-queue.md": [
+      "DECISIONS_LOG.md:65"
+    ],
+    "docs/adr/ADR-2026-04-26-sg-earn-mixed.md": [
+      "DECISIONS_LOG.md:66"
+    ],
+    "docs/adr/ADR-2026-04-26-spore-part-pack-slots.md": [
+      "DECISIONS_LOG.md:67",
+      "apps/backend/services/combat/archetypePassives.js:19",
+      "apps/backend/services/mutations/mutationEngine.js:11"
+    ],
+    "docs/adr/ADR-2026-04-27-ability-r3-r4-tier.md": [
+      "DECISIONS_LOG.md:68"
+    ],
+    "docs/adr/ADR-2026-04-27-ancestors-recovery-canonical.md": [
+      "DECISIONS_LOG.md:69"
+    ],
+    "docs/adr/ADR-2026-04-27-creature-bond-reactions.md": [
+      "DECISIONS_LOG.md:70"
+    ],
+    "docs/adr/ADR-2026-04-27-pilastri-canonical-6.md": [
+      "DECISIONS_LOG.md:71"
+    ],
+    "docs/adr/ADR-2026-04-27-skiv-portable-companion-crossbreeding.md": [
+      "DECISIONS_LOG.md:72"
+    ],
+    "docs/adr/ADR-2026-04-28-bg3-lite-plus-movement-layer.md": [
+      "DECISIONS_LOG.md:73"
+    ],
+    "docs/adr/ADR-2026-04-28-deep-research-actions.md": [
+      "DECISIONS_LOG.md:74"
+    ],
+    "docs/adr/ADR-2026-04-28-grid-type-square-final.md": [
+      "DECISIONS_LOG.md:75"
+    ],
+    "docs/adr/ADR-2026-04-29-pivot-godot-immediate.md": [
+      "BACKLOG.md:371",
+      "COMPACT_CONTEXT.md:809",
+      "COMPACT_CONTEXT.md:813",
+      "DECISIONS_LOG.md:76"
+    ],
+    "docs/adr/ADR-2026-04-30-pillar-promotion-criteria.md": [
+      "COMPACT_CONTEXT.md:815",
+      "DECISIONS_LOG.md:77"
+    ],
+    "docs/adr/ADR-2026-05-02-species-ecology-schema.md": [
+      "DECISIONS_LOG.md:78"
+    ],
+    "docs/adr/ADR-2026-05-04-cutover-godot-v2-decision-gate.md": [
+      "DECISIONS_LOG.md:79"
+    ],
+    "docs/adr/ADR-2026-05-04-ennea-taxonomy-canonical.md": [
+      "DECISIONS_LOG.md:80"
+    ],
+    "docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md": [
+      "DECISIONS_LOG.md:81",
+      "OPEN_DECISIONS.md:137",
+      "OPEN_DECISIONS.md:151",
+      "README.md:14",
+      "tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:791"
+    ],
+    "docs/adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md": [
+      "BACKLOG.md:1021",
+      "COMPACT_CONTEXT.md:756",
+      "DECISIONS_LOG.md:82"
+    ],
+    "docs/adr/ADR-2026-05-07-abort-web-quickwins-reincarnate-godot.md": [
+      "BACKLOG.md:1026",
+      "DECISIONS_LOG.md:83"
+    ],
+    "docs/adr/ADR-2026-05-07-auto-merge-authorization-l3.md": [
+      "BACKLOG.md:991",
+      "CLAUDE.md:177",
+      "DECISIONS_LOG.md:84"
+    ],
+    "docs/adr/ADR-2026-05-10-mission-console-recovery.md": [
+      "DECISIONS_LOG.md:85"
+    ],
+    "docs/adr/ADR-2026-05-10-mutation-auto-trigger-evaluator.md": [
+      "DECISIONS_LOG.md:86"
+    ],
+    "docs/adr/ADR-2026-05-10-sprint-q-plus-lineage-merge-shipped.md": [
+      "DECISIONS_LOG.md:87"
+    ],
+    "docs/adr/ADR-2026-05-10-trait-editor-angularjs-migration.md": [
+      "DECISIONS_LOG.md:88"
+    ],
+    "docs/adr/ADR-2026-05-11-species-expansion-schema-canonical-migration.md": [
+      "DECISIONS_LOG.md:89"
+    ],
+    "docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md": [
+      "DECISIONS_LOG.md:90",
+      "tools/etl/enrich_species_heuristic.py:28",
+      "tools/py/export_biodiversity_bundle.py:9",
+      "tools/py/lib/species_loader.py:21",
+      "tools/py/normalize_species_style.py:9",
+      "tools/py/report_evo_species_ecosystem.py:9",
+      "tools/py/review_phase3.py:24",
+      "tools/py/seed_lifecycle_stubs.py:9",
+      "tools/py/seed_skiv_saga.py:9",
+      "tools/py/validate_species.py:9",
+      "tools/py/validate_species.py:369",
+      "tools/scripts/phase-4d-scope-b/README.md:135",
+      "tools/scripts/phase-4d-scope-b/pr-body.md:79"
+    ],
+    "docs/adr/ADR-2026-05-18-df-levels-integration-direction.md": [
+      "DECISIONS_LOG.md:91"
+    ],
+    "docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md": [
+      "DECISIONS_LOG.md:92"
+    ],
+    "docs/adr/ADR-2026-05-26-deep-genetics-phase1-supersede-freeze.md": [
+      "DECISIONS_LOG.md:93"
+    ],
+    "docs/adr/ADR-2026-05-30-coop-server-authoritative-combat.md": [
+      "DECISIONS_LOG.md:94"
+    ],
+    "docs/adr/ADR-2026-05-31-meta-network-arc-conditions-schema.md": [
+      "DECISIONS_LOG.md:95"
+    ],
+    "docs/adr/ADR-2026-06-07-device-authority-tv-mirror-canon.md": [
+      "DECISIONS_LOG.md:96"
+    ],
+    "docs/adr/ADR-2026-06-08-i18n-unify-data-i18n.md": [
+      "DECISIONS_LOG.md:97"
+    ],
+    "docs/adr/ADR-2026-06-08-onboarding-per-creature-trait.md": [
+      "DECISIONS_LOG.md:98"
+    ],
+    "docs/adr/ADR-2026-06-19-taxonomy-authoring-sot-steady-state.md": [
+      "DECISIONS_LOG.md:99"
+    ],
+    "docs/adr/ADR-2026-07-03-authored-grid-board-scale.md": [
+      "DECISIONS_LOG.md:100"
+    ],
+    "docs/adr/ADR-2026-07-10-sistema-action-symmetry.md": [
+      "DECISIONS_LOG.md:101"
+    ],
+    "docs/analytics/2026-04-26-telemetry-report.md": [
+      "tools/py/telemetry_analyze.py:17"
+    ],
+    "docs/appendici": [
+      "tools/py/import_external_traits.py:12"
+    ],
+    "docs/appendici/": [
+      "tools/docs_governance_migrator.py:26",
+      "tools/docs_status_promotion.py:43"
+    ],
+    "docs/appendici/A-CANVAS_ORIGINALE.txt": [
+      "config/tracker_registry.yaml:124"
+    ],
+    "docs/appendici/ALIENA_documento_integrato.md": [
+      "apps/backend/services/authorial/alienaCoherence.js:5"
+    ],
+    "docs/appendici/C-CANVAS_NPG_BIOMI.txt": [
+      "config/tracker_registry.yaml:128"
+    ],
+    "docs/appendici/D-CANVAS_ACCOPPIAMENTO.md": [
+      "packs/evo_tactics_pack/data/mating.yaml:390"
+    ],
+    "docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt": [
+      "config/tracker_registry.yaml:132"
+    ],
+    "docs/architecture/": [
+      "tools/docs_governance_migrator.py:31",
+      "tools/docs_status_promotion.py:42"
+    ],
+    "docs/architecture/ai-policy-engine.md": [
+      "CLAUDE.md:248"
+    ],
+    "docs/architecture/i18n-strategy.md": [
+      "tools/py/validate_i18n_parity.py:21"
+    ],
+    "docs/architecture/tri-sorgente-node-bridge.md": [
+      "services/triSorgente/bridge.js:14"
+    ],
+    "docs/architecture/tri-sorgente/overview.md": [
+      "apps/backend/services/rewards/rewardOffer.js:6"
+    ],
+    "docs/archive/": [
+      "CLAUDE.md:135",
+      "tools/docs_governance_migrator.py:55",
+      "tools/docs_governance_migrator.py:318",
+      "tools/docs_status_promotion.py:47"
+    ],
+    "docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md": [
+      "CLAUDE.md:76",
+      "CLAUDE.md:238",
+      "CLAUDE.md:250"
+    ],
+    "docs/archive/historical-snapshots/2026-05-15_species-deprecation/": [
+      "tools/py/check_derived_reproducible.py:192"
+    ],
+    "docs/balance/": [
+      "tools/docs_governance_migrator.py:39",
+      "tools/py/map_elites.py:33"
+    ],
+    "docs/balance/2026-04-25-encounter-xp-audit.md": [
+      "tools/py/encounter_xp_budget.py:18"
+    ],
+    "docs/balance/2026-04-25-map-elites-archive.md": [
+      "tools/py/map_elites.py:26"
+    ],
+    "docs/balance/2026-04-25-pi-shop-monte-carlo.md": [
+      "tools/py/pi_shop_simulate.py:20"
+    ],
+    "docs/balance/2026-04-27-numeric-reference-canonical.md": [
+      "packs/evo_tactics_pack/data/balance/species_resistances.yaml:13"
+    ],
+    "docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md": [
+      "packs/evo_tactics_pack/data/balance/README.md:159",
+      "packs/evo_tactics_pack/data/balance/trait_mechanics.yaml:7"
+    ],
+    "docs/balance/macro-economy-source-sink.md": [
+      "tools/py/pi_shop_simulate.py:12",
+      "tools/py/pi_shop_simulate.py:38",
+      "tools/py/pi_shop_simulate.py:317",
+      "tools/py/pi_shop_simulate.py:374"
+    ],
+    "docs/biomes/": [
+      "tools/docs_governance_migrator.py:36",
+      "tools/docs_status_promotion.py:45"
+    ],
+    "docs/cards/": [
+      "agent_constitution.md:107"
+    ],
+    "docs/catalog": [
+      "packs/evo_tactics_pack/docs/catalog/README.md:32",
+      "packs/pack-data.js:171"
+    ],
+    "docs/catalog/": [
+      "apps/backend/report.js:107",
+      "packs/evo_tactics_pack/README.md:9",
+      "packs/pack-data.js:180",
+      "packs/pack-data.js:208",
+      "services/api/generatorClient.ts:83",
+      "tools/docs_governance_migrator.py:38",
+      "tools/docs_status_promotion.py:44"
+    ],
+    "docs/catalog/biomes": [
+      "BACKLOG.md:353"
+    ],
+    "docs/catalog/catalog_data.json": [
+      "packs/pack-data.js:3",
+      "services/api/generatorClient.ts:185"
+    ],
+    "docs/catalog/species.json": [
+      "services/api/generatorClient.ts:300"
+    ],
+    "docs/catalog/species/": [
+      "services/api/generatorClient.ts:296"
+    ],
+    "docs/catalog/species/index.json": [
+      "services/api/generatorClient.ts:299"
+    ],
+    "docs/catalog/species_trait_matrix.json": [
+      "apps/backend/report.js:112",
+      "apps/backend/report.js:133",
+      "config/cli/generator.yaml:8",
+      "tools/traits.py:21"
+    ],
+    "docs/catalog/traits_inventory.json": [
+      "config/cli/generator.yaml:9",
+      "packs/evo_tactics_pack/data/balance/README.md:140",
+      "packs/evo_tactics_pack/data/balance/README.md:161",
+      "packs/evo_tactics_pack/data/balance/trait_mechanics.yaml:6",
+      "scripts/run_deploy_checks.sh:146",
+      "tools/py/traits_validator.py:2"
+    ],
+    "docs/caveman-status.json": [
+      "FLINT.md:10",
+      "RESEARCH_TODO.md:188",
+      "RESEARCH_TODO.md:190"
+    ],
+    "docs/changelog.md": [
+      "tools/feedback/collection_pipeline.yaml:95",
+      "tools/py/daily_pr_report.py:267"
+    ],
+    "docs/chatgpt_changes/": [
+      "BACKLOG.md:344"
+    ],
+    "docs/chatgpt_sync_status.md": [
+      ".github/workflows/chatgpt_sync.yml:42",
+      "scripts/sync_chatgpt.sh:12",
+      "scripts/sync_chatgpt.sh:19"
+    ],
+    "docs/checklist/": [
+      "tools/docs_governance_migrator.py:98"
+    ],
+    "docs/checklist/action-items.md": [
+      "tools/py/daily_pr_report.py:269"
+    ],
+    "docs/checklist/project-setup-todo.md": [
+      "CONTRIBUTING.md:29"
+    ],
+    "docs/closure-session-2026-05-06-wave-6-full-recap": [
+      "BACKLOG.md:943"
+    ],
+    "docs/combat/": [
+      "tools/docs_governance_migrator.py:28"
+    ],
+    "docs/combat/README.md": [
+      "BACKLOG.md:262"
+    ],
+    "docs/combat/round-loop.md": [
+      "apps/backend/services/roundOrchestrator.js:37"
+    ],
+    "docs/commits/comments": [
+      "CLAUDE.md:115"
+    ],
+    "docs/configs": [
+      "BACKLOG.md:300"
+    ],
+    "docs/contributing/traits.md": [
+      "BACKLOG.md:341",
+      "CONTRIBUTING.md:116",
+      "apps/trait-editor/README.md:88",
+      "apps/trait-editor/docs/README.md:17",
+      "apps/trait-editor/docs/workflow-strumenti.md:16",
+      "apps/trait-editor/docs/workflow-strumenti.md:32"
+    ],
+    "docs/core/": [
+      "BACKLOG.md:1348",
+      "CLAUDE.md:110",
+      "CLAUDE.md:135",
+      "README.md:79",
+      "tools/docs_governance_migrator.py:21",
+      "tools/docs_status_promotion.py:36"
+    ],
+    "docs/core/00-SOURCE-OF-TRUTH.md": [
+      "BACKLOG.md:362",
+      "BACKLOG.md:392",
+      "CLAUDE.md:110",
+      "README.md:78",
+      "packs/evo_tactics_pack/data/balance/species_resistances.yaml:34",
+      "packs/evo_tactics_pack/data/balance/terrain_defense.yaml:7"
+    ],
+    "docs/core/00C-WHERE_TO_USE_WHAT.md": [
+      "README.md:45"
+    ],
+    "docs/core/00D-ENGINES_AS_GAME_FEATURES.md": [
+      "apps/backend/services/atlasLive.js:9",
+      "apps/backend/services/squadCoordination.js:15"
+    ],
+    "docs/core/01-VISIONE.md": [
+      "PROJECT_BRIEF.md:5",
+      "PROJECT_BRIEF.md:66"
+    ],
+    "docs/core/02-PILASTRI.md": [
+      "CLAUDE.md:237"
+    ],
+    "docs/core/11-REGOLE_D20_TV.md": [
+      "apps/backend/services/tutorialScenario.js:119"
+    ],
+    "docs/core/15-LEVEL_DESIGN.md": [
+      "OPEN_DECISIONS.md:607"
+    ],
+    "docs/core/18-PLAYER_PERSONAS.md": [
+      "BACKLOG.md:382"
+    ],
+    "docs/core/27-MATING_NIDO.md": [
+      "CHANGELOG.md:131"
+    ],
+    "docs/core/28-NPC_BIOMI_SPAWN.md": [
+      "apps/backend/services/combat/biomeSpawnBias.js:6"
+    ],
+    "docs/core/41-ART-DIRECTION.md": [
+      "BACKLOG.md:1024",
+      "BACKLOG.md:1280",
+      "CREDITS.md:62",
+      "CREDITS.md:160",
+      "tools/py/art/generate_tile.py:35",
+      "tools/py/generate_visual_assets.py:24",
+      "tools/py/styleguide_lint.py:5"
+    ],
+    "docs/core/42-STYLE-GUIDE-UI.md": [
+      "CREDITS.md:34",
+      "tools/py/art/generate_tile.py:5",
+      "tools/py/styleguide_lint.py:6",
+      "tools/py/styleguide_lint.py:208"
+    ],
+    "docs/core/43-ASSET-SOURCING.md": [
+      "CREDITS.md:10",
+      "README.md:124"
+    ],
+    "docs/core/51-ONBOARDING-60S.md": [
+      "apps/backend/services/coop/coopOrchestrator.js:53"
+    ],
+    "docs/core/90-FINAL-DESIGN-FREEZE.md": [
+      "OPEN_DECISIONS.md:37",
+      "PROJECT_BRIEF.md:5",
+      "PROJECT_BRIEF.md:66"
+    ],
+    "docs/core/DesignDoc-Overview.md": [
+      "PROJECT_BRIEF.md:66"
+    ],
+    "docs/core/Mating-Reclutamento-Nido.md": [
+      "BACKLOG.md:1216",
+      "apps/backend/services/metaProgression.js:278"
+    ],
+    "docs/core/PI-Pacchetti-Forme.md": [
+      "apps/backend/services/forms/formPackRecommender.js:15",
+      "apps/play/src/portraitPanel.js:26"
+    ],
+    "docs/cross-repo/EXECUTION-BOARD.md/": [
+      ".github/workflows/ai-sim-nightly.yml:248"
+    ],
+    "docs/decisions/": [
+      "tools/py/playtest_2_analyzer.py:438"
+    ],
+    "docs/design/audio/howler-middleware-OD-028.md": [
+      "apps/play/src/audio.js:18"
+    ],
+    "docs/design/evo-tactics-aliena-enforcement-lore.md": [
+      "BACKLOG.md:148",
+      "BACKLOG.md:381",
+      "tools/js/validate_codex_aliena.js:6"
+    ],
+    "docs/design/evo-tactics-device-input-ledger.md": [
+      "apps/backend/routes/session.js:5302"
+    ],
+    "docs/design/evo-tactics-godot-device-authority-reconciliation.md": [
+      "BACKLOG.md:214"
+    ],
+    "docs/design/evo-tactics-lethal-wounds-rituals.md": [
+      "apps/backend/services/combat/lethalDeath.js:4",
+      "apps/backend/services/combat/nidoRitual.js:4",
+      "apps/backend/services/coop/lethalConsent.js:4"
+    ],
+    "docs/dev/": [
+      "tools/docs_governance_migrator.py:101"
+    ],
+    "docs/drive-sync.md": [
+      ".github/workflows/telemetry-export.yml:9"
+    ],
+    "docs/evo-tactics": [
+      "scripts/evo_tactics_metadata_diff.py:73"
+    ],
+    "docs/evo-tactics-pack/": [
+      "apps/backend/report.js:99",
+      "apps/backend/report.js:103",
+      "apps/backend/report.js:132",
+      "tools/docs_governance_migrator.py:41"
+    ],
+    "docs/evo-tactics-pack/ennea-themes.md": [
+      "SPRINT_003.md:563",
+      "packs/evo_tactics_pack/tools/py/ennea/themes.yaml:7"
+    ],
+    "docs/evo-tactics-pack/reports/": [
+      "tools/docs_governance_migrator.py:61"
+    ],
+    "docs/evo-tactics-pack/services/": [
+      "tools/docs_governance_migrator.py:62"
+    ],
+    "docs/evo-tactics-pack/species/": [
+      "tools/docs_governance_migrator.py:63"
+    ],
+    "docs/evo-tactics-pack/state/": [
+      "tools/docs_governance_migrator.py:64"
+    ],
+    "docs/evo-tactics-pack/traits/": [
+      "tools/docs_governance_migrator.py:65"
+    ],
+    "docs/evo-tactics-pack/ui/": [
+      "tools/docs_governance_migrator.py:66"
+    ],
+    "docs/evo-tactics-pack/utils/": [
+      "tools/docs_governance_migrator.py:67"
+    ],
+    "docs/evo-tactics-pack/views/": [
+      "tools/docs_governance_migrator.py:68"
+    ],
+    "docs/evo-tactics/": [
+      "scripts/evo_tactics_metadata_diff.py:7",
+      "tools/docs_governance_migrator.py:40",
+      "tools/docs_status_promotion.py:50"
+    ],
+    "docs/factions/": [
+      "agent_constitution.md:97"
+    ],
+    "docs/flint-status.json": [
+      "tools/py/flint_status_stdlib.py:2",
+      "tools/py/flint_status_stdlib.py:111"
+    ],
+    "docs/frontend/": [
+      "CLAUDE.md:135",
+      "OPEN_DECISIONS.md:371",
+      "tools/docs_governance_migrator.py:33"
+    ],
+    "docs/frontend/feature-updates.md": [
+      ".github/workflows/daily-pr-summary.yml:47"
+    ],
+    "docs/frontend/test-interface": [
+      "scripts/generate_minimal_fixture.py:199"
+    ],
+    "docs/generated/": [
+      "CLAUDE.md:135",
+      "CLAUDE.md:137",
+      "tools/audit/mutationVisualSwapAudit.js:100",
+      "tools/check_docs_governance.py:46",
+      "tools/check_docs_governance.py:47",
+      "tools/docs_governance_migrator.py:56",
+      "tools/docs_governance_migrator.py:60",
+      "tools/docs_status_promotion.py:54"
+    ],
+    "docs/generated/pr-summaries": [
+      "scripts/chatgpt_sync.py:349",
+      "tools/py/daily_pr_report.py:51"
+    ],
+    "docs/generated/pr-summaries/": [
+      ".github/workflows/daily-pr-summary.yml:47",
+      "scripts/sync_chatgpt.sh:141"
+    ],
+    "docs/generated/trait-reference.md": [
+      "tools/py/gen_trait_docs.py:5",
+      "tools/py/gen_trait_docs.py:9",
+      "tools/py/gen_trait_docs.py:20"
+    ],
+    "docs/godot-v2/spec-k-surface-role-map.md": [
+      "BACKLOG.md:219"
+    ],
+    "docs/governance/": [
+      "CLAUDE.md:135",
+      "tools/docs_governance_migrator.py:23",
+      "tools/docs_governance_migrator.py:91",
+      "tools/docs_status_promotion.py:40"
+    ],
+    "docs/governance/QUARANTINE.md": [
+      "README.md:80"
+    ],
+    "docs/governance/doc_pins_baseline.json": [
+      "OPEN_DECISIONS.md:596",
+      "tools/check_docs_governance.py:51"
+    ],
+    "docs/governance/docs_metadata.schema.json": [
+      "CLAUDE.md:137"
+    ],
+    "docs/governance/docs_registry.json": [
+      ".github/workflows/docs-governance.yml:38",
+      "CLAUDE.md:137",
+      "CLAUDE.md:161",
+      "package.json:35",
+      "package.json:36",
+      "tools/check_docs_governance.py:100",
+      "tools/check_docs_governance.py:235",
+      "tools/check_docs_governance.py:240",
+      "tools/check_docs_governance.py:248",
+      "tools/check_docs_governance.py:324",
+      "tools/py/fix_stale_doc_links.py:27"
+    ],
+    "docs/governance/open-decisions/": [
+      "apps/backend/index.js:27"
+    ],
+    "docs/governance/open-decisions/OD-024-031-verdict-record.md": [
+      "BACKLOG.md:494",
+      "OPEN_DECISIONS.md:100",
+      "apps/backend/services/vcScoring.js:995",
+      "apps/play/src/audio.js:19"
+    ],
+    "docs/governance/registry_scan_baseline.json": [
+      "tools/check_docs_governance.py:48"
+    ],
+    "docs/governance/workstream_matrix.json": [
+      "apps/backend/README.md:20"
+    ],
+    "docs/guide/": [
+      "CLAUDE.md:135",
+      "tools/docs_governance_migrator.py:25",
+      "tools/docs_status_promotion.py:39",
+      "tools/docs_status_promotion.py:152"
+    ],
+    "docs/guide/asset-creation-workflow.md": [
+      "CLAUDE.md:254"
+    ],
+    "docs/guide/claude-code-setup-p1-skills.md": [
+      "BACKLOG.md:1210",
+      "COMPACT_CONTEXT.md:1262"
+    ],
+    "docs/guide/derived-artifacts-reproducibility.md": [
+      ".github/workflows/ci.yml:539",
+      "CONTRIBUTING.md:110",
+      "tools/etl/apply_interoception_traits.py:5",
+      "tools/etl/derive_interoception_overrides.py:5",
+      "tools/etl/enrich_species_heuristic.py:6",
+      "tools/etl/merge_pack_v2_species.py:8",
+      "tools/etl/promote_gameplay_to_canon.py:7",
+      "tools/py/add_trait_stub.py:17",
+      "tools/py/build_species_trait_bridge.py:9",
+      "tools/py/check_derived_reproducible.py:5",
+      "tools/py/check_derived_reproducible.py:86"
+    ],
+    "docs/guide/docs-governance-stale-lifecycle.md": [
+      "CLAUDE.md:262"
+    ],
+    "docs/guide/games-source-index.md": [
+      "BACKLOG.md:25",
+      "CLAUDE.md:258",
+      "LIBRARY.md:23",
+      "tools/sim/greedy-policy.js:8",
+      "tools/sim/mbti-policy.js:7"
+    ],
+    "docs/guide/procedural-lore-generation.md": [
+      "CLAUDE.md:258"
+    ],
+    "docs/guide/roadmap-intervention.md": [
+      "CLAUDE.md:237"
+    ],
+    "docs/guide/templates/adr-template.md": [
+      "DECISIONS_LOG.md:16"
+    ],
+    "docs/handoffs/": [
+      "BACKLOG.md:296"
+    ],
+    "docs/hubs/": [
+      "CLAUDE.md:135",
+      "PROJECT_BRIEF.md:67",
+      "tools/docs_governance_migrator.py:22",
+      "tools/docs_governance_migrator.py:90",
+      "tools/docs_status_promotion.py:37"
+    ],
+    "docs/hubs/combat.md": [
+      "CLAUDE.md:152",
+      "CLAUDE.md:248"
+    ],
+    "docs/ideas/": [
+      ".github/workflows/idea-intake-index.yml:37",
+      "BACKLOG.md:348",
+      "BACKLOG.md:390"
+    ],
+    "docs/ideas/IDEAS_INDEX.md": [
+      "apps/backend/report.js:121"
+    ],
+    "docs/ideas/changelog.md": [
+      ".github/workflows/idea-intake-index.yml:39"
+    ],
+    "docs/ideas/index.html": [
+      "BACKLOG.md:385"
+    ],
+    "docs/ideas/submissions/": [
+      ".github/workflows/idea-intake-index.yml:4",
+      ".github/workflows/idea-intake-index.yml:25",
+      ".github/workflows/idea-intake-index.yml:26"
+    ],
+    "docs/ideas/submissions/new-idea.md": [
+      "apps/backend/report.js:120"
+    ],
+    "docs/incoming": [
+      "scripts/backup/rebuild_freeze_2025_11_25.sh:20"
+    ],
+    "docs/incoming/": [
+      "CLAUDE.md:135",
+      "PULL_REQUEST_TEMPLATE.md:18",
+      "tools/docs_governance_migrator.py:54"
+    ],
+    "docs/incoming/FEATURE_MAP_EVO_TACTICS.md": [
+      "tools/feedback/collection_pipeline.yaml:41",
+      "tools/feedback/hud_canary_dashboard.yaml:58",
+      "tools/feedback/sync_tasks.py:5",
+      "tools/feedback/sync_tasks.py:28"
+    ],
+    "docs/incoming/lavoro_da_classificare/": [
+      "COMPACT_CONTEXT.md:787"
+    ],
+    "docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md": [
+      "tools/automation/update_tracker_registry.py:29"
+    ],
+    "docs/logs/": [
+      "tools/docs_governance_migrator.py:48",
+      "tools/docs_status_promotion.py:53"
+    ],
+    "docs/logs/trait_audit.md": [
+      "apps/trait-editor/README.md:87",
+      "apps/trait-editor/docs/quickstart-standalone.md:39",
+      "apps/trait-editor/docs/workflow-strumenti.md:29",
+      "apps/trait-editor/docs/workflow-strumenti.md:43",
+      "apps/trait-editor/docs/workflow-strumenti.md:52"
+    ],
+    "docs/lore/": [
+      "agent_constitution.md:97"
+    ],
+    "docs/manuale-operativo.md": [
+      "apps/trait-editor/README.md:84"
+    ],
+    "docs/memory-save-audit-14-15-closure": [
+      "BACKLOG.md:944"
+    ],
+    "docs/memory-save-day2-sprint-m7-chip": [
+      "BACKLOG.md:940"
+    ],
+    "docs/mission-console": [
+      ".github/workflows/mission-console-build.yml:79",
+      ".github/workflows/mission-console-build.yml:81",
+      ".github/workflows/mission-console-build.yml:82"
+    ],
+    "docs/mission-console/": [
+      ".github/workflows/mission-console-build.yml:10",
+      ".github/workflows/mission-console-build.yml:18",
+      ".github/workflows/mission-console-build.yml:23",
+      ".github/workflows/mission-console-build.yml:83",
+      ".github/workflows/mission-console-build.yml:105",
+      ".github/workflows/mission-console-build.yml:106",
+      ".github/workflows/mission-console-build.yml:116",
+      ".github/workflows/mission-console-build.yml:123",
+      ".github/workflows/mission-console-build.yml:130",
+      "CLAUDE.md:156",
+      "PROJECT_BRIEF.md:60",
+      "scripts/serve-mission-console.mjs:7"
+    ],
+    "docs/mission-console/data/": [
+      "CLAUDE.md:155"
+    ],
+    "docs/mission-console/index.html": [
+      ".github/workflows/mission-console-build.yml:85"
+    ],
+    "docs/museum/MUSEUM.md": [
+      "CLAUDE.md:84"
+    ],
+    "docs/museum/cards/": [
+      "CLAUDE.md:76"
+    ],
+    "docs/museum/cards/ancestors-297-orphan-2026-05-10.md": [
+      "BACKLOG.md:697"
+    ],
+    "docs/museum/cards/ancestors-neurons-dump-csv.md": [
+      "OPEN_DECISIONS.md:497"
+    ],
+    "docs/museum/cards/architecture-biome-memory-trait-cost.md": [
+      "OPEN_DECISIONS.md:41"
+    ],
+    "docs/museum/cards/calibration-n-sample-authority-2026-05-20.md": [
+      "tools/py/calibrate_drift_verify.py:13",
+      "tools/py/calibrate_drift_verify.py:297",
+      "tools/py/calibrate_optuna.py:45",
+      "tools/py/calibrate_parallel.py:27",
+      "tools/py/calibrate_sprt.py:33"
+    ],
+    "docs/museum/cards/cognitive_traits-sentience-tiers-v1.md": [
+      "OPEN_DECISIONS.md:431"
+    ],
+    "docs/museum/cards/enneagramma-dataset-9-types.md": [
+      "OPEN_DECISIONS.md:452",
+      "OPEN_DECISIONS.md:476"
+    ],
+    "docs/museum/cards/enneagramma-mechanics-registry.md": [
+      "OPEN_DECISIONS.md:452",
+      "apps/backend/services/narrative/enneaVoice.js:9"
+    ],
+    "docs/museum/cards/evo-swarm-run-5-discarded-claims.md": [
+      "BACKLOG.md:932",
+      "OPEN_DECISIONS.md:283"
+    ],
+    "docs/museum/cards/evolution_genetics-voidling-bound-patterns.md": [
+      "BACKLOG.md:1167"
+    ],
+    "docs/museum/cards/mating_nido-canvas-nido-itinerante.md": [
+      "OPEN_DECISIONS.md:360"
+    ],
+    "docs/museum/cards/mating_nido-engine-orphan.md": [
+      "OPEN_DECISIONS.md:343",
+      "OPEN_DECISIONS.md:360"
+    ],
+    "docs/museum/cards/old_mechanics-magnetic-rift-resonance.md": [
+      "OPEN_DECISIONS.md:536",
+      "apps/backend/services/combat/biomeResonance.js:82"
+    ],
+    "docs/museum/cards/personality-triangle-strategy-transfer.md": [
+      "BACKLOG.md:1157",
+      "OPEN_DECISIONS.md:507",
+      "OPEN_DECISIONS.md:517"
+    ],
+    "docs/museum/cards/phase-3-path-d-hybrid-pattern-abc.md": [
+      "tools/scripts/phase-4d-scope-b/README.md:140"
+    ],
+    "docs/museum/cards/phase-b-anticipated-execution-2026-05-12-discard.md": [
+      "OPEN_DECISIONS.md:125"
+    ],
+    "docs/museum/cards/promotions-orphan-claim-discarded.md": [
+      "BACKLOG.md:492",
+      "OPEN_DECISIONS.md:102"
+    ],
+    "docs/museum/excavations/2026-04-25-mating_nido-inventory.md": [
+      "OPEN_DECISIONS.md:360"
+    ],
+    "docs/museum/galleries/enneagramma.md": [
+      "OPEN_DECISIONS.md:431",
+      "OPEN_DECISIONS.md:452",
+      "OPEN_DECISIONS.md:476",
+      "OPEN_DECISIONS.md:517"
+    ],
+    "docs/npg_schema.json": [
+      "packs/evo_tactics_pack/README.md:50"
+    ],
+    "docs/ops/": [
+      "tools/docs_governance_migrator.py:47"
+    ],
+    "docs/ops/2026-06-20-prod-backend-task-resilience.md": [
+      "BACKLOG.md:245"
+    ],
+    "docs/ops/2026-06-22-od024-d7-interoception-flip-runbook.md": [
+      "BACKLOG.md:141"
+    ],
+    "docs/ops/ci/": [
+      "tools/docs_governance_migrator.py:43"
+    ],
+    "docs/ops/handbook/mongodb.md": [
+      "apps/trait-editor/docs/README.md:18"
+    ],
+    "docs/ops/nebula-rollout.md": [
+      "config/featureFlags.json:216"
+    ],
+    "docs/ops/runbook/od026-biome-focus-sync.md": [
+      "tools/sim/telemetry-bridge.js:273"
+    ],
+    "docs/piani/": [
+      "tools/docs_governance_migrator.py:99"
+    ],
+    "docs/piani/roadmap.md": [
+      "tools/py/daily_pr_report.py:268"
+    ],
+    "docs/pipelines/": [
+      "tools/docs_governance_migrator.py:30",
+      "tools/docs_governance_migrator.py:100"
+    ],
+    "docs/pipelines/Frattura_Abissale_Sinaptica_execution_plan.md": [
+      "scripts/qa/run_frattura_abissale_pipeline.sh:3"
+    ],
+    "docs/pipelines/GOLDEN_PATH.md": [
+      "AGENTS.md:35",
+      "AGENTS.md:49",
+      "agent.md:44"
+    ],
+    "docs/planning": [
+      "apps/backend/services/coop/coopOrchestrator.js:531",
+      "tools/py/apply_biome_affinity.py:39"
+    ],
+    "docs/planning/": [
+      "CLAUDE.md:43",
+      "CLAUDE.md:135",
+      "CLAUDE.md:161",
+      "MODEL_ROUTING.md:49",
+      "PROJECT_BRIEF.md:69",
+      "agent_constitution.md:92",
+      "apps/play/src/codexPanel.js:5",
+      "tools/docs_governance_migrator.py:52",
+      "tools/docs_governance_migrator.py:96"
+    ],
+    "docs/planning/2026-04-24-agent-roster-linked-projects.md": [
+      "COMPACT_CONTEXT.md:1304"
+    ],
+    "docs/planning/2026-04-24-archivio-libreria-inventory.md": [
+      "COMPACT_CONTEXT.md:1303",
+      "LIBRARY.md:17"
+    ],
+    "docs/planning/2026-04-24-claude-skills-shopping-list.md": [
+      "COMPACT_CONTEXT.md:1302",
+      "LIBRARY.md:101",
+      "PROJECT_BRIEF.md:72"
+    ],
+    "docs/planning/2026-04-24-pr-1732-gamer-summary.md": [
+      "COMPACT_CONTEXT.md:1262"
+    ],
+    "docs/planning/2026-04-24-tiktok-screenshots-extraction.md": [
+      "COMPACT_CONTEXT.md:1305",
+      "PROMPT_LIBRARY.md:45"
+    ],
+    "docs/planning/2026-04-25-M14-A-elevation-terrain.md": [
+      "CHANGELOG.md:78"
+    ],
+    "docs/planning/2026-04-25-illuminator-orchestra-handoff.md": [
+      "COMPACT_CONTEXT.md:1313"
+    ],
+    "docs/planning/2026-04-25-mutation-system-design.md": [
+      "apps/backend/services/mutations/mutationCatalogLoader.js:18"
+    ],
+    "docs/planning/2026-04-25-skiv-monitor-plan.md": [
+      "tools/py/skiv_monitor.py:1096"
+    ],
+    "docs/planning/2026-04-27-forme-10-stadi-naming-spec.md": [
+      "apps/play/src/render.js:530"
+    ],
+    "docs/planning/2026-04-27-skiv-personal-sprint-handoff.md": [
+      "tools/py/batch_calibrate_skiv_solo_pack.py:13"
+    ],
+    "docs/planning/2026-04-27-sprint-1-5-autonomous-handoff.md": [
+      "BACKLOG.md:1341"
+    ],
+    "docs/planning/2026-04-28-asset-sourcing-strategy.md": [
+      "COMPACT_CONTEXT.md:1181"
+    ],
+    "docs/planning/2026-04-28-deep-research-staging.md": [
+      "COMPACT_CONTEXT.md:1202"
+    ],
+    "docs/planning/2026-04-28-godot-migration-strategy.md": [
+      "BACKLOG.md:1023",
+      "COMPACT_CONTEXT.md:757",
+      "COMPACT_CONTEXT.md:1180"
+    ],
+    "docs/planning/2026-04-28-master-execution-plan.md": [
+      "COMPACT_CONTEXT.md:1182"
+    ],
+    "docs/planning/2026-04-29-master-execution-plan-v3.md": [
+      "BACKLOG.md:371",
+      "COMPACT_CONTEXT.md:809",
+      "COMPACT_CONTEXT.md:814"
+    ],
+    "docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md": [
+      "BACKLOG.md:1080",
+      "OPEN_DECISIONS.md:241"
+    ],
+    "docs/planning/2026-05-07-cutover-handoff-alternative-qa.md": [
+      "tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:794"
+    ],
+    "docs/planning/2026-05-07-phase-a-handoff-next-session.md": [
+      "COMPACT_CONTEXT.md:464",
+      "COMPACT_CONTEXT.md:470",
+      "COMPACT_CONTEXT.md:669",
+      "COMPACT_CONTEXT.md:694"
+    ],
+    "docs/planning/2026-05-08-sprint-q-kickoff-coordination.md": [
+      "BACKLOG.md:930",
+      "COMPACT_CONTEXT.md:464",
+      "OPEN_DECISIONS.md:285"
+    ],
+    "docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md": [
+      "OPEN_DECISIONS.md:226",
+      "OPEN_DECISIONS.md:242"
+    ],
+    "docs/planning/2026-05-09-fase1-2-handoff-next-session.md": [
+      "COMPACT_CONTEXT.md:478"
+    ],
+    "docs/planning/2026-05-10-sprint-q-plus-full-scope-codification.md": [
+      "OPEN_DECISIONS.md:225",
+      "OPEN_DECISIONS.md:226"
+    ],
+    "docs/planning/2026-05-10-sprint-q-plus-qa-prestage-bundle.md": [
+      "COMPACT_CONTEXT.md:387"
+    ],
+    "docs/planning/2026-05-10-sprint-q-plus-qbcde-spec-extension.md": [
+      "COMPACT_CONTEXT.md:388"
+    ],
+    "docs/planning/2026-05-10-tkt-bond-hud-surface-frontend-handoff.md": [
+      "apps/backend/services/combat/bondReactionTrigger.js:275"
+    ],
+    "docs/planning/2026-05-11-big-items-scope-tickets-bundle.md": [
+      "BACKLOG.md:520",
+      "OPEN_DECISIONS.md:312",
+      "OPEN_DECISIONS.md:324",
+      "OPEN_DECISIONS.md:369",
+      "OPEN_DECISIONS.md:381",
+      "OPEN_DECISIONS.md:406",
+      "apps/backend/services/campaign/seasonalEngine.js:3",
+      "apps/backend/services/combat/elevationModifier.js:16"
+    ],
+    "docs/planning/2026-05-11-tkt-c6-skill-install-instructions.md": [
+      "BACKLOG.md:516"
+    ],
+    "docs/planning/2026-05-13-ecosystem-research-solution-plan.md": [
+      "OPEN_DECISIONS.md:99",
+      "tools/py/skiv_synthetic_recompute.py:27"
+    ],
+    "docs/planning/2026-05-14-phase-b-cutover-canonical-execution.md": [
+      "OPEN_DECISIONS.md:122",
+      "OPEN_DECISIONS.md:125"
+    ],
+    "docs/planning/2026-05-15-phase-4d-game-database-migration-prep.md": [
+      "COMPACT_CONTEXT.md:332",
+      "tools/scripts/phase-4d-scope-b/README.md:139"
+    ],
+    "docs/planning/2026-05-15-phase-4d-scope-b-game-database-pr-template.md": [
+      "tools/scripts/phase-4d-scope-b/README.md:138"
+    ],
+    "docs/planning/2026-05-30-biome-affinity-draft.json": [
+      "tools/py/apply_biome_affinity.py:27",
+      "tools/py/suggest_biome_affinity.py:276"
+    ],
+    "docs/planning/2026-06-02-design-closure-goal.md": [
+      "BACKLOG.md:22"
+    ],
+    "docs/planning/2026-06-02-full-loop-build-handoff.md": [
+      "BACKLOG.md:30",
+      "COMPACT_CONTEXT.md:214"
+    ],
+    "docs/planning/2026-06-02-full-loop-fase2-handoff.md": [
+      "COMPACT_CONTEXT.md:196"
+    ],
+    "docs/planning/2026-06-02-goal-master-session-handoff.md": [
+      "BACKLOG.md:22"
+    ],
+    "docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md": [
+      "AGENTS.md:20",
+      "README.md:18"
+    ],
+    "docs/planning/2026-06-06-evo-tactics-reconstruction-suite-index.md": [
+      "BACKLOG.md:362",
+      "BACKLOG.md:379"
+    ],
+    "docs/planning/2026-06-09-maintenance-hygiene-handoff.md": [
+      "CLAUDE.md:232",
+      "COMPACT_CONTEXT.md:180"
+    ],
+    "docs/planning/2026-06-09-reconstruction-residuals-closure-handoff.md": [
+      "CLAUDE.md:231"
+    ],
+    "docs/planning/2026-06-10-mega-session-closure-handoff.md": [
+      "COMPACT_CONTEXT.md:168"
+    ],
+    "docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md": [
+      "BACKLOG.md:1041",
+      "CLAUDE.md:229",
+      "CLAUDE.md:235",
+      "COMPACT_CONTEXT.md:158"
+    ],
+    "docs/planning/2026-06-16-session-handoff.md": [
+      "CLAUDE.md:227"
+    ],
+    "docs/planning/2026-06-17-session-handoff-continuation.md": [
+      "CLAUDE.md:223"
+    ],
+    "docs/planning/2026-06-17-session-handoff.md": [
+      "CLAUDE.md:225"
+    ],
+    "docs/planning/2026-06-18-session-handoff.md": [
+      "CLAUDE.md:217"
+    ],
+    "docs/planning/2026-06-18-species-calib-5stub-ratification.md": [
+      "packs/evo_tactics_pack/data/species/badlands/ferrimordax-rutilus.yaml:3",
+      "packs/evo_tactics_pack/data/species/badlands/ferriscroba-detrita.yaml:3",
+      "packs/evo_tactics_pack/data/species/badlands/rubrospina-velox.yaml:3",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/arboryxis-lenis.yaml:3",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml:3"
+    ],
+    "docs/planning/2026-06-18-taxonomy-reconciliation-plan.md": [
+      ".github/workflows/ci.yml:487",
+      "scripts/utils/generatedMarker.js:12"
+    ],
+    "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md": [
+      "BACKLOG.md:235"
+    ],
+    "docs/planning/2026-06-21-sentience-traits-wiring-scope.md": [
+      "BACKLOG.md:329",
+      "apps/backend/services/sentience/sentienceInteroceptionGrant.js:12"
+    ],
+    "docs/planning/2026-06-22-aa01-c2-imprint-build-spec.md": [
+      "apps/backend/services/imprint/imprintBiomeWeights.js:19"
+    ],
+    "docs/planning/2026-06-22-aa01-deferred-tracker.md": [
+      "BACKLOG.md:143",
+      "BACKLOG.md:296"
+    ],
+    "docs/planning/2026-06-22-aa01-impronta-reconciliation-plan.md": [
+      "BACKLOG.md:291",
+      "CHANGELOG.md:28"
+    ],
+    "docs/planning/2026-06-22-retired-creatures-salvage-proposal.md": [
+      "tools/py/gen_retired_creature_lore_drafts.py:5"
+    ],
+    "docs/planning/2026-06-22-session-handoff.md": [
+      "COMPACT_CONTEXT.md:132"
+    ],
+    "docs/planning/2026-06-22-tkt-p6-trait-orphan-design-b-istruttoria.md": [
+      "BACKLOG.md:731"
+    ],
+    "docs/planning/2026-06-23-aa01-form-pulse-player-trait-spec-draft.md": [
+      "tools/sim/fp-trait-delta-probe.js:5",
+      "tools/sim/fp-trait-delta-probe.js:166"
+    ],
+    "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-coverage-matrix.md": [
+      "apps/backend/services/identity/brancoTraitEmergence.js:73"
+    ],
+    "docs/planning/2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md": [
+      "apps/backend/services/imprint/imprintTraitGrant.js:11",
+      "tools/sim/d6-imprint-grant-graded-probe.js:378"
+    ],
+    "docs/planning/2026-06-23-derived-canon-salvage-progress.md": [
+      "BACKLOG.md:140"
+    ],
+    "docs/planning/2026-06-23-gap2-secretion-traits-mechanics-proposal.md": [
+      "packs/evo_tactics_pack/data/balance/trait_mechanics.yaml:1755"
+    ],
+    "docs/planning/2026-06-23-residual-gate-register.md": [
+      "BACKLOG.md:135"
+    ],
+    "docs/planning/2026-06-29-closeout-master-plan.md": [
+      "BACKLOG.md:80",
+      "BACKLOG.md:135",
+      "BACKLOG.md:139"
+    ],
+    "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md": [
+      "BACKLOG.md:49"
+    ],
+    "docs/planning/2026-06-29-session-handoff.md": [
+      "CLAUDE.md:205"
+    ],
+    "docs/planning/2026-06-30-form-pulse-trait-v2-flip-readiness-": [
+      "tools/sim/form-pulse-v2-graded-ab-probe.js:4"
+    ],
+    "docs/planning/2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec.md": [
+      "BACKLOG.md:144",
+      "tools/sim/form-pulse-v2-graded-ab-probe.js:614"
+    ],
+    "docs/planning/2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md": [
+      "apps/backend/services/imprint/imprintTraitGrant.js:59"
+    ],
+    "docs/planning/2026-06-30-session-handoff-tier2-infra-closeout.md": [
+      "COMPACT_CONTEXT.md:110"
+    ],
+    "docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md": [
+      "COMPACT_CONTEXT.md:84"
+    ],
+    "docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md": [
+      "BACKLOG.md:407",
+      "COMPACT_CONTEXT.md:71"
+    ],
+    "docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md": [
+      "COMPACT_CONTEXT.md:56"
+    ],
+    "docs/planning/2026-07-01-session-handoff-spec-f-import.md": [
+      "COMPACT_CONTEXT.md:71"
+    ],
+    "docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md": [
+      "BACKLOG.md:113",
+      "COMPACT_CONTEXT.md:45"
+    ],
+    "docs/planning/2026-07-01-session-handoff.md": [
+      "BACKLOG.md:109",
+      "COMPACT_CONTEXT.md:100"
+    ],
+    "docs/planning/2026-07-02-session-handoff-w5-graded-close.md": [
+      "COMPACT_CONTEXT.md:33"
+    ],
+    "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md": [
+      "BACKLOG.md:36",
+      "COMPACT_CONTEXT.md:24"
+    ],
+    "docs/planning/2026-07-06-sistema-intents-": [
+      "apps/backend/services/ai/declareSistemaIntents.js:123"
+    ],
+    "docs/planning/2026-07-06-sistema-zone-defense-spec-draft.md": [
+      "BACKLOG.md:40",
+      "OPEN_DECISIONS.md:610"
+    ],
+    "docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md": [
+      "CHANGELOG.md:160"
+    ],
+    "docs/planning/REF_BACKUP_AND_ROLLBACK.md": [
+      "CLAUDE.md:174",
+      "CONTRIBUTING.md:83",
+      "MODEL_ROUTING.md:115",
+      "tools/check_backups_binary.js:72"
+    ],
+    "docs/planning/REF_REDIRECT_PLAN_STAGING.md": [
+      "scripts/dev_redirect_server.py:4",
+      "scripts/redirect_server.py:5",
+      "scripts/redirect_server.py:83",
+      "scripts/redirect_smoke_test.py:9",
+      "scripts/redirect_smoke_test.py:32"
+    ],
+    "docs/planning/REF_TOOLING_AND_CI.md": [
+      ".github/workflows/derived_checksum.yml:8",
+      ".github/workflows/derived_checksum.yml:14",
+      "scripts/evo_pack_pipeline.py:4",
+      "scripts/evo_pack_pipeline.py:287"
+    ],
+    "docs/planning/SoT-v4": [
+      "LIBRARY.md:28"
+    ],
+    "docs/planning/ancestor-rename-applied-manifest.csv": [
+      "tools/py/ancestors_native_rename_apply.py:18"
+    ],
+    "docs/planning/ancestor-trait-native-rename-candidates.csv": [
+      "tools/py/ancestors_native_rename_audit.py:16"
+    ],
+    "docs/planning/ancestor-trait-native-rename-namedraft.csv": [
+      "tools/py/ancestors_native_rename_namedraft.py:22"
+    ],
+    "docs/planning/changelog.md": [
+      ".github/workflows/daily-pr-summary.yml:47",
+      "CHANGELOG.md:15"
+    ],
+    "docs/planning/ecosystems-draft": [
+      "tools/py/generate_ecosystem_yaml.py:35"
+    ],
+    "docs/planning/ecosystems-draft/": [
+      "tools/py/generate_ecosystem_yaml.py:10"
+    ],
+    "docs/planning/encounters": [
+      ".github/workflows/ci.yml:128",
+      "tools/js/validate_encounter_difficulty.js:38",
+      "tools/js/validate_encounter_grid_ratify.js:10"
+    ],
+    "docs/planning/encounters-draft": [
+      "tools/js/validate_encounter_grid_ratify.js:10"
+    ],
+    "docs/planning/encounters-draft/": [
+      ".github/workflows/ci.yml:136",
+      ".github/workflows/meta-loop-gate.yml:42",
+      "apps/backend/services/worldgen/encounterThreat.js:6"
+    ],
+    "docs/planning/encounters/": [
+      ".github/workflows/ci.yml:135",
+      ".github/workflows/meta-loop-gate.yml:41",
+      "BACKLOG.md:38",
+      "BACKLOG.md:1102",
+      "apps/backend/services/combat/encounterLoader.js:3",
+      "apps/backend/services/worldgen/encounterThreat.js:5",
+      "apps/play/src/main.js:1519",
+      "scripts/run-test-api.cjs:27",
+      "tools/js/validate_encounter_difficulty.js:5",
+      "tools/py/author_encounter.py:8",
+      "tools/py/game_cli.py:234",
+      "tools/py/styleguide_lint.py:7",
+      "tools/sim/encounter-biome.js:7"
+    ],
+    "docs/planning/encounters/enc_badlands_foodweb_pilot_01.yaml": [
+      "tools/sim/aliena-enforcement-probe.js:50"
+    ],
+    "docs/planning/encounters/enc_badlands_ultima_caccia_01.yaml": [
+      "apps/backend/services/worldgen/ultimaCacciaScenario.js:22"
+    ],
+    "docs/planning/encounters/enc_deserto_caldo_bocche_vulcaniche_01.yaml": [
+      "apps/backend/services/worldgen/desertoCaldoHazardScenario.js:13"
+    ],
+    "docs/planning/roadmap_operativa.md": [
+      ".github/workflows/daily-pr-summary.yml:47",
+      "config/tracker_registry.yaml:117"
+    ],
+    "docs/planning/sprint-context-history.md": [
+      "CLAUDE.md:238"
+    ],
+    "docs/planning/tactical-architecture-patterns.md": [
+      "apps/backend/services/ai/threatAssessment.js:10",
+      "apps/backend/services/pluginLoader.js:13",
+      "packs/evo_tactics_pack/data/balance/ai_intent_scores.yaml:7",
+      "packs/evo_tactics_pack/data/balance/ai_profiles.yaml:6",
+      "packs/evo_tactics_pack/data/balance/movement_profiles.yaml:6",
+      "packs/evo_tactics_pack/data/balance/species_resistances.yaml:11",
+      "packs/evo_tactics_pack/pack_manifest.yaml:6",
+      "services/narrative/narrativeEngine.js:13"
+    ],
+    "docs/playtest": [
+      ".github/workflows/ai-sim-nightly.yml:281",
+      "apps/backend/services/worldgen/forestaPilotScenario.js:11",
+      "tools/py/calibrate_drift_verify.py:173",
+      "tools/py/calibrate_map_elites.py:415",
+      "tools/py/calibrate_optuna.py:613",
+      "tools/py/calibrate_parallel.py:286",
+      "tools/py/calibrate_sprt.py:139",
+      "tools/py/playtest_canonical.py:287"
+    ],
+    "docs/playtest/": [
+      ".github/workflows/ai-sim-nightly.yml:282",
+      ".github/workflows/ai-sim-nightly.yml:283",
+      "BACKLOG.md:1255",
+      "CLAUDE.md:56",
+      "DECISIONS_LOG.md:160",
+      "OPEN_DECISIONS.md:405",
+      "README.md:52",
+      "apps/backend/routes/session.js:2530",
+      "apps/backend/routes/sessionRoundBridge.js:1864",
+      "tools/docs_governance_migrator.py:46",
+      "tools/docs_status_promotion.py:48",
+      "tools/py/calibrate_drift_verify.py:19",
+      "tools/py/calibrate_map_elites.py:44",
+      "tools/py/calibrate_optuna.py:44",
+      "tools/py/playtest_2_analyzer.py:23",
+      "tools/py/playtest_canonical.py:8"
+    ],
+    "docs/playtest/2026-04-17-master-dd-tutorial-sweep.md": [
+      "tools/py/batch_sweep_tutorials.py:23"
+    ],
+    "docs/playtest/2026-04-18-hardcore-06-addendum-iter2-4.md": [
+      "apps/backend/services/hardcoreScenario.js:254"
+    ],
+    "docs/playtest/2026-04-18-hardcore-06-calibration.md": [
+      "apps/backend/services/hardcoreScenario.js:10"
+    ],
+    "docs/playtest/2026-04-18-hardcore-06-iter1-validation.md": [
+      "apps/backend/services/hardcoreScenario.js:13",
+      "apps/backend/services/hardcoreScenario.js:51"
+    ],
+    "docs/playtest/2026-04-20-m7-iter7-phase-e-verdict.md": [
+      "packs/evo_tactics_pack/data/balance/ai_profiles.yaml:154"
+    ],
+    "docs/playtest/2026-04-25-hardcore-07-iter0.md": [
+      "tools/py/batch_calibrate_hardcore07.py:7"
+    ],
+    "docs/playtest/2026-04-25-skiv-saga-state.md": [
+      "tools/py/seed_skiv_saga.py:27"
+    ],
+    "docs/playtest/2026-04-25-sprt-hardcore06.md": [
+      "tools/py/sprt_calibrate.py:25"
+    ],
+    "docs/playtest/2026-04-26-restricted-play-hardcore06.md": [
+      "tools/py/restricted_play.py:32"
+    ],
+    "docs/playtest/2026-04-28-skiv-solo-pack-calibration.md": [
+      "tools/py/batch_calibrate_skiv_solo_pack.py:11"
+    ],
+    "docs/playtest/2026-04-29-bg3-lite-spike-rubric.md": [
+      "COMPACT_CONTEXT.md:918",
+      "COMPACT_CONTEXT.md:930",
+      "COMPACT_CONTEXT.md:971",
+      "scripts/install-desktop-shortcuts.ps1:103"
+    ],
+    "docs/playtest/2026-05-05-phone-smoke-results.md": [
+      "tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:40"
+    ],
+    "docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md": [
+      "OPEN_DECISIONS.md:151",
+      "tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:792"
+    ],
+    "docs/playtest/2026-05-07-phone-smoke-bundle-rca.md": [
+      "tools/ts/tests/playwright/phone/phone-multi.spec.ts:18"
+    ],
+    "docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md": [
+      "OPEN_DECISIONS.md:137",
+      "OPEN_DECISIONS.md:151",
+      "OPEN_DECISIONS.md:303"
+    ],
+    "docs/playtest/2026-05-08-tier-2-playgodot-integration-prep.md": [
+      "OPEN_DECISIONS.md:181"
+    ],
+    "docs/playtest/2026-05-09-fase1-ai-driven-sim-harness.md": [
+      "tools/sim/batch-ai-runner.js:28"
+    ],
+    "docs/playtest/2026-05-09-fase1-t1-3-browser-sync-handoff.md": [
+      "tools/sim/visual-baseline-compare.js:39"
+    ],
+    "docs/playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md": [
+      "COMPACT_CONTEXT.md:529"
+    ],
+    "docs/playtest/2026-05-11-phase-b-day-5-monitor-anticipated.md": [
+      "OPEN_DECISIONS.md:125"
+    ],
+    "docs/playtest/2026-05-14-live-tunnel-report.md": [
+      "tools/playtest/simulate_session_6client.js:357"
+    ],
+    "docs/playtest/2026-05-14-phase-b-day-7-formal-closure-prestage.md": [
+      "OPEN_DECISIONS.md:125"
+    ],
+    "docs/playtest/2026-05-14-playtest-2-baseline.md": [
+      "tools/py/playtest_2_synthetic_generator.py:22"
+    ],
+    "docs/playtest/2026-05-21-codex-audit-report.md": [
+      "tools/py/check_trait_mirror_consistency.py:34"
+    ],
+    "docs/playtest/2026-05-21-tutorial-sweep.json": [
+      "BACKLOG.md:1149",
+      "tools/py/batch_sweep_tutorials.py:17"
+    ],
+    "docs/playtest/2026-05-26-ratify-2381-balance.md": [
+      "BACKLOG.md:451"
+    ],
+    "docs/playtest/2026-05-30-badlands-pilot-calibration.md": [
+      "apps/backend/services/worldgen/badlandsPilotScenario.js:17"
+    ],
+    "docs/playtest/2026-06-18-badlands_elite_01-n100-merged.json": [
+      "tools/py/run_pe_contestedness_experiment.py:45"
+    ],
+    "docs/playtest/2026-06-18-foresta_pilot_01-n100-merged.json": [
+      "tools/py/run_pe_contestedness_experiment.py:46"
+    ],
+    "docs/playtest/2026-06-18-vc-telemetry-s3.md": [
+      "packs/evo_tactics_pack/data/species/badlands/ferrimordax-rutilus.yaml:3",
+      "packs/evo_tactics_pack/data/species/badlands/ferriscroba-detrita.yaml:3",
+      "packs/evo_tactics_pack/data/species/badlands/rubrospina-velox.yaml:3",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/arboryxis-lenis.yaml:3",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml:3"
+    ],
+    "docs/playtest/2026-06-19-pe-ratio-experiment-n100.md": [
+      "BACKLOG.md:235"
+    ],
+    "docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md": [
+      "tools/py/pe_candidates.py:120",
+      "tools/py/pe_candidates.py:140",
+      "tools/py/test_suite_manifest.py:51"
+    ],
+    "docs/playtest/2026-06-23-pe-contestedness-orthogonality-n100.md": [
+      "tools/py/run_pe_contestedness_experiment.py:12"
+    ],
+    "docs/playtest/2026-06-30-er6-overrun-carryover-n40-evidence.md": [
+      "BACKLOG.md:417"
+    ],
+    "docs/playtest/2026-06-30-ultima-caccia-canonical-wr.md": [
+      "apps/backend/services/worldgen/ultimaCacciaScenario.js:16"
+    ],
+    "docs/playtest/2026-07-01-d8-chain-lightning-graded-reratify.md": [
+      "BACKLOG.md:115"
+    ],
+    "docs/playtest/2026-07-01-w6-form-pulse-v2-graded-cross-biome.md": [
+      "BACKLOG.md:114"
+    ],
+    "docs/playtest/AGENT_DRIVEN_WORKFLOW.md": [
+      "OPEN_DECISIONS.md:159",
+      "OPEN_DECISIONS.md:173",
+      "tools/ts/playwright.phone.config.ts:21",
+      "tools/ts/tests/playwright/phone/canvas-visual.spec.ts:12",
+      "tools/ts/tests/playwright/phone/lib/canvasGrid.ts:16",
+      "tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:793",
+      "tools/ts/tests/playwright/phone/phone-multi.spec.ts:17"
+    ],
+    "docs/playtest/canonical-suite.yaml": [
+      ".github/workflows/combat-balance-gate.yml:47",
+      "BACKLOG.md:422",
+      "tools/py/calibrate_optuna.py:71",
+      "tools/py/playtest_canonical.py:5",
+      "tools/py/test_calibration_parity.py:2"
+    ],
+    "docs/playtest/captures/": [
+      "tools/playtest/phase_walkthrough.sh:18"
+    ],
+    "docs/playtest/captures/playtest-2-live-tunnel-6players.jsonl": [
+      "tools/playtest/simulate_session_6client.js:13"
+    ],
+    "docs/playtest/parallel-hardcore_06-iter5-optuna-ratify-merged.json": [
+      "tools/py/run_pe_contestedness_experiment.py:44"
+    ],
+    "docs/presentations/": [
+      "tools/docs_status_promotion.py:49"
+    ],
+    "docs/presentations/showcase/showcase_dossier.yaml": [
+      "tools/py/build_showcase_materials.py:4"
+    ],
+    "docs/process/": [
+      "BACKLOG.md:4",
+      "BACKLOG.md:1347",
+      "tools/docs_governance_migrator.py:45",
+      "tools/docs_governance_migrator.py:97"
+    ],
+    "docs/process/2026-04-19-M7-sprint-plan-expert-synthesis.md": [
+      "scripts/lint/replace_all_safety.js:111"
+    ],
+    "docs/process/2026-04-26-calibration-harness-policy.md": [
+      "tools/sim/epigenome_lineage_sim.js:7"
+    ],
+    "docs/process/2026-04-26-tkt-08-backend-stability.md": [
+      "BACKLOG.md:1150"
+    ],
+    "docs/process/CANONICAL-AI-PLAYTEST.md": [
+      ".github/workflows/combat-balance-gate.yml:5",
+      ".github/workflows/combat-balance-gate.yml:30",
+      ".github/workflows/meta-loop-gate.yml:107",
+      "BACKLOG.md:422",
+      "BACKLOG.md:490",
+      "BACKLOG.md:1236",
+      "BACKLOG.md:1244",
+      "COMPACT_CONTEXT.md:279",
+      "COMPACT_CONTEXT.md:1315",
+      "PROJECT_BRIEF.md:5",
+      "PROJECT_BRIEF.md:13",
+      "PROJECT_BRIEF.md:78",
+      "PROJECT_BRIEF.md:93",
+      "tools/py/playtest_canonical.py:10",
+      "tools/py/playtest_canonical.py:249",
+      "tools/sim/full-loop-batch.js:787"
+    ],
+    "docs/process/action-items.md": [
+      ".github/workflows/daily-pr-summary.yml:47",
+      "config/tracker_registry.yaml:8"
+    ],
+    "docs/process/bug-intake.md": [
+      "config/tracker_registry.yaml:12"
+    ],
+    "docs/process/clone-setup.md": [
+      "config/tracker_registry.yaml:16"
+    ],
+    "docs/process/demo-release.md": [
+      "config/tracker_registry.yaml:20"
+    ],
+    "docs/process/incident_reporting_table.md": [
+      "config/tracker_registry.yaml:43"
+    ],
+    "docs/process/milestones.md": [
+      "config/tracker_registry.yaml:24",
+      "config/tracker_registry.yaml:143",
+      "config/tracker_registry.yaml:145",
+      "config/tracker_registry.yaml:146"
+    ],
+    "docs/process/project-setup-todo.md": [
+      "config/tracker_registry.yaml:28"
+    ],
+    "docs/process/qa_hud.md": [
+      "config/feature_flags.yaml:72",
+      "config/tracker_registry.yaml:47"
+    ],
+    "docs/process/qa_reporting_schema.md": [
+      ".github/workflows/telemetry-export.yml:10",
+      "config/tracker_registry.yaml:51"
+    ],
+    "docs/process/telemetry.md": [
+      "config/tracker_registry.yaml:32"
+    ],
+    "docs/process/telemetry_ingestion_pipeline.md": [
+      "config/feature_flags.yaml:35",
+      "config/tracker_registry.yaml:55"
+    ],
+    "docs/process/traits_checklist.md": [
+      "CONTRIBUTING.md:94",
+      "config/tracker_registry.yaml:59",
+      "tools/py/update_web_checklist.py:5",
+      "tools/py/update_web_checklist.py:33"
+    ],
+    "docs/process/vc_playtest_plan.md": [
+      "config/tracker_registry.yaml:36"
+    ],
+    "docs/process/web_handoff.md": [
+      "config/tracker_registry.yaml:63"
+    ],
+    "docs/process/web_pipeline.md": [
+      "config/tracker_registry.yaml:67",
+      "config/tracker_registry.yaml:153",
+      "config/tracker_registry.yaml:155",
+      "config/tracker_registry.yaml:156"
+    ],
+    "docs/public": [
+      "scripts/update_evo_pack_catalog.js:286"
+    ],
+    "docs/public/": [
+      ".github/workflows/idea-intake-index.yml:37"
+    ],
+    "docs/qa/": [
+      "tools/docs_governance_migrator.py:44"
+    ],
+    "docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md": [
+      "BACKLOG.md:1173",
+      "BACKLOG.md:1308"
+    ],
+    "docs/qa/2026-04-26-balance-illuminator-smoke.md": [
+      "COMPACT_CONTEXT.md:1224",
+      "tools/py/restricted_play.py:8"
+    ],
+    "docs/qa/2026-04-26-economy-design-illuminator-smoke.md": [
+      "COMPACT_CONTEXT.md:1229"
+    ],
+    "docs/qa/2026-04-26-narrative-design-illuminator-smoke.md": [
+      "COMPACT_CONTEXT.md:1228"
+    ],
+    "docs/qa/2026-04-26-pcg-level-design-illuminator-smoke.md": [
+      "COMPACT_CONTEXT.md:1226",
+      "apps/backend/services/hardcoreScenario.js:88"
+    ],
+    "docs/qa/2026-04-26-telemetry-viz-illuminator-smoke.md": [
+      "COMPACT_CONTEXT.md:1227",
+      "tools/py/telemetry_analyze.py:8"
+    ],
+    "docs/qa/2026-04-26-ui-design-illuminator-smoke.md": [
+      "COMPACT_CONTEXT.md:1225"
+    ],
+    "docs/qa/playbooks/eventi.md": [
+      "config/featureFlags.json:93"
+    ],
+    "docs/qa/playbooks/loadout.md": [
+      "config/featureFlags.json:134"
+    ],
+    "docs/qa/playbooks/moderazione.md": [
+      "config/featureFlags.json:175"
+    ],
+    "docs/qa/playtests/": [
+      "RESEARCH_TODO.md:67",
+      "RESEARCH_TODO.md:68",
+      "apps/play/README.md:172"
+    ],
+    "docs/qa/playtests/2026-04-17/notes.md": [
+      "RESEARCH_TODO.md:47"
+    ],
+    "docs/qa/rollout_checklist.md": [
+      "config/featureFlags.json:22"
+    ],
+    "docs/recap/qa-playbook.md": [
+      ".github/workflows/qa-reports.yml:13"
+    ],
+    "docs/reports/": [
+      "CLAUDE.md:56",
+      "tools/docs_governance_migrator.py:49",
+      "tools/docs_status_promotion.py:52"
+    ],
+    "docs/reports/2026-04-24-repo-autonomy-readiness-audit.md": [
+      "BACKLOG.md:1350",
+      "COMPACT_CONTEXT.md:1262",
+      "OPEN_DECISIONS.md:564",
+      "OPEN_DECISIONS.md:620"
+    ],
+    "docs/reports/2026-04-26-deep-analysis-creature.md": [
+      "tools/py/seed_lifecycle_stubs.py:11"
+    ],
+    "docs/reports/2026-04-26-nido-pokopia-housing-pattern.md": [
+      "apps/play/src/nestHub.js:20"
+    ],
+    "docs/reports/2026-04-26-worldgen-pcg-": [
+      "apps/backend/services/worldgen/foodwebFilter.js:8"
+    ],
+    "docs/reports/2026-04-26-worldgen-pcg-audit.md": [
+      "apps/backend/services/worldgen/crossEventEngine.js:10"
+    ],
+    "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md": [
+      "COMPACT_CONTEXT.md:1061",
+      "apps/backend/routes/codex.js:13",
+      "apps/backend/services/codex/tunicGlyphs.js:4",
+      "tools/py/seed_residual_tickets.py:4",
+      "tools/py/seed_residual_tickets.py:18"
+    ],
+    "docs/reports/2026-04-29-utility-ai-oscillation-bug.md": [
+      "BACKLOG.md:1089"
+    ],
+    "docs/reports/2026-05-05-repo-audit-static-scan.md": [
+      "BACKLOG.md:1130",
+      "COMPACT_CONTEXT.md:776"
+    ],
+    "docs/reports/2026-05-06-coop-phase-ws-audit.md": [
+      "BACKLOG.md:1052"
+    ],
+    "docs/reports/2026-05-06-governance-drift-audit-wave-2.md": [
+      "BACKLOG.md:1271"
+    ],
+    "docs/reports/2026-05-08-skiv-monitor-rca.md": [
+      "OPEN_DECISIONS.md:191",
+      "OPEN_DECISIONS.md:206"
+    ],
+    "docs/reports/2026-05-29-design-docs-currency-reconcile.md": [
+      "BACKLOG.md:249"
+    ],
+    "docs/reports/2026-06-01-catalog-mapping-audit.md": [
+      "apps/backend/routes/combat.js:48"
+    ],
+    "docs/reports/2026-06-10-electric-channel-n40-evidence.md": [
+      "packs/evo_tactics_pack/data/balance/trait_mechanics.yaml:1712",
+      "tools/py/check_trait_mirror_consistency.py:12"
+    ],
+    "docs/reports/2026-06-10-fp-vc-delta-n40-evidence.md": [
+      "apps/backend/services/formPulseVc.js:27"
+    ],
+    "docs/reports/2026-06-10-overcharge-action-economy-n40-evidence.md": [
+      "apps/play/src/overchargeHint.js:5"
+    ],
+    "docs/reports/2026-06-10-personality-axes-n40-": [
+      "apps/backend/services/personalityAxes.js:15"
+    ],
+    "docs/reports/2026-06-10-spec-i-er1-role-gap-n40-evidence.md": [
+      "apps/backend/routes/session.js:2378"
+    ],
+    "docs/reports/2026-06-10-spec-i-er6-stresswave-n40-evidence.md": [
+      "apps/backend/services/combat/stressWave.js:19"
+    ],
+    "docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md": [
+      "BACKLOG.md:415",
+      "apps/backend/services/combat/stressWave.js:24"
+    ],
+    "docs/reports/2026-06-11-spec-i-er7-flip-on-pilot-canonical.md": [
+      "apps/backend/services/worldgen/biomePopulation.js:31"
+    ],
+    "docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md": [
+      "apps/backend/services/worldgen/biomePopulation.js:29"
+    ],
+    "docs/reports/2026-06-18-session-audit.md": [
+      "CLAUDE.md:217"
+    ],
+    "docs/reports/2026-06-19-spec-k-01-device-authority-surface-audit.md": [
+      "BACKLOG.md:219"
+    ],
+    "docs/reports/2026-06-30-b8-out-of-scope-findings.md": [
+      "BACKLOG.md:79"
+    ],
+    "docs/reports/PILLAR-LIVE-STATUS.md": [
+      "BACKLOG.md:293",
+      "CLAUDE.md:237",
+      "README.md:95"
+    ],
+    "docs/reports/monitoring/rollout-dashboard.md": [
+      "tools/monitoring/rollout/README.md:15"
+    ],
+    "docs/reports/qa-changelog.md": [
+      "CHANGELOG.md:15"
+    ],
+    "docs/reports/styleguide_compliance.json": [
+      "tools/py/README.md:48"
+    ],
+    "docs/reports/styleguide_compliance.md": [
+      "tools/py/README.md:47"
+    ],
+    "docs/reports/trait_fields_by_type.json": [
+      "apps/trait-editor/docs/howto-author-trait.md:61",
+      "apps/trait-editor/docs/workflow-strumenti.md:22",
+      "apps/trait-editor/docs/workflow-strumenti.md:39",
+      "apps/trait-editor/docs/workflow-strumenti.md:49"
+    ],
+    "docs/reports/trait_texts.json": [
+      "apps/trait-editor/docs/howto-author-trait.md:61",
+      "apps/trait-editor/docs/workflow-strumenti.md:22",
+      "apps/trait-editor/docs/workflow-strumenti.md:39",
+      "apps/trait-editor/docs/workflow-strumenti.md:49"
+    ],
+    "docs/research/": [
+      ".github/workflows/swarm-validation.yml:22",
+      ".github/workflows/swarm-validation.yml:33",
+      ".github/workflows/swarm-validation.yml:92",
+      "BACKLOG.md:123",
+      "COMPACT_CONTEXT.md:17",
+      "COMPACT_CONTEXT.md:138",
+      "tools/py/seed_residual_tickets.py:132"
+    ],
+    "docs/research/2026-04-25-skiv-online-imports.md": [
+      "LIBRARY.md:44"
+    ],
+    "docs/research/2026-04-26-cross-game-extraction-MASTER.md": [
+      "tools/py/lint_mutations.py:14"
+    ],
+    "docs/research/2026-04-26-spore-deep-extraction.md": [
+      "apps/backend/services/generation/lineagePropagator.js:23",
+      "apps/backend/services/mutations/mutationEngine.js:12"
+    ],
+    "docs/research/2026-04-26-ticket-auto-gen-architecture-D.md": [
+      "tools/py/seed_residual_tickets.py:5",
+      "tools/py/sync_proposed_tickets.py:4"
+    ],
+    "docs/research/2026-04-26-tier-a-extraction-matrix.md": [
+      "apps/backend/services/species/biomeAffinity.js:3"
+    ],
+    "docs/research/2026-04-26-tier-b-extraction-matrix.md": [
+      "apps/play/src/anim.js:10",
+      "apps/play/src/debriefPanel.js:805",
+      "apps/play/src/main.js:613"
+    ],
+    "docs/research/2026-04-26-tier-e-extraction-matrix.md": [
+      "apps/backend/services/balance/xpBudget.js:3",
+      "tools/py/llm_critic_loop.py:4",
+      "tools/py/sparkline_dashboard.py:4",
+      "tools/py/sprt_wrapper.py:4"
+    ],
+    "docs/research/2026-04-26-tier-s-extraction-matrix.md": [
+      "apps/backend/routes/campaign.js:167",
+      "apps/backend/routes/session.js:3229",
+      "apps/backend/routes/speciesWiki.js:4",
+      "apps/backend/services/ai/aiProgressMeter.js:3",
+      "apps/backend/services/campaign/campaignStore.js:106",
+      "apps/backend/services/combat/beastBondReaction.js:4",
+      "apps/backend/services/combat/defenderAdvantageModifier.js:3",
+      "apps/backend/services/combat/timeOfDayModifier.js:3",
+      "apps/backend/services/narrative/mbtiInsights.js:3",
+      "apps/backend/services/species/wikiLinkBridge.js:3",
+      "apps/play/src/render.js:392",
+      "apps/play/src/render.js:1208",
+      "packs/evo_tactics_pack/data/balance/terrain_defense.yaml:161"
+    ],
+    "docs/research/2026-04-26-voidling-bound-evolution-patterns.md": [
+      "LIBRARY.md:38",
+      "tools/py/lint_mutations.py:4"
+    ],
+    "docs/research/2026-04-27-backbone-online-deploy-roadmap.md": [
+      "apps/play/runtime-config.production.js:2"
+    ],
+    "docs/research/2026-04-27-indie-concept-rubabili.md": [
+      "apps/backend/routes/codex.js:12",
+      "apps/backend/services/codex/tunicGlyphs.js:3"
+    ],
+    "docs/research/2026-04-27-indie-design-perfetto.md": [
+      "apps/play/src/render.js:637"
+    ],
+    "docs/research/2026-04-27-indie-meccaniche-perfette.md": [
+      "apps/play/src/render.js:817"
+    ],
+    "docs/research/2026-04-27-strategy-games-mechanics-extraction.md": [
+      "apps/backend/services/meta/mutationTreeSwap.js:7"
+    ],
+    "docs/research/2026-04-27-strategy-games-tech-extraction.md": [
+      "apps/backend/services/meta/eventChainScripting.js:13",
+      "apps/backend/services/meta/geneEncoder.js:6"
+    ],
+    "docs/research/2026-04-28-deep-research-synthesis.md": [
+      "COMPACT_CONTEXT.md:997"
+    ],
+    "docs/research/2026-04-28-grid-less-feasibility.md": [
+      "COMPACT_CONTEXT.md:1003"
+    ],
+    "docs/research/2026-04-28-srpg-engine-reference-extraction.md": [
+      "BACKLOG.md:1078"
+    ],
+    "docs/research/2026-04-28-tactical-ai-archetype-templates.md": [
+      "BACKLOG.md:1079"
+    ],
+    "docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md": [
+      "BACKLOG.md:1037",
+      "COMPACT_CONTEXT.md:758",
+      "COMPACT_CONTEXT.md:809",
+      "COMPACT_CONTEXT.md:816"
+    ],
+    "docs/research/2026-05-07-orphan-engine-audit-game.md": [
+      "apps/backend/app.js:394"
+    ],
+    "docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md": [
+      "OPEN_DECISIONS.md:283"
+    ],
+    "docs/research/2026-05-08-od-022-validator-pre-design.md": [
+      "OPEN_DECISIONS.md:284"
+    ],
+    "docs/research/2026-05-09-aggressive-profile-calibration.md": [
+      "apps/backend/services/ai/declareSistemaIntents.js:722"
+    ],
+    "docs/research/2026-05-09-k4-commit-window-implementation.md": [
+      ".github/workflows/ai-sim-nightly.yml:20",
+      "packs/evo_tactics_pack/data/balance/ai_profiles.yaml:47",
+      "tools/sim/check-thresholds.js:23"
+    ],
+    "docs/research/2026-05-10-ancestors-297-reentry-audit.md": [
+      "BACKLOG.md:697"
+    ],
+    "docs/research/2026-05-10-trait-mech-no-handler-audit.md": [
+      "tools/scripts/seed_trait_abilities_from_mechanics.py:5"
+    ],
+    "docs/research/2026-05-10-trait-orphan-a-keep-": [
+      "scripts/archive/trait_orphan_assign_wave_2.py:4"
+    ],
+    "docs/research/2026-05-10-trait-orphan-a-keep-assignment-proposal.md": [
+      "scripts/archive/trait_orphan_assign_wave_0_1.py:5",
+      "scripts/archive/trait_orphan_assign_wave_3_4.py:7"
+    ],
+    "docs/research/2026-05-10-trait-orphan-audit-batch-review.md": [
+      "BACKLOG.md:698",
+      "BACKLOG.md:702"
+    ],
+    "docs/research/2026-05-20-calibration-knob-patterns-industry.md": [
+      "tools/py/calibrate_map_elites.py:48",
+      "tools/py/calibrate_optuna.py:43",
+      "tools/py/calibrate_optuna.py:702",
+      "tools/py/calibrate_parallel.py:26",
+      "tools/py/calibrate_parallel.py:465",
+      "tools/py/calibrate_sprt.py:32",
+      "tools/py/calibrate_sprt.py:293"
+    ],
+    "docs/research/2026-05-27-epigenome-params-research.md": [
+      "apps/backend/services/genetics/epigenome.js:8"
+    ],
+    "docs/research/2026-07-02-map-elites-hc06-overnight-negative-result.md": [
+      "tools/py/calibrate_map_elites.py:5",
+      "tools/py/calibrate_map_elites.py:47",
+      "tools/py/calibrate_map_elites.py:568",
+      "tools/py/test_calibrate_map_elites.py:5"
+    ],
+    "docs/research/2026-07-06-dorsale-": [
+      "tools/sim/dorsale-ferrosa-band-probe.js:407"
+    ],
+    "docs/research/2026-07-06-dorsale-ferrosa-": [
+      "tools/sim/grid-band-probe.js:5"
+    ],
+    "docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md": [
+      "BACKLOG.md:39"
+    ],
+    "docs/research/2026-07-06-los-flip-": [
+      "apps/backend/services/ai/declareSistemaIntents.js:666"
+    ],
+    "docs/research/2026-07-06-los-flip-ratify-n40.md": [
+      "apps/backend/services/combat/losForGrid.js:5",
+      "tools/sim/dorsale-ferrosa-band-probe.js:66"
+    ],
+    "docs/research/2026-07-06-xpbudget-geometry-calibration.md": [
+      "OPEN_DECISIONS.md:611",
+      "apps/backend/services/balance/xpBudget.js:226"
+    ],
+    "docs/research/2026-07-10-grid-terrain-geometry-reprobe.md": [
+      "OPEN_DECISIONS.md:605"
+    ],
+    "docs/research/2026-07-10-sistema-cap-falsification.md": [
+      "tools/sim/intent-mix-probe.js:9"
+    ],
+    "docs/research/swarm/": [
+      ".github/workflows/swarm-validation.yml:20",
+      ".github/workflows/swarm-validation.yml:32",
+      ".github/workflows/swarm-validation.yml:91",
+      "BACKLOG.md:123",
+      "BACKLOG.md:128",
+      "COMPACT_CONTEXT.md:138",
+      "COMPACT_CONTEXT.md:144"
+    ],
+    "docs/research/triangle-strategy-transfer-plan.md": [
+      "BACKLOG.md:1189",
+      "BACKLOG.md:1349",
+      "COMPACT_CONTEXT.md:1306",
+      "LIBRARY.md:27",
+      "OPEN_DECISIONS.md:517",
+      "apps/backend/routes/sessionHelpers.js:742",
+      "apps/backend/routes/sessionHelpers.js:777",
+      "apps/backend/services/combat/terrainReactions.js:4",
+      "apps/backend/services/convictionEngine.js:3",
+      "apps/backend/services/grid/hexGrid.js:268",
+      "apps/backend/services/mbtiSurface.js:28",
+      "apps/play/src/characterPanel.js:19",
+      "packs/evo_tactics_pack/data/balance/terrain_defense.yaml:138"
+    ],
+    "docs/roadmap/evo-rollout-status.md": [
+      "tools/roadmap/update_status.py:7",
+      "tools/roadmap/update_status.py:31"
+    ],
+    "docs/roadmap/status": [
+      "tools/roadmap/update_status.py:33"
+    ],
+    "docs/roadmap/status/": [
+      ".github/workflows/evo-rollout-status.yml:44",
+      "tools/roadmap/update_status.py:9"
+    ],
+    "docs/runbooks/moderation/backlog_management.md": [
+      "tools/monitoring/moderation.yml:48"
+    ],
+    "docs/runbooks/moderation/model_drift.md": [
+      "tools/monitoring/moderation.yml:45"
+    ],
+    "docs/runbooks/moderation/transcription_errors.md": [
+      "tools/monitoring/moderation.yml:47"
+    ],
+    "docs/runbooks/moderation/transcription_latency.md": [
+      "tools/monitoring/moderation.yml:46"
+    ],
+    "docs/runtime": [
+      "OPEN_DECISIONS.md:351",
+      "OPEN_DECISIONS.md:354"
+    ],
+    "docs/session-2026-05-07-sera-memory-save": [
+      "BACKLOG.md:941"
+    ],
+    "docs/skiv": [
+      "tools/py/skiv_monitor.py:742"
+    ],
+    "docs/skiv/": [
+      "BACKLOG.md:1267",
+      "COMPACT_CONTEXT.md:757"
+    ],
+    "docs/skiv/CANONICAL.md": [
+      "BACKLOG.md:1023",
+      "CLAUDE.md:80",
+      "PROJECT_BRIEF.md:74",
+      "apps/play/src/render.js:143",
+      "apps/play/src/skivPanel.js:13",
+      "tools/py/skiv_monitor.py:18",
+      "tools/py/skiv_monitor.py:53",
+      "tools/py/skiv_monitor.py:1096",
+      "tools/py/skiv_synthetic_recompute.py:25",
+      "tools/py/skiv_synthetic_recompute.py:65"
+    ],
+    "docs/skiv/MONITOR.md": [
+      ".github/workflows/skiv-monitor.yml:65",
+      "PROJECT_BRIEF.md:74",
+      "tools/py/skiv_monitor.py:11"
+    ],
+    "docs/species/": [
+      "tools/docs_governance_migrator.py:37"
+    ],
+    "docs/superpowers/plans/2026-06-22-derived-canon-salvage-roadmap.md": [
+      "tools/py/add_trait_stub.py:18"
+    ],
+    "docs/superpowers/plans/2026-06-22-od024-d4-populate-pipeline.md": [
+      "COMPACT_CONTEXT.md:132"
+    ],
+    "docs/superpowers/specs/": [
+      "apps/backend/services/personalityAxes.js:24"
+    ],
+    "docs/superpowers/specs/2026-05-26-repro-heir-genetic-model-design.md": [
+      "apps/backend/services/genetics/epigenome.js:7"
+    ],
+    "docs/superpowers/specs/2026-05-30-d4-biome-affinity-ecoyaml-design.md": [
+      "tools/py/apply_biome_affinity.py:4",
+      "tools/py/generate_ecosystem_yaml.py:2",
+      "tools/py/suggest_biome_affinity.py:4"
+    ],
+    "docs/superpowers/specs/2026-05-30-ecologia-combat-adapter-spec.md": [
+      "apps/backend/services/worldgen/ecologyCombatAdapter.js:3"
+    ],
+    "docs/superpowers/specs/2026-05-30-ecologia-combat-disconnect-strategy.md": [
+      "apps/backend/services/worldgen/ecologyCombatAdapter.js:4"
+    ],
+    "docs/superpowers/specs/2026-05-30-governance-auto-sync-design.md": [
+      "tools/generate_decisions_log.py:9"
+    ],
+    "docs/superpowers/specs/2026-05-31-open-decisions-projection-design.md": [
+      "tools/generate_open_decisions.py:10"
+    ],
+    "docs/superpowers/specs/2026-05-31-worldgen-gapc-": [
+      "apps/backend/services/worldgen/metaNetworkResolver.js:7"
+    ],
+    "docs/superpowers/specs/2026-05-31-worldgen-gapc-meta-network-routing-design.md": [
+      "apps/backend/routes/campaign.js:63"
+    ],
+    "docs/superpowers/specs/2026-06-17-canon-consistency-checker-design.md": [
+      "scripts/check-canon-consistency.cjs:2"
+    ],
+    "docs/superpowers/specs/2026-06-17-per-template-calibration-design.md": [
+      "tools/py/auto_ratify.py:13",
+      "tools/py/calibrate_orchestrator.py:8",
+      "tools/py/detect_stale_bands.py:12",
+      "tools/py/suite_manifest.py:6",
+      "tools/py/test_auto_ratify.py:9",
+      "tools/py/test_detect_stale_bands.py:10",
+      "tools/py/test_optuna_search.py:8"
+    ],
+    "docs/superpowers/specs/2026-06-18-composite-pe-ratio-experiment-design.md": [
+      "tools/py/pe_experiment.py:5"
+    ],
+    "docs/superpowers/specs/2026-06-22-creature-trait-mechanics-design.md": [
+      "apps/backend/services/combat/abilitySuppression.js:4",
+      "apps/backend/services/combat/allyAuraMark.js:4",
+      "apps/backend/services/combat/artigliPsionici.js:4",
+      "apps/backend/services/combat/cleanseStatus.js:4",
+      "apps/backend/services/combat/cortecciaMemetica.js:4",
+      "apps/backend/services/combat/ecoSismico.js:4",
+      "apps/backend/services/combat/filtriBioattivi.js:4",
+      "apps/backend/services/combat/membraneOsmotiche.js:4",
+      "apps/backend/services/combat/nucleiWeakPoint.js:4",
+      "apps/backend/services/combat/pigmentiAurorali.js:4",
+      "apps/backend/services/combat/tessutiAdattivi.js:4"
+    ],
+    "docs/superpowers/specs/2026-06-22-od024-d4-interoception-overrides-rule-design.md": [
+      "tools/etl/derive_interoception_overrides.py:21"
+    ],
+    "docs/superpowers/specs/2026-06-22-od024-engine2-stamina-fatigue-design.md": [
+      "apps/backend/services/combat/staminaFatigue.js:4"
+    ],
+    "docs/superpowers/specs/2026-07-03-encounter-geometry-difficulty-gate-design.md": [
+      "OPEN_DECISIONS.md:21",
+      "OPEN_DECISIONS.md:604"
+    ],
+    "docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md": [
+      "apps/backend/routes/session.js:1640",
+      "apps/backend/routes/sessionRoundBridge.js:434",
+      "apps/backend/services/combat/ghiandoleMnemoniche.js:4",
+      "apps/backend/services/combat/pendingStatusRemovals.js:4"
+    ],
+    "docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md": [
+      "apps/backend/routes/sessionRoundBridge.js:272",
+      "apps/backend/services/combat/apLedger.js:4"
+    ],
+    "docs/support/token-rotation.md": [
+      "config/cli/support.yaml:9",
+      "config/cli/support.yaml:29"
+    ],
+    "docs/tasks/": [
+      "agent_constitution.md:92"
+    ],
+    "docs/telemetria": [
+      "apps/backend/report.js:117",
+      "apps/backend/report.js:149"
+    ],
+    "docs/test-interface/": [
+      "BACKLOG.md:348",
+      "BACKLOG.md:384",
+      "BACKLOG.md:385"
+    ],
+    "docs/test-interface/index.html": [
+      "tools/ts/scripts/run_lighthouse.mjs:16"
+    ],
+    "docs/tooling/evo.md": [
+      "tools/automation/README.md:45"
+    ],
+    "docs/trait_reference_manual.md": [
+      "BACKLOG.md:351"
+    ],
+    "docs/traits-manuale/": [
+      "BACKLOG.md:341",
+      "BACKLOG.md:351",
+      "apps/trait-editor/README.md:7"
+    ],
+    "docs/traits-manuale/01-introduzione.md": [
+      "apps/trait-editor/docs/README.md:10",
+      "apps/trait-editor/docs/manuale-operativo.md:10"
+    ],
+    "docs/traits-manuale/02-modello-dati.md": [
+      "apps/trait-editor/docs/README.md:11",
+      "apps/trait-editor/docs/manuale-operativo.md:12"
+    ],
+    "docs/traits-manuale/03-tassonomia-famiglie.md": [
+      "apps/trait-editor/docs/README.md:12",
+      "apps/trait-editor/docs/manuale-operativo.md:14"
+    ],
+    "docs/traits-manuale/04-collegamenti-cross-dataset.md": [
+      "apps/trait-editor/docs/README.md:13",
+      "apps/trait-editor/docs/manuale-operativo.md:16",
+      "apps/trait-editor/docs/workflow-strumenti.md:54"
+    ],
+    "docs/traits-manuale/05-workflow-strumenti.md": [
+      "apps/trait-editor/docs/README.md:14",
+      "apps/trait-editor/docs/workflow-strumenti.md:3"
+    ],
+    "docs/traits-manuale/06-standalone-trait-editor.md": [
+      "apps/trait-editor/docs/README.md:15",
+      "apps/trait-editor/docs/README.md:35",
+      "apps/trait-editor/docs/standalone-trait-editor.md:3"
+    ],
+    "docs/traits-manuale/README.md": [
+      "apps/trait-editor/docs/README.md:9",
+      "apps/trait-editor/docs/manuale-operativo.md:3"
+    ],
+    "docs/traits/": [
+      "tools/docs_governance_migrator.py:35"
+    ],
+    "docs/traits/Frattura_Abissale_Sinaptica_trait_draft.md": [
+      "apps/backend/services/combat/ghiandoleMnemoniche.js:6"
+    ],
+    "docs/traits/manuale/": [
+      "BACKLOG.md:341"
+    ],
+    "docs/traits/trait-editor.md": [
+      "CLAUDE.md:156"
+    ],
+    "docs/traits_template.md": [
+      "apps/trait-editor/docs/workflow-strumenti.md:16"
+    ],
+    "docs/tutorials/": [
+      "tools/docs_governance_migrator.py:50",
+      "tools/docs_status_promotion.py:41"
+    ],
+    "docs/tutorials/idea-engine-feedback.md": [
+      "config/featureFlags.json:58",
+      "config/feature_flags.yaml:50"
+    ],
+    "docs/units/": [
+      "agent_constitution.md:107"
+    ],
+    "docs/workflow-strumenti.md": [
+      "apps/trait-editor/README.md:84"
+    ]
+  }
 }
