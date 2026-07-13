@@ -117,7 +117,7 @@ static func initial_state() -> WorldSetupState:
 			{
 				"biome_id": BIOME_ID,
 				"biome_label_it": "Calanchi Ferromagnetici",
-				"pressure": "medium",
+				"pressure": "high",
 				"hazards": ["ferrous_spike", "dust_storm", "scrap_bloom"],
 			},
 			"scenario":
@@ -132,7 +132,7 @@ static func initial_state() -> WorldSetupState:
 	)
 ```
 
-Note vincolanti: (a) `custode` NON si seeda -- `CompanionResolver.resolve(custode, biome_id)` in `world_seed_reveal_view.gd` lo genera dal pool badlands (name_pool Gorra/Rost/..., closing "Ferro tiene."); (b) `graph_routed: true` e' lo stamp che `MainEncounterRoster.build_combat_plan` richiede per ingaggiare l'encounter reale -- e' il meccanismo esistente di MainRouteChoice, riusato; ogni fallback interno (encounter mancante, wave-0 vuota) degrada al tutorial senza crash; (c) `brief_it` NON promette il sabotaggio a obiettivo (non implementato TV-side): il testo resta sul flavor.
+Note vincolanti: (a) `custode` NON si seeda -- `CompanionResolver.resolve(custode, biome_id)` in `world_seed_reveal_view.gd` lo genera dal pool badlands (name_pool Gorra/Rost/..., closing "Ferro tiene."); (b) `graph_routed: true` e' lo stamp che `MainEncounterRoster.build_combat_plan` richiede per ingaggiare l'encounter reale -- e' il meccanismo esistente di MainRouteChoice, riusato; ogni fallback interno (encounter mancante, wave-0 vuota) degrada al tutorial senza crash; (c) `brief_it` NON promette il sabotaggio a obiettivo (non implementato TV-side): il testo resta sul flavor; (d) `pressure: "high"` e' il valore CANONICO derivato: `biomeAdapter._derivePressure` (repo Game, `apps/backend/services/coop/biomeAdapter.js:51-57`) mappa `diff_base >= 4 || severity == "high"` -> high, e badlands ha diff_base 4 + severity high sia in `data/core/biomes.yaml` (Game) sia in `data/biomes/biomes.json` (Godot-v2) -- fix da review Codex P2 sul PR di questo piano.
 
 - [ ] **Step 4: swap same-line in main.gd** (riga 157, dentro il ramo `if boot_phase == PHASE_LOBBY`):
 
