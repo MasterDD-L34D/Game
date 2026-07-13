@@ -10,6 +10,7 @@ coscienza_d_alveare_diffusa,i18n:traits.coscienza_d_alveare_diffusa.label,Cognit
 mente_lucida,i18n:traits.mente_lucida.label,Mentale/Cognizione,Cognizione,data/traits/cognitivo/mente_lucida.json,,gap1_salvage_2026_06_22,,,false,false
 ali_membrana_sonica,i18n:traits.ali_membrana_sonica.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ali_membrana_sonica.json,,coverage_q4_2025,caverna_risonante,tank,true,false
 appendici_risonanti_marea,i18n:traits.appendici_risonanti_marea.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/appendici_risonanti_marea.json,,coverage_q4_2025,laguna_bioreattiva,tank,true,false
+armatura_pietra_planare,i18n:traits.armatura_pietra_planare.label,Difesa/Strutturale,Strutturale,data/traits/difensivo/armatura_pietra_planare.json,,pathfinder_dataset,rovine_planari,tank,true,false
 barriere_miasma_glaciale,i18n:traits.barriere_miasma_glaciale.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/barriere_miasma_glaciale.json,,coverage_q4_2025,caldera_glaciale,tank,true,false
 bozzolo_magnetico,i18n:traits.bozzolo_magnetico.label,Difensivo/Resistenze,Resistenze,data/traits/difensivo/bozzolo_magnetico.json,,coverage_q4_2025,,tank,true,false
 branchie_microfiltri,i18n:traits.branchie_microfiltri.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/branchie_microfiltri.json,,coverage_q4_2025,reef_luminescente,tank,true,false
@@ -25,6 +26,7 @@ filtri_planctonici,i18n:traits.filtri_planctonici.label,Tegumentario/Difensivo,D
 ghiandole_fango_coesivo,i18n:traits.ghiandole_fango_coesivo.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ghiandole_fango_coesivo.json,,coverage_q4_2025,mangrovieto_cinetico,tank,true,false
 giunti_antitorsione,i18n:traits.giunti_antitorsione.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/giunti_antitorsione.json,,coverage_q4_2025,mangrovieto_cinetico,tank,true,false
 lingua_cristallina,i18n:traits.lingua_cristallina.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/lingua_cristallina.json,,coverage_q4_2025,pianura_salina_iperarida,tank,true,false
+mantello_meteoritico,i18n:traits.mantello_meteoritico.label,Difesa/Termoregolazione,Termoregolazione,data/traits/difensivo/mantello_meteoritico.json,,pathfinder_dataset,rovine_planari,sustain;tank,true,false
 membrana_plastica_continua,i18n:traits.membrana_plastica_continua.label,Difensivo/Camuffamento,Camuffamento,data/traits/difensivo/membrana_plastica_continua.json,,coverage_q4_2025,,tank,true,false
 mucose_barofile,i18n:traits.mucose_barofile.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/mucose_barofile.json,,coverage_q4_2025,abisso_vulcanico,tank,true,false
 pelage_idrorepellente_avanzato,i18n:traits.pelage_idrorepellente_avanzato.label,Difensivo/Termoregolazione,Termoregolazione,data/traits/difensivo/pelage_idrorepellente_avanzato.json,,coverage_q4_2025,,tank,true,false
@@ -32,8 +34,6 @@ pelli_cave,i18n:traits.pelli_cave.label,Difensivo/Protezione,Protezione,data/tra
 radici_ancora_planare,i18n:traits.radici_ancora_planare.label,Difensivo/Protezione,Protezione,data/traits/difensivo/radici_ancora_planare.json,,gap1_salvage_2026_06_22,,,false,false
 scudo_gluteale_cheratinizzato,i18n:traits.scudo_gluteale_cheratinizzato.label,Difensivo/Corazza,Corazza,data/traits/difensivo/scudo_gluteale_cheratinizzato.json,,coverage_q4_2025,,tank,true,false
 vello_di_assorbimento_totale,i18n:traits.vello_di_assorbimento_totale.label,Difensivo/Camuffamento,Camuffamento,data/traits/difensivo/vello_di_assorbimento_totale.json,,coverage_q4_2025,,tank,true,false
-armatura_pietra_planare,i18n:traits.armatura_pietra_planare.label,Difesa/Strutturale,Strutturale,data/traits/difesa/armatura_pietra_planare.json,,pathfinder_dataset,rovine_planari,tank,true,false
-mantello_meteoritico,i18n:traits.mantello_meteoritico.label,Difesa/Termoregolazione,Termoregolazione,data/traits/difesa/mantello_meteoritico.json,,pathfinder_dataset,rovine_planari,sustain;tank,true,false
 filamenti_digestivi_compattanti,i18n:traits.filamenti_digestivi_compattanti.label,Digestivo/Escretorio,Escretorio,data/traits/digestivo/filamenti_digestivi_compattanti.json,,controllo_psionico,caverna_risonante;falde_magnetiche_psioniche,sustain,true,false
 ventriglio_gastroliti,i18n:traits.ventriglio_gastroliti.label,Digestivo/Alimentare,Alimentare,data/traits/digestivo/ventriglio_gastroliti.json,,controllo_psionico,caverna_risonante,sustain,true,false
 spore_psichiche_silenziate,i18n:traits.spore_psichiche_silenziate.label,Escretorio/Psichico,Psichico,data/traits/escretorio/spore_psichiche_silenziate.json,,controllo_psionico,caverna_risonante,controller;sustain,true,true
