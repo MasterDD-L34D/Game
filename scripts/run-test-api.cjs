@@ -92,6 +92,9 @@ const steps = [
 const baseEnv = {
   ...process.env,
   ORCHESTRATOR_AUTOCLOSE_MS: '2000',
+  // Gate-context marker: tests/helpers/requireTestDeps.js turns missing npm
+  // deps into explicit failures (no soft skip) when this runner drives them.
+  RUN_TEST_API: '1',
 };
 
 // The parallel `node --test tests/api/*.test.js` batch builds dozens of apps;

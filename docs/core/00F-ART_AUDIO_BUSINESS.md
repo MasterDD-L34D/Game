@@ -120,6 +120,9 @@ Target: una creatura = 5-8 sprite animati + variant mutazioni visibili (body par
 - Post-EA: asset pack commerciale (HumbleBundle/Unity Asset Store/GameDev Market) per coerenza.
 - 1.0: valutare composer dedicato solo se revenue lo consente.
 
+Piano implementabile (classi, mappa eventi Path A, criteri asset, budget
+quantitativo): `docs/planning/draft-audio-design.md` (esteso 2026-07-10).
+
 ### 3.2 Voci creature
 
 **Solo SFX ambientali e d'azione. Nessuna voce.**

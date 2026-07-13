@@ -3,7 +3,7 @@ title: 43 — Asset Sourcing canonical (zero-cost + AI pipeline)
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-18
+last_verified: 2026-07-12
 source_of_truth: true
 language: it
 review_cycle_days: 180
@@ -185,24 +185,138 @@ Priorità MVP slice (**stimati 25h solo-dev + AI**):
 2. **Coerenza palette AI**: iter manuale palette lock ~30% budget tempo
 3. **Originality proof biomi custom** (frattura/steppe): documenta workflow in `CREDITS.md` per future dispute
 
-## Audio stub (deferred)
+## Audio shortlist (Fase 2 studio-track, 2026-07-12)
 
-Audio direction = GDD gap #3, ADR-2026-04-18-audio-direction-placeholder DRAFT, deferred post-MVP.
+Sblocca lo stub storico (ADR-2026-04-18-audio-direction-placeholder): criteri, classi
+e budget quantitativo sono in `docs/planning/draft-audio-design.md` (esteso 2026-07-10,
+Fase 1). Vincolo hard licenze: SOLO CC0 o CC-BY (SA e NC esclusi), piu' le eccezioni
+owner documentate sotto. Ogni licenza e' stata VERIFICATA sulla pagina del candidato
+(2026-07-12, deep-research + fetch diretto). Nessun download fino ad autorizzazione
+owner sul manifest (vedi sezione Manifest).
 
-Risorse gratuite primarie quando sblocca:
+### SFX combat organici (target ~30)
 
-| Fonte                       | URL                                                        | Licenza          | Uso                        |
-| --------------------------- | ---------------------------------------------------------- | ---------------- | -------------------------- |
-| freesound.org               | https://freesound.org                                      | CC0/CC-BY mix    | SFX foundation             |
-| OpenGameArt audio           | https://opengameart.org/art-search?field_art_type_tid[]=13 | CC0 + CC-BY      | Music + SFX                |
-| Zapsplat                    | https://zapsplat.com                                       | CUSTOM free tier | SFX (attribution required) |
-| Incompetech (Kevin MacLeod) | https://incompetech.com                                    | CC-BY 4.0        | Music                      |
+| Pack                                | Fonte/Autore     | Licenza             | URL                                                              | Note fit                                                                                                                           |
+| ----------------------------------- | ---------------- | ------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 80 CC0 creature SFX                 | OGA / rubberduck | CC0 (verif. 3-0)    | https://opengameart.org/content/80-cc0-creature-sfx              | 80 versi OGG (6 alien, 5 hurt, 7 monster, 3 roar, 4 eat, 3 spit); vocali+filtri = organico puro; escludere i ~10 "cute" (anti-fit) |
+| Squish Sounds Effects               | OGA / EZduzziteh | CC0 (verif. 3-0)    | https://opengameart.org/content/squish-sounds-effects            | 8 MP3 squish/splat "aliens, gore, fleshy"; layer impatto carne                                                                     |
+| Impact                              | OGA / qubodup    | CC0 (verif. 3-0)    | https://opengameart.org/content/impact                           | Impatti tag meat/flesh/wound/wet; chain diritti pulita (fonti freesound dell'autore stesso)                                        |
+| Punches hits and squishes (riserva) | OGA / multi      | MISTA CC0+CC-BY 3.0 | https://opengameart.org/content/punches-hits-swords-and-squishes | Solo se servono extra: richiede tracking licenza PER-FILE                                                                          |
 
-**AI audio tool** (post RIAA lawsuits resolution): Suno, Udio — **deferred**, review 2026-2027.
+### SFX UI soft-organic (target ~15)
 
-**Generator SFX retro free**: Bfxr (http://www.bfxr.net), sfxr (http://drpetter.se/project_sfxr.html), Chiptone (https://sfbgames.itch.io/chiptone)
+| Pack                 | Fonte/Autore     | Licenza          | URL                                                                             | Note fit                                                                                           |
+| -------------------- | ---------------- | ---------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 51 UI sound effects  | OGA / Kenney     | CC0 (verif.)     | https://opengameart.org/content/51-ui-sound-effects-buttons-switches-and-clicks | MATCH MIGLIORE: 51 WAV "all organic sounds" (foley reale bottoni/switch)                           |
+| Interface Sounds     | Kenney.nl        | CC0 (verif. 3-0) | https://kenney.nl/assets/interface-sounds                                       | 100 OGG puliti moderni, no beep anni-90                                                            |
+| UI Audio             | Kenney.nl        | CC0 (verif.)     | https://kenney.nl/assets/ui-audio                                               | 50 suoni complemento; esiste packaging Godot (github.com/Calinou/kenney-ui-audio)                  |
+| Interface SFX Pack 1 | itch / ObsydianX | CC0 (verif.)     | https://obsydianx.itch.io/interface-sfx-pack-1                                  | 200+ WAV+OGG confirm/back/cursor/error; tono "upbeat PSX-RPG" = AUDIZIONE anti-beep prima dell'uso |
 
-**Music chiptune online**: Beepbox (https://www.beepbox.co) — free, output licenziabile.
+### Ambience bioma (target ~12)
+
+| Pack                      | Fonte/Autore         | Licenza                         | URL                                                                 | Note fit                                                   |
+| ------------------------- | -------------------- | ------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Cave Ambience Loop        | freesound / hushless | CC0 (verif.)                    | https://freesound.org/people/hushless/sounds/770379/                | WAV 32-bit stereo 1:17, loop nato per videogioco; caverna  |
+| Loopable Dungeon Ambience | OGA / JaggedStone    | CC0 (verif.)                    | https://opengameart.org/content/loopable-dungeon-ambience           | OGG vento LF + gocce; caverna alternativa                  |
+| CC0 Background Ambience   | OGA / FGResources    | CC0 collection, VERIFY per-item | https://opengameart.org/content/cc0-background-ambience             | Nature beds savana/foresta; verifica per-item obbligatoria |
+| Forest Ambience           | OGA / TinyWorlds     | CC0 (verif. al fetch)           | https://opengameart.org/content/forest-ambience                     | Loop seamless foresta; base per foresta tossica (layering) |
+| Ambient Bird Sounds       | OGA / isaiah658      | CC0 (verif. al fetch)           | https://opengameart.org/content/ambient-bird-sounds                 | Layer uccelli per savana diurna                            |
+| Nature Ambient Pack Vol 1 | OGA / JC Sounds      | CC-BY 4.0 (ATTRIBUTION)         | https://opengameart.org/content/jc-sounds-nature-ambient-pack-vol-1 | Nature/vento/uccelli layered; beds savana                  |
+
+**GAP CHIUSO 2026-07-12** (era: savana e foresta tossica senza candidato): coperto
+dalle 3 righe OGA sopra, licenze verificate al fetch -- evidenza in
+`docs/reports/2026-07-12-asset-staging-provenance.md`. La tinta "tossica" della
+foresta = layering/processing in import, non asset dedicato.
+
+### Musica (target 6-8 tracce)
+
+| Pack                             | Fonte/Autore             | Licenza                        | URL                                                    | Note fit                                                                                                       |
+| -------------------------------- | ------------------------ | ------------------------------ | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| Dark Sci-Fi Audio Pack           | OGA / SRG774             | CC0 (verif.)                   | https://opengameart.org/content/dark-sci-fi-audio-pack | ANCORA: 5 tracce + title, MP3+OGG; Pulse (heartbeat organico), Urgent (turno critico), Sector (ambient alieno) |
+| Incompetech feel Unnerving/Dark  | Kevin MacLeod            | CC-BY 4.0 (attribution string) | https://incompetech.com                                | Slot mancanti (vittoria/sconfitta/evoluzione); selezione track-by-track, verifica per-traccia                  |
+| Dystopian Ambient Pack (riserva) | itch / ImperialDawnAudio | CC0-tagged, VERIFY su pagina   | https://itch.io/game-assets/tag-cc0/tag-music          | Dark ambient free, tone-fit forte; licenza da confermare prima dell'uso                                        |
+
+### Eccezione owner: Sonniss GDC Bundle (decisa 2026-07-12)
+
+- URL: https://sonniss.com/gameaudiogdc/ -- licenza CUSTOM royalty-free
+  (https://sonniss.com/gdc-bundle-license/): commerciale OK, zero attribution,
+  no resale standalone, no AI-training. NON e' CC0/CC-BY: inclusa come ECCEZIONE
+  esplicita owner per la qualita' pro dei combat SFX (~200GB WAV, categoria
+  creatures/impacts). Tracciare i file usati in CREDITS.md con licenza Sonniss.
+
+### Scartati per licenza o tono (documentazione anti-drift)
+
+- Dark Ambience Soundscapes (OGA, yewbic): tono perfetto ma CC-BY-SA 3.0 = viral, ESCLUSA.
+- Epic Stock Media "Strange Game Ambient Loops" + "Ambient Earth Nature Loops" (itch): PAID + licenza proprietaria.
+- Zapsplat: CUSTOM free tier (attribution obbligatoria, non-CC) -- rimosso dalla tabella storica.
+- GameDev Market, SwishSwoosh, Pixabay: licenze proprietarie non-CC.
+- Goofy Sounds for Scary Monsters (itch, Stormyman): CC0 ok ma tono "goofy" = anti-fit cute/cartoon.
+
+**Tool generativi** (non asset, nessun vincolo licenza sull'output): Bfxr, sfxr,
+Chiptone, Beepbox restano utilizzabili per placeholder. AI audio (Suno/Udio):
+deferred, review 2026-2027 post RIAA.
+
+## VFX combat shortlist (Fase 2 studio-track, 2026-07-12)
+
+Classi richieste (spec studio-track): impatti/slash/bite, status effects
+(panic/disorient/bleed), telegraph/warning marker, surge/evoluzione. Stile:
+pixel-art leggibile su grid 32x32 (reference Into the Breach), vaglio contro
+art direction 41 (organico > metallico).
+
+| Pack                             | Fonte/Autore    | Licenza                                            | URL                                                          | Note fit                                                                   |
+| -------------------------------- | --------------- | -------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Free VFX Asset Pack              | itch / CodeManu | CC-BY 4.0 (metadata; descr. dice PD -> ATTRIBUIRE) | https://codemanu.itch.io/vfx-free-pack                       | 22 effetti spritesheet PNG + frame + GIF, 30/60fps; impatti/burst generici |
+| Pixel art sword slash effect     | OGA / tbbk      | CC0 (verif.)                                       | https://opengameart.org/content/pixel-art-sword-slash-effect | Singolo slash 64x47, classe esatta, overlay-compatibile 32x32              |
+| CC0 special effects (collection) | OGA / multi     | CC0 per-asset, VERIFY per-item                     | https://opengameart.org/content/cc0-special-effects          | Hunting ground secondario, cherry-picking stile                            |
+
+### Eccezione owner condizionale: Pimen (decisa 2026-07-12)
+
+- URL: https://pimen.itch.io/ -- miglior fit tematico in assoluto (spell effects
+  Acid/Dark/Wood/Earth, battle slash/thrust/hit-spark, STATUS e buff/debuff).
+  Licenza tipica custom "free, commercial OK, no resell" = NON CC. Trattamento:
+  VERIFICA-PER-PACK obbligatoria dei termini sulla pagina di ogni singolo pack
+  PRIMA del download; se un pack non dichiara uso commerciale esplicito -> scarto.
+- **PRICE-GATE (zero-cost policy ADR-2026-04-18)**: molti pack Pimen sono freemium
+  (es. Acid Spell Effect: file 01-02 free, 03-15 = $4.99; Hit Spark: full pack
+  $4.25). La verifica per-pack copre anche il PREZZO: si importa SOLO il subset
+  $0; qualsiasi tier a pagamento = deroga zero-cost, autorizzazione owner separata
+  ed esplicita (non coperta da questa eccezione).
+
+**GAP dichiarato**: telegraph marker e status panic/disorient/bleed dedicati non
+hanno candidato CC puro -- coprono Pimen (condizionale) o pipeline AI-generated
+(sezione sopra) con human authorship layer.
+
+### Scartati VFX (documentazione anti-drift)
+
+- BDragon1727 "750 Effect and FX Pixel All" (itch): free tier = SOLO non-commercial, commercial = $25 licenza custom. Viola vincolo hard.
+- CodeManu "Impact&Hit FX" (44 effetti): PAID $4.95, licenza custom.
+- Collection OGA "Explosions, Bullets, Fire etc" (aab): nessuna label licenza verificabile sulla pagina.
+
+## Manifest download (stato: download AUTORIZZATO ed ESEGUITO 2026-07-12, 5 item manuali residui)
+
+Nessun import massivo in repo: gli asset scaricati stanno in STAGING locale
+`C:\dev\_evo-assets-staging\` (Ryzen, per classe). Evidenza di provenance
+REPO-VISIBILE (sha256, licenza ri-verificata al fetch, attribution CC-BY, item
+manuali residui): `docs/reports/2026-07-12-asset-staging-provenance.md`.
+Import in Game-Godot-v2 = slice F-A con vaglio palette/tono.
+
+- [x] 80 CC0 creature SFX (CC0) -> SFX combat -- SCARICATO 2026-07-12
+- [x] Squish Sounds Effects (CC0) -> SFX combat layer -- SCARICATO 2026-07-12
+- [x] Impact qubodup (CC0) -> SFX combat layer -- SCARICATO 2026-07-12
+- [x] 51 UI sound effects (CC0, WAV organici) -> SFX UI primario -- SCARICATO 2026-07-12
+- [x] Interface Sounds Kenney (CC0) -> SFX UI base -- SCARICATO 2026-07-12
+- [x] UI Audio Kenney (CC0) -> SFX UI complemento -- SCARICATO 2026-07-12
+- [ ] Interface SFX Pack 1 ObsydianX (CC0) -> SFX UI, previa audizione anti-beep
+- [ ] Cave Ambience Loop (CC0, WAV) -> ambience caverna
+- [x] Loopable Dungeon Ambience (CC0) -> ambience caverna alt -- SCARICATO 2026-07-12
+- [x] Dark Sci-Fi Audio Pack (CC0, OGG) -> musica ancora (5 tracce) -- SCARICATO 2026-07-12
+- [x] Incompetech: SELEZIONATE E SCARICATE 3 tracce (CC-BY 4.0 + attribution): SCP-x6x (Hopes) = sconfitta, The Escalation = evoluzione, Dream Culture = vittoria
+- [ ] Free VFX Asset Pack CodeManu (CC-BY 4.0 + attribution) -> VFX impatti
+- [x] Pixel art sword slash (CC0) -> VFX slash -- SCARICATO 2026-07-12
+- [ ] Sonniss GDC: cherry-pick creatures/impacts (ECCEZIONE licenza custom) -> SFX combat pro
+- [ ] Pimen: SOLO subset $0 previa verifica termini+prezzo per-pack (ECCEZIONE condizionale, price-gate) -> VFX status/telegraph
+- [x] Hunt GAP ambience CHIUSA via OGA 2026-07-12: Forest Ambience (TinyWorlds, CC0) + Ambient Bird Sounds (isaiah658, CC0) + JC Sounds Nature Ambient Pack Vol 1 (CC-BY 4.0, attribution) per savana/foresta
+- [x] Hunt musica GAP: coperta dalla selezione incompetech sopra (3 slot chiusi)
 
 ## Disclaimer template (ready-to-use)
 

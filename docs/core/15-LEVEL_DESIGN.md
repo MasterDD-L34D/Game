@@ -129,20 +129,23 @@ NON si trasferisce a una nuova taglia (la geometria muove la difficolta' reale).
 advisory: `tools/js/validate_encounter_grid_ratify.js` + baseline `data/core/balance/grid_ratify_baseline.json`.
 Aggiorna il baseline (grid_size + evidence_ref) solo dopo l'evidence N=40.
 
-**Bande pace RATIFICATE N=40 -- board grid_sized (2026-07-06, re-ratify substrate-ON
-2026-07-10).** Semantica banda = completion + pace + reinforcement-liveness, NON letalita':
-sul driver round-model AI-vs-AI la letalita' e' ceiling strutturale (WR 1.0 su ogni arm,
-throughput cappato dal dial `intents_per_round` -- vedi "Limite di modello" nell'evidence
-dorsale). Un resize futuro si confronta su completion/pace: fuori banda = il guard L-069
-ha morso. Le bande sotto valgono con `MOVE_TERRAIN_COST_ENABLED=true` (semantica prod
-2026-07; L-069 NON trasferisce fra semantiche di costo -- il flip 07-06->07-10 ha mosso
-la banda canyon di +11 sul ceiling).
+**Bande pace RATIFICATE N=40 -- board grid_sized (quarta ratifica 2026-07-10 sera,
+FLAG-ON = prod dal flip ADR-2026-07-10 sistema-action-symmetry).** Semantica banda =
+completion + pace + reinforcement-liveness. Con i flag simmetria attivi la completion
+NON e' piu' WR 1.0 strutturale: le sconfitte del party sono parte della semantica
+ratificata (dorsale WR 0.925 CI95 [0.801, 0.974], abisso 0.975, canyon 1.0 -- N=40
+arm gate+AP). Bande derivate dall'arm gateap-stepfix N=40 e verificate pre-flip sul
+main post-#3264: probe N=10 paired (seeds 1..10) bit-exact 30/30 vs il control,
+incluse le 2 sconfitte dorsale -- telegraph threats-only confermato presentation-only.
+Storia flag-OFF (terza ratifica: bande [14,25]/[15,21]/[13,21], WR 1.0, avg
+18.82/17.45/16.05) = semantica pre-flip, evidence nel doc factorial sez. 2.
+L-069: le bande NON trasferiscono fra semantiche.
 
-| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato (substrate-ON 07-10)     | Evidence                                                                         |
-| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------- | -------------------------------------------------------------------------------- |
-| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [10, 18]                | avg 14.07 (sd 1.54), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 dorsale) |
-| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [10, 28]                | avg 19.32 (sd 3.98), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 canyon)  |
-| 18x10                        | `enc_abisso_colata_basaltica_01`                  | [10, 18]                | avg 13.85 (sd 0.98), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 abisso)  |
+| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato (gateap stepfix)                     | Evidence                                                 |
+| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------------------- | -------------------------------------------------------- |
+| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [11, 23]                | avg 16.73 (sd 2.61), WR 0.925, ko 0.275, reinf 4/4 | `docs/research/2026-07-10-sistema-symmetry-factorial.md` |
+| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [13, 20]                | avg 16.07 (sd 1.58), WR 1.0, ko 0.113, reinf 4/4   | `docs/research/2026-07-10-sistema-symmetry-factorial.md` |
+| 18x10                        | `enc_abisso_colata_basaltica_01`                  | [12, 25]                | avg 14.95 (sd 2.33), WR 0.975, ko 0.175, reinf 4/4 | `docs/research/2026-07-10-sistema-symmetry-factorial.md` |
 
 Probe generico riusabile: `tools/sim/grid-band-probe.js --encounter <id>` (#3230).
 

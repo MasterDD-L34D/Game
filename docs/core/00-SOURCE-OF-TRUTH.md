@@ -558,202 +558,54 @@ Vedi [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md) e [`docs/hubs/comb
 
 ---
 
-## 13. Stato implementativo (sprint 001–019)
+## 13. Stato implementativo -> overlay LIVE (Godot-v2)
 
-Questa sezione mappa il design (§1–§12) al codice reale nel repo. Aggiornata al 2026-04-16.
+La vecchia mappa design->codice di questa sezione (sprint 001-019, fotografia
+2026-04-16, frontend web-v1) e' STORICA: il frontend web e' archiviato (cutover
+2026-05) e anche la mappa backend e' superata dai refactor 2026-06/07 (apLedger,
+simmetria). Il dettaglio storico resta recuperabile dalla history git.
 
-### 13.1 Round model — il cuore del turno tattico
+- **Stato implementativo LIVE**: `Game-Godot-v2/docs/godot-v2/PRD-BUILD-STATUS-GODOT-V2.md`
+  (overlay del frontend canonico Godot; supersede questa sezione per lo stato build).
+- **Fotografia 2026-07-10**: Path A end-to-end LIVE (lobby -> character_creation ->
+  form_pulse -> world_seed -> scenario_brief -> combat -> debrief); combat round+d20,
+  grid square+elevation, co-op WS 1-8 con reconnect, persistence Postgres; simmetria
+  d'azione del Sistema FLAG-ON in prod (ADR-2026-07-10, bande quarta ratifica in
+  `15-LEVEL_DESIGN`).
+- **Runtime backend**: resta `Game/` (Node, porta 3334) -- questo repo e' la SoT dei
+  sistemi; per la topologia prod vedi i runbook fleet.
 
-Il round model è implementato in `apps/backend/services/roundOrchestrator.js` ed è **ON by default** dal milestone M17.
+### 13.9 Motori Phase-2 -- stato di combattimento persistente
 
-**Fasi:** planning → committed → resolving → resolved
+> Sottosezione RIPRISTINATA 2026-07-11 (canone attivo OD-058, non mappa build
+> storica): numerazione 13.9 preservata per i riferimenti cross-doc
+> (`00D-ENGINES_AS_GAME_FEATURES.md` sez.16, specchio canonico).
 
-| Fase                | Cosa succede                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------------------ |
-| `beginRound()`      | Reset AP/reazioni, tick bleeding, decay status (remaining_turns-1), decremento cooldown reazioni |
-| `declareIntent()`   | Accumulo intenti azione (latest-wins per unità)                                                  |
-| `declareReaction()` | Registrazione reazioni (parry, counter, overwatch) con trigger DSL                               |
-| `commitRound()`     | Lock intenti, transizione a committed                                                            |
-| `resolveRound()`    | Esecuzione coda in ordine priorità (initiative + action_speed - status_penalty)                  |
+> Canonizzazione **OD-058 D5** (verdetto 3A, master-dd Eduardo 2026-06-01). I 4 motori di "stato di combattimento persistente" entrano nel design-of-record (chiude lo scope-creep di motori shippati senza backing SoT). Confine **Phase-2 = SOLO questi 4**; **FUORI = esplicito** (anti catch-all): qualsiasi altro motore (narrative, plugin, worldgen/Flow, Atlas, AI-SIS) e la regola overcharge-AP (D1, e' una _regola_ di combat, non un _motore_ Phase-2) NON sono Phase-2. Un motore futuro non e' Phase-2 per default.
 
-**Endpoint round** (`sessionRoundBridge.js`):
+| Motore                   | Cosa fa                                                              | Stato                      | Owner-doc                                                        |
+| ------------------------ | -------------------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------- |
+| `morale`                 | panic/rage on ally-death (stile Battle-Brothers)                     | SHIPPED #2390              | `00D sez.16.1`                                                   |
+| ferite a locazione       | hit-location -> malus stat                                           | design `ready`, build D2   | SPEC-D2 / `00D sez.16.2`                                         |
+| `cumulativeStateTracker` | mutazioni cumulative end-of-round                                    | SHIPPED #2383              | `00D sez.16.3`                                                   |
+| vcSnapshot coop          | telemetria combat -> scoring/debrief; server ricostruisce dal ledger | arch-gated, D3 (Opzione 2) | ADR-2026-05-30-coop-server-authoritative-combat / `00D sez.16.4` |
 
-- `POST /declare-intent` — dichiara azione
-- `POST /clear-intent/:actorId` — pulisce intenti
-- `POST /commit-round` — conferma turno
-- `POST /resolve-round` — risolvi coda
-
-**State machine** (`roundStatechart.js`): FSM xstate v5 che orchestra planning → committed → resolving → resolved → (vittoria | turno successivo). Guard: `allIntentsDeclared`, `queueEmpty`, check vittoria.
-
-### 13.2 Rules engine d20
-
-> ⚠️ **Deprecato 2026-04-19** (ADR-2026-04-19-kill-python-rules-engine). Motore Python `services/rules/resolver.py` pensato per Master DM tabletop. User direction "1 solo gioco online, senza master" → Python = dead weight. Runtime canonical è ora Node: `apps/backend/services/combat/` + `apps/backend/routes/session.js`. Vedi `services/rules/DEPRECATED.md`.
-
-**Runtime canonical Node (M6-#1 2026-04-19)**: `apps/backend/services/combat/resistanceEngine.js` (archetype-based), `apps/backend/services/combat/objectiveEvaluator.js` (multi-type outcomes), `apps/backend/services/balance/damageCurves.js` (class multipliers + enrage + turn_limit_defeat).
-
-**Python legacy** (per riferimento, non implementare nuove feature):
-
-**Flusso attacco d20:**
-
-1. Tiro d20 + attack_mod (aggregato da trait)
-2. CD = 10 + target.tier + defense_mod + terrain_mod
-3. Nat 20 = auto-crit; Nat 1 = auto-fumble
-4. MoS = max(0, totale - CD)
-5. Damage step = floor(MoS / 5) + trait bonus; cap a 6
-6. Tiro danni + step bonus → applica resist% → applica armor (DR) → clamp ≥0
-7. PT guadagnati: +1 per nat 15-19, +2 per nat 20, +1 per ogni +5 MoS
-
-**Parata reattiva:** d20 + parry_bonus vs attack_total. Successo → step_reduced = 1, PT defensivi.
-
-**Combat prediction** (`predict_combat()`): simula N=1000 attacchi (seed=42). Output: hit%, crit%, fumble%, kill%, avg/min/max damage, avg MoS, CD.
-
-**Hydration** (`hydration.py`): carica `trait_mechanics.yaml` → CombatState con HP, AP, reazioni, iniziativa, tier, stress, status, armor, resistenze per unità.
-
-### 13.3 Status system
-
-Implementato in `apps/backend/services/statusEffectsMachine.js` come FSM xstate v5 a regioni parallele.
-
-**7 status:**
-
-| Status    | Tipo    | Effetto                                      |
-| --------- | ------- | -------------------------------------------- |
-| bleeding  | fisico  | -intensity HP/turno                          |
-| fracture  | fisico  | -intensity damage_step                       |
-| disorient | fisico  | -2×intensity attack_mod                      |
-| rage      | mentale | +intensity attack/damage, -intensity defense |
-| panic     | mentale | -2×intensity attack, blocca spesa PT         |
-| stunned   | mentale | salta turno                                  |
-| focused   | mentale | +bonus (buff)                                |
-| confused  | mentale | azione casuale                               |
-
-**Meccaniche:** `TICK` decrementa durata ogni round. `APPLY_STATUS` stackabile (cap 3 stack). Stress breakpoint: 0.5 → rage, 0.75 → panic.
-
-### 13.4 VC scoring e MBTI/Ennea (P4)
-
-**VC scoring** (`vcScoring.js`): 19+ raw metrics → 6 indici aggregati (aggro, risk, cohesion, setup, explore, tilt).
-
-**4 assi MBTI** (da `telemetry.yaml`):
-
-- E/I: close_engage, support_bias, time_to_commit
-- S/N: new_tiles, setup_ratio, evasion_ratio
-- T/F: utility_actions vs support_bias
-- J/P: setup_ratio, time_to_commit
-
-**`deriveMbtiType()`** in `vcScoring.js`: soglia 0.5 per asse → tipo 4 lettere.
-
-**9 archetipi Ennea** (condizionali su metriche): Conquistatore(3), Coordinatore(2), Esploratore(7), Architetto(5), Stoico(9), Cacciatore(8), Riformatore(1), Individualista(4), Lealista(6). Trigger: espressioni condizionali in `telemetry.yaml`.
-
-**Effetti Ennea** (`enneaEffects.js`): mappano archetipi a buff combat (attack_mod, defense_mod, move_bonus, stress_reduction, evasion_bonus). ✅ **Wire live full coverage** (branch `feat/p4-ennea-effects-wire` + `feat/stat-consumer-wire-move-stress-evasion`, audit P4 follow-up 2026-04-25): hook in `sessionRoundBridge.applyEndOfRoundSideEffects` post-decay, lazy-import `buildVcSnapshot` + `loadTelemetryConfig` (cached), apply via `applyEnneaToStatus` con coerenza decay loop esistente. **Coverage runtime 5/5 stat mechanical** (P4 🟢 candidato): `attack_mod`/`defense_mod` consumati in `resolveAttack`, `evasion_bonus_bonus` alza DC in `resolveAttack`+`predictCombat`, `move_bonus_bonus` estende budget move in `validatePlayerIntent`, `stress_reduction_bonus` riduce damage_taken increment in `sgTracker.accumulate` (cap 0.5, floor 0). **9/9 archetipi configurati + 9/9 producono effetti meccanici live** (Conquistatore, Coordinatore, Architetto, Riformatore, Individualista, Lealista, **Esploratore**, **Stoico**, **Cacciatore** — Lealista con `defense_mod` duration 2 round). Skip round 1 (no events). Try/catch non-blocking. Card museum [M-2026-04-25-006](../museum/cards/enneagramma-enneaeffects-orphan.md) — reuse_path eseguito.
-
-**16 Forme YAML** (`data/core/forms/mbti_forms.yaml`): tipo MBTI → assi baseline, affinità Job, penalità.
-
-**Endpoint**: `GET /api/session/:id/pf` → proiezione personalità con tipo MBTI, assi e archetipi Ennea per ogni attore.
-
-**MBTI surface phased reveal** (OD-013 Path A, 2026-04-25 sera, branch `feat/d1a-mbti-phased-reveal`): `apps/backend/services/mbtiSurface.js` helper espone `mbti_revealed` per_actor su `/vc` + `/pf` (additive, lazy-import). Pattern Disco Elysium pacing: solo assi con confidence ≥ 0.7 (default, override env `MBTI_REVEAL_THRESHOLD`) mostrati al player; assi sotto soglia o in dead-band restano hint diegetici ("Sei socievole o solitario? Ancora non lo sai."). Confidence derivata da coverage (full=1.0/partial=0.6) × decisiveness (|value-0.5|×2). Frontend `apps/play/src/debriefPanel.js` sezione `#db-mbti-section` (4 axis card + hidden hints + confidence bar). 12/12 unit test in `tests/services/mbtiSurface.test.js`. P4 🟢 candidato → 🟢 verificable (UI surface live, playtest pending).
-
-**MBTI dialogue color codes diegetic** (OD-013 Path B, 2026-04-26, branch `feat/d1b-mbti-dialogue-color-codes`): palette canonical 8 colori in `data/core/personality/mbti_axis_palette.yaml` (E=#b45309 arancio caldo, I=#1e40af blu, S=#15803d verde foresta, N=#6d28d9 viola, T=#0e7490 teal, F=#be185d rosa, J=#854d0e ambra, P=#0369a1 azzurro). Tutti gli 8 garantiscono **WCAG AA** (≥4.5:1 vs `#ffffff`, range misurato 5.02-8.72). Backend `apps/backend/services/mbtiPalette.js` (loadMbtiPalette memoized + try/catch graceful, colorForAxis lookup, mbtiTaggedLine wrap inline `<mbti axis="X">…</mbti>`, wcagContrastRatio utility). Frontend renderer DOM-free `apps/play/src/dialogueRender.js` (renderMbtiTaggedHtml gating compose Path A: span color renderizzato SOLO se axis pair revealed; isAxisRevealed/tagsAreBalanced/escapeHtml/stripMbtiTags). CSS `apps/play/src/dialogueRender.css` 8 axis classes + hover tooltip pure-CSS + dark-bg `text-shadow` + print-safe `@media print`. 26/26 unit test `tests/services/mbtiPalette.test.js` (load/lookup/tag/WCAG/render/escape/balance/strip + cross-import backend↔frontend letter set). ADDITIVE only (testo senza tag passa-through unchanged). P4 🟢 verificable → 🟢 verificable + diegetic surface (helper ready; integration `narrativeEngine.pickVoice` + `render.js drawDialogue` pendente — chiama `mbtiTaggedLine` server-side e `renderMbtiTaggedHtml(text, mbtiRevealed)` client-side).
-
-### 13.5 AI SIS — il Sistema come avversario
-
-**Policy engine** (`services/ai/policy.js`): funzione pura `selectAiPolicy(actor, target)` → regola + intento.
-
-- REGOLA_001: attacco/avvicinamento default
-- REGOLA_002: ritirata a ≤30% HP
-- REGOLA_003: kite se raggio > target
-- Gestione stati emotivi (stunned, rage, panic)
-
-**Intenti** (`declareSistemaIntents.js`): funzione pura che genera intenti per tutte le unità SIS in un round. Output: `{intents, decisions}`. Nessuna mutazione di stato.
-
-**Profili data-driven** (`ai_profiles.yaml`): 3 personalità (aggressive, balanced, cautious) con soglie override. `ai_intent_scores.yaml`: costanti combat (default_attack_range, retreat_hp_pct, kite_buffer).
-
-#### Evoluzione AI — evidenze deep dive repo (2026-04-16)
-
-Analizzati: yuka (JS, goal-driven + fuzzy), GOApy (Python, GOAP/A\*), UtilityAI (C#, considerations), Behaviac (C++, BT/HTN).
-
-**Raccomandazione: Utility AI.** Motivazioni:
-
-1. **Fit naturale** con `selectAiPolicy(actor, target)` → wrapper ogni opzione come Action con Considerations
-2. **Scoring** per azione: `score = Π(consideration_i(state))`, curva lineare/quadratica/log per fattore
-3. **Difficulty profiles** = peso considerations: easy=random noise alto, hard=ottimale
-4. **Overhead zero** per turn-based (nessun planning multi-step necessario)
-5. **~400 LOC** per port minimo (Brain + Action + Consideration base classes)
-
-**Roadmap AI proposta:**
-
-1. `enumerateLegalActions(state, unitId)` → lista azioni valide (boardgame.io pattern)
-2. Per ogni azione: score da N considerations (distanza, HP, copertura, alleati, stress)
-3. Selezione: highest score (hard), weighted random top-3 (normal), random (easy)
-4. Profili in `ai_profiles.yaml` → pesi consideration per profilo
-
-**Pattern scartati:**
-
-- GOAP: overhead A\* planning ogni turno, overkill per 3-5 azioni possibili
-- Behavior Tree: rigido, meno adattivo a cambio parametri
-- Yuka goals: buono per hierarchical goals ma action enum manuale
-
-### 13.6 Narrative engine
-
-**inkjs** in `services/narrative/narrativeEngine.js`. Carica storie `.ink.json` compilate e le esegue fino a nodi di scelta.
-
-**Endpoint:**
-
-- `GET /api/v1/narrative/stories` — lista storie disponibili
-- `POST /api/v1/narrative/start` — inizia storia con sessionData opzionale
-- `POST /api/v1/narrative/choice` — scegli opzione → testo + nuove scelte
-- `POST /api/v1/narrative/bind-session` — lega dati sessione al contesto
-- `POST /api/v1/narrative/save` — salva stato storia
-
-### 13.7 Plugin system
-
-`pluginLoader.js` implementa registrazione sequenziale: ogni plugin esporta `{name, register(app, options)}`.
-Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrative), `metaPlugin` (monta route meta).
-
-### 13.8 Mappa design → codice
-
-| Sezione design             | Modulo implementato                                                     | Stato                                                                                                                                                                                                                                          |
-| -------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| §1 Tesi / Combat           | `roundOrchestrator.js`, Node combat services                            | Operativo; Python e' riferimento storico, non runtime canonical                                                                                                                                                                                |
-| §2 Prima partita           | `51-ONBOARDING-60S.md`, `enc_tutorial_01.yaml`, campaign/session engine | Onboarding backend + tutorial data presenti; device/Godot picker UX da chiudere                                                                                                                                                                |
-| §3 Worldgen                | `biomes.yaml`, ecosystems, foodwebs, meta-network routing               | Dati completi; routing meta-network live gated (`META_NETWORK_ROUTING`)                                                                                                                                                                        |
-| §4 Foodweb                 | Validators + data YAML + spawn filters                                  | Validazione completa; parti runtime foodweb/spawn live o gated                                                                                                                                                                                 |
-| §5 Specie/Trait/Job/Forme  | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml`               | Dati + hydration operativi                                                                                                                                                                                                                     |
-| §6 TV + companion          | Game-Godot-v2 TV/phone surfaces + design docs                           | LIVE_PARTIAL: TV mirror/read-only, device input; K-01/K-06/K-07 hardening in corso                                                                                                                                                             |
-| §7 Narrativa               | `narrativeEngine.js` + inkjs                                            | Engine operativo, contenuti minimi                                                                                                                                                                                                             |
-| §8 Mappa 4 livelli         | —                                                                       | Framework concettuale                                                                                                                                                                                                                          |
-| §10 Meta-loop Nido         | `mating.yaml`, meta routes, Nido/recruit/mating Godot surfaces          | LIVE_GATED/PARTIAL: Nido hub, recruit, mating, offspring ritual; party-select da Nido e quorum device ancora SPEC-E                                                                                                                            |
-| VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                                       | 🟢 candidato VC + MBTI operativi · Ennea effects **9/9** wired runtime mechanical full (5/5 stat consumer live: attack/defense_mod, move_bonus, stress_reduction, evasion_bonus) ([M-006](../museum/cards/enneagramma-enneaeffects-orphan.md)) |
-| AI SIS                     | `policy.js`, `declareSistemaIntents.js`                                 | Operativo, data-driven                                                                                                                                                                                                                         |
-| Status system              | `statusEffectsMachine.js`                                               | Operativo (xstate v5)                                                                                                                                                                                                                          |
-| §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                              | 🟢 Engine operativo, 23 test                                                                                                                                                                                                                   |
-| §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                              | 🟢 Schema + dati validati                                                                                                                                                                                                                      |
-| §16 Networking/Co-op       | M11 Jackbox WS LIVE (`ws@8.18.3`, port 3341)                            | 🟢 Phase A+B+C shipped (ADR-2026-04-20). Colyseus tier-2 fallback solo se scale > 100 player concorrenti                                                                                                                                       |
-| §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                                           | ✅ Formalizzato                                                                                                                                                                                                                                |
-| §18 Audience/Accessibilità | —                                                                       | 🟡 Proposte, attesa Master DD                                                                                                                                                                                                                  |
-| §19 Decisioni GDD          | 28 domande                                                              | 12✅ 9🟡 7🔴                                                                                                                                                                                                                                   |
-| M14 Mutations (Path A)     | `mutationCatalogLoader.js` + `routes/mutations.js`                      | 🟡 Foundation live (30 entries, 4 endpoint REST `/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 wire. Decoupled da V3 mating per design semantics 2026-04-25.                                                    |
-
-### 13.9 Motori Phase-2 — stato di combattimento persistente
-
-> Canonizzazione **OD-058 D5** (verdetto 3A, master-dd Eduardo 2026-06-01). I 4 motori di "stato di combattimento persistente" entrano nel design-of-record (chiude lo scope-creep di motori shippati senza backing SoT). Confine **Phase-2 = SOLO questi 4**; **FUORI = esplicito** (anti catch-all): qualsiasi altro motore (narrative, plugin, worldgen/Flow, Atlas, AI-SIS) e la regola overcharge-AP (D1, è una _regola_ di combat, non un _motore_ Phase-2) NON sono Phase-2. Un motore futuro non è Phase-2 per default.
-
-| Motore                   | Cosa fa                                                             | Stato                      | Owner-doc                                                     |
-| ------------------------ | ------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
-| `morale`                 | panic/rage on ally-death (stile Battle-Brothers)                    | SHIPPED #2390              | `00D §16.1`                                                   |
-| ferite a locazione       | hit-location → malus stat                                           | design `ready`, build D2   | SPEC-D2 / `00D §16.2`                                         |
-| `cumulativeStateTracker` | mutazioni cumulative end-of-round                                   | SHIPPED #2383              | `00D §16.3`                                                   |
-| vcSnapshot coop          | telemetria combat → scoring/debrief; server ricostruisce dal ledger | arch-gated, D3 (Opzione 2) | ADR-2026-05-30-coop-server-authoritative-combat / `00D §16.4` |
-
-Dettaglio diegetico per-motore: `00D-ENGINES_AS_GAME_FEATURES.md §16`. I 2 puntatori (ferite→D2, vcSnapshot→D3) restano gestiti dai rispettivi doc-of-record; D5 li integra, non li ridecide.
+Dettaglio diegetico per-motore: `00D-ENGINES_AS_GAME_FEATURES.md sez.16`. I 2 puntatori (ferite->D2, vcSnapshot->D3) restano gestiti dai rispettivi doc-of-record; D5 li integra, non li ridecide.
 
 #### 13.9.1 Canali di danno + matrice resistenze (OD-058 D4)
 
 Canali canonici (11): `fisico`, `taglio`, `fuoco`, `elettrico`, `psionico`, `mentale`, `gravita`, `ionico`, `earth`, `wind`, `dark`. Semantica `modifier_pct`: **100 = neutro, >100 = vulnerabile, <100 = resistente**. Dato-di-record = `packs/evo_tactics_pack/data/balance/species_resistances.yaml`.
 
-Dead-channel `elettrico` **CHIUSA** (D4 downscope-A): `corazzato elettrico: 120` (vulnerabile) shipped #2381 + N=40-ratify #2389 → il canale ha finalmente un bersaglio premiante. **Enrichment TKT-D4-ENRICH (#2533) SHIPPED 2026-06-10**: prime 2 fonti di danno/control `elettrico` -- `elettromagnete_biologico` (SPEC-D4 PROPOSTA A, offensivo anti-corazza: extra_damage MoS>=5 + ability `magnetic_overload` 1d8+1 elettrico) + `seta_conduttiva_elettrica` (PROPOSTA C, control: disorient on-hit dc13 + ability `voltaic_web`); retune `bioelettrico elettrico: 70 → 80` (anti over-shield, famiglia ionico 80). Gate rispettato: scenario-probe dedicata corazzato-vs-attaccante-elettrico (`tools/py/batch_calibrate_electric_probe.py`) + N=40 paired A/B — evidence `docs/reports/2026-06-10-electric-channel-n40-evidence.md`. Valori **RATIFIED-PROVISIONAL** (verdetto master-dd 2026-06-10, re-validate on player data); PROPOSTA B (chain/AoE) esclusa dal ticket (richiede meccanica nuova abilityExecutor).
+Dead-channel `elettrico` **CHIUSA** (D4 downscope-A): `corazzato elettrico: 120` (vulnerabile) shipped #2381 + N=40-ratify #2389 -> il canale ha finalmente un bersaglio premiante. **Enrichment TKT-D4-ENRICH (#2533) SHIPPED 2026-06-10**: prime 2 fonti di danno/control `elettrico` -- `elettromagnete_biologico` (SPEC-D4 PROPOSTA A, offensivo anti-corazza: extra_damage MoS>=5 + ability `magnetic_overload` 1d8+1 elettrico) + `seta_conduttiva_elettrica` (PROPOSTA C, control: disorient on-hit dc13 + ability `voltaic_web`); retune `bioelettrico elettrico: 70 -> 80` (anti over-shield, famiglia ionico 80). Gate rispettato: scenario-probe dedicata corazzato-vs-attaccante-elettrico (`tools/py/batch_calibrate_electric_probe.py`) + N=40 paired A/B -- evidence `docs/reports/2026-06-10-electric-channel-n40-evidence.md`. Valori **RATIFIED-PROVISIONAL** (verdetto master-dd 2026-06-10, re-validate on player data); PROPOSTA B (chain/AoE) esclusa dal ticket (richiede meccanica nuova abilityExecutor).
 
 ---
 
 ## 14. Grid & Map System 🟢 ENGINE OPERATIVO
+
+> **SUPERSEDED (tipo griglia)**: la decisione hex-axial di 14.1 (2026-04-16) e'
+> superata da `ADR-2026-04-28-grid-type-square-final` -- griglia SQUARE, runtime
+> LIVE con elevazione (scala board: `ADR-2026-07-03-authored-grid-board-scale`).
+> La valutazione sotto resta come storia; stato build -> sez.13 (overlay).
 
 Questa sezione copre la struttura spaziale del campo di battaglia. Attualmente il repo ha dati di terreno (biomes.yaml, terrain_defense.yaml) ma **nessuna implementazione grid/pathfinding**.
 
@@ -965,6 +817,11 @@ difficulty = clamp(raw_score × biome_mult × objective_mult, 1, 5)
 
 ## 16. Networking & Co-op Architecture 🟡 ADR PROPOSTO
 
+> **SUPERSEDED (stato implementativo)**: la valutazione sotto (single-machine
+> only, opzioni Colyseus) e' storica. Il co-op WS 1-8 con reconnect e' LIVE
+> (server-authoritative: `ADR-2026-05-30-coop-server-authoritative-combat`);
+> stato build -> sez.13 (overlay Godot-v2). I requisiti 16.1 restano validi.
+
 Co-op **1-8 giocatori** vs Sistema è pilastro #5 (esteso da 4 a 8 via [ADR-2026-04-17](../adr/ADR-2026-04-17-coop-scaling-4to8.md)). Oggi il sistema gira **single-machine only**.
 
 ### 16.1 Requisiti co-op
@@ -1101,27 +958,39 @@ graph LR
 
 ---
 
-## 18. Target Audience & Accessibilità ⚠️ DA DEFINIRE
+## 18. Target Audience & Accessibilita' -- DECISO (audience) + baseline (a11y)
 
-### 18.1 Target audience
+### 18.1 Target audience (DECISO 2026-07-10, owner)
 
-**Non formalizzato.** Segnali impliciti dai doc:
+**Primaria -- creature-strategist**: adulti cresciuti coi creature-collector
+(Pokemon/monster-raising/Spore) che oggi vogliono sostanza tattica. La fantasia
+guida e' "plasmo la mia specie" (P2 evoluzione emergente = pilastro-pitch); la
+tattica d20 e' il mezzo che rende la fantasia consequenziale. Quando le esigenze
+confliggono, si ottimizza per questo giocatore.
 
-| Segnale                 | Fonte                 | Implicazione                        |
-| ----------------------- | --------------------- | ----------------------------------- |
-| "Salotto TV-first"      | §6, draft-screen-flow | Casual-friendly entry point         |
-| "Tattica profonda"      | §1, pilastro #1       | Core gamer depth                    |
-| "Co-op vs Sistema"      | §1, pilastro #5       | Social/party game element           |
-| "MBTI/Ennea"            | §13.4                 | Interesse psicologico/introspezione |
-| "d20, MoS, damage step" | §13.2                 | Tabletop RPG familiarity            |
+**Secondaria -- tattico-profondo** (XCOM / Into the Breach / FFT): lo tengono la
+profondita' del d20 leggibile (P1) e le sconfitte by-design del flip simmetria.
 
-**Proposta player personas** (da validare con Master DD):
+**Anti-audience dichiarata -- party-casual puro** (Jackbox-style): il rito
+TV+companion resta un differenziatore, ma non si ottimizza per sessioni
+mordi-e-fuggi.
 
-1. **Tattico da salotto** — gioca FFT/Fire Emblem, vuole profondità su TV condivisa
-2. **Giocatore di ruolo** — viene dal tabletop, apprezza d20 e personalità creature
-3. **Curioso casual** — attratto dal co-op TV, resta per progressione creature
+**Implicazioni**: store copy guidata dalla fantasia evolutiva, non dal
+tactical-hardcore; onboarding 60s = ponte per la primaria; sconfitte accettabili
+by-design con la leggibilita' P1 come guardrail; aggiornare la sez. Audience di
+`00F` (business) quando si scrive lo store copy EA.
+
+**Personas (ri-rankate, strumento di lavoro):**
+
+1. **Evolutore** (primaria) -- ex-giocatore di creature-collector, resta per la
+   progressione di specie; fonde le vecchie personas 2 (tabletop) e 3 (curioso).
+2. **Tattico da salotto** (secondaria) -- gioca FFT/Fire Emblem, vuole profondita'
+   su TV condivisa.
 
 ### 18.2 Accessibilità
+
+> Authority operativa: `docs/core/45-ACCESSIBILITY.md` (baseline v1, 2026-07-10).
+> Le decisioni sotto restano come storia.
 
 **Decisioni prese (Fase 4, 2026-04-16):**
 
@@ -1349,8 +1218,8 @@ Il loop completo che unifica tutti i sistemi:
 Questa sequenza integra:
 
 - il mondo (§3–§4);
-- il combat (§13.1–§13.3);
-- l'identità (§5, §13.4);
+- il combat (`docs/hubs/combat.md`; stato impl. -> sez.13 overlay LIVE);
+- l'identita' (§5; stato impl. MBTI/Ennea -> sez.13 overlay, storico in history git);
 - la progressione a carte (§20);
 - il meta-loop sociale (§5, `27-MATING_NIDO.md`).
 
