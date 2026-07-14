@@ -1,11 +1,23 @@
 {
-  "generated_at": "2026-07-14T17:55:28+00:00",
+  "generated_at": "2026-07-14T18:09:38+00:00",
   "summary": {
     "total": 49,
     "errors": 0,
     "warnings": 49
   },
   "issues": [
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "CHANGELOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-06"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/README_FULL_ARCHIVE.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-13"
+    },
     {
       "level": "warning",
       "code": "frontmatter_registry_mismatch",
@@ -153,6 +165,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/planning/2026-06-20-session-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/process/README.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
     },
@@ -257,24 +275,6 @@
       "code": "stale_document",
       "path": "docs/tutorials/hud-overlay-quickstart.md",
       "message": "Documento stale: revisione scaduta il 2026-07-11"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/README_FULL_ARCHIVE.md",
-      "message": "Documento stale: revisione scaduta il 2026-07-13"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/planning/2026-06-20-session-handoff.md",
-      "message": "Documento stale: revisione scaduta il 2026-07-04"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "CHANGELOG.md",
-      "message": "Documento stale: revisione scaduta il 2026-07-06"
     },
     {
       "level": "warning",
