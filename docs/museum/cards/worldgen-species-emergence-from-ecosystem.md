@@ -13,10 +13,12 @@ provenance:
 relevance_score: 4
 reuse_path: 'apps/backend/services/catalog.js:145 — role_templates già parsati, non esposti a spawn director'
 related_pillars: [P1, P3]
-status: curated
+status: reviewed
+reviewed_by: "ADR biome/species data model (issue #3302) -- lo stack 4-livelli diventa enforced; la catena bioma -> ruolo -> trait pool -> specie e' il livello che l'ADR normalizza"
+reviewed_on: 2026-07-14
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-26
-last_verified: 2026-04-26
+last_verified: 2026-07-14
 ---
 
 # Emergenza specie da ecosistema: role_templates + biome_pools come PCG layer
@@ -106,3 +108,23 @@ const templates = Array.isArray(doc.role_templates) ? doc.role_templates : [];
 - `preferred_traits` in `biome_pools.json` non è cross-validato con `data/core/traits/active_effects.yaml` — slug potrebbero essere stale (es. `ghiaccio_piezoelettrico` existe? `criostasi_adattiva`?). Verificare con `grep -n "ghiaccio_piezoelettrico" data/core/traits/active_effects.yaml` prima di wire.
 - Pool copre 8 biomi ma `data/core/biomes.yaml` ha 30+ biomi — gap PCG se si wire solo i pool esistenti. Decision user: coverage completa (2-3h content fill) o solo biomi con pool.
 - NON usare come replacement di encounter YAML senza ADR + calibration harness N=10 (Pillar 6 rischio).
+
+---
+
+## REVIEWED -- 2026-07-14 (ADR biome/species data model, issue #3302)
+
+Status `curated` -> `reviewed`. La catena descritta da questa card (**bioma -> ruolo -> trait pool -> specie**) e' esattamente il livello che l'ADR normalizza.
+
+**Contesto nuovo e scomodo**: la card assumeva un catalogo specie sano. Non lo e'. Censimento verificato 2026-07-14:
+
+- **59 / 105** file specie sono **stub autogenerati** (**56%** del catalogo).
+- `rovine_planari`: **10 file, 10 stub, 0 specie reali**.
+- **21 directory bioma** contengono un solo stub keeper da 3 righe e **zero specie**.
+
+Il "PCG layer" ha quindi un substrato **molto piu' sottile** di quanto la card lasciasse intendere. `role_templates` + `biome_pools.json` restano validi come **infrastruttura**, ma la popolazione di specie reali su cui dovrebbero pescare e' meno della meta' del conteggio nominale.
+
+**Il gap `preferred_traits` non cross-validato** segnalato nei Risks qui sopra si e' rivelato **la punta di un problema piu' grosso**: il gate di copertura trait misurava zero perche' 5 strati di dati fabbricati lo tenevano su. Vedi [M-2026-07-14-001](lesson-coverage-fabrication-five-layers.md).
+
+**Il rischio "pool copre 8 biomi ma biomes.yaml ne ha 30+"**: conteggio corretto -> `biomes.yaml` ha **20** biomi canonici (verificato 2026-07-14), non 30+.
+
+Cross-link: [M-2026-07-14-001](lesson-coverage-fabrication-five-layers.md) - [M-2026-07-14-002](worldgen-biome-vocabularies-orphan.md) - [M-2026-04-26-012](worldgen-bioma-ecosistema-foodweb-network-stack.md) (**revived**).

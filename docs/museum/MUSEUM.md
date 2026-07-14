@@ -23,8 +23,10 @@
 - [Sentience Traits v1.0 — tier T1-T6 + interoception](cards/cognitive_traits-sentience-tiers-v1.md) — **5/5** · Skiv Sprint C diary unblock 3h · unintegrated
 - [Enneagramma Mechanics Registry — 16 hook stub](cards/enneagramma-mechanics-registry.md) — **5/5** · plug-in `enneaEffects.js` 3h · unintegrated
 - [Enneagramma Dataset — 9 tipi canonical](cards/enneagramma-dataset-9-types.md) — **5/5** · Skiv voice palette type 5/7 · unintegrated
-- [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — **5/5** · bioma→ecosistema→foodweb→network, 3 livelli runtime zero · forgotten
-- [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — **5/5** · 5/7 campi biomes.yaml non consumati, P6 fix ~3h · forgotten
+- [Coverage fabbricata: 5 strati impilati](cards/lesson-coverage-fabrication-five-layers.md) — **5/5** · 🆕 2026-07-14 · LESSON: gate a zero per 7 mesi, numero onesto 9; metodo REMOVE-THEN-REMEASURE · superseded
+- [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — **5/5** · ✅ REVIVED 2026-07-14 (ADR #3302 adotta lo stack come modello enforced) · **aveva predetto il fallimento** · revived
+- [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — **5/5** · 5/7 campi biomes.yaml non consumati; spec per ogni nuova promozione a bioma giocabile · reviewed
+- [Due vocabolari bioma orfani](cards/worldgen-biome-vocabularies-orphan.md) — **4/5** · 🆕 2026-07-14 · 12 biomi reali mai cablati + 21 nomi fabbricati, cancellati dall'ADR · unintegrated
 - [Nido Itinerante D-Canvas](cards/mating_nido-canvas-nido-itinerante.md) — **4/5** · Skiv vagans direct fit, 3 mechanics legacy mai migrate · superseded
 - [MBTI Gates Ghost](cards/personality-mbti-gates-ghost.md) — **4/5** · recoverable via `git show 5c704524:...` · deleted
 - [BiomeMemory + Trait Cost Exploration](cards/architecture-biome-memory-trait-cost.md) — **4/5** · Skiv biome-mover differentiation · deferred
@@ -111,21 +113,25 @@ _Pool secco. 10/10 species in `incoming/species/*.json` già canonical via commi
 
 ### Pipeline failure modes
 
+- [Coverage fabbricata: 5 strati impilati](cards/lesson-coverage-fabrication-five-layers.md) — score 5/5 · 🆕 **LESSON** · gate copertura trait a zero per 7 mesi (2025-12-03 → 2026-07-14); numero onesto = 9. 5 artefatti fabbricati impilati, tutti runtime-inerti. **Metodo: REMOVE-THEN-REMEASURE** — un `max_missing = 73` fantasma stava per essere baselineato in CI · superseded
 - [evo-swarm run #5 discarded claims](cards/evo-swarm-run-5-discarded-claims.md) — score 4/5 · 8 hallucinated + 2 redundant, OD-022 gate reference + LLM prompt training · curated (⚠️ user-requested autonomous deviation Museum-first protocol — repo-archaeologist agent review pending)
 
 _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial supersedes + DEPRECATED.md cleanup + concept-explorations vertical-slice). Vedi [excavations/2026-04-25-architecture-inventory.md](excavations/2026-04-25-architecture-inventory.md)._
 
 ### Worldgen / Ecosystem-PCG
 
-- [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — score 5/5 · bioma→ecosistema→foodweb→network, 3 livelli runtime zero · forgotten
-- [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — score 5/5 · 5/7 campi biomes.yaml non consumati a runtime · forgotten
-- [Ruoli trofici validator-time](cards/worldgen-trophic-roles-validator-not-runtime.md) — score 4/5 · trophic_roles.py + foodweb.py completi, zero runtime · deferred
-- [16 Forme MBTI come seed evolutivi](cards/worldgen-forme-mbti-as-evolutionary-seed.md) — score 4/5 · starter_bioma undefined, d12 bias live ma sconnesso da bioma · forgotten
-- [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — score 4/5 · biome_pools.json role_templates caricati non esposti a spawn · deferred
-- [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — score 4/5 · 3 eventi, propagation logic validator, zero runtime · unintegrated
+- [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — score 5/5 · ✅ **REVIVED 2026-07-14** — ADR #3302 adotta lo stack come modello enforced; la card **aveva predetto** l'errore "5 ecosistemi" (letti i 5 `*.biome.yaml` invece dei 21 `*.ecosystem.yaml`) · revived
+- [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — score 5/5 · 5/7 campi biomes.yaml non consumati a runtime; spec di cosa serve per promuovere un bioma a giocabile · reviewed
+- [Due vocabolari bioma orfani](cards/worldgen-biome-vocabularies-orphan.md) — score 4/5 · 🆕 12 biomi reali mai cablati (taiga/tundra/reef...) + 21 nomi fabbricati; `biome_classes.yaml` cancellato dall'ADR · unintegrated
+- [`biome_class`: una chiave, due significati](cards/worldgen-biome-class-key-overload.md) — score 3/5 · 🆕 28 identita' bioma in un file, 10 valori ecologici in un altro; string-match senza validazione · forgotten
+- [Node id MAIUSCOLI: convention leak](cards/worldgen-network-node-id-uppercase-leak.md) — score 3/5 · 🆕 `DESERTO_CALDO` colato in `echo-wing.yaml`; **NON correggere abbassando il case** (0/4 mapping corretti) · forgotten
+- [Ruoli trofici validator-time](cards/worldgen-trophic-roles-validator-not-runtime.md) — score 4/5 · trophic_roles.py + foodweb.py completi, zero runtime; livello 3 ora enforced · reviewed
+- [16 Forme MBTI come seed evolutivi](cards/worldgen-forme-mbti-as-evolutionary-seed.md) — score 4/5 · starter_bioma undefined; eseguibile solo post-ADR (serviva un modello bioma stabile) · reviewed
+- [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — score 4/5 · biome_pools.json role_templates non esposti a spawn; substrato reale = 46/105 specie (56% stub) · reviewed
+- [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — score 4/5 · **ha salvato 2 biomi**: deserto_caldo + cryosteppe sono origini cross-event, stavano per essere rimossi · reviewed
 - [Bridge species network glue](cards/worldgen-bridge-species-network-glue.md) — score 3/5 · 3 bridge species nel pack ecosystem, non in data/core · unintegrated
 
-📎 **Gallery**: [galleries/worldgen.md](galleries/worldgen.md) — 7 card worldgen, gap analysis completo, reuse path consolidato tier 1/2/3.
+📎 **Gallery**: [galleries/worldgen.md](galleries/worldgen.md) — 7 card worldgen, gap analysis completo, reuse path consolidato tier 1/2/3. _(NB: gallery non aggiornata con le 3 card 2026-07-14 — pending.)_
 
 ### Evolution genetics / Mutation engine
 
@@ -157,11 +163,12 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 ## 📊 Stats
 
-- **Excavations run**: 13 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15 + 1 session-8 coop WS test infra 2026-05-20)
-- **Artifact identificati**: ~107 totali (101 precedenti + 6 pattern coop WS test infra)
-- **Cards total**: 35 curate (9 score 5/5 · 13 score 4/5 · 11 score 3/5 · 2 score 2/5) — +1 score 5/5 test infra
-- **Galleries**: 3 (enneagramma + ancestors + worldgen)
-- **Last excavate**: 2026-05-20 (session 8 coop WS test infra: 6 pattern riusabili disconnect-race + host-transfer, M-2026-05-20-001 score 5/5)
+- **Excavations run**: 14 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15 + 1 session-8 coop WS test infra 2026-05-20 + **1 session-9 curate pre-ADR biome/species 2026-07-14**)
+- **Artifact identificati**: ~112 totali (107 precedenti + 5 artefatti pre-cancellazione ADR #3302)
+- **Cards total**: 39 curate (10 score 5/5 · 14 score 4/5 · 13 score 3/5 · 2 score 2/5) — +4 session-9
+- **Lifecycle**: 2 `revived` (mating engine, worldgen stack 4-livelli) · 5 `reviewed` (worldgen cluster, 2026-07-14)
+- **Galleries**: 3 (enneagramma + ancestors + worldgen) — worldgen gallery **pending** update per le 3 card 2026-07-14
+- **Last excavate**: **2026-07-14** (session 9 curate-mode pre-ADR: saga coverage-fabrication 5 strati + 2 vocabolari bioma orfani + key overload + convention leak; M-2026-07-14-001..004)
 - **Coverage**: **100%+** (9/9 domain + indie research cluster nuovi)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)
@@ -215,8 +222,12 @@ docs/museum/
 │   ├── indie-inscryption-camera-reveal-meta.md              # M-2026-04-27-027 score 2/5 (NEW)
 │   ├── indie-1000xresist-memory-layered-pov.md              # M-2026-04-27-028 score 3/5 (NEW)
 │   ├── indie-loop-hero-minimap-visual-emergence.md          # M-2026-04-27-029 score 3/5 (NEW)
-│   ├── indie-cocoon-biome-rules-layer.md                    # M-2026-04-27-030 score 3/5 (NEW)
-│   └── indie-tunic-manual-puzzle-broader.md                 # M-2026-04-27-031 score 2/5 (NEW)
+│   ├── indie-cocoon-biome-rules-layer.md                    # M-2026-04-27-030 score 3/5
+│   ├── indie-tunic-manual-puzzle-broader.md                 # M-2026-04-27-031 score 2/5
+│   ├── lesson-coverage-fabrication-five-layers.md           # M-2026-07-14-001 score 5/5 (NEW — LESSON)
+│   ├── worldgen-biome-vocabularies-orphan.md                # M-2026-07-14-002 score 4/5 (NEW)
+│   ├── worldgen-biome-class-key-overload.md                 # M-2026-07-14-003 score 3/5 (NEW)
+│   └── worldgen-network-node-id-uppercase-leak.md           # M-2026-07-14-004 score 3/5 (NEW)
 └── galleries/
     ├── ancestors.md                                         # 1 card aggregato
     ├── enneagramma.md                                       # 3 cards aggregato
@@ -239,6 +250,21 @@ docs/museum/
 
 ## 📅 Last verified
 
+**2026-07-14** — Session 9, **curate-mode pre-ADR** (issue #3302, modello dati biome/species). L'ADR sta per **cancellare** artefatti che contengono informazione riusabile: curati **prima** della cancellazione (il museo e' additive-only, l'ADR no).
+
+**4 card nuove** (M-2026-07-14-001..004):
+
+- **M-001 LESSON 5/5** — `lesson-coverage-fabrication-five-layers.md`. Il gate di copertura trait ha misurato **zero per 7 mesi**; il numero onesto era **9**. Cinque strati di dati fabbricati, ognuno che copriva il buco del precedente, **tutti runtime-inerti**. **Il metodo che li ha scoperti e' la lezione**: quando un fix di completezza "smaschera debito", **rimuovi prima l'artefatto sospetto e ri-misura** — un `max_missing = 73` **interamente fantasma** stava per essere congelato in un gate CI.
+- **M-002 4/5** — `worldgen-biome-vocabularies-orphan.md`. Due liste di nomi bioma mai progettati, in cancellazione: **12** biomi del mondo reale mai cablati (9 orfani totali: taiga, tundra, reef, costa_rocciosa, foresta_boreale, macchia_mediterranea, prateria_temperata, deserto_freddo, caverne) + **21** nomi fabbricati `coverage_autogen`. ⚠️ `biome_classes.yaml` e' **load-bearing oggi** (`trait_coverage.py:74-95` inverte i suoi `koppen_examples`): migrare **prima** di cancellare.
+- **M-003 3/5** — `worldgen-biome-class-key-overload.md`. `biome_class` = 28 **identita'** bioma in un file, ~10 valori di **tassonomia ecologica** in un altro. Insiemi disgiunti, stessa chiave, zero validazione.
+- **M-004 3/5** — `worldgen-network-node-id-uppercase-leak.md`. I node id livello-4 sono MAIUSCOLI **per convenzione**; sono colati in `echo-wing.yaml`. **NON correggere abbassando il case: 0/4 mapping sarebbero corretti** (c'e' un'indirezione `id -> biome_id`).
+
+**6 card worldgen aggiornate** — 1 `revived` + 5 `reviewed`:
+
+**M-2026-04-26-012 (Worldgen Stack 4-livelli) → `revived`.** Aveva scritto il 2026-04-26: _"Rischio: sessioni future di Claude descrivono il gioco come 'rotazione di mappe' ignorando 3 livelli profondi gia' documentati e validati."_ E' successo **esattamente cosi'**: una sessione ha contato "5 ecosistemi" leggendo i 5 `*.biome.yaml` invece dei 21 `*.ecosystem.yaml`, e stava per rimuovere `cryosteppe` e `deserto_caldo` — che sono ecosistemi (L2), foodweb (L3), **nodi di rete (L4)** e origini cross-event, con 5 specie reali ciascuno. **`deserto_caldo` e' lo `start_node` dell'intero meta-network.** L'ADR ora **adotta lo stack 4-livelli come modello enforced** e **promuove** i due biomi a giocabili.
+
+> **Lezione di curation**: le card che nominano _il modo del fallimento futuro_ valgono piu' di quelle che elencano il contenuto. Questa ha ripagato 2 biomi.
+
 **2026-05-10** — Session 5 ancestors reentry audit. Card M-2026-05-10-001 (score 3/5, branch metadata archive). Major finding: 290/297 traits already live; proposals = provenance + branch metadata only. Path C (sandbox header, 10min) + Path A (biome seeder ~3h) recommended. Audit doc: `docs/research/2026-05-10-ancestors-297-reentry-audit.md`.
 
 **2026-04-27** — Session 4 indie research curation complete. 12 nuove card (M-019→M-031). Cluster C.1 resource attrition (3) + C.2 combat depth (3) + C.3 narrative reactivity (4) + C.4 visual emergence (2). Score distribution: 3×4/5, 7×3/5, 2×2/5. Verified ratio: 0/12 (tutti da doc research, nessuna provenance git diretta). Pending decisions: D3/D4/D5 + TKT-09 + Bundle A/B/C/post-playtest trigger conditions.
@@ -257,7 +283,6 @@ docs/museum/
 **Major finding session 2**: V3 mating engine GIÀ LIVE (PR #1679, 469 LOC + 7 endpoint). OD-001 era basata su audit incomplete. Decisione product Path A (activate ~12-15h) / Path B (demolish ~2h) / Path C (sandbox ~5h) pending.
 
 **Next**: user review verdict OD-001 + 5 backlog ticket P4 spawn + Sprint A wire (M-005 magnetic_rift, validato 6 GAP da cross-agent audit).
-
 
 ---
 

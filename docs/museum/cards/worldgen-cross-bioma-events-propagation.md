@@ -13,10 +13,12 @@ provenance:
 relevance_score: 4
 reuse_path: 'apps/backend/services/combat/reinforcementSpawner.js — aggiungi cross_event loader come pressure modifier pre-wave'
 related_pillars: [P1, P6]
-status: curated
+status: reviewed
+reviewed_by: "ADR biome/species data model (issue #3302) -- cross_events.yaml e' evidenza load-bearing; deserto_caldo + cryosteppe (origini di 2 dei 3 eventi) promossi a biomi giocabili"
+reviewed_on: 2026-07-14
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-26
-last_verified: 2026-04-26
+last_verified: 2026-07-14
 ---
 
 # Cross-bioma event propagation: tempesta ferrosa pattern
@@ -101,3 +103,28 @@ La logica di propagation checking esiste nel validator — non esiste nel runtim
 - Gli effetti (`penalità visibilità/gear metallico`) non sono quantificati numericamente nel YAML — serve design decision prima di wire (es. -1 accuracy? +10% StressWave? capire come mappa su `data/core/biomes.yaml` hazard structure).
 - `species_id: evento-tempesta-ferrosa` usa campo `species_id` per naming di eventi — potenziale confusione con il campo omonimo per specie in altri schema. Pre-wire: verifica no collision con species catalog.
 - Anti-pattern: NON promuovere a meccanica narrativa player-visible (popup "tempesta ferrosa in arrivo!") senza UX research. Il player può non capire il trigger ecologico. Minimo: log Atlas + pressure modifier invisibile.
+
+---
+
+## REVIEWED -- 2026-07-14 (ADR biome/species data model, issue #3302)
+
+Status `curated` -> `reviewed`. **Questa card ha salvato due biomi.**
+
+`cross_events.yaml` e' stato **evidenza load-bearing** nell'indagine: `deserto_caldo` e `cryosteppe` sono le **origini** di 2 dei 3 eventi (`evento-ondata-termica` e `evento-brinastorm`), e questo -- insieme alla loro presenza come ecosistemi, foodweb e nodi di rete -- e' cio' che ha impedito di rimuoverli come "biomi vuoti". L'ADR ora li **promuove a giocabili**.
+
+Verificato 2026-07-14 su filesystem:
+
+| evento                    | `from_nodes`    | `to_nodes`                           |
+| ------------------------- | --------------- | ------------------------------------ |
+| `evento-tempesta-ferrosa` | `BADLANDS`      | `FORESTA_TEMPERATA`, `DESERTO_CALDO` |
+| `evento-ondata-termica`   | `DESERTO_CALDO` | `BADLANDS`                           |
+| `evento-brinastorm`       | `CRYOSTEPPE`    | `FORESTA_TEMPERATA`, `BADLANDS`      |
+
+**Aggiornamento sostanziale**: il file ha guadagnato `season` + `pressure_delta` + `hazard_modifier` (TKT-WORLDGEN-GAPB, 2026-05-29) -- il gap "effetti non quantificati" segnalato nei Risks qui sopra e' quindi **chiuso**. Gli eventi ora portano numeri (`pressure_delta: 2`) e un `hazard_modifier` nominato.
+
+**Due nuovi rischi trovati** (non presenti nella card originale):
+
+- I `from_nodes`/`to_nodes` sono **node id MAIUSCOLI**, non biome slug. Vedi [M-2026-07-14-004](worldgen-network-node-id-uppercase-leak.md) -- la convenzione e' **colata** dentro `echo-wing.yaml`, che e' proprio una bridge species.
+- Esiste un **duplicato** del file in `packs/evo_tactics_pack/data/ecosistemi/cross_events.yaml` (directory italiana). **Quale sia autoritativo non e' determinato.**
+
+Cross-link: [M-2026-04-26-012](worldgen-bioma-ecosistema-foodweb-network-stack.md) (**revived**) - [M-2026-07-14-004](worldgen-network-node-id-uppercase-leak.md).

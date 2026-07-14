@@ -123,7 +123,32 @@ specie: sono abbozzi, non ambienti.
 
 ---
 
-## 4. ECOSISTEMI -- **5** descrittori, **4** popolati
+## 4. ECOSISTEMI -- **21**, non 5
+
+> 🔴 **CORREZIONE (2026-07-14, stessa giornata)**: la prima stesura di questa sezione diceva
+> **"5 ecosistemi"**. **E' SBAGLIATO.** Contavo i file `*.biome.yaml` (5) credendo fossero i
+> descrittori di ecosistema. Gli ecosistemi sono `*.ecosystem.yaml` e sono **21** -- piu' 5
+> foodweb (livello 3) e 1 meta-network (livello 4), che questo censimento non aveva nemmeno
+> visto. L'errore e' stato scoperto solo consultando il Museum (carta `M-2026-04-26-012`), che
+> **aveva previsto testualmente** questo modo di sbagliare. Vedi ADR-2026-07-14.
+>
+> **Lo stack reale e' a 4 livelli** (SoT §3): `bioma (20) -> ecosistema (21) -> foodweb (5) ->
+network + cross-events (1)`. Le sezioni sopra restano valide; questa era sbagliata.
+
+| livello                             | reale  |
+| ----------------------------------- | ------ |
+| 1 — bioma (`biomes.yaml`)           | **20** |
+| 2 — ecosistema (`*.ecosystem.yaml`) | **21** |
+| 3 — foodweb (`*_foodweb.yaml`)      | **5**  |
+| 4 — network + cross-events          | **1**  |
+
+`cryosteppe` e `deserto_caldo` sono gli **unici 2 ecosistemi su 21** senza entry di livello 1 --
+eppure sono nodi della meta-rete (`DESERTO_CALDO` ne e' lo `start_node`) e origini canoniche di
+eventi cross-bioma. ADR-2026-07-14 li **promuove** a biomi giocabili (20 -> 22).
+
+### (sezione originale, conservata per onesta')
+
+**5** file `*.biome.yaml` -- una cosa DIVERSA dagli ecosistemi, e quasi tutta `null`:
 
 Solo 5 biomi hanno un `.biome.yaml` (descrittore PTPF v1.1 completo: koppen, NPP, morfologia,
 clima, rete trofica, servizi ecosistemici):

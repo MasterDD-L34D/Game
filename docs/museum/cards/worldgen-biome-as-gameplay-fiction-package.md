@@ -13,10 +13,12 @@ provenance:
 relevance_score: 5
 reuse_path: 'apps/backend/services/combat/biomeSpawnBias.js — estendi da affix-match a full bioma package consumer (StressWave + hazard + npc_archetypes + tono)'
 related_pillars: [P1, P3, P6]
-status: curated
+status: reviewed
+reviewed_by: 'ADR biome/species data model (issue #3302) -- 2 nuovi biomi (cryosteppe, deserto_caldo) promossi a giocabili richiedono il pacchetto completo che questa card descrive'
+reviewed_on: 2026-07-14
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-26
-last_verified: 2026-04-26
+last_verified: 2026-07-14
 ---
 
 # Bioma come pacchetto gameplay+fiction: non è una mappa, è una mappa
@@ -107,3 +109,16 @@ const { applyBiomeBias } = require('./biomeSpawnBias');
 - `StressWave` naming in biomes.yaml vs `pressure` naming in session engine — sono la stessa cosa? Da chiarire prima di wire. Se mappano 1:1, è triviale. Se sono logiche separate, serve ADR.
 - `npc_archetypes.primary/support/threat` non ha slug verificati contro `data/core/` — verifica che `abyssal_forgers` sia uno slug valido per encounter generation prima di usarlo come constraint.
 - Anti-pattern: NON surfaciare `diff_base`/`mod_biome` al player come numeri naked — sono parametri interni di bilanciamento, non UI-facing.
+
+---
+
+## REVIEWED -- 2026-07-14 (ADR biome/species data model, issue #3302)
+
+Status `curated` -> `reviewed`. La sostanza della card **tiene** e diventa piu' urgente.
+
+- L'ADR **promuove `cryosteppe` e `deserto_caldo` a biomi giocabili**. Promuovere un bioma significa esattamente costruire il **pacchetto completo** che questa card descrive (`hazard` + `StressWave` + `npc_archetypes` + tono + hooks) -- non aggiungere una riga a una lista.
+- Questa card e' quindi la **specifica di cosa serve** per ogni nuova promozione a bioma giocabile. Usarla come checklist.
+- **Non risolto dall'ADR**: il claim centrale (5/7 campi di `biomes.yaml` caricati ma non consumati a runtime) resta **aperto**. L'ADR normalizza il _modello dati_, non il _consumo runtime_. Per questo `reviewed` e non `revived`.
+- Conteggio aggiornato: `data/core/biomes.yaml` ha oggi **20** biomi canonici (la card ne citava 30+; verificato 2026-07-14).
+
+Cross-link: [M-2026-07-14-002 -- Due vocabolari bioma orfani](worldgen-biome-vocabularies-orphan.md) (33 nomi bioma senza pacchetto) - [M-2026-04-26-012](worldgen-bioma-ecosistema-foodweb-network-stack.md) (**revived**).

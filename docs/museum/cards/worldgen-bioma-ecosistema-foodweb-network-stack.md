@@ -13,10 +13,12 @@ provenance:
 relevance_score: 5
 reuse_path: 'apps/backend/services/combat/biomeSpawnBias.js:1 — extend da affix-bias a full ecosystem loader; packs/evo_tactics_pack/data/ecosystems/ — dati già esistenti'
 related_pillars: [P1, P3, P6]
-status: curated
+status: revived
+revived_by: 'ADR biome/species data model (issue #3302) -- adotta lo stack 4-livelli come modello ENFORCED; promuove cryosteppe + deserto_caldo a biomi giocabili'
+revived_on: 2026-07-14
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-26
-last_verified: 2026-04-26
+last_verified: 2026-07-14
 ---
 
 # Worldgen Stack 4-livelli: bioma → ecosistema → foodweb → network
@@ -84,3 +86,47 @@ Clima, aria, abiotico, struttura trofica (produttori → consumatori primari/sec
 - `bridge_species_map` cita `echo-wing`, `ferrocolonia-magnetotattica`, `archon-solare` — questi slug NON sono in `data/core/species.yaml` (solo 1 entry con `biome_affinity: savana` = dune_stalker). Conflict: bridge species vivono SOLO nel pack ecosystem, non nel core canonical. Serve ADR prima di wire runtime.
 - `biome_id` in `meta_network_alpha.yaml` usa slug come `canyons_risonanti`, `foresta_miceliale` — potrebbero non matchare slug in `data/core/biomes.yaml`. Verificare con `grep -n "canyons_risonanti" data/core/biomes.yaml` prima di wire.
 - "Non promuovere cross-event a meccanica player-visible senza UX research" — la foodweb è motore invisibile per design (SoT §4 esplicito: "impatto basso come meccanica esplicita").
+
+---
+
+## REVIVED -- 2026-07-14 (ADR biome/species data model, issue #3302)
+
+> **Questa card aveva predetto il fallimento, alla lettera, 2 mesi e mezzo prima che accadesse.**
+
+Riga scritta il 2026-04-26 nel Summary qui sopra:
+
+> _"Rischio: sessioni future di Claude descrivono il gioco come 'rotazione di mappe' ignorando 3 livelli profondi gia' documentati e validati."_
+
+**Cosa e' successo il 2026-07-14** (verificato in questa sessione):
+
+Una sessione ha contato **"5 ecosistemi"** leggendo `*.biome.yaml` (**5** file) invece di `*.ecosystem.yaml` (**21** file) -- cioe' ha letto il **livello 1** credendo di leggere il **livello 2**. Esattamente la confusione che questa card aveva nominato.
+
+Conseguenza sfiorata: `cryosteppe` e `deserto_caldo` stavano per essere **rimossi** come biomi vuoti. Sono invece, verificato su filesystem:
+
+| livello          | artefatto                      | `cryosteppe`                | `deserto_caldo`                                    |
+| ---------------- | ------------------------------ | --------------------------- | -------------------------------------------------- |
+| 2 -- ecosistema  | `*.ecosystem.yaml`             | si'                         | si'                                                |
+| 3 -- foodweb     | `data/foodwebs/*_foodweb.yaml` | si'                         | si'                                                |
+| 4 -- network     | `meta_network_alpha.yaml`      | nodo `CRYOSTEPPE`           | nodo `DESERTO_CALDO` -- **`start_node` del grafo** |
+| 4 -- cross-event | `cross_events.yaml`            | origine `evento-brinastorm` | origine `evento-ondata-termica`                    |
+| --               | specie reali                   | **5**                       | **5**                                              |
+
+`deserto_caldo` **e' il nodo di partenza dell'intero meta-network**. Stava per essere cancellato perche' non appariva tra i 5 `*.biome.yaml`.
+
+**Esito**: l'ADR (#3302) **ADOTTA lo stack 4-livelli come modello enforced** e **PROMUOVE** i due biomi a giocabili. La tesi centrale di questa card -- _il mondo e' una rete di ecosistemi a 4 livelli, non un elenco di mappe_ -- passa da documentata a **normativa**.
+
+**Perche' la predizione ha funzionato**: la card non diceva "questi dati sono utili". Diceva **"qualcuno li leggera' male, in questo modo specifico"**. Le card di museo che nominano il _modo del fallimento futuro_ valgono piu' di quelle che elencano il contenuto.
+
+### Cross-link alle card nate da questo evento
+
+- [M-2026-07-14-001 -- Coverage fabbricata: 5 strati impilati](lesson-coverage-fabrication-five-layers.md)
+- [M-2026-07-14-002 -- Due vocabolari bioma orfani](worldgen-biome-vocabularies-orphan.md)
+- [M-2026-07-14-003 -- `biome_class`: una chiave, due significati](worldgen-biome-class-key-overload.md)
+- [M-2026-07-14-004 -- Node id MAIUSCOLI: convention leak](worldgen-network-node-id-uppercase-leak.md)
+
+### Nota sui Risks qui sopra
+
+Due dei rischi elencati il 2026-04-26 sono stati **confermati** in questa sessione:
+
+- _"`biome_id` in `meta_network_alpha.yaml` usa slug come `canyons_risonanti`, `foresta_miceliale` -- potrebbero non matchare slug in `data/core/biomes.yaml`"_ -> **confermato e peggio**: i node id MAIUSCOLI sono colati dentro `echo-wing.yaml`, e la risoluzione `id -> biome_id` **contraddice** `biome_aliases.yaml` su 2 slug su 4. Vedi [M-2026-07-14-004](worldgen-network-node-id-uppercase-leak.md).
+- _"bridge species vivono SOLO nel pack ecosystem, non nel core canonical. Serve ADR prima di wire runtime"_ -> **l'ADR e' arrivato** (#3302).
