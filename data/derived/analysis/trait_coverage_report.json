@@ -1,21 +1,22 @@
 {
   "schema_version": "1.0",
+  "generated_at": "2026-07-14T14:57:13+00:00",
   "sources": {
-    "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-    "trait_reference": "data/traits/index.json",
-    "trait_glossary": "data/core/traits/glossary.json",
-    "species_root": "packs/evo_tactics_pack/data/species",
-    "species_affinity": "data/traits/species_affinity.json"
+    "env_traits": "packs\\evo_tactics_pack\\docs\\catalog\\env_traits.json",
+    "trait_reference": "packs\\evo_tactics_pack\\docs\\catalog\\trait_reference.json",
+    "trait_glossary": "data\\core\\traits\\glossary.json",
+    "species_root": "packs\\evo_tactics_pack\\data\\species",
+    "species_affinity": "data\\traits\\species_affinity.json"
   },
   "summary": {
-    "traits_total": 308,
+    "traits_total": 307,
     "traits_with_rules": 151,
     "traits_with_species": 189,
     "traits_with_affinity": 200,
     "rule_combos_total": 189,
-    "species_combos_total": 317,
-    "rules_missing_species_total": 9,
-    "affinity_missing_species_total": 0,
+    "species_combos_total": 328,
+    "rules_missing_species_total": 5,
+    "affinity_missing_species_total": 4,
     "affinity_missing_matrix_total": 89,
     "traits_missing_species": [
       "cuticole_cerose",
@@ -7526,7 +7527,7 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 10,
         "coverage": [
           {
             "biome": null,
@@ -7534,6 +7535,22 @@
             "count": 1,
             "examples": [
               "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "sand-burrower"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "sand-burrower"
             ]
           },
           {
@@ -7590,10 +7607,6 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "badlands",
-            "morphotype": null
-          },
-          {
             "biome": "steppe_algoritmiche",
             "morphotype": null
           }
@@ -7620,7 +7633,9 @@
             "morphotype": "volatore_planatore"
           }
         ],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "sand-burrower"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -10028,8 +10043,48 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 12,
         "coverage": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
           {
             "biome": "cryosteppe",
             "morphotype": null,
@@ -10084,15 +10139,23 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "badlands",
-            "morphotype": null
-          },
-          {
             "biome": "steppe_algoritmiche",
             "morphotype": null
           }
         ],
         "missing_in_rules": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore"
+          },
           {
             "biome": "deserto_caldo",
             "morphotype": "cursoriale_quadrupede"
@@ -10110,7 +10173,9 @@
             "morphotype": "volatore_planatore"
           }
         ],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "echo-wing"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -10154,8 +10219,24 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "cryptopennatus_psionicus"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "aliante_mimetico",
+            "count": 1,
+            "examples": [
+              "cryptopennatus_psionicus"
+            ]
+          },
           {
             "biome": "foresta_temperata",
             "morphotype": null,
@@ -10169,16 +10250,14 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "canopia_ionica",
-            "morphotype": null
-          },
-          {
             "biome": "rovine_planari",
             "morphotype": null
           }
         ],
         "missing_in_rules": [],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "cryptopennatus_psionicus"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -10275,8 +10354,24 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 10,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
           {
             "biome": "cryosteppe",
             "morphotype": null,
@@ -10339,10 +10434,6 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "badlands",
-            "morphotype": null
-          },
-          {
             "biome": "steppe_algoritmiche",
             "morphotype": null
           }
@@ -10369,7 +10460,9 @@
             "morphotype": "flora_radicata"
           }
         ],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "ferrocolonia-magnetotattica"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -12536,26 +12629,6 @@
         ]
       }
     },
-    "traits_aggregate": {
-      "label_it": "Aggregato tratti Evo",
-      "label_en": "Evo Traits Aggregate",
-      "description_it": "Dump normalizzato dei trait Evo (TR-*) per allineare indice legacy e QA.",
-      "description_en": "Normalized Evo trait dump (TR-*) used to align legacy index and QA.",
-      "rules": {
-        "total": 0,
-        "coverage": []
-      },
-      "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [],
-        "missing_in_rules": [],
-        "missing_in_affinity": [],
-        "missing_in_matrix": []
-      }
-    },
     "unghie_a_micro_adesione": {
       "label_it": "Unghie a Micro-Adesione",
       "label_en": "Micro-Adhesion Claws",
@@ -12930,13 +13003,13 @@
                 "id": "arboryxis-lenis",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/arboryxis-lenis.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\arboryxis-lenis.yaml"
               },
               {
                 "id": "nebulocornis-mollis",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\nebulocornis-mollis.yaml"
               }
             ]
           }
@@ -12955,7 +13028,7 @@
                 "id": "rubrospina-velox",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/badlands/rubrospina-velox.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\rubrospina-velox.yaml"
               }
             ]
           }
@@ -12976,7 +13049,7 @@
                 "id": "ferriscroba-detrita",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/badlands/ferriscroba-detrita.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\ferriscroba-detrita.yaml"
               }
             ]
           }
@@ -12997,7 +13070,7 @@
                 "id": "guardiano_caverna",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/guardiano-caverna.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\guardiano-caverna.yaml"
               }
             ]
           }
@@ -13020,9 +13093,9 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
               }
             ]
           },
@@ -13037,9 +13110,9 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
               }
             ]
           },
@@ -13054,9 +13127,9 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
               }
             ]
           },
@@ -13071,9 +13144,9 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
               }
             ]
           },
@@ -13090,7 +13163,7 @@
                   "eco_interno_riflesso",
                   "sonno_emisferico_alternato"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\aurora-gull.yaml"
               }
             ]
           },
@@ -13107,7 +13180,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\noctule-termico.yaml"
               }
             ]
           }
@@ -13133,11 +13206,11 @@
                 "id": "sand-burrower",
                 "playable_unit": false,
                 "core_traits": [
+                  "grassi_termici",
                   "nucleo_ovomotore_rotante",
-                  "sacche_galleggianti_ascensoriali",
-                  "scheletro_idro_regolante"
+                  "sacche_galleggianti_ascensoriali"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\sand-burrower.yaml"
               }
             ]
           }
@@ -13159,10 +13232,10 @@
                 "playable_unit": false,
                 "core_traits": [
                   "mimetismo_cromatico_passivo",
-                  "sacche_galleggianti_ascensoriali",
-                  "struttura_elastica_amorfa"
+                  "pelli_fitte",
+                  "sacche_galleggianti_ascensoriali"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/canopia_ionica/cryptopennatus-psionicus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\canopia_ionica\\cryptopennatus-psionicus.yaml"
               }
             ]
           }
@@ -13185,7 +13258,7 @@
                 "core_traits": [
                   "cute_resistente_sali"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\badlands-trait-keeper.yaml"
               },
               {
                 "id": "evento-tempesta-ferrosa",
@@ -13195,19 +13268,19 @@
                   "enzimi_chelanti",
                   "pelli_anti_ustione"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\evento-tempesta-ferrosa.yaml"
               },
               {
                 "id": "magneto-ridge-hunter",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\magneto-ridge-hunter.yaml"
               },
               {
                 "id": "slag-veil-ambusher",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\slag-veil-ambusher.yaml"
               }
             ]
           },
@@ -13220,7 +13293,7 @@
                 "id": "aurora-bridge-runner",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\aurora-bridge-runner.yaml"
               },
               {
                 "id": "evento-brinastorm",
@@ -13230,13 +13303,13 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\evento-brinastorm.yaml"
               },
               {
                 "id": "zephyr-spore-courier",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\zephyr-spore-courier.yaml"
               }
             ]
           },
@@ -13253,7 +13326,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\evento-ondata-termica.yaml"
               }
             ]
           },
@@ -13268,19 +13341,19 @@
                 "core_traits": [
                   "pelli_fitte"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\evento-seme-uragano.yaml"
               },
               {
                 "id": "glowcap-weaver",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\glowcap-weaver.yaml"
               },
               {
                 "id": "myco-spire-warden",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\myco-spire-warden.yaml"
               }
             ]
           }
@@ -13305,7 +13378,7 @@
                   "occhi_cristallo_modulare",
                   "olfatto_risonanza_magnetica"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/aerostatocyon-altivolans.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\stratosfera_tempestosa\\aerostatocyon-altivolans.yaml"
               }
             ]
           }
@@ -13330,7 +13403,7 @@
                   "pigmenti_aurorali",
                   "radici_ancora_planare"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_miceliale/radiciforma-ancorans.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_miceliale\\radiciforma-ancorans.yaml"
               }
             ]
           }
@@ -13355,7 +13428,7 @@
                   "carapace_fase_variabile",
                   "matrice_antimagia"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/caverna/lithoconstructus-inhibens.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\caverna\\lithoconstructus-inhibens.yaml"
               }
             ]
           }
@@ -13380,7 +13453,7 @@
                   "respiro_a_scoppio",
                   "filamenti_digestivi_compattanti"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\rust-scavenger.yaml"
               }
             ]
           },
@@ -13397,7 +13470,7 @@
                   "scheletro_idro_regolante",
                   "respiro_a_scoppio"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\steppe-bison-mini.yaml"
               }
             ]
           },
@@ -13414,7 +13487,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\cactus-weaver.yaml"
               }
             ]
           },
@@ -13431,7 +13504,7 @@
                   "pathfinder",
                   "pianificatore"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\sentinella-radice.yaml"
               }
             ]
           }
@@ -13459,7 +13532,7 @@
                   "spore_psichiche_silenziate",
                   "scheletro_idro_regolante"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\nano-rust-bloom.yaml"
               }
             ]
           },
@@ -13476,7 +13549,7 @@
                   "spore_psichiche_silenziate",
                   "sangue_piroforico"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\thaw-rot.yaml"
               }
             ]
           },
@@ -13493,7 +13566,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\silica-bloom.yaml"
               }
             ]
           },
@@ -13510,7 +13583,7 @@
                   "lingua_tattile_trama",
                   "ghiandola_caustica"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\blight-micotico.yaml"
               }
             ]
           }
@@ -13534,7 +13607,7 @@
                 "id": "guardiano_pozza",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/guardiano-pozza.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\guardiano-pozza.yaml"
               }
             ]
           }
@@ -13559,7 +13632,7 @@
                   "frusta_fiammeggiante",
                   "mantello_meteoritico"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/abisso_vulcanico/rotabrachium-ferox.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\abisso_vulcanico\\rotabrachium-ferox.yaml"
               }
             ]
           }
@@ -13580,7 +13653,7 @@
                 "id": "apex_predatore",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/apex-predatore.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\apex-predatore.yaml"
               }
             ]
           },
@@ -13593,7 +13666,7 @@
                 "id": "apex_predatore",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/apex-predatore.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\apex-predatore.yaml"
               }
             ]
           }
@@ -13616,10 +13689,10 @@
                 "playable_unit": true,
                 "core_traits": [
                   "mimetismo_cromatico_passivo",
-                  "sangue_piroforico",
-                  "secrezione_rallentante_palmi"
+                  "pigmenti_aurorali",
+                  "sangue_piroforico"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\ferrocolonia-magnetotattica.yaml"
               }
             ]
           }
@@ -13644,7 +13717,7 @@
                   "ali_solari_fotoni",
                   "empatia_coordinativa"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/canopia_ionica/auroserpens-photonicus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\canopia_ionica\\auroserpens-photonicus.yaml"
               }
             ]
           },
@@ -13661,7 +13734,7 @@
                   "ali_fono_risonanti",
                   "risonanza_di_branco"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/canyons_risonanti/sonovespera-lamentans.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\canyons_risonanti\\sonovespera-lamentans.yaml"
               }
             ]
           },
@@ -13678,7 +13751,7 @@
                   "olfatto_risonanza_magnetica",
                   "struttura_elastica_amorfa"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/reef_luminescente/amorphovenator-magneticus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\reef_luminescente\\amorphovenator-magneticus.yaml"
               }
             ]
           },
@@ -13695,7 +13768,7 @@
                   "aura_scudo_radianza",
                   "ali_solari_fotoni"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/savana/heliopteryx-radians.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\savana\\heliopteryx-radians.yaml"
               }
             ]
           }
@@ -13723,7 +13796,7 @@
                   "frusta_fiammeggiante",
                   "mantello_meteoritico"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/abisso_vulcanico/pyroflagellum-meteoriticum.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\abisso_vulcanico\\pyroflagellum-meteoriticum.yaml"
               }
             ]
           },
@@ -13736,7 +13809,7 @@
                 "id": "ferrimordax-rutilus",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/badlands/ferrimordax-rutilus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\ferrimordax-rutilus.yaml"
               },
               {
                 "id": "tellurmordax_phasicus",
@@ -13746,7 +13819,7 @@
                   "coda_frusta_cinetica",
                   "armatura_pietra_planare"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/tellurmordax-phasicus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\tellurmordax-phasicus.yaml"
               }
             ]
           },
@@ -13762,7 +13835,7 @@
                   "artigli_sette_vie",
                   "sensori_sismici"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\caverna_risonante\\resonant-claw-hunter.yaml"
               }
             ]
           },
@@ -13779,7 +13852,7 @@
                   "tessuti_adattivi",
                   "empatia_coordinativa"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/illusiopardus-psionicus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\illusiopardus-psionicus.yaml"
               }
             ]
           }
@@ -13806,7 +13879,7 @@
                   "scheletro_idro_regolante",
                   "struttura_elastica_amorfa"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\badlands\\dune-stalker.yaml"
               }
             ]
           },
@@ -13823,7 +13896,7 @@
                   "carapace_fase_variabile",
                   "olfatto_risonanza_magnetica"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\cryosteppe\\cryo-lynx.yaml"
               }
             ]
           },
@@ -13840,7 +13913,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\thermo-raptor.yaml"
               }
             ]
           },
@@ -13857,7 +13930,7 @@
                   "tattiche_di_branco",
                   "risonanza_di_branco"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\lupus-temperatus.yaml"
               }
             ]
           }
@@ -13881,7 +13954,7 @@
                 "id": "predone_agile",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/predone-agile.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\predone-agile.yaml"
               }
             ]
           },
@@ -13894,13 +13967,13 @@
                 "id": "predone_agile",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/predone-agile.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\predone-agile.yaml"
               },
               {
                 "id": "predoni_nomadi",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/predoni-nomadi.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\predoni-nomadi.yaml"
               }
             ]
           }
@@ -13921,7 +13994,7 @@
                 "id": "cacciatore_corazzato",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "packs/evo_tactics_pack/data/species/tutorial/cacciatore-corazzato.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\tutorial\\cacciatore-corazzato.yaml"
               }
             ]
           }
@@ -13946,7 +14019,7 @@
                   "membrane_osmotiche",
                   "carapace_fase_variabile"
                 ],
-                "source": "packs/evo_tactics_pack/data/species/palude/filtrophagus-custos.yaml"
+                "source": "packs\\evo_tactics_pack\\data\\species\\palude\\filtrophagus-custos.yaml"
               }
             ]
           }
