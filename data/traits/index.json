@@ -18008,7 +18008,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.risonanza_magnetica.debolezza"
     },
     "pelli_cave": {
       "schema_version": "2.0",
@@ -18241,7 +18242,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.matrice_antimagia.debolezza"
     },
     "nuclei_di_controllo": {
       "schema_version": "2.0",
@@ -18275,7 +18277,8 @@
           ],
           "weight": 3
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.nuclei_di_controllo.debolezza"
     },
     "corteccia_memetica": {
       "schema_version": "2.0",
