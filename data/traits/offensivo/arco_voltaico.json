@@ -10,13 +10,16 @@
     "complementare": "offesa"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "elettromagnete_biologico",
+    "artigli_induzione"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.arco_voltaico.mutazione_indotta",
   "uso_funzione": "i18n:traits.arco_voltaico.uso_funzione",
   "spinta_selettiva": "i18n:traits.arco_voltaico.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

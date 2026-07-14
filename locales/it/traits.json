@@ -1949,6 +1949,76 @@
       "mutazione_indotta": "Regolazione neurochimica che sopprime rumore ed affaticamento cognitivo.",
       "spinta_selettiva": "Scenari di conflitto prolungato dove il collasso cognitivo e' la vera causa di morte.",
       "uso_funzione": "Mantenimento della decisione ottimale sotto stress o interferenza mentale."
+    },
+    "arco_voltaico": {
+      "description": "Scarica elettrica ad arco proiettata tra appendici conduttive per colpire a distanza ravvicinata.",
+      "label": "Arco Voltaico",
+      "mutazione_indotta": "Organi elettrogeni specializzati che accumulano e scaricano potenziale lungo un arco conduttivo.",
+      "spinta_selettiva": "Prede rapide o sfuggenti dove il contatto diretto e' difficile.",
+      "uso_funzione": "Colpire con una scarica ad arco che salta tra bersagli vicini."
+    },
+    "martello_osseo": {
+      "description": "Escrescenza ossea massiccia usata come arma contundente ad alto impatto.",
+      "label": "Martello Osseo",
+      "mutazione_indotta": "Ispessimento e fusione di segmenti ossei in una massa d'urto compatta.",
+      "spinta_selettiva": "Prede corazzate o riparate dietro strutture dure.",
+      "uso_funzione": "Frantumare corazze e strutture con colpi contundenti."
+    },
+    "pungiglione_paralizzante": {
+      "description": "Aculeo inoculatore che rilascia una neurotossina paralizzante.",
+      "label": "Pungiglione Paralizzante",
+      "mutazione_indotta": "Ghiandole velenifere connesse a un aculeo cavo inoculatore.",
+      "spinta_selettiva": "Prede piu' grandi o veloci da sottomettere senza lotta prolungata.",
+      "uso_funzione": "Immobilizzare la preda con una singola inoculazione mirata."
+    },
+    "scarica_ionica": {
+      "description": "Emissione di un fronte di particelle cariche che disturba tessuti e conduzione nervosa.",
+      "label": "Scarica Ionica",
+      "mutazione_indotta": "Membrane elettrogeniche che ionizzano l'aria o l'acqua circostante.",
+      "spinta_selettiva": "Ambienti conduttivi umidi dove la carica si propaga con efficacia.",
+      "uso_funzione": "Sprigionare una scarica ionizzante ad area ravvicinata."
+    },
+    "corteccia_memetica": {
+      "description": "Strato dermico che archivia e ripropone schemi difensivi appresi da minacce precedenti.",
+      "label": "Corteccia Memetica",
+      "mutazione_indotta": "Reti neurali dermiche capaci di registrare e richiamare pattern di aggressione.",
+      "spinta_selettiva": "Predatori ricorrenti con schemi d'attacco riconoscibili.",
+      "uso_funzione": "Anticipare un attacco gia' subito adattando la risposta difensiva."
+    },
+    "pelli_cave": {
+      "description": "Tegumento a camere cave che assorbe e dissipa gli urti restando leggero.",
+      "label": "Pelli Cave",
+      "mutazione_indotta": "Formazione di camere d'aria stratificate nel derma.",
+      "spinta_selettiva": "Cadute, urti o colpi contundenti frequenti nell'habitat.",
+      "uso_funzione": "Attutire l'impatto distribuendolo nelle camere cave."
+    },
+    "radici_ancora_planare": {
+      "description": "Appendici radicali che ancorano il corpo al substrato resistendo a spostamenti e prese.",
+      "label": "Radici Ancora Planare",
+      "mutazione_indotta": "Estroflessioni radicali capaci di aggrapparsi e fissarsi al terreno.",
+      "spinta_selettiva": "Correnti, venti forti o predatori che afferrano e trascinano.",
+      "uso_funzione": "Resistere a trascinamenti, ribaltamenti e prese avversarie."
+    },
+    "matrice_antimagia": {
+      "description": "Rete neurale che smorza e disperde interferenze mentali ed energetiche esterne.",
+      "label": "Matrice Antimagia",
+      "mutazione_indotta": "Reticolo di fibre isolanti che schermano il sistema nervoso centrale.",
+      "spinta_selettiva": "Ambienti o creature che sfruttano interferenza mentale.",
+      "uso_funzione": "Ridurre l'efficacia di controlli mentali e scariche energetiche."
+    },
+    "nuclei_di_controllo": {
+      "description": "Gangli accessori che coordinano appendici multiple con precisione indipendente.",
+      "label": "Nuclei di Controllo",
+      "mutazione_indotta": "Sviluppo di nuclei nervosi ausiliari distribuiti lungo il corpo.",
+      "spinta_selettiva": "Corpi con molte appendici o manipolatori da gestire in parallelo.",
+      "uso_funzione": "Governare piu' appendici simultaneamente senza perdita di coordinazione."
+    },
+    "risonanza_magnetica": {
+      "description": "Organi che percepiscono e modulano campi magnetici per orientarsi e segnalare.",
+      "label": "Risonanza Magnetica",
+      "mutazione_indotta": "Cristalli biomagnetici accoppiati a terminazioni nervose sensibili.",
+      "spinta_selettiva": "Ambienti con forti gradienti magnetici o scarsa visibilita'.",
+      "uso_funzione": "Rilevare e sfruttare i campi magnetici circostanti."
     }
   }
 }
