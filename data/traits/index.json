@@ -1825,7 +1825,9 @@
         }
       ],
       "sinergie": [
-        "carapace_fase_variabile"
+        "carapace_fase_variabile",
+        "corteccia_memetica",
+        "radici_ancora_planare"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -18019,14 +18021,16 @@
         "complementare": "protezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "corteccia_memetica"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pelli_cave.mutazione_indotta",
       "uso_funzione": "i18n:traits.pelli_cave.uso_funzione",
       "spinta_selettiva": "i18n:traits.pelli_cave.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18280,14 +18284,18 @@
         "complementare": "protezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "radici_ancora_planare",
+        "armatura_pietra_planare",
+        "pelli_cave"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.corteccia_memetica.mutazione_indotta",
       "uso_funzione": "i18n:traits.corteccia_memetica.uso_funzione",
       "spinta_selettiva": "i18n:traits.corteccia_memetica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18570,14 +18578,17 @@
         "complementare": "protezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "corteccia_memetica",
+        "armatura_pietra_planare"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.radici_ancora_planare.mutazione_indotta",
       "uso_funzione": "i18n:traits.radici_ancora_planare.uso_funzione",
       "spinta_selettiva": "i18n:traits.radici_ancora_planare.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
