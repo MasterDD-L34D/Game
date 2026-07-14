@@ -39,6 +39,7 @@
   ],
   "derived_from_environment": {
     "suggested_traits": [
+      "grassi_termici",
       "nucleo_ovomotore_rotante",
       "sacche_galleggianti_ascensoriali",
       "scheletro_idro_regolante"
@@ -51,6 +52,7 @@
   "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": {
     "core": [
+      "grassi_termici",
       "nucleo_ovomotore_rotante",
       "sacche_galleggianti_ascensoriali",
       "scheletro_idro_regolante"
@@ -66,5 +68,5 @@
     "date": "2025-10-25",
     "trace_hash": "e6dd1545f31674af6dcd47220be84e05e4c7eb26bfdc37b7d02f2e33c39ee356"
   },
-  "last_synced_at": "2026-06-18T01:46:02.283Z"
+  "last_synced_at": "2026-07-14T14:56:58.621Z"
 }

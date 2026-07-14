@@ -65,6 +65,7 @@ derived_from_environment:
   suggested_traits:
   - eco_interno_riflesso
   - occhi_infrarosso_composti
+  - pelli_cave
   - sonno_emisferico_alternato
   optional_traits:
   - sacche_galleggianti_ascensoriali
@@ -89,6 +90,7 @@ genetic_traits:
   core:
   - eco_interno_riflesso
   - occhi_infrarosso_composti
+  - pelli_cave
   - sonno_emisferico_alternato
   - adattamento_volo
   optional:

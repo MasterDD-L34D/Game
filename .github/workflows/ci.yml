@@ -594,16 +594,34 @@ jobs:
           # collapsing to the unsatisfiable (biome=None, morphotype=None) combo that a
           # biome-less global keeper stub was "covering".
           #
-          # With both crutches gone the honest number is 9. Unlike the phantom 73, each of
-          # these is a concrete, checkable claim -- "rule says climate BSk yields pelli_cave;
-          # badlands IS a BSk biome; no badlands species carries pelli_cave":
-          #   pelli_cave        -> badlands, steppe_algoritmiche
-          #   pigmenti_aurorali -> badlands, steppe_algoritmiche
-          #   grassi_termici    -> badlands, steppe_algoritmiche
-          #   pelli_fitte       -> canopia_ionica, rovine_planari
-          #   cuticole_cerose   -> pianura_salina_iperarida
-          # Real content debt, Species Curator-gated. Ratchet DOWN only, never up.
-          max_missing = 9
+          # With both crutches gone the honest number was 9 -- and unlike the phantom 73,
+          # each was a concrete checkable claim ("rule says climate BSk yields pelli_cave;
+          # badlands IS a BSk biome; no badlands species carries pelli_cave").
+          #
+          # #3301 closed 4 of those 9 by authoring the trait onto a species that actually
+          # lives in the biome, each grounded on the trait's glossary description:
+          #   pelli_cave        -> echo-wing               (badlands)
+          #   grassi_termici    -> sand-burrower           (badlands)
+          #   pigmenti_aurorali -> ferrocolonia-magnetotattica (badlands)
+          #   pelli_fitte       -> cryptopennatus_psionicus    (canopia_ionica)
+          #
+          # The 5 that remain are NOT trait-link debt -- they are species-authoring debt.
+          # Every one of them lands in a biome with ZERO authored species, so there is no
+          # species to carry the trait at all:
+          #   pelli_cave / pigmenti_aurorali / grassi_termici -> steppe_algoritmiche  (0 species)
+          #   pelli_fitte                                     -> rovine_planari       (0 species;
+          #       the 10 files in that directory are 3-line auto-generated stubs that declare
+          #       no `biomes:` at all, so the biome has no inhabitants)
+          #   cuticole_cerose                                 -> pianura_salina_iperarida (0 species)
+          # The rules themselves are correct (steppe_algoritmiche IS BSk, rovine_planari IS
+          # Cfb, pianura_salina_iperarida IS BWh) -- narrowing them to hide these would just
+          # be the backfill trick a third time. These 5 unblock when the biomes get real
+          # inhabitants. Species Curator-gated.
+          #
+          # Do NOT close any of these by editing a *-trait-keeper.yaml stub: those are
+          # auto-generated placeholders ("sostituire con specifica completa"), not species.
+          # Ratchet DOWN only, never up.
+          max_missing = 5
 
           traits_with_species = summary.get('traits_with_species')
           rules_missing = summary.get('rules_missing_species_total')
