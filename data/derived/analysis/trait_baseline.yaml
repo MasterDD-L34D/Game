@@ -4,7 +4,7 @@ source:
   trait_reference: packs\evo_tactics_pack\docs\catalog\trait_reference.json
   trait_glossary: data\core\traits\glossary.json
 summary:
-  total_traits: 436
+  total_traits: 435
   missing_metadata: 128
 traits:
   aculei_velenosi:
@@ -48,7 +48,7 @@ traits:
     description_en: Generate a wide sonic band while flying.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Aereo
     fattore_mantenimento_energetico: Medio (risonanza ad ampio spettro)
     sinergie:
@@ -122,7 +122,7 @@ traits:
       shielding.
     tier: T2
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Aereo
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -217,7 +217,7 @@ traits:
     description_en: Channels storm lightning into psionic strikes or shields.
     tier: T3
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Offensivo
     fattore_mantenimento_energetico: Alto (Canalizzazione costante di plasma atmosferico)
     sinergie:
@@ -373,7 +373,7 @@ traits:
       shockwaves.
     tier: T2
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Strutturale
     fattore_mantenimento_energetico: Basso (Risonanza geodetica stabile)
     sinergie:
@@ -390,7 +390,7 @@ traits:
     description_en: Amplify leaps and leg thrusts.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -406,7 +406,7 @@ traits:
     description_en: Rotate limbs for tight maneuvers.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -459,7 +459,7 @@ traits:
     description_en: Induce localized cold shock.
     tier: T3
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Termico
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -570,7 +570,7 @@ traits:
     description_en: Cryogenic claws that freeze and pin targets on contact.
     tier: T2
     archetype: locomozione
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotorio/Predatorio
     fattore_mantenimento_energetico: Medio (Raffreddamento endogeno controllato)
     sinergie:
@@ -606,7 +606,7 @@ traits:
     description_en: Deliver shockwaves that fracture targets.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Contusivo
     fattore_mantenimento_energetico: Alto (apporto costante o consumo continuo)
     sinergie:
@@ -625,7 +625,7 @@ traits:
       in predators.
     tier: T3
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Controllo
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -662,7 +662,7 @@ traits:
       vitals.
     tier: T3
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Difesa
     fattore_mantenimento_energetico: Alto (Canalizzazione fotonica continua)
     sinergie:
@@ -774,7 +774,7 @@ traits:
     description_en: Antennae reading gravitic shear and converting to signals.
     tier: T3
     archetype: sensore
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensore/Gravitazionale
     fattore_mantenimento_energetico: i18n:traits.bioantenne_gravitiche.fattore_mantenimento_energetico
     sinergie: []
@@ -848,7 +848,7 @@ traits:
     description_en: Shield against external electromagnetic fields.
     tier: T2
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Resistenze
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -940,7 +940,7 @@ traits:
     description_en: Psionic gills filtering salts and toxins in shifting waters.
     tier: T2
     archetype: sopravvivenza
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Respiratorio/Osmoregolazione
     fattore_mantenimento_energetico: Medio (Pompe ioniche attive)
     sinergie:
@@ -995,7 +995,7 @@ traits:
     description_en: Root bulbs releasing heat and stores to linked allies.
     tier: T2
     archetype: simbiotico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Simbiotico/Nutrizione
     fattore_mantenimento_energetico: Medio (Accumulo e rilascio lento di nutrienti)
     sinergie:
@@ -1071,7 +1071,7 @@ traits:
     description_en: Internal caverns amplifying electric/gravitational waves.
     tier: T3
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Risonanza
     fattore_mantenimento_energetico: i18n:traits.camere_risonanza_abyssal.fattore_mantenimento_energetico
     sinergie: []
@@ -1085,7 +1085,7 @@ traits:
     description_en: Mask position and velocity.
     tier: T3
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Camuffamento
     fattore_mantenimento_energetico: Basso (rumore bianco a fase variabile)
     sinergie:
@@ -1104,7 +1104,7 @@ traits:
     description_en: Stun or injure targets with a sonic beam.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Controllo
     fattore_mantenimento_energetico: Medio (scarica focalizzata con ricarica)
     sinergie:
@@ -1139,7 +1139,7 @@ traits:
     description_en: Disorient predators and communicate at range.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Controllo
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -1154,7 +1154,7 @@ traits:
     description_en: Frequencies harmonising the squad and reducing stress (temp).
     tier: T3
     archetype: temporaneo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Temporaneo/Risonanza
     fattore_mantenimento_energetico: i18n:traits.canto_risonante.fattore_mantenimento_energetico
     sinergie: []
@@ -1277,7 +1277,7 @@ traits:
     description_en: Bioluminescent shell confusing predators in abyssal dark.
     tier: T3
     archetype: struttura
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Strutturale/Sensoriale
     fattore_mantenimento_energetico: Alto (Bioluminescenza controllata)
     sinergie:
@@ -1332,7 +1332,7 @@ traits:
     description_en: Thermo-reactive cartilage optimizing aerial turns.
     tier: T2
     archetype: locomozione
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotorio/Adattivo
     fattore_mantenimento_energetico: Medio (Richiede frequenti riallineamenti fibrosi)
     sinergie:
@@ -1427,7 +1427,7 @@ traits:
     description_en: Chest chambers projecting long-range calls through tundra frost.
     tier: T1
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Supporto
     fattore_mantenimento_energetico: Basso (Camere di risonanza statiche)
     sinergie:
@@ -1464,7 +1464,7 @@ traits:
     description_en: Execute high-frequency maneuvers.
     tier: T3
     archetype: cognitivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Cognitivo/Apprendimento
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -1519,7 +1519,7 @@ traits:
     description_en: Parasitic tendrils weaving energy lanes through canopy.
     tier: T1
     archetype: simbiotico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Simbiotico/Utility
     fattore_mantenimento_energetico: Medio (Nutrimento condiviso con l'ospite arboreo)
     sinergie:
@@ -1535,7 +1535,7 @@ traits:
     description_en: Translate the body across smooth or rough ground.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -1571,7 +1571,7 @@ traits:
       wetlands.
     tier: T2
     archetype: metabolismo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Metabolico/Resilienza
     fattore_mantenimento_energetico: Medio (Doppio circuito emolinfa/linfa)
     sinergie:
@@ -1683,7 +1683,7 @@ traits:
     description_en: Enter stasis under harsh conditions.
     tier: T2
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Resistenze
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -1840,7 +1840,7 @@ traits:
     description_en: Hang and counterbalance weight.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Arboricolo
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -1936,7 +1936,7 @@ traits:
     description_en: Exchange tactile light pulses.
     tier: T2
     archetype: cognitivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Cognitivo/Sociale
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -1970,7 +1970,7 @@ traits:
     description_en: Bioelectric coral ridges channeling light and impulses.
     tier: T1
     archetype: ambiente
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Ambiente/Supporto
     fattore_mantenimento_energetico: i18n:traits.coralli_sinaptici_fotofase.fattore_mantenimento_energetico
     sinergie: []
@@ -1984,7 +1984,7 @@ traits:
     description_en: Iron plates guiding deep magnetic fields.
     tier: T3
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Magnetico
     fattore_mantenimento_energetico: i18n:traits.corazze_ferro_magnetico.fattore_mantenimento_energetico
     sinergie: []
@@ -2000,7 +2000,7 @@ traits:
       for pack alerts.
     tier: T3
     archetype: cognitivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Cognitivo/Sociale
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -2040,7 +2040,7 @@ traits:
       short-term memory.
     tier: T4
     archetype: cognitivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Cognitivo/Sociale
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -2376,7 +2376,7 @@ traits:
       for performance peaks in cool climates.
     tier: T3
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Termico
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -2392,7 +2392,7 @@ traits:
     description_en: Disrupt prey nervous systems.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Elettrico
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -2409,7 +2409,7 @@ traits:
     description_en: Organs emitting deep choruses to stabilise shear.
     tier: T3
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Anomalia
     fattore_mantenimento_energetico: i18n:traits.emettitori_voidsong.fattore_mantenimento_energetico
     sinergie: []
@@ -2423,7 +2423,7 @@ traits:
     description_en: Fluid storing charge and draining enemy energy.
     tier: T3
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Energetico
     fattore_mantenimento_energetico: i18n:traits.emolinfa_conducente.fattore_mantenimento_energetico
     sinergie: []
@@ -2618,7 +2618,7 @@ traits:
     description_en: Change sex after one or two incubations.
     tier: T3
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Riproduttivo/Cicli
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -2634,7 +2634,7 @@ traits:
     description_en: Liquefy tissues on contact and siphon them.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Chimico
     fattore_mantenimento_energetico: Alto (apporto costante o consumo continuo)
     sinergie:
@@ -2649,7 +2649,7 @@ traits:
     description_en: Engulf and digest entire biomass.
     tier: T3
     archetype: alimentazione
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Alimentazione/Digestione
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -2716,7 +2716,7 @@ traits:
     description_en: Filaments relaying squad frequencies and softening shear.
     tier: T3
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Risonanza
     fattore_mantenimento_energetico: i18n:traits.filamenti_echo.fattore_mantenimento_energetico
     sinergie: []
@@ -2730,7 +2730,7 @@ traits:
     description_en: Filaments plotting safe routes through currents.
     tier: T1
     archetype: locomozione
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Mobilità/Logistica
     fattore_mantenimento_energetico: i18n:traits.filamenti_guidalampo.fattore_mantenimento_energetico
     sinergie: []
@@ -2802,7 +2802,7 @@ traits:
     description_en: Neutralize self-generated toxins.
     tier: T2
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Idrico
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -2854,7 +2854,7 @@ traits:
     description_en: Sustain electrogenic organs.
     tier: T2
     archetype: alimentazione
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Alimentazione/Digestione
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -2889,7 +2889,7 @@ traits:
     description_en: Slide or climb along smooth surfaces.
     tier: T2
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -3001,7 +3001,7 @@ traits:
     description_en: Bound plasma appendage that can hook and ignite targets.
     tier: T2
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Controllo
     fattore_mantenimento_energetico: Medio (Filamenti di plasma vincolato)
     sinergie:
@@ -3229,7 +3229,7 @@ traits:
     description_en: Secretions holding attenuated buff copies.
     tier: T2
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Copia
     fattore_mantenimento_energetico: i18n:traits.ghiandole_mnemoniche.fattore_mantenimento_energetico
     sinergie: []
@@ -3394,7 +3394,7 @@ traits:
     description_en: Rhythmic flashes that dazzle foes and sync allies.
     tier: T1
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Illuminazione
     fattore_mantenimento_energetico: i18n:traits.impulsi_bioluminescenti.fattore_mantenimento_energetico
     sinergie: []
@@ -3408,7 +3408,7 @@ traits:
     description_en: Orient along magnetic field lines.
     tier: T3
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Magneto-ricettivo
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -3445,7 +3445,7 @@ traits:
       acceleration while enduring short bursts.
     tier: T3
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Metabolico
     fattore_mantenimento_energetico: Alto (apporto costante o consumo continuo)
     sinergie:
@@ -3500,7 +3500,7 @@ traits:
     description_en: Respiratory lamellae deflect extreme gases via heat gradients.
     tier: T2
     archetype: sopravvivenza
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Respiratorio/Termoregolazione
     fattore_mantenimento_energetico: Medio (Flusso continuo di fluidi caldi)
     sinergie:
@@ -3625,7 +3625,7 @@ traits:
     description_en: Resonant chambers filtering unstable signals.
     tier: T2
     archetype: risonanza
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Risonanza/Crepuscolo
     fattore_mantenimento_energetico: i18n:traits.lobi_risonanti_crepuscolo.fattore_mantenimento_energetico
     sinergie: []
@@ -3639,7 +3639,7 @@ traits:
     description_en: Grip and climb on nearly any surface.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -3717,7 +3717,7 @@ traits:
       pulses.
     tier: T3
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Termoregolazione
     fattore_mantenimento_energetico: Alto (Rivestimento ablativo rigenerante)
     sinergie:
@@ -3787,7 +3787,7 @@ traits:
     description_en: Adopt different shapes and densities.
     tier: T3
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Camuffamento
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -3825,7 +3825,7 @@ traits:
     description_en: Translucent membranes screening radiation and airborne pathogens.
     tier: T2
     archetype: sopravvivenza
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Respiratorio/Protezione
     fattore_mantenimento_energetico: Basso (Auto-riparazione lenta)
     sinergie:
@@ -3841,7 +3841,7 @@ traits:
     description_en: Tissues that ferry luminous charge between synaptic nodes.
     tier: T1
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Elettrico
     fattore_mantenimento_energetico: i18n:traits.membrane_fotoconvoglianti.fattore_mantenimento_energetico
     sinergie: []
@@ -3929,7 +3929,7 @@ traits:
       a collective reserve.
     tier: T3
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Metabolico
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -4015,7 +4015,7 @@ traits:
     description_en: Grow mass and intellect by merging units.
     tier: T2
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Riproduttivo/Cicli
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -4031,7 +4031,7 @@ traits:
     description_en: Maintain extended flight at ultra-low sound pressure.
     tier: T2
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Metabolico
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -4046,7 +4046,7 @@ traits:
     description_en: Symbiotic mucus absorbing poisons and sealing swamp wounds.
     tier: T1
     archetype: simbiotico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Simbiotico/Difensivo
     fattore_mantenimento_energetico: Medio (Coltura simbiotica costante)
     sinergie:
@@ -4189,7 +4189,7 @@ traits:
     description_en: Psionic mist that blurs memory and orientation.
     tier: T2
     archetype: controllo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Controllo/Memoria
     fattore_mantenimento_energetico: i18n:traits.nebbia_mnesica.fattore_mantenimento_energetico
     sinergie: []
@@ -4234,7 +4234,7 @@ traits:
     description_en: Mycorrhizal nodes foreseeing threats via fungal signals.
     tier: T3
     archetype: simbiotico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Simbiotico/Nervoso
     fattore_mantenimento_energetico: Medio (Scambio continuo di segnali con simbionti)
     sinergie:
@@ -4279,7 +4279,7 @@ traits:
     description_en: Node lattice amplifying surface signals.
     tier: T1
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Sensore
     fattore_mantenimento_energetico: i18n:traits.nodi_sinaptici_superficiali.fattore_mantenimento_energetico
     sinergie: []
@@ -4360,7 +4360,7 @@ traits:
     description_en: Read strand tension and stress patterns.
     tier: T2
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Visivo
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -4392,7 +4392,7 @@ traits:
     description_en: See sound as patterns in the air.
     tier: T2
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Visivo
     fattore_mantenimento_energetico: Basso (micro-attuatori oculari)
     sinergie:
@@ -4412,7 +4412,7 @@ traits:
       useful in variable microgravity.
     tier: T2
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Visivo
     fattore_mantenimento_energetico: Moderato (Attivo)
     sinergie:
@@ -4559,7 +4559,7 @@ traits:
     description_en: Organs sequencing chained buff thefts.
     tier: T2
     archetype: supporto
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Supporto/Sequenziamento
     fattore_mantenimento_energetico: i18n:traits.organi_metacronici.fattore_mantenimento_energetico
     sinergie: []
@@ -4575,7 +4575,7 @@ traits:
       and hidden movements.
     tier: T2
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Tatto-Vibro
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -4717,7 +4717,7 @@ traits:
     description_en: Insulate the body and stay afloat.
     tier: T2
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Termoregolazione
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -4856,7 +4856,7 @@ traits:
     description_en: Dermis storing piezo charge and reflecting blows (temp).
     tier: T3
     archetype: temporaneo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Temporaneo/Difesa
     fattore_mantenimento_energetico: i18n:traits.pelle_piezo_satura.fattore_mantenimento_energetico
     sinergie: []
@@ -5380,7 +5380,7 @@ traits:
     description_en: Photovoltaic plumage storing sunlight for long sorties.
     tier: T2
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Tegumentario/Energetico
     fattore_mantenimento_energetico: Alto (Richiede manutenzione delle lamine fotoreattive)
     sinergie:
@@ -5396,7 +5396,7 @@ traits:
     description_en: Plates diffusing and attenuating erratic charges.
     tier: T2
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Foschia
     fattore_mantenimento_energetico: i18n:traits.placca_diffusione_foschia.fattore_mantenimento_energetico
     sinergie: []
@@ -5440,7 +5440,7 @@ traits:
     description_en: Layers dispersing abyssal pressure and reducing trauma.
     tier: T3
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Pressione
     fattore_mantenimento_energetico: i18n:traits.placche_pressioniche.fattore_mantenimento_energetico
     sinergie: []
@@ -5484,7 +5484,7 @@ traits:
     description_en: Crystalline lungs concentrating thin high-altitude oxygen.
     tier: T2
     archetype: sopravvivenza
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Respiratorio/Aerobico
     fattore_mantenimento_energetico: Medio (Pulizia periodica dei cristalli)
     sinergie:
@@ -5610,7 +5610,7 @@ traits:
     description_en: Experimental slot drawing random traits from a curated pool.
     tier: T1
     archetype: adattivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Flessibile/Generico
     fattore_mantenimento_energetico: Variabile (Dipende dal tratto estratto)
     sinergie:
@@ -5664,7 +5664,7 @@ traits:
     description_en: Absorb nutrients suspended in the air.
     tier: T3
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Respiratorio
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -5899,7 +5899,7 @@ traits:
     description_en: Cognitive echo duplicating buffs at reduced power (temp).
     tier: T3
     archetype: temporaneo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Temporaneo/Memoria
     fattore_mantenimento_energetico: i18n:traits.riverbero_memetico.fattore_mantenimento_energetico
     sinergie: []
@@ -5915,7 +5915,7 @@ traits:
       draws fluids after impact.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Perforante
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -5932,7 +5932,7 @@ traits:
     description_en: Grab and manipulate at long reach.
     tier: T3
     archetype: manipolativo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Manipolativo/Alimentare
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -6093,7 +6093,7 @@ traits:
     description_en: Stratospheric vesicles dispersing long-range support spores.
     tier: T3
     archetype: simbiotico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Simbiotico/Supporto
     fattore_mantenimento_energetico: Alto (Coltura continua di spore portanti)
     sinergie:
@@ -6188,7 +6188,7 @@ traits:
       projectile blows.
     tier: T4
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Balistico
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -6255,7 +6255,7 @@ traits:
     description_en: Lighten the load for slow, steady travel.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -6273,7 +6273,7 @@ traits:
     description_en: Light discharge illuminating connections and reflexes (temp).
     tier: T2
     archetype: temporaneo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Temporaneo/Scarica
     fattore_mantenimento_energetico: i18n:traits.scintilla_sinaptica.fattore_mantenimento_energetico
     sinergie: []
@@ -6287,7 +6287,7 @@ traits:
     description_en: Reduce friction to glide.
     tier: T3
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Terrestre
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -6302,7 +6302,7 @@ traits:
     description_en: Absorb impacts from the rear.
     tier: T3
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Corazza
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -6336,7 +6336,7 @@ traits:
     description_en: Protective film dispersing electrical build-up.
     tier: T2
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Antistatico
     fattore_mantenimento_energetico: i18n:traits.secrezioni_antistatiche.fattore_mantenimento_energetico
     sinergie: []
@@ -6429,7 +6429,7 @@ traits:
     description_en: Cranial crystals mapping invisible geomagnetic corridors.
     tier: T1
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Navigazione
     fattore_mantenimento_energetico: Basso (Ricettori passivi)
     sinergie:
@@ -6507,7 +6507,7 @@ traits:
     description_en: Distributed sensors reading memetic plankton patterns.
     tier: T1
     archetype: analisi
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Analisi/Sensori Planctonici
     fattore_mantenimento_energetico: i18n:traits.sensori_planctonici.fattore_mantenimento_energetico
     sinergie: []
@@ -6599,7 +6599,7 @@ traits:
     description_en: Stun prey with charges woven into the web.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Elettrico
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -6615,7 +6615,7 @@ traits:
     description_en: Prevent crystallization at low temperatures.
     tier: T2
     archetype: fisiologico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Fisiologico/Termico
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -6690,7 +6690,7 @@ traits:
     description_en: Coralline synapses relaying orders through marine harmonics.
     tier: T2
     archetype: simbiotico
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Simbiotico/Comunicazione
     fattore_mantenimento_energetico: Medio (Scambio continuo di impulsi corallini)
     sinergie:
@@ -6798,7 +6798,7 @@ traits:
     description_en: Map space and airflow without sight.
     tier: T3
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Uditivo-Olfattivo
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -6832,7 +6832,7 @@ traits:
     description_en: Spines absorbing buffs and redirecting them.
     tier: T2
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Assorbimento
     fattore_mantenimento_energetico: i18n:traits.spicole_canalizzatrici.fattore_mantenimento_energetico
     sinergie: []
@@ -6933,7 +6933,7 @@ traits:
     description_en: Scales dispersing charge and reducing glare.
     tier: T1
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difesa/Elettrico
     fattore_mantenimento_energetico: i18n:traits.squame_diffusori_ionici.fattore_mantenimento_energetico
     sinergie: []
@@ -6947,7 +6947,7 @@ traits:
     description_en: Crystal scales diffusing heat and casting mirages.
     tier: T2
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Tegumentario/Difensivo
     fattore_mantenimento_energetico: Medio (Richiede riallineamento delle placche)
     sinergie:
@@ -7254,22 +7254,6 @@ traits:
     biomi:
       abisso_vulcanico: 1
     missing_metadata: true
-  traits_aggregate:
-    label: Aggregato tratti Evo
-    label_en: Evo Traits Aggregate
-    description_it: Dump normalizzato dei trait Evo (TR-*) per allineare indice legacy
-      e QA.
-    description_en: Normalized Evo trait dump (TR-*) used to align legacy index and
-      QA.
-    tier: T1
-    archetype: meta
-    occurrences: 1
-    famiglia_tipologia: Meta/Dataset
-    fattore_mantenimento_energetico: N/A
-    sinergie: []
-    conflitti: []
-    biomi: {}
-    missing_metadata: false
   unghie_a_micro_adesione:
     label: Unghie a Micro-Adesione
     label_en: Micro-Adhesion Claws
@@ -7279,7 +7263,7 @@ traits:
       escapes and browsing.
     tier: T2
     archetype: locomotivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotivo/Arboricolo
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -7369,7 +7353,7 @@ traits:
     description_en: Capillary fleece condensing fog into mobile water reserves.
     tier: T1
     archetype: difesa
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Tegumentario/Idratazione
     fattore_mantenimento_energetico: Basso (Strutture passive a microfilo)
     sinergie:
@@ -7384,7 +7368,7 @@ traits:
     description_en: Absorb nearly all incoming light.
     tier: T3
     archetype: difensivo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Difensivo/Camuffamento
     fattore_mantenimento_energetico: Basso (mantenimento passivo o trascurabile)
     sinergie:
@@ -7506,7 +7490,7 @@ traits:
     description_en: See under extremely low luminance.
     tier: T3
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Sensoriale/Visivo
     fattore_mantenimento_energetico: Medio (manutenzione periodica o situazionale)
     sinergie:
@@ -7557,7 +7541,7 @@ traits:
     description_en: Luminous implosion followed by void and short teleport (temp).
     tier: T3
     archetype: temporaneo
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Temporaneo/Traslazione
     fattore_mantenimento_energetico: i18n:traits.vortice_nera_flash.fattore_mantenimento_energetico
     sinergie: []
@@ -7633,7 +7617,7 @@ traits:
     description_en: Corrode tissues and even metals.
     tier: T4
     archetype: offensiva
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Offensivo/Chimico
     fattore_mantenimento_energetico: Alto (apporto costante o consumo continuo)
     sinergie:
@@ -7665,7 +7649,7 @@ traits:
     description_en: Hollow hooves sending rhythmic waves across the steppe pack.
     tier: T1
     archetype: locomozione
-    occurrences: 1
+    occurrences: 0
     famiglia_tipologia: Locomotorio/Supporto
     fattore_mantenimento_energetico: Basso (Vibrazione passiva del suolo)
     sinergie:
@@ -7855,10 +7839,6 @@ archetypes:
     - artigli_psionici
     - cervello_predittivo
     - mente_lucida
-  meta:
-    total: 1
-    traits:
-    - traits_aggregate
   metabolismo:
     total: 19
     traits:
