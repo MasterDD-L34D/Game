@@ -339,12 +339,13 @@ nomi, non i corpi -- e lo ha **detto**, nella nota che ha lasciato nei file:
 `notes: 'stub auto-generato per **ripristinare inventario**: sostituire con specifica completa.'`
 
 **Ecosistema e foodweb sono sopravvissuti e nominano ancora tutte e 10 le specie per `id` esatto**
-(`.ecosystem.yaml` -> produttori/consumatori/decompositori; `_foodweb.yaml` -> 10 nodi
-`kind: species` + 24 archi). Il bioma non aveva zero abitanti: aveva **l'impronta di dieci
-abitanti in ogni livello dello stack, e i corpi vuoti**.
+(`.ecosystem.yaml` -> produttori/consumatori/decompositori; `_foodweb.yaml` -> 14 nodi, di cui
+**10 `kind: species`**, e **23 archi**). Il bioma non aveva zero abitanti: aveva **l'impronta di
+dieci abitanti in ogni livello dello stack, e i corpi vuoti**.
 
-Le 10 recuperate soddisfano **da sole tutte e cinque** le `rules.at_least` del proprio ecosistema
-(apex 1, keystone 2, bridge 2, threat 3, event 1) e **tutte e 10 passano la Decisione 5**.
+Le 10 recuperate soddisfano **da sole tutte e cinque** le `rules.at_least` del proprio ecosistema.
+Il requisito e' **`>= 1` per ciascuno** dei cinque ruoli; il set recuperato **consegna** apex 1,
+keystone 2, bridge 2, threat 3, event 1. E **tutte e 10 passano la Decisione 5**.
 
 **Controllo negativo** (e' cio' che rende il finding affidabile): lo stesso metodo **falsifica** il
 recupero per `atollo_obsidiana`. Il suo ecosystem nomina 3 specie (`anguis-magnetica`,
