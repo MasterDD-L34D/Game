@@ -14269,7 +14269,8 @@
         "lamelle_shear",
         "membrane_captura_rugiada",
         "random",
-        "spore_psichiche_silenziate"
+        "spore_psichiche_silenziate",
+        "legame_di_branco"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -17645,14 +17646,17 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "ferocia",
+        "midollo_iperattivo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.canto_di_richiamo.mutazione_indotta",
       "uso_funzione": "i18n:traits.canto_di_richiamo.uso_funzione",
       "spinta_selettiva": "i18n:traits.canto_di_richiamo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "ferocia": {
@@ -17667,14 +17671,18 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "midollo_iperattivo",
+        "canto_di_richiamo",
+        "spirito_combattivo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.ferocia.mutazione_indotta",
       "uso_funzione": "i18n:traits.ferocia.uso_funzione",
       "spinta_selettiva": "i18n:traits.ferocia.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17699,14 +17707,17 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "voce_imperiosa",
+        "spore_paniche"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.intimidatore.mutazione_indotta",
       "uso_funzione": "i18n:traits.intimidatore.uso_funzione",
       "spinta_selettiva": "i18n:traits.intimidatore.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "legame_di_branco": {
@@ -17721,14 +17732,17 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "marchio_predatorio",
+        "tattiche_di_branco"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.legame_di_branco.mutazione_indotta",
       "uso_funzione": "i18n:traits.legame_di_branco.uso_funzione",
       "spinta_selettiva": "i18n:traits.legame_di_branco.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17752,14 +17766,16 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "legame_di_branco"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.marchio_predatorio.mutazione_indotta",
       "uso_funzione": "i18n:traits.marchio_predatorio.uso_funzione",
       "spinta_selettiva": "i18n:traits.marchio_predatorio.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17783,14 +17799,17 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "ferocia",
+        "canto_di_richiamo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.midollo_iperattivo.mutazione_indotta",
       "uso_funzione": "i18n:traits.midollo_iperattivo.uso_funzione",
       "spinta_selettiva": "i18n:traits.midollo_iperattivo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "spirito_combattivo": {
@@ -17805,14 +17824,16 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "ferocia"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.spirito_combattivo.mutazione_indotta",
       "uso_funzione": "i18n:traits.spirito_combattivo.uso_funzione",
       "spinta_selettiva": "i18n:traits.spirito_combattivo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "spore_paniche": {
@@ -17827,14 +17848,17 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "intimidatore",
+        "voce_imperiosa"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.spore_paniche.mutazione_indotta",
       "uso_funzione": "i18n:traits.spore_paniche.uso_funzione",
       "spinta_selettiva": "i18n:traits.spore_paniche.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "sussurro_psichico": {
@@ -17849,14 +17873,16 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "voce_imperiosa"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.sussurro_psichico.mutazione_indotta",
       "uso_funzione": "i18n:traits.sussurro_psichico.uso_funzione",
       "spinta_selettiva": "i18n:traits.sussurro_psichico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "voce_imperiosa": {
@@ -17871,14 +17897,18 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "intimidatore",
+        "spore_paniche",
+        "sussurro_psichico"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.voce_imperiosa.mutazione_indotta",
       "uso_funzione": "i18n:traits.voce_imperiosa.uso_funzione",
       "spinta_selettiva": "i18n:traits.voce_imperiosa.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "arco_voltaico": {

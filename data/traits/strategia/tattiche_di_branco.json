@@ -37,7 +37,8 @@
     "lamelle_shear",
     "membrane_captura_rugiada",
     "random",
-    "spore_psichiche_silenziate"
+    "spore_psichiche_silenziate",
+    "legame_di_branco"
   ],
   "sinergie_pi": {
     "co_occorrenze": [

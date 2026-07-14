@@ -10,13 +10,15 @@
     "complementare": "istinto"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "legame_di_branco"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.marchio_predatorio.mutazione_indotta",
   "uso_funzione": "i18n:traits.marchio_predatorio.uso_funzione",
   "spinta_selettiva": "i18n:traits.marchio_predatorio.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }
