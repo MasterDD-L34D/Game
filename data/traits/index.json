@@ -17905,7 +17905,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.arco_voltaico.debolezza"
     },
     "martello_osseo": {
       "schema_version": "2.0",
@@ -17945,7 +17946,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.martello_osseo.debolezza"
     },
     "pungiglione_paralizzante": {
       "schema_version": "2.0",
@@ -17970,7 +17972,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.pungiglione_paralizzante.debolezza"
     },
     "scarica_ionica": {
       "schema_version": "2.0",
@@ -17995,7 +17998,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.scarica_ionica.debolezza"
     },
     "risonanza_magnetica": {
       "schema_version": "2.0",
