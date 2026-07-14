@@ -10437,7 +10437,8 @@
       "sinergie": [
         "cavita_risonanti_tundra",
         "olfatto_risonanza_magnetica",
-        "sensori_geomagnetici"
+        "sensori_geomagnetici",
+        "eco_sismico"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -11230,7 +11231,8 @@
         }
       ],
       "sinergie": [
-        "sonno_emisferico_alternato"
+        "sonno_emisferico_alternato",
+        "termocezione"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -11435,7 +11437,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "rostro_emostatico_litico"
+        "rostro_emostatico_litico",
+        "eco_sismico"
       ],
       "conflitti": [
         "ipertrofia_muscolare_massiva"
@@ -11517,7 +11520,9 @@
       ],
       "sinergie": [
         "carapace_fase_variabile",
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "senso_magnetico",
+        "sintonia_magnetica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -18085,14 +18090,18 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "sintonia_magnetica",
+        "sensori_geomagnetici",
+        "pigmenti_aurorali"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.senso_magnetico.mutazione_indotta",
       "uso_funzione": "i18n:traits.senso_magnetico.uso_funzione",
       "spinta_selettiva": "i18n:traits.senso_magnetico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "sintonia_magnetica": {
@@ -18107,14 +18116,17 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "senso_magnetico",
+        "sensori_geomagnetici"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.sintonia_magnetica.mutazione_indotta",
       "uso_funzione": "i18n:traits.sintonia_magnetica.uso_funzione",
       "spinta_selettiva": "i18n:traits.sintonia_magnetica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "nocicezione": {
@@ -18129,14 +18141,16 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "propriocezione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.nocicezione.mutazione_indotta",
       "uso_funzione": "i18n:traits.nocicezione.uso_funzione",
       "spinta_selettiva": "i18n:traits.nocicezione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "propriocezione": {
@@ -18151,14 +18165,17 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "equilibrio_vestibolare",
+        "nocicezione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.propriocezione.mutazione_indotta",
       "uso_funzione": "i18n:traits.propriocezione.uso_funzione",
       "spinta_selettiva": "i18n:traits.propriocezione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "equilibrio_vestibolare": {
@@ -18173,14 +18190,16 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "propriocezione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.equilibrio_vestibolare.mutazione_indotta",
       "uso_funzione": "i18n:traits.equilibrio_vestibolare.uso_funzione",
       "spinta_selettiva": "i18n:traits.equilibrio_vestibolare.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "termocezione": {
@@ -18195,14 +18214,16 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "occhi_infrarosso_composti"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.termocezione.mutazione_indotta",
       "uso_funzione": "i18n:traits.termocezione.uso_funzione",
       "spinta_selettiva": "i18n:traits.termocezione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "matrice_antimagia": {
@@ -18440,14 +18461,16 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "senso_magnetico"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pigmenti_aurorali.mutazione_indotta",
       "uso_funzione": "i18n:traits.pigmenti_aurorali.uso_funzione",
       "spinta_selettiva": "i18n:traits.pigmenti_aurorali.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18602,14 +18625,17 @@
         "complementare": "risonanza"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "organi_sismici_cutanei",
+        "eco_interno_riflesso"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.eco_sismico.mutazione_indotta",
       "uso_funzione": "i18n:traits.eco_sismico.uso_funzione",
       "spinta_selettiva": "i18n:traits.eco_sismico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "artigli_sette_vie_2": {

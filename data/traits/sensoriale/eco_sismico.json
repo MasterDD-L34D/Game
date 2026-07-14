@@ -10,13 +10,16 @@
     "complementare": "risonanza"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "organi_sismici_cutanei",
+    "eco_interno_riflesso"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.eco_sismico.mutazione_indotta",
   "uso_funzione": "i18n:traits.eco_sismico.uso_funzione",
   "spinta_selettiva": "i18n:traits.eco_sismico.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

@@ -8,7 +8,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "rostro_emostatico_litico"
+    "rostro_emostatico_litico",
+    "eco_sismico"
   ],
   "conflitti": [
     "ipertrofia_muscolare_massiva"
