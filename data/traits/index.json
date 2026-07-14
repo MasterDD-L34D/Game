@@ -17318,7 +17318,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.cervello_predittivo.debolezza"
     },
     "mente_lucida": {
       "schema_version": "2.0",
@@ -17343,7 +17344,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.mente_lucida.debolezza"
     },
     "aculei_velenosi": {
       "schema_version": "2.0",
@@ -18341,7 +18343,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.artigli_psionici.debolezza"
     },
     "tessuti_adattivi": {
       "schema_version": "2.0",
