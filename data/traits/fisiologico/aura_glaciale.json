@@ -10,13 +10,15 @@
     "complementare": "morfologia"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "siero_anti_gelo_naturale"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.aura_glaciale.mutazione_indotta",
   "uso_funzione": "i18n:traits.aura_glaciale.uso_funzione",
   "spinta_selettiva": "i18n:traits.aura_glaciale.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

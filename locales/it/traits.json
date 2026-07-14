@@ -2145,6 +2145,111 @@
       "mutazione_indotta": "Apparato vocale capace di toni a bassa frequenza autorevoli.",
       "spinta_selettiva": "Strutture sociali gerarchiche con competizione per il rango.",
       "uso_funzione": "Affermare dominanza e dirigere il comportamento altrui."
+    },
+    "aculei_velenosi": {
+      "description": "Spine cutanee che iniettano una tossina difensiva al contatto.",
+      "label": "Aculei Velenosi",
+      "mutazione_indotta": "Spine cave collegate a ghiandole velenifere sottocutanee.",
+      "spinta_selettiva": "Predatori che afferrano o mordono prede piccole.",
+      "uso_funzione": "Punire con veleno chi tenta il contatto ravvicinato."
+    },
+    "adattamento_volo": {
+      "description": "Insieme di modifiche corporee che rendono possibile il volo sostenuto.",
+      "label": "Adattamento al Volo",
+      "mutazione_indotta": "Alleggerimento scheletrico e superfici portanti sviluppate.",
+      "spinta_selettiva": "Ambienti tridimensionali dove il volo apre nicchie irraggiungibili.",
+      "uso_funzione": "Spostarsi in volo per fuga, caccia o esplorazione."
+    },
+    "aura_glaciale": {
+      "description": "Emissione di freddo intenso che rallenta e irrigidisce cio' che e' vicino.",
+      "label": "Aura Glaciale",
+      "mutazione_indotta": "Tessuti criogenici che sottraggono calore all'ambiente immediato.",
+      "spinta_selettiva": "Climi rigidi o prede vulnerabili al freddo.",
+      "uso_funzione": "Raffreddare l'area ravvicinata ostacolando l'avversario."
+    },
+    "cuore_in_furia": {
+      "description": "Sistema cardiaco potenziato che sostiene picchi di sforzo esplosivo.",
+      "label": "Cuore in Furia",
+      "mutazione_indotta": "Miocardio ipertrofico con gittata amplificata su richiesta.",
+      "spinta_selettiva": "Caccia d'agguato o fughe che richiedono esplosivita'.",
+      "uso_funzione": "Erogare scatti di potenza fisica improvvisa."
+    },
+    "denti_seghettati": {
+      "description": "Dentatura a margini seghettati che lacera invece di forare.",
+      "label": "Denti Seghettati",
+      "mutazione_indotta": "Bordi dentali serrati con smalto rinforzato.",
+      "spinta_selettiva": "Prede grandi o dalla pelle coriacea.",
+      "uso_funzione": "Recidere carne e tessuti fibrosi con morsi laceranti."
+    },
+    "filtri_bioattivi": {
+      "description": "Organi che filtrano e neutralizzano tossine e agenti nocivi ingeriti.",
+      "label": "Filtri Bioattivi",
+      "mutazione_indotta": "Membrane filtranti con enzimi detossificanti.",
+      "spinta_selettiva": "Ambienti o prede ricchi di sostanze tossiche.",
+      "uso_funzione": "Alimentarsi in sicurezza da fonti contaminate."
+    },
+    "membrane_osmotiche": {
+      "description": "Superfici che regolano il bilancio idrico e salino con l'ambiente.",
+      "label": "Membrane Osmotiche",
+      "mutazione_indotta": "Epiteli specializzati nel controllo osmotico attivo.",
+      "spinta_selettiva": "Ambienti a salinita' variabile o estrema.",
+      "uso_funzione": "Mantenere l'equilibrio interno in acque o suoli salini."
+    },
+    "pelle_elastomera": {
+      "description": "Tegumento elastico che assorbe deformazioni e torna alla forma.",
+      "label": "Pelle Elastomera",
+      "mutazione_indotta": "Fibre elastiche dermiche ad alta resilienza.",
+      "spinta_selettiva": "Ambienti con impatti, compressioni o passaggi angusti.",
+      "uso_funzione": "Assorbire urti e stiramenti senza lacerarsi."
+    },
+    "pelli_anti_ustione": {
+      "description": "Strato cutaneo resistente al calore e alle scottature chimiche.",
+      "label": "Pelli Anti-Ustione",
+      "mutazione_indotta": "Cheratine termoresistenti e strati isolanti sottocutanei.",
+      "spinta_selettiva": "Ambienti vulcanici, aridi o chimicamente ostili.",
+      "uso_funzione": "Resistere a fonti di calore e agenti corrosivi."
+    },
+    "pelli_fitte": {
+      "description": "Tegumento denso e stratificato che resiste a morsi e abrasioni.",
+      "label": "Pelli Fitte",
+      "mutazione_indotta": "Ispessimento dermico con strati fibrosi compatti.",
+      "spinta_selettiva": "Predatori con morsi o artigli penetranti.",
+      "uso_funzione": "Ridurre il danno da contatto e perforazione."
+    },
+    "sensori_sismici": {
+      "description": "Recettori che avvertono vibrazioni del terreno per allerta precoce.",
+      "label": "Sensori Sismici",
+      "mutazione_indotta": "Meccanocettori accoppiati agli arti a contatto col suolo.",
+      "spinta_selettiva": "Ambienti aperti o bui dove sentire prima e' sopravvivere.",
+      "uso_funzione": "Rilevare l'avvicinarsi di minacce dal movimento del terreno."
+    },
+    "tela_appiccicosa": {
+      "description": "Secrezione adesiva usata per intrappolare prede o ancorarsi.",
+      "label": "Tela Appiccicosa",
+      "mutazione_indotta": "Ghiandole seriche che producono filamenti vischiosi.",
+      "spinta_selettiva": "Cattura di prede agili senza inseguimento.",
+      "uso_funzione": "Immobilizzare prede o fissarsi alle superfici."
+    },
+    "tentacoli_uncinati": {
+      "description": "Appendici prensili munite di uncini per afferrare e trattenere.",
+      "label": "Tentacoli Uncinati",
+      "mutazione_indotta": "Tentacoli muscolari con uncini cheratinizzati.",
+      "spinta_selettiva": "Prede sfuggenti o substrati difficili da tenere.",
+      "uso_funzione": "Agganciare e trattenere prede o appigli."
+    },
+    "tessuti_adattivi": {
+      "description": "Tessuti che rimodellano struttura e funzione in risposta allo stress.",
+      "label": "Tessuti Adattivi",
+      "mutazione_indotta": "Cellule plastiche capaci di ridifferenziarsi secondo necessita'.",
+      "spinta_selettiva": "Ambienti instabili che premiano la flessibilita' fisiologica.",
+      "uso_funzione": "Adattare il corpo a carichi e ambienti mutevoli."
+    },
+    "zampe_radianti": {
+      "description": "Arti vascolarizzati che dissipano o irradiano calore per termoregolazione.",
+      "label": "Zampe Radianti",
+      "mutazione_indotta": "Reti capillari superficiali negli arti a funzione radiante.",
+      "spinta_selettiva": "Climi caldi dove smaltire calore in eccesso e' vitale.",
+      "uso_funzione": "Regolare la temperatura corporea scambiando calore dagli arti."
     }
   }
 }

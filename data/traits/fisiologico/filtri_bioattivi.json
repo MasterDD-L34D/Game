@@ -10,13 +10,16 @@
     "complementare": "morfologia"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "filtrazione_osmotica",
+    "rete_filtro_polmonare"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.filtri_bioattivi.mutazione_indotta",
   "uso_funzione": "i18n:traits.filtri_bioattivi.uso_funzione",
   "spinta_selettiva": "i18n:traits.filtri_bioattivi.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }
