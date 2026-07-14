@@ -17657,7 +17657,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.canto_di_richiamo.debolezza"
     },
     "ferocia": {
       "schema_version": "2.0",
@@ -17693,7 +17694,8 @@
           ],
           "weight": 5
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.ferocia.debolezza"
     },
     "intimidatore": {
       "schema_version": "2.0",
@@ -17718,7 +17720,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.intimidatore.debolezza"
     },
     "legame_di_branco": {
       "schema_version": "2.0",
@@ -17752,7 +17755,8 @@
           ],
           "weight": 2
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.legame_di_branco.debolezza"
     },
     "marchio_predatorio": {
       "schema_version": "2.0",
@@ -17785,7 +17789,8 @@
           ],
           "weight": 2
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.marchio_predatorio.debolezza"
     },
     "midollo_iperattivo": {
       "schema_version": "2.0",
@@ -17810,7 +17815,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.midollo_iperattivo.debolezza"
     },
     "spirito_combattivo": {
       "schema_version": "2.0",
@@ -17834,7 +17840,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.spirito_combattivo.debolezza"
     },
     "spore_paniche": {
       "schema_version": "2.0",
@@ -17859,7 +17866,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.spore_paniche.debolezza"
     },
     "sussurro_psichico": {
       "schema_version": "2.0",
@@ -17883,7 +17891,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.sussurro_psichico.debolezza"
     },
     "voce_imperiosa": {
       "schema_version": "2.0",
@@ -17909,7 +17918,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.voce_imperiosa.debolezza"
     },
     "arco_voltaico": {
       "schema_version": "2.0",
