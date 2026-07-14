@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T01:33:45.118591Z",
+  "generated_at": "2026-07-14T13:26:41.258021Z",
   "summary": {
     "total_traits": 308,
     "glossary_ok": 308,
@@ -25,7 +25,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "denti_seghettati"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -138,7 +140,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "zampe_radianti",
+        "sensori_sismici"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -2114,7 +2119,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "scarica_ionica",
+        "pungiglione_paralizzante"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -2230,7 +2238,9 @@
         "frusta_fiammeggiante"
       ],
       "synergies": [
-        "carapace_fase_variabile"
+        "carapace_fase_variabile",
+        "corteccia_memetica",
+        "radici_ancora_planare"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3736,7 +3746,8 @@
       "conflicts": [],
       "synergies": [
         "locomozione_miriapode_ibrida",
-        "estroflessione_gastrica_acida"
+        "estroflessione_gastrica_acida",
+        "martello_osseo"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3965,7 +3976,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "tela_appiccicosa",
+        "tentacoli_uncinati"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -6986,7 +7000,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "ferocia",
+        "midollo_iperattivo"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -12485,7 +12502,11 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "radici_ancora_planare",
+        "armatura_pietra_planare",
+        "pelli_cave"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -13060,7 +13081,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "denti_seghettati"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -13985,7 +14008,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "aculei_velenosi",
+        "cuore_in_furia"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -14450,7 +14476,8 @@
       "synergies": [
         "cavita_risonanti_tundra",
         "olfatto_risonanza_magnetica",
-        "sensori_geomagnetici"
+        "sensori_geomagnetici",
+        "eco_sismico"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -14564,7 +14591,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "organi_sismici_cutanei",
+        "eco_interno_riflesso"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -16078,7 +16108,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "propriocezione"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -16540,7 +16572,11 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "midollo_iperattivo",
+        "canto_di_richiamo",
+        "spirito_combattivo"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -17471,7 +17507,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "membrane_osmotiche",
+        "tessuti_adattivi"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -21194,7 +21233,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "voce_imperiosa",
+        "spore_paniche"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -22007,7 +22049,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "marchio_predatorio",
+        "tattiche_di_branco"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -23164,7 +23209,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "legame_di_branco"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -23277,7 +23324,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "artiglio_cinetico_a_urto"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -23390,7 +23439,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "nuclei_di_controllo",
+        "risonanza_magnetica"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -23967,7 +24019,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "filtri_bioattivi",
+        "tessuti_adattivi"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -24660,7 +24715,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "ferocia",
+        "canto_di_richiamo"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -25611,7 +25669,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "propriocezione"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -25969,7 +26029,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "matrice_antimagia",
+        "risonanza_magnetica"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -26557,7 +26620,8 @@
       },
       "conflicts": [],
       "synergies": [
-        "sonno_emisferico_alternato"
+        "sonno_emisferico_alternato",
+        "termocezione"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -26903,7 +26967,8 @@
         "ipertrofia_muscolare_massiva"
       ],
       "synergies": [
-        "rostro_emostatico_litico"
+        "rostro_emostatico_litico",
+        "eco_sismico"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -27253,7 +27318,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "pelli_fitte",
+        "pelli_anti_ustione"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -27479,7 +27547,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "pelle_elastomera",
+        "pelli_fitte"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -27592,7 +27663,9 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "corteccia_memetica"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -27705,7 +27778,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "pelle_elastomera",
+        "pelli_anti_ustione"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -27946,7 +28022,9 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "senso_magnetico"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -28520,7 +28598,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "equilibrio_vestibolare",
+        "nocicezione"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -28633,7 +28714,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "arco_voltaico",
+        "scarica_ionica"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -28746,7 +28830,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "corteccia_memetica",
+        "armatura_pietra_planare"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -29455,7 +29542,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "matrice_antimagia",
+        "nuclei_di_controllo"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -30392,7 +30482,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "arco_voltaico",
+        "pungiglione_paralizzante"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -31561,7 +31654,11 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "sintonia_magnetica",
+        "sensori_geomagnetici",
+        "pigmenti_aurorali"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -31676,7 +31773,9 @@
       "conflicts": [],
       "synergies": [
         "carapace_fase_variabile",
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "senso_magnetico",
+        "sintonia_magnetica"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -31903,7 +32002,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "adattamento_volo",
+        "zampe_radianti"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -32379,7 +32481,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "senso_magnetico",
+        "sensori_geomagnetici"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -32839,7 +32944,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "ferocia"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -32952,7 +33059,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "intimidatore",
+        "voce_imperiosa"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -33660,7 +33770,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "voce_imperiosa"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -33789,7 +33901,8 @@
         "lamelle_shear",
         "membrane_captura_rugiada",
         "random",
-        "spore_psichiche_silenziate"
+        "spore_psichiche_silenziate",
+        "legame_di_branco"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -34016,7 +34129,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "aura_glaciale",
+        "tentacoli_uncinati"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -34129,7 +34245,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "aura_glaciale",
+        "tela_appiccicosa"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -34242,7 +34361,9 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "occhi_infrarosso_composti"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -34355,7 +34476,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "filtri_bioattivi",
+        "membrane_osmotiche"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -35173,7 +35297,11 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "intimidatore",
+        "spore_paniche",
+        "sussurro_psichico"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -35528,7 +35656,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "adattamento_volo",
+        "sensori_sismici"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",

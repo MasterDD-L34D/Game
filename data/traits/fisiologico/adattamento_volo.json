@@ -10,13 +10,17 @@
     "complementare": "morfologia"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "zampe_radianti",
+    "sensori_sismici"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.adattamento_volo.mutazione_indotta",
   "uso_funzione": "i18n:traits.adattamento_volo.uso_funzione",
   "spinta_selettiva": "i18n:traits.adattamento_volo.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
-  }
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.adattamento_volo.debolezza"
 }
