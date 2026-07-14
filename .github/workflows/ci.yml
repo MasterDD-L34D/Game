@@ -585,10 +585,25 @@ jobs:
           # combos carry a non-null biome. The runtime generator already skipped the rule
           # outright (`const classId = rule.when?.biome_class; if (!classId) return;`),
           # so it was dead data that only inflated the coverage metric.
-          # Removing that rule takes this to a measured 0 with no fabricated affinities.
-          # The debt it was masking is real but different, and is now visible as the
-          # advisory `traits_missing_rules` (71 traits that no biome rule suggests).
-          max_missing = 0
+          # Removing that rule took this to a measured 0 -- but that 0 was STILL propped up
+          # by a second crutch one layer down: report_trait_coverage defaulted to
+          # --species-affinity, and trait_coverage.py injected EVERY affinity species into
+          # any uncovered rule combo with zero biome grounding. That backfill is now deleted,
+          # and climate-scoped rules (koppen_in / koppen_any) are expanded onto the biome
+          # classes they actually apply to (biome_classes.yaml koppen_examples) instead of
+          # collapsing to the unsatisfiable (biome=None, morphotype=None) combo that a
+          # biome-less global keeper stub was "covering".
+          #
+          # With both crutches gone the honest number is 9. Unlike the phantom 73, each of
+          # these is a concrete, checkable claim -- "rule says climate BSk yields pelli_cave;
+          # badlands IS a BSk biome; no badlands species carries pelli_cave":
+          #   pelli_cave        -> badlands, steppe_algoritmiche
+          #   pigmenti_aurorali -> badlands, steppe_algoritmiche
+          #   grassi_termici    -> badlands, steppe_algoritmiche
+          #   pelli_fitte       -> canopia_ionica, rovine_planari
+          #   cuticole_cerose   -> pianura_salina_iperarida
+          # Real content debt, Species Curator-gated. Ratchet DOWN only, never up.
+          max_missing = 9
 
           traits_with_species = summary.get('traits_with_species')
           rules_missing = summary.get('rules_missing_species_total')

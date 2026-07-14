@@ -71,6 +71,33 @@ def _resolve_path(hint: str | Path | None, *anchors: Path) -> Path | None:
     return fallback if fallback.exists() else None
 
 
+def _load_koppen_biomes(env_traits_path: Path) -> dict[str, list[str]]:
+    """Invert `biome_classes.yaml` -> {koppen_code: [biome_class, ...]}.
+
+    Authoritative source for mapping a climate-scoped env rule onto the biome classes
+    it actually applies to. Codes marked 'n/a' (biomes with no real-world analogue,
+    e.g. abisso_vulcanico) are skipped rather than mapped.
+    """
+    registry = (
+        env_traits_path.parent.parent.parent
+        / "tools"
+        / "config"
+        / "registries"
+        / "biome_classes.yaml"
+    )
+    if not registry.exists():
+        return {}
+    data = _load_yaml(registry)
+    if not isinstance(data, Mapping):
+        return {}
+    inverted: dict[str, list[str]] = {}
+    for biome_class, codes in (data.get("koppen_examples") or {}).items():
+        for code in _ensure_list(codes):
+            if code and code != "n/a":
+                inverted.setdefault(code, []).append(biome_class)
+    return inverted
+
+
 def _format_combo_key(combo: tuple[str | None, str | None]) -> dict[str, str | None]:
     biome, morph = combo
     return {"biome": biome, "morphotype": morph}
@@ -159,15 +186,49 @@ def generate_trait_coverage(
         lambda: defaultdict(set)
     )
 
-    for rule in env_data.get("rules", []):
+    koppen_biomes = _load_koppen_biomes(env_traits_path)
+
+    for index, rule in enumerate(env_data.get("rules", [])):
         conditions = rule.get("when") or {}
         biome = conditions.get("biome_class")
         morph = conditions.get("morphotype")
         traits = _ensure_list((rule.get("suggest") or {}).get("traits"))
+
+        # A rule that suggests traits but constrains NOTHING is a coverage-backfill in
+        # disguise: it makes every trait it lists *count* as covered while the runtime
+        # generator skips it outright (indexTraitRegistry bails on a missing biome_class).
+        # One such rule (meta.category=coverage_backfill, 105 traits) had to be removed in
+        # #3298 after it hid a real gap for 7 months. Reject the pattern at the source so
+        # it cannot be reintroduced. Rules scoped on a non-biome axis (salinita_in,
+        # hazard_any, ...) are legitimate and unaffected -- only a truly empty `when` fails.
+        if traits and not conditions:
+            raise ValueError(
+                f"env_traits rule[{index}] suggests {len(traits)} trait(s) with an empty "
+                "`when` -- an unconditioned rule fakes coverage without producing anything "
+                "at runtime. Scope it (biome_class / morphotype / koppen_* / hazard_any / "
+                "salinita_in) or remove it. See PR #3298."
+            )
+
+        # A climate-scoped rule (koppen_in / koppen_any) declares no biome_class, so
+        # it used to collapse to the degenerate (None, None) combo -- which NO species
+        # can ever satisfy, because species are keyed by (biome, morphotype). That made
+        # the coverage question structurally unanswerable and it was being papered over
+        # by the species_affinity backfill. Expand such a rule to the biome classes whose
+        # canonical koppen codes it matches, so the question becomes real.
+        rule_biomes: list[str | None] = [biome]
+        if biome is None:
+            codes = _ensure_list(conditions.get("koppen_in")) + _ensure_list(
+                conditions.get("koppen_any")
+            )
+            expanded = sorted({b for c in codes for b in koppen_biomes.get(c, [])})
+            if expanded:
+                rule_biomes = list(expanded)
+
         for trait_id in traits:
             if trait_id not in target_traits:
                 continue
-            rule_matrix[trait_id][(biome, morph)] += 1
+            for rule_biome in rule_biomes:
+                rule_matrix[trait_id][(rule_biome, morph)] += 1
 
     foodweb_roles: dict[str, dict[str, list[dict[str, Any]]]] = defaultdict(
         lambda: defaultdict(list)
@@ -285,14 +346,14 @@ def generate_trait_coverage(
                         "top_species": affinity_species_ids[:10],
                     }
 
-        if affinity_species_ids and rule_counter:
-            for combo in rule_counter.keys():
-                if species_counter.get(combo, 0):
-                    continue
-                species_counter[combo] += len(affinity_species_ids)
-                for species_id in affinity_species_ids:
-                    species_examples[trait_id][combo].add(species_id)
-                    species_seen[trait_id].add(species_id)
+        # REMOVED: an unconditional species_affinity backfill used to live here. For any
+        # rule combo lacking species coverage it injected EVERY affinity species into that
+        # combo -- with no biome grounding whatsoever, so a species that does not live in
+        # the biome still "covered" it. That silently held rules_missing_species_total at
+        # 0 and made the gate meaningless: it is the same trick as the `coverage_backfill`
+        # env rule removed in #3298, one layer down. Coverage must be earned by a species
+        # that actually lives in the rule's biome. `affinity_map` is still reported below
+        # as the advisory `missing_in_affinity` diff -- it just no longer fakes coverage.
 
         if rule_counter:
             summary["traits_with_rules"] += 1
