@@ -1,22 +1,14 @@
 # QA export changelog
 
-Generato: 2026-07-14T00:03:24.248947Z
-Baseline precedente: 2026-06-28T13:37:48.320348Z
+Generato: 2026-07-14T01:53:41.789311Z
+Baseline precedente: 2026-07-14T00:03:24.248947Z
 
 ## Metriche baseline
-- Tratti totali: 308 (-1 vs precedente)
-- Glossario OK: 308 (-1 vs precedente)
+- Tratti totali: 308 (0 vs precedente)
+- Glossario OK: 308 (0 vs precedente)
 - Glossario mancanti: 0 (0 vs precedente)
-- Mismatch matrice: 116 (-1 vs precedente)
+- Mismatch matrice: 116 (0 vs precedente)
 - Tratti con conflitti: 28 (0 vs precedente)
-
-### tratti con mismatch matrice
-- Risolti:
-  - coscienza_dalveare_diffusa
-
-### tratti senza copertura QA
-- Risolti:
-  - coscienza_dalveare_diffusa
 
 ## Highlights UI
 - Solo matrice: Strategist, architetto, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, fisiologia_predatoria, fotosintesi_bifase, ghiandole_nettare_memetico, intangibilita_parziale
@@ -40,7 +32,7 @@ Baseline precedente: 2026-06-28T13:37:48.320348Z
 - Tratti validati: 0 (0 vs precedente)
 
 ## Badge QA
-- Tratti passed: 308 (-1 vs precedente)
+- Tratti passed: 308 (0 vs precedente)
 - Conflitti badge: 28 (0 vs precedente)
 
 _Report generato da scripts/export-qa-report.js_

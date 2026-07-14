@@ -9,7 +9,8 @@
   "slot": [],
   "sinergie": [
     "locomozione_miriapode_ibrida",
-    "estroflessione_gastrica_acida"
+    "estroflessione_gastrica_acida",
+    "martello_osseo"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.artiglio_cinetico_a_urto.mutazione_indotta",

@@ -7553,7 +7553,8 @@
       "slot": [],
       "sinergie": [
         "locomozione_miriapode_ibrida",
-        "estroflessione_gastrica_acida"
+        "estroflessione_gastrica_acida",
+        "martello_osseo"
       ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.artiglio_cinetico_a_urto.mutazione_indotta",
@@ -17893,14 +17894,17 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "scarica_ionica",
+        "pungiglione_paralizzante"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.arco_voltaico.mutazione_indotta",
       "uso_funzione": "i18n:traits.arco_voltaico.uso_funzione",
       "spinta_selettiva": "i18n:traits.arco_voltaico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "martello_osseo": {
@@ -17915,14 +17919,16 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "artiglio_cinetico_a_urto"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.martello_osseo.mutazione_indotta",
       "uso_funzione": "i18n:traits.martello_osseo.uso_funzione",
       "spinta_selettiva": "i18n:traits.martello_osseo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17953,14 +17959,17 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "arco_voltaico",
+        "scarica_ionica"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pungiglione_paralizzante.mutazione_indotta",
       "uso_funzione": "i18n:traits.pungiglione_paralizzante.uso_funzione",
       "spinta_selettiva": "i18n:traits.pungiglione_paralizzante.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "scarica_ionica": {
@@ -17975,14 +17984,17 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "arco_voltaico",
+        "pungiglione_paralizzante"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.scarica_ionica.mutazione_indotta",
       "uso_funzione": "i18n:traits.scarica_ionica.uso_funzione",
       "spinta_selettiva": "i18n:traits.scarica_ionica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "risonanza_magnetica": {
