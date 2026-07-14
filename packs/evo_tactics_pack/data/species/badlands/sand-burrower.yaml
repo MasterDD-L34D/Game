@@ -54,6 +54,7 @@ hazards_expected:
 - tempeste_sabbia
 derived_from_environment:
   suggested_traits:
+  - grassi_termici
   - nucleo_ovomotore_rotante
   - sacche_galleggianti_ascensoriali
   - scheletro_idro_regolante
@@ -76,6 +77,7 @@ telemetry:
   spawn_weight: null
 genetic_traits:
   core:
+  - grassi_termici
   - nucleo_ovomotore_rotante
   - sacche_galleggianti_ascensoriali
   - scheletro_idro_regolante

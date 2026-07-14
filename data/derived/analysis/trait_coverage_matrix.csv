@@ -186,7 +186,8 @@ ghiandole_resina_conduttiva,Ghiandole Resina Conduttiva,Ghiandole Resina Condutt
 ghiandole_ventosa,Ghiandole Ventosa,Ghiandole Ventosa,caldera_glaciale,,1,1
 giunti_antitorsione,Giunti Antitorsione,Giunti Antitorsione,mangrovieto_cinetico,,1,1
 grassi_termici,Grassi Termici,Grassi Termici,,,0,1
-grassi_termici,Grassi Termici,Grassi Termici,badlands,,1,0
+grassi_termici,Grassi Termici,Grassi Termici,badlands,,1,1
+grassi_termici,Grassi Termici,Grassi Termici,badlands,cursoriale_quadrupede,0,1
 grassi_termici,Grassi Termici,Grassi Termici,cryosteppe,,1,1
 grassi_termici,Grassi Termici,Grassi Termici,cryosteppe,volatore_planatore,0,1
 grassi_termici,Grassi Termici,Grassi Termici,deserto_caldo,cursoriale_quadrupede,0,1
@@ -255,7 +256,11 @@ pathfinder,Pathfinder,Pathfinder,foresta_miceliale,,1,1
 pathfinder,Pathfinder,Pathfinder,foresta_temperata,,0,1
 pelli_anti_ustione,Pelli Anti-Ustione,Burn-Resistant Skins,badlands,,1,1
 pelli_anti_ustione,Pelli Anti-Ustione,Burn-Resistant Skins,badlands,volatore_planatore,0,1
-pelli_cave,pelli_cave,Hollow Skins,badlands,,1,0
+pelli_cave,pelli_cave,Hollow Skins,CRYOSTEPPE,volatore_planatore,0,1
+pelli_cave,pelli_cave,Hollow Skins,DESERTO_CALDO,volatore_planatore,0,1
+pelli_cave,pelli_cave,Hollow Skins,FORESTA_TEMPERATA,volatore_planatore,0,1
+pelli_cave,pelli_cave,Hollow Skins,badlands,,1,1
+pelli_cave,pelli_cave,Hollow Skins,badlands,volatore_planatore,0,1
 pelli_cave,pelli_cave,Hollow Skins,cryosteppe,,1,1
 pelli_cave,pelli_cave,Hollow Skins,cryosteppe,volatore_planatore,0,1
 pelli_cave,pelli_cave,Hollow Skins,deserto_caldo,cursoriale_quadrupede,0,1
@@ -263,12 +268,14 @@ pelli_cave,pelli_cave,Hollow Skins,deserto_caldo,ingegnere_radicante,0,1
 pelli_cave,pelli_cave,Hollow Skins,deserto_caldo,scavenger_corazzato,0,1
 pelli_cave,pelli_cave,Hollow Skins,deserto_caldo,volatore_planatore,0,2
 pelli_cave,pelli_cave,Hollow Skins,steppe_algoritmiche,,1,0
-pelli_fitte,Pelli Fitte,Dense Skins,canopia_ionica,,1,0
+pelli_fitte,Pelli Fitte,Dense Skins,canopia_ionica,,1,1
+pelli_fitte,Pelli Fitte,Dense Skins,canopia_ionica,aliante_mimetico,0,1
 pelli_fitte,Pelli Fitte,Dense Skins,foresta_temperata,,1,1
 pelli_fitte,Pelli Fitte,Dense Skins,rovine_planari,,1,0
 pianificatore,Pianificatore,Strategic Planner,foresta_miceliale,,1,1
 pianificatore,Pianificatore,Strategic Planner,foresta_temperata,,0,1
-pigmenti_aurorali,pigmenti_aurorali,Auroral Pigments,badlands,,1,0
+pigmenti_aurorali,pigmenti_aurorali,Auroral Pigments,badlands,,1,1
+pigmenti_aurorali,pigmenti_aurorali,Auroral Pigments,badlands,ingegnere_radicante,0,1
 pigmenti_aurorali,pigmenti_aurorali,Auroral Pigments,cryosteppe,,1,1
 pigmenti_aurorali,pigmenti_aurorali,Auroral Pigments,cryosteppe,volatore_planatore,0,1
 pigmenti_aurorali,pigmenti_aurorali,Auroral Pigments,deserto_caldo,cursoriale_quadrupede,0,1

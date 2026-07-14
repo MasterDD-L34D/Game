@@ -58,6 +58,7 @@ hazards_expected:
 derived_from_environment:
   suggested_traits:
   - mimetismo_cromatico_passivo
+  - pigmenti_aurorali
   - sangue_piroforico
   - secrezione_rallentante_palmi
   optional_traits:
@@ -83,6 +84,7 @@ telemetry:
 genetic_traits:
   core:
   - mimetismo_cromatico_passivo
+  - pigmenti_aurorali
   - sangue_piroforico
   - secrezione_rallentante_palmi
   optional:

@@ -43,6 +43,7 @@ hazards_expected: []
 derived_from_environment:
   suggested_traits:
   - mimetismo_cromatico_passivo
+  - pelli_fitte
   - sacche_galleggianti_ascensoriali
   - struttura_elastica_amorfa
   optional_traits: []
@@ -62,6 +63,7 @@ telemetry:
 genetic_traits:
   core:
   - mimetismo_cromatico_passivo
+  - pelli_fitte
   - sacche_galleggianti_ascensoriali
   - struttura_elastica_amorfa
   - focus_frazionato

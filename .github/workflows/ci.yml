@@ -575,7 +575,11 @@ jobs:
           with open('data/derived/analysis/trait_coverage_report.json', encoding='utf-8') as handle:
               summary = json.load(handle).get('summary', {})
 
-          min_traits = 27
+          # Ratchet UP only, never down -- the mirror of max_missing below.
+          # This floor sat at 27 while the real value was 189, so 162 traits could have
+          # lost every species link with CI still green. A ceiling that only ratchets down
+          # is worthless next to a floor that never ratchets up.
+          min_traits = 189
           # Ratchet DOWN only, never up.
           # The 73 rules that briefly surfaced here all came from a single synthetic
           # env_traits rule (`when: {}`, meta.category=coverage_backfill, cohort
@@ -594,16 +598,47 @@ jobs:
           # collapsing to the unsatisfiable (biome=None, morphotype=None) combo that a
           # biome-less global keeper stub was "covering".
           #
-          # With both crutches gone the honest number is 9. Unlike the phantom 73, each of
-          # these is a concrete, checkable claim -- "rule says climate BSk yields pelli_cave;
-          # badlands IS a BSk biome; no badlands species carries pelli_cave":
-          #   pelli_cave        -> badlands, steppe_algoritmiche
-          #   pigmenti_aurorali -> badlands, steppe_algoritmiche
-          #   grassi_termici    -> badlands, steppe_algoritmiche
-          #   pelli_fitte       -> canopia_ionica, rovine_planari
-          #   cuticole_cerose   -> pianura_salina_iperarida
-          # Real content debt, Species Curator-gated. Ratchet DOWN only, never up.
-          max_missing = 9
+          # With both crutches gone the honest number was 9 -- and unlike the phantom 73,
+          # each was a concrete checkable claim ("rule says climate BSk yields pelli_cave;
+          # badlands IS a BSk biome; no badlands species carries pelli_cave").
+          #
+          # #3301 closed 4 of those 9 by authoring the trait onto a species that actually
+          # lives in the biome:
+          #   pelli_cave        -> echo-wing               (badlands)
+          #   pigmenti_aurorali -> ferrocolonia-magnetotattica (badlands)
+          #   pelli_fitte       -> cryptopennatus_psionicus    (canopia_ionica)
+          #   grassi_termici    -> sand-burrower           (badlands)  [see caveat]
+          #
+          # CAVEAT, stated plainly because this arc has been a chain of over-claims:
+          # three of those four are grounded on a substantive glossary description
+          # (pigmenti_aurorali <-> ferrocolonia is the strongest: the glossary says
+          # "magnetic storms" and the species spawns in tempesta_sabbia_magnetica).
+          # `grassi_termici` is NOT. Its glossary entry is content-free boilerplate
+          # ("permette alle squadre di stabilizzare assorbimento e conversione energetica
+          # multi-fonte...") with an untranslated label_en -- i.e. it is an unauthored
+          # design stub. The species-side facts do hold (sand-burrower: nocturnal primary
+          # herbivore, spawns sereno_freddo, koppen BSk/BWk) and the env rule genuinely
+          # suggests the trait there, so the link is legitimate -- but it is grounded on the
+          # trait's NAME, not on authored design. Closing a coverage gap against an
+          # unauthored trait is a milder form of the same disease. Author grassi_termici.
+          #
+          # The 5 that remain are NOT trait-link debt -- they are species-authoring debt.
+          # Every one of them lands in a biome with ZERO authored species, so there is no
+          # species to carry the trait at all:
+          #   pelli_cave / pigmenti_aurorali / grassi_termici -> steppe_algoritmiche  (0 species)
+          #   pelli_fitte                                     -> rovine_planari       (0 species;
+          #       the 10 files in that directory are 3-line auto-generated stubs that declare
+          #       no `biomes:` at all, so the biome has no inhabitants)
+          #   cuticole_cerose                                 -> pianura_salina_iperarida (0 species)
+          # The rules themselves are correct (steppe_algoritmiche IS BSk, rovine_planari IS
+          # Cfb, pianura_salina_iperarida IS BWh) -- narrowing them to hide these would just
+          # be the backfill trick a third time. These 5 unblock when the biomes get real
+          # inhabitants. Species Curator-gated.
+          #
+          # Do NOT close any of these by editing a *-trait-keeper.yaml stub: those are
+          # auto-generated placeholders ("sostituire con specifica completa"), not species.
+          # Ratchet DOWN only, never up.
+          max_missing = 5
 
           traits_with_species = summary.get('traits_with_species')
           rules_missing = summary.get('rules_missing_species_total')

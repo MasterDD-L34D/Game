@@ -13,9 +13,9 @@
     "traits_with_species": 189,
     "traits_with_affinity": 200,
     "rule_combos_total": 189,
-    "species_combos_total": 317,
-    "rules_missing_species_total": 9,
-    "affinity_missing_species_total": 0,
+    "species_combos_total": 328,
+    "rules_missing_species_total": 5,
+    "affinity_missing_species_total": 4,
     "affinity_missing_matrix_total": 89,
     "traits_missing_species": [
       "cuticole_cerose",
@@ -7526,7 +7526,7 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 10,
         "coverage": [
           {
             "biome": null,
@@ -7534,6 +7534,22 @@
             "count": 1,
             "examples": [
               "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "sand-burrower"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "sand-burrower"
             ]
           },
           {
@@ -7590,10 +7606,6 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "badlands",
-            "morphotype": null
-          },
-          {
             "biome": "steppe_algoritmiche",
             "morphotype": null
           }
@@ -7620,7 +7632,9 @@
             "morphotype": "volatore_planatore"
           }
         ],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "sand-burrower"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -10028,8 +10042,48 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 12,
         "coverage": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
           {
             "biome": "cryosteppe",
             "morphotype": null,
@@ -10084,15 +10138,23 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "badlands",
-            "morphotype": null
-          },
-          {
             "biome": "steppe_algoritmiche",
             "morphotype": null
           }
         ],
         "missing_in_rules": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore"
+          },
           {
             "biome": "deserto_caldo",
             "morphotype": "cursoriale_quadrupede"
@@ -10110,7 +10172,9 @@
             "morphotype": "volatore_planatore"
           }
         ],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "echo-wing"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -10154,8 +10218,24 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "cryptopennatus_psionicus"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "aliante_mimetico",
+            "count": 1,
+            "examples": [
+              "cryptopennatus_psionicus"
+            ]
+          },
           {
             "biome": "foresta_temperata",
             "morphotype": null,
@@ -10169,16 +10249,14 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "canopia_ionica",
-            "morphotype": null
-          },
-          {
             "biome": "rovine_planari",
             "morphotype": null
           }
         ],
         "missing_in_rules": [],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "cryptopennatus_psionicus"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -10275,8 +10353,24 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 10,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
           {
             "biome": "cryosteppe",
             "morphotype": null,
@@ -10339,10 +10433,6 @@
       "diff": {
         "missing_in_species": [
           {
-            "biome": "badlands",
-            "morphotype": null
-          },
-          {
             "biome": "steppe_algoritmiche",
             "morphotype": null
           }
@@ -10369,7 +10459,9 @@
             "morphotype": "flora_radicata"
           }
         ],
-        "missing_in_affinity": [],
+        "missing_in_affinity": [
+          "ferrocolonia-magnetotattica"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -13020,7 +13112,7 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
@@ -13037,7 +13129,7 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
@@ -13054,7 +13146,7 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
@@ -13071,7 +13163,7 @@
                 "core_traits": [
                   "eco_interno_riflesso",
                   "occhi_infrarosso_composti",
-                  "sonno_emisferico_alternato"
+                  "pelli_cave"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
@@ -13133,9 +13225,9 @@
                 "id": "sand-burrower",
                 "playable_unit": false,
                 "core_traits": [
+                  "grassi_termici",
                   "nucleo_ovomotore_rotante",
-                  "sacche_galleggianti_ascensoriali",
-                  "scheletro_idro_regolante"
+                  "sacche_galleggianti_ascensoriali"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
               }
@@ -13159,8 +13251,8 @@
                 "playable_unit": false,
                 "core_traits": [
                   "mimetismo_cromatico_passivo",
-                  "sacche_galleggianti_ascensoriali",
-                  "struttura_elastica_amorfa"
+                  "pelli_fitte",
+                  "sacche_galleggianti_ascensoriali"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/canopia_ionica/cryptopennatus-psionicus.yaml"
               }
@@ -13616,8 +13708,8 @@
                 "playable_unit": true,
                 "core_traits": [
                   "mimetismo_cromatico_passivo",
-                  "sangue_piroforico",
-                  "secrezione_rallentante_palmi"
+                  "pigmenti_aurorali",
+                  "sangue_piroforico"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
               }
