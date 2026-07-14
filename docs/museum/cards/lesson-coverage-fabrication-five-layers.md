@@ -117,6 +117,8 @@ Tutti e quattro gli slug "migrati" sono **ancora vivi con specie reali**. E' una
 - **59 / 105** file specie sono stub autogenerati (**56%**).
 - `rovine_planari`: **10 file, 10 stub, 0 specie reali**. Un bioma intero fatto di niente.
 
+> **CORREZIONE 2026-07-15** (`aa92afed`): la riga qui sopra e' **sbagliata**, e questa card ha contribuito a farla credere. I 10 stub di `rovine_planari` **non** erano fabbricazione: erano le **lapidi** di 10 specie autorate per intero (`author: designer`, `source: PF1E.Bestiary.v1`) e distrutte per danno collaterale da `5a06b64b`. **Sono state recuperate.** Il censimento corretto e' **49/105** stub. Vedi [M-2026-07-15-001](worldgen-rovine-planari-recovery.md) e la lezione [M-2026-07-15-002](lesson-receipt-provenance-scar-vs-lie.md).
+
 ## Why it was buried
 
 Non e' stato sepolto: e' stato **costruito**, strato su strato, ognuno in buona fede per far tornare verde un gate.
@@ -205,6 +207,18 @@ Censimento: [docs/planning/2026-07-14-content-substrate-census.md](../../plannin
 
 ## Cross-links
 
+### ⚠️ La meta' opposta di questa lezione (leggere INSIEME)
+
+- [M-2026-07-15-002 -- `receipt.source` e' il discriminante, non il numero di righe](lesson-receipt-provenance-scar-vs-lie.md)
+
+> Questa card insegna a **rimuovere il falso** (_remove-then-remeasure_). M-2026-07-15-002 insegna il fallimento **inverso**: **uno stub onesto sopravvissuto a un restauro parziale NON e' uno stub fabbricato**, e trattarlo come tale **distrugge contenuto reale**. Il giorno dopo la rimozione dei 5 strati, un grep "recupera ogni stub da 3 righe che una volta aveva contenuto" restituiva **34 file**: **10 erano specie vere** (`author: designer`), **21 erano i keeper `coverage_autogen`** di questa card -- e in git pesano **59 righe**, piu' di alcune specie reali. **Filtrare per dimensione avrebbe recuperato la malattia e lasciato la cicatrice.** Il filtro giusto e' `receipt`.
+>
+> Applicare solo M-001 porta a **cancellare cicatrici**. Applicare solo M-2026-07-15-002 porta a **resuscitare bugie**. Sono due meta' della stessa lezione.
+
+### Altre
+
+- [M-2026-07-15-001 -- rovine_planari: una cicatrice, non un buco](worldgen-rovine-planari-recovery.md) -- 10 specie recuperate; **il "56% stub" di questa card e' ora 10 file piu' onesto**
+- [M-2026-07-15-003 -- Specie autorate prima del catalogo tratti](lesson-species-authored-ahead-of-trait-catalog.md) -- il **terzo** modo di fabbricare copertura: `setdefault` in un generatore
 - [M-2026-07-14-002 -- Due vocabolari bioma orfani](worldgen-biome-vocabularies-orphan.md)
 - [M-2026-07-14-003 -- `biome_class`: una chiave, due significati](worldgen-biome-class-key-overload.md)
 - [M-2026-07-14-004 -- Node id MAIUSCOLI: convention leak](worldgen-network-node-id-uppercase-leak.md)

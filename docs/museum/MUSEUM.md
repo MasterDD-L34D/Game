@@ -24,6 +24,9 @@
 - [Enneagramma Mechanics Registry — 16 hook stub](cards/enneagramma-mechanics-registry.md) — **5/5** · plug-in `enneaEffects.js` 3h · unintegrated
 - [Enneagramma Dataset — 9 tipi canonical](cards/enneagramma-dataset-9-types.md) — **5/5** · Skiv voice palette type 5/7 · unintegrated
 - [Coverage fabbricata: 5 strati impilati](cards/lesson-coverage-fabrication-five-layers.md) — **5/5** · 🆕 2026-07-14 · LESSON: gate a zero per 7 mesi, numero onesto 9; metodo REMOVE-THEN-REMEASURE · superseded
+- [`receipt.source` e' il discriminante, non le righe](cards/lesson-receipt-provenance-scar-vs-lie.md) — **5/5** · 🆕 2026-07-15 · LESSON: la meta' opposta di M-001 — filtra per PROVENIENZA, mai per dimensione; 21 keeper da 59 righe stavano per essere "recuperati" · curated
+- [rovine_planari: cicatrice, non buco](cards/worldgen-rovine-planari-recovery.md) — **5/5** · 🆕 2026-07-15 · ✅ RECOVERED (aa92afed): 10 specie autorate 2025-10-29, distrutte da un commit "docs" da -302k righe; TARGET 35 → 27 · revived
+- [Specie autorate prima del catalogo tratti](cards/lesson-species-authored-ahead-of-trait-catalog.md) — **4/5** · 🆕 2026-07-15 · 23 tratti orfani; `setdefault` a build_species_trait_bridge.py:145 li fabbricherebbe · unintegrated
 - [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — **5/5** · ✅ REVIVED 2026-07-14 (ADR #3302 adotta lo stack come modello enforced) · **aveva predetto il fallimento** · revived
 - [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — **5/5** · 5/7 campi biomes.yaml non consumati; spec per ogni nuova promozione a bioma giocabile · reviewed
 - [Due vocabolari bioma orfani](cards/worldgen-biome-vocabularies-orphan.md) — **4/5** · 🆕 2026-07-14 · 12 biomi reali mai cablati + 21 nomi fabbricati, cancellati dall'ADR · unintegrated
@@ -114,6 +117,8 @@ _Pool secco. 10/10 species in `incoming/species/*.json` già canonical via commi
 ### Pipeline failure modes
 
 - [Coverage fabbricata: 5 strati impilati](cards/lesson-coverage-fabrication-five-layers.md) — score 5/5 · 🆕 **LESSON** · gate copertura trait a zero per 7 mesi (2025-12-03 → 2026-07-14); numero onesto = 9. 5 artefatti fabbricati impilati, tutti runtime-inerti. **Metodo: REMOVE-THEN-REMEASURE** — un `max_missing = 73` fantasma stava per essere baselineato in CI · superseded
+- [`receipt.source` e' il discriminante, non il numero di righe](cards/lesson-receipt-provenance-scar-vs-lie.md) — score 5/5 · 🆕 **LESSON** · la **meta' opposta** di M-2026-07-14-001: quella rimuove il falso (_remove-then-remeasure_), questa evita di cancellare il vero ferito (_filter-by-provenance_). Un grep "recupera ogni stub da 3 righe" restituiva 34 file: 21 erano keeper `coverage_autogen` da **59 righe** — recuperarli avrebbe re-introdotto la malattia. **Il numero di righe non e' un segnale; `receipt` si'** · curated
+- [Specie autorate prima del catalogo tratti](cards/lesson-species-authored-ahead-of-trait-catalog.md) — score 4/5 · 🆕 23 tratti riferiti dalle specie e **mai definiti**; `build_species_trait_bridge.py:145` (`setdefault`) li avrebbe **fabbricati** come voci nude. Terzo modo di fabbricare copertura: **automatico, senza che nessuno decida** · unintegrated
 - [evo-swarm run #5 discarded claims](cards/evo-swarm-run-5-discarded-claims.md) — score 4/5 · 8 hallucinated + 2 redundant, OD-022 gate reference + LLM prompt training · curated (⚠️ user-requested autonomous deviation Museum-first protocol — repo-archaeologist agent review pending)
 
 _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial supersedes + DEPRECATED.md cleanup + concept-explorations vertical-slice). Vedi [excavations/2026-04-25-architecture-inventory.md](excavations/2026-04-25-architecture-inventory.md)._
@@ -129,6 +134,7 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 - [16 Forme MBTI come seed evolutivi](cards/worldgen-forme-mbti-as-evolutionary-seed.md) — score 4/5 · starter_bioma undefined; eseguibile solo post-ADR (serviva un modello bioma stabile) · reviewed
 - [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — score 4/5 · biome_pools.json role_templates non esposti a spawn; substrato reale = 46/105 specie (56% stub) · reviewed
 - [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — score 4/5 · **ha salvato 2 biomi**: deserto_caldo + cryosteppe sono origini cross-event, stavano per essere rimossi · reviewed
+- [rovine_planari: una cicatrice, non un buco](cards/worldgen-rovine-planari-recovery.md) — score 5/5 · 🆕 ✅ **RECOVERED 2026-07-14** (`aa92afed`) — le 10 specie erano autorate (`e83c810c`, 2025-10-29) e distrutte per **danno collaterale** da `5a06b64b`, un commit "docs" da **-302.220 righe**. Ecosistema e foodweb (impronta) le nominavano tutte per id. **TARGET nucleo-8: ~35 → ~27**. Controllo negativo: `atollo_obsidiana` **e'** un buco vero · revived
 - [Bridge species network glue](cards/worldgen-bridge-species-network-glue.md) — score 3/5 · 3 bridge species nel pack ecosystem, non in data/core · unintegrated
 
 📎 **Gallery**: [galleries/worldgen.md](galleries/worldgen.md) — 7 card worldgen, gap analysis completo, reuse path consolidato tier 1/2/3. _(NB: gallery non aggiornata con le 3 card 2026-07-14 — pending.)_
@@ -163,12 +169,12 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 ## 📊 Stats
 
-- **Excavations run**: 14 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15 + 1 session-8 coop WS test infra 2026-05-20 + **1 session-9 curate pre-ADR biome/species 2026-07-14**)
-- **Artifact identificati**: ~112 totali (107 precedenti + 5 artefatti pre-cancellazione ADR #3302)
-- **Cards total**: 39 curate (10 score 5/5 · 14 score 4/5 · 13 score 3/5 · 2 score 2/5) — +4 session-9
-- **Lifecycle**: 2 `revived` (mating engine, worldgen stack 4-livelli) · 5 `reviewed` (worldgen cluster, 2026-07-14)
-- **Galleries**: 3 (enneagramma + ancestors + worldgen) — worldgen gallery **pending** update per le 3 card 2026-07-14
-- **Last excavate**: **2026-07-14** (session 9 curate-mode pre-ADR: saga coverage-fabrication 5 strati + 2 vocabolari bioma orfani + key overload + convention leak; M-2026-07-14-001..004)
+- **Excavations run**: 15 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15 + 1 session-8 coop WS test infra 2026-05-20 + 1 session-9 curate pre-ADR biome/species 2026-07-14 + **1 session-10 recovery rovine_planari 2026-07-15**)
+- **Artifact identificati**: ~115 totali (112 precedenti + 3 session-10)
+- **Cards total**: 42 curate (12 score 5/5 · 15 score 4/5 · 13 score 3/5 · 2 score 2/5) — +3 session-10
+- **Lifecycle**: 3 `revived` (mating engine, worldgen stack 4-livelli, **rovine_planari recovery**) · 5 `reviewed` (worldgen cluster, 2026-07-14)
+- **Galleries**: 3 (enneagramma + ancestors + worldgen) — worldgen gallery **pending** update per le card 2026-07-14/15
+- **Last excavate**: **2026-07-15** (session 10: recovery `rovine_planari` + lezione `receipt`-as-discriminator + 23 tratti orfani; M-2026-07-15-001..003)
 - **Coverage**: **100%+** (9/9 domain + indie research cluster nuovi)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)
@@ -227,7 +233,10 @@ docs/museum/
 │   ├── lesson-coverage-fabrication-five-layers.md           # M-2026-07-14-001 score 5/5 (NEW — LESSON)
 │   ├── worldgen-biome-vocabularies-orphan.md                # M-2026-07-14-002 score 4/5 (NEW)
 │   ├── worldgen-biome-class-key-overload.md                 # M-2026-07-14-003 score 3/5 (NEW)
-│   └── worldgen-network-node-id-uppercase-leak.md           # M-2026-07-14-004 score 3/5 (NEW)
+│   ├── worldgen-network-node-id-uppercase-leak.md           # M-2026-07-14-004 score 3/5
+│   ├── worldgen-rovine-planari-recovery.md                  # M-2026-07-15-001 score 5/5 (NEW — RECOVERED)
+│   ├── lesson-receipt-provenance-scar-vs-lie.md             # M-2026-07-15-002 score 5/5 (NEW — LESSON)
+│   └── lesson-species-authored-ahead-of-trait-catalog.md    # M-2026-07-15-003 score 4/5 (NEW)
 └── galleries/
     ├── ancestors.md                                         # 1 card aggregato
     ├── enneagramma.md                                       # 3 cards aggregato
@@ -249,6 +258,16 @@ docs/museum/
 ---
 
 ## 📅 Last verified
+
+**2026-07-15** — Session 10, **recovery-mode**. La sessione precedente aveva rimosso 5 strati di copertura **fabbricata**. Questa ha trovato il fallimento **inverso**: contenuto **reale**, ferito, scambiato per fabbricazione.
+
+**3 card nuove** (M-2026-07-15-001..003), branch `fix/rovine-planari-recovery` (`aa92afed`), ogni SHA verificato con `git show --stat`:
+
+- **M-001 5/5 RECOVERED** — `worldgen-rovine-planari-recovery.md`. ADR-2026-07-14 Decision 10 contava `rovine_planari` come **il buco piu' grande: +8 specie**. Non era un buco, era una **cicatrice**: le 10 specie erano autorate per intero in `e83c810c` (2025-10-29, `receipt.author: designer`, 88-108 righe l'una) e distrutte due giorni dopo per **danno collaterale** da `5a06b64b` — un commit intitolato **"docs(tri_sorgente)"** che ha cancellato **932 file e 302.220 righe**, workflow CI inclusi. `9acadc69` ("Restore") ne ha recuperato **solo i nomi**: 10 stub da 3 righe. **Ecosistema e foodweb sono sopravvissuti** e nominavano tutte e 10 le specie per id esatto (10 nodi `kind: species`, 23 edge): il bioma aveva l'impronta di dieci abitanti a ogni livello dello stack, e i corpi vuoti. **Recuperate.** TARGET nucleo-8: **~35 → ~27 specie**. **Controllo negativo**: lo stesso metodo **falsifica** il recupero di `atollo_obsidiana` — le sue 3 specie non sono **mai** esistite come file. Quello e' un buco vero.
+- **M-002 5/5 LESSON** — `lesson-receipt-provenance-scar-vs-lie.md`. **La meta' opposta di M-2026-07-14-001.** Un grep ingenuo — _"recupera ogni stub da 3 righe che una volta aveva contenuto"_ — restituiva **34 file**. **21** erano `*-trait-keeper.yaml` che in git pesano **59 righe**: sembrano ricchi. La loro ricevuta dice `source: coverage_autogen` / `author: automation` — sono **esattamente lo strato fabbricato rimosso il giorno prima**. Recuperarli avrebbe **re-introdotto la malattia**. **Il numero di righe non e' un segnale. La provenienza si'.** `receipt` e' il marcatore onesto sopravvissuto a ogni strato di fabbricazione — proprio perche' **nessuna metrica lo consuma**.
+- **M-003 4/5** — `lesson-species-authored-ahead-of-trait-catalog.md`. Le 10 specie riferiscono **34 tratti unici**; **23 non hanno voce nel glossario e non l'hanno mai avuta**. `build_species_trait_bridge.py:145` fa `trait_index.setdefault(trait_id, {})` — rigenerare il bridge **fabbricherebbe 23 voci nude**. E' il **terzo modo** di fabbricare copertura, ed e' il piu' insidioso: **avviene da solo**. Risoluzione: preservati, non consumati, sotto `pending_trait_definitions:`.
+
+> **La coppia di lezioni**: M-2026-07-14-001 = _remove-then-remeasure_ (non trattare il fabbricato come reale). M-2026-07-15-002 = _filter-by-provenance_ (non trattare il reale ferito come fabbricato). Applicare solo la prima porta a **cancellare cicatrici**. Applicare solo la seconda porta a **resuscitare bugie**. Il repo ha corso **entrambi i rischi nella stessa settimana**.
 
 **2026-07-14** — Session 9, **curate-mode pre-ADR** (issue #3302, modello dati biome/species). L'ADR sta per **cancellare** artefatti che contengono informazione riusabile: curati **prima** della cancellazione (il museo e' additive-only, l'ADR no).
 

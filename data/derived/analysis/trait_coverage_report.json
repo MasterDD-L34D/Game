@@ -10,13 +10,13 @@
   "summary": {
     "traits_total": 308,
     "traits_with_rules": 151,
-    "traits_with_species": 189,
-    "traits_with_affinity": 200,
+    "traits_with_species": 191,
+    "traits_with_affinity": 201,
     "rule_combos_total": 189,
-    "species_combos_total": 328,
+    "species_combos_total": 355,
     "rules_missing_species_total": 5,
-    "affinity_missing_species_total": 4,
-    "affinity_missing_matrix_total": 89,
+    "affinity_missing_species_total": 0,
+    "affinity_missing_matrix_total": 125,
     "traits_missing_species": [
       "cuticole_cerose",
       "grassi_termici",
@@ -47,6 +47,7 @@
       "criostasi_adattiva",
       "cuticole_cerose",
       "eco_interno_riflesso",
+      "eco_sismico",
       "empatia_coordinativa",
       "enzimi_chelanti",
       "filamenti_digestivi_compattanti",
@@ -64,6 +65,7 @@
       "mimetismo_cromatico_passivo",
       "mucillagine_simbionte_mangrovie",
       "nodi_micorrizici_oracolari",
+      "nuclei_di_controllo",
       "nucleo_ovomotore_rotante",
       "occhi_cristallo_modulare",
       "occhi_infrarosso_composti",
@@ -196,19 +198,33 @@
           }
         ],
         "missing_in_affinity": [],
-        "missing_in_matrix": []
+        "missing_in_matrix": [
+          "archon-solare",
+          "aurora-gull",
+          "balor-fission",
+          "banshee-risonante",
+          "couatl-aurora",
+          "echo-wing",
+          "noctule-termico"
+        ]
       },
       "affinity": {
-        "total_species": 4,
+        "total_species": 11,
         "roles_breakdown": {
-          "core": 4,
+          "core": 11,
           "optional": 4
         },
         "top_species": [
           "auroserpens_photonicus",
           "heliopteryx_radians",
           "pyroflagellum_meteoriticum",
-          "sonovespera_lamentans"
+          "sonovespera_lamentans",
+          "archon-solare",
+          "aurora-gull",
+          "balor-fission",
+          "banshee-risonante",
+          "couatl-aurora",
+          "echo-wing"
         ]
       }
     },
@@ -401,7 +417,7 @@
         "coverage": []
       },
       "species": {
-        "total": 2,
+        "total": 4,
         "coverage": [
           {
             "biome": "canopia_ionica",
@@ -409,6 +425,15 @@
             "count": 1,
             "examples": [
               "auroserpens_photonicus"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "archon-solare",
+              "couatl-aurora"
             ]
           },
           {
@@ -429,6 +454,10 @@
             "morphotype": "serpentiforme_alato"
           },
           {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
+          },
+          {
             "biome": "savana",
             "morphotype": "alato_veliero"
           }
@@ -437,14 +466,16 @@
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 2,
+        "total_species": 4,
         "roles_breakdown": {
           "core": 2,
-          "optional": 2
+          "optional": 4
         },
         "top_species": [
           "auroserpens_photonicus",
-          "heliopteryx_radians"
+          "heliopteryx_radians",
+          "archon-solare",
+          "couatl-aurora"
         ]
       }
     },
@@ -964,7 +995,7 @@
         "coverage": []
       },
       "species": {
-        "total": 3,
+        "total": 5,
         "coverage": [
           {
             "biome": null,
@@ -989,6 +1020,22 @@
             "examples": [
               "lithoconstructus_inhibens"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "golem-runico"
+            ]
           }
         ]
       },
@@ -1006,26 +1053,40 @@
           {
             "biome": "caverna",
             "morphotype": "costrutto_corazzato"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
+          "bulette-fase",
           "pyroflagellum_meteoriticum",
-          "radiciforma_ancorans"
+          "radiciforma_ancorans",
+          "treant-portale"
         ]
       },
       "affinity": {
-        "total_species": 5,
+        "total_species": 9,
         "roles_breakdown": {
-          "core": 4,
-          "optional": 3
+          "core": 5,
+          "optional": 7
         },
         "top_species": [
+          "golem-runico",
           "lithoconstructus_inhibens",
           "tellurmordax_phasicus",
           "pyroflagellum_meteoriticum",
           "radiciforma_ancorans",
-          "global-trait-keeper"
+          "balor-fission",
+          "bulette-fase",
+          "global-trait-keeper",
+          "treant-portale"
         ]
       }
     },
@@ -1198,7 +1259,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "foresta_temperata",
@@ -1206,6 +1267,14 @@
             "count": 1,
             "examples": [
               "illusiopardus_psionicus"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "rakshasa-corte"
             ]
           }
         ]
@@ -1216,19 +1285,24 @@
           {
             "biome": "foresta_temperata",
             "morphotype": "felino_psionico"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 2
         },
         "top_species": [
-          "illusiopardus_psionicus"
+          "illusiopardus_psionicus",
+          "rakshasa-corte"
         ]
       }
     },
@@ -1346,7 +1420,7 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 9,
         "coverage": [
           {
             "biome": "badlands",
@@ -1396,6 +1470,15 @@
             "examples": [
               "mezzanotte-orbitale-trait-keeper"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "balor-fission",
+              "marilith-vault"
+            ]
           }
         ]
       },
@@ -1409,21 +1492,27 @@
           {
             "biome": "cryosteppe",
             "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
+          "couatl-aurora",
           "ferrimordax-rutilus",
+          "otyugh-sentinella",
           "pyroflagellum_meteoriticum",
           "rotabrachium_ferox",
           "rubrospina-velox"
         ]
       },
       "affinity": {
-        "total_species": 10,
+        "total_species": 14,
         "roles_breakdown": {
           "core": 5,
-          "optional": 7
+          "optional": 11
         },
         "top_species": [
           "dune-stalker",
@@ -1431,11 +1520,11 @@
           "pyroflagellum_meteoriticum",
           "rotabrachium_ferox",
           "rubrospina-velox",
+          "balor-fission",
           "caverna-risonante-trait-keeper",
+          "couatl-aurora",
           "cryo-lynx",
-          "dorsale-termale-tropicale-trait-keeper",
-          "ferrimordax-rutilus",
-          "mezzanotte-orbitale-trait-keeper"
+          "dorsale-termale-tropicale-trait-keeper"
         ]
       }
     },
@@ -1616,7 +1705,7 @@
         "coverage": []
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
           {
             "biome": null,
@@ -1624,6 +1713,14 @@
             "count": 1,
             "examples": [
               "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "archon-solare"
             ]
           },
           {
@@ -1644,6 +1741,10 @@
             "morphotype": null
           },
           {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
+          },
+          {
             "biome": "savana",
             "morphotype": "alato_veliero"
           }
@@ -1652,12 +1753,13 @@
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 2,
+        "total_species": 3,
         "roles_breakdown": {
-          "core": 1,
-          "optional": 2
+          "core": 2,
+          "optional": 3
         },
         "top_species": [
+          "archon-solare",
           "heliopteryx_radians",
           "global-trait-keeper"
         ]
@@ -2852,7 +2954,7 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 7,
         "coverage": [
           {
             "biome": "badlands",
@@ -2893,6 +2995,22 @@
             "examples": [
               "filtrophagus_custos"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "golem-runico"
+            ]
           }
         ]
       },
@@ -2914,32 +3032,43 @@
           {
             "biome": "palude",
             "morphotype": "bipede_filtratore"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
+          "bulette-fase",
           "nano-rust-bloom",
+          "otyugh-sentinella",
           "pyroflagellum_meteoriticum",
           "sand-burrower",
           "steppe-bison-mini"
         ]
       },
       "affinity": {
-        "total_species": 9,
+        "total_species": 13,
         "roles_breakdown": {
           "core": 4,
-          "optional": 8
+          "optional": 12
         },
         "top_species": [
           "filtrophagus_custos",
           "lithoconstructus_inhibens",
           "tellurmordax_phasicus",
           "pyroflagellum_meteoriticum",
+          "balor-fission",
+          "bulette-fase",
           "cryo-lynx",
+          "golem-runico",
           "mezzanotte-orbitale-trait-keeper",
-          "nano-rust-bloom",
-          "sand-burrower",
-          "steppe-bison-mini"
+          "nano-rust-bloom"
         ]
       }
     },
@@ -4050,7 +4179,7 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 4,
         "coverage": [
           {
             "biome": "badlands",
@@ -4067,6 +4196,15 @@
             "examples": [
               "dorsale-termale-tropicale-trait-keeper"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "bulette-fase",
+              "marilith-vault"
+            ]
           }
         ]
       },
@@ -4076,6 +4214,10 @@
           {
             "biome": "badlands",
             "morphotype": "scavatore_corazzato"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
@@ -4085,16 +4227,18 @@
         ]
       },
       "affinity": {
-        "total_species": 4,
+        "total_species": 6,
         "roles_breakdown": {
           "core": 2,
-          "optional": 3
+          "optional": 5
         },
         "top_species": [
           "tellurmordax_phasicus",
           "rotabrachium_ferox",
+          "bulette-fase",
           "dorsale-termale-tropicale-trait-keeper",
-          "dune-stalker"
+          "dune-stalker",
+          "marilith-vault"
         ]
       }
     },
@@ -4448,7 +4592,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -4456,6 +4600,14 @@
             "count": 1,
             "examples": [
               "radiciforma_ancorans"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "treant-portale"
             ]
           }
         ]
@@ -4466,19 +4618,24 @@
           {
             "biome": "foresta_miceliale",
             "morphotype": "flora_radicata"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "ingegnere_radicante"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 2
         },
         "top_species": [
-          "radiciforma_ancorans"
+          "radiciforma_ancorans",
+          "treant-portale"
         ]
       }
     },
@@ -4549,20 +4706,22 @@
         "missing_in_affinity": [],
         "missing_in_matrix": [
           "aerostatocyon_altivolans",
+          "balor-fission",
           "cryo-lynx",
           "dune-stalker",
           "rubrospina-velox"
         ]
       },
       "affinity": {
-        "total_species": 6,
+        "total_species": 7,
         "roles_breakdown": {
           "core": 1,
-          "optional": 5
+          "optional": 6
         },
         "top_species": [
           "aerostatocyon_altivolans",
           "aurora-gull",
+          "balor-fission",
           "cryo-lynx",
           "dune-stalker",
           "mezzanotte-orbitale-trait-keeper",
@@ -5360,14 +5519,37 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "banshee-risonante"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
+      },
+      "affinity": {
+        "total_species": 1,
+        "roles_breakdown": {
+          "optional": 1
+        },
+        "top_species": [
+          "banshee-risonante"
+        ]
       }
     },
     "ectotermia_dinamica": {
@@ -5466,7 +5648,7 @@
         ]
       },
       "species": {
-        "total": 4,
+        "total": 7,
         "coverage": [
           {
             "biome": "canopia_ionica",
@@ -5499,6 +5681,23 @@
             "examples": [
               "illusiopardus_psionicus"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "rakshasa-corte"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "archon-solare",
+              "couatl-aurora"
+            ]
           }
         ]
       },
@@ -5516,21 +5715,31 @@
           {
             "biome": "foresta_temperata",
             "morphotype": "felino_psionico"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
+          "balor-fission",
           "heliopteryx_radians",
+          "marilith-vault",
           "nebulocornis-mollis",
           "rotabrachium_ferox",
           "sentinella-radice"
         ]
       },
       "affinity": {
-        "total_species": 8,
+        "total_species": 13,
         "roles_breakdown": {
           "core": 4,
-          "optional": 5,
+          "optional": 10,
           "synergy": 1
         },
         "top_species": [
@@ -5539,9 +5748,11 @@
           "heliopteryx_radians",
           "rotabrachium_ferox",
           "nebulocornis-mollis",
+          "archon-solare",
+          "balor-fission",
+          "couatl-aurora",
           "foresta-miceliale-trait-keeper",
-          "lupus-temperatus",
-          "sentinella-radice"
+          "lupus-temperatus"
         ]
       }
     },
@@ -6319,7 +6530,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "palude",
@@ -6327,6 +6538,14 @@
             "count": 1,
             "examples": [
               "filtrophagus_custos"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "anfibio_filtratore",
+            "count": 1,
+            "examples": [
+              "otyugh-sentinella"
             ]
           }
         ]
@@ -6337,19 +6556,24 @@
           {
             "biome": "palude",
             "morphotype": "bipede_filtratore"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "anfibio_filtratore"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 2
         },
         "top_species": [
-          "filtrophagus_custos"
+          "filtrophagus_custos",
+          "otyugh-sentinella"
         ]
       }
     },
@@ -6555,32 +6779,38 @@
         "missing_in_matrix": [
           "aerostatocyon_altivolans",
           "arboryxis-lenis",
+          "archon-solare",
+          "balor-fission",
+          "banshee-risonante",
+          "couatl-aurora",
           "cryptopennatus_psionicus",
           "dune-stalker",
           "lupus-temperatus",
+          "marilith-vault",
           "nebulocornis-mollis",
+          "rakshasa-corte",
           "rotabrachium_ferox",
           "rubrospina-velox"
         ]
       },
       "affinity": {
-        "total_species": 12,
+        "total_species": 18,
         "roles_breakdown": {
-          "core": 3,
-          "optional": 5,
-          "synergy": 4
+          "core": 4,
+          "optional": 9,
+          "synergy": 8
         },
         "top_species": [
           "aerostatocyon_altivolans",
+          "archon-solare",
+          "banshee-risonante",
+          "couatl-aurora",
           "cryptopennatus_psionicus",
+          "marilith-vault",
           "rotabrachium_ferox",
           "arboryxis-lenis",
-          "dune-stalker",
-          "nebulocornis-mollis",
-          "rubrospina-velox",
-          "canopia-psionica-leggera-trait-keeper",
-          "foresta-miceliale-trait-keeper",
-          "lupus-temperatus"
+          "balor-fission",
+          "dune-stalker"
         ]
       }
     },
@@ -6702,7 +6932,7 @@
         "coverage": []
       },
       "species": {
-        "total": 3,
+        "total": 4,
         "coverage": [
           {
             "biome": null,
@@ -6727,6 +6957,14 @@
             "examples": [
               "rotabrachium_ferox"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
           }
         ]
       },
@@ -6744,20 +6982,28 @@
           {
             "biome": "abisso_vulcanico",
             "morphotype": "multi_arto_rotante"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
-        "missing_in_matrix": []
+        "missing_in_matrix": [
+          "marilith-vault"
+        ]
       },
       "affinity": {
-        "total_species": 3,
+        "total_species": 5,
         "roles_breakdown": {
-          "core": 2,
-          "optional": 3
+          "core": 4,
+          "optional": 4
         },
         "top_species": [
+          "balor-fission",
           "pyroflagellum_meteoriticum",
           "rotabrachium_ferox",
+          "marilith-vault",
           "global-trait-keeper"
         ]
       }
@@ -7632,17 +7878,17 @@
             "morphotype": "volatore_planatore"
           }
         ],
-        "missing_in_affinity": [
-          "sand-burrower"
-        ],
+        "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 7,
+        "total_species": 8,
         "roles_breakdown": {
-          "optional": 7
+          "core": 1,
+          "optional": 8
         },
         "top_species": [
+          "sand-burrower",
           "cactus-weaver",
           "evento-brinastorm",
           "evento-ondata-termica",
@@ -7919,7 +8165,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": null,
@@ -7927,6 +8173,14 @@
             "count": 1,
             "examples": [
               "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "bulette-fase"
             ]
           }
         ]
@@ -7937,22 +8191,33 @@
           {
             "biome": null,
             "morphotype": null
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
-          "amorphovenator_magneticus"
+          "amorphovenator_magneticus",
+          "archon-solare",
+          "couatl-aurora",
+          "otyugh-sentinella"
         ]
       },
       "affinity": {
-        "total_species": 2,
+        "total_species": 6,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 5
         },
         "top_species": [
           "amorphovenator_magneticus",
-          "global-trait-keeper"
+          "archon-solare",
+          "bulette-fase",
+          "couatl-aurora",
+          "global-trait-keeper",
+          "otyugh-sentinella"
         ]
       }
     },
@@ -8408,7 +8673,7 @@
         "coverage": []
       },
       "species": {
-        "total": 3,
+        "total": 4,
         "coverage": [
           {
             "biome": null,
@@ -8433,6 +8698,14 @@
             "examples": [
               "rotabrachium_ferox"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
           }
         ]
       },
@@ -8450,20 +8723,28 @@
           {
             "biome": "abisso_vulcanico",
             "morphotype": "multi_arto_rotante"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
-        "missing_in_matrix": []
+        "missing_in_matrix": [
+          "marilith-vault"
+        ]
       },
       "affinity": {
-        "total_species": 3,
+        "total_species": 5,
         "roles_breakdown": {
-          "core": 2,
-          "optional": 3
+          "core": 4,
+          "optional": 4
         },
         "top_species": [
+          "balor-fission",
           "pyroflagellum_meteoriticum",
           "rotabrachium_ferox",
+          "marilith-vault",
           "global-trait-keeper"
         ]
       }
@@ -8543,7 +8824,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "caverna",
@@ -8551,6 +8832,14 @@
             "count": 1,
             "examples": [
               "lithoconstructus_inhibens"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "golem-runico"
             ]
           }
         ]
@@ -8561,19 +8850,24 @@
           {
             "biome": "caverna",
             "morphotype": "costrutto_corazzato"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 2
         },
         "top_species": [
-          "lithoconstructus_inhibens"
+          "lithoconstructus_inhibens",
+          "golem-runico"
         ]
       }
     },
@@ -8714,7 +9008,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "palude",
@@ -8722,6 +9016,14 @@
             "count": 1,
             "examples": [
               "filtrophagus_custos"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "anfibio_filtratore",
+            "count": 1,
+            "examples": [
+              "otyugh-sentinella"
             ]
           }
         ]
@@ -8732,19 +9034,24 @@
           {
             "biome": "palude",
             "morphotype": "bipede_filtratore"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "anfibio_filtratore"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 2
         },
         "top_species": [
-          "filtrophagus_custos"
+          "filtrophagus_custos",
+          "otyugh-sentinella"
         ]
       }
     },
@@ -9331,24 +9638,40 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "golem-runico"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
           "lithoconstructus_inhibens"
         ]
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
-          "core": 1
+          "core": 1,
+          "optional": 1
         },
         "top_species": [
-          "lithoconstructus_inhibens"
+          "lithoconstructus_inhibens",
+          "golem-runico"
         ]
       }
     },
@@ -9627,18 +9950,20 @@
         "missing_in_affinity": [],
         "missing_in_matrix": [
           "aurora-gull",
+          "couatl-aurora",
           "lupus-temperatus"
         ]
       },
       "affinity": {
-        "total_species": 4,
+        "total_species": 5,
         "roles_breakdown": {
           "core": 1,
-          "optional": 4
+          "optional": 5
         },
         "top_species": [
           "echo-wing",
           "aurora-gull",
+          "couatl-aurora",
           "dorsale-termale-tropicale-trait-keeper",
           "lupus-temperatus"
         ]
@@ -10172,17 +10497,17 @@
             "morphotype": "volatore_planatore"
           }
         ],
-        "missing_in_affinity": [
-          "echo-wing"
-        ],
+        "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 6,
+        "total_species": 7,
         "roles_breakdown": {
-          "optional": 6
+          "core": 1,
+          "optional": 7
         },
         "top_species": [
+          "echo-wing",
           "cactus-weaver",
           "evento-brinastorm",
           "evento-ondata-termica",
@@ -10254,17 +10579,17 @@
           }
         ],
         "missing_in_rules": [],
-        "missing_in_affinity": [
-          "cryptopennatus_psionicus"
-        ],
+        "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 2,
         "roles_breakdown": {
-          "optional": 1
+          "core": 1,
+          "optional": 2
         },
         "top_species": [
+          "cryptopennatus_psionicus",
           "evento-seme-uragano"
         ]
       }
@@ -10353,7 +10678,7 @@
         ]
       },
       "species": {
-        "total": 10,
+        "total": 11,
         "coverage": [
           {
             "biome": "badlands",
@@ -10427,6 +10752,14 @@
             "examples": [
               "radiciforma_ancorans"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "treant-portale"
+            ]
           }
         ]
       },
@@ -10457,27 +10790,31 @@
           {
             "biome": "foresta_miceliale",
             "morphotype": "flora_radicata"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "ingegnere_radicante"
           }
         ],
-        "missing_in_affinity": [
-          "ferrocolonia-magnetotattica"
-        ],
+        "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 7,
+        "total_species": 9,
         "roles_breakdown": {
-          "core": 1,
-          "optional": 7
+          "core": 2,
+          "optional": 9
         },
         "top_species": [
+          "ferrocolonia-magnetotattica",
           "radiciforma_ancorans",
           "cactus-weaver",
           "evento-brinastorm",
           "evento-ondata-termica",
           "noctule-termico",
           "silica-bloom",
-          "thermo-raptor"
+          "thermo-raptor",
+          "treant-portale"
         ]
       }
     },
@@ -10657,7 +10994,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -10665,6 +11002,14 @@
             "count": 1,
             "examples": [
               "radiciforma_ancorans"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "treant-portale"
             ]
           }
         ]
@@ -10675,19 +11020,27 @@
           {
             "biome": "foresta_miceliale",
             "morphotype": "flora_radicata"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "ingegnere_radicante"
           }
         ],
         "missing_in_affinity": [],
-        "missing_in_matrix": []
+        "missing_in_matrix": [
+          "cactus-weaver"
+        ]
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 3,
         "roles_breakdown": {
-          "core": 1,
-          "optional": 1
+          "core": 2,
+          "optional": 2
         },
         "top_species": [
-          "radiciforma_ancorans"
+          "radiciforma_ancorans",
+          "cactus-weaver",
+          "treant-portale"
         ]
       }
     },
@@ -10864,7 +11217,7 @@
         ]
       },
       "species": {
-        "total": 3,
+        "total": 4,
         "coverage": [
           {
             "biome": "canyons_risonanti",
@@ -10889,6 +11242,14 @@
             "examples": [
               "lupus-temperatus"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "archon-solare"
+            ]
           }
         ]
       },
@@ -10902,29 +11263,41 @@
           {
             "biome": "foresta_temperata",
             "morphotype": null
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
           "auroserpens_photonicus",
+          "banshee-risonante",
+          "couatl-aurora",
           "dune-stalker",
-          "heliopteryx_radians"
+          "heliopteryx_radians",
+          "rakshasa-corte",
+          "treant-portale"
         ]
       },
       "affinity": {
-        "total_species": 6,
+        "total_species": 11,
         "roles_breakdown": {
-          "core": 3,
-          "optional": 3,
-          "synergy": 1
+          "core": 4,
+          "optional": 5,
+          "synergy": 5
         },
         "top_species": [
+          "banshee-risonante",
           "sonovespera_lamentans",
+          "archon-solare",
           "auroserpens_photonicus",
           "heliopteryx_radians",
+          "couatl-aurora",
           "dune-stalker",
-          "foresta-miceliale-trait-keeper",
-          "lupus-temperatus"
+          "rakshasa-corte",
+          "treant-portale",
+          "foresta-miceliale-trait-keeper"
         ]
       }
     },
@@ -11139,16 +11512,17 @@
         "missing_in_matrix": [
           "arboryxis-lenis",
           "aurora-gull",
+          "bulette-fase",
           "dune-stalker",
           "echo-wing",
           "steppe-bison-mini"
         ]
       },
       "affinity": {
-        "total_species": 12,
+        "total_species": 13,
         "roles_breakdown": {
           "core": 3,
-          "optional": 12
+          "optional": 13
         },
         "top_species": [
           "aerostatocyon_altivolans",
@@ -11156,11 +11530,11 @@
           "sand-burrower",
           "arboryxis-lenis",
           "aurora-gull",
+          "bulette-fase",
           "canopia-psionica-leggera-trait-keeper",
           "dorsale-termale-tropicale-trait-keeper",
           "dune-stalker",
-          "echo-wing",
-          "mezzanotte-orbitale-trait-keeper"
+          "echo-wing"
         ]
       }
     },
@@ -11382,7 +11756,7 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 7,
         "coverage": [
           {
             "biome": "badlands",
@@ -11424,6 +11798,14 @@
             "examples": [
               "mezzanotte-orbitale-trait-keeper"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "bulette-fase"
+            ]
           }
         ]
       },
@@ -11441,6 +11823,10 @@
           {
             "biome": "cryosteppe",
             "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
@@ -11451,10 +11837,10 @@
         ]
       },
       "affinity": {
-        "total_species": 9,
+        "total_species": 10,
         "roles_breakdown": {
           "core": 5,
-          "optional": 7
+          "optional": 8
         },
         "top_species": [
           "dune-stalker",
@@ -11462,6 +11848,7 @@
           "sand-burrower",
           "amorphovenator_magneticus",
           "tellurmordax_phasicus",
+          "bulette-fase",
           "dorsale-termale-tropicale-trait-keeper",
           "mezzanotte-orbitale-trait-keeper",
           "rust-scavenger",
@@ -11692,7 +12079,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 4,
         "coverage": [
           {
             "biome": null,
@@ -11700,6 +12087,23 @@
             "count": 1,
             "examples": [
               "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "bulette-fase",
+              "marilith-vault"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "couatl-aurora"
             ]
           }
         ]
@@ -11710,18 +12114,29 @@
           {
             "biome": null,
             "morphotype": null
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
           }
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 4,
         "roles_breakdown": {
-          "optional": 1
+          "optional": 4
         },
         "top_species": [
-          "global-trait-keeper"
+          "bulette-fase",
+          "couatl-aurora",
+          "global-trait-keeper",
+          "marilith-vault"
         ]
       }
     },
@@ -12488,17 +12903,19 @@
         ],
         "missing_in_affinity": [],
         "missing_in_matrix": [
+          "balor-fission",
           "dune-stalker"
         ]
       },
       "affinity": {
-        "total_species": 3,
+        "total_species": 4,
         "roles_breakdown": {
-          "optional": 2,
+          "optional": 3,
           "synergy": 1
         },
         "top_species": [
           "dune-stalker",
+          "balor-fission",
           "foresta-miceliale-trait-keeper",
           "lupus-temperatus"
         ]
@@ -12594,7 +13011,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "foresta_temperata",
@@ -12602,6 +13019,14 @@
             "count": 1,
             "examples": [
               "illusiopardus_psionicus"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "rakshasa-corte"
             ]
           }
         ]
@@ -12612,19 +13037,27 @@
           {
             "biome": "foresta_temperata",
             "morphotype": "felino_psionico"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
           }
         ],
         "missing_in_affinity": [],
-        "missing_in_matrix": []
+        "missing_in_matrix": [
+          "marilith-vault"
+        ]
       },
       "affinity": {
-        "total_species": 1,
+        "total_species": 3,
         "roles_breakdown": {
           "core": 1,
-          "optional": 1
+          "optional": 3
         },
         "top_species": [
-          "illusiopardus_psionicus"
+          "illusiopardus_psionicus",
+          "marilith-vault",
+          "rakshasa-corte"
         ]
       }
     },
@@ -13099,7 +13532,7 @@
         ]
       },
       "dispersore_ponte": {
-        "total_species": 6,
+        "total_species": 8,
         "biomes": {
           "CRYOSTEPPE": {
             "count": 1,
@@ -13202,6 +13635,33 @@
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 2,
+            "playable_count": 2,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "archon-solare",
+                "playable_unit": true,
+                "core_traits": [
+                  "ali_solari_fotoni",
+                  "empatia_coordinativa",
+                  "risonanza_di_branco"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml"
+              },
+              {
+                "id": "couatl-aurora",
+                "playable_unit": true,
+                "core_traits": [
+                  "empatia_coordinativa",
+                  "sensori_geomagnetici",
+                  "ali_solari_fotoni"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
@@ -13214,7 +13674,7 @@
         ]
       },
       "erbivoro_primario": {
-        "total_species": 1,
+        "total_species": 2,
         "biomes": {
           "badlands": {
             "count": 1,
@@ -13232,10 +13692,28 @@
                 "source": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "bulette-fase",
+                "playable_unit": false,
+                "core_traits": [
+                  "scheletro_idro_regolante",
+                  "sensori_geomagnetici",
+                  "coda_frusta_cinetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
-          "badlands"
+          "badlands",
+          "rovine_planari"
         ]
       },
       "esploratore": {
@@ -13264,7 +13742,7 @@
         ]
       },
       "evento_ecologico": {
-        "total_species": 11,
+        "total_species": 12,
         "biomes": {
           "badlands": {
             "count": 4,
@@ -13375,10 +13853,26 @@
                 "source": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "banshee-risonante",
+                "playable_unit": false,
+                "core_traits": [
+                  "eco_sismico"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
-          "deserto_caldo"
+          "deserto_caldo",
+          "rovine_planari"
         ]
       },
       "filtratore_aereo": {
@@ -13457,7 +13951,7 @@
         ]
       },
       "ingegneri_ecosistema": {
-        "total_species": 4,
+        "total_species": 7,
         "biomes": {
           "badlands": {
             "count": 1,
@@ -13526,6 +14020,42 @@
                 "source": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 3,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "golem-runico",
+                "playable_unit": false,
+                "core_traits": [
+                  "carapace_fase_variabile",
+                  "armatura_pietra_planare",
+                  "nuclei_di_controllo"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml"
+              },
+              {
+                "id": "otyugh-sentinella",
+                "playable_unit": false,
+                "core_traits": [
+                  "filtri_bioattivi",
+                  "membrane_osmotiche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml"
+              },
+              {
+                "id": "treant-portale",
+                "playable_unit": false,
+                "core_traits": [
+                  "radici_ancora_planare",
+                  "pigmenti_aurorali",
+                  "corteccia_memetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
@@ -13536,7 +14066,7 @@
         ]
       },
       "minaccia_microbica": {
-        "total_species": 4,
+        "total_species": 5,
         "biomes": {
           "badlands": {
             "count": 1,
@@ -13605,13 +14135,31 @@
                 "source": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "rakshasa-corte",
+                "playable_unit": false,
+                "core_traits": [
+                  "empatia_coordinativa",
+                  "artigli_psionici",
+                  "tessuti_adattivi"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
           "badlands",
           "cryosteppe",
           "deserto_caldo",
-          "foresta_temperata"
+          "foresta_temperata",
+          "rovine_planari"
         ]
       },
       "predatore_acquatico_agile": {
@@ -13883,7 +14431,7 @@
         ]
       },
       "predatore_terziario_apex": {
-        "total_species": 4,
+        "total_species": 6,
         "biomes": {
           "badlands": {
             "count": 1,
@@ -13950,6 +14498,33 @@
                   "risonanza_di_branco"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
+              }
+            ]
+          },
+          "rovine_planari": {
+            "count": 2,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "balor-fission",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "frusta_fiammeggiante",
+                  "armatura_pietra_planare"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml"
+              },
+              {
+                "id": "marilith-vault",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "coda_frusta_cinetica",
+                  "sensori_geomagnetici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
               }
             ]
           }

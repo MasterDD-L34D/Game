@@ -41,6 +41,55 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "archon-solare",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "aurora-gull",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "balor-fission",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "banshee-risonante",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "echo-wing",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "noctule-termico",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
     }
   ],
   "ali_fono_risonanti": [
@@ -103,6 +152,20 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "archon-solare",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "antenne_dustsense": [
@@ -213,6 +276,14 @@
   ],
   "armatura_pietra_planare": [
     {
+      "species_id": "golem-runico",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
+    {
       "species_id": "lithoconstructus_inhibens",
       "roles": [
         "core",
@@ -243,7 +314,28 @@
       "weight": 3
     },
     {
+      "species_id": "balor-fission",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "bulette-fase",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "global-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "treant-portale",
       "roles": [
         "optional"
       ],
@@ -285,6 +377,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "rakshasa-corte",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "artigli_radice": [
@@ -344,7 +443,21 @@
       "weight": 3
     },
     {
+      "species_id": "balor-fission",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "caverna-risonante-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "couatl-aurora",
       "roles": [
         "optional"
       ],
@@ -372,7 +485,21 @@
       "weight": 1
     },
     {
+      "species_id": "marilith-vault",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "otyugh-sentinella",
       "roles": [
         "optional"
       ],
@@ -398,6 +525,14 @@
     }
   ],
   "aura_scudo_radianza": [
+    {
+      "species_id": "archon-solare",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
     {
       "species_id": "heliopteryx_radians",
       "roles": [
@@ -661,7 +796,28 @@
       "weight": 3
     },
     {
+      "species_id": "balor-fission",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "bulette-fase",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "cryo-lynx",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "golem-runico",
       "roles": [
         "optional"
       ],
@@ -676,6 +832,13 @@
     },
     {
       "species_id": "nano-rust-bloom",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "otyugh-sentinella",
       "roles": [
         "optional"
       ],
@@ -927,6 +1090,13 @@
       "weight": 3
     },
     {
+      "species_id": "bulette-fase",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "dorsale-termale-tropicale-trait-keeper",
       "roles": [
         "optional"
@@ -935,6 +1105,13 @@
     },
     {
       "species_id": "dune-stalker",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "marilith-vault",
       "roles": [
         "optional"
       ],
@@ -994,6 +1171,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "treant-portale",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "criostasi_adattiva": [
@@ -1006,6 +1190,13 @@
     },
     {
       "species_id": "aurora-gull",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "balor-fission",
       "roles": [
         "optional"
       ],
@@ -1255,6 +1446,15 @@
       "weight": 1
     }
   ],
+  "eco_sismico": [
+    {
+      "species_id": "banshee-risonante",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    }
+  ],
   "empatia_coordinativa": [
     {
       "species_id": "auroserpens_photonicus",
@@ -1294,6 +1494,27 @@
       "weight": 2
     },
     {
+      "species_id": "archon-solare",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "balor-fission",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "foresta-miceliale-trait-keeper",
       "roles": [
         "optional"
@@ -1302,6 +1523,20 @@
     },
     {
       "species_id": "lupus-temperatus",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "marilith-vault",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "rakshasa-corte",
       "roles": [
         "optional"
       ],
@@ -1513,6 +1748,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "otyugh-sentinella",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "filtri_planctonici": [
@@ -1542,7 +1784,38 @@
       "weight": 3
     },
     {
+      "species_id": "archon-solare",
+      "roles": [
+        "optional",
+        "synergy"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "banshee-risonante",
+      "roles": [
+        "optional",
+        "synergy"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "optional",
+        "synergy"
+      ],
+      "weight": 3
+    },
+    {
       "species_id": "cryptopennatus_psionicus",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "marilith-vault",
       "roles": [
         "core"
       ],
@@ -1557,6 +1830,13 @@
     },
     {
       "species_id": "arboryxis-lenis",
+      "roles": [
+        "synergy"
+      ],
+      "weight": 2
+    },
+    {
+      "species_id": "balor-fission",
       "roles": [
         "synergy"
       ],
@@ -1612,6 +1892,13 @@
       "weight": 1
     },
     {
+      "species_id": "rakshasa-corte",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "sentinella-radice",
       "roles": [
         "optional"
@@ -1639,6 +1926,14 @@
   ],
   "frusta_fiammeggiante": [
     {
+      "species_id": "balor-fission",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
+    {
       "species_id": "pyroflagellum_meteoriticum",
       "roles": [
         "core",
@@ -1653,6 +1948,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "marilith-vault",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
     },
     {
       "species_id": "global-trait-keeper",
@@ -1815,6 +2117,14 @@
   ],
   "grassi_termici": [
     {
+      "species_id": "sand-burrower",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
+    {
       "species_id": "cactus-weaver",
       "roles": [
         "optional"
@@ -1909,7 +2219,35 @@
       "weight": 3
     },
     {
+      "species_id": "archon-solare",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "bulette-fase",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "global-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "otyugh-sentinella",
       "roles": [
         "optional"
       ],
@@ -2020,6 +2358,14 @@
   ],
   "mantello_meteoritico": [
     {
+      "species_id": "balor-fission",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
+    {
       "species_id": "pyroflagellum_meteoriticum",
       "roles": [
         "core",
@@ -2034,6 +2380,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "marilith-vault",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
     },
     {
       "species_id": "global-trait-keeper",
@@ -2076,6 +2429,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "golem-runico",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "membrane_captura_rugiada": [
@@ -2104,6 +2464,13 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "otyugh-sentinella",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "membrane_planata_vectored": [
@@ -2229,6 +2596,13 @@
         "core"
       ],
       "weight": 3
+    },
+    {
+      "species_id": "golem-runico",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "nucleo_ovomotore_rotante": [
@@ -2312,6 +2686,13 @@
     },
     {
       "species_id": "aurora-gull",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "couatl-aurora",
       "roles": [
         "optional"
       ],
@@ -2459,6 +2840,14 @@
   ],
   "pelli_cave": [
     {
+      "species_id": "echo-wing",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
+    {
       "species_id": "cactus-weaver",
       "roles": [
         "optional"
@@ -2503,6 +2892,14 @@
   ],
   "pelli_fitte": [
     {
+      "species_id": "cryptopennatus_psionicus",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
+    {
       "species_id": "evento-seme-uragano",
       "roles": [
         "optional"
@@ -2527,6 +2924,14 @@
     }
   ],
   "pigmenti_aurorali": [
+    {
+      "species_id": "ferrocolonia-magnetotattica",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
     {
       "species_id": "radiciforma_ancorans",
       "roles": [
@@ -2572,6 +2977,13 @@
     },
     {
       "species_id": "thermo-raptor",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "treant-portale",
       "roles": [
         "optional"
       ],
@@ -2658,6 +3070,20 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "cactus-weaver",
+      "roles": [
+        "core"
+      ],
+      "weight": 3
+    },
+    {
+      "species_id": "treant-portale",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "random": [
@@ -2770,9 +3196,24 @@
         "optional"
       ],
       "weight": 1
+    },
+    {
+      "species_id": "treant-portale",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "risonanza_di_branco": [
+    {
+      "species_id": "banshee-risonante",
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "weight": 4
+    },
     {
       "species_id": "sonovespera_lamentans",
       "roles": [
@@ -2780,6 +3221,14 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "archon-solare",
+      "roles": [
+        "optional",
+        "synergy"
+      ],
+      "weight": 3
     },
     {
       "species_id": "auroserpens_photonicus",
@@ -2796,7 +3245,28 @@
       "weight": 3
     },
     {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "synergy"
+      ],
+      "weight": 2
+    },
+    {
       "species_id": "dune-stalker",
+      "roles": [
+        "synergy"
+      ],
+      "weight": 2
+    },
+    {
+      "species_id": "rakshasa-corte",
+      "roles": [
+        "synergy"
+      ],
+      "weight": 2
+    },
+    {
+      "species_id": "treant-portale",
       "roles": [
         "synergy"
       ],
@@ -2851,6 +3321,13 @@
     },
     {
       "species_id": "aurora-gull",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "bulette-fase",
       "roles": [
         "optional"
       ],
@@ -2993,6 +3470,13 @@
       "weight": 3
     },
     {
+      "species_id": "bulette-fase",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "dorsale-termale-tropicale-trait-keeper",
       "roles": [
         "optional"
@@ -3056,7 +3540,28 @@
   ],
   "sensori_geomagnetici": [
     {
+      "species_id": "bulette-fase",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "couatl-aurora",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "global-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "marilith-vault",
       "roles": [
         "optional"
       ],
@@ -3244,6 +3749,13 @@
       "weight": 2
     },
     {
+      "species_id": "balor-fission",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "foresta-miceliale-trait-keeper",
       "roles": [
         "optional"
@@ -3266,6 +3778,20 @@
         "optional"
       ],
       "weight": 4
+    },
+    {
+      "species_id": "marilith-vault",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "rakshasa-corte",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "vello_condensatore_nebbie": [

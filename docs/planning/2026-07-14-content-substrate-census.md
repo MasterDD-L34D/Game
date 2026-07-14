@@ -83,7 +83,24 @@ Nessuno ha meccanica e nessuno ha prosa autorata. Sono **nomi**.
 
 ---
 
-## 2. SPECIE -- 105 file, **46 reali**
+## 2. SPECIE -- 105 file, **46 reali** ⚠️ CORRETTO 2026-07-15
+
+> 🛑 **CORREZIONE (2026-07-15)**: i numeri di questa sezione **non riproducono**, e la frase
+> "non sono specie incomplete: sono segnaposto" e' **falsa per 10 file su 59**.
+> Vedi ADR-2026-07-14 §Addendum 2026-07-15 (Gap C + Gap D).
+>
+> | questa sezione dice | misurato (main, Decisione 5 come scritta) |
+> | ------------------- | ----------------------------------------- |
+> | specie vere: **46** | **42** (e **52** dopo il recupero)        |
+> | stub: **59**        | **63**                                    |
+>
+> **10 dei 59 "stub" NON erano segnaposto**: erano le specie di `rovine_planari`, autorate per
+> intero il 2025-10-29 (`e83c810c`, 83-103 righe, `author: designer`) e distrutte due giorni dopo
+> come danno collaterale di `5a06b64b`, un commit che ha cancellato 302.220 righe. Sono state
+> **recuperate** (`aa92afed`). Il loro `notes` lo diceva: _"stub auto-generato per **ripristinare
+> inventario**"_ -- e' la cicatrice di un restore parziale, non un segnaposto.
+>
+> **Il discriminante e' `receipt.source`, non la lunghezza del file.**
 
 |                                                           | n            |
 | --------------------------------------------------------- | ------------ |
@@ -155,9 +172,15 @@ clima, rete trofica, servizi ecosistemici):
 
 `badlands` · `cryosteppe` · `deserto_caldo` · `foresta_temperata` · **`rovine_planari`**
 
-> ⚠️ **`rovine_planari` ha l'ecosistema descritto e ZERO specie vere** (10 file, 10 stub).
+> ~~⚠️ **`rovine_planari` ha l'ecosistema descritto e ZERO specie vere** (10 file, 10 stub).
 > E' una classe canonica di prima categoria -- koppen Cfa/Cfb, `.biome.yaml` completo -- con
-> una cartella che _sembra_ popolata e non lo e'.
+> una cartella che _sembra_ popolata e non lo e'.~~
+>
+> ✅ **SMENTITO 2026-07-15.** La cartella _era_ popolata: 10 specie autorate per intero il
+> 2025-10-29 (`e83c810c`), distrutte due giorni dopo da `5a06b64b`. **Recuperate** (`aa92afed`).
+> L'ecosistema e il foodweb erano sopravvissuti e **nominavano ancora tutte e 10 le specie per
+> `id` esatto** -- non era un buco, era l'impronta di dieci abitanti coi corpi vuoti.
+> Vedi ADR-2026-07-14 §Addendum 2026-07-15.
 
 Quindi: **28 classi canoniche, 5 descritte, 4 vive.**
 
