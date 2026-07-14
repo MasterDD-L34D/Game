@@ -19,6 +19,7 @@ const steps = [
   'node --test tests/scripts/speciesIndexIntegrity.test.js',
   'node --test tests/scripts/tutorialSpeciesExistence.test.js',
   'node --test tests/scripts/speciesTraitReferences.test.js',
+  'node --test tests/scripts/syncTraitReference.test.js',
   'node --test tests/scripts/replaceAllSafety.test.js',
   'node --test tests/scripts/damageCurvesIntegrity.test.js',
   'node --test tests/scripts/crossPlatformRunners.test.js',

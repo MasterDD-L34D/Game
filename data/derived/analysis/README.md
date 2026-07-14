@@ -23,8 +23,8 @@ Report derivati rigenerabili dal core e dal pack Evo Tactics.
 
 | File | sha256 |
 | --- | --- |
-| `data/derived/analysis/trait_coverage_report.json` | `6895464e7c184b668556b138442c2be7c4bdab866a700e354455a9c3aa43b3fc` |
-| `data/derived/analysis/trait_coverage_matrix.csv` | `ebe5ee5fc17ba57cb4d2454907b63b6bb3ff83a2006af9eaff074776289891d9` |
+| `data/derived/analysis/trait_coverage_report.json` | `137f4bb5131349830cf1e7b4984f48e54dc193cd264ed97e684933bd185870c3` |
+| `data/derived/analysis/trait_coverage_matrix.csv` | `4e774b8edf1f040b7773f61d74dc2694fda62ad40219ab4f6e8bdcae27956246` |
 | `data/derived/analysis/trait_gap_report.json` | `a0ef558023bba99f39cdd6c8c173c7e77d60a8ede00b16cf4225a7ad693227c2` |
 | `data/derived/analysis/trait_baseline.yaml` | `aed250a6acea20688471470c466f599e8aa4d8dd5d92c74860f6e8763c5ce4ee` |
 | `data/derived/analysis/trait_env_mapping.json` | `8b0c0e07c8fca118707efe948092992d2dece80996ad9c270a6a56b3ba851ddc` |
