@@ -1,33 +1,23 @@
----
-title: Trait Completion Dashboard
-doc_status: generated
-doc_owner: platform-docs
-workstream: cross-cutting
-last_verified: 2026-05-06
-source_of_truth: false
-language: it-en
-review_cycle_days: 14
----
 # Trait Completion Dashboard
 
-_Aggiornato al 2025-12-02 02:04 UTC, totale tratti: 251_
+_Aggiornato al 2026-07-14 00:15 UTC, totale tratti: 308_
 
 ## KPI principali
 
 | Indicatore | Tratti con dato | Totale | Copertura |
 | --- | ---: | ---: | --- |
-| Specie collegate | 8 | 251 | 3.2% |
-| Tag bioma | 174 | 251 | 69.3% |
-| Tag d'uso | 225 | 251 | 89.6% |
-| Flag completamento | 201 | 251 | 80.1% |
-| Origine dati | 251 | 251 | 100.0% |
+| Specie collegate | 200 | 308 | 64.9% |
+| Tag bioma | 175 | 308 | 56.8% |
+| Tag d'uso | 227 | 308 | 73.7% |
+| Flag completamento | 257 | 308 | 83.4% |
+| Origine dati | 308 | 308 | 100.0% |
 
 ### Gap principali
 
-- **Specie collegate**: 243 tratti senza dato → `ali_fulminee, ali_ioniche, ali_membrana_sonica, antenne_dustsense, antenne_eco_turbina` … (+238 altri)
-- **Tag bioma**: 77 tratti senza dato → `ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto` … (+72 altri)
-- **Tag d'uso**: 26 tratti senza dato → `bioantenne_gravitiche, camere_risonanza_abyssal, canto_risonante, coralli_sinaptici_fotofase, corazze_ferro_magnetico` … (+21 altri)
-- **Flag completamento**: 50 tratti senza dato → `ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto` … (+45 altri)
+- **Specie collegate**: 108 tratti senza dato → `arco_voltaico, articolazioni_multiassiali, artigli_ipo_termici, artigli_sette_vie_2, artiglio_cinetico_a_urto` … (+103 altri)
+- **Tag bioma**: 133 tratti senza dato → `aculei_velenosi, adattamento_volo, ali_fono_risonanti, arco_voltaico, articolazioni_a_leva_idraulica` … (+128 altri)
+- **Tag d'uso**: 81 tratti senza dato → `aculei_velenosi, adattamento_volo, arco_voltaico, artigli_psionici, artigli_sette_vie_2` … (+76 altri)
+- **Flag completamento**: 51 tratti senza dato → `ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto` … (+46 altri)
 - **Origine dati**: copertura completa ✅
 
 ## Trend storico
@@ -37,6 +27,7 @@ _Aggiornato al 2025-12-02 02:04 UTC, totale tratti: 251_
 | 2025-11-01 | 99.4% | 0.6% | 0.6% | 0.6% | 0.6% |
 | 2025-11-03 | 100.0% | 0.6% | 100.0% | 100.0% | 100.0% |
 | 2025-12-02 | 3.2% | 69.3% | 89.6% | 80.1% | 100.0% |
+| 2026-07-14 | 64.9% | 56.8% | 73.7% | 83.4% | 100.0% |
 
 ## Interpretazione
 
