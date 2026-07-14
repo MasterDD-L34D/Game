@@ -121,15 +121,24 @@ riga L1 mancante (hazard/npc/difficolta'/narrativa). Zero contenuto perso, zero 
 > **Una specie e' un'entita' con `biomes`, `role_trofico` e almeno un tratto.**
 > Tutto il resto non e' una specie e non puo' vivere nel catalogo specie.
 
-Oggi **59 file su 105 (56%)** non lo sono: sono stub autogen da 3 righe, nati per far quadrare
-una matrice di coverage (`receipt: {source: coverage_autogen, author: automation}`).
+Oggi **63 file su 105** non lo sono. _(L'Addendum 2026-07-15 corregge i conteggi di questa
+sezione: erano 59, e la descrizione del receipt era sbagliata.)_
 
-- **I 52 stub puri sono cancellati** (con le 34 cartelle-bioma vuote). Non codificano nulla che
-  il registro dei biomi non abbia gia'. **Sono la trappola**: sono l'unico "abitante" di quei
+> 🛑 **ATTENZIONE -- questa decisione, eseguita alla lettera, distrugge contenuto autorato.**
+> **10 dei "52 stub puri" sono le specie di `rovine_planari`**, che NON sono stub: erano specie
+> complete, cancellate per errore, e la loro cicatrice dice cosi' testualmente
+> (`notes: 'stub auto-generato per **ripristinare inventario**'`). Sono state **recuperate**
+> (`aa92afed`). Vedi Addendum. **Il numero di stub cancellabili scende da 52 a 42.**
+
+- **I 42 stub puri restanti sono cancellati** (con le cartelle-bioma vuote). Non codificano nulla
+  che il registro dei biomi non abbia gia'. **Sono la trappola**: sono l'unico "abitante" di quei
   biomi, quindi chiunque insegua un contatore puo' appiccicargli tratti e azzerarlo.
-- **I 7 con `role_trofico: evento_ecologico`** NON sono rumore: `event` e' un **ruolo minimo
-  canonico del livello 2**. Vanno ricondotti al modello degli eventi (L4), non cancellati.
-- Catalogo onesto: **46 specie**, non 105.
+  **Prima di cancellare, passare ogni file al test di provenienza** (vedi Addendum): un file il
+  cui `receipt` dice `author: designer` non e' uno stub, e' una cicatrice.
+- **I `role_trofico: evento_ecologico`** NON sono rumore: `event` e' un **ruolo minimo canonico
+  del livello 2**. Vanno ricondotti al modello degli eventi (L4), non cancellati.
+  _(Sono 11 sul main misurato, non 7.)_
+- Catalogo onesto: **42 specie** sul main _(non 46)_; **52 dopo il recupero di `rovine_planari`**.
 
 ## Decisione 6 — I guard (perche' non ricresca)
 
@@ -149,10 +158,18 @@ Ogni guard con **negative control** (un guard non testato e' un guard vacuo -- L
    re-introduce il layer 3).
 2. Promuovi `cryosteppe` + `deserto_caldo` -> riga L1.
 3. Cancella i 4 alias `migrated` + il campo `biome_id` dei nodi.
-4. Cancella i 52 stub + le 34 cartelle vuote; riconduci i 7 eventi al modello L4.
+   **3b. (NUOVO, load-bearing)** I 4 alias vivono anche in `environment_affinity.biome_class` di
+   **21 specie** -- e sono le specie dei 4 biomi profondi del nucleo. Vanno ripuntati sul bioma
+   reale **nello stesso passo**, o il guard #3 le fa fallire tutte. Vedi Addendum, Gap A.
+4. ~~Cancella i 52 stub~~ -> **RECUPERA i 10 di `rovine_planari`** (fatto: `aa92afed`), poi
+   cancella i **42** restanti + le cartelle vuote; riconduci gli eventi al modello L4.
+   **Passa ogni file al test di provenienza prima di cancellarlo** (Addendum, Gap C).
 5. Elimina `biome_classes.yaml`.
 6. Accendi i 4 guard (con negative control).
-7. **Ratchet del gate coverage** (oggi `max_missing=5`, `min_traits=189`).
+   **6b. (NUOVO)** Aggiungi il **guard di provenienza**: un file specie non puo' essere cancellato
+   da automazione se il suo `receipt.author` e' `designer`. Vedi Addendum, Gap C.
+7. **Ratchet del gate coverage**. Il recupero l'ha gia' alzato: `min_traits` **189 -> 191**
+   (`max_missing` resta 5).
 
 ## Decisione 7 — `when.biome_class` significa IDENTITA' DI BIOMA. Il campo va rinominato
 
@@ -221,24 +238,43 @@ solo per quello.
 
 **TARGET = 8 biomi, ~8 specie ciascuno, con ecosistema + foodweb completi.**
 
-| #   | bioma               | famiglia         | perche' (dato, non gusto)                                                                                                        | specie        | mancano |
-| --- | ------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------- |
-| 1   | `badlands`          | arid             | foodweb + nodo                                                                                                                   | 11            | ✅      |
-| 2   | `foresta_temperata` | canopy           | foodweb + nodo                                                                                                                   | 7             | +1      |
-| 3   | `deserto_caldo`     | arid             | foodweb + **`start_node`** della meta-rete                                                                                       | 5 +1 (savana) | +2      |
-| 4   | `cryosteppe`        | arid             | foodweb + nodo                                                                                                                   | 5             | +3      |
-| 5   | `rovine_planari`    | clastic          | foodweb + eco completi, **0 abitanti**                                                                                           | **0**         | **+8**  |
-| 6   | `atollo_obsidiana`  | **littoral**     | **gia' nodo della meta-rete**; unica famiglia acquatica                                                                          | 0             | +8      |
-| 7   | `abisso_vulcanico`  | **geothermal**   | piu' specie di ogni non-core; il nucleo non ha **nessun** bioma caldo                                                            | 2             | +6      |
-| 8   | `caverna`           | **subterranean** | assorbe `caverna_risonante` -> **risolve 1 delle 6 regole orfane** e recupera **21 tratti suggeriti** che oggi puntano nel vuoto | 1 +1          | +7      |
+> ⚠️ **La tabella qui sotto e' CORRETTA dall'Addendum 2026-07-15** (in fondo al documento):
+> `rovine_planari` non era un buco, era un **recupero**, ed e' stato recuperato. Il gap totale
+> scende da ~35 a **~27**. Le righe corrette sono marcate.
+
+| #   | bioma               | famiglia         | perche' (dato, non gusto)                                                                                                        | specie               | mancano |
+| --- | ------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
+| 1   | `badlands`          | arid             | foodweb + nodo                                                                                                                   | 12 _(misurato)_      | ✅      |
+| 2   | `foresta_temperata` | canopy           | foodweb + nodo                                                                                                                   | 7                    | +1      |
+| 3   | `deserto_caldo`     | arid             | foodweb + **`start_node`** della meta-rete                                                                                       | 5 +1 (savana)        | +2      |
+| 4   | `cryosteppe`        | arid             | foodweb + nodo                                                                                                                   | 5                    | +3      |
+| 5   | `rovine_planari`    | clastic          | foodweb + eco completi; **le 10 specie erano state cancellate, sono state RECUPERATE** (Addendum)                                | **10** _(#aa92afed)_ | **✅**  |
+| 6   | `atollo_obsidiana`  | **littoral**     | **gia' nodo della meta-rete**; unica famiglia acquatica. Buco VERO (verificato: mai autorate)                                    | 0                    | +8      |
+| 7   | `abisso_vulcanico`  | **geothermal**   | piu' specie di ogni non-core; il nucleo non ha **nessun** bioma caldo                                                            | 2                    | +6      |
+| 8   | `caverna`           | **subterranean** | assorbe `caverna_risonante` -> **risolve 1 delle 6 regole orfane** e recupera **21 tratti suggeriti** che oggi puntano nel vuoto | 1 +1                 | +7      |
 
 > Il nucleo-5 copriva solo `arid`/`canopy`/`clastic`: **niente acqua, niente calore, niente
 > sottosuolo**. Il nucleo-8 copre **6 famiglie ecologiche su 10**.
 
 ### QUANTO MANCA (il numero che finora non esisteva)
 
-> **≈ 35 specie da autorare + 3 foodweb + 3 nodi di rete.**
-> `rovine_planari` da solo ne vale 8: modellato in ogni dettaglio, **senza un solo abitante**.
+> **≈ 27 specie da autorare + 3 foodweb + 2 nodi di rete.** _(era ~35 + 3 + 3; corretto
+> dall'Addendum 2026-07-15)_
+> `rovine_planari` **non e' piu' nel conto**: le sue 10 specie non erano da autorare, erano da
+> **recuperare** -- erano state autorate il 2025-10-29 e distrutte due giorni dopo. Il nodo di
+> rete ce l'ha gia'.
+
+**Il gap non e' "27 specie generiche". E' quali RUOLI mancano in quale bioma** (i ruoli minimi
+del livello 2 -- `apex`/`keystone`/`bridge`/`threat`/`event`):
+
+| bioma              | specie vere | eco | foodweb | nodo | **ruoli mancanti**                        |
+| ------------------ | ----------- | --- | ------- | ---- | ----------------------------------------- |
+| `atollo_obsidiana` | 0           | ✅  | ❌      | ✅   | **apex, keystone, bridge, threat, event** |
+| `abisso_vulcanico` | 2           | ✅  | ❌      | ❌   | **keystone, bridge, event**               |
+| `caverna`          | 1           | ✅  | ❌      | ❌   | **apex, keystone, bridge, event**         |
+
+`foresta_temperata` (+1), `deserto_caldo` (+2) e `cryosteppe` (+3) hanno gia' **tutti e cinque**
+i ruoli minimi coperti: il loro gap e' **profondita'**, non copertura. Vanno dopo, non prima.
 
 **I 13 biomi fuori dal nucleo vengono ARCHIVIATI** (museum card, **non** cancellati): escono dal
 gioco e dalle metriche, restano nel Museum come idee. Il catalogo smette di promettere un mondo
@@ -277,3 +313,167 @@ codice, non l'opinione.
 - Censimento `docs/planning/2026-07-14-content-substrate-census.md` (#3304)
   — ⚠️ **da correggere**: dice "5 ecosistemi", sono **21** (contava `.biome.yaml`)
 - Issue #3302, #3299
+
+---
+
+## Addendum 2026-07-15 — `rovine_planari` era un RECUPERO. E i conteggi non riproducevano
+
+> Sessione di indagine (nessuna specie autorata). Ogni numero qui sotto e' **misurato** contro
+> file e git. Le correzioni ai numeri sono gia' applicate inline sopra; qui c'e' il perche' e i
+> gap che l'ADR non vedeva.
+
+### Il fatto principale: `rovine_planari` non era un buco
+
+L'ADR lo dava a **`0` abitanti, `+8`, il singolo buco piu' grande del gioco**. Era falso.
+
+| quando         | commit     | cosa                                                                                             |
+| -------------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| **2025-10-29** | `e83c810c` | crea `rovine_planari` **completo**: 10 specie autorate (83-103 righe, `author: designer`)        |
+| **2025-10-31** | `5a06b64b` | _"docs(tri_sorgente): introduce variant docs"_ -- cancella **302.220 righe su 932 file**         |
+| **2025-12-09** | `9acadc69` | _"Restore ... species inventory"_ -- recupera `badlands`, ma di `rovine_planari` solo i **nomi** |
+| **2026-07-15** | `aa92afed` | **RECUPERO**: le 10 specie tornano, gate verdi                                                   |
+
+Le specie erano **danno collaterale** di una cancellazione di massa travestita da commit di
+documentazione. Il "restore" del 2025-12-09 e' riuscito a meta': ha recuperato l'inventario dei
+nomi, non i corpi -- e lo ha **detto**, nella nota che ha lasciato nei file:
+`notes: 'stub auto-generato per **ripristinare inventario**: sostituire con specifica completa.'`
+
+**Ecosistema e foodweb sono sopravvissuti e nominano ancora tutte e 10 le specie per `id` esatto**
+(`.ecosystem.yaml` -> produttori/consumatori/decompositori; `_foodweb.yaml` -> 10 nodi
+`kind: species` + 24 archi). Il bioma non aveva zero abitanti: aveva **l'impronta di dieci
+abitanti in ogni livello dello stack, e i corpi vuoti**.
+
+Le 10 recuperate soddisfano **da sole tutte e cinque** le `rules.at_least` del proprio ecosistema
+(apex 1, keystone 2, bridge 2, threat 3, event 1) e **tutte e 10 passano la Decisione 5**.
+
+**Controllo negativo** (e' cio' che rende il finding affidabile): lo stesso metodo **falsifica** il
+recupero per `atollo_obsidiana`. Il suo ecosystem nomina 3 specie (`anguis-magnetica`,
+`vitricyba-punctata`, `magnetocola-pastoris`) e **nessuna e' mai esistita come file in git**.
+`atollo_obsidiana` e' un **buco vero**. Il metodo discrimina: non dice "recupero" a tutto.
+
+---
+
+### Gap A (P1, load-bearing) — `biome_class` ha un TERZO posto, e l'ADR ne vede due
+
+La Decisione 7 misura l'overload su `env_traits.json` (le regole) e su `biomes.yaml` (il campo).
+Ne manca uno: **`environment_affinity.biome_class` dentro i file specie**.
+
+Misurato: **0 su 16** valori distinti usano la famiglia ecologica. Sono **tutti** identita' di
+bioma -- la stessa identica patologia, in un posto che l'ADR non nomina.
+
+Peggio: **21 specie ci portano dentro i 4 alias fabbricati** che la Decisione 4 vuole cancellare.
+E non sono specie qualsiasi: sono **tutte e sole quelle dei 4 biomi profondi del nucleo**.
+
+| alias fabbricato            | usato da                           | specie |
+| --------------------------- | ---------------------------------- | ------ |
+| `dorsale_termale_tropicale` | le 7 specie di `badlands`          | 7      |
+| `mezzanotte_orbitale`       | le 5 specie di `cryosteppe`        | 5      |
+| `abisso_vulcanico` (!)      | le 5 specie di `deserto_caldo`     | 5      |
+| `foresta_miceliale`         | le 4 specie di `foresta_temperata` | 4      |
+
+**Conseguenza**: cancellare i 4 alias (Decisione 4) **senza** ripuntare queste 21 specie fa
+fallire il **guard #3** (bioma referenziato inesistente) su tutto il nucleo del gioco.
+-> Aggiunto come **passo 3b** dell'ordine di migrazione.
+
+---
+
+### Gap B (P1) — le specie di `rovine_planari` referenziano 23 tratti MAI definiti
+
+Le 10 specie recuperate referenziano **53 tratti**, di cui **23 non hanno voce in
+`data/core/traits/glossary.json`** -- e non l'hanno mai avuta (verificato: **0 su 24** sono mai
+esistiti come file `data/traits/*/*.json`). **Le specie erano state autorate in anticipo sul
+catalogo tratti.** Il recupero e' quindi **meta' recupero**: la meta' specie e' sopravvissuta, la
+meta' tratti non e' mai stata scritta.
+
+Questo e' un **vettore di fabbricazione**, non un dettaglio: `build_species_trait_bridge.py:145`
+fa `trait_index.setdefault(trait_id, {})`. Rigenerare il bridge con quei 23 riferimenti avrebbe
+creato **23 voci di tratto nude, senza definizione** -- esattamente la forma della copertura finta
+che questo repo ha appena passato un giorno a smontare.
+
+> **L'invariante vero del repo e' il glossario**, non il per-trait DB: **203 su 203** tratti del
+> bridge hanno una voce nel glossario (zero eccezioni); solo 3 non hanno un file per-trait, e
+> quello **e' tollerato**. Chi tocca il bridge deve difendere il glossario, non il DB.
+
+**Risoluzione adottata in `aa92afed`**: i 23 riferimenti orfani sono **preservati, non consumati**,
+sotto un campo `pending_trait_definitions:` in ogni specie (con commento). Non cancellati in
+silenzio, non fabbricati in silenzio. **Vanno autorati (Species-Curator-gated).**
+
+I 23: `assenza_respirazione`, `campo_di_fase`, `ciclo_vitale_anomalo`, `ciclo_vitale_completo`,
+`fisiologia_predatoria`, `fotosintesi_bifase`, `ghiandole_nettare_memetico`,
+`intangibilita_parziale`, `lamenti_diradanti`, `maschera_illusoria`, `metabolismo_attivo`,
+`metabolismo_sostentato`, `nodi_micotici`, `origine_artificiale`, `proboscide_polifaga`,
+`respirazione_biologica`, `riflessi_preternaturali`, `rinforzi_modulari`, `secrezioni_antisepsi`,
+`sensori_chimici`, `sinapsi_riflettenti`, `visione_spettrale`, `voce_spettrale`.
+
+---
+
+### Gap C (P1) — la Decisione 5, eseguita alla lettera, ricancella il contenuto recuperato
+
+Il passo 4 diceva _"cancella i 52 stub puri"_. **10 di quei 52 erano `rovine_planari`.**
+L'automazione avrebbe distrutto lo stesso contenuto **una seconda volta**, e stavolta
+definitivamente rispetto al modello.
+
+**Il discriminante non e' la dimensione del file. E' `receipt.source`.**
+
+| `receipt`                                         | cos'e'         | esempio                         |
+| ------------------------------------------------- | -------------- | ------------------------------- |
+| `author: designer` + fonte reale                  | **autorato**   | `PF1E.Bestiary.v1`, `PTPF.v1.0` |
+| `author: automation` + `source: coverage_autogen` | **fabbricato** | i `*-trait-keeper.yaml`         |
+| _(nessun receipt)_                                | **stub**       | i 42 stub puri restanti         |
+
+Un grep ingenuo _"recupera ogni stub che un tempo aveva contenuto"_ restituisce **34 file**. **21**
+di questi sono `*-trait-keeper.yaml` con **59 righe** di contenuto -- sembrano ricchi. Ma il loro
+`receipt` dice `coverage_autogen`: recuperarli **reintroduce la malattia**. Solo **13** sono
+contenuto vero (i 10 di `rovine_planari` + 3 fuori dal nucleo: `psionic-canopy-scout`,
+`magnet-fathom-surveyor`, `orbital-ascendant`, `PTPF.v1.0`, ~84 righe -- preservati in git, i loro
+biomi sono archiviati dall'ADR).
+
+-> **Guard di provenienza** aggiunto come passo **6b**: nessuna automazione cancella un file specie
+il cui `receipt.author` e' `designer`.
+
+---
+
+### Gap D — i conteggi della Decisione 5 non riproducono
+
+Misurato sul `main` pre-recupero, applicando la Decisione 5 **come e' scritta**
+(`biomes` + `role_trofico` + >=1 tratto):
+
+| l'ADR dice                                         | misurato                     |
+| -------------------------------------------------- | ---------------------------- |
+| catalogo onesto: **46 specie**                     | **42**                       |
+| **59** file non-specie                             | **63**                       |
+| **7** con `role_trofico: evento_ecologico`         | **11**                       |
+| i 52 stub hanno `receipt.source: coverage_autogen` | **falso: non hanno receipt** |
+
+La causa del delta: **11 file portano un receipt** (quindi l'ADR li conta fra i "veri") ma hanno
+**zero tratti** -- falliscono la Decisione 5. Sei di questi stanno **nei biomi del nucleo**:
+
+- `receipt: runtime-generator`, 0 tratti -> `magneto-ridge-hunter`, `slag-veil-ambusher`
+  (badlands) · `aurora-bridge-runner`, `zephyr-spore-courier` (cryosteppe) ·
+  `glowcap-weaver`, `myco-spire-warden` (foresta_temperata)
+- `receipt: M5-#3.stub` / `M13-P6.stub`, 0 tratti -> 5 specie del bioma `tutorial`
+
+**Post-recupero il catalogo onesto e' 52.** Non e' un miglioramento cosmetico: sono 10 specie vere
+in piu' e 4 numeri che ora si possono verificare.
+
+---
+
+### Evidenza dei gate (misurata prima/dopo, non asserita)
+
+| gate                                   | prima (main) | dopo (`aa92afed`)   | soglia    |
+| -------------------------------------- | ------------ | ------------------- | --------- |
+| `traits_with_species`                  | 189          | **191**             | min 189   |
+| `rules_missing_species_total`          | 5            | 5                   | max 5     |
+| `check_derived_reproducible.py --deep` | 3/3 OK       | **3/3 OK**          | enforcing |
+| `validate_datasets.py`                 | valid        | valid               | —         |
+| `trait_audit.py --check`               | no regress.  | no regress.         | —         |
+| trait-bridge: trait-id                 | 203          | 204 (+1, 0 rimossi) | —         |
+
+Il `+1` e' `eco_sismico`, **definito nel glossario**. Nessuna voce fabbricata.
+
+> Il valore del recupero **non e' il contatore** (+2 tratti coperti). Sono le **10 specie**.
+
+### Riferimenti aggiunti
+
+- Carte museum `M-2026-07-15-*` (recupero + la lezione della provenienza)
+- Commit del recupero: `aa92afed`
