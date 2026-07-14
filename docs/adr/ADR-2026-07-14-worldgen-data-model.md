@@ -154,16 +154,105 @@ Ogni guard con **negative control** (un guard non testato e' un guard vacuo -- L
 6. Accendi i 4 guard (con negative control).
 7. **Ratchet del gate coverage** (oggi `max_missing=5`, `min_traits=189`).
 
-## Cosa questo ADR NON risolve (esplicito, non nascosto)
+## Decisione 7 — `when.biome_class` significa IDENTITA' DI BIOMA. Il campo va rinominato
 
-1. **Il debito narrativo koppen-vs-fiction** su `cryosteppe`/`deserto_caldo`/`savana`.
-2. **Quale delle due semantiche di `biome_class`** intendano le 33 regole in `env_traits.json`
-   (le 3 koppen non ne portano nessuna; le altre 30 vanno controllate una per una).
-3. **Quale `cross_events.yaml` e' autoritativo**: ce ne sono **due**
-   (`data/ecosystems/network/` e `data/ecosistemi/` -- cartella italiana sorella duplicata).
-4. **Il TARGET di scope**: quanti biomi/specie/ecosistemi deve avere il gioco. Non e' scritto
-   da nessuna parte -> "quanto manca" resta **indefinito**. Senza questo numero, pianificare
-   contenuto e' costruire sul vuoto. **Questa e' la prossima decisione, ed e' master-dd.**
+Misurato sulle 33 regole di `env_traits.json`:
+
+| cosa usano                                                   | n      |
+| ------------------------------------------------------------ | ------ |
+| un'**identita' di bioma** (chiave di `biomes.yaml`)          | **19** |
+| nessun `biome_class` (scoped su koppen / hazard / salinita') | 8      |
+| un valore che **non risolve** su `biomes.yaml`               | **6**  |
+| la **famiglia ecologica** (`arid`/`geothermal`/...)          | **0**  |
+
+**Zero regole usano la famiglia grossolana.** L'overload non e' un'ambiguita' semantica: e' solo
+un **nome sbagliato in due posti**. Si chiude rinominando:
+
+- nelle regole: `when.biome_class` -> **`when.biome`** (e' un'identita')
+- in `biomes.yaml`: il campo `biome_class` -> **`ecological_family`** (dominio chiuso, 10 valori)
+
+**Le 6 regole orfane** (`caverna_risonante`, `laguna_bioreattiva`, `mangrovieto_cinetico` + i 3
+alias psionici `status: expansion`) puntano a biomi che non esistono nel registro. Il guard #3
+le farebbe fallire -> **vanno risolte nella migrazione**, non dopo.
+
+## Decisione 8 — `cross_events.yaml`: autoritativo e' quello della network
+
+Ce ne sono due, e **il pack pubblica quello stale**:
+
+| file                                        | righe | ultimo commit           | letto da                         |
+| ------------------------------------------- | ----- | ----------------------- | -------------------------------- |
+| `data/ecosystems/network/cross_events.yaml` | 43    | **2026-05-30**          | `export_biodiversity_bundle.py`  |
+| `data/ecosistemi/cross_events.yaml`         | 31    | 2025-10-27 (**9 mesi**) | `pack_manifest.yaml` + report UI |
+
+**Autoritativo: `data/ecosystems/network/cross_events.yaml`** -- e' piu' fresco, piu' completo,
+sta col network a cui appartiene (livello 4), ed e' **il path che la SoT §3 nomina**.
+La copia in `data/ecosistemi/` e' **cancellata**; `pack_manifest.yaml` e il report UI vengono
+ripuntati.
+
+> ⚠️ **NON cancellare `data/ecosistemi/meta_ecosistema_alpha.yaml`**: NON e' un duplicato di
+> `meta_network_alpha.yaml` (chiave `ecosistema` vs `network` -- sono cose diverse) ed e'
+> **letto da `update_evo_pack_catalog.js`**, cioe' dalla catena `sync:evo-pack`.
+
+## Decisione 9 — `savana` si fonde in `deserto_caldo`
+
+Il debito narrativo **non e' sistemico**: 19 biomi su 20 hanno nome e summary coerenti. L'unico
+che stona e' `savana` -- summary _"**Dune fotoniche** con branchi adattivi"_, affix `sabbia`,
+famiglia `arid`, e affixes **copia-incollati identici** da `abisso_vulcanico`. E' un deserto col
+nome sbagliato, mezzo costruito, e occupa lo slot che `deserto_caldo` riempie davvero.
+
+**`savana` e' cancellata, la sua 1 specie migra in `deserto_caldo`.** Il conflitto koppen-vs-
+fiction sparisce alla radice invece di essere gestito.
+
+Giocabili: **20 - 1 (savana) + 2 (cryosteppe, deserto_caldo) = 21**.
+
+## Decisione 10 — Il TARGET: nucleo-8, profondo. E "quanto manca" e' 35
+
+Il gioco oggi e' **largo e sottile**: 20 biomi giocabili, ma solo 5 con vera profondita' (34
+delle 46 specie). Gli altri 15 hanno 0-2 specie: sono abbozzi.
+
+**Il nucleo non va inventato: era gia' scritto nei dati**, in due posti indipendenti.
+
+- **Foodweb (livello 3)** -- ne esistono **5**, e solo 5: `badlands`, `foresta_temperata`,
+  `cryosteppe`, `deserto_caldo`, `rovine_planari`.
+- **Meta-rete (livello 4, la piu' recente)** -- ha **6 nodi**: quei 5 **+ `atollo_obsidiana`**.
+
+Chi ha costruito questo gioco aveva **gia' scelto un nucleo**, e ha autorato lo stack profondo
+solo per quello.
+
+**TARGET = 8 biomi, ~8 specie ciascuno, con ecosistema + foodweb completi.**
+
+| #   | bioma               | famiglia         | perche' (dato, non gusto)                                                                                                        | specie        | mancano |
+| --- | ------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------- |
+| 1   | `badlands`          | arid             | foodweb + nodo                                                                                                                   | 11            | ✅      |
+| 2   | `foresta_temperata` | canopy           | foodweb + nodo                                                                                                                   | 7             | +1      |
+| 3   | `deserto_caldo`     | arid             | foodweb + **`start_node`** della meta-rete                                                                                       | 5 +1 (savana) | +2      |
+| 4   | `cryosteppe`        | arid             | foodweb + nodo                                                                                                                   | 5             | +3      |
+| 5   | `rovine_planari`    | clastic          | foodweb + eco completi, **0 abitanti**                                                                                           | **0**         | **+8**  |
+| 6   | `atollo_obsidiana`  | **littoral**     | **gia' nodo della meta-rete**; unica famiglia acquatica                                                                          | 0             | +8      |
+| 7   | `abisso_vulcanico`  | **geothermal**   | piu' specie di ogni non-core; il nucleo non ha **nessun** bioma caldo                                                            | 2             | +6      |
+| 8   | `caverna`           | **subterranean** | assorbe `caverna_risonante` -> **risolve 1 delle 6 regole orfane** e recupera **21 tratti suggeriti** che oggi puntano nel vuoto | 1 +1          | +7      |
+
+> Il nucleo-5 copriva solo `arid`/`canopy`/`clastic`: **niente acqua, niente calore, niente
+> sottosuolo**. Il nucleo-8 copre **6 famiglie ecologiche su 10**.
+
+### QUANTO MANCA (il numero che finora non esisteva)
+
+> **≈ 35 specie da autorare + 3 foodweb + 3 nodi di rete.**
+> `rovine_planari` da solo ne vale 8: modellato in ogni dettaglio, **senza un solo abitante**.
+
+**I 13 biomi fuori dal nucleo vengono ARCHIVIATI** (museum card, **non** cancellati): escono dal
+gioco e dalle metriche, restano nel Museum come idee. Il catalogo smette di promettere un mondo
+che non esiste.
+
+## Cosa questo ADR NON risolve
+
+Nulla di quanto era aperto alla prima stesura: le 4 domande residue (debito narrativo, semantica
+di `biome_class`, `cross_events` autoritativo, TARGET) sono state **risolte dai dati** e sono
+sopra, come Decisioni 7-10.
+
+Resta **una sola** domanda genuinamente aperta, e non e' di modello ma di contenuto:
+**chi autora le ~35 specie.** E' lavoro Species-Curator-gated, e non e' una decisione: e' un
+piano. Va fatto **per bioma**, mai tutto in una volta.
 
 ## Conseguenze
 
