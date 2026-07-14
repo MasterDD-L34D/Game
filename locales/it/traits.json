@@ -1928,6 +1928,27 @@
       "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
       "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
       "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+    },
+    "artigli_psionici": {
+      "description": "Artigli attraversati da un campo psicocinetico, estensione fisica dell'intento predatorio.",
+      "label": "Artigli Psionici",
+      "mutazione_indotta": "Ipertrofia dei fasci neurali motori che estendono un campo psicocinetico lungo gli artigli.",
+      "spinta_selettiva": "Ambienti dove la sola forza fisica dell'artiglio non basta contro prede corazzate.",
+      "uso_funzione": "Manifestazione ravvicinata dell'intento predatorio come estensione fisica della mente."
+    },
+    "cervello_predittivo": {
+      "description": "Cortecce associative espanse che modellano gli esiti probabili prima che accadano.",
+      "label": "Cervello Predittivo",
+      "mutazione_indotta": "Espansione delle cortecce associative che modellano traiettorie probabili prima che accadano.",
+      "spinta_selettiva": "Pressione da prede o predatori rapidi dove reagire non basta e serve prevedere.",
+      "uso_funzione": "Anticipazione del movimento avversario leggendo micro-segnali ambientali."
+    },
+    "mente_lucida": {
+      "description": "Regolazione neurochimica che tiene la cognizione limpida sotto stress e interferenza.",
+      "label": "Mente Lucida",
+      "mutazione_indotta": "Regolazione neurochimica che sopprime rumore ed affaticamento cognitivo.",
+      "spinta_selettiva": "Scenari di conflitto prolungato dove il collasso cognitivo e' la vera causa di morte.",
+      "uso_funzione": "Mantenimento della decisione ottimale sotto stress o interferenza mentale."
     }
   }
 }

@@ -10,13 +10,16 @@
     "complementare": "cognizione"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "corna_psico_conduttive",
+    "cervello_a_bassa_latenza"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.artigli_psionici.mutazione_indotta",
   "uso_funzione": "i18n:traits.artigli_psionici.uso_funzione",
   "spinta_selettiva": "i18n:traits.artigli_psionici.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }
