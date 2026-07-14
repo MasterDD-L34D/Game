@@ -3,113 +3,66 @@
   "trait_glossary": "data/core/traits/glossary.json",
   "rules": [
     {
-      "when": {
-        "biome_class": "foresta_temperata"
-      },
+      "when": { "biome_class": "foresta_temperata" },
       "suggest": {
         "traits": ["peli_idrofobici"],
-        "effects": {
-          "res_cold": "+1"
-        },
+        "effects": { "res_cold": "+1" },
         "jobs_bias": ["warden", "skirmisher"]
       }
     },
     {
-      "when": {
-        "koppen_in": ["Cfb", "Cfa"]
-      },
-      "suggest": {
-        "traits": ["pelli_fitte"],
-        "effects": {
-          "guard_stance": true
-        }
-      }
+      "when": { "koppen_in": ["Cfb", "Cfa"] },
+      "suggest": { "traits": ["pelli_fitte"], "effects": { "guard_stance": true } }
     },
     {
-      "when": {
-        "hazard_any": ["pendenze_instabili"]
-      },
+      "when": { "hazard_any": ["pendenze_instabili"] },
       "require_capability_any": ["jump_bonus", "pathing_bonus"]
     },
     {
-      "when": {
-        "morphotype": "ingegnere_radicante"
-      },
+      "when": { "morphotype": "ingegnere_radicante" },
       "suggest": {
         "services_links": ["regolazione:ritenzione_idrica", "supporto:stabilizzazione_suolo"]
       }
     },
     {
-      "when": {
-        "salinita_in": ["salina interna"]
-      },
-      "suggest": {
-        "traits": ["cute_resistente_sali"],
-        "effects": {
-          "res_salt": "+1"
-        }
-      }
+      "when": { "salinita_in": ["salina interna"] },
+      "suggest": { "traits": ["cute_resistente_sali"], "effects": { "res_salt": "+1" } }
     },
     {
-      "when": {
-        "biome_class": "badlands"
-      },
+      "when": { "biome_class": "badlands" },
       "suggest": {
         "traits": ["pelli_anti_ustione", "pigmenti_termici", "cute_resistente_sali"],
-        "effects": {
-          "res_fire": "+1"
-        },
+        "effects": { "res_fire": "+1" },
         "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
-      "when": {
-        "hazard_any": ["iron_shards"]
-      },
+      "when": { "hazard_any": ["iron_shards"] },
       "require_capability_any": ["dr_impact_cap", "build_cover"]
     },
     {
-      "when": {
-        "hazard_any": ["magnetic_patches"]
-      },
-      "suggest": {
-        "traits": ["enzimi_chelanti"],
-        "effects": {
-          "trap_detect_ion": true
-        }
-      },
+      "when": { "hazard_any": ["magnetic_patches"] },
+      "suggest": { "traits": ["enzimi_chelanti"], "effects": { "trap_detect_ion": true } },
       "require_capability_any": ["non_metal_gear", "seal_vents"]
     },
     {
-      "when": {
-        "koppen_any": ["BWh", "BSh"]
-      },
+      "when": { "koppen_any": ["BWh", "BSh"] },
       "suggest": {
         "traits": ["cuticole_cerose", "reti_capillari_radici", "proteine_shock_termico"],
-        "effects": {
-          "res_fire": "+1",
-          "res_salt": "+1"
-        },
+        "effects": { "res_fire": "+1", "res_salt": "+1" },
         "jobs_bias": ["warden", "skirmisher"]
       }
     },
     {
-      "when": {
-        "koppen_any": ["BSk", "Dfc"]
-      },
+      "when": { "koppen_any": ["BSk", "Dfc"] },
       "suggest": {
         "traits": ["pelli_cave", "grassi_termici", "pigmenti_aurorali"],
-        "effects": {
-          "res_cold": "+1",
-          "ignore_fog_penalty": true
-        },
+        "effects": { "res_cold": "+1", "ignore_fog_penalty": true },
         "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
-      "when": {
-        "biome_class": "caldera_glaciale"
-      },
+      "when": { "biome_class": "caldera_glaciale" },
       "meta": {
         "category": "biomi_estremi",
         "description": "Caldera vulcanica intrappolata in ghiacci iperpressurizzati.",
@@ -138,18 +91,12 @@
           "plastron_vapori_caldi",
           "sensori_gradiente_geotermico"
         ],
-        "effects": {
-          "res_cold": "+2",
-          "res_fire": "+1",
-          "pressure_tolerance": true
-        },
+        "effects": { "res_cold": "+2", "res_fire": "+1", "pressure_tolerance": true },
         "jobs_bias": ["warden", "invoker"]
       }
     },
     {
-      "when": {
-        "biome_class": "foresta_acida"
-      },
+      "when": { "biome_class": "foresta_acida" },
       "meta": {
         "category": "biomi_estremi",
         "description": "Foresta pluviale satura di vapori acidi e precipitazioni caustiche.",
@@ -178,17 +125,12 @@
           "radici_filtro_solfati",
           "cromofori_alert_acido"
         ],
-        "effects": {
-          "res_acid": "+2",
-          "detox_cycle": true
-        },
+        "effects": { "res_acid": "+2", "detox_cycle": true },
         "jobs_bias": ["warden", "vanguard"]
       }
     },
     {
-      "when": {
-        "biome_class": "pianura_salina_iperarida"
-      },
+      "when": { "biome_class": "pianura_salina_iperarida" },
       "meta": {
         "category": "biomi_estremi",
         "description": "Distese saline iperaride con evaporiti taglienti e miraggi termici.",
@@ -217,18 +159,12 @@
           "chemiorecettori_bromuro",
           "cuscinetti_elettrostatici"
         ],
-        "effects": {
-          "res_heat": "+2",
-          "res_salt": "+2",
-          "moisture_harvest": true
-        },
+        "effects": { "res_heat": "+2", "res_salt": "+2", "moisture_harvest": true },
         "jobs_bias": ["skirmisher", "invoker"]
       }
     },
     {
-      "when": {
-        "biome_class": "stratosfera_tempestosa"
-      },
+      "when": { "biome_class": "stratosfera_tempestosa" },
       "meta": {
         "category": "biomi_estremi",
         "description": "Corridoi stratosferici battuti da fulmini permanenti e venti a getto.",
@@ -257,18 +193,12 @@
           "sensori_lampo_precoce",
           "capsule_paracadute"
         ],
-        "effects": {
-          "fall_immunity": true,
-          "res_electric": "+2",
-          "wind_sense": true
-        },
+        "effects": { "fall_immunity": true, "res_electric": "+2", "wind_sense": true },
         "jobs_bias": ["skirmisher", "invoker"]
       }
     },
     {
-      "when": {
-        "biome_class": "abisso_vulcanico"
-      },
+      "when": { "biome_class": "abisso_vulcanico" },
       "meta": {
         "category": "biomi_estremi",
         "description": "Fosse abissali con sfiati vulcanici e pressioni titaniche.",
@@ -297,18 +227,12 @@
           "tentacoli_sensori_sismici",
           "batteri_endosimbionti_chemio"
         ],
-        "effects": {
-          "pressure_tolerance": true,
-          "dark_vision": true,
-          "res_heat": "+1"
-        },
+        "effects": { "pressure_tolerance": true, "dark_vision": true, "res_heat": "+1" },
         "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
-      "when": {
-        "biome_class": "laguna_bioreattiva"
-      },
+      "when": { "biome_class": "laguna_bioreattiva" },
       "meta": {
         "category": "rete_connessa",
         "description": "Laguna tidale iper-ossigenata con metabolismo microbico accelerato.",
@@ -337,17 +261,12 @@
           "pori_osmotici_regolati",
           "flagelli_ancoranti"
         ],
-        "effects": {
-          "tidal_sync": true,
-          "res_salt": "+1"
-        },
+        "effects": { "tidal_sync": true, "res_salt": "+1" },
         "jobs_bias": ["warden", "skirmisher"]
       }
     },
     {
-      "when": {
-        "biome_class": "mangrovieto_cinetico"
-      },
+      "when": { "biome_class": "mangrovieto_cinetico" },
       "meta": {
         "category": "rete_connessa",
         "description": "Mangrovieto mobile con radici migranti e sedimenti fluidi.",
@@ -376,17 +295,12 @@
           "vesciche_sospensive",
           "muscoli_pettine"
         ],
-        "effects": {
-          "climb_bonus": true,
-          "mire_immunity": true
-        },
+        "effects": { "climb_bonus": true, "mire_immunity": true },
         "jobs_bias": ["vanguard", "skirmisher"]
       }
     },
     {
-      "when": {
-        "biome_class": "reef_luminescente"
-      },
+      "when": { "biome_class": "reef_luminescente" },
       "meta": {
         "category": "rete_connessa",
         "description": "Reef simbiotico a luminescenza costante con correnti nutrienti.",
@@ -415,18 +329,12 @@
           "biofilm_glow",
           "sensori_corrente_micros"
         ],
-        "effects": {
-          "res_cold": "+1",
-          "res_acid": "+1",
-          "night_vision": true
-        },
+        "effects": { "res_cold": "+1", "res_acid": "+1", "night_vision": true },
         "jobs_bias": ["invoker", "skirmisher"]
       }
     },
     {
-      "when": {
-        "biome_class": "dorsale_termale_tropicale"
-      },
+      "when": { "biome_class": "dorsale_termale_tropicale" },
       "meta": {
         "category": "rete_connessa",
         "description": "Dorsale oceanica calda con geyser minerali e convezione costante.",
@@ -455,17 +363,12 @@
           "piedi_grip_magnetico",
           "tessuti_autorigeneranti_calore"
         ],
-        "effects": {
-          "res_heat": "+2",
-          "pressure_tolerance": true
-        },
+        "effects": { "res_heat": "+2", "pressure_tolerance": true },
         "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
-      "when": {
-        "biome_class": "canopia_ionica"
-      },
+      "when": { "biome_class": "canopia_ionica" },
       "meta": {
         "category": "avanzati_specializzati",
         "description": "Canopia elettrostatica per creature volanti bioelettriche.",
@@ -494,17 +397,12 @@
           "piedi_grip_canopy",
           "membrane_planata_vectored"
         ],
-        "effects": {
-          "glide_bonus": true,
-          "res_electric": "+2"
-        },
+        "effects": { "glide_bonus": true, "res_electric": "+2" },
         "jobs_bias": ["skirmisher", "invoker"]
       }
     },
     {
-      "when": {
-        "biome_class": "steppe_algoritmiche"
-      },
+      "when": { "biome_class": "steppe_algoritmiche" },
       "meta": {
         "category": "avanzati_specializzati",
         "description": "Steppe data-driven con flussi sinaptici e segnali predittivi.",
@@ -533,17 +431,12 @@
           "biochip_memoria",
           "lamelle_sincroniche"
         ],
-        "effects": {
-          "res_psionic": "+1",
-          "initiative_bonus": true
-        },
+        "effects": { "res_psionic": "+1", "initiative_bonus": true },
         "jobs_bias": ["skirmisher", "vanguard"]
       }
     },
     {
-      "when": {
-        "biome_class": "caverna_risonante"
-      },
+      "when": { "biome_class": "caverna_risonante" },
       "meta": {
         "category": "avanzati_specializzati",
         "description": "Caverne sonore con onde stazionarie e geode vibranti.",
@@ -573,17 +466,12 @@
           "mucose_aderenza_sonica",
           "rete_neurosonar"
         ],
-        "effects": {
-          "stealth_bonus": true,
-          "echolocation": true
-        },
+        "effects": { "stealth_bonus": true, "echolocation": true },
         "jobs_bias": ["invoker", "warden"]
       }
     },
     {
-      "when": {
-        "biome_class": "canopia_psionica_leggera"
-      },
+      "when": { "biome_class": "canopia_psionica_leggera" },
       "meta": {
         "category": "pacchetto_psionico",
         "description": "Canopie conduttrici sospese che diffondono correnti empatiche a bassa intensità.",
@@ -597,17 +485,12 @@
           "focus_frazionato",
           "sacche_galleggianti_ascensoriali"
         ],
-        "effects": {
-          "res_psionic": "+1",
-          "stealth_bonus": true
-        },
+        "effects": { "res_psionic": "+1", "stealth_bonus": true },
         "jobs_bias": ["invoker", "support"]
       }
     },
     {
-      "when": {
-        "biome_class": "falde_magnetiche_psioniche"
-      },
+      "when": { "biome_class": "falde_magnetiche_psioniche" },
       "meta": {
         "category": "pacchetto_psionico",
         "description": "Dorsali e falde magnetiche che amplificano segnali sensoriali e digestivi psionici.",
@@ -621,17 +504,12 @@
           "struttura_elastica_amorfa",
           "nucleo_ovomotore_rotante"
         ],
-        "effects": {
-          "res_psionic": "+2",
-          "hazard_sense_magnetico": true
-        },
+        "effects": { "res_psionic": "+2", "hazard_sense_magnetico": true },
         "jobs_bias": ["warden", "vanguard"]
       }
     },
     {
-      "when": {
-        "biome_class": "orbita_psionica_inversa"
-      },
+      "when": { "biome_class": "orbita_psionica_inversa" },
       "meta": {
         "category": "pacchetto_psionico",
         "description": "Corridoi orbitali a gravità invertita che fungono da camere di risonanza mentale.",
@@ -645,18 +523,12 @@
           "focus_frazionato",
           "nucleo_ovomotore_rotante"
         ],
-        "effects": {
-          "res_psionic": "+2",
-          "lift_control": true
-        },
+        "effects": { "res_psionic": "+2", "lift_control": true },
         "jobs_bias": ["invoker", "skirmisher"]
       }
     },
     {
-      "when": {
-        "biome_class": "dorsale_termale_tropicale",
-        "morphotype": "cursoriale_quadrupede"
-      },
+      "when": { "biome_class": "dorsale_termale_tropicale", "morphotype": "cursoriale_quadrupede" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
@@ -676,10 +548,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "dorsale_termale_tropicale",
-        "morphotype": "ingegnere_radicante"
-      },
+      "when": { "biome_class": "dorsale_termale_tropicale", "morphotype": "ingegnere_radicante" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
@@ -695,10 +564,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "dorsale_termale_tropicale",
-        "morphotype": "scavenger_corazzato"
-      },
+      "when": { "biome_class": "dorsale_termale_tropicale", "morphotype": "scavenger_corazzato" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
@@ -716,10 +582,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "dorsale_termale_tropicale",
-        "morphotype": "volatore_planatore"
-      },
+      "when": { "biome_class": "dorsale_termale_tropicale", "morphotype": "volatore_planatore" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
@@ -735,9 +598,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "foresta_miceliale"
-      },
+      "when": { "biome_class": "foresta_miceliale" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Rete arborea miceliale con canopy umida e interconnessioni sinaptiche.",
@@ -761,10 +622,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "mezzanotte_orbitale",
-        "morphotype": "cursoriale_quadrupede"
-      },
+      "when": { "biome_class": "mezzanotte_orbitale", "morphotype": "cursoriale_quadrupede" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Stazione criostatica a orbita bassa con gradienti di buio aurorale.",
@@ -783,10 +641,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "mezzanotte_orbitale",
-        "morphotype": "scavenger_corazzato"
-      },
+      "when": { "biome_class": "mezzanotte_orbitale", "morphotype": "scavenger_corazzato" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Stazione criostatica a orbita bassa con gradienti di buio aurorale.",
@@ -802,10 +657,7 @@
       }
     },
     {
-      "when": {
-        "biome_class": "mezzanotte_orbitale",
-        "morphotype": "volatore_planatore"
-      },
+      "when": { "biome_class": "mezzanotte_orbitale", "morphotype": "volatore_planatore" },
       "meta": {
         "category": "biomi_prioritari",
         "description": "Stazione criostatica a orbita bassa con gradienti di buio aurorale.",
@@ -865,7 +717,6 @@
           "corazze_ferro_magnetico",
           "corna_psico_conduttive",
           "coscienza_d_alveare_diffusa",
-          "coscienza_dalveare_diffusa",
           "ectotermia_dinamica",
           "elettromagnete_biologico",
           "emettitori_voidsong",
