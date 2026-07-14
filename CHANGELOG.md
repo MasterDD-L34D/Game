@@ -12,7 +12,7 @@ review_cycle_days: 14
 # CHANGELOG -- Evo-Tactics
 
 > Format: [Keep-a-Changelog](https://keepachangelog.com/en/1.1.0/) + adattamento per milestone-based release model.
-> Source of truth per release notes user-visible. Per planning interno vedi [`docs/planning/changelog.md`](docs/planning/changelog.md). Per QA reports vedi [`docs/reports/qa-changelog.md`](docs/reports/qa-changelog.md).
+> Source of truth per release notes user-visible. Per planning interno vedi [`docs/planning/changelog.md`](docs/planning/changelog.md). Per QA reports vedi [`reports/qa-changelog.md`](reports/qa-changelog.md).
 >
 > **Nota modello (2026-06-22):** dal milestone M14-A (2026-04) il modello di release
 > e' passato da M-code a SPEC-A..Q + tracking per PR/ticket; nessun nuovo M-code
