@@ -10,13 +10,16 @@
     "complementare": "offesa"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "artiglio_cinetico_a_urto"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.martello_osseo.mutazione_indotta",
   "uso_funzione": "i18n:traits.martello_osseo.uso_funzione",
   "spinta_selettiva": "i18n:traits.martello_osseo.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
-  }
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.martello_osseo.debolezza"
 }

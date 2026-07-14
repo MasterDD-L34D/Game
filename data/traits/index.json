@@ -1826,7 +1826,9 @@
         }
       ],
       "sinergie": [
-        "carapace_fase_variabile"
+        "carapace_fase_variabile",
+        "corteccia_memetica",
+        "radici_ancora_planare"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -7554,7 +7556,8 @@
       "slot": [],
       "sinergie": [
         "locomozione_miriapode_ibrida",
-        "estroflessione_gastrica_acida"
+        "estroflessione_gastrica_acida",
+        "martello_osseo"
       ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.artiglio_cinetico_a_urto.mutazione_indotta",
@@ -10438,7 +10441,8 @@
       "sinergie": [
         "cavita_risonanti_tundra",
         "olfatto_risonanza_magnetica",
-        "sensori_geomagnetici"
+        "sensori_geomagnetici",
+        "eco_sismico"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -11231,7 +11235,8 @@
         }
       ],
       "sinergie": [
-        "sonno_emisferico_alternato"
+        "sonno_emisferico_alternato",
+        "termocezione"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -11436,7 +11441,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "rostro_emostatico_litico"
+        "rostro_emostatico_litico",
+        "eco_sismico"
       ],
       "conflitti": [
         "ipertrofia_muscolare_massiva"
@@ -11518,7 +11524,9 @@
       ],
       "sinergie": [
         "carapace_fase_variabile",
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "senso_magnetico",
+        "sintonia_magnetica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -14270,7 +14278,8 @@
         "lamelle_shear",
         "membrane_captura_rugiada",
         "random",
-        "spore_psichiche_silenziate"
+        "spore_psichiche_silenziate",
+        "legame_di_branco"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -17359,14 +17368,16 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "denti_seghettati"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.aculei_velenosi.mutazione_indotta",
       "uso_funzione": "i18n:traits.aculei_velenosi.uso_funzione",
       "spinta_selettiva": "i18n:traits.aculei_velenosi.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17376,7 +17387,8 @@
           ],
           "weight": 3
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.aculei_velenosi.debolezza"
     },
     "aura_glaciale": {
       "schema_version": "2.0",
@@ -17390,15 +17402,19 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "tela_appiccicosa",
+        "tentacoli_uncinati"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.aura_glaciale.mutazione_indotta",
       "uso_funzione": "i18n:traits.aura_glaciale.uso_funzione",
       "spinta_selettiva": "i18n:traits.aura_glaciale.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.aura_glaciale.debolezza"
     },
     "cuore_in_furia": {
       "schema_version": "2.0",
@@ -17412,15 +17428,18 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "denti_seghettati"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.cuore_in_furia.mutazione_indotta",
       "uso_funzione": "i18n:traits.cuore_in_furia.uso_funzione",
       "spinta_selettiva": "i18n:traits.cuore_in_furia.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.cuore_in_furia.debolezza"
     },
     "denti_seghettati": {
       "schema_version": "2.0",
@@ -17434,15 +17453,19 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "aculei_velenosi",
+        "cuore_in_furia"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.denti_seghettati.mutazione_indotta",
       "uso_funzione": "i18n:traits.denti_seghettati.uso_funzione",
       "spinta_selettiva": "i18n:traits.denti_seghettati.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.denti_seghettati.debolezza"
     },
     "pelle_elastomera": {
       "schema_version": "2.0",
@@ -17456,14 +17479,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "pelli_fitte",
+        "pelli_anti_ustione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pelle_elastomera.mutazione_indotta",
       "uso_funzione": "i18n:traits.pelle_elastomera.uso_funzione",
       "spinta_selettiva": "i18n:traits.pelle_elastomera.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17480,7 +17506,8 @@
           ],
           "weight": 3
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pelle_elastomera.debolezza"
     },
     "pelli_anti_ustione": {
       "schema_version": "2.0",
@@ -17494,14 +17521,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "pelle_elastomera",
+        "pelli_fitte"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pelli_anti_ustione.mutazione_indotta",
       "uso_funzione": "i18n:traits.pelli_anti_ustione.uso_funzione",
       "spinta_selettiva": "i18n:traits.pelli_anti_ustione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17512,7 +17542,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pelli_anti_ustione.debolezza"
     },
     "pelli_fitte": {
       "schema_version": "2.0",
@@ -17526,14 +17557,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "pelle_elastomera",
+        "pelli_anti_ustione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pelli_fitte.mutazione_indotta",
       "uso_funzione": "i18n:traits.pelli_fitte.uso_funzione",
       "spinta_selettiva": "i18n:traits.pelli_fitte.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17543,7 +17577,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pelli_fitte.debolezza"
     },
     "sensori_sismici": {
       "schema_version": "2.0",
@@ -17557,14 +17592,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "adattamento_volo",
+        "zampe_radianti"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.sensori_sismici.mutazione_indotta",
       "uso_funzione": "i18n:traits.sensori_sismici.uso_funzione",
       "spinta_selettiva": "i18n:traits.sensori_sismici.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17575,7 +17613,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.sensori_sismici.debolezza"
     },
     "tela_appiccicosa": {
       "schema_version": "2.0",
@@ -17589,15 +17628,19 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "aura_glaciale",
+        "tentacoli_uncinati"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.tela_appiccicosa.mutazione_indotta",
       "uso_funzione": "i18n:traits.tela_appiccicosa.uso_funzione",
       "spinta_selettiva": "i18n:traits.tela_appiccicosa.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.tela_appiccicosa.debolezza"
     },
     "tentacoli_uncinati": {
       "schema_version": "2.0",
@@ -17611,15 +17654,19 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "aura_glaciale",
+        "tela_appiccicosa"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.tentacoli_uncinati.mutazione_indotta",
       "uso_funzione": "i18n:traits.tentacoli_uncinati.uso_funzione",
       "spinta_selettiva": "i18n:traits.tentacoli_uncinati.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.tentacoli_uncinati.debolezza"
     },
     "zampe_radianti": {
       "schema_version": "2.0",
@@ -17633,15 +17680,19 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "adattamento_volo",
+        "sensori_sismici"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.zampe_radianti.mutazione_indotta",
       "uso_funzione": "i18n:traits.zampe_radianti.uso_funzione",
       "spinta_selettiva": "i18n:traits.zampe_radianti.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.zampe_radianti.debolezza"
     },
     "canto_di_richiamo": {
       "schema_version": "2.0",
@@ -17655,15 +17706,19 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "ferocia",
+        "midollo_iperattivo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.canto_di_richiamo.mutazione_indotta",
       "uso_funzione": "i18n:traits.canto_di_richiamo.uso_funzione",
       "spinta_selettiva": "i18n:traits.canto_di_richiamo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.canto_di_richiamo.debolezza"
     },
     "ferocia": {
       "schema_version": "2.0",
@@ -17677,14 +17732,18 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "midollo_iperattivo",
+        "canto_di_richiamo",
+        "spirito_combattivo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.ferocia.mutazione_indotta",
       "uso_funzione": "i18n:traits.ferocia.uso_funzione",
       "spinta_selettiva": "i18n:traits.ferocia.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17695,7 +17754,8 @@
           ],
           "weight": 5
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.ferocia.debolezza"
     },
     "intimidatore": {
       "schema_version": "2.0",
@@ -17709,15 +17769,19 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "voce_imperiosa",
+        "spore_paniche"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.intimidatore.mutazione_indotta",
       "uso_funzione": "i18n:traits.intimidatore.uso_funzione",
       "spinta_selettiva": "i18n:traits.intimidatore.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.intimidatore.debolezza"
     },
     "legame_di_branco": {
       "schema_version": "2.0",
@@ -17731,14 +17795,17 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "marchio_predatorio",
+        "tattiche_di_branco"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.legame_di_branco.mutazione_indotta",
       "uso_funzione": "i18n:traits.legame_di_branco.uso_funzione",
       "spinta_selettiva": "i18n:traits.legame_di_branco.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17748,7 +17815,8 @@
           ],
           "weight": 2
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.legame_di_branco.debolezza"
     },
     "marchio_predatorio": {
       "schema_version": "2.0",
@@ -17762,14 +17830,16 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "legame_di_branco"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.marchio_predatorio.mutazione_indotta",
       "uso_funzione": "i18n:traits.marchio_predatorio.uso_funzione",
       "spinta_selettiva": "i18n:traits.marchio_predatorio.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17779,7 +17849,8 @@
           ],
           "weight": 2
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.marchio_predatorio.debolezza"
     },
     "midollo_iperattivo": {
       "schema_version": "2.0",
@@ -17793,15 +17864,19 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "ferocia",
+        "canto_di_richiamo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.midollo_iperattivo.mutazione_indotta",
       "uso_funzione": "i18n:traits.midollo_iperattivo.uso_funzione",
       "spinta_selettiva": "i18n:traits.midollo_iperattivo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.midollo_iperattivo.debolezza"
     },
     "spirito_combattivo": {
       "schema_version": "2.0",
@@ -17815,15 +17890,18 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "ferocia"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.spirito_combattivo.mutazione_indotta",
       "uso_funzione": "i18n:traits.spirito_combattivo.uso_funzione",
       "spinta_selettiva": "i18n:traits.spirito_combattivo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.spirito_combattivo.debolezza"
     },
     "spore_paniche": {
       "schema_version": "2.0",
@@ -17837,15 +17915,19 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "intimidatore",
+        "voce_imperiosa"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.spore_paniche.mutazione_indotta",
       "uso_funzione": "i18n:traits.spore_paniche.uso_funzione",
       "spinta_selettiva": "i18n:traits.spore_paniche.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.spore_paniche.debolezza"
     },
     "sussurro_psichico": {
       "schema_version": "2.0",
@@ -17859,15 +17941,18 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "voce_imperiosa"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.sussurro_psichico.mutazione_indotta",
       "uso_funzione": "i18n:traits.sussurro_psichico.uso_funzione",
       "spinta_selettiva": "i18n:traits.sussurro_psichico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.sussurro_psichico.debolezza"
     },
     "voce_imperiosa": {
       "schema_version": "2.0",
@@ -17881,15 +17966,20 @@
         "complementare": "istinto"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "intimidatore",
+        "spore_paniche",
+        "sussurro_psichico"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.voce_imperiosa.mutazione_indotta",
       "uso_funzione": "i18n:traits.voce_imperiosa.uso_funzione",
       "spinta_selettiva": "i18n:traits.voce_imperiosa.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.voce_imperiosa.debolezza"
     },
     "arco_voltaico": {
       "schema_version": "2.0",
@@ -17903,15 +17993,19 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "scarica_ionica",
+        "pungiglione_paralizzante"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.arco_voltaico.mutazione_indotta",
       "uso_funzione": "i18n:traits.arco_voltaico.uso_funzione",
       "spinta_selettiva": "i18n:traits.arco_voltaico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.arco_voltaico.debolezza"
     },
     "martello_osseo": {
       "schema_version": "2.0",
@@ -17925,14 +18019,16 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "artiglio_cinetico_a_urto"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.martello_osseo.mutazione_indotta",
       "uso_funzione": "i18n:traits.martello_osseo.uso_funzione",
       "spinta_selettiva": "i18n:traits.martello_osseo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -17949,7 +18045,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.martello_osseo.debolezza"
     },
     "pungiglione_paralizzante": {
       "schema_version": "2.0",
@@ -17963,15 +18060,19 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "arco_voltaico",
+        "scarica_ionica"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pungiglione_paralizzante.mutazione_indotta",
       "uso_funzione": "i18n:traits.pungiglione_paralizzante.uso_funzione",
       "spinta_selettiva": "i18n:traits.pungiglione_paralizzante.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.pungiglione_paralizzante.debolezza"
     },
     "scarica_ionica": {
       "schema_version": "2.0",
@@ -17985,15 +18086,19 @@
         "complementare": "offesa"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "arco_voltaico",
+        "pungiglione_paralizzante"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.scarica_ionica.mutazione_indotta",
       "uso_funzione": "i18n:traits.scarica_ionica.uso_funzione",
       "spinta_selettiva": "i18n:traits.scarica_ionica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.scarica_ionica.debolezza"
     },
     "risonanza_magnetica": {
       "schema_version": "2.0",
@@ -18007,15 +18112,19 @@
         "complementare": "sistema_nervoso"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "matrice_antimagia",
+        "nuclei_di_controllo"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.risonanza_magnetica.mutazione_indotta",
       "uso_funzione": "i18n:traits.risonanza_magnetica.uso_funzione",
       "spinta_selettiva": "i18n:traits.risonanza_magnetica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.risonanza_magnetica.debolezza"
     },
     "pelli_cave": {
       "schema_version": "2.0",
@@ -18029,14 +18138,16 @@
         "complementare": "protezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "corteccia_memetica"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pelli_cave.mutazione_indotta",
       "uso_funzione": "i18n:traits.pelli_cave.uso_funzione",
       "spinta_selettiva": "i18n:traits.pelli_cave.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18081,7 +18192,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pelli_cave.debolezza"
     },
     "senso_magnetico": {
       "schema_version": "2.0",
@@ -18095,15 +18207,20 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "sintonia_magnetica",
+        "sensori_geomagnetici",
+        "pigmenti_aurorali"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.senso_magnetico.mutazione_indotta",
       "uso_funzione": "i18n:traits.senso_magnetico.uso_funzione",
       "spinta_selettiva": "i18n:traits.senso_magnetico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.senso_magnetico.debolezza"
     },
     "sintonia_magnetica": {
       "schema_version": "2.0",
@@ -18117,15 +18234,19 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "senso_magnetico",
+        "sensori_geomagnetici"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.sintonia_magnetica.mutazione_indotta",
       "uso_funzione": "i18n:traits.sintonia_magnetica.uso_funzione",
       "spinta_selettiva": "i18n:traits.sintonia_magnetica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.sintonia_magnetica.debolezza"
     },
     "nocicezione": {
       "schema_version": "2.0",
@@ -18139,15 +18260,18 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "propriocezione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.nocicezione.mutazione_indotta",
       "uso_funzione": "i18n:traits.nocicezione.uso_funzione",
       "spinta_selettiva": "i18n:traits.nocicezione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.nocicezione.debolezza"
     },
     "propriocezione": {
       "schema_version": "2.0",
@@ -18161,15 +18285,19 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "equilibrio_vestibolare",
+        "nocicezione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.propriocezione.mutazione_indotta",
       "uso_funzione": "i18n:traits.propriocezione.uso_funzione",
       "spinta_selettiva": "i18n:traits.propriocezione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.propriocezione.debolezza"
     },
     "equilibrio_vestibolare": {
       "schema_version": "2.0",
@@ -18183,15 +18311,18 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "propriocezione"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.equilibrio_vestibolare.mutazione_indotta",
       "uso_funzione": "i18n:traits.equilibrio_vestibolare.uso_funzione",
       "spinta_selettiva": "i18n:traits.equilibrio_vestibolare.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.equilibrio_vestibolare.debolezza"
     },
     "termocezione": {
       "schema_version": "2.0",
@@ -18205,15 +18336,18 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "occhi_infrarosso_composti"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.termocezione.mutazione_indotta",
       "uso_funzione": "i18n:traits.termocezione.uso_funzione",
       "spinta_selettiva": "i18n:traits.termocezione.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.termocezione.debolezza"
     },
     "matrice_antimagia": {
       "schema_version": "2.0",
@@ -18227,14 +18361,17 @@
         "complementare": "sistema_nervoso"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "nuclei_di_controllo",
+        "risonanza_magnetica"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.matrice_antimagia.mutazione_indotta",
       "uso_funzione": "i18n:traits.matrice_antimagia.uso_funzione",
       "spinta_selettiva": "i18n:traits.matrice_antimagia.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18245,7 +18382,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.matrice_antimagia.debolezza"
     },
     "nuclei_di_controllo": {
       "schema_version": "2.0",
@@ -18259,14 +18397,17 @@
         "complementare": "sistema_nervoso"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "matrice_antimagia",
+        "risonanza_magnetica"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.nuclei_di_controllo.mutazione_indotta",
       "uso_funzione": "i18n:traits.nuclei_di_controllo.uso_funzione",
       "spinta_selettiva": "i18n:traits.nuclei_di_controllo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18276,7 +18417,8 @@
           ],
           "weight": 3
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.nuclei_di_controllo.debolezza"
     },
     "corteccia_memetica": {
       "schema_version": "2.0",
@@ -18290,14 +18432,18 @@
         "complementare": "protezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "radici_ancora_planare",
+        "armatura_pietra_planare",
+        "pelli_cave"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.corteccia_memetica.mutazione_indotta",
       "uso_funzione": "i18n:traits.corteccia_memetica.uso_funzione",
       "spinta_selettiva": "i18n:traits.corteccia_memetica.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18308,7 +18454,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.corteccia_memetica.debolezza"
     },
     "artigli_psionici": {
       "schema_version": "2.0",
@@ -18358,14 +18505,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "filtri_bioattivi",
+        "membrane_osmotiche"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.tessuti_adattivi.mutazione_indotta",
       "uso_funzione": "i18n:traits.tessuti_adattivi.uso_funzione",
       "spinta_selettiva": "i18n:traits.tessuti_adattivi.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18376,7 +18526,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.tessuti_adattivi.debolezza"
     },
     "filtri_bioattivi": {
       "schema_version": "2.0",
@@ -18390,14 +18541,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "membrane_osmotiche",
+        "tessuti_adattivi"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.filtri_bioattivi.mutazione_indotta",
       "uso_funzione": "i18n:traits.filtri_bioattivi.uso_funzione",
       "spinta_selettiva": "i18n:traits.filtri_bioattivi.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18408,7 +18562,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.filtri_bioattivi.debolezza"
     },
     "membrane_osmotiche": {
       "schema_version": "2.0",
@@ -18422,14 +18577,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "filtri_bioattivi",
+        "tessuti_adattivi"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.membrane_osmotiche.mutazione_indotta",
       "uso_funzione": "i18n:traits.membrane_osmotiche.uso_funzione",
       "spinta_selettiva": "i18n:traits.membrane_osmotiche.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18440,7 +18598,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.membrane_osmotiche.debolezza"
     },
     "pigmenti_aurorali": {
       "schema_version": "2.0",
@@ -18454,14 +18613,16 @@
         "complementare": "percezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "senso_magnetico"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pigmenti_aurorali.mutazione_indotta",
       "uso_funzione": "i18n:traits.pigmenti_aurorali.uso_funzione",
       "spinta_selettiva": "i18n:traits.pigmenti_aurorali.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18514,7 +18675,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pigmenti_aurorali.debolezza"
     },
     "adattamento_volo": {
       "schema_version": "2.0",
@@ -18528,14 +18690,17 @@
         "complementare": "morfologia"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "zampe_radianti",
+        "sensori_sismici"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.adattamento_volo.mutazione_indotta",
       "uso_funzione": "i18n:traits.adattamento_volo.uso_funzione",
       "spinta_selettiva": "i18n:traits.adattamento_volo.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18570,7 +18735,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.adattamento_volo.debolezza"
     },
     "radici_ancora_planare": {
       "schema_version": "2.0",
@@ -18584,14 +18750,17 @@
         "complementare": "protezione"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "corteccia_memetica",
+        "armatura_pietra_planare"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.radici_ancora_planare.mutazione_indotta",
       "uso_funzione": "i18n:traits.radici_ancora_planare.uso_funzione",
       "spinta_selettiva": "i18n:traits.radici_ancora_planare.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       },
       "species_affinity": [
         {
@@ -18602,7 +18771,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.radici_ancora_planare.debolezza"
     },
     "eco_sismico": {
       "schema_version": "2.0",
@@ -18616,15 +18786,19 @@
         "complementare": "risonanza"
       },
       "slot": [],
-      "sinergie": [],
+      "sinergie": [
+        "organi_sismici_cutanei",
+        "eco_interno_riflesso"
+      ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.eco_sismico.mutazione_indotta",
       "uso_funzione": "i18n:traits.eco_sismico.uso_funzione",
       "spinta_selettiva": "i18n:traits.eco_sismico.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
-        "design_stub": true
-      }
+        "design_stub": false
+      },
+      "debolezza": "i18n:traits.eco_sismico.debolezza"
     },
     "artigli_sette_vie_2": {
       "schema_version": "2.0",

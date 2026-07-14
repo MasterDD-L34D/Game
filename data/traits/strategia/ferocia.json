@@ -10,13 +10,18 @@
     "complementare": "istinto"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "midollo_iperattivo",
+    "canto_di_richiamo",
+    "spirito_combattivo"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.ferocia.mutazione_indotta",
   "uso_funzione": "i18n:traits.ferocia.uso_funzione",
   "spinta_selettiva": "i18n:traits.ferocia.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
-  }
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.ferocia.debolezza"
 }
