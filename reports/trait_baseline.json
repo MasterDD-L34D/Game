@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T00:03:24.248947Z",
+  "generated_at": "2026-07-14T01:33:45.118591Z",
   "summary": {
     "total_traits": 308,
     "glossary_ok": 308,
@@ -2922,7 +2922,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "cervello_predittivo",
+        "mente_lucida"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -9094,7 +9097,8 @@
       "synergies": [
         "ali_solari_fotoni",
         "ali_fono_risonanti",
-        "spore_psichiche_silenziate"
+        "spore_psichiche_silenziate",
+        "cervello_predittivo"
       ],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9208,7 +9212,11 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "artigli_psionici",
+        "mente_lucida",
+        "cervello_a_bassa_latenza"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -24304,7 +24312,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "artigli_psionici",
+        "cervello_predittivo"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
