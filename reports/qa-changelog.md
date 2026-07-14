@@ -1,19 +1,27 @@
 # QA export changelog
 
-Generato: 2026-06-17T19:01:30.175781Z
-Baseline precedente: 2026-06-13T22:24:21.724133Z
+Generato: 2026-07-14T00:03:24.248947Z
+Baseline precedente: 2026-06-28T13:37:48.320348Z
 
 ## Metriche baseline
-- Tratti totali: 254 (0 vs precedente)
-- Glossario OK: 254 (0 vs precedente)
+- Tratti totali: 308 (-1 vs precedente)
+- Glossario OK: 308 (-1 vs precedente)
 - Glossario mancanti: 0 (0 vs precedente)
-- Mismatch matrice: 76 (0 vs precedente)
-- Tratti con conflitti: 28 (-6 vs precedente)
+- Mismatch matrice: 116 (-1 vs precedente)
+- Tratti con conflitti: 28 (0 vs precedente)
+
+### tratti con mismatch matrice
+- Risolti:
+  - coscienza_dalveare_diffusa
+
+### tratti senza copertura QA
+- Risolti:
+  - coscienza_dalveare_diffusa
 
 ## Highlights UI
-- Solo matrice: Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico
-- Mismatch matrice: ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bioantenne_gravitiche, bozzolo_magnetico, camere_risonanza_abyssal, campo_di_interferenza_acustica
-- Zero coverage: ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bioantenne_gravitiche, bozzolo_magnetico, camere_risonanza_abyssal, campo_di_interferenza_acustica
+- Solo matrice: Strategist, architetto, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, fisiologia_predatoria, fotosintesi_bifase, ghiandole_nettare_memetico, intangibilita_parziale
+- Mismatch matrice: aculei_velenosi, ali_fono_risonanti, arco_voltaico, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artigli_sette_vie_2, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, aura_glaciale
+- Zero coverage: aculei_velenosi, ali_fono_risonanti, arco_voltaico, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artigli_sette_vie_2, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, aura_glaciale
 - Top conflitti:
   - criostasi_adattiva: 2
   - sangue_piroforico: 2
@@ -32,7 +40,7 @@ Baseline precedente: 2026-06-13T22:24:21.724133Z
 - Tratti validati: 0 (0 vs precedente)
 
 ## Badge QA
-- Tratti passed: 254 (0 vs precedente)
-- Conflitti badge: 28 (-6 vs precedente)
+- Tratti passed: 308 (-1 vs precedente)
+- Conflitti badge: 28 (0 vs precedente)
 
 _Report generato da scripts/export-qa-report.js_
