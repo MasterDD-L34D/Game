@@ -383,6 +383,20 @@ def _normalize_pin(token: str) -> str | None:
     token = token.rstrip(_PIN_TRAILING)
     if not token.startswith("docs/"):
         return None
+
+    # Line-wrap truncation. Pins are extracted per LINE, so a path split across two
+    # comment lines is seen only as its first half:
+    #     // spec docs/planning/2026-07-06-sistema-intents-
+    #     //   roster-scaling-spec.md
+    # yields `docs/planning/2026-07-06-sistema-intents-`, which no file matches -> a
+    # BROKEN_PIN false positive against a doc that exists and a comment that is correct.
+    # (This produced 4 of the 49 findings in the 2026-07-13 drift audit, whose suggested
+    # remedy was to reformat the CORRECT comments to satisfy the broken extractor.)
+    # A real path never ends in a word-continuation character, so treat that as an
+    # incomplete final segment and fall back to the parent directory pin -- the same
+    # degrade-to-directory rule this function already applies to dynamic segments.
+    wrapped = token.endswith(("-", "_"))
+
     kept: list[str] = []
     truncated = False
     for segment in token.split("/"):
@@ -390,6 +404,9 @@ def _normalize_pin(token: str) -> str | None:
             truncated = True
             break
         kept.append(segment)
+    if wrapped and not truncated and len(kept) > 1:
+        kept.pop()  # drop the half-word the line break cut off
+        truncated = True
     if not kept or kept[0] != "docs":
         return None
     pin = "/".join(kept)

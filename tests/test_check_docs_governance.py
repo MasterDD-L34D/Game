@@ -835,6 +835,38 @@ def test_extract_skips_overlong_line():
     assert validator.extract_pins_from_line('docs/a.md ' + 'x' * 2100) == []
 
 
+def test_extract_line_wrapped_pin_degrades_to_directory():
+    """A path split across two comment lines must not become a broken pin.
+
+    Pins are extracted per line, so:
+        // spec docs/planning/2026-07-06-sistema-intents-
+        //   roster-scaling-spec.md
+    used to yield `docs/planning/2026-07-06-sistema-intents-`, which matches no file
+    -> a BROKEN_PIN false positive against a doc that EXISTS and a comment that is
+    CORRECT. That produced 4 of the findings in the 2026-07-13 drift audit, whose
+    suggested remedy was to reformat the correct comments to satisfy the extractor.
+    A real path never ends in a word-continuation char, so degrade to the parent dir.
+    """
+    assert validator.extract_pins_from_line(
+        '// D4 threat-dial roster-scaling (spec docs/planning/2026-07-06-sistema-intents-'
+    ) == ["docs/planning/"]
+    assert validator.extract_pins_from_line(
+        '// Owner default (ratify N=40, docs/research/2026-07-06-los-flip-'
+    ) == ["docs/research/"]
+    # trailing underscore is the same wrap artefact
+    assert validator.extract_pins_from_line('see docs/adr/0011-cross-agent_') == ["docs/adr/"]
+
+
+def test_extract_complete_pins_survive_the_wrap_rule():
+    """The wrap rule must not eat legitimate pins."""
+    # complete file pin, even though the line ends right after it
+    assert validator.extract_pins_from_line(
+        '// see docs/planning/2026-07-06-sistema-intents-roster-scaling-spec.md'
+    ) == ["docs/planning/2026-07-06-sistema-intents-roster-scaling-spec.md"]
+    # directory pin without a trailing slash must NOT be degraded to docs/
+    assert validator.extract_pins_from_line('// dir docs/adr') == ["docs/adr"]
+
+
 # ---------------------------------------------------------------------------
 # broken_doc_pin: _is_scannable
 # ---------------------------------------------------------------------------
