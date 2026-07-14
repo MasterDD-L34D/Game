@@ -35,6 +35,17 @@ const MIRROR_PATH = path.join(
 // (a differenza dell'indice) perche' build_trait_baseline lo risolve come path.
 const TRAIT_GLOSSARY_POINTER = 'data/core/traits/glossary.json';
 
+// L'indice ospita anche entry meta/legacy che NON sono tratti di creatura (es.
+// `traits_aggregate`, un dump normalizzato dei TR-* per pipeline legacy). Il mirror
+// alimenta report_trait_coverage / build_trait_baseline, che le tratterebbero come
+// tratti reali e ne pretenderebbero copertura di specie: vanno escluse alla fonte.
+// Nota: il prefisso e' `Meta/` con lo slash, quindi non intercetta `Metabolico/...`.
+const META_FAMILY_PREFIX = 'Meta/';
+
+function isMetaEntry(trait) {
+  return String(trait?.famiglia_tipologia ?? '').startsWith(META_FAMILY_PREFIX);
+}
+
 // Campi proiettati, nell'ordine canonico del mirror. I campi solo-indice
 // (biome_tags, completion_flags, conflitti, data_origin, id, species_affinity)
 // sono volutamente esclusi: preservano il contratto lean consumato a valle.
@@ -60,6 +71,9 @@ function projectMirror(indexPayload) {
   const projected = {};
   for (const id of Object.keys(traits).sort()) {
     const source = traits[id] ?? {};
+    if (isMetaEntry(source)) {
+      continue;
+    }
     const entry = {};
     for (const field of MIRROR_FIELDS) {
       if (field in source) {
@@ -80,11 +94,16 @@ async function main() {
   const indexPayload = readJsonFile(INDEX_PATH);
   const mirror = projectMirror(indexPayload);
 
-  // Self-check: la proiezione deve coprire l'indice 1:1, senza campi estranei.
-  const indexCount = Object.keys(indexPayload.traits ?? {}).length;
+  // Self-check: la proiezione deve coprire l'indice meno le entry meta, senza campi estranei.
+  const indexTraits = indexPayload.traits ?? {};
+  const indexCount = Object.keys(indexTraits).length;
+  const metaCount = Object.values(indexTraits).filter(isMetaEntry).length;
+  const expectedCount = indexCount - metaCount;
   const mirrorCount = Object.keys(mirror.traits).length;
-  if (mirrorCount !== indexCount) {
-    throw new Error(`Proiezione incoerente: index=${indexCount} mirror=${mirrorCount}`);
+  if (mirrorCount !== expectedCount) {
+    throw new Error(
+      `Proiezione incoerente: index=${indexCount} meta=${metaCount} attesi=${expectedCount} mirror=${mirrorCount}`,
+    );
   }
   for (const [id, entry] of Object.entries(mirror.traits)) {
     for (const field of Object.keys(entry)) {
@@ -104,7 +123,7 @@ async function main() {
     const drift = JSON.stringify(current) !== JSON.stringify(mirror);
     if (drift) {
       console.error(
-        'trait_reference.json e\' fuori sync con data/traits/index.json. ' +
+        "trait_reference.json e' fuori sync con data/traits/index.json. " +
           "Esegui 'node scripts/sync_trait_reference.js' e committa il risultato.",
       );
       process.exitCode = 1;
@@ -129,4 +148,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { projectMirror, MIRROR_FIELDS };
+module.exports = { projectMirror, isMetaEntry, MIRROR_FIELDS };

@@ -576,16 +576,19 @@ jobs:
               summary = json.load(handle).get('summary', {})
 
           min_traits = 27
-          # TRACKED DEBT -- ratchet DOWN only, never up.
-          # This was 0, but only because trait_reference.json was a hand-maintained
-          # 174-trait SUBSET that happened to contain (almost exactly) the traits that
-          # already had species links -- 173/174. The gate was measuring a masked view.
-          # Generating the mirror from data/traits/index.json (308 traits) exposes the
-          # real state: 192/308 traits have species links, leaving 73 env rules whose
-          # suggested traits resolve to no species.
-          # Pre-existing content debt, NOT a regression. Lower this as species_affinity
-          # links are authored (Species Curator-gated).
-          max_missing = 73
+          # Ratchet DOWN only, never up.
+          # The 73 rules that briefly surfaced here all came from a single synthetic
+          # env_traits rule (`when: {}`, meta.category=coverage_backfill, cohort
+          # trait_gap_fill_20251203) added 2025-12-03 to make uncovered traits *count*
+          # as covered. An empty `when` yields the combo (biome=None, morphotype=None),
+          # which no real species can ever satisfy -- every species has biomes, so its
+          # combos carry a non-null biome. The runtime generator already skipped the rule
+          # outright (`const classId = rule.when?.biome_class; if (!classId) return;`),
+          # so it was dead data that only inflated the coverage metric.
+          # Removing that rule takes this to a measured 0 with no fabricated affinities.
+          # The debt it was masking is real but different, and is now visible as the
+          # advisory `traits_missing_rules` (71 traits that no biome rule suggests).
+          max_missing = 0
 
           traits_with_species = summary.get('traits_with_species')
           rules_missing = summary.get('rules_missing_species_total')

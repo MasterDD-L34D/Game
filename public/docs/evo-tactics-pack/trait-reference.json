@@ -7630,21 +7630,6 @@
       "spinta_selettiva": "i18n:traits.tessuti_adattivi.spinta_selettiva",
       "debolezza": "i18n:traits.tessuti_adattivi.debolezza"
     },
-    "traits_aggregate": {
-      "label": "Aggregato tratti Evo",
-      "famiglia_tipologia": "Meta/Dataset",
-      "fattore_mantenimento_energetico": "N/A",
-      "tier": "T1",
-      "slot": [],
-      "slot_profile": { "core": "meta", "complementare": "supporto" },
-      "usage_tags": ["catalogo", "meta"],
-      "sinergie": [],
-      "requisiti_ambientali": [],
-      "mutazione_indotta": "Dump normalizzato dei trait Evo (TR-*) per pipeline legacy.",
-      "uso_funzione": "Punto di ingresso legacy per cataloghi e audit Evo.",
-      "spinta_selettiva": "Allineare export Evo e indice legacy.",
-      "debolezza": "Non rappresenta un tratto giocabile; solo metadato di pacchetto."
-    },
     "unghie_a_micro_adesione": {
       "label": "Unghie a Micro-Adesione",
       "famiglia_tipologia": "Locomotivo/Arboricolo",
