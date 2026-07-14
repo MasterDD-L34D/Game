@@ -260,7 +260,7 @@ piano. Va fatto **per bioma**, mai tutto in una volta.
 lo stack a 4 livelli passa da _documentato-e-ignorato_ a _fatto rispettare_; la trappola del
 metric-gaming e' rimossa alla radice, non tappata.
 
-**Negative**: 20 -> 22 biomi giocabili significa scrivere 2 righe L1 che non esistono; i 52 stub
+**Negative**: 20 -> 21 biomi giocabili significa scrivere 2 righe L1 che non esistono; i 52 stub
 cancellati faranno **scendere** metriche che oggi sembrano piu' alte di quanto siano (e' il
 punto); il debito narrativo resta aperto.
 
