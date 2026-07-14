@@ -4,8 +4,8 @@
     "language_name": "Italiano",
     "direction": "ltr",
     "version": 1,
-    "updated": "2026-07-10",
-    "completion_percent": 12
+    "updated": "2026-07-14",
+    "completion_percent": 17
   },
   "traits": {
     "aculei_velenosi": {
@@ -259,6 +259,104 @@
       "spinta_selettiva": "Chi attacca dall'alto ha già l'energia: bastava non sprecarla nell'atterraggio.",
       "uso_funzione": "Attaccando da posizione sopraelevata la pulsazione cinetica aggiunge 2 danni all'impatto.",
       "debolezza": "Serve un dislivello: sul piano le zampe non hanno caduta da convertire."
+    },
+    "arco_voltaico": {
+      "label": "Arco Voltaico",
+      "mutazione_indotta": "Un filamento dorsale si e' caricato di cellule elettrogeniche che accumulano tensione fino a scaricarla in un arco visibile.",
+      "spinta_selettiva": "Colpire il sistema nervoso della preda prima dei denti: un lampo che disorienta vale piu' di un morso.",
+      "uso_funzione": "Un colpo ionico riuscito (MoS >= 5) applica 1 turno di disorient al bersaglio; concede +15% di resistenza ionica.",
+      "debolezza": "L'arco deve ricaricarsi: contro bersagli isolati dal terreno o ben schermati la scarica si disperde."
+    },
+    "martello_osseo": {
+      "label": "Martello Osseo",
+      "mutazione_indotta": "L'estremita' di un arto o della coda si e' ispessita in una massa ossea compatta, pesante come una mazza.",
+      "spinta_selettiva": "Rompere la struttura del nemico invece di ferirlo: chi non riesce a muoversi non fugge e non contrattacca.",
+      "uso_funzione": "Ogni critico (MoS >= 8) applica 2 turni di frattura: al reset il bersaglio resta con 1 solo AP, limitandone il movimento.",
+      "debolezza": "La massa ossea e' lenta da caricare: contro bersagli agili il colpo pesante manca il tempo giusto."
+    },
+    "pungiglione_paralizzante": {
+      "label": "Pungiglione Paralizzante",
+      "mutazione_indotta": "Un pungiglione retrattile si e' riempito di ghiandole che sintetizzano una neurotossina inibitrice.",
+      "spinta_selettiva": "Una preda immobilizzata non va inseguita: il veleno fa il lavoro che i muscoli non possono.",
+      "uso_funzione": "Un colpo preciso in mischia (MoS >= 5) applica 2 turni di stunned: il bersaglio salta i due turni successivi.",
+      "debolezza": "La riserva di tossina e' limitata e va rigenerata: contro organismi resistenti ai veleni l'effetto svanisce."
+    },
+    "scarica_ionica": {
+      "label": "Scarica Ionica",
+      "mutazione_indotta": "Membrane specializzate accumulano ioni lungo il corpo e li rilasciano in un impulso diretto al contatto.",
+      "spinta_selettiva": "Aggiungere una scossa a ogni colpo: un piccolo margine elettrico che nel tempo logora la preda.",
+      "uso_funzione": "Un colpo ionico riuscito (MoS >= 5) scarica un impulso da 1 PT di danno extra; concede +10% di resistenza ionica.",
+      "debolezza": "La carica si esaurisce in ambienti umidi o molto conduttivi, dove l'impulso si disperde prima di colpire."
+    },
+    "matrice_antimagia": {
+      "label": "Matrice Antimagia",
+      "mutazione_indotta": "Nei costrutti delle rovine planari, reticoli runici incisi nel corpo emettono un campo che destabilizza gli impulsi attivi di chi viene colpito.",
+      "spinta_selettiva": "Difendere i siti planari da intrusi capaci di tecniche complesse: spegnere le loro abilita' vale piu' che ferirli.",
+      "uso_funzione": "Ogni colpo ravvicinato riuscito impone inibito per 1 turno: il bersaglio non puo' usare abilita' attive (restano movimento, attacchi base e reazioni).",
+      "debolezza": "Il campo agisce solo a corto raggio e sul singolo colpo: bersagli che si affidano agli attacchi base ne sono immuni."
+    },
+    "nuclei_di_controllo": {
+      "label": "Nuclei di Controllo",
+      "mutazione_indotta": "Un nucleo di coordinamento, tipico dei costrutti delle rovine, sincronizza i colpi del portatore e degli alleati vicini.",
+      "spinta_selettiva": "Trasformare un gruppo in un'unita' coordinata: la somma dei colpi allineati batte l'iniziativa individuale.",
+      "uso_funzione": "Finche' il nucleo e' intatto coordina i colpi (+1 attacco) e irradia +1 attacco agli alleati entro raggio 2. Un colpo preciso (MoS >= 5) lo danneggia, un secondo lo distrugge con una detonazione da +2 PT.",
+      "debolezza": "Il nucleo e' un punto debole esposto: due colpi precisi lo spengono e ne fanno un'arma contro il branco."
+    },
+    "risonanza_magnetica": {
+      "label": "Risonanza Magnetica",
+      "mutazione_indotta": "Il tessuto neurale si e' sintonizzato sui campi magnetici locali, che vibrano in sincronia con le frequenze mentali del branco.",
+      "spinta_selettiva": "Comunicare senza suono ne' vista: nei biomi di faglia la coordinazione silenziosa e' un vantaggio di caccia.",
+      "uso_funzione": "Un'uccisione con MoS >= 5 attiva un legame telepatico per 5 turni, condividendo coordinate tattiche con gli alleati vicini.",
+      "debolezza": "Il legame si innesca solo dopo un'uccisione e richiede campi magnetici stabili: lontano dalle faglie si affievolisce."
+    },
+    "equilibrio_vestibolare": {
+      "label": "Equilibrio Vestibolare",
+      "mutazione_indotta": "L'apparato vestibolare si e' affinato fino a correggere in tempo reale ogni perdita di assetto.",
+      "spinta_selettiva": "Restare in piedi dove gli altri cadono: su terreni instabili l'equilibrio decide chi combatte e chi ruzzola.",
+      "uso_funzione": "Riduce di 1 PT il danno da attacchi destabilizzanti e attenua le cadute.",
+      "debolezza": "Il controllo dell'assetto non protegge dai colpi diretti: contro danno puro non offre difesa."
+    },
+    "nocicezione": {
+      "label": "Nocicezione",
+      "mutazione_indotta": "Una rete nocicettiva ipersensibile converte il dolore in una risposta difensiva immediata.",
+      "spinta_selettiva": "Fare del dolore un'arma: chi ferisce un organismo gia' provato paga il contrattacco piu' caro.",
+      "uso_funzione": "Quando e' Ferito, i contrattacchi reattivi infliggono +1 PT di danno.",
+      "debolezza": "Il vantaggio esiste solo da Ferito: a piena salute la reattivita' non si attiva."
+    },
+    "pigmenti_aurorali": {
+      "label": "Pigmenti Aurorali",
+      "mutazione_indotta": "Cromofori dermici accumulano composti fluorescenti che si accendono sotto luce polare o tempesta magnetica.",
+      "spinta_selettiva": "Un bagliore che confonde: abbagliare chi si avvicina troppo compra il tempo per riposizionarsi.",
+      "uso_funzione": "Finche' e' in salute (HP >= 50%), a fine round i pigmenti abbagliano i nemici adiacenti: -1 attacco al loro prossimo colpo.",
+      "debolezza": "Sotto meta' vita il bagliore si spegne: proprio quando servirebbe di piu', i pigmenti si affievoliscono."
+    },
+    "propriocezione": {
+      "label": "Propriocezione",
+      "mutazione_indotta": "Il senso della posizione del corpo si e' affinato fino a guidare ogni movimento con precisione millimetrica.",
+      "spinta_selettiva": "Sapere sempre dove sono gli arti: la mira nasce prima dai muscoli che dagli occhi.",
+      "uso_funzione": "Concede +1 agli attacchi grazie al controllo costante di equilibrio e posizione.",
+      "debolezza": "E' un vantaggio di precisione, non di potenza: contro difese elevate il piccolo bonus non basta."
+    },
+    "senso_magnetico": {
+      "label": "Senso Magnetico",
+      "mutazione_indotta": "Recettori magnetorecettivi percepiscono passivamente i campi magnetici dell'ambiente circostante.",
+      "spinta_selettiva": "Orientarsi al buio e sentire il metallo prima di vederlo: un senso in piu' dove la vista non arriva.",
+      "uso_funzione": "Percezione passiva dei campi magnetici: a ogni colpo riuscito l'unita' affina il proprio senso magnetico (sensed, 1 turno). Prerequisito della risonanza magnetica.",
+      "debolezza": "In ambienti saturi di interferenze il segnale si confonde e la percezione perde nitidezza."
+    },
+    "sintonia_magnetica": {
+      "label": "Sintonia Magnetica",
+      "mutazione_indotta": "L'apparato sensoriale si e' adattato alle turbolenze elettromagnetiche di faglia, canalizzandone l'energia.",
+      "spinta_selettiva": "Trasformare il disturbo magnetico del bioma in vantaggio: dove altri perdono l'orientamento, il portatore si accorda.",
+      "uso_funzione": "Un colpo deciso (MoS >= 8) sintonizza l'unita' con l'energia magnetica del bioma per 2 turni. Prerequisito della risonanza magnetica.",
+      "debolezza": "La sintonia dipende dai campi di faglia: fuori dai biomi magnetici non ha nulla su cui accordarsi."
+    },
+    "termocezione": {
+      "label": "Termocezione",
+      "mutazione_indotta": "Recettori termici distribuiti sulla pelle mantengono un continuo bilancio caldo/freddo dell'ambiente e del corpo.",
+      "spinta_selettiva": "Leggere il calore per sopravvivere agli estremi: chi sente la temperatura la subisce meno.",
+      "uso_funzione": "Riduce di 1 PT il danno da attacchi termici (fuoco e ghiaccio).",
+      "debolezza": "La difesa e' solo termica: contro danno fisico o ionico i recettori non offrono protezione."
     }
   }
 }
