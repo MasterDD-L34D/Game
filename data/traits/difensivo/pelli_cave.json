@@ -20,5 +20,6 @@
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
     "design_stub": false
-  }
+  },
+  "debolezza": "i18n:traits.pelli_cave.debolezza"
 }

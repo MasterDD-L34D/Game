@@ -18075,7 +18075,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pelli_cave.debolezza"
     },
     "senso_magnetico": {
       "schema_version": "2.0",
@@ -18306,7 +18307,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.corteccia_memetica.debolezza"
     },
     "artigli_psionici": {
       "schema_version": "2.0",
@@ -18599,7 +18601,8 @@
           ],
           "weight": 4
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.radici_ancora_planare.debolezza"
     },
     "eco_sismico": {
       "schema_version": "2.0",
