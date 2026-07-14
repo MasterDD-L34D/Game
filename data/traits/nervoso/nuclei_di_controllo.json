@@ -10,13 +10,16 @@
     "complementare": "sistema_nervoso"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "matrice_antimagia",
+    "risonanza_magnetica"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.nuclei_di_controllo.mutazione_indotta",
   "uso_funzione": "i18n:traits.nuclei_di_controllo.uso_funzione",
   "spinta_selettiva": "i18n:traits.nuclei_di_controllo.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

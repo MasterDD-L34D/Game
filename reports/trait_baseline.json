@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T00:03:24.248947Z",
+  "generated_at": "2026-07-14T01:52:34.462209Z",
   "summary": {
     "total_traits": 308,
     "glossary_ok": 308,
@@ -23382,7 +23382,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "nuclei_di_controllo",
+        "risonanza_magnetica"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -25958,7 +25961,10 @@
         "matrix": "ok"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "matrice_antimagia",
+        "risonanza_magnetica"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
@@ -29444,7 +29450,10 @@
         "matrix": "mismatch"
       },
       "conflicts": [],
-      "synergies": [],
+      "synergies": [
+        "matrice_antimagia",
+        "nuclei_di_controllo"
+      ],
       "dataset_sources": [
         "data/core/species.yaml",
         "data/core/telemetry.yaml",
