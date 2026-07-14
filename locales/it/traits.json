@@ -2019,6 +2019,62 @@
       "mutazione_indotta": "Cristalli biomagnetici accoppiati a terminazioni nervose sensibili.",
       "spinta_selettiva": "Ambienti con forti gradienti magnetici o scarsa visibilita'.",
       "uso_funzione": "Rilevare e sfruttare i campi magnetici circostanti."
+    },
+    "eco_sismico": {
+      "description": "Percezione delle vibrazioni trasmesse dal substrato per mappare l'ambiente.",
+      "label": "Eco Sismico",
+      "mutazione_indotta": "Recettori meccanici accoppiati allo scheletro che leggono onde sismiche.",
+      "spinta_selettiva": "Ambienti bui o sepolti dove la vista e' inutile.",
+      "uso_funzione": "Localizzare movimenti e strutture tramite le vibrazioni del terreno."
+    },
+    "equilibrio_vestibolare": {
+      "description": "Organo dell'equilibrio che stabilizza postura e movimento in terreni instabili.",
+      "label": "Equilibrio Vestibolare",
+      "mutazione_indotta": "Canali semicircolari sviluppati con fluido e cristalli sensori.",
+      "spinta_selettiva": "Terreni irregolari, arrampicata o volo dove cadere e' letale.",
+      "uso_funzione": "Mantenere assetto e coordinazione durante manovre rapide."
+    },
+    "nocicezione": {
+      "description": "Sistema di recettori del dolore che segnala danno tissutale imminente o in corso.",
+      "label": "Nocicezione",
+      "mutazione_indotta": "Terminazioni nervose specializzate nel rilevare stimoli nocivi.",
+      "spinta_selettiva": "Ambienti ricchi di minacce fisiche o chimiche ravvicinate.",
+      "uso_funzione": "Innescare ritrazione e protezione immediata dal danno."
+    },
+    "pigmenti_aurorali": {
+      "description": "Cellule pigmentate che emettono bagliori cangianti per segnale o inganno.",
+      "label": "Pigmenti Aurorali",
+      "mutazione_indotta": "Cromatofori bioluminescenti a modulazione rapida.",
+      "spinta_selettiva": "Ambienti oscuri o sociali dove il segnale visivo e' vantaggioso.",
+      "uso_funzione": "Comunicare, abbagliare o confondere tramite pattern luminosi."
+    },
+    "propriocezione": {
+      "description": "Senso interno della posizione e del movimento delle proprie appendici.",
+      "label": "Propriocezione",
+      "mutazione_indotta": "Recettori di stiramento distribuiti in muscoli e articolazioni.",
+      "spinta_selettiva": "Manipolazione fine o movimento in spazi angusti e bui.",
+      "uso_funzione": "Controllare con precisione il corpo senza feedback visivo."
+    },
+    "senso_magnetico": {
+      "description": "Percezione del campo magnetico terrestre per orientamento a lunga distanza.",
+      "label": "Senso Magnetico",
+      "mutazione_indotta": "Depositi di biomagnetite accoppiati a terminazioni nervose.",
+      "spinta_selettiva": "Migrazioni o territori vasti privi di riferimenti visivi.",
+      "uso_funzione": "Orientarsi e migrare seguendo le linee del campo magnetico."
+    },
+    "sintonia_magnetica": {
+      "description": "Modulazione fine della sensibilita' magnetica per leggere anomalie locali.",
+      "label": "Sintonia Magnetica",
+      "mutazione_indotta": "Affinamento dei recettori magnetici con filtraggio del rumore.",
+      "spinta_selettiva": "Ambienti con gradienti magnetici complessi da interpretare.",
+      "uso_funzione": "Distinguere sorgenti e anomalie magnetiche ravvicinate."
+    },
+    "termocezione": {
+      "description": "Percezione delle differenze di temperatura per rilevare prede o correnti.",
+      "label": "Termocezione",
+      "mutazione_indotta": "Fossette termosensibili con recettori a infrarosso.",
+      "spinta_selettiva": "Caccia notturna o ambienti dove il calore rivela la preda.",
+      "uso_funzione": "Individuare corpi caldi o correnti termiche al buio."
     }
   }
 }
