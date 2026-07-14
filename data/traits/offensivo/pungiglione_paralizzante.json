@@ -10,13 +10,17 @@
     "complementare": "offesa"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "arco_voltaico",
+    "scarica_ionica"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.pungiglione_paralizzante.mutazione_indotta",
   "uso_funzione": "i18n:traits.pungiglione_paralizzante.uso_funzione",
   "spinta_selettiva": "i18n:traits.pungiglione_paralizzante.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
-  }
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.pungiglione_paralizzante.debolezza"
 }

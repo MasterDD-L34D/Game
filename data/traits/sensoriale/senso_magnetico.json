@@ -10,13 +10,18 @@
     "complementare": "percezione"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "sintonia_magnetica",
+    "sensori_geomagnetici",
+    "pigmenti_aurorali"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.senso_magnetico.mutazione_indotta",
   "uso_funzione": "i18n:traits.senso_magnetico.uso_funzione",
   "spinta_selettiva": "i18n:traits.senso_magnetico.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
-  }
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.senso_magnetico.debolezza"
 }

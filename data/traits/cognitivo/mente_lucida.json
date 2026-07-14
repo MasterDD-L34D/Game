@@ -10,13 +10,17 @@
     "complementare": "cognizione"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "artigli_psionici",
+    "cervello_predittivo"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.mente_lucida.mutazione_indotta",
   "uso_funzione": "i18n:traits.mente_lucida.uso_funzione",
   "spinta_selettiva": "i18n:traits.mente_lucida.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
-  }
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.mente_lucida.debolezza"
 }

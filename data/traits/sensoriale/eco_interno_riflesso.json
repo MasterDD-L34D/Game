@@ -36,7 +36,8 @@
   "sinergie": [
     "cavita_risonanti_tundra",
     "olfatto_risonanza_magnetica",
-    "sensori_geomagnetici"
+    "sensori_geomagnetici",
+    "eco_sismico"
   ],
   "sinergie_pi": {
     "co_occorrenze": [],

@@ -23,7 +23,9 @@
   ],
   "sinergie": [
     "carapace_fase_variabile",
-    "eco_interno_riflesso"
+    "eco_interno_riflesso",
+    "senso_magnetico",
+    "sintonia_magnetica"
   ],
   "sinergie_pi": {
     "co_occorrenze": [],

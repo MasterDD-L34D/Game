@@ -26,7 +26,9 @@
     }
   ],
   "sinergie": [
-    "carapace_fase_variabile"
+    "carapace_fase_variabile",
+    "corteccia_memetica",
+    "radici_ancora_planare"
   ],
   "sinergie_pi": {
     "co_occorrenze": [],

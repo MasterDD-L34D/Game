@@ -10,7 +10,8 @@
   "sinergie": [
     "ali_solari_fotoni",
     "ali_fono_risonanti",
-    "spore_psichiche_silenziate"
+    "spore_psichiche_silenziate",
+    "cervello_predittivo"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.cervello_a_bassa_latenza.mutazione_indotta",
