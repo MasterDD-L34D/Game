@@ -91,12 +91,12 @@ Sono gli **unici 2 ecosistemi su 21** senza entry in `biomes.yaml`. Ma sono load
 | L4 cross-events | ✅ origini canoniche, **nominate nella SoT** (_"brinastorm da cryosteppe"_) |
 
 Fonderli come varianti avrebbe rotto la meta-rete **dal suo nodo di partenza**. Si scrive la
-riga L1 mancante (hazard/npc/difficolta'/narrativa). **Giocabili 20 -> 22.** Zero contenuto
-perso, zero rete rotta.
+riga L1 mancante (hazard/npc/difficolta'/narrativa). Zero contenuto perso, zero rete rotta.
 
-> **Debito narrativo aperto (registrato, non nascosto)**: il koppen e la finzione dissentono
-> su questi due (`deserto_caldo` BWh/BSh vs una `savana` il cui summary dice _"dune fotoniche"_).
-> La promozione **non lo risolve**, lo rende solo esplicito.
+**Giocabili: 20 + 2 (questi) - 1 (`savana`, fusa in `deserto_caldo` -> Decisione 9) = 21.**
+
+> Il debito narrativo koppen-vs-fiction che qui sembrava aperto **e' risolto dalla Decisione 9**:
+> non era sistemico, era **un solo bioma** (`savana`), e si chiude fondendolo.
 
 ## Decisione 4 — Le mappature fabbricate si cancellano
 
