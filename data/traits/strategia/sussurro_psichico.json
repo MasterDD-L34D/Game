@@ -10,13 +10,16 @@
     "complementare": "istinto"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "coscienza_d_alveare_diffusa",
+    "corna_psico_conduttive"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.sussurro_psichico.mutazione_indotta",
   "uso_funzione": "i18n:traits.sussurro_psichico.uso_funzione",
   "spinta_selettiva": "i18n:traits.sussurro_psichico.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

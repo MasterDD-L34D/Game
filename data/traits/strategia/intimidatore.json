@@ -10,13 +10,16 @@
     "complementare": "istinto"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "voce_imperiosa",
+    "marchio_predatorio"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.intimidatore.mutazione_indotta",
   "uso_funzione": "i18n:traits.intimidatore.uso_funzione",
   "spinta_selettiva": "i18n:traits.intimidatore.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

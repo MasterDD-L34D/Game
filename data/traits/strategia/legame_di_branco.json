@@ -10,13 +10,16 @@
     "complementare": "istinto"
   },
   "slot": [],
-  "sinergie": [],
+  "sinergie": [
+    "coscienza_d_alveare_diffusa",
+    "canto_di_richiamo"
+  ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.legame_di_branco.mutazione_indotta",
   "uso_funzione": "i18n:traits.legame_di_branco.uso_funzione",
   "spinta_selettiva": "i18n:traits.legame_di_branco.spinta_selettiva",
   "data_origin": "gap1_salvage_2026_06_22",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }

@@ -2075,6 +2075,76 @@
       "mutazione_indotta": "Fossette termosensibili con recettori a infrarosso.",
       "spinta_selettiva": "Caccia notturna o ambienti dove il calore rivela la preda.",
       "uso_funzione": "Individuare corpi caldi o correnti termiche al buio."
+    },
+    "canto_di_richiamo": {
+      "description": "Vocalizzo che richiama e coordina i membri del branco a distanza.",
+      "label": "Canto di Richiamo",
+      "mutazione_indotta": "Sacche vocali risonanti capaci di emettere richiami a lungo raggio.",
+      "spinta_selettiva": "Specie sociali che cacciano o si difendono in gruppo.",
+      "uso_funzione": "Radunare o segnalare al branco tramite un richiamo riconoscibile."
+    },
+    "ferocia": {
+      "description": "Predisposizione all'aggressione intensa e sostenuta nel confronto diretto.",
+      "label": "Ferocia",
+      "mutazione_indotta": "Regolazione ormonale che amplifica l'aggressivita' sotto minaccia.",
+      "spinta_selettiva": "Competizione diretta per prede, territorio o accoppiamento.",
+      "uso_funzione": "Sostenere un assalto deciso senza esitazione."
+    },
+    "intimidatore": {
+      "description": "Esibizione di segnali di minaccia che scoraggiano l'avversario prima dello scontro.",
+      "label": "Intimidatore",
+      "mutazione_indotta": "Strutture e posture amplificate per apparire piu' grandi e pericolosi.",
+      "spinta_selettiva": "Conflitti dove evitare lo scontro fisico e' vantaggioso.",
+      "uso_funzione": "Dissuadere rivali e predatori con una dimostrazione di forza."
+    },
+    "legame_di_branco": {
+      "description": "Coesione sociale che sincronizza comportamento e difesa collettiva.",
+      "label": "Legame di Branco",
+      "mutazione_indotta": "Circuiti neurali e feromonali che rafforzano il riconoscimento di gruppo.",
+      "spinta_selettiva": "Sopravvivenza in gruppo contro minacce superiori al singolo.",
+      "uso_funzione": "Agire in modo coordinato con i membri del branco."
+    },
+    "marchio_predatorio": {
+      "description": "Segnale che identifica e marca una preda designata per la caccia coordinata.",
+      "label": "Marchio Predatorio",
+      "mutazione_indotta": "Ghiandole segnalatrici che depositano una traccia riconoscibile.",
+      "spinta_selettiva": "Caccia cooperativa su prede grandi o sfuggenti.",
+      "uso_funzione": "Designare e inseguire una preda condivisa dal gruppo."
+    },
+    "midollo_iperattivo": {
+      "description": "Produzione accelerata di cellule che sostiene sforzo e recupero prolungati.",
+      "label": "Midollo Iperattivo",
+      "mutazione_indotta": "Midollo osseo iperfunzionante con turnover cellulare elevato.",
+      "spinta_selettiva": "Ambienti che richiedono sforzo fisico ripetuto e resistenza.",
+      "uso_funzione": "Sostenere attivita' intensa recuperando piu' in fretta."
+    },
+    "spirito_combattivo": {
+      "description": "Determinazione che mantiene l'efficacia anche in condizioni di svantaggio.",
+      "label": "Spirito Combattivo",
+      "mutazione_indotta": "Assetto neuroendocrino che ritarda cedimento e resa.",
+      "spinta_selettiva": "Scontri prolungati dove la tenuta mentale decide l'esito.",
+      "uso_funzione": "Continuare a combattere efficacemente sotto stress e danno."
+    },
+    "spore_paniche": {
+      "description": "Rilascio di spore che inducono disorientamento e fuga negli avversari.",
+      "label": "Spore Paniche",
+      "mutazione_indotta": "Sporangi che disperdono composti neuroattivi volatili.",
+      "spinta_selettiva": "Difesa contro branchi o predatori numerosi.",
+      "uso_funzione": "Disperdere un gruppo nemico seminando panico."
+    },
+    "sussurro_psichico": {
+      "description": "Trasmissione mentale sottile che semina dubbio o suggestione nell'avversario.",
+      "label": "Sussurro Psichico",
+      "mutazione_indotta": "Emissione di deboli campi psichici modulati.",
+      "spinta_selettiva": "Confronti dove destabilizzare la mente rivale e' decisivo.",
+      "uso_funzione": "Interferire con la decisione avversaria a corto raggio."
+    },
+    "voce_imperiosa": {
+      "description": "Vocalizzo dominante che impone gerarchia e sottomissione nel gruppo.",
+      "label": "Voce Imperiosa",
+      "mutazione_indotta": "Apparato vocale capace di toni a bassa frequenza autorevoli.",
+      "spinta_selettiva": "Strutture sociali gerarchiche con competizione per il rango.",
+      "uso_funzione": "Affermare dominanza e dirigere il comportamento altrui."
     }
   }
 }
