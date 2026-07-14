@@ -4,8 +4,8 @@
     "language_name": "English",
     "direction": "ltr",
     "version": 1,
-    "updated": "2026-07-10",
-    "completion_percent": 12
+    "updated": "2026-07-14",
+    "completion_percent": 17
   },
   "traits": {
     "aculei_velenosi": {
@@ -259,6 +259,104 @@
       "spinta_selettiva": "Whoever strikes from above already holds the energy: it only had to survive the landing.",
       "uso_funzione": "Attacking from an elevated position, the kinetic pulse adds 2 damage on impact.",
       "debolezza": "It needs a drop: on level ground the paws have no fall to convert."
+    },
+    "arco_voltaico": {
+      "label": "Voltaic Arc",
+      "mutazione_indotta": "A dorsal filament has filled with electrogenic cells that store tension until it discharges in a visible arc.",
+      "spinta_selettiva": "Hit the prey's nervous system before the teeth do: a disorienting flash is worth more than a bite.",
+      "uso_funzione": "A successful ionic hit (MoS >= 5) applies 1 turn of disorient to the target; grants +15% ionic resistance.",
+      "debolezza": "The arc must recharge: against targets insulated from the ground or well shielded, the discharge dissipates."
+    },
+    "martello_osseo": {
+      "label": "Bone Hammer",
+      "mutazione_indotta": "The tip of a limb or tail has thickened into a compact bony mass, heavy as a mace.",
+      "spinta_selettiva": "Break the enemy's structure instead of wounding it: what cannot move cannot flee or counter.",
+      "uso_funzione": "Every critical (MoS >= 8) applies 2 turns of fracture: on reset the target is left with only 1 AP, limiting its movement.",
+      "debolezza": "The bony mass is slow to wind up: against agile targets the heavy blow misses its window."
+    },
+    "pungiglione_paralizzante": {
+      "label": "Paralyzing Stinger",
+      "mutazione_indotta": "A retractable stinger has filled with glands that synthesize an inhibitor neurotoxin.",
+      "spinta_selettiva": "An immobilized prey needs no chasing: the venom does the work the muscles cannot.",
+      "uso_funzione": "A precise melee hit (MoS >= 5) applies 2 turns of stunned: the target skips its next two turns.",
+      "debolezza": "The toxin reserve is limited and must regenerate: against venom-resistant organisms the effect fades."
+    },
+    "scarica_ionica": {
+      "label": "Ionic Discharge",
+      "mutazione_indotta": "Specialized membranes accumulate ions along the body and release them in a direct pulse on contact.",
+      "spinta_selettiva": "Add a shock to every blow: a small electric edge that wears the prey down over time.",
+      "uso_funzione": "A successful ionic hit (MoS >= 5) releases a pulse dealing 1 extra HP of damage; grants +10% ionic resistance.",
+      "debolezza": "The charge drains in humid or highly conductive environments, where the pulse dissipates before landing."
+    },
+    "matrice_antimagia": {
+      "label": "Antimagic Matrix",
+      "mutazione_indotta": "In the constructs of the planar ruins, runic lattices etched into the body emit a field that destabilizes the active impulses of whatever it strikes.",
+      "spinta_selettiva": "Defend the planar sites from intruders capable of complex techniques: shutting down their abilities is worth more than wounding them.",
+      "uso_funzione": "Every successful close hit imposes inhibited for 1 turn: the target cannot use active abilities (movement, basic attacks, and reactions remain).",
+      "debolezza": "The field works only at close range and per single hit: targets relying on basic attacks are immune."
+    },
+    "nuclei_di_controllo": {
+      "label": "Control Cores",
+      "mutazione_indotta": "A coordination core, typical of the ruin constructs, synchronizes the bearer's blows and those of nearby allies.",
+      "spinta_selettiva": "Turn a group into a coordinated unit: the sum of aligned blows beats individual initiative.",
+      "uso_funzione": "While the core is intact it coordinates blows (+1 attack) and radiates +1 attack to allies within range 2. A precise hit (MoS >= 5) damages it, a second destroys it with a +2 HP detonation.",
+      "debolezza": "The core is an exposed weak point: two precise hits shut it down and turn it into a weapon against the pack."
+    },
+    "risonanza_magnetica": {
+      "label": "Magnetic Resonance",
+      "mutazione_indotta": "The neural tissue has attuned to local magnetic fields, which vibrate in sync with the pack's mental frequencies.",
+      "spinta_selettiva": "Communicate without sound or sight: in rift biomes silent coordination is a hunting advantage.",
+      "uso_funzione": "A kill with MoS >= 5 activates a telepathic link for 5 turns, sharing tactical coordinates with nearby allies.",
+      "debolezza": "The link triggers only after a kill and needs stable magnetic fields: away from rifts it fades."
+    },
+    "equilibrio_vestibolare": {
+      "label": "Vestibular Balance",
+      "mutazione_indotta": "The vestibular apparatus has sharpened until it corrects any loss of poise in real time.",
+      "spinta_selettiva": "Stay standing where others fall: on unstable ground, balance decides who fights and who tumbles.",
+      "uso_funzione": "Reduces damage from destabilizing attacks by 1 HP and softens falls.",
+      "debolezza": "Poise control offers no protection from direct blows: against pure damage it provides no defense."
+    },
+    "nocicezione": {
+      "label": "Nociception",
+      "mutazione_indotta": "A hypersensitive nociceptive network converts pain into an immediate defensive response.",
+      "spinta_selettiva": "Make pain a weapon: whoever wounds an already-hurt organism pays a costlier counter.",
+      "uso_funzione": "When Wounded, reactive counterattacks deal +1 HP of damage.",
+      "debolezza": "The advantage exists only while Wounded: at full health the reactivity does not trigger."
+    },
+    "pigmenti_aurorali": {
+      "label": "Auroral Pigments",
+      "mutazione_indotta": "Dermal chromophores accumulate fluorescent compounds that ignite under polar light or magnetic storms.",
+      "spinta_selettiva": "A glow that confuses: dazzling those who come too close buys time to reposition.",
+      "uso_funzione": "While healthy (HP >= 50%), at end of round the pigments dazzle adjacent enemies: -1 to their next attack.",
+      "debolezza": "Below half health the glow goes out: exactly when it is needed most, the pigments fade."
+    },
+    "propriocezione": {
+      "label": "Proprioception",
+      "mutazione_indotta": "The sense of the body's position has sharpened until it guides every movement with millimetric precision.",
+      "spinta_selettiva": "Always know where the limbs are: aim is born in the muscles before the eyes.",
+      "uso_funzione": "Grants +1 to attacks thanks to constant control of balance and position.",
+      "debolezza": "It is an edge of precision, not power: against high defenses the small bonus is not enough."
+    },
+    "senso_magnetico": {
+      "label": "Magnetic Sense",
+      "mutazione_indotta": "Magnetoreceptive receptors passively perceive the magnetic fields of the surrounding environment.",
+      "spinta_selettiva": "Orient in the dark and feel metal before seeing it: an extra sense where sight cannot reach.",
+      "uso_funzione": "Passive perception of magnetic fields: on each successful hit the unit sharpens its own magnetic sense (sensed, 1 turn). Prerequisite for magnetic resonance.",
+      "debolezza": "In environments saturated with interference the signal blurs and perception loses sharpness."
+    },
+    "sintonia_magnetica": {
+      "label": "Magnetic Attunement",
+      "mutazione_indotta": "The sensory apparatus has adapted to rift electromagnetic turbulence, channeling its energy.",
+      "spinta_selettiva": "Turn the biome's magnetic disturbance into an advantage: where others lose their bearings, the bearer attunes.",
+      "uso_funzione": "A decisive hit (MoS >= 8) attunes the unit to the biome's magnetic energy for 2 turns. Prerequisite for magnetic resonance.",
+      "debolezza": "Attunement depends on rift fields: outside magnetic biomes there is nothing to attune to."
+    },
+    "termocezione": {
+      "label": "Thermoception",
+      "mutazione_indotta": "Thermal receptors spread across the skin keep a continuous hot/cold balance of the environment and the body.",
+      "spinta_selettiva": "Read heat to survive the extremes: whoever senses temperature suffers it less.",
+      "uso_funzione": "Reduces damage from thermal attacks (fire and ice) by 1 HP.",
+      "debolezza": "The defense is thermal only: against physical or ionic damage the receptors offer no protection."
     }
   }
 }
