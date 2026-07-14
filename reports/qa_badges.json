@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-06-28T13:37:48.320348Z",
+  "generated_at": "2026-07-14T00:03:24.248947Z",
   "summary": {
-    "total_traits": 309,
-    "glossary_ok": 309,
+    "total_traits": 308,
+    "glossary_ok": 308,
     "glossary_missing": 0,
     "matrix_ok": 192,
-    "matrix_mismatch": 117,
+    "matrix_mismatch": 116,
     "with_conflicts": 28,
     "matrix_only_traits": 30
   },
   "checks": {
     "traits": {
-      "passed": 309,
-      "total": 309,
+      "passed": 308,
+      "total": 308,
       "conflicts": 28,
       "missing_glossary": 0,
-      "matrix_mismatch": 117
+      "matrix_mismatch": 116
     }
   },
   "highlights": {
