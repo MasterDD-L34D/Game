@@ -13,10 +13,12 @@ provenance:
 relevance_score: 4
 reuse_path: 'apps/backend/services/combat/reinforcementSpawner.js — leggere role_trofico da species + biome_pools per qualificare spawn pool'
 related_pillars: [P1, P3, P6]
-status: curated
+status: reviewed
+reviewed_by: 'ADR biome/species data model (issue #3302) -- il livello 3 (foodweb) entra nel modello enforced; 5 foodweb reali confermati su filesystem'
+reviewed_on: 2026-07-14
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-26
-last_verified: 2026-04-26
+last_verified: 2026-07-14
 ---
 
 # Ruoli trofici: validator-time completo, runtime zero — gap M-future
@@ -109,3 +111,17 @@ Il biomeSpawnBias usa `AFFIX_TAG_AFFINITIES` hardcoded, NON `role_trofico` da YA
 - **Python bridge DEPRECATED**: portare `trophic_roles.py` a runtime Node richiede porting (~4-6h aggiuntive). La logica è pulita Python puro, porting fattibile. Ma NON usare il bridge esistente in `runtimeValidator` per gameplay hot path — troppo lento e segnato per rimozione.
 - `role_trofico` nei `*.ecosystem.yaml` usa slug italiani (`predatore_terziario_apex`) — `ROLE_ALIASES` in `trophic_roles.py` gestisce la traduzione ma serve implementazione Node. Candidato a `troicRoleResolver.js` standalone.
 - NON promuovere trophic role enforcement a player-visible UI senza design review. È un motore di coerenza ecologica, non un sistema di progressione esplicita.
+
+---
+
+## REVIEWED -- 2026-07-14 (ADR biome/species data model, issue #3302)
+
+Status `curated` -> `reviewed`. Il **livello 3** (foodweb) entra nel modello **enforced** adottato dall'ADR.
+
+Verificato 2026-07-14: i foodweb vivono in `packs/evo_tactics_pack/data/foodwebs/` -- **5 file reali**, tra cui `cryosteppe_foodweb.yaml` e `deserto_caldo_foodweb.yaml`. La loro esistenza e' parte della prova che quei due biomi **non erano vuoti** e non andavano rimossi. Vedi [M-2026-04-26-012](worldgen-bioma-ecosistema-foodweb-network-stack.md) (**revived**).
+
+**Il claim centrale della card resta vero**: `trophic_roles.py` + `foodweb.py` restano **validator-time, runtime zero**. L'ADR adotta il modello a 4 livelli come normativo, ma **non** wira il runtime. Per questo `reviewed` e non `revived`.
+
+**Nota di allineamento**: `role_trofico` e' popolato e usato nei file specie reali (es. `echo-wing.yaml` -> `dispersore_ponte`), quindi il campo **non e' morto** -- e' letto dal validator e ignorato dal gameplay. Esattamente il gap che la card nomina.
+
+Cross-link: [M-2026-04-26-012](worldgen-bioma-ecosistema-foodweb-network-stack.md) (**revived**) - [M-2026-07-14-002](worldgen-biome-vocabularies-orphan.md).

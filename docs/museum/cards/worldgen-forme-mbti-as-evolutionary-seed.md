@@ -13,10 +13,12 @@ provenance:
 relevance_score: 4
 reuse_path: 'apps/backend/services/forms/formPackRecommender.js:101 — già operativo; gap: biome starter pack non wired in session /start'
 related_pillars: [P2, P4]
-status: curated
+status: reviewed
+reviewed_by: "ADR biome/species data model (issue #3302) -- il link bioma -> starter pack (`starter_bioma`) dipende da un modello bioma stabile, che l'ADR fornisce"
+reviewed_on: 2026-07-14
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-26
-last_verified: 2026-04-26
+last_verified: 2026-07-14
 ---
 
 # 16 Forme MBTI come seed evolutivi: d12 bias + PI pacchetti vs telemetria VC
@@ -98,3 +100,17 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null }) {
 - `starter_bioma` in pack universali è stringa, non tipo strutturato — design undefined. Serve decisione prima di wire: è un trait T1? Un item? Un affix bonus di sessione? Una sola risposta, user deve decidere.
 - `data/core/forms/mbti_forms.yaml` esiste ma non letto in questo flow — verificare se contiene info aggiuntive utili (es. biome affinity già mappata) prima di creare `biome_form_affinity.yaml` da zero.
 - NON confondere Forma (seed statico) con Forma evolved (output VC telemetria in-match). Forma iniziale ≠ Forma finale. Il biome influenza solo il punto di partenza.
+
+---
+
+## REVIEWED -- 2026-07-14 (ADR biome/species data model, issue #3302)
+
+Status `curated` -> `reviewed`. Nessun cambio di sostanza: il gap `starter_bioma` **resta aperto e non wired**.
+
+**Perche' la card viene toccata comunque**: il link _"bioma -> starter pack"_ che questa card chiede presuppone un **modello bioma stabile**. Fino a oggi non c'era: 4 fonti disallineate (`biomes.yaml` 20 chiavi / `biome_classes.yaml` 28 identita' / `biome_aliases.yaml` 18 alias di cui 4 contraddittori / 49 directory specie), con la chiave `biome_class` che significa **due cose diverse** in due file. Vedi [M-2026-07-14-003](worldgen-biome-class-key-overload.md).
+
+**Costruire `starter_bioma` prima dell'ADR sarebbe stato costruire su sabbia**: "quale bioma" non aveva una risposta unica. L'ADR fornisce il substrato; questa card diventa **eseguibile dopo**, non prima.
+
+**Precondizione aggiunta al reuse path**: attendere la chiusura di #3302 prima di progettare `biome_form_affinity.yaml`.
+
+Cross-link: [M-2026-07-14-003](worldgen-biome-class-key-overload.md) - [M-2026-04-26-012](worldgen-bioma-ecosistema-foodweb-network-stack.md) (**revived**).

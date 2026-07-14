@@ -1045,6 +1045,19 @@
       "track": "active"
     },
     {
+      "path": "docs/adr/ADR-2026-07-14-worldgen-data-model.md",
+      "title": "ADR-2026-07-14 — Worldgen data model: cos'e' un bioma, cos'e' una specie",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-07-14",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/appendici/A-CANVAS_ORIGINALE.md",
       "title": "Canvas A — Originale (A.L.I.E.N.A.)",
       "doc_status": "active",
