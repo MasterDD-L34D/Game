@@ -18102,7 +18102,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.senso_magnetico.debolezza"
     },
     "sintonia_magnetica": {
       "schema_version": "2.0",
@@ -18127,7 +18128,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.sintonia_magnetica.debolezza"
     },
     "nocicezione": {
       "schema_version": "2.0",
@@ -18151,7 +18153,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.nocicezione.debolezza"
     },
     "propriocezione": {
       "schema_version": "2.0",
@@ -18176,7 +18179,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.propriocezione.debolezza"
     },
     "equilibrio_vestibolare": {
       "schema_version": "2.0",
@@ -18200,7 +18204,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.equilibrio_vestibolare.debolezza"
     },
     "termocezione": {
       "schema_version": "2.0",
@@ -18224,7 +18229,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.termocezione.debolezza"
     },
     "matrice_antimagia": {
       "schema_version": "2.0",
@@ -18523,7 +18529,8 @@
           ],
           "weight": 1
         }
-      ]
+      ],
+      "debolezza": "i18n:traits.pigmenti_aurorali.debolezza"
     },
     "adattamento_volo": {
       "schema_version": "2.0",
@@ -18636,7 +18643,8 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": false
-      }
+      },
+      "debolezza": "i18n:traits.eco_sismico.debolezza"
     },
     "artigli_sette_vie_2": {
       "schema_version": "2.0",
