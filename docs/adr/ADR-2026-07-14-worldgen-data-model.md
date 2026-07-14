@@ -397,7 +397,41 @@ che questo repo ha appena passato un giorno a smontare.
 
 **Risoluzione adottata in `aa92afed`**: i 23 riferimenti orfani sono **preservati, non consumati**,
 sotto un campo `pending_trait_definitions:` in ogni specie (con commento). Non cancellati in
-silenzio, non fabbricati in silenzio. **Vanno autorati (Species-Curator-gated).**
+silenzio, non fabbricati in silenzio. **Vanno autorati (Trait-Curator-gated -- issue #3307).**
+
+> #### ⚠️ Aggiornamento — il numero onesto e' **13**, non 23 (verdetto Trait-Curator, verificato)
+>
+> Il Trait-Curator ha **falsificato la premessa** di questo Gap. **8 dei 23 non sono tratti**:
+> sono **marker di import** dal dataset esterno `data/external/pathfinder_bestiary_1e.json`
+> (1211 creature), che deriva meccanicamente un `genetic_traits` da un blocco `biology` di
+> booleani (`breathes: true` -> `respirazione_biologica`).
+>
+> Sulle 10 specie formano una **partizione complementare perfetta** (misurata):
+>
+> | marker                                                                                             | portato da                                                                | frequenza nel bestiario |
+> | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ----------------------- |
+> | `respirazione_biologica` · `metabolismo_attivo` · `ciclo_vitale_completo`                          | **8/8 le viventi**, 0 le altre                                            | 1052 / 1077 / 1077      |
+> | `assenza_respirazione` · `metabolismo_sostentato` · `ciclo_vitale_anomalo` · `origine_artificiale` | **2/2 le non-biologiche** (banshee `undead`, golem construct), 0 le altre | 159 / 134 / 134 / 134   |
+>
+> **Un tratto posseduto dal 100% di una classe e dallo 0% dell'altra non e' un tratto: e'
+> l'etichetta della classe.** Definirli avrebbe mosso il contatore di 8 e cambiato **nulla** --
+> la forma esatta di `M-2026-07-14-001`, stavolta **con una definizione vera come alibi**.
+>
+> L'ottavo, `fisiologia_predatoria`, e' contraddetto **tre volte** sulla `bulette-fase`:
+> `role_trofico: erbivoro_primario`, `functional_tags: [prede, detritivoro]`, e nel foodweb
+> **e' la preda** (`treant -> bulette` _herbivory_, `balor -> bulette` _predation_). Nel
+> Pathfinder la bulette e' carnivora; Evo l'ha ri-fusa come unico consumatore primario del bioma
+> e il marker d'import le e' rimasto attaccato.
+>
+> Altri **2 sono duplicati** di tratti gia' nel glossario: `sensori_chimici` ->
+> `acuita_chemorecettiva`, `voce_spettrale` -> `voce_imperiosa` (entrambi verificati esistenti).
+>
+> **Verdetto: 13 da creare · 2 duplicati · 8 riferimenti da togliere.**
+> Proposta (non applicata): `docs/planning/traits_rovine_planari_proposal.md`.
+>
+> Nota: gli stessi `adattamento_volo` / `adattamento_acquatico` vengono da quel vocabolario
+> d'import, e sono **gli unici due mai promossi a tratto vero**. La promozione e' possibile --
+> ma e' una decisione, non un automatismo.
 
 I 23: `assenza_respirazione`, `campo_di_fase`, `ciclo_vitale_anomalo`, `ciclo_vitale_completo`,
 `fisiologia_predatoria`, `fotosintesi_bifase`, `ghiandole_nettare_memetico`,
