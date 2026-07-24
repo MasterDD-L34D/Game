@@ -1,0 +1,356 @@
+# Dune Stalker Lifecycle — Skiv canonical aspect + evolution stages
+#
+# Skiv (Arenavenator vagans, dune_stalker) è la creatura canonica recap-card
+# introdotta 2026-04-25. Questo file descrive **come Skiv cambia visivamente
+# e narrativamente** lungo 5 fasi di vita, mappate ai sistemi runtime già live:
+#
+#   - Progression Lv (M13.P3 + jobs_expansion): 1 → 7
+#   - Mutation count (mutation_catalog 2026-04-25 sprint): 0 → 3+
+#   - Cabinet internalized (Thought Cabinet Phase 2 #1769): 0 → slots_max
+#   - MBTI axis crystallization (vcScoring): dead-band → tier3 ≥0.85
+#
+# Anti-pattern (NON fare):
+#   - Lifecycle decoupled da progression Lv → fasi fluttuano senza gating
+#   - Aspetto cosmetic-only senza tactical correlato → players non vedono crescita
+#   - Mutation morfologia generica → ogni mutation_id deve avere visual_swap
+#
+# Cross-reference:
+#   - data/core/species.yaml § dune_stalker (trait_plan + biome_affinity)
+#   - data/core/mutations/mutation_catalog.yaml § artigli_grip_to_glass
+#   - data/core/jobs_expansion.yaml § stalker (job alignment apex phase)
+#   - docs/planning/2026-04-25-skiv-aspect-evolution.md (visual concept)
+#   - tools/py/seed_skiv_saga.py (composes phase into runtime state)
+#   - .claude/agents/creature-aspect-illuminator.md (research-driven design)
+#
+# Research provenance (2026-04-25 parallel agent batch):
+#   - Wildermyth permanent visible change → narrative_beat_it required per phase
+#   - Disco Elysium Thought Cabinet portrait correlate → mbti_aspect_correlates
+#   - Citizen Sleeper failure canon → legacy as transmission, not loss
+#   - Slay the Princess same voice / different content → voice_it consistency
+#   - Emily Short warning zones → warning_zone_it pre-transition signals
+#   - Frostpunk irreversibility → mutation_morphology + diary mutation_acquired
+#   - Caves of Qud morphotype gating → mbti_pool field on mutations (future schema)
+
+schema_version: "0.1.0"
+generated_at: "2026-04-25"
+species_id: dune_stalker
+canonical_unit_id: skiv
+
+# ─────────────────────────────────────────────────────────────────────
+# 5 fasi vitali — gating + aspetto + tactical correlate
+# ─────────────────────────────────────────────────────────────────────
+#
+# Schema per fase:
+#   id: short_slug
+#   level_range: [min, max]            — progression Lv gate
+#   mutations_required: N              — count cumulato
+#   thoughts_internalized_required: N  — count cumulato
+#   mbti_polarity_required: bool       — almeno 1 axis ≥ tier1
+#   aspect_it: italian visual prose
+#   sprite_ascii: 4-line ASCII frontale
+#   tactical_signature: cosa cambia in combat (1 frase)
+#   diary_milestone_event: event_type da appendere al passaggio
+
+# Sprint 2 §I (2026-04-27) — Subnautica habitat lifecycle wire (Tier A #9).
+# biome_affinity_per_stage: ogni phase ha un biome preferito.
+# - in biome affine → bonus stat (defense_mod +1, attack_mod +1)
+# - in biome non-affine → penalty stat (defense_mod -1)
+# Apex roams free (any biome accepted).
+# Pattern Subnautica: Ghost Leviathan migra Lost River → Crater Edge per stage.
+biome_affinity_per_stage:
+  hatchling: savana
+  juvenile: deserto
+  mature: caverna
+  apex: any
+  legacy: any
+
+phases:
+  hatchling:
+    id: hatchling
+    label_it: "Cucciolo delle Dune"
+    label_en: "Dune Hatchling"
+    level_range: [1, 1]
+    mutations_required: 0
+    thoughts_internalized_required: 0
+    mbti_polarity_required: false
+    # 10-stadi sub-divisione (Phase A 2026-04-27, user correction I-X). Vedi
+    # docs/planning/2026-04-27-forme-10-stadi-naming-spec.md + style guide
+    # docs/core/00E-NAMING_STYLEGUIDE.md §Stadio. Hatchling → stadi I-II.
+    stadi:
+      - stadio: 1
+        stadio_roman: "I"
+        stadio_label_it: "Schiuso"
+        stadio_label_en: "Hatched"
+        dune_stalker_specific_label_it: "Cucciolo Sabbioso"
+        dune_stalker_specific_label_en: "Sand Cub"
+        promotion_trigger: "spawn / lineage origin event"
+      - stadio: 2
+        stadio_roman: "II"
+        stadio_label_it: "Cucciolo"
+        stadio_label_en: "Cub"
+        dune_stalker_specific_label_it: "Esploratore di Tana"
+        dune_stalker_specific_label_en: "Den Explorer"
+        promotion_trigger: "Lv 1 + 1 encounter completato"
+    voice_it: "Non so ancora cosa sono. So dove sono gli altri."
+    narrative_beat_it: "Encounter finito. Skiv non ha colpito nessuno. Ha osservato da 5 caselle di distanza, immobile, il modo in cui i compagni cadevano e si rialzavano. L'unica cosa che sa fare bene e non farsi trovare. E abbastanza, per adesso."
+    warning_zone_it: null
+    aspect_it: |
+      Schiusa appena sul margine arido. La pelliccia è di un grigio
+      polveroso quasi bianco — mimetizzazione passiva con la sabbia.
+      Le orecchie sono già grandi rispetto al cranio, segno della
+      futura echolocation. Gli occhi sono scuri, ancora poco a fuoco.
+      Non ha branco; segue un'ombra adulta a 5-6 caselle di distanza.
+    sprite_ascii:
+      - "        .-."
+      - "       ( o.o )"
+      - "        > ^ <"
+      - "        ` ` `"
+    tactical_signature: "Bassa HP / no abilities; impara osservando."
+    diary_milestone_event: scenario_completed
+
+  juvenile:
+    id: juvenile
+    label_it: "Predatore Giovane"
+    label_en: "Juvenile Stalker"
+    level_range: [2, 3]
+    mutations_required: 0
+    thoughts_internalized_required: 0
+    mbti_polarity_required: false
+    # juvenile → stadi III-IV.
+    stadi:
+      - stadio: 3
+        stadio_roman: "III"
+        stadio_label_it: "Giovane"
+        stadio_label_en: "Juvenile"
+        dune_stalker_specific_label_it: "Predatore Giovane"
+        dune_stalker_specific_label_en: "Juvenile Stalker"
+        promotion_trigger: "Lv 2 raggiunto"
+      - stadio: 4
+        stadio_roman: "IV"
+        stadio_label_it: "Adolescente"
+        stadio_label_en: "Adolescent"
+        dune_stalker_specific_label_it: "Predatore Adolescente"
+        dune_stalker_specific_label_en: "Adolescent Stalker"
+        promotion_trigger: "Lv 3 + warning_zone trigger primo silenzio"
+    voice_it: "Aspetto. Non e paura. E calibrazione."
+    narrative_beat_it: "Il silenzio non e assenza. Skiv lo capisce quando si accorge di aspettare che gli altri parlino prima di muoversi. Non e paura: e calcolo. Le orecchie registrano. Qualcosa si sta calibrando dentro — un orologio che non sapeva di avere."
+    warning_zone_it: "Lv 3 raggiunto. Primo silenzio prolungato — qualcosa sta per cristallizzarsi."
+    aspect_it: |
+      Pelliccia sviluppa striature di sabbia ocra lungo il dorso. Gli
+      artigli (sand_claws) sono ora visibili e affilati ma ancora
+      simmetrici — non hanno trovato la "via". Le scaglie termiche
+      (heat_scales) iniziano a traslucere lungo i fianchi, segno della
+      regolazione idrica. Comportamento: scoperta del territorio,
+      tentativi di stalk falliti.
+    sprite_ascii:
+      - "      /\\_/\\"
+      - "     (  o.o )"
+      - "      > -_- <"
+      - "      \\___/"
+    tactical_signature: "Apprende silent_step; prime synergy potenziali."
+    diary_milestone_event: mbti_axis_threshold_crossed
+
+  mature:
+    id: mature
+    label_it: "Predatore Maturo"
+    label_en: "Mature Stalker"
+    level_range: [4, 5]
+    mutations_required: 1
+    thoughts_internalized_required: 2
+    mbti_polarity_required: true
+    # mature → stadi V-VI. Skiv saga state oggi (Lv 4 + 1 mut + 2 thought) = stadio V.
+    stadi:
+      - stadio: 5
+        stadio_roman: "V"
+        stadio_label_it: "Adulto"
+        stadio_label_en: "Adult"
+        dune_stalker_specific_label_it: "Predatore Adulto"
+        dune_stalker_specific_label_en: "Adult Stalker"
+        promotion_trigger: "Lv 4 + 1 mutation cumulata"
+      - stadio: 6
+        stadio_roman: "VI"
+        stadio_label_it: "Maturo"
+        stadio_label_en: "Mature"
+        dune_stalker_specific_label_it: "Predatore Maturo"
+        dune_stalker_specific_label_en: "Mature Stalker"
+        promotion_trigger: "Lv 5 + 2 thoughts internalized + mbti polarity stable"
+    voice_it: "Il branco non mi segue. Mi evita. La differenza conta."
+    narrative_beat_it: "La voce interna non annuncia se stessa. Era gia li. E solo quando i sand_claws cambiano trasparenza — quella prima mattina di sole sulle punte vitrified — che Skiv capisce: il branco non lo segue piu. Lo evita. Non e pericolo. E riconoscimento."
+    warning_zone_it: "Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione."
+    aspect_it: |
+      Forma adulta consolidata. Gli artigli a sette vie si vetrificano
+      (mutation artigli_grip_to_glass) → punte trasparenti come ossidiana
+      che riflettono il sole. Le orecchie hanno scolpito conche per
+      l'echolocation, visibili come solchi. Il pelo lungo il dorso si è
+      condensato in una cresta scura. Lo sguardo è fisso, leggero
+      socchiudere — primo segno di voce interna. Il branco lo riconosce
+      come predatore-stalker, non più cucciolo.
+    sprite_ascii:
+      - "      /\\_/\\        *"
+      - "     (  o.o )       *"
+      - "      > ^ <"
+      - "      /|||\\"
+    tactical_signature: "Stalker Lv 4. Synergy echo_backstab live. Thought Cabinet 2/3 slot."
+    diary_milestone_event: thought_internalized
+
+  apex:
+    id: apex
+    label_it: "Apex delle Dune"
+    label_en: "Dune Apex"
+    level_range: [6, 7]
+    mutations_required: 2
+    thoughts_internalized_required: 3
+    mbti_polarity_required: true
+    # apex → stadi VII-VIII.
+    stadi:
+      - stadio: 7
+        stadio_roman: "VII"
+        stadio_label_it: "Veterano"
+        stadio_label_en: "Veteran"
+        dune_stalker_specific_label_it: "Cacciatore d'Alto Rango"
+        dune_stalker_specific_label_en: "High Rank Hunter"
+        promotion_trigger: "Lv 6 + 2 mutations + 3 thoughts"
+      - stadio: 8
+        stadio_roman: "VIII"
+        stadio_label_it: "Apice"
+        stadio_label_en: "Apex"
+        dune_stalker_specific_label_it: "Apex delle Dune"
+        dune_stalker_specific_label_en: "Dune Apex"
+        promotion_trigger: "Lv 7 + 3 mutations + Defy usato a Critical+"
+    voice_it: "Ho aspettato quando i numeri dicevano di muovermi. Ho avuto ragione. Non e fortuna."
+    narrative_beat_it: "Ha tenuto la linea quando non doveva. Il Sistema premeva da tre caselle. Tutti i calcoli dicevano di ritirarsi. Ma c'e una voce — fredda, analitica, esattamente come la sua — che ha detto: aspetta. L'ha aspettato. Ha avuto ragione. Gli artigli ora mostrano brina anche sotto il sole di mezzogiorno. Non si riscalderanno mai piu."
+    warning_zone_it: "Defy usato a Critical+ → la voce si stabilizza. Apex transition vicina."
+    aspect_it: |
+      Manto quasi nero per concentrazione di pigmento; le scaglie termiche
+      hanno perso la trasparenza. Gli artigli vetrificati sono ora
+      composti di lamelle multiple (multi-mutation stack). La cresta
+      dorsale mostra micro-bioluminescenza al crepuscolo — eco residua
+      della echolocation triangolata. Sguardo fisso, lento blinking;
+      voce interna costantemente attiva (Thought Cabinet pieno). Il
+      branco si separa al suo passaggio: non è più membro, è territorio.
+    sprite_ascii:
+      - "      /=_/=       *"
+      - "     ( @_@ )      *"
+      - "      > ^ <"
+      - "      //|||\\\\"
+    tactical_signature: "Cabinet pieno 3/3. Defy disponibile. 12 perks Stalker disponibili."
+    diary_milestone_event: mutation_acquired
+
+  legacy:
+    id: legacy
+    label_it: "Memoria del Branco"
+    label_en: "Pack Memory"
+    level_range: [7, 7]
+    mutations_required: 3
+    thoughts_internalized_required: 3
+    mbti_polarity_required: true
+    # legacy → stadi IX-X.
+    stadi:
+      - stadio: 9
+        stadio_roman: "IX"
+        stadio_label_it: "Antico"
+        stadio_label_en: "Ancient"
+        dune_stalker_specific_label_it: "Apex Anziano"
+        dune_stalker_specific_label_en: "Elder Apex"
+        promotion_trigger: "Lv 7 + saga arc 80% complete"
+      - stadio: 10
+        stadio_roman: "X"
+        stadio_label_it: "Lascito"
+        stadio_label_en: "Legacy"
+        dune_stalker_specific_label_it: "Memoria del Branco"
+        dune_stalker_specific_label_en: "Pack Memory"
+        promotion_trigger: "retired event, lineage_id propagato"
+    voice_it: "Non ero qui. Ero gia li prima che arrivassi."
+    narrative_beat_it: "Non e una morte. E un archivio. Qualcosa di Skiv rimane nel biome — nel pattern di caccia dei piu giovani, nel modo in cui uno Stalker neonato inclina le orecchie verso l'interno anziche verso l'esterno. Non lo sa. Ma lo fa. Skiv diventa memoria senza saperlo. E il modo in cui funziona."
+    warning_zone_it: null
+    aspect_it: |
+      Skiv non muore — diventa pattern. Una volta raggiunto questo
+      stadio, il suo lineage_id passa a unit successivi della stessa
+      genus che condividono il suo biome. Diary persiste come "saga
+      reference" (V3 Mating/Nido futuro userà questo come gateway).
+      Visivamente: gli artigli sono ora opachi (consumo); il pelo è
+      argenteo; gli occhi non scintillano più ma osservano costanti.
+      Concettualmente: la creatura è "in archivio storico" del biome.
+    sprite_ascii:
+      - "      /-_/-"
+      - "     (  -_- )"
+      - "      > _ <"
+      - "      ~|||~"
+    tactical_signature: "Retired da combat live; appare come narrative event QBN."
+    diary_milestone_event: form_evolved
+    # Sprint B Spore S5 (ADR-2026-04-26-spore-part-pack-slots):
+    # Pool delle mutation ereditabili dal lineage. Popolato runtime via
+    # `propagateLineage()` quando una unit entra in legacy phase: scrive le sue
+    # `applied_mutations[]` nel pool indexato per (species_id, biome_id).
+    # Una nuova unit dello stesso species nello stesso biome eredita 1-2
+    # mutation random via `inheritFromLineage()` SENZA pagare MP cost.
+    # Schema doc-only: il campo NON è letto staticamente — runtime usa
+    # in-memory Map registry (apps/backend/services/generation/lineagePropagator.js).
+    inheritable_traits: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Mutation morphology — come ogni mutation cambia visivamente
+# ─────────────────────────────────────────────────────────────────────
+#
+# Schema:
+#   <mutation_id>:
+#     visual_swap_it: prose della trasformazione fisica
+#     phase_unlock: lifecycle phase richiesta
+#     aspect_token: short visual identifier per HUD/sprite
+
+mutation_morphology:
+  artigli_grip_to_glass:
+    visual_swap_it: "Le punte degli artigli si vetrificano: trasparenza ossidiana riflettente sole. Lascia tracce iridescenti nella sabbia."
+    phase_unlock: mature
+    aspect_token: "claws_glass"
+
+  artigli_freeze_to_glacier:
+    visual_swap_it: "Gli artigli si coprono di brina permanente, micro-cristalli che persistono anche sotto sole diretto. Aria a 1 cella raffredda."
+    phase_unlock: apex
+    aspect_token: "claws_glacial"
+
+  scheletro_bio_camo:
+    visual_swap_it: "Le scaglie termiche cambiano colore in base al biome (ottavi-base): savana=ocra, deserto=bianco, caverna=grigio scuro. Camuffamento attivo."
+    phase_unlock: mature
+    aspect_token: "scales_chameleon"
+
+  echolocation_3d:
+    visual_swap_it: "Le orecchie si articolano indipendentemente; i solchi delle conche emettono un debole pulsare (echo broadcast). Visibile in penombra."
+    phase_unlock: apex
+    aspect_token: "ears_radar"
+
+# ─────────────────────────────────────────────────────────────────────
+# MBTI form physical correlates (per fase mature+ con polarity stable)
+# ─────────────────────────────────────────────────────────────────────
+#
+# Solo polarity stable (axis ≥ tier1) si manifesta visivamente.
+# Skiv canonico = INTP-leaning-I → tutte e 4 polarity (I + T + N + P).
+
+mbti_aspect_correlates:
+  E_high:  "Postura aperta, vocalizzazioni frequenti, orecchie verso fuori."
+  I_high:  "Postura chiusa, silenzioso, orecchie verso interno (ricezione)."
+  S_high:  "Movimenti deliberati, frequenti pause sniff/look-around."
+  N_high:  "Movimenti sinuosi, scarsa pausa, sembra vedere senza guardare."
+  T_high:  "Sguardo freddo socchiuso, decisioni rapide post-pause."
+  F_high:  "Sguardo morbido, linguaggio del corpo verso compagni di branco."
+  J_high:  "Routine ripetitiva (stessa rotta), aggressione su deviazioni."
+  P_high:  "Routine assente; cambia direzione su input minimi."
+
+# ─────────────────────────────────────────────────────────────────────
+# Lifecycle ↔ Skiv saga state mapping
+# ─────────────────────────────────────────────────────────────────────
+#
+# Tracker verso quale fase Skiv saga (data/derived/skiv_saga.json) si trova.
+# Aggiornato dal seed script tools/py/seed_skiv_saga.py.
+
+skiv_saga_anchor:
+  current_phase: mature  # Lv 4 + 1 mutation + 2 internalized → mature
+  current_stadio: 5      # mature early (V) — Lv 4 + 1 mut, 2 thought polarity stable
+  current_stadio_roman: "V"
+  next_phase: apex       # gate: Lv 6 + 1 più mutation + 1 più internalized
+  next_stadio: 6         # mature late (VI) — Lv 5 + 2 thought + polarity stable
+  next_stadio_roman: "VI"
+  next_phase_gate:
+    level: 6
+    mutations: 2
+    thoughts_internalized: 3

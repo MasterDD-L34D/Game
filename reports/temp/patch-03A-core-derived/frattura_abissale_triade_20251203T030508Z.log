@@ -1,0 +1,23 @@
+\n==> Schema + coherence checks
+Frattura Abissale Sinaptica: validazioni passate
+[OK] Schema + coherence checks
+\n==> Trait style check
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> style:check
+> node scripts/trait_style_check.js
+
+Trait style: 5 suggerimenti (error=4, warning=1, info=0) su 252 file
+  - [ERROR] coscienza_dalveare_diffusa /label :: Allinea `label` al namespace i18n del tratto (i18n:traits.coscienza_dalveare_diffusa....).
+  - [ERROR] coscienza_dalveare_diffusa /mutazione_indotta :: Allinea `mutazione_indotta` al namespace i18n del tratto (i18n:traits.coscienza_dalveare_diffusa....).
+  - [ERROR] coscienza_dalveare_diffusa /spinta_selettiva :: Allinea `spinta_selettiva` al namespace i18n del tratto (i18n:traits.coscienza_dalveare_diffusa....).
+  - [ERROR] coscienza_dalveare_diffusa /uso_funzione :: Allinea `uso_funzione` al namespace i18n del tratto (i18n:traits.coscienza_dalveare_diffusa....).
+  - [WARNING] coscienza_dalveare_diffusa /debolezza :: Allinea `debolezza` al namespace i18n del tratto (i18n:traits.coscienza_dalveare_diffusa....).
+[FAIL] Trait style check (exit 1)
+\n==> Trait evaluate (read-only output)
+Report JSON generato in: /tmp/frattura_abissale_traits_eval.json
+Report CSV generato in: /tmp/frattura_abissale_traits_eval.csv
+[OK] Trait evaluate (read-only output)
+\n==> Trait index sync (dry-run)
+Trait aggiunti al glossario: 0
+[OK] Trait index sync (dry-run)

@@ -1,0 +1,24 @@
+# Sprint δ Meta Systemic — seed event chain (Stellaris pattern).
+# Placeholder text. D4 writer commission deferred.
+chain_id: caverna_mystery_chain
+description_it: |
+  Catena mistero in caverna. Branching condizionato su asse J_P (planning vs improvising).
+events:
+  - id: enter
+    text_it: "L'oscurità della caverna inghiotte la luce esterna. Echi remoti suggeriscono profondità."
+    text_en: "The cave's darkness swallows external light. Distant echoes suggest depth."
+    condition: null
+    next_event_id: pause_or_rush
+  - id: pause_or_rush
+    text_it: "Ti fermi a calibrare. Una mappa mentale prende forma."
+    text_en: "You pause to calibrate. A mental map takes shape."
+    condition:
+      vc_axis: J_P
+      threshold: 0.0
+      op: '>'
+    next_event_id: discovery
+  - id: discovery
+    text_it: "Una camera nascosta si apre. Sul pavimento, segni antichi."
+    text_en: "A hidden chamber opens. Ancient signs on the floor."
+    condition: null
+    next_event_id: null

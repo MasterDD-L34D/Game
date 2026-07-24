@@ -1,0 +1,67 @@
+# Encounter: "Bocche Vulcaniche -- Muro di Lava" (deserto_caldo)
+# Esercita la move terrain-cost substrate: muro full-height lava(x=3)+roccia(x=4)
+# su 8x8 -> nessuna deviazione. I volatori graduati lo attraversano (g1 paga ancora
+# la lava, g2 la dimezza, g3 la azzera); i terrestri pagano il muro pieno.
+# Il flag MOVE_TERRAIN_COST_ENABLED resta OFF -> band-neutral (Manhattan).
+# Il roster AI-giocato vive in services/worldgen/desertoCaldoHazardScenario.js
+# (le waves qui sono flavour/objective per il path encounter_id loadable).
+# Schema: schemas/evo/encounter.schema.json (grid.terrain_features est. 2026-06-29)
+encounter_id: enc_deserto_caldo_bocche_vulcaniche_01
+name: 'Bocche Vulcaniche -- Muro di Lava'
+biome_id: deserto_caldo
+grid_size: [8, 8]
+difficulty_rating: 2
+encounter_class: standard
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 2]
+  - [0, 3]
+  - [0, 4]
+  - [0, 5]
+
+grid:
+  width: 8
+  height: 8
+  terrain_features:
+    - { x: 3, y: 0, type: lava, defense_mod: 0 }
+    - { x: 3, y: 1, type: lava, defense_mod: 0 }
+    - { x: 3, y: 2, type: lava, defense_mod: 0 }
+    - { x: 3, y: 3, type: lava, defense_mod: 0 }
+    - { x: 3, y: 4, type: lava, defense_mod: 0 }
+    - { x: 3, y: 5, type: lava, defense_mod: 0 }
+    - { x: 3, y: 6, type: lava, defense_mod: 0 }
+    - { x: 3, y: 7, type: lava, defense_mod: 0 }
+    - { x: 4, y: 0, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 1, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 2, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 4, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 5, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 6, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 7, type: roccia, defense_mod: 2 }
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [7, 3]
+      - [7, 4]
+    units:
+      - species: aurora_gull
+        count: 1
+        tier: base
+        ai_profile: aggressive
+      - species: rust-scavenger
+        count: 2
+        tier: base
+        ai_profile: defensive
+
+conditions: []
+tags: [standard]
+
+didactic_focus:
+  - move_terrain_cost
+  - volo_traversal

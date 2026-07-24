@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "sensoriale"
+      ]
+    }
+  },
+  "traits": [
+    "ali_fulminee",
+    "antenne_plasmatiche_tempesta",
+    "antenne_waveguide",
+    "baffi_mareomotori",
+    "branchie_eoliche",
+    "capillari_fluoridici",
+    "cavita_risonanti_tundra",
+    "cervelletto_equilibrio_statico",
+    "coda_balanciere",
+    "cuore_multicamera_bassa_pressione",
+    "echi_risonanti",
+    "eco_interno_riflesso",
+    "filamenti_superconduttivi",
+    "ghiandole_eco_mappanti",
+    "ghiandole_resina_conduttiva",
+    "lamine_scudo_silice",
+    "lingua_tattile_trama",
+    "midollo_antivibrazione",
+    "occhi_infrarosso_composti",
+    "olfatto_risonanza_magnetica",
+    "sensori_geomagnetici"
+  ],
+  "type": "sensoriale"
+}

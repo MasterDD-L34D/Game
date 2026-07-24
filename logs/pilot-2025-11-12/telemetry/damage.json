@@ -1,0 +1,43 @@
+{
+  "session_id": "pilot-2025-11-12-bal05",
+  "scenario": "BAL-05",
+  "seed": "siege-042",
+  "timestamp_utc": "2025-11-12T10:58:32Z",
+  "waves": [
+    {
+      "wave": 1,
+      "duration_sec": 125,
+      "squad_dps": 11320,
+      "target_dps": 11000,
+      "damage_taken": 8200
+    },
+    {
+      "wave": 2,
+      "duration_sec": 132,
+      "squad_dps": 11840,
+      "target_dps": 11500,
+      "damage_taken": 7900
+    },
+    {
+      "wave": 3,
+      "duration_sec": 140,
+      "squad_dps": 12210,
+      "target_dps": 12000,
+      "damage_taken": 7700
+    },
+    {
+      "wave": 4,
+      "duration_sec": 152,
+      "squad_dps": 12850,
+      "target_dps": 12600,
+      "damage_taken": 7600
+    },
+    {
+      "wave": 5,
+      "duration_sec": 148,
+      "squad_dps": 12920,
+      "target_dps": 12800,
+      "damage_taken": 7450
+    }
+  ]
+}

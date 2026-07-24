@@ -1,0 +1,191 @@
+# =============================================================================
+# Encounter: "La Dorsale Ferrosa" -- primo encounter GRANDE (big-maps arc, D1)
+# Difficulty: 4/5 - Grid: 16x12 AUTORATA (board_scale: grid_sized, ADR-2026-07-03)
+# Bioma: badlands - Objective: elimination + time_limit (nodo difendibile, sez. B3)
+#
+# SCOPO: primo encounter che opta `board_scale: grid_sized` -- rende OSSERVABILE
+#   il wiring fase-2c (#3199). La board giocata = 16x12 (192 celle), non piu'
+#   party fill-ratio. Re-ratify OBBLIGATORIA (L-069): N=10 probe -> N=40 ratify
+#   via tools/sim/dorsale-ferrosa-band-probe.js; baseline aggiornata solo
+#   post-evidence (data/core/balance/grid_ratify_baseline.json).
+#
+# DESIGN (principi densita' -- ricerca big-map 2026-07-03 sez. 3 + decisioni
+#   D1-D10; spec geometry-gate sez. B3). Tutti i valori sono PROPOSED (SDMG):
+#   il verdetto e' dei numeri del ratify, non del design.
+#   - POCHI nodi difendibili, non terrain uniforme: 3 strutture (gola ovest,
+#     dorsale centrale, plateau est) = 36 celle tipizzate su 192 (~19%).
+#   - Chokepoint LOS-REALI: COMBAT_LOS_ENABLED e' default ON (#3226) -- roccia e
+#     vegetazione_densa spezzano le sightline (data/core/balance/los.yaml);
+#     il repositioning prod e' step (budget 1). NOTA onesta: i blocker sono
+#     LOS-real OGGI; il costo-movimento per-tile resta dietro
+#     MOVE_TERRAIN_COST_ENABLED (OFF) -> lava/sabbia = forward-compat inerte.
+#   - Spawn-zone curate (Descent/Imperial Assault): reinforcement_entry_tiles
+#     ai fianchi est/nord/sud, MAI alle spalle del party (fairness, Manhattan
+#     min_distance_from_pg 4). Wave-close: max_total_spawns 6 = valvola finita.
+#   - Objective density (no dead-time): elimination del pack che presidia la
+#     dorsale + time_limit 30 anti-turtle. NOTA misurata (probe c1-c4): la
+#     variante capture_point e' ceiling strutturale finche' il dial
+#     intents_per_round non scala (follow-up quando l'AI difende una zona).
+#
+# CALIBRAZIONE: la difficolta' harness vive nella WAVE 1 (il probe espande solo
+#   la wave a turn_trigger minimo, tier table base hp7/elite hp10/apex hp14) +
+#   reinforcementSpawner live in-sessione (pressure Escalated nel probe).
+#   Evidence -> docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md
+#
+# Schema: schemas/evo/encounter.schema.json (board_scale additivo #3199)
+# ADR: ADR-2026-07-03-authored-grid-board-scale (opt-in grid_sized)
+# =============================================================================
+
+encounter_id: enc_badlands_dorsale_ferrosa_01
+name: 'La Dorsale Ferrosa'
+biome_id: badlands
+grid_size: [16, 12]
+board_scale: grid_sized
+difficulty_rating: 4
+pressure_tier_floor: 3
+encounter_class: standard
+
+# ELIMINATION con time_limit (anti-turtle). Le iterazioni capture_point c1-c4
+# del probe hanno misurato ceiling strutturale (WR 1.0, 0 KO, zero varianza
+# cross-seed): il dial intents_per_round (sessionHelpers TIERS, 2-3 azioni
+# sistema/round GLOBALI) non scala con board/roster -> un hold su board grande
+# non e' contestabile dall'AI odierna. Il layout anchor/chokepoint resta; la
+# variante capture torna quando l'AI sa difendere una zona (follow-up).
+objective:
+  type: elimination
+  loss_conditions:
+    time_limit: 30
+    player_wipe: true
+
+player_spawn:
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+  - [1, 6]
+
+# Terreno: 3 nodi difendibili + screen. roccia = blocca LOS (e' anche il muro
+# futuro a flag move ON); vegetazione_densa = screen LOS attraversabile;
+# lava = hazard forward-compat (inerte a flag OFF, NON flipparlo qui).
+grid:
+  width: 16
+  height: 12
+  terrain_features:
+    # --- Gola ovest (choke A, x=4): muro con gate a y=5-6 ---
+    - { x: 4, y: 0, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 1, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 2, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 4, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 7, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 9, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 10, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 11, type: roccia, defense_mod: 2 }
+    # bocche laviche al lato ovest del gate (punisci-la-sosta, forward-compat)
+    - { x: 3, y: 4, type: lava, defense_mod: 0 }
+    - { x: 3, y: 7, type: lava, defense_mod: 0 }
+    # screen d'uscita del gate (LOS rotta uscendo, fairness anti-focus)
+    - { x: 5, y: 5, type: vegetazione_densa, defense_mod: 1 }
+    - { x: 5, y: 6, type: vegetazione_densa, defense_mod: 1 }
+    # --- Dorsale centrale (choke B, x=8-9): speroni nord/sud, gap y=4-7 ---
+    - { x: 8, y: 0, type: roccia, defense_mod: 2 }
+    - { x: 8, y: 1, type: roccia, defense_mod: 2 }
+    - { x: 8, y: 2, type: roccia, defense_mod: 2 }
+    - { x: 8, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 9, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 9, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 9, y: 9, type: roccia, defense_mod: 2 }
+    - { x: 9, y: 10, type: roccia, defense_mod: 2 }
+    - { x: 9, y: 11, type: roccia, defense_mod: 2 }
+    - { x: 8, y: 8, type: roccia, defense_mod: 2 }
+    # pozze laviche nel gap (routing decision, forward-compat)
+    - { x: 9, y: 5, type: lava, defense_mod: 0 }
+    - { x: 8, y: 6, type: lava, defense_mod: 0 }
+    # screen di approccio al plateau
+    - { x: 10, y: 4, type: vegetazione_densa, defense_mod: 1 }
+    - { x: 10, y: 7, type: vegetazione_densa, defense_mod: 1 }
+    # --- Plateau est (anchor, rim attorno alla zona [12,4,14,7]) ---
+    - { x: 11, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 12, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 13, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 11, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 12, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 13, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 14, y: 3, type: vegetazione_densa, defense_mod: 1 }
+    - { x: 14, y: 8, type: vegetazione_densa, defense_mod: 1 }
+
+# Wave unica iniziale (il probe espande questa); la pressione nel tempo viene
+# dal reinforcementSpawner (pool + entry tiles), non da waves scriptate.
+# POCHI-FORTI-VICINI (misurato c1-c4): col dial intents_per_round globale, un
+# roster sistema grande resta idle (2/13 attivi = 15%); 3 unita' = 2/3 attive.
+# Il pack presidia la dorsale/gap centrale e intercetta il crossing sotto gli
+# screen LOS. Ordine spawn_points = espansione harness 1:1 (apex -> sp[0];
+# echo x2 -> sp[1],sp[2]).
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [11, 5]
+      - [9, 4]
+      - [9, 7]
+    units:
+      - species: dune-stalker
+        count: 1
+        tier: apex
+        ai_profile: aggressive_with_stickiness
+      - species: echo-wing
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+
+# Push-economy (sez. 3.3): budget per-round via tier pressione (Alert=1,
+# Escalated=2), cooldown 3 round, cap totale 4 = wave FINITA (valvola Gears --
+# elimination resta chiudibile entro il time_limit, niente attrito infinito).
+reinforcement_pool:
+  - unit_id: rust-scavenger
+    weight: 3
+    max_spawns: 3
+    hp: 7
+    mod: 2
+    dc: 11
+    ai_profile: aggressive
+  - unit_id: echo-wing
+    weight: 1
+    max_spawns: 1
+    hp: 10
+    mod: 3
+    dc: 12
+    ai_profile: flanking
+
+# Spawn-zone curate: fianchi est (dietro il plateau) + creste nord/sud oltre
+# la dorsale. MAI il quadrante ovest del party.
+reinforcement_entry_tiles:
+  - [14, 0]
+  - [14, 11]
+  - [10, 0]
+  - [10, 11]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 3
+  max_total_spawns: 4
+  min_distance_from_pg: 4
+
+conditions: []
+
+tags: [standard, timed]
+
+didactic_focus:
+  - los_cover_routing
+  - assault_routing
+  - reinforcement_pressure
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca
+  accent_override: '#a34d28'

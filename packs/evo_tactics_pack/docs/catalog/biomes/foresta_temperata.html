@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Report foresta_temperata</title>
+<style>
+body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:24px;color:#222}
+h1,h2{margin:8px 0} .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:10px 0}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#3730a3;margin-right:6px;font-size:12px}
+.small{font-size:12px;color:#6b7280} .fw{width:100%;height:auto;border:1px dashed #e5e7eb;border-radius:10px;background:#fafafa;margin-top:8px}
+table{border-collapse:collapse;width:100%} td,th{border:1px solid #e5e7eb;padding:6px} th{background:#f8fafc}
+</style></head><body>
+<h1>Report Bioma — foresta_temperata</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Manifest</h2>
+    <div>
+      <span class="badge">Apex: 1</span>
+      <span class="badge">Keystone: 2</span>
+      <span class="badge">Bridge: 1</span>
+      <span class="badge">Threat: 1</span>
+      <span class="badge">Event: 1</span>
+    </div>
+    <div class="small">Functional groups: ['patogeno', 'pulse_climatico', 'specie_chiave']</div>
+  </div>
+  <div class="card">
+    <h2>Foodweb</h2>
+    <div class="small">File: <a href="../../../data/foodwebs/foresta_temperata_foodweb.yaml">data/foodwebs/foresta_temperata_foodweb.yaml</a> · <a href="../foodweb_png/foresta_temperata.png">PNG</a></div>
+    <svg viewBox='0 0 240 240' class='fw'>
+<line x1='210.0' y1='120.0' x2='165.0' y2='197.9' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='165.0' y1='197.9' x2='75.0' y2='197.9' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='165.0' y1='42.1' x2='30.0' y2='120.0' stroke='#555' stroke-width='2' opacity='0.85' />
+<circle cx='210.0' cy='120.0' r='6' fill='#2c3e50'/>
+<text x='218.0' y='124.0' font-size='9' fill='#2c3e50'>produttori_base</text>
+<circle cx='165.0' cy='197.9' r='6' fill='#2c3e50'/>
+<text x='173.0' y='201.9' font-size='9' fill='#2c3e50'>HERB_CERVO</text>
+<circle cx='75.0' cy='197.9' r='6' fill='#2c3e50'/>
+<text x='83.0' y='201.9' font-size='9' fill='#2c3e50'>PRED_LUPO</text>
+<circle cx='30.0' cy='120.0' r='6' fill='#2c3e50'/>
+<text x='38.0' y='124.0' font-size='9' fill='#2c3e50'>DECO_FUNGO</text>
+<circle cx='75.0' cy='42.1' r='6' fill='#2c3e50'/>
+<text x='83.0' y='46.1' font-size='9' fill='#2c3e50'>carcasse</text>
+<circle cx='165.0' cy='42.1' r='6' fill='#2c3e50'/>
+<text x='173.0' y='46.1' font-size='9' fill='#2c3e50'>detrito</text>
+</svg>
+  </div>
+</div>
+<div class="card">
+  <h2>Specie (4)</h2>
+  <table><tr><th>Nome</th><th>ID</th><th>Ruolo</th><th>Tag</th><th>Flags</th><th>File</th></tr>
+  <tr><td>Blight Micotico</td><td>blight-micotico</td><td>minaccia_microbica</td><td>patogeno</td><td>threat</td><td><a href='../../../data/species/foresta_temperata/blight-micotico.yaml'>YAML</a></td></tr><tr><td>Evento: Seme d'Uragano</td><td>evento-seme-uragano</td><td>evento_ecologico</td><td>pulse_climatico</td><td>event</td><td><a href='../../../data/species/foresta_temperata/evento-seme-uragano.yaml'>YAML</a></td></tr><tr><td>Lupo della Foresta</td><td>lupus-temperatus</td><td>predatore_terziario_apex</td><td>specie_chiave</td><td>apex, keystone</td><td><a href='../../../data/species/foresta_temperata/lupus-temperatus.yaml'>YAML</a></td></tr><tr><td>Sentinella Radice</td><td>sentinella-radice</td><td>ingegneri_ecosistema</td><td>specie_chiave</td><td>keystone, sentient, sapience_tier, bridge</td><td><a href='../../../data/species/foresta_temperata/sentinella-radice.yaml'>YAML</a></td></tr>
+  </table>
+</div>
+</body></html>

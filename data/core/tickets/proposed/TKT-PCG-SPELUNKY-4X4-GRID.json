@@ -1,0 +1,18 @@
+{
+  "id": "TKT-PCG-SPELUNKY-4X4-GRID",
+  "title": "Spelunky 4×4 grid PCG path-guaranteed",
+  "pillar": "P5",
+  "effort_hours": 4,
+  "donor_game": {
+    "name": "Spelunky",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#10-spelunky-mossmouth--200812"
+  },
+  "agent_owner": "pcg-level-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "`services/generation/spelunkyGrid.js` (NEW). 3×3 mission map generator + 4 room types + dice path."
+}

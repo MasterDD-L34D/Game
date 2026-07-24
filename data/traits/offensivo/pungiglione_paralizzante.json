@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "id": "pungiglione_paralizzante",
+  "label": "i18n:traits.pungiglione_paralizzante.label",
+  "famiglia_tipologia": "Traumatico/Offesa",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T2",
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "offesa"
+  },
+  "slot": [],
+  "sinergie": [
+    "arco_voltaico",
+    "scarica_ionica"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.pungiglione_paralizzante.mutazione_indotta",
+  "uso_funzione": "i18n:traits.pungiglione_paralizzante.uso_funzione",
+  "spinta_selettiva": "i18n:traits.pungiglione_paralizzante.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.pungiglione_paralizzante.debolezza"
+}

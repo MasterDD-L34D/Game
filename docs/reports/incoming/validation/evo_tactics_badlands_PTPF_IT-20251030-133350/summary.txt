@@ -1,0 +1,8 @@
+zip_file: evo_tactics_badlands_PTPF_IT.zip
+timestamp: 20251030-133350
+cli_origin: repository
+working_directory: /tmp/incoming_validation.JMtgZN/evo_tactics_badlands_PTPF_IT/Game
+validate_datasets_exit_code: 0
+validate_datasets_log: reports/incoming/validation/evo_tactics_badlands_PTPF_IT-20251030-133350/validate-datasets.log
+validate_ecosystem_pack_exit_code: 0
+validate_ecosystem_pack_log: reports/incoming/validation/evo_tactics_badlands_PTPF_IT-20251030-133350/validate-ecosystem-pack.log

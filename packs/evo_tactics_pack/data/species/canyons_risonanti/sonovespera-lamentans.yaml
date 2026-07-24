@@ -1,0 +1,77 @@
+id: sonovespera_lamentans
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Vespero sonoro
+biomes:
+- canyons_risonanti
+role_trofico: predatore_secondario
+functional_tags:
+- volatore_risonante
+- controller_sonoro
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+balance:
+  rarity: R2
+  threat_tier: T2
+  encounter_role: threat
+playable_unit: false
+morphotype: alato_spettrale
+vc:
+  aggro: 0.5
+  risk: 0.5
+  cohesion: 0.5
+  setup: 0.5
+  explore: 0.5
+  tilt: 0.5
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno
+  densita: low
+environment_affinity:
+  biome_class: canyons_risonanti
+  koppen: []
+  hazards_expected: []
+  multibiome: []
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - adattamento_volo
+  - ali_fono_risonanti
+  - risonanza_di_branco
+  optional_traits: []
+  required_capabilities:
+  - flight
+  - tremorsense
+  - sonic_pulse
+  jobs_bias:
+  - invoker
+  - skirmisher
+jobs_bias:
+- invoker
+- skirmisher
+telemetry:
+  expected_pick_rate: 0.1
+  spawn_weight: 0.15
+genetic_traits:
+  core:
+  - adattamento_volo
+  - ali_fono_risonanti
+  - risonanza_di_branco
+  - spore_psichiche_silenziate
+  optional: []
+  synergy: []
+services_links: []
+description: i18n:species.sonovespera_lamentans.description
+design_stub: true
+receipt:
+  source: PTPF.v1.0
+  author: claude-code-salvage
+  date: '2026-06-23'
+  note: 'retired-creature salvage item 2a; identity ratified + kit from species_affinity; heuristic fields are honest stubs (vc/spawn/telemetry/koppen) pending calib; lore via codex_aliena_lore_gen HITL'

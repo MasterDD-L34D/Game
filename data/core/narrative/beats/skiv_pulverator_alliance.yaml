@@ -1,0 +1,46 @@
+# Action 6 (ADR-2026-04-28 §Action 6) — Narrative beats Skiv-Pulverator alleanza.
+#
+# Skiv canonical voice (italiano, prima persona implicita, metafore desertiche).
+# Reference: docs/skiv/CANONICAL.md → "sabbia, vento, ridge, sole basso".
+
+beats:
+  - beat_id: skiv_pulverator_kill_outcome
+    trigger: ambition.fame_path.outcome
+    body_it: |
+      Pulverator alpha cade. Skiv osserva. Branco rivale disperso nella sabbia.
+      Sole basso. Nessun bond_hearts. Sangue copre tracce.
+    voice_line_skiv: "Sabbia tace."
+    side_effects:
+      bond_hearts_delta: 0
+      lineage_merge: false
+
+  - beat_id: skiv_pulverator_reconciliation
+    trigger: ambition.bond_path.outcome
+    body_it: |
+      Pulverator alpha cade. Skiv si ferma. Bond_hearts vibrano sul ridge.
+      Branco rivale ora seguito. Due ombre contro stesso sole.
+      Sabbia ricorda nuova forma.
+    voice_line_skiv: "Sabbia segue branco doppio."
+    side_effects:
+      bond_hearts_delta: 1
+      lineage_merge: true
+
+  - beat_id: skiv_pulverator_choice_locked_low_bond
+    trigger: ambition.choice_locked.bond_hearts_below_threshold
+    body_it: |
+      Skiv osserva alpha caduto. Bond_hearts deboli. Sabbia non parla ancora.
+      Branco rivale ringhia. Il vento porta solo distanza.
+    voice_line_skiv: "Vento porta distanza. Aspetta."
+    side_effects:
+      bond_hearts_delta: 0
+      lineage_merge: false
+
+  - beat_id: skiv_pulverator_progress_pulse
+    trigger: ambition.progress.increment
+    body_it: |
+      Pulverator pack incontra Skiv di nuovo. Bond_hearts crescono.
+      Sabbia ricorda passi precedenti.
+    voice_line_skiv: "Sabbia segue."
+    side_effects:
+      bond_hearts_delta: 0
+      lineage_merge: false

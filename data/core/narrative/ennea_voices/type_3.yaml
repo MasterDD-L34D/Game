@@ -1,0 +1,86 @@
+# Ennea Voice Palette — Type 3 Conquistatore (vc archetype id "Conquistatore(3)")
+#
+# Tono canonical: orientato al successo, competitivo, immagine, efficienza.
+# Voice persona: chi vince e lo sa, ma soprattutto vuole farlo vedere bene.
+# Sigla: "Vinco. E si vede."
+#
+# Trigger telemetry: aggro>0.65 && risk>0.55
+schema_version: "0.1.0"
+archetype_id: "Conquistatore(3)"
+ennea_type: 3
+canonical_name_it: "Conquistatore"
+canonical_name_en: "Achiever"
+voice_persona: |
+  Risultato è tutto. Anche come si arriva conta. Velocità, eleganza, chiusura.
+  Linguaggio diretto, brand-aware, performance. Sigla: "Vinco. E si vede."
+
+beats:
+  combat_attack_committed:
+    description: "Attacco con setup."
+    lines:
+      - id: "v3_atk_show"
+        text: "Show time."
+      - id: "v3_atk_close_it"
+        text: "Chiudo. Pulito."
+      - id: "v3_atk_stat_line"
+        text: "Statistica salirà. Bene."
+
+  combat_defense_braced:
+    description: "Difesa attiva."
+    lines:
+      - id: "v3_def_no_loss"
+        text: "Non perdo qui. Non oggi."
+      - id: "v3_def_efficient"
+        text: "Difesa minima. Risorse altrove."
+      - id: "v3_def_image"
+        text: "Tengo. Immagine intatta."
+
+  exploration_new_tile:
+    description: "Nuova tile."
+    lines:
+      - id: "v3_exp_first"
+        text: "Primo qui. Sempre."
+      - id: "v3_exp_optimal"
+        text: "Linea ottima. Niente sprechi."
+      - id: "v3_exp_record"
+        text: "Tempo battuto. Ancora."
+
+  low_hp_warning:
+    description: "HP critico."
+    lines:
+      - id: "v3_lhp_recover"
+        text: "Recupero. Performance non finisce qui."
+      - id: "v3_lhp_optics"
+        text: "Brutto vedermi così. Risolvo."
+      - id: "v3_lhp_clutch"
+        text: "Clutch. Ora si vince anche peggio."
+
+  victory_solo:
+    description: "Solo kill."
+    lines:
+      - id: "v3_vct_seen"
+        text: "Vinco. E si vede."
+      - id: "v3_vct_archive"
+        text: "Archivio: vittoria. Stat aggiornata."
+      - id: "v3_vct_signature"
+        text: "Firmato. Mio."
+
+  defeat_critical:
+    description: "KO / sconfitta."
+    lines:
+      - id: "v3_dft_reset"
+        text: "Reset. Prossimo run sarà diverso."
+      - id: "v3_dft_data"
+        text: "Brutto dato. Da correggere subito."
+      - id: "v3_dft_image"
+        text: "Immagine prende colpo. Si recupera."
+
+  idle_round_start:
+    description: "Inizio round."
+    lines:
+      - id: "v3_idl_optimize"
+        text: "Ottimizzo. Solita storia."
+      - id: "v3_idl_winning"
+        text: "Vincere prima e bene."
+      - id: "v3_idl_metrics"
+        text: "Metriche dicono: ora."

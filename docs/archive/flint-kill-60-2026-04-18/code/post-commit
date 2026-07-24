@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+# Auto-rigenera docs/caveman-status.json dopo ogni commit.
+# Usa fallback stdlib se evo-caveman CLI non installato.
+# Skip graceful se Python manca o script fallisce: non blocca commit futuri.
+
+set -u
+
+# Skip durante rebase / merge / cherry-pick (evita rumore multi-commit)
+git_dir=$(git rev-parse --git-dir 2>/dev/null)
+if [ -z "$git_dir" ]; then
+  exit 0
+fi
+for f in "$git_dir/rebase-merge" "$git_dir/rebase-apply" "$git_dir/MERGE_HEAD" "$git_dir/CHERRY_PICK_HEAD"; do
+  if [ -e "$f" ]; then
+    exit 0
+  fi
+done
+
+# Preferisci evo-caveman CLI se installato, fallback a stdlib script
+if command -v caveman >/dev/null 2>&1; then
+  caveman export --output docs/caveman-status.json >/dev/null 2>&1 || true
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHONIOENCODING=utf-8 python3 tools/py/caveman_status_stdlib.py \
+    --output docs/caveman-status.json >/dev/null 2>&1 || true
+fi
+
+# Non auto-staggia docs/caveman-status.json: utente decide quando committare snapshot.
+# Volendo post-commit auto-stage: git add docs/caveman-status.json && git commit --amend --no-edit --no-verify
+exit 0

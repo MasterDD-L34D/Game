@@ -1,0 +1,109 @@
+{
+  "summary": {
+    "totalEvents": 2,
+    "openEvents": 2,
+    "acknowledgedEvents": 1,
+    "highPriorityEvents": 1,
+    "lastEventAt": "2025-11-06T06:45:00.000Z"
+  },
+  "coverage": {
+    "average": 72,
+    "history": [
+      40,
+      56,
+      65,
+      72
+    ],
+    "distribution": {
+      "success": 4,
+      "warning": 0,
+      "neutral": 1,
+      "critical": 1
+    }
+  },
+  "incidents": {
+    "timeline": [
+      {
+        "date": "2025-10-26",
+        "total": 0,
+        "highPriority": 0
+      },
+      {
+        "date": "2025-10-27",
+        "total": 0,
+        "highPriority": 0
+      },
+      {
+        "date": "2025-10-28",
+        "total": 0,
+        "highPriority": 0
+      },
+      {
+        "date": "2025-10-29",
+        "total": 0,
+        "highPriority": 0
+      },
+      {
+        "date": "2025-10-30",
+        "total": 0,
+        "highPriority": 0
+      },
+      {
+        "date": "2025-10-31",
+        "total": 0,
+        "highPriority": 0
+      },
+      {
+        "date": "2025-11-01",
+        "total": 0,
+        "highPriority": 0
+      }
+    ]
+  },
+  "updatedAt": "2025-11-01T19:40:35.523Z",
+  "sample": [
+    {
+      "source": "telemetry-session",
+      "summary": "HUD risk-high persistente oltre 2 turni",
+      "event_timestamp": "2025-11-05T10:22:00Z",
+      "owner": "QA Lead",
+      "priority": "high",
+      "status": "triaged",
+      "component_tag": "hud",
+      "roadmap_milestone": "RM-1",
+      "evidence_links": [
+        "drive://telemetry/reports/2025-11-05/hud_alert_delta.png",
+        "repo://logs/playtests/2025-11-05-vc/session-metrics.yaml#L1-L88"
+      ],
+      "detailed_description": "Alert risk-high squad Delta (turni 11-13). Ack automatico PI dopo tre turni, smoothing EMA da verificare.",
+      "routing": {
+        "recipient_groups": [
+          "hud_ops",
+          "qa_leads"
+        ],
+        "notes": "Condividere nel daily QA"
+      }
+    },
+    {
+      "source": "drive-sync",
+      "summary": "Foglio QA Tracker fuori finestra support",
+      "event_timestamp": "2025-11-06T06:45:00Z",
+      "owner": "Support Ops",
+      "priority": "medium",
+      "status": "open",
+      "component_tag": "drive-export",
+      "roadmap_milestone": "RM-2",
+      "evidence_links": [
+        "drive://vc-logs/qa-tracker/2025-11-06.xlsx"
+      ],
+      "detailed_description": "Export programmato ha filtrato gli alert QA Leads (slot precedente 07:30). Richiesto replay forzato.",
+      "routing": {
+        "recipient_groups": [
+          "support_ops_night"
+        ],
+        "notes": "Gestire handoff alle 08:00 CET"
+      }
+    }
+  ],
+  "state": "live"
+}

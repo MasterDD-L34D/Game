@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://evo-tactics/schemas/mutation_trigger.schema.json",
+  "title": "Mutation Trigger Condition",
+  "description": "Schema canonical per trigger_conditions in mutation_catalog.yaml. Whitelist 12 kinds (ADR-2026-05-10 + Phase 6 TKT-C4 2026-05-11). Evaluator runtime: apps/backend/services/combat/mutationTriggerEvaluator.js.",
+  "type": "object",
+  "required": ["kind"],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Trigger kind whitelist canonical. 12 entries post Phase 6 closure.",
+      "enum": [
+        "status_apply_count",
+        "biome_turn_count",
+        "damage_taken_high_mos",
+        "kill_streak",
+        "mutation_chain",
+        "cumulative_turns_biome",
+        "damage_taken_channel",
+        "ally_killed_adjacent",
+        "ally_adjacent_turns",
+        "assisted_kill_count",
+        "sistema_signal_active",
+        "trait_active_cumulative"
+      ]
+    },
+    "threshold": {
+      "type": ["number", "integer"],
+      "description": "Generic numeric threshold. Most kinds use this as cumulative counter target."
+    },
+    "count": {
+      "type": ["number", "integer"],
+      "description": "Alternative numeric threshold for kinds with discrete event counting."
+    },
+    "window": {
+      "type": "string",
+      "enum": ["encounter", "session", "cumulative"],
+      "description": "Counter scoping window. cumulative = cross-session (Prisma persistence required)."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status name for status_apply_count kind."
+    },
+    "source_trait": {
+      "type": ["string", "null"],
+      "description": "Optional trait id filter for status_apply_count source."
+    },
+    "biome_class": {
+      "type": "string",
+      "description": "Biome class identifier for biome_turn_count + cumulative_turns_biome kinds. Use 'any' to disable filter."
+    },
+    "sistema_pressure_min": {
+      "type": ["number", "integer"],
+      "description": "Minimum Sistema pressure required for biome_turn_count."
+    },
+    "mos_threshold": {
+      "type": ["number", "integer"],
+      "description": "Margin of Success threshold for damage_taken_high_mos."
+    },
+    "side": {
+      "type": "string",
+      "enum": ["actor", "target"],
+      "description": "Event side filter for damage_taken_high_mos."
+    },
+    "elevation_min": {
+      "type": ["number", "integer"],
+      "description": "Minimum elevation for damage_taken_high_mos (terrain-aware)."
+    },
+    "no_damage_taken_between": {
+      "type": "boolean",
+      "description": "Reset kill_streak on damage_taken event."
+    },
+    "prereq_mutation_id": {
+      "type": "string",
+      "description": "Required prerequisite mutation id for mutation_chain kind."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Damage channel filter for damage_taken_channel."
+    },
+    "species_filter": {
+      "type": ["string", "null"],
+      "enum": ["same", "any", null],
+      "description": "Species filter for ally_killed_adjacent + ally_adjacent_turns. 'same' = ally.species == unit.species."
+    },
+    "signal_id": {
+      "type": "string",
+      "description": "Sistema warning signal id for sistema_signal_active."
+    },
+    "trait_id": {
+      "type": "string",
+      "description": "Trait id filter for trait_active_cumulative kind. Counts cumulative fires of this trait."
+    },
+    "min_proximity_turns": {
+      "type": ["number", "integer"],
+      "description": "Alias for threshold (ally_adjacent_turns)."
+    }
+  },
+  "additionalProperties": false,
+  "_phase_6_residue_closed": {
+    "ally_adjacent_turns": "Counts cumulative rounds where unit had any ally within Manhattan distance <=1. State: unit.cumulative_ally_adjacent_turns (int per-unit, cross-session Prisma persistent). Update: end-of-round bridge hook scans session.units for adjacent ally + increments if found. Optional species_filter narrows ally pool.",
+    "trait_active_cumulative": "Counts cumulative fires of a specific trait per unit cross-session. State: unit.cumulative_trait_active (JSON {trait_id: count} per-unit, Prisma persistent). Update: end-of-round bridge hook reads session.events for action_type='trait_fire' actor_id=unit.id + increments per-trait counter."
+  }
+}
