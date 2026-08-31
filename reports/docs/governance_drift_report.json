@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-31T07:01:59+00:00",
+  "generated_at": "2026-08-31T07:09:33+00:00",
   "summary": {
-    "total": 254,
+    "total": 286,
     "errors": 0,
-    "warnings": 254
+    "warnings": 286
   },
   "issues": [
     {
@@ -633,13 +633,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-04-29-ermes-cleanup-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-28"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-06-ferrospora-pipeline-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-05-06-ferrospora-pipeline-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-04"
     },
     {
@@ -699,7 +699,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-31-parallel-sessions-sync-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-05-31-parallel-sessions-sync-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-29"
     },
     {
@@ -711,19 +711,19 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-01-goal-coordinator-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-06-01-goal-coordinator-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-30"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-01-master-goal-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-06-01-master-goal-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-30"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-18-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-06-18-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-18"
     },
     {
@@ -735,13 +735,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-20"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-20-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/planning-handoffs/2026-06-20-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-04"
     },
     {
@@ -1527,8 +1527,200 @@
     {
       "level": "warning",
       "code": "unregistered_document",
+      "path": "docs/reports/2026-08-31-drift-audit.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
       "path": "docs/superpowers/specs/2026-07-04-ai-los-repositioning-design.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-04-25-illuminator-orchestra-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:1313, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-04-27-skiv-personal-sprint-handoff.md",
+      "message": "citato da tools/py/batch_calibrate_skiv_solo_pack.py:13, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-04-27-sprint-1-5-autonomous-handoff.md",
+      "message": "citato da BACKLOG.md:1341, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-07-cutover-handoff-alternative-qa.md",
+      "message": "citato da tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:794, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-07-phase-a-handoff-next-session.md",
+      "message": "citato da COMPACT_CONTEXT.md:464, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-09-fase1-2-handoff-next-session.md",
+      "message": "citato da COMPACT_CONTEXT.md:478, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-10-tkt-bond-hud-surface-frontend-handoff.md",
+      "message": "citato da apps/backend/services/combat/bondReactionTrigger.js:275, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-02-full-loop-build-handoff.md",
+      "message": "citato da BACKLOG.md:30, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-02-full-loop-fase2-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:196, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-02-goal-master-session-handoff.md",
+      "message": "citato da BACKLOG.md:22, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-09-maintenance-hygiene-handoff.md",
+      "message": "citato da CLAUDE.md:232, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-09-reconstruction-residuals-closure-handoff.md",
+      "message": "citato da CLAUDE.md:231, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-10-mega-session-closure-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:168, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md",
+      "message": "citato da BACKLOG.md:1041, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-16-session-handoff.md",
+      "message": "citato da CLAUDE.md:227, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-17-session-handoff-continuation.md",
+      "message": "citato da CLAUDE.md:223, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-17-session-handoff.md",
+      "message": "citato da CLAUDE.md:225, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-18-session-handoff.md",
+      "message": "citato da CLAUDE.md:217, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
+      "message": "citato da BACKLOG.md:235, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-22-session-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:132, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
+      "message": "citato da BACKLOG.md:49, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-29-session-handoff.md",
+      "message": "citato da CLAUDE.md:205, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-30-session-handoff-tier2-infra-closeout.md",
+      "message": "citato da COMPACT_CONTEXT.md:110, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md",
+      "message": "citato da COMPACT_CONTEXT.md:84, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md",
+      "message": "citato da BACKLOG.md:407, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md",
+      "message": "citato da COMPACT_CONTEXT.md:56, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-import.md",
+      "message": "citato da COMPACT_CONTEXT.md:71, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md",
+      "message": "citato da BACKLOG.md:113, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff.md",
+      "message": "citato da BACKLOG.md:109, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-02-session-handoff-w5-graded-close.md",
+      "message": "citato da COMPACT_CONTEXT.md:33, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md",
+      "message": "citato da BACKLOG.md:36, non esiste su disco"
     }
   ],
   "doc_pins": {
