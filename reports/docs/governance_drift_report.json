@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-14T19:05:37+00:00",
+  "generated_at": "2026-08-31T07:01:59+00:00",
   "summary": {
-    "total": 49,
+    "total": 254,
     "errors": 0,
-    "warnings": 49
+    "warnings": 254
   },
   "issues": [
     {
@@ -27,8 +27,176 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/architecture/difficulty-integration.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/i18n-strategy.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/replay-from-event-log.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/tri-sorgente-node-bridge.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/tri-sorgente/overview.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/tri-sorgente/qa.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/balance/2026-04-27-numeric-reference-canonical.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/balance/MACHINATIONS_MODELS.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/Frattura_Abissale_Sinaptica_biome.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/Frattura_Abissale_Sinaptica_lore.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/biomes.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/manifest.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/catalog/Frattura_Abissale_Sinaptica_assets_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/catalog/bioma_frattura_abissale_sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/design/2026-04-27-ai-war-asymmetric-rules.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/design/2026-04-27-ai-war-decentralized-architecture.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/design/2026-04-27-mutagen-events-variety-pack.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/design/audio/creature-sfx-spec.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/db-schema.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/deploy.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/generator-benchmarks.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/handover-summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/accessibility-deaf-visual-parity.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/DESIGN-DATA-ATLAS.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/INTEGRAZIONE_GUIDE.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/guide/README_HOWTO_AUTHOR_TRAIT.md",
       "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/README_SENTIENCE.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/asset-creation-workflow.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-27"
     },
     {
       "level": "warning",
@@ -39,14 +207,224 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/guide/data-guidelines.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/external-references.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-15"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/git-setup.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/naming-pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/roadmap-intervention.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-30"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/templates/MODELLI_RIF_EVO_TACTICS.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/templates/incoming_triage_meeting.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/templates/obsidian_template.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-1000xresist-memory-layered-pov.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-astrea-dice-purification.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-backpack-hero-spatial-inventory.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-banner-saga-caravan-attrition.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-banner-saga-permadeath-optin.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-citizen-sleeper-fatigue-drift.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-cobalt-core-position-bonus.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-cocoon-biome-rules-layer.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-inscryption-camera-reveal-meta.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-loop-hero-minimap-visual-emergence.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-pentiment-job-voice-confessionals.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-slay-princess-branching-state.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/cards/indie-tunic-manual-puzzle-broader.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/museum/galleries/worldgen.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/2026-06-20-prod-backend-task-resilience.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/AGENT_COMMANDS_CHEATSHEET.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/COMMAND_LIBRARY.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/agent_telemetry.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/ci/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/ops/cli-tools.md",
       "message": "Documento stale: revisione scaduta il 2026-07-11"
     },
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/ops/cloudflare-prod-deploy-guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/dependency_audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/ops/drive-sync.md",
       "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/evo-tooling.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/npm-proxy-migration.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/observability.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/operativo/README-biodiversita-connessa.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/site-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/BIOME_FEATURE_CHECKS.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
     },
     {
       "level": "warning",
@@ -59,6 +437,18 @@
       "code": "stale_document",
       "path": "docs/pipelines/Frattura_Abissale_Sinaptica_execution_plan.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/GOLDEN_PATH.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/GOLDEN_PATH_FEATURE.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
     },
     {
       "level": "warning",
@@ -135,8 +525,38 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDARD.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/pipelines/PIPELINE_SPECIE_BIOMA_Frattura_Abissale_Sinaptica.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_TEMPLATES.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_TRAIT_STANDARD.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ci-gap-analysis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ci-pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
     },
     {
       "level": "warning",
@@ -159,14 +579,278 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/pipelines/gh-cli-manual-dispatch.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/pipelines/roadmap_generator.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
     },
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/planning/2026-04-25-creature-concept-catalog.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-25-skiv-octokit-webhooks-proposal.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-26-leviatano-sprint-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-27-forme-10-stadi-naming-spec.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-28-asset-sourcing-strategy.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-28-godot-migration-strategy.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-28-master-execution-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-06-ferrospora-pipeline-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-08-sprint-q-kickoff-coordination.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-06"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-06"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-09-status-effects-phase-a-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-07"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-09-status-effects-phase-a-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-07"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-13-ecosystem-research-solution-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-30-canon-reconcile-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-30-design-data-gap-resolution-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-31-d4-ecosystem-draft-review.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-31-d4-producer-proposals.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-31-parallel-sessions-sync-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-31-trait-reconcile-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-01-goal-coordinator-session-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-30"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-01-master-goal-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-30"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-18-session-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-18-taxonomy-reconciliation-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-22"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/planning/2026-06-20-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-29-closeout-master-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/codex-in-game-aliena-integration.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/personas/player-personas-validation.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/intentional-friendly-fire.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-15"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/tactical-architecture-patterns.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-15"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/tactical-lessons.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-15"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/visual-research-2026-04-19.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/visual-roadmap-2026-04-19.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-04-29-playbook-90min.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-05"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-06-19-pe-ratio-experiment-n100.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-19"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-23"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/VERTICAL_SLICE_PLAN.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/asset-mvp-slice-playbook.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/kenney-community-asset-guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/2026-04-18-M4-retrospective-art-integration-gap.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/2026-04-19-M5-audit-sprint-completion.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/2026-04-19-M7-sprint-plan-expert-synthesis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
     },
     {
       "level": "warning",
@@ -185,6 +869,24 @@
       "code": "stale_document",
       "path": "docs/process/bug-intake.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/bug-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/clone-setup.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/demo-release.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
     },
     {
       "level": "warning",
@@ -219,14 +921,74 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/process/project-setup-todo.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/process/qa_hud.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
     },
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/process/qa_reporting_schema.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/process/sentience_rollout_plan.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-17-m2-canonical.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-17.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-18-m3-10-real-assets.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-18-m3-5-non-elim-coverage.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-18-m3-6-art-style.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-18-m3-7-zero-cost-asset.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-18-m3-8-fu-actionable.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-18-m3-telemetry-adr.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-17"
     },
     {
       "level": "warning",
@@ -243,6 +1005,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/process/telemetry.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/process/ticket-2025-10-27-playwright-deploy-checks.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
     },
@@ -255,8 +1023,20 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/process/trait_data_reference.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/process/trait_review.md",
       "message": "Documento stale: revisione scaduta il 2026-07-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/traits_checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-21"
     },
     {
       "level": "warning",
@@ -267,8 +1047,458 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/qa/2026-04-25-repo-archaeologist-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-26-balance-illuminator-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-26-economy-design-illuminator-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-26-narrative-design-illuminator-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-26-pcg-level-design-illuminator-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-26-telemetry-viz-illuminator-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-26-ui-design-illuminator-smoke.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-26-boss-leviatano-research-summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-26-deep-analysis-SYNTHESIS.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-26-forme-naming-integration.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-26-lore-alien-event-swarm-redig.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-26-session-deliverables-RANKED.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-5axes-ui-mapping-research.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-cross-game-tier-matrices-synthesis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-deep-analysis-residual-gaps-synthesis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-identity-dimensions-reconciliation.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-identity-stack-reconciliation.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-skiv-portable-companion-research-summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-strategy-research-MASTER-synthesis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-v3-vs-v3.2-reconciliation.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-v3.7-cross-pc-update-synthesis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-vc-axes-reconciliation.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-28-canonical-doc-consolidation-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-04-drift-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-02"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-06-governance-drift-audit-wave-2.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-11-drift-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-13-ecosystem-infrastructure-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-18-drift-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-25-drift-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-23"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-06-01-catalog-mapping-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-30"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-06-18-session-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-06-19-spec-k-01-device-authority-surface-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-19"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-07-06-big-maps-stato-test-triage.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-05"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-25-skiv-lifecycle-visual-research.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-25-skiv-online-imports.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-25-skiv-prior-art-web.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-cross-game-extraction-MASTER.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-spore-deep-extraction.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-ticket-auto-gen-architecture-D.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-tier-a-extraction-matrix.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-tier-b-extraction-matrix.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-tier-e-extraction-matrix.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-tier-s-extraction-matrix.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-26-voidling-bound-evolution-patterns.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-25"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-indie-MASTER-synthesis.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-indie-concept-rubabili.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-indie-design-perfetto.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-indie-meccaniche-perfette.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-indie-narrative-gameplay.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-strategy-games-design-extraction.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-strategy-games-mechanics-extraction.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-27-strategy-games-tech-extraction.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-26"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/species/Frattura_Abissale_Sinaptica_species_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-05-30-governance-auto-sync-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-05-31-docs-registry-reconcile-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-05-31-open-decisions-projection-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-06-18-composite-pe-ratio-experiment-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-18"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-06-22-od024-d4-interoception-overrides-rule-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-22"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/Frattura_Abissale_Sinaptica_trait_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/README_TRAITS.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/01-introduzione.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/02-modello-dati.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/03-tassonomia-famiglie.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/04-collegamenti-cross-dataset.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/05-workflow-strumenti.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/06-standalone-trait-editor.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/next_steps_trait_migration.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/trait-editor.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/trait_reference_manual.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/traits_scheda_operativa.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/traits_template.md",
+      "message": "Documento stale: revisione scaduta il 2026-08-04"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/tutorials/adaptive-engine-quickstart.md",
       "message": "Documento stale: revisione scaduta il 2026-07-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/cli-quickstart.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/feedback-form.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-20"
     },
     {
       "level": "warning",
@@ -651,6 +1881,9 @@
     ],
     "docs/adr/ADR-2026-07-10-sistema-action-symmetry.md": [
       "DECISIONS_LOG.md:101"
+    ],
+    "docs/adr/ADR-2026-07-14-worldgen-data-model.md": [
+      "DECISIONS_LOG.md:102"
     ],
     "docs/analytics/2026-04-26-telemetry-report.md": [
       "tools/py/telemetry_analyze.py:17"
@@ -1766,7 +2999,7 @@
       ".github/workflows/ai-sim-nightly.yml:283",
       "BACKLOG.md:1255",
       "CLAUDE.md:56",
-      "DECISIONS_LOG.md:160",
+      "DECISIONS_LOG.md:161",
       "OPEN_DECISIONS.md:405",
       "README.md:52",
       "apps/backend/routes/session.js:2530",
