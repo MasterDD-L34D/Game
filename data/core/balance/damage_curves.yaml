@@ -1,0 +1,402 @@
+# Damage scaling curves — M7-#2 (ADR-2026-04-20).
+#
+# Difficulty as feature, not ad-hoc tuning. Define per-encounter-class
+# enemy damage multiplier, boss enrage threshold, target win/defeat/timeout
+# bands per calibration harness.
+#
+# Runtime wire (M7-#2 Phase B):
+#   session.js /start → legge encounter.encounter_class → applica
+#   enemy_damage_multiplier a unit.mod degli enemy spawn
+#   performAttack boss turn → enrage check se hp < threshold_hp
+#
+# Calibration (M7-#2 Phase D):
+#   batch_calibrate_*.py legge target_bands per class → pass/fail oggettivo
+#
+# Vedi docs/adr/ADR-2026-04-20-damage-scaling-curves.md
+
+version: '1.0'
+schema_version: '1.0.0'
+
+# ─── Encounter classes ───────────────────────────────────────────────
+# Ogni encounter YAML dichiara `encounter_class: <key>`. Default "standard"
+# se assente. Sostituisce target band one-size 15-25% (fallacy).
+
+encounter_classes:
+  tutorial:
+    description: 'First-contact missions (tutorial_01-03). Skill floor, combat forgiving.'
+    target_bands:
+      win_rate: [0.60, 0.80]
+      defeat_rate: [0.10, 0.20]
+      timeout_rate: [0.05, 0.10]
+    enemy_damage_multiplier: 1.0
+    boss_enrage_threshold_hp: null  # no enrage tutorial tier
+    # M9 P6: turn_limit_defeat null = no forced outcome (tutorial forgiving)
+    turn_limit_defeat: null
+
+  tutorial_advanced:
+    description: 'Late tutorial (04-05). Introduce mechanics status/boss (apex tier-1).'
+    target_bands:
+      win_rate: [0.40, 0.60]
+      defeat_rate: [0.20, 0.35]
+      timeout_rate: [0.05, 0.15]
+    enemy_damage_multiplier: 1.1
+    boss_enrage_threshold_hp: 0.25
+    turn_limit_defeat: null
+
+  standard:
+    description: 'Mid-game encounters. Balanced threat, most common.'
+    target_bands:
+      win_rate: [0.35, 0.55]
+      defeat_rate: [0.25, 0.40]
+      timeout_rate: [0.10, 0.20]
+    enemy_damage_multiplier: 1.2
+    boss_enrage_threshold_hp: 0.30
+    turn_limit_defeat: 30  # soft limit per standard, rare trigger
+
+  hardcore:
+    description: 'High-difficulty 8p co-op. Team tactical peak required.'
+    # 2026-05-21 (OD-032) band revised to engine reality via N=40 evidence.
+    # Original DESIGN-TARGET was defeat [0.40,0.55] + timeout [0.15,0.25] (a
+    # "hard but ran-out-of-time" middle outcome). That target is structurally
+    # INCOMPATIBLE with turn_limit_defeat=25 below: M7 added the timer
+    # specifically to "elimina stalemate pattern (iter7 timeout 67%)" -> it
+    # converts every unresolved game to defeat at turn 25, so timeout ~0 always.
+    # Optuna 3-knob run (boss_hp + enemy_damage + turn_limit) confirmed: with
+    # timer ON timeout=0 (no reachable stalemate band); even timer-OFF the 5
+    # trials never produced timeout (hc06 combat resolves win/wipe within 40
+    # rounds). Production config (boss_hp 0.65, timer 25) N=40: WR 25% / defeat
+    # 75% / timeout 0% (pooled N=72 ~ WR 21% / defeat 78% / to 0%). Band now
+    # matches that. WR [0.15,0.25] kept (primary pillar, in-band).
+    # ALT (master-dd, OD-032): to restore the timeout-middle band, revert M7
+    # (raise/disable turn_limit) + tune the stalemate corner (high boss_hp +
+    # low enemy_damage) -- fragile (iter7 hit 67% uncontrolled) and re-opens the
+    # stalemate M7 closed. enemy_damage_multiplier_override knob now wired for
+    # hc06 (OD-032 C) if that path is pursued.
+    # 2026-06-17 (master-dd decision A, decision backlog): WR upper bound widened
+    # 0.25 -> 0.30 (ASYMMETRIC: lower 0.15 unchanged). hc06's boss_hp lever is
+    # razor-steep + node/V8-sensitive at the cliff (see #2764 node-22 re-cal),
+    # so the upper tail varies more than a flat knob would; the wider ceiling
+    # absorbs that variance without touching the calibrated knob. WR stays
+    # ~22-23% @ N=100 (boss_hp 1.02, ratified #2764) = in-band by construction;
+    # no re-calibration, tolerance increase only. (B2 gate-policy-random = the
+    # other half of decision A; its dossier is uncommitted -> NOT implemented.)
+    target_bands:
+      win_rate: [0.15, 0.30]
+      defeat_rate: [0.75, 0.85]
+      timeout_rate: [0.00, 0.05]
+    # M7-#2 Phase E iter7 (post iter6 RED wr 63.3%): 1.4 → 1.8 (+0.4).
+    # Vedi docs/playtest/2026-04-20-m7-iter6-hardcore-verdict.md § Option A+D.
+    enemy_damage_multiplier: 1.8
+    boss_enrage_threshold_hp: 0.40
+    # M9 P6 (Flint Long War pattern): force decision pressure.
+    # Turn >= 25 + player still alive + objective not completed → defeat.
+    # iter7 median turns_win=28 → budget 25 = risky but reachable con focus-fire.
+    # Elimina stalemate pattern (iter7 timeout 67%).
+    turn_limit_defeat: 25
+
+  boss:
+    description: 'Apex boss fight. Signature mechanics, dramatic enrage.'
+    target_bands:
+      win_rate: [0.05, 0.15]
+      defeat_rate: [0.55, 0.70]
+      timeout_rate: [0.10, 0.25]
+    # M7-#2 Phase E iter7: 1.6 → 2.0 per mantenere monotonic > hardcore 1.8.
+    # Boss 1v2 player (solo fight), scaling piu aggressivo giustificato.
+    enemy_damage_multiplier: 2.0
+    boss_enrage_threshold_hp: 0.50
+    # M9 P6: boss 1v2 dura media 20 round. Limit 20 = kill boss o perdi.
+    turn_limit_defeat: 20
+
+  badlands:
+    # TKT-ADAPTER-ECO-COMBAT phase 2b -- ecology->combat adapter pilot band.
+    # Scenario enc_badlands_pilot_01: enemies derived by ecologyCombatAdapter
+    # from REAL badlands species ecology (threat_tier x role_class). This is a
+    # NEW, SEPARATE band -- it never touches the ratified hardcore_06 [0.15,0.25]
+    # or hardcore_07 [0.30,0.50] bands (census anti-pattern 5).
+    # Tone: first-contact badlands biome pilot, difficulty 5/10 quartet -- engaging
+    # but winnable. WR [0.40,0.60] picked as the calibration target for the N=40 pass.
+    # enemy_damage_multiplier 1.0 (NEUTRAL) on purpose: the adapter HP/role-mult knobs
+    # are the SOLE calibration lever (D3 adapter-first), so calibration == real play.
+    description: 'Badlands ecology-adapter pilot. Adapter-driven enemies, neutral class mult.'
+    target_bands:
+      win_rate: [0.40, 0.60]  # PRIMARY pillar (handoff target). Pooled N=80 = 0.500.
+      # Decisive scenario: the turn_limit_defeat below forces win/defeat (TR ~ 0), so
+      # defeat_rate mirrors 1 - win_rate. Band kept CONSISTENT with the win band
+      # ([0.40,0.60] win + <=0.15 timeout -> defeat in [0.25,0.60]); pooled N=80 = 0.500.
+      defeat_rate: [0.30, 0.60]
+      timeout_rate: [0.00, 0.15]
+    enemy_damage_multiplier: 1.0
+    boss_enrage_threshold_hp: null  # no boss in pilot roster
+    # Stalemate breaker (Flint Long War pattern, mirrors standard/hardcore). N=10
+    # calibration showed the quartet-vs-5 elimination naturally runs ~30 rounds; with
+    # no limit, ~30-60% of games stall to MAX_ROUNDS (round 41) as timeouts. A limit
+    # of 34 (>= typical win time 18-32, < stall point 41) converts genuine stalls to
+    # tactical defeats, collapsing the timeout band to ~0 while preserving real wins.
+    # This is the calibration lever (NOT the adapter knobs: baseline adapter stats land
+    # in band once stalls resolve -- no HP/MOD override needed). See phase-2b research doc.
+    # Tuned 34->37 at N=40: limit 34 gave WR 0.45 / DR 0.55 (DR +5pp over band ceiling);
+    # 37 lets the slow-but-winnable fights (turns 32-37) resolve as wins, lifting WR into
+    # the [0.50,0.60] sweet spot so DR lands inside [0.30,0.50].
+    turn_limit_defeat: 37
+
+  badlands_ambient:
+    # S1 (2026-06-18): enc_badlands_ambient_01 (rubrospina-velox + ferriscroba-detrita +
+    # filler). DESIGNED-WINNABLE, NOT a balance-oracle (master-dd 2026-06-18): the T1
+    # ambient flavor pair die before dealing damage -> the party sweeps (WR ~1.0 even at
+    # edm 2.2), so no meaningful difficulty band exists. Mirrors the tutorial 01-05 ladder
+    # category. "Calibration" = confirm adapter stats sane + encounter stays winnable.
+    description: 'Badlands ambient minor fauna (designed-winnable, not a balance-oracle).'
+    target_bands:
+      win_rate: [0.70, 1.00]  # WINNABLE FLOOR (sanity), not a difficulty target
+      defeat_rate: [0.00, 0.30]
+      timeout_rate: [0.00, 0.15]
+    enemy_damage_multiplier: 1.0  # neutral; the encounter is winnable by design
+    boss_enrage_threshold_hp: null
+    turn_limit_defeat: 37
+
+  badlands_elite:
+    # S1 (2026-06-18): dedicated elite band for ferrimordax-rutilus (T3 apex anchor),
+    # scenario enc_badlands_elite_01. Band [0.10,0.30] (widened 2026-06-19, see below).
+    description: 'Badlands elite (ferrimordax-rutilus apex + escort).'
+    target_bands:
+      win_rate: [0.10, 0.30]  # RATIFIED edm 1.85 -> WR 0.16 (steep-lever, variance-robust)
+      defeat_rate: [0.55, 0.90]
+      timeout_rate: [0.00, 0.15]
+    # RATIFIED 2026-06-18 N=100 seed 424242: WR 0.16 (defeat 0.84) -- 1-apex ferrimordax
+    # solo-anchor + escort. STEEP LEVER (hc06-style cliff): 1.8 -> 0.29 (ceiling) /
+    # 1.85 -> 0.16 / 1.9 -> 0.16 (floor plateau); the band mid is not reachable without
+    # falling off the cliff. Ratified on the stable 0.16 plateau (1.85 == 1.9).
+    # BAND WIDENED 2026-06-19 (master-dd "procedi con l'ottimale"): win_rate
+    # [0.15,0.30] -> [0.10,0.30], defeat [0.55,0.85] -> [0.55,0.90]. Keeps the edm 1.85
+    # knob and absorbs the steep-lever N=100 CI variance (WR 0.16 has CI95 ~[0.10,0.24])
+    # so a same-knob re-run cannot read OOB-low on an unlucky seed. Mirrors the hc06
+    # steep-lever resolution (decision A: widen band asymmetrically toward the variance,
+    # keep knob). Flatter-knob (enemy HP) rejected: hc06 proved HP can cliff too (boss_hp
+    # WAS its steep lever) -> no guaranteed flatness + would need re-calibration that
+    # changes the ratified WR. Scenario is non-oracle (out of the gated suite).
+    enemy_damage_multiplier: 1.85
+    boss_enrage_threshold_hp: null
+    turn_limit_defeat: 30  # decisive (shorter than ambient)
+
+  foresta_pilot:
+    # S2 (2026-06-18): enc_foresta_pilot_01 -- foresta_temperata adapter pilot
+    # (lupus-temperatus T2 apex + blight-micotico T3 hazard + the 2 #2850 grazers
+    # nebulocornis/arboryxis + sentinella-radice support). NOT in the gated suite
+    # (mirrors the badlands adapter scenarios). Exercises the 2 grazers alongside the
+    # canonical foresta apex so their adapter stats move the win-rate.
+    description: 'Foresta Temperata ecology-adapter pilot. Adapter-driven enemies.'
+    target_bands:
+      # RATIFIED 2026-06-18 N=100 seed 424242: WR 0.50 (dead-center), edm 1.0 NEUTRAL.
+      # Re-banded from the proposed [0.30,0.50] -> [0.40,0.60] (master-dd follow-up):
+      # [0.40,0.60] = the badlands-pilot precedent (same scenario type: first-contact adapter
+      # pilot, winnable) and centers the natural WR 0.50. A 5-enemy roster (no T4) saturated
+      # the edm lever at a ~0.575 ceiling; adding evento-seme-uragano (T4) gave the lever grip
+      # so the roster carries the difficulty at NEUTRAL edm (no damage inflation).
+      win_rate: [0.40, 0.60]
+      defeat_rate: [0.40, 0.70]
+      timeout_rate: [0.00, 0.15]
+    enemy_damage_multiplier: 1.0  # NEUTRAL -- roster carries difficulty (edm grip: 1.5->0.30 / 2.8->0.175)
+    boss_enrage_threshold_hp: null
+    turn_limit_defeat: 34
+
+# ─── Enemy tiers ──────────────────────────────────────────────────────
+# Base stats pre-class multiplier. Encounter spawn li legge + applica
+# multiplier da encounter_class.
+
+enemy_tiers:
+  minion:
+    description: 'Low-threat fodder, swarm patterns'
+    base_mod: 2
+    hp_baseline: 4
+    base_dc: 11
+    role: 'numbers_pressure'
+
+  elite:
+    description: 'Mid-threat specialist, archetype-distinct'
+    base_mod: 3
+    hp_baseline: 8
+    base_dc: 12
+    role: 'tactical_counter'
+
+  boss:
+    description: 'High-threat keystone, enrage-capable'
+    base_mod: 5
+    hp_baseline: 20
+    base_dc: 13
+    # M7-#2 Phase E iter7: enrage_mod_bonus 1 → 3. Combined con hardcore 1.8x
+    # multiplier, boss enrage passa mod 5 → mod 8 (+60%) late-fight drama.
+    enrage_mod_bonus: 3  # applied quando hp < class threshold
+    enrage_damage_dice_bonus: 0  # future: bonus dice su enrage
+    role: 'encounter_anchor'
+
+# ─── Player job combat baselines ──────────────────────────────────────
+# Stat base per job (pre-equipment/trait). Applicato a unit spawn via
+# normaliseUnit JOB_STATS hook. M8+ character progression usa qui.
+
+player_classes:
+  vanguard:
+    description: 'Tank — corazzato archetype, resist fisico/taglio'
+    hp_baseline: 14
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 13
+    ap_baseline: 2
+    resistance_archetype: corazzato
+
+  warden:
+    description: 'Ranged support caster — psionico archetype'
+    hp_baseline: 10
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: psionico
+
+  invoker:
+    description: 'Psionic caster offensive'
+    hp_baseline: 9
+    armor_baseline: 0
+    mod_baseline: 4
+    dc_baseline: 11
+    ap_baseline: 2
+    resistance_archetype: psionico
+
+  skirmisher:
+    description: 'Mobile damage dealer — adattivo (neutral)'
+    hp_baseline: 10
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+  ranger:
+    description: 'Ranged damage dealer'
+    hp_baseline: 10
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+  artificer:
+    description: 'Utility/support tech'
+    hp_baseline: 11
+    armor_baseline: 0
+    mod_baseline: 2
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+  harvester:
+    description: 'Resource specialist melee'
+    hp_baseline: 12
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+# ─── Scenario overrides (per-encounter knob layer) ────────────────────
+# Pattern: Hades Pact of Punishment + Into the Breach scenario-tagged design.
+# Risolve cross-scenario tension dove encounter_class globale (es 'hardcore')
+# applica stesso multiplier a scenari con bottleneck ortogonali (es. boss-HP
+# vs swarm+timer). Override locale per-scenario sopra class default.
+#
+# Origine: docs/research/2026-05-20-calibration-knob-patterns-industry.md
+# Evidence: docs/playtest/2026-05-20-hardcore-06-postwave57-report.md (0% WR
+#   stesso class hardcore vs hardcore_07 60% WR — single-knob insufficient).
+#
+# Schema: keys = scenario_id (matcha hardcoreScenario.js export); valori = oggetto
+# con knob opzionali. Knob assenti = inherit class default.
+#
+# Knob supportati v1:
+#   boss_hp_multiplier (float, default 1.0) → moltiplica HP unità con flag is_boss
+#                                            o id contiene "_boss"
+#
+# Validation: vedi validation.scenario_overrides_valid_ids regola sotto.
+
+scenario_overrides:
+  enc_tutorial_06_hardcore:
+    # NODE-22 RE-CALIBRATE 2026-06-14 (pm): boss_hp_multiplier 1.04 -> 1.02. The 1.04
+    # value (history below) was calibrated on a node-24 dev box (22%); on the CANONICAL
+    # runtime node 22 (CI + repo-recommended 22.19.0) 1.04 reads 12.5% OOB-low -- the
+    # steep lever is node/V8-sensitive near the cliff. 1.02 reads WR 23% in-band on BOTH
+    # node 22 AND node 24 (N=100 seed 424242) = cross-runtime-robust (a plateau before the
+    # 1.04 cliff). Calibrate on node 22 (CANONICAL sec 3 rule 8). hc07 robust (42% all nodes).
+    # --- HISTORY ---
+    # RE-RATIFY 2026-06-14 (post-#2719): boss_hp_multiplier 0.65 -> 1.04.
+    # git-bisect proved #2719 f5387e66 (channel-routing fix: /round/execute now
+    # honors action.channel) flipped hc06 17% (parent #2717) -> 51% OOB. The
+    # greedy policy's `psionico` exploit vs the corazzato boss/elites was a no-op
+    # under the prior bug (every round attack was physical); the fix unlocked it
+    # -> 0.65 too weak. The 15-25% band had been ratified UNDER the bug. Forensic
+    # N=100 @ canonical seed 424242: boss 1.04 -> WR 22% (def 78%, timeout 0%) =
+    # all 3 class bands met. Lever is STEEP near band (1.0->27%, 1.05->12.5% N=40)
+    # -> the combat-balance CI gate + band-invalidation protocol
+    # (docs/process/CANONICAL-AI-PLAYTEST.md sec 9) guard recurrence.
+    # Evidence: docs/playtest/2026-06-14-canonical-forensic-n100.md
+    # --- HISTORY (pre-#2719, channel-bug era; band measured under the bug) ---
+    # iter5 OPTUNA REJECTED (2026-05-21): boss 0.866+limit 31 -> N=40 WR 30% OOB
+    # (L-073 optimizer-on-N=20-noise). iter2 (boss 0.65) = N=40 WR 15% confirmed
+    # BUT under the channel bug. docs/playtest/2026-05-21-optuna-l073-noise-convergence.md
+    boss_hp_multiplier: 1.02
+    rationale: 'NODE-22 RE-CALIBRATED 2026-06-14: boss_hp_multiplier 1.04 -> 1.02. 1.04 was tuned on node 24 (22%) but reads 12.5% OOB-low on the canonical node 22 (CI/prod); the steep lever is node/V8-sensitive at the cliff. 1.02 = WR 23% in-band [15-25] on BOTH node 22 AND node 24 (N=100 seed 424242) = cross-runtime-robust. Root cause was #2719 (channel-routing fix unlocked the greedy psionico exploit; band had been ratified under the bug). Calibrate on node 22 (CANONICAL sec 3 rule 8). Pre-#2719: iter2 boss 0.65 = WR 15% (under the bug).'
+
+  enc_tutorial_07_hardcore_pod_rush:
+    # RE-CENTER 2026-06-14 (PR #2753 follow-up): enemy_damage_multiplier_override
+    # 2.1 -> 2.5. hc07 had drifted to the band CEILING (50% N=40 / 52% N=100,
+    # in-band but no margin) -> perpetual edge-warning on the new combat-balance
+    # CI gate. #2719-INDEPENDENT (fisico-only policy, no channel exploit; verified
+    # by git-bisect on hc06; hc07 was 50% already at the 2026-05-30 baseline).
+    # Re-centered to mid-band: forensic N=100 seed 424242 -> WR 42% (timeout 58%
+    # = timer-race loss by design; defeat 0%). hc07 losses are timeouts, so the
+    # class defeat/timeout bands (an elimination concept) do NOT apply -- only the
+    # WR band [30-50] gates hc07.
+    # --- HISTORY ---
+    # 3A iter2 (2026-05-21): edm 2.1 (REPLACES class hardcore 1.8). iter1
+    # (enemy_count -1) REJECTED inverted dir. 2026-05-20-hardcore-07-3a-overshoot.md
+    enemy_damage_multiplier_override: 2.5
+    rationale: 'RE-CENTERED 2026-06-14: enemy_damage_multiplier_override 2.1 -> 2.5 (replaces class 1.8). hc07 sat at the band ceiling (50% N=40 / 52% N=100) since the 2026-05-30 baseline = no margin for the combat-balance gate. #2719-independent (fisico-only, timer-race). Forensic N=100 seed 424242: WR 42% in-band [30-50], timeout 58% (timer-loss by design). edm sweep N=40: 2.1->50, 2.3->47.5, 2.5->42.5, 2.7->42.5.'
+
+# ─── Wound location weights (OD-058 D2) ───────────────────────────────
+# SPEC-D2 §4: when a wound triggers (critico/KO), the body location is chosen
+# random-weighted. torso heaviest (large target), testa lightest (hard/critical hit).
+# Consumed by apps/backend/services/combat/woundSystem.js — DEFAULT_LOCATION_WEIGHTS
+# mirrors this table (drift-guarded by tests/scripts/damageCurvesIntegrity.test.js);
+# pickWeightedLocation iterates these in declared order.
+# Magnitudo per tier (lieve/media/grave = -1/-1/-2; testa-grave = -1 AP) + the
+# critico/KO trigger live in woundSystem.js. N=40 magnitude tuning = OD-058 D2 follow-up.
+wound_location_weights:
+  torso: 40
+  arti_anteriori: 25
+  arti_posteriori: 25
+  testa: 10
+
+# ─── Validation rules ─────────────────────────────────────────────────
+
+validation:
+  scenario_overrides_valid_ids:
+    description: 'Tutti scenario_id in scenario_overrides devono esistere in hardcoreScenario.js exports (HARDCORE_SCENARIO_06/07/...). Drift = config orfano.'
+    enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
+
+  target_bands_non_overlapping:
+    description: 'Tutorial defeat 10-20% vs standard defeat 25-40% NON si sovrappongono. Encounter class determinabile post-hoc da win_rate oggettivo.'
+    enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
+
+  multiplier_monotonic:
+    description: 'enemy_damage_multiplier deve crescere tutorial → tutorial_advanced → standard → hardcore → boss'
+    enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
+
+  enrage_threshold_range:
+    description: 'boss_enrage_threshold_hp ∈ [0, 1] o null. Null = no enrage (tutorial only).'
+    enforced_by: 'schemas/evo/damage_curves.schema.json'
+
+# ─── Riferimenti ──────────────────────────────────────────────────────
+
+references:
+  adr: 'docs/adr/ADR-2026-04-20-damage-scaling-curves.md'
+  evidence_calibration:
+    - 'docs/playtest/2026-04-19-m6-iter2b-baseline.md'
+    - 'docs/playtest/2026-04-19-m6-iter3-channel-exploit.md'
+  design_pivot_memo: 'docs/process/2026-04-19-M7-sprint-plan-expert-synthesis.md'

@@ -1,0 +1,99 @@
+version: 1.0
+namespace: EvoTactics.Sentience
+summary: >-
+  Scala definitiva dei tier di Sensienza (T1…T6) con milestone sensoriali e motorie
+  validate dal pack `ancestors/rfc-sentience-v0.1`. Include anche gli hook
+  interocettivi canonici da integrare nel catalogo dei trait.
+tiers:
+  - id: T1
+    label: Proto‑Sentiente
+    flags:
+      - social:minimal
+      - tools:incidental
+      - language:none
+    descriptors:
+      - reattivo
+      - solitario/bande lasche
+    milestones:
+      - Senses (core)
+  - id: T2
+    label: Pre‑Sociale
+    flags:
+      - social:band
+      - tools:opportunistic
+      - language:calls
+    descriptors:
+      - mimicry
+      - segnali territoriali
+    milestones:
+      - Senses mid
+      - AB 01 Endurance
+  - id: T3
+    label: Emergente
+    flags:
+      - social:structured
+      - tools:deliberate
+      - language:proto-lexical
+    descriptors:
+      - grooming rituale
+      - attenzione condivisa
+    milestones:
+      - Senses mid+
+      - AB 02–03 movement/carry
+  - id: T4
+    label: Civico
+    flags:
+      - social:roles
+      - tools:crafted
+      - language:lexical
+    descriptors:
+      - divisione del lavoro
+      - proto‑legge
+    milestones:
+      - Sound Awareness/Chemotopy full
+      - AB 05–09 climb/carry
+  - id: T5
+    label: Avanzato
+    flags:
+      - social:institutions
+      - tools:complex
+      - language:semantic
+    descriptors:
+      - simbolismo
+      - archivi
+    milestones:
+      - Memorie echoic/iconic multiple
+      - AB 11 pain
+  - id: T6
+    label: Sapiente
+    flags:
+      - social:state
+      - tools:industrial
+      - language:written
+    descriptors:
+      - città
+      - diritto & scienza
+    milestones:
+      - Senses 37/37
+      - Ambulation 26/26
+interoception_traits:
+  - id: proprioception
+    label: Propriocezione
+    hooks:
+      - +1 step equilibrio/posizione
+      - -1 stack fatica sprint
+  - id: vestibular
+    label: Equilibrio (Vestibolare)
+    hooks:
+      - vantaggio vs cadute
+      - penalità carico -1 tier
+  - id: nociception
+    label: Nocicezione
+    hooks:
+      - 'quando Ferito: ritardi -1'
+      - trigger difensivi reattivi
+  - id: thermoception
+    label: Termocezione
+    hooks:
+      - clock caldo/freddo
+      - resistenze gear/ambiente

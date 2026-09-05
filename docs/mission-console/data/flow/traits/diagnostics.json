@@ -1,0 +1,20 @@
+{
+  "diagnostics": {
+    "summary": {
+      "total": 3,
+      "warnings": 1,
+      "errors": 0
+    },
+    "traits": [
+      {
+        "id": "fallback-core-trait",
+        "status": "ok",
+        "notes": "Valori caricati dal fallback"
+      }
+    ]
+  },
+  "meta": {
+    "generated_at": "2024-01-01T00:00:00.000Z",
+    "endpoint_source": "fallback"
+  }
+}

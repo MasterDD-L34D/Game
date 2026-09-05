@@ -1,0 +1,20 @@
+{
+  "id": "TKT-COMBAT-TBW-UNDO-LIBERO",
+  "title": "Tactical Breach Wizards undo libero — esplorazione tattica branching",
+  "pillar": "P1",
+  "effort_hours": 4,
+  "donor_game": {
+    "name": "Tactical Breach Wizards",
+    "tier": "indie-research",
+    "matrix_anchor": "docs/research/2026-04-27-indie-meccaniche-perfette.md (pending push)"
+  },
+  "agent_owner": "ui-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md#h4",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Decision codified 2026-04-27 §H.4 ADOPT. Undo libero pre-commit (durante planning phase). Player può sperimentare azioni tattiche senza commit + revert se decisione subottimale. Sblocca apprendimento tutorial (zero penalty experimentation). Backend: round_phase planning già supporta intent dichiarazione + retract. Frontend: UI button 'Undo' che richiama api.retractIntent(intentId).",
+  "blockers": [],
+  "museum_card": null
+}

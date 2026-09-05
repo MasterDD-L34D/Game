@@ -1,0 +1,172 @@
+# =============================================================================
+# Encounter: "La Colata Basaltica" -- terzo encounter grid_sized (big-maps arc)
+# Difficulty: 4/5 - Grid: 18x10 AUTORATA (board_scale: grid_sized,
+# ADR-2026-07-03) - Bioma: abisso_vulcanico (alias deserto_caldo)
+# Objective: elimination + time_limit (fiume di lava + causeway unico, sez. B3)
+#
+# SCOPO: (1) primo grid_sized su bioma NON-badlands (terzo esemplare: il path
+#   non e' one-off ne' single-biome); (2) primo grid_sized con hazard tiles
+#   REALI (18 celle lava) -> feed diretto per la calibrazione D9 del termine
+#   geometry xpBudget (hazard_set: [lava, acqua_profonda], flag OFF);
+#   (3) aspect ratio nuovo 1.8:1 (18x10 = 180 celle; dorsale 16x12, canyon 20x12).
+#
+# DESIGN (principi densita' ricerca big-map sez. 3 + D1-D10; spec B3; lezioni
+# MISURATE su dorsale+canyon -- tutti i valori PROPOSED, SDMG):
+#   - FIUME DI LAVA verticale (x=8-9) spezza la board in due rive; hazard
+#     walkable (lava NON blocca LOS; MOVE_TERRAIN_COST_ENABLED OFF -> costo
+#     forward-compat inerte, come lava dorsale/canyon).
+#   - CAUSEWAY unico a y=4-5: gate di roccia (7,3)/(7,6)/(10,3)/(10,6) =
+#     blocker LOS-reali che incorniciano l'unico crossing pulito.
+#   - POCHI-FORTI-VICINI (lezione dorsale c1-c4): wave-1 = 3 unita' che
+#     PRESIDIANO la bocca est del causeway (le due pyrosaltus DENTRO le celle
+#     (10,4)/(10,5) = muro di occupancy reale); l'apex copre da dietro.
+#   - Spawn-zone curate: entry tiles est/creste oltre il fiume, mai alle
+#     spalle del party; valvola FINITA max_total_spawns 4.
+#   - Anti-dead-time: time_limit 25 su traversata ~16 celle; contatto al
+#     causeway entro round 4-5.
+#   - Roster canonico abisso_vulcanico (species_catalog biome_affinity):
+#     rotabrachium_ferox (predatore_apex) + pyrosaltus-celeris (threat/
+#     ambusher) + pool cinerastra-nodosa / pyroflagellum_meteoriticum.
+#
+# Schema: schemas/evo/encounter.schema.json (board_scale #3199)
+# ADR: ADR-2026-07-03-authored-grid-board-scale
+# Evidence metodo: docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md
+#   (authority) + docs/research/2026-07-06-abisso-colata-grid-ratify.md
+#   (questo encounter, N=10 -> N=40)
+# =============================================================================
+
+encounter_id: enc_abisso_colata_basaltica_01
+name: 'La Colata Basaltica'
+biome_id: abisso_vulcanico
+grid_size: [18, 10]
+board_scale: grid_sized
+difficulty_rating: 4
+pressure_tier_floor: 3
+encounter_class: standard
+
+objective:
+  type: elimination
+  loss_conditions:
+    time_limit: 25
+    player_wipe: true
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [1, 4]
+  - [1, 5]
+
+# Terreno: fiume di lava verticale + gate di roccia + scatter. 26 celle su 180
+# (~14%), niente fill uniforme. roccia = blocca LOS; lava = hazard walkable
+# (18 celle: il primo grid_sized che esercita hazard_set del termine D9);
+# sabbia = flavor walkable senza copertura.
+grid:
+  width: 18
+  height: 10
+  terrain_features:
+    # --- Fiume di lava (x=8): causeway libero a y=4-5 ---
+    - { x: 8, y: 0, type: lava, defense_mod: 0 }
+    - { x: 8, y: 1, type: lava, defense_mod: 0 }
+    - { x: 8, y: 2, type: lava, defense_mod: 0 }
+    - { x: 8, y: 3, type: lava, defense_mod: 0 }
+    - { x: 8, y: 6, type: lava, defense_mod: 0 }
+    - { x: 8, y: 7, type: lava, defense_mod: 0 }
+    - { x: 8, y: 8, type: lava, defense_mod: 0 }
+    - { x: 8, y: 9, type: lava, defense_mod: 0 }
+    # --- Fiume di lava (x=9): stesso varco ---
+    - { x: 9, y: 0, type: lava, defense_mod: 0 }
+    - { x: 9, y: 1, type: lava, defense_mod: 0 }
+    - { x: 9, y: 2, type: lava, defense_mod: 0 }
+    - { x: 9, y: 3, type: lava, defense_mod: 0 }
+    - { x: 9, y: 6, type: lava, defense_mod: 0 }
+    - { x: 9, y: 7, type: lava, defense_mod: 0 }
+    - { x: 9, y: 8, type: lava, defense_mod: 0 }
+    - { x: 9, y: 9, type: lava, defense_mod: 0 }
+    # --- Gate di roccia: cornice LOS del causeway ---
+    - { x: 7, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 7, y: 6, type: roccia, defense_mod: 2 }
+    - { x: 10, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 10, y: 6, type: roccia, defense_mod: 2 }
+    # --- Pozze laterali riva ovest (hazard scatter, niente corridoio pulito) ---
+    - { x: 4, y: 2, type: lava, defense_mod: 0 }
+    - { x: 4, y: 7, type: lava, defense_mod: 0 }
+    # --- Riva est: creste di basalto (copertura rotta) + cenere ---
+    - { x: 13, y: 1, type: roccia, defense_mod: 2 }
+    - { x: 13, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 14, y: 4, type: sabbia, defense_mod: 0 }
+    - { x: 14, y: 5, type: sabbia, defense_mod: 0 }
+
+# Wave unica: il presidio tiene la bocca EST del causeway. Le due pyrosaltus
+# DENTRO le celle (10,4)/(10,5) = muro di occupancy vero (i player devono
+# abbatterle per sfondare); l'apex copre da dietro le creste. Ordine spawn =
+# espansione 1:1 (apex -> sp[0]; elite x2 -> sp[1],sp[2]).
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [12, 5]
+      - [10, 4]
+      - [10, 5]
+    units:
+      - species: rotabrachium_ferox
+        count: 1
+        tier: apex
+        ai_profile: aggressive_with_stickiness
+      - species: pyrosaltus-celeris
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+
+# Push-economy: valvola finita (cap 4), cadenza tier-driven (Escalated=2/tick,
+# cooldown 3). Pool coerente col FOODWEB abisso_vulcanico (whitelist
+# foodwebFilter = i 5 sp_* del catalogo; i threat-tier T2/T3 tipo
+# pyroflagellum_meteoriticum vengono ESCLUSI dal filter in pool misto --
+# verificato via filterReinforcementPool, capacita' pool = cap valvola).
+reinforcement_pool:
+  - unit_id: cinerastra-nodosa
+    weight: 3
+    max_spawns: 3
+    hp: 7
+    mod: 2
+    dc: 11
+    ai_profile: aggressive
+  - unit_id: basaltocara-scutata
+    weight: 1
+    max_spawns: 1
+    hp: 10
+    mod: 3
+    dc: 12
+    ai_profile: flanking
+
+# Spawn-zone curate: creste est oltre il fiume + bordo est. Mai il quadrante
+# ovest del party.
+reinforcement_entry_tiles:
+  - [14, 0]
+  - [14, 9]
+  - [17, 4]
+  - [17, 5]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 3
+  max_total_spawns: 4
+  min_distance_from_pg: 4
+
+conditions: []
+
+tags: [standard, timed]
+
+didactic_focus:
+  - los_cover_routing
+  - chokepoint_breach
+  - reinforcement_pressure
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: pericolo_calore
+  lighting: calda_dal_basso
+  particle_effect: scintille_magma
+  accent_override: '#c8391f'

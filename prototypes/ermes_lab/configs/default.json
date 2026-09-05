@@ -1,0 +1,49 @@
+{
+  "biome_id": "badlands",
+  "generations": 150,
+  "seed": 7,
+  "environment": {
+    "temperature": 0.55,
+    "food": 0.75,
+    "predators": 0.35,
+    "volatility": 0.02
+  },
+  "species": [
+    {
+      "name": "Dune Stalker",
+      "population": 120,
+      "traits": {
+        "speed": 0.76,
+        "size": 0.42,
+        "resistance": 0.52
+      },
+      "reproduction_rate": 1.35,
+      "mutation_rate": 0.07,
+      "mutation_strength": 0.035
+    },
+    {
+      "name": "Sand Burrower",
+      "population": 100,
+      "traits": {
+        "speed": 0.44,
+        "size": 0.58,
+        "resistance": 0.72
+      },
+      "reproduction_rate": 1.25,
+      "mutation_rate": 0.06,
+      "mutation_strength": 0.03
+    },
+    {
+      "name": "Rust Scavenger",
+      "population": 90,
+      "traits": {
+        "speed": 0.38,
+        "size": 0.74,
+        "resistance": 0.62
+      },
+      "reproduction_rate": 1.2,
+      "mutation_rate": 0.055,
+      "mutation_strength": 0.03
+    }
+  ]
+}

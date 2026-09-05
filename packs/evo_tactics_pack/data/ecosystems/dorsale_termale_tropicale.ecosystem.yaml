@@ -1,0 +1,42 @@
+schema_version: 1.0
+ecosistema:
+  id: DORSALE_TERMALE_TROPICALE
+  label: Dorsale Termale Tropicale
+  biome_id: dorsale_termale_tropicale
+  clima:
+    temperatura_C:
+      media_annua: 28.0
+      min_mese_piu_freddo: 18.0
+      max_mese_piu_caldo: 60.0
+    precipitazioni_mm:
+      totale_annuo: 2200
+      indice_stagionalita: perenne-tropicale
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.5
+  abiotico:
+    salinita: saline
+    nutrienti:
+      N: medio
+      P: alto
+      K: alto
+  trofico:
+    produttori:
+    - cianobatteri
+    - alghe_termali
+    consumatori:
+      primari:
+      - symbiotica-thermalis
+      secondari:
+      - umbra-alaris
+      terziari: []
+    decompositori: []
+  note: 'Dorsale Termale Tropicale (geothermal sommersa): fumarole calde, fauna simbiotica;
+    gradiente idrotermale tropicale.'
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

@@ -1,0 +1,18 @@
+{
+  "id": "TKT-PCG-DEAD-CELLS-CONCEPT-GRAPH",
+  "title": "Dead Cells concept graph PCG",
+  "pillar": "P5",
+  "effort_hours": 8,
+  "donor_game": {
+    "name": "Dead Cells",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#5-dead-cells-motion-twin--2018"
+  },
+  "agent_owner": "pcg-level-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "`encounter_concepts.yaml` schema constraint spec + composer. biomeSpawnBias V7 = primitive layer."
+}

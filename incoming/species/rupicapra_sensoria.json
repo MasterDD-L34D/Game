@@ -1,0 +1,28 @@
+{
+  "species": {
+    "scientific_name": "Rupicapra sensoria",
+    "common_names": ["Camoscio Psionico"],
+    "classification": {
+      "macro_class": "Mammalia",
+      "habitat": "falesie e praterie montane"
+    },
+    "functional_signature": "Rete psionica di branco con difese mentali; capacità di arrampicata estrema.",
+    "visual_description": "Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle adesive; mantello bruno.",
+    "risk_profile": {
+      "danger_level": 1,
+      "vectors": ["confusione psichica"]
+    },
+    "interactions": {
+      "predates_on": [],
+      "predated_by": ["lupi", "aquile"],
+      "symbiosis": "nessuna"
+    },
+    "constraints": [
+      "Rete psionica degrada oltre 500 m di distanza",
+      "Affaticamento mentale dopo stress prolungato"
+    ],
+    "sentience_index": "T2",
+    "ecotypes": ["Cenge Calcarenitiche", "Dorsali Ventose"],
+    "trait_refs": ["TR-2001", "TR-2002", "TR-2003", "TR-2004", "TR-2005"]
+  }
+}

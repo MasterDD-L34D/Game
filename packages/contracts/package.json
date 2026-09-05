@@ -1,0 +1,14 @@
+{
+  "name": "@game/contracts",
+  "version": "0.1.0",
+  "description": "Shared TypeScript types and JSON Schemas for Evo-Tactics services",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "schemas"
+  ]
+}

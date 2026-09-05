@@ -1,0 +1,43 @@
+# encoding-non-ascii-ok: pre-existing Italian effect descriptions (accented prose)
+# TKT-WORLDGEN-GAPB (2026-05-29): added season + pressure_delta + hazard_modifier
+# so crossEventEngine applies a flat seasonal pressure offset to each affected
+# biome (to_nodes). FLAT modifier (Rimworld temperature-offset), not a sim.
+schema_version: 1.0
+events:
+  - species_id: evento-tempesta-ferrosa
+    from_nodes:
+      - BADLANDS
+    propagate_via:
+      - corridor
+      - seasonal_bridge
+    to_nodes:
+      - FORESTA_TEMPERATA
+      - DESERTO_CALDO
+    effect: polveri ferrose e carica magnetica, penalità visibilità/gear metallico
+    season: autumn
+    pressure_delta: 2
+    hazard_modifier: metal_gear_visibility
+  - species_id: evento-ondata-termica
+    from_nodes:
+      - DESERTO_CALDO
+    propagate_via:
+      - corridor
+    to_nodes:
+      - BADLANDS
+    effect: ondata di calore e ionizzazione, stress termico esteso
+    season: summer
+    pressure_delta: 2
+    hazard_modifier: thermal_stress
+  - species_id: evento-brinastorm
+    from_nodes:
+      - CRYOSTEPPE
+    propagate_via:
+      - seasonal_bridge
+      - trophic_spillover
+    to_nodes:
+      - FORESTA_TEMPERATA
+      - BADLANDS
+    effect: ghiaccio fine in sospensione, visibilità ridotta e attrito aumentato
+    season: winter
+    pressure_delta: 1
+    hazard_modifier: ice_friction

@@ -1,0 +1,6 @@
+[shard-3341] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_06-smoke-c-shards\shard-3341.log
+[shard-3342] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_06-smoke-c-shards\shard-3342.log
+[shard-3343] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_06-smoke-c-shards\shard-3343.log
+[shard-3344] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_06-smoke-c-shards\shard-3344.log
+[parallel] waiting 4 shards healthy (max 60s each)...
+[parallel] shard http://localhost:3341 NOT HEALTHY after 60s, aborting

@@ -1,0 +1,60 @@
+:root {
+  --page-shell-max: 1280px;
+  --page-shell-padding-inline: clamp(1.5rem, 4vw, 5rem);
+  --page-grid-gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.page-shell {
+  width: min(100%, var(--page-shell-max));
+  margin-inline: auto;
+  padding-inline: var(--page-shell-padding-inline);
+}
+
+.page-shell--tight {
+  --page-shell-padding-inline: clamp(1.25rem, 3vw, 3.5rem);
+}
+
+.page-grid {
+  display: grid;
+  gap: var(--page-grid-gap);
+}
+
+.page-grid--stacked {
+  gap: clamp(1.25rem, 2vw, 2rem);
+}
+
+.page-grid--two-col {
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .page-grid--two-col {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-grid--two-col {
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .page-shell {
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  .page-grid--two-col {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --page-grid-gap: clamp(1.25rem, 3.5vw, 1.75rem);
+  }
+
+  .page-shell {
+    padding-inline: clamp(0.75rem, 5vw, 1.5rem);
+  }
+}

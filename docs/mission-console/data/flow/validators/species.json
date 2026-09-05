@@ -1,0 +1,15 @@
+{
+  "result": {
+    "messages": [
+      {
+        "level": "info",
+        "message": "Validazione specie eseguita dal fallback locale"
+      }
+    ],
+    "discarded": [],
+    "corrected": [],
+    "meta": {
+      "endpoint_source": "fallback"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+Could not find platform independent libraries <prefix>
+[1/10] T rounds=41 boss_hp=10 pa=6
+[2/10] T rounds=41 boss_hp=10 pa=6
+[3/10] V rounds=38 boss_hp=0 pa=6
+[4/10] V rounds=40 boss_hp=0 pa=6
+[5/10] V rounds=40 boss_hp=0 pa=6
+[6/10] V rounds=40 boss_hp=0 pa=6
+[7/10] V rounds=38 boss_hp=0 pa=5
+[8/10] T rounds=41 boss_hp=2 pa=6
+[9/10] V rounds=26 boss_hp=0 pa=6
+[10/10] T rounds=41 boss_hp=7 pa=5
+
+Wrote reports/calibration/m6_iter3.json
+
+=== AGGREGATE ===
+{
+  "N": 10,
+  "win_rate": 0.6,
+  "win_count": 6,
+  "loss_count": 0,
+  "timeout_count": 4,
+  "turns_avg": 38.6,
+  "turns_median": 40.0,
+  "turns_stdev": 4.340506882842141,
+  "turns_min": 26,
+  "turns_max": 41,
+  "turns_hist": {
+    "1-5": 0,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 0,
+    "21-30": 1,
+    "31-40": 5
+  },
+  "kd_avg": 2.6166666666666667,
+  "kd_median": 2.75,
+  "dmg_dealt_avg": 67.1,
+  "dmg_taken_avg": 25.7,
+  "boss_hp_remaining_avg_on_loss": null,
+  "players_alive_avg_on_win": 5.833333333333333,
+  "ai_intent_distribution": {
+    "Critical|move": 63,
+    "Critical|unknown": 20,
+    "Critical|attack": 5,
+    "Apex|attack": 149,
+    "Apex|move": 199,
+    "Apex|unknown": 41
+  },
+  "elapsed_sec": 835.3,
+  "failures": 0
+}

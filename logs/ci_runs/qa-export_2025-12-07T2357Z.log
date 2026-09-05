@@ -1,0 +1,3 @@
+[2025-12-07T23:57:05Z] Attempted to dispatch qa-export.yml via `gh workflow run qa-export.yml -b main`.
+Outcome: NOT EXECUTED – GitHub CLI (`gh`) is missing and no GH_TOKEN/PAT is configured for workflow dispatch or artifact download.
+Follow-up: install GitHub CLI, authenticate with a PAT that allows actions:read/workflow and contents for artifact retrieval, then rerun from main and archive QA export artifacts.

@@ -1,0 +1,10 @@
+axis_key,axis_label,trait_archetype,creatures_total,avg_score,median_score,high_creatures,critical_creatures,top_roles,library_traits,recommended_traits,missing_traits,impact_score,impact_category,effort_estimate
+versatility,Asse Strutturale,struttura,1211,0.804,0.867,944,740,predatore_terziario_apex:515; evento_ecologico:196; minaccia_microbica:121,17,21,4,2424,Critico,Alto (≥4 tratti)
+mobility,Asse Mobilità,locomozione,1211,0.425,0.35,299,159,predatore_terziario_apex:246; evento_ecologico:32; minaccia_microbica:11,21,7,0,617,Stabile,Allineato
+threat,Asse Minaccia,offensiva,1211,0.358,0.3,259,134,predatore_terziario_apex:185; minaccia_microbica:34; evento_ecologico:25,14,6,0,527,Stabile,Allineato
+magic,Asse Strategico,strategia,1211,0.251,0.1,102,33,predatore_terziario_apex:94; minaccia_microbica:8,15,3,0,168,Stabile,Allineato
+defense,Asse Difensivo,difesa,1211,0.389,0.35,49,1,predatore_terziario_apex:49,19,2,0,51,Stabile,Allineato
+environment,Asse Ambientale,metabolismo,1211,0.245,0.167,36,1,evento_ecologico:16; predatore_terziario_apex:15; ingegneri_ecosistema:5,18,1,0,38,Stabile,Allineato
+stealth,Asse Occulto,simbiotico,1211,0.064,0.05,2,2,predatore_terziario_apex:2,19,1,0,6,Stabile,Allineato
+perception,Asse Sensoriale,sensoriale,1211,0.24,0.2,4,0,predatore_terziario_apex:4,22,1,0,4,Stabile,Allineato
+social,Asse Supporto,supporto,1211,0.132,0.1,0,0,,16,0,0,0,Stabile,Allineato

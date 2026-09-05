@@ -1,0 +1,1350 @@
+{
+  "imports": [
+    {
+      "source": "backlog",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "catalog",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "config",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "data",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs",
+      "note": "Directory; QA `reports/evo/qa/docs.log` aggiornato con `npm run docs:lint` → collegamenti interni validi. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "home",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home",
+      "note": "Directory"
+    },
+    {
+      "source": "ops",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "scripts",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts",
+      "note": "Directory script stabilizzata; contenuti principali spostati in `incoming/scripts/`. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "species",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species",
+      "note": "Directory; validazione specie/ecotipi registrata in `reports/evo/qa/dataset.log`."
+    },
+    {
+      "source": "templates",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "tests",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "traits",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits",
+      "note": "Directory"
+    },
+    {
+      "source": "workflows",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "GDD.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/GDD.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Game_EvoTactics_Guida_Pacchetto_v2.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Game_EvoTactics_Guida_Pacchetto_v2.pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "INTEGRAZIONE_GUIDE.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "../archive/documents/Guida Ai tratti 1.docx",
+      "destination": "docs/evo-tactics/guida-ai-tratti-1.md",
+      "note": "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-1.md"
+    },
+    {
+      "source": "../archive/documents/Guida Ai tratti 2.docx",
+      "destination": "docs/evo-tactics/guida-ai-tratti-2.md",
+      "note": "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-2.md"
+    },
+    {
+      "source": "../archive/documents/Guida Ai tratti 3 Evo tact.docx",
+      "destination": "docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
+      "note": "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md"
+    },
+    {
+      "source": "../archive/documents/Guida Ai tratti 3 database.docx",
+      "destination": "docs/evo-tactics/guida-ai-tratti-3-database.md",
+      "note": "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-database.md"
+    },
+    {
+      "source": "../archive/documents/Integrazioni V2.docx",
+      "destination": "docs/evo-tactics/integrazioni-v2.md",
+      "note": "File .docx archiviato; convertito in docs/evo-tactics/integrazioni-v2.md"
+    },
+    {
+      "source": "Progetto unico e fonti (1).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_1.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Progetto unico e fonti (2).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_2.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Progetto unico e fonti (3).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_3.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Progetto unico e fonti (4).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_4.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Progetto unico e fonti (5).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_5.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Progetto unico e fonti (6).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_6.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Progetto unico e fonti (7).pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_7.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "README.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "README_CI.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_CI.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "README_HOWTO_AUTHOR_TRAIT.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_HOWTO_AUTHOR_TRAIT.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "README_NO_PROXY.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_NO_PROXY.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "Revisiona automati tratti.pdf",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Revisiona_automati_tratti.pdf",
+      "note": "File .pdf. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "backlog_tasks_example.yaml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog_tasks_example.yaml",
+      "note": "File .yaml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "evo_tactics_game_database_guide.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_database_guide.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "evo_tactics_game_guide.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_guide.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "evo_tactics_guide.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_guide.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "games_overview.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/games_overview.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "incident_response.md",
+      "destination": "docs/security/incident_response.md",
+      "note": "Copia legacy spostata sotto docs/security/"
+    },
+    {
+      "source": "new_traits_proposals.yaml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/new_traits_proposals.yaml",
+      "note": "File .yaml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "policy.md",
+      "destination": "docs/security/policy.md",
+      "note": "Copia legacy spostata sotto docs/security/"
+    },
+    {
+      "source": "prontuario_metriche_ucum.md",
+      "destination": "docs/prontuario_metriche_ucum.md",
+      "note": "Copia legacy spostata sotto docs/"
+    },
+    {
+      "source": "proposed_routes.csv",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/proposed_routes.csv",
+      "note": "File .csv. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "risk_register.md",
+      "destination": "docs/security/risk_register.md",
+      "note": "Copia legacy spostata sotto docs/security/"
+    },
+    {
+      "source": "security.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "species_analysis_report.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_analysis_report.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "species_catalog.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_catalog.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "species_summary_example.csv",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_summary_example.csv",
+      "note": "File .csv. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step1_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step1_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step2_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step2_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step3_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step3_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step4_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step4_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step5_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step5_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step6_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step6_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "step7_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step7_summary.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "threat_model.md",
+      "destination": "docs/security/threat_model.md",
+      "note": "Copia legacy spostata sotto docs/security/"
+    },
+    {
+      "source": "trait_analysis_summary.md",
+      "destination": "docs/analysis/trait_analysis_summary.md",
+      "note": "Copia legacy spostata sotto docs/analysis/"
+    },
+    {
+      "source": "trait_anomalies.csv",
+      "destination": "docs/analysis/trait_anomalies.csv",
+      "note": "Copia legacy spostata sotto docs/analysis/"
+    },
+    {
+      "source": "trait_merge_proposals.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/trait_merge_proposals.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "trait_review_report.md",
+      "destination": "docs/analysis/trait_review_report.md",
+      "note": "Copia legacy spostata sotto docs/analysis/"
+    },
+    {
+      "source": "traits_catalog.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/traits_catalog.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "traits_reference.md",
+      "destination": "docs/traits_reference.md",
+      "note": "Copia legacy spostata sotto docs/"
+    },
+    {
+      "source": "backlog/backlog_tasks_example.yaml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog/backlog_tasks_example.yaml",
+      "note": "File .yaml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "catalog/ecotypes_index.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/ecotypes_index.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "catalog/master.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/master.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "config/tracker_registry_update_example.yaml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config/tracker_registry_update_example.yaml",
+      "note": "File .yaml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "data/aliases",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "data/aliases/species_aliases.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases/species_aliases.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/analysis",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis",
+      "note": "Directory allineata con la documentazione consolidata. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/security",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security",
+      "note": "Directory allineata con la documentazione consolidata. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/wireframes",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes",
+      "note": "Directory"
+    },
+    {
+      "source": "docs/GDD.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/GDD.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/INTEGRAZIONE_GUIDE.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/INTEGRAZIONE_GUIDE.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/QA_TRAITS_V2.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/README_HOWTO_AUTHOR_TRAIT.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/README_HOWTO_AUTHOR_TRAIT.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/STYLE_GUIDE_NAMING.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/STYLE_GUIDE_NAMING.md",
+      "note": "File .md. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/prontuario_metriche_ucum.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/prontuario_metriche_ucum.md",
+      "note": "Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/traits_reference.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/traits_reference.md",
+      "note": "Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/analysis/trait_analysis_summary.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_analysis_summary.md",
+      "note": "Report consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/analysis/trait_anomalies.csv",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_anomalies.csv",
+      "note": "Dataset consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/analysis/trait_review_report.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_review_report.md",
+      "note": "Report consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/security/incident_response.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/incident_response.md",
+      "note": "Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/security/policy.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/policy.md",
+      "note": "Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/security/risk_register.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/risk_register.md",
+      "note": "Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/security/threat_model.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/threat_model.md",
+      "note": "Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/wireframes/generatore.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/generatore.md",
+      "note": "File .md"
+    },
+    {
+      "source": "docs/wireframes/homepage.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/homepage.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/backlog",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/backlog",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/scripts",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/config",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/config",
+      "note": "File senza estensione"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml",
+      "note": "File .yaml"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/security",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security",
+      "note": "Directory"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml",
+      "note": "File .yaml"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv",
+      "note": "File .csv"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv",
+      "note": "File .csv"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md",
+      "note": "File .md"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh",
+      "note": "File .sh"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py",
+      "note": "File .py"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py",
+      "note": "File .py"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py",
+      "note": "File .py"
+    },
+    {
+      "source": "home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py",
+      "note": "File .py"
+    },
+    {
+      "source": "ops/site-audit",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/build_redirects.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_redirects.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/build_sitemap.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_sitemap.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/check_links.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/check_links.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/common.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/common.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/generate_search_index.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_search_index.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/generate_structured_data.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_structured_data.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/redirects_map.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/redirects_map.yaml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.yaml",
+      "note": "File .yaml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/report_links.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/report_links.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/requirements.txt",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/requirements.txt",
+      "note": "File .txt. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "ops/site-audit/route_mapping.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/route_mapping.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "scripts/init_security_checks.sh",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/init_security_checks.sh",
+      "note": "File .sh. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "scripts/setup_backlog.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "scripts/species_summary_script.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "scripts/trait_review.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "scripts/update_tracker_registry.py",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py",
+      "note": "File .py. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "species/anguis_magnetica.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/anguis_magnetica.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/chemnotela_toxica.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/chemnotela_toxica.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/elastovaranus_hydrus.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/elastovaranus_hydrus.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/gulogluteus_scutiger.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/gulogluteus_scutiger.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/perfusuas_pedes.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/perfusuas_pedes.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/proteus_plasma.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/proteus_plasma.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/rupicapra_sensoria.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/rupicapra_sensoria.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/soniptera_resonans.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/soniptera_resonans.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/species_catalog.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/species_catalog.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/terracetus_ambulator.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/terracetus_ambulator.json",
+      "note": "File .json"
+    },
+    {
+      "source": "species/umbra_alaris.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/species/umbra_alaris.json",
+      "note": "File .json"
+    },
+    {
+      "source": "templates/species.schema.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/species.schema.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "templates/trait.schema.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/trait.schema.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "tests/playwright",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright",
+      "note": "Directory. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "tests/playwright/generator.spec.ts",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/generator.spec.ts",
+      "note": "File .ts. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "tests/playwright/nav.spec.ts",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/nav.spec.ts",
+      "note": "File .ts. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "tests/playwright/package.json",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/package.json",
+      "note": "File .json. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "tests/playwright/playwright.config.ts",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/playwright.config.ts",
+      "note": "File .ts. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "traits/TR-1101.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1101.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1102.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1102.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1103.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1103.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1104.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1104.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1105.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1105.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1201.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1201.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1202.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1202.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1203.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1203.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1204.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1204.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1205.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1205.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1301.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1301.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1302.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1302.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1303.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1303.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1304.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1304.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1305.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1305.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1401.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1401.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1402.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1402.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1403.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1403.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1404.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1404.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1405.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1405.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1501.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1501.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1502.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1502.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1503.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1503.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1504.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1504.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1505.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1505.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1601.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1601.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1602.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1602.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1603.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1603.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1604.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1604.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1605.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1605.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1701.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1701.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1702.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1702.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1703.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1703.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1704.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1704.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1705.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1705.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1801.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1801.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1802.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1802.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1803.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1803.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1804.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1804.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1805.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1805.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1901.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1901.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1902.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1902.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1903.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1903.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1904.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1904.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-1905.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1905.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-2001.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2001.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-2002.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2002.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-2003.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2003.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-2004.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2004.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/TR-2005.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2005.json",
+      "note": "File .json importato in data/external/evo/traits/"
+    },
+    {
+      "source": "traits/traits_aggregate.json",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/traits_aggregate.json",
+      "note": "File .json aggregato (fonte slug)"
+    },
+    {
+      "source": "workflows/e2e.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/e2e.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "workflows/gh-pages.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/gh-pages.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "workflows/lighthouse.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/lighthouse.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "workflows/schema-validate.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/schema-validate.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "workflows/search-index.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/search-index.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "workflows/security.yml",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/security.yml",
+      "note": "File .yml. Duplicato archiviato nella bonifica del 2025-12-19."
+    },
+    {
+      "source": "docs/wireframes/evo/mockup_evo_tactics.md",
+      "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/evo/mockup_evo_tactics.md",
+      "note": "Pagina descrittiva del mockup Evo con punti chiave della console"
+    }
+  ],
+  "diffs": [
+    {
+      "consolidated": "docs/evo-tactics/README.md",
+      "archive": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README.md",
+      "frontmatter_missing_in_archive": [],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guida-ai-tratti-1.md",
+      "archive": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md",
+      "frontmatter_missing_in_archive": [],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {
+        "title": {
+          "consolidated": "Evo-Tactics · Guida ai Tratti (Parte 1)",
+          "archive": "Evo-Tactics · Guida ai Tratti (Parte 2)"
+        },
+        "description": {
+          "consolidated": "Sommario operativo del pacchetto Evo-Tactics Pack v2 con standard specie e tratti, workflow di migrazione e QA.",
+          "archive": "Approfondimento su governance dei tratti, migrazione v2.1 e controllo qualità del pacchetto Evo-Tactics."
+        }
+      },
+      "anchors_added": [
+        "evo-guida-ai-tratti-1",
+        "evo-guida-ai-tratti-1-1-elastovaranus-hydrus-vivernaelastico",
+        "evo-guida-ai-tratti-1-10-rupicapra-sensoria-camoscio-psionico",
+        "evo-guida-ai-tratti-1-2-gulogluteus-scutiger-ghiottonscudo",
+        "evo-guida-ai-tratti-1-3-perfusuas-pedes-zannapiedi",
+        "evo-guida-ai-tratti-1-4-terracetus-ambulator-megattera-terrestre",
+        "evo-guida-ai-tratti-1-5-chemnotela-toxica-aracnide-alchemico",
+        "evo-guida-ai-tratti-1-6-proteus-plasma-mutaforma-cellulare",
+        "evo-guida-ai-tratti-1-7-soniptera-resonans-libellula-sonica",
+        "evo-guida-ai-tratti-1-8-anguis-magnetica-anguilla-geomagnetica",
+        "evo-guida-ai-tratti-1-9-umbra-alaris-uccello-ombra",
+        "evo-guida-ai-tratti-1-catalogo-master-e-indici",
+        "evo-guida-ai-tratti-1-conclusione",
+        "evo-guida-ai-tratti-1-documentazione-integrativa-del-pacchetto",
+        "evo-guida-ai-tratti-1-ecotipi-e-varianti",
+        "evo-guida-ai-tratti-1-ecotipi-e-varianti-ecologiche",
+        "evo-guida-ai-tratti-1-guida-allo-stile",
+        "evo-guida-ai-tratti-1-guida-completa-ai-trait-estratto",
+        "evo-guida-ai-tratti-1-howto-autore-trait-estratto",
+        "evo-guida-ai-tratti-1-introduzione",
+        "evo-guida-ai-tratti-1-pipeline-di-migrazione-v1-v2",
+        "evo-guida-ai-tratti-1-prontuario-metriche-ucum-estratto",
+        "evo-guida-ai-tratti-1-prossimi-passi-e-raccomandazioni",
+        "evo-guida-ai-tratti-1-schede-delle-specie-e-dei-loro-tratti",
+        "evo-guida-ai-tratti-1-specifiche-standard-v2",
+        "evo-guida-ai-tratti-1-strumenti-di-validazione-e-qa",
+        "evo-guida-ai-tratti-1-struttura-del-pacchetto",
+        "evo-guida-ai-tratti-1-uso-del-pacchetto-e-prossimi-passi"
+      ],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guida-ai-tratti-2.md",
+      "archive": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md",
+      "frontmatter_missing_in_archive": [],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [
+        "evo-guida-ai-tratti-2",
+        "evo-guida-ai-tratti-2-1-elastovaranus-hydrus-vivernaelastico",
+        "evo-guida-ai-tratti-2-10-rupicapra-sensoria-camoscio-psionico",
+        "evo-guida-ai-tratti-2-2-gulogluteus-scutiger-ghiottonscudo",
+        "evo-guida-ai-tratti-2-3-perfusuas-pedes-zannapiedi",
+        "evo-guida-ai-tratti-2-4-terracetus-ambulator-megattera-terrestre",
+        "evo-guida-ai-tratti-2-5-chemnotela-toxica-aracnide-alchemico",
+        "evo-guida-ai-tratti-2-6-proteus-plasma-mutaforma-cellulare",
+        "evo-guida-ai-tratti-2-7-soniptera-resonans-libellula-sonica",
+        "evo-guida-ai-tratti-2-8-anguis-magnetica-anguilla-geomagnetica",
+        "evo-guida-ai-tratti-2-9-umbra-alaris-uccello-ombra",
+        "evo-guida-ai-tratti-2-catalogo-master-e-indici",
+        "evo-guida-ai-tratti-2-conclusione",
+        "evo-guida-ai-tratti-2-conclusioni-e-prospettive",
+        "evo-guida-ai-tratti-2-documentazione-integrativa-del-pacchetto",
+        "evo-guida-ai-tratti-2-ecotipi-e-varianti",
+        "evo-guida-ai-tratti-2-ecotipi-e-varianti-ecologiche",
+        "evo-guida-ai-tratti-2-guida-allo-stile",
+        "evo-guida-ai-tratti-2-guida-completa-ai-trait-estratto",
+        "evo-guida-ai-tratti-2-howto-autore-trait-estratto",
+        "evo-guida-ai-tratti-2-integrazione-con-lo-schema-canonico-e-la-track-di-senzienza-v2-1",
+        "evo-guida-ai-tratti-2-introduzione",
+        "evo-guida-ai-tratti-2-mappatura-e-regole-di-convergenza",
+        "evo-guida-ai-tratti-2-passi-operativi-per-la-migrazione",
+        "evo-guida-ai-tratti-2-pipeline-di-migrazione-v1-v2",
+        "evo-guida-ai-tratti-2-prontuario-metriche-ucum-estratto",
+        "evo-guida-ai-tratti-2-prossimi-passi-e-raccomandazioni",
+        "evo-guida-ai-tratti-2-roadmap-e-gate-di-qualita",
+        "evo-guida-ai-tratti-2-schede-delle-specie-e-dei-loro-tratti",
+        "evo-guida-ai-tratti-2-sentience-track-t1t6",
+        "evo-guida-ai-tratti-2-specifiche-standard-v2",
+        "evo-guida-ai-tratti-2-stato-target-e-struttura-file-ssot",
+        "evo-guida-ai-tratti-2-strumenti-di-validazione-e-qa",
+        "evo-guida-ai-tratti-2-struttura-del-pacchetto",
+        "evo-guida-ai-tratti-2-uso-del-pacchetto-e-prossimi-passi"
+      ],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guida-ai-tratti-3-database.md",
+      "archive": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_database_guide.md",
+      "frontmatter_missing_in_archive": [],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [
+        "evo-guida-ai-tratti-3-database",
+        "evo-guida-ai-tratti-3-database-conclusione",
+        "evo-guida-ai-tratti-3-database-cosa-troverai-in-questa-guida",
+        "evo-guida-ai-tratti-3-database-ecotipi-e-varianti",
+        "evo-guida-ai-tratti-3-database-importazione-e-validazione-nel-gamedatabase",
+        "evo-guida-ai-tratti-3-database-introduzione",
+        "evo-guida-ai-tratti-3-database-migrazione-dai-dati-v1",
+        "evo-guida-ai-tratti-3-database-regole-di-naming-e-stile",
+        "evo-guida-ai-tratti-3-database-roadmap-per-lintegrazione-dei-documenti",
+        "evo-guida-ai-tratti-3-database-schema-specie-species-genus-species-json",
+        "evo-guida-ai-tratti-3-database-schema-tratto-traits-tr-xxxx-json",
+        "evo-guida-ai-tratti-3-database-standard-v2-per-specie-e-tratti",
+        "evo-guida-ai-tratti-3-database-struttura-del-pacchetto"
+      ],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
+      "archive": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_guide.md",
+      "frontmatter_missing_in_archive": [],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [
+        "evo-guida-ai-tratti-3-evo-tactics",
+        "evo-guida-ai-tratti-3-evo-tactics-1-elastovaranus-hydrus-vivernaelastico",
+        "evo-guida-ai-tratti-3-evo-tactics-10-rupicapra-sensoria-camoscio-psionico",
+        "evo-guida-ai-tratti-3-evo-tactics-2-gulogluteus-scutiger-ghiottonscudo",
+        "evo-guida-ai-tratti-3-evo-tactics-3-perfusuas-pedes-zannapiedi",
+        "evo-guida-ai-tratti-3-evo-tactics-4-terracetus-ambulator-megattera-terrestre",
+        "evo-guida-ai-tratti-3-evo-tactics-5-chemnotela-toxica-aracnide-alchemico",
+        "evo-guida-ai-tratti-3-evo-tactics-6-proteus-plasma-mutaforma-cellulare",
+        "evo-guida-ai-tratti-3-evo-tactics-7-soniptera-resonans-libellula-sonica",
+        "evo-guida-ai-tratti-3-evo-tactics-8-anguis-magnetica-anguilla-geomagnetica",
+        "evo-guida-ai-tratti-3-evo-tactics-9-umbra-alaris-uccello-ombra",
+        "evo-guida-ai-tratti-3-evo-tactics-catalogo-master-e-indici",
+        "evo-guida-ai-tratti-3-evo-tactics-conclusione",
+        "evo-guida-ai-tratti-3-evo-tactics-conclusioni-e-prospettive",
+        "evo-guida-ai-tratti-3-evo-tactics-documentazione-integrativa-del-pacchetto",
+        "evo-guida-ai-tratti-3-evo-tactics-ecotipi-e-varianti",
+        "evo-guida-ai-tratti-3-evo-tactics-ecotipi-e-varianti-ecologiche",
+        "evo-guida-ai-tratti-3-evo-tactics-guida-allo-stile",
+        "evo-guida-ai-tratti-3-evo-tactics-guida-completa-ai-trait-estratto",
+        "evo-guida-ai-tratti-3-evo-tactics-howto-autore-trait-estratto",
+        "evo-guida-ai-tratti-3-evo-tactics-integrazione-con-lo-schema-canonico-e-la-track-di-senzienza-v2-1",
+        "evo-guida-ai-tratti-3-evo-tactics-introduzione",
+        "evo-guida-ai-tratti-3-evo-tactics-mappatura-e-regole-di-convergenza",
+        "evo-guida-ai-tratti-3-evo-tactics-passi-operativi-per-la-migrazione",
+        "evo-guida-ai-tratti-3-evo-tactics-pipeline-di-migrazione-v1-v2",
+        "evo-guida-ai-tratti-3-evo-tactics-prontuario-metriche-ucum-estratto",
+        "evo-guida-ai-tratti-3-evo-tactics-prossimi-passi-e-raccomandazioni",
+        "evo-guida-ai-tratti-3-evo-tactics-roadmap-e-gate-di-qualita",
+        "evo-guida-ai-tratti-3-evo-tactics-schede-delle-specie-e-dei-loro-tratti",
+        "evo-guida-ai-tratti-3-evo-tactics-sentience-track-t1t6",
+        "evo-guida-ai-tratti-3-evo-tactics-specifiche-standard-v2",
+        "evo-guida-ai-tratti-3-evo-tactics-stato-target-e-struttura-file-ssot",
+        "evo-guida-ai-tratti-3-evo-tactics-strumenti-di-validazione-e-qa",
+        "evo-guida-ai-tratti-3-evo-tactics-struttura-del-pacchetto",
+        "evo-guida-ai-tratti-3-evo-tactics-uso-del-pacchetto-e-prossimi-passi"
+      ],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guides/security-ops.md",
+      "archive": null,
+      "frontmatter_missing_in_archive": [
+        "description",
+        "tags",
+        "title",
+        "updated"
+      ],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guides/template-ptpf.md",
+      "archive": null,
+      "frontmatter_missing_in_archive": [
+        "description",
+        "tags",
+        "title",
+        "updated"
+      ],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/guides/visione-struttura.md",
+      "archive": null,
+      "frontmatter_missing_in_archive": [
+        "description",
+        "tags",
+        "title",
+        "updated"
+      ],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [],
+      "anchors_removed": []
+    },
+    {
+      "consolidated": "docs/evo-tactics/integrazioni-v2.md",
+      "archive": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md",
+      "frontmatter_missing_in_archive": [],
+      "frontmatter_missing_in_consolidated": [],
+      "frontmatter_mismatched": {},
+      "anchors_added": [
+        "evo-integrazioni-v2",
+        "evo-integrazioni-v2-1-elastovaranus-hydrus-vivernaelastico",
+        "evo-integrazioni-v2-10-rupicapra-sensoria-camoscio-psionico",
+        "evo-integrazioni-v2-2-gulogluteus-scutiger-ghiottonscudo",
+        "evo-integrazioni-v2-3-perfusuas-pedes-zannapiedi",
+        "evo-integrazioni-v2-4-terracetus-ambulator-megattera-terrestre",
+        "evo-integrazioni-v2-5-chemnotela-toxica-aracnide-alchemico",
+        "evo-integrazioni-v2-6-proteus-plasma-mutaforma-cellulare",
+        "evo-integrazioni-v2-7-soniptera-resonans-libellula-sonica",
+        "evo-integrazioni-v2-8-anguis-magnetica-anguilla-geomagnetica",
+        "evo-integrazioni-v2-9-umbra-alaris-uccello-ombra",
+        "evo-integrazioni-v2-catalogo-master-e-indici",
+        "evo-integrazioni-v2-conclusione",
+        "evo-integrazioni-v2-documentazione-integrativa-del-pacchetto",
+        "evo-integrazioni-v2-ecotipi-e-varianti",
+        "evo-integrazioni-v2-ecotipi-e-varianti-ecologiche",
+        "evo-integrazioni-v2-guida-allo-stile",
+        "evo-integrazioni-v2-guida-completa-ai-trait-estratto",
+        "evo-integrazioni-v2-howto-autore-trait-estratto",
+        "evo-integrazioni-v2-introduzione",
+        "evo-integrazioni-v2-pipeline-di-migrazione-v1-v2",
+        "evo-integrazioni-v2-prontuario-metriche-ucum-estratto",
+        "evo-integrazioni-v2-prossimi-passi-e-raccomandazioni",
+        "evo-integrazioni-v2-schede-delle-specie-e-dei-loro-tratti",
+        "evo-integrazioni-v2-specifiche-standard-v2",
+        "evo-integrazioni-v2-strumenti-di-validazione-e-qa",
+        "evo-integrazioni-v2-struttura-del-pacchetto",
+        "evo-integrazioni-v2-uso-del-pacchetto-e-prossimi-passi"
+      ],
+      "anchors_removed": []
+    }
+  ],
+  "unmatched": [
+    "docs/evo-tactics/guides/security-ops.md",
+    "docs/evo-tactics/guides/template-ptpf.md",
+    "docs/evo-tactics/guides/visione-struttura.md"
+  ]
+}

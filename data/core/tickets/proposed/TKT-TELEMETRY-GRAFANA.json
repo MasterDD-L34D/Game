@@ -1,0 +1,21 @@
+{
+  "id": "TKT-TELEMETRY-GRAFANA",
+  "title": "Grafana ops monitoring playtest dashboard",
+  "pillar": "P6",
+  "effort_hours": 11,
+  "donor_game": {
+    "name": "Grafana",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#10-grafana"
+  },
+  "agent_owner": "telemetry-viz-illuminator",
+  "status": "blocked",
+  "reuse_level": "full",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "BLOCKED dep approval. Docker-compose Grafana + JSON datasource plugin + 3-5 dashboard. Telemetry endpoint live.",
+  "blockers": [
+    "new dependency approval required"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-07-24T07:45:00Z",
+  "host": "http://localhost:8000",
+  "mapping": [
+    {"id": "R-01", "source": "/data/core", "target": "/data/core", "status": "PASS"},
+    {"id": "R-02", "source": "/data/traits", "target": "/data/core/traits", "status": "PASS"},
+    {"id": "R-03", "source": "/data/derived", "target": "/data/derived", "status": "PASS"}
+  ],
+  "notes": "Smoke eseguito dopo validator 02A: nessun 404/timeout; pronto per merge 03B."
+}

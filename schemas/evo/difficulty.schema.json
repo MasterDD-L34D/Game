@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/difficulty.schema.json",
+  "title": "Difficulty Configuration",
+  "description": "Schema for difficulty.yaml. SoT §15.4 · A3 (open-questions-triage)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "tier_weights",
+    "terrain_penalty_per_cell",
+    "objective_multipliers",
+    "player_difficulty_profiles",
+    "ai_profile_mapping",
+    "rating_display"
+  ],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "tier_weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base", "elite", "apex"],
+      "properties": {
+        "base": { "type": "number", "minimum": 0 },
+        "elite": { "type": "number", "minimum": 0 },
+        "apex": { "type": "number", "minimum": 0 }
+      }
+    },
+    "terrain_penalty_per_cell": {
+      "type": "object",
+      "additionalProperties": { "type": "number", "minimum": 0 }
+    },
+    "objective_multipliers": {
+      "type": "object",
+      "required": ["elimination", "capture_point", "escort", "sabotage", "survival", "escape"],
+      "additionalProperties": false,
+      "properties": {
+        "elimination": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "capture_point": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "escort": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "sabotage": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "survival": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "escape": { "type": "number", "minimum": 0.5, "maximum": 3 }
+      }
+    },
+    "player_difficulty_profiles": {
+      "type": "object",
+      "required": ["easy", "normal", "hard"],
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "type": "object",
+          "required": [
+            "label_it",
+            "enemy_count_multiplier",
+            "enemy_hp_multiplier",
+            "enemy_damage_multiplier",
+            "player_hp_multiplier"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "label_it": { "type": "string", "minLength": 1 },
+            "label_en": { "type": "string" },
+            "description_it": { "type": "string" },
+            "description_en": { "type": "string" },
+            "enemy_count_multiplier": { "type": "number", "minimum": 0.3, "maximum": 3 },
+            "enemy_hp_multiplier": { "type": "number", "minimum": 0.3, "maximum": 3 },
+            "enemy_damage_multiplier": { "type": "number", "minimum": 0.3, "maximum": 3 },
+            "player_hp_multiplier": { "type": "number", "minimum": 0.3, "maximum": 3 }
+          }
+        }
+      }
+    },
+    "ai_profile_mapping": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "rating_display": {
+      "type": "object",
+      "patternProperties": {
+        "^[1-5]$": {
+          "type": "object",
+          "required": ["stars", "label_it"],
+          "additionalProperties": false,
+          "properties": {
+            "stars": { "type": "string", "minLength": 1 },
+            "label_it": { "type": "string", "minLength": 1 },
+            "label_en": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

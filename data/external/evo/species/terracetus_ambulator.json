@@ -1,0 +1,52 @@
+{
+  "species": {
+    "scientific_name": "Terracetus ambulator",
+    "common_names": [
+      "Megattera Terrestre"
+    ],
+    "classification": {
+      "macro_class": "Mammalia",
+      "habitat": "steppe e savane aperte"
+    },
+    "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
+    "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
+    "risk_profile": {
+      "danger_level": 1,
+      "vectors": [
+        "infrasonico disorientante"
+      ]
+    },
+    "interactions": {
+      "predates_on": [
+        "micro-organismi aerodispersi"
+      ],
+      "predated_by": [
+        "nessuno in età adulta"
+      ],
+      "symbiosis": "nessuna"
+    },
+    "constraints": [
+      "Scarsa capacità di arrampicata",
+      "Vulnerabile a pendii ripidi"
+    ],
+    "sentience_index": "T0",
+    "ecotypes": [
+      "Pianure Ventose",
+      "Savanicola Notturno"
+    ],
+    "trait_refs": [
+      "scheletro_pneumatico_a_maglie",
+      "cinghia_iper_ciliare",
+      "rete_filtro_polmonare",
+      "canto_infrasonico_tattico",
+      "siero_anti_gelo_naturale"
+    ],
+    "id": "terracetus_ambulator"
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  }
+}

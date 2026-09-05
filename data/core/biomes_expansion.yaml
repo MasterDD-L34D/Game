@@ -1,0 +1,161 @@
+# Expansion roster — 20 new biomes from naming_doc (docx_2026-04-16)
+# Bilingual display names (IT canonical + EN from docx).
+
+biomes:
+  - id: ferrous-badlands
+    slug: ferrous-badlands
+    biome_class: arid
+    display_name_it: "Calanchi Ferrosi"
+    display_name_en: "Ferrous Badlands"
+    source: docx_2026-04-16
+
+  - id: cinder-dunes
+    slug: cinder-dunes
+    biome_class: arid
+    display_name_it: "Dune di Cenere"
+    display_name_en: "Cinder Dunes"
+    source: docx_2026-04-16
+    # TKT-M14-A (2026-05-11) — default tile template (Triangle Strategy elevation + terrain).
+    # Used by scenario authors as starting tile metadata; runtime reads unit.elevation
+    # + unit.terrain_type for combat hit modifiers (elevationModifier.js).
+    tile_template:
+      default_elevation: 0
+      default_terrain_type: cinder
+      elevation_range: [-1, 2]  # rolling dunes
+      notes: "Ember synergy: fire-channel attacks +1 dmg on cinder tile"
+
+  - id: saltglass-flats
+    slug: saltglass-flats
+    biome_class: coastal
+    display_name_it: "Distese di Salvetro"
+    display_name_en: "Saltglass Flats"
+    source: docx_2026-04-16
+    tile_template:
+      default_elevation: 0
+      default_terrain_type: water
+      elevation_range: [0, 0]  # flat coastal
+      notes: "Melee attackers -1 attack on water tiles (footing penalty)"
+
+  - id: basalt-grottos
+    slug: basalt-grottos
+    biome_class: rocky
+    display_name_it: "Grotte di Basalto"
+    display_name_en: "Basalt Grottos"
+    source: docx_2026-04-16
+    tile_template:
+      default_elevation: 1
+      default_terrain_type: stone
+      elevation_range: [0, 3]  # grotto walls + ridges
+      notes: "Stone footing: melee attackers +1 attack. Elevation +1 by default (cave ceiling levels)"
+
+  - id: zephyr-steppe
+    slug: zephyr-steppe
+    biome_class: aerial
+    display_name_it: "Steppa dello Zefiro"
+    display_name_en: "Zephyr Steppe"
+    source: docx_2026-04-16
+
+  - id: brine-rift
+    slug: brine-rift
+    biome_class: coastal
+    display_name_it: "Spaccatura Salmastra"
+    display_name_en: "Brine Rift"
+    source: docx_2026-04-16
+
+  - id: ember-marsh
+    slug: ember-marsh
+    biome_class: wetland
+    display_name_it: "Palude di Brace"
+    display_name_en: "Ember Marsh"
+    source: docx_2026-04-16
+
+  - id: shardfall-ridge
+    slug: shardfall-ridge
+    biome_class: rocky
+    display_name_it: "Cresta delle Schegge"
+    display_name_en: "Shardfall Ridge"
+    source: docx_2026-04-16
+
+  - id: lumen-canopy
+    slug: lumen-canopy
+    biome_class: forest
+    display_name_it: "Volta Luminescente"
+    display_name_en: "Lumen Canopy"
+    source: docx_2026-04-16
+
+  - id: umbral-karst
+    slug: umbral-karst
+    biome_class: rocky
+    display_name_it: "Carso d'Ombra"
+    display_name_en: "Umbral Karst"
+    source: docx_2026-04-16
+
+  - id: silt-delta
+    slug: silt-delta
+    biome_class: wetland
+    display_name_it: "Delta di Limo"
+    display_name_en: "Silt Delta"
+    source: docx_2026-04-16
+
+  - id: crystal-scree
+    slug: crystal-scree
+    biome_class: rocky
+    display_name_it: "Detriti Cristallini"
+    display_name_en: "Crystal Scree"
+    source: docx_2026-04-16
+
+  - id: ironbloom-wastes
+    slug: ironbloom-wastes
+    biome_class: arid
+    display_name_it: "Piane di Fiore Ferreo"
+    display_name_en: "Ironbloom Wastes"
+    source: docx_2026-04-16
+
+  - id: hollow-fumaroles
+    slug: hollow-fumaroles
+    biome_class: volcanic
+    display_name_it: "Fumarole Cave"
+    display_name_en: "Hollow Fumaroles"
+    source: docx_2026-04-16
+
+  - id: paleroot-tangle
+    slug: paleroot-tangle
+    biome_class: forest
+    display_name_it: "Groviglio di Radici Pallide"
+    display_name_en: "Paleroot Tangle"
+    source: docx_2026-04-16
+
+  - id: thunder-reeds
+    slug: thunder-reeds
+    biome_class: wetland
+    display_name_it: "Canneti del Tuono"
+    display_name_en: "Thunder Reeds"
+    source: docx_2026-04-16
+
+  - id: ashen-sink
+    slug: ashen-sink
+    biome_class: volcanic
+    display_name_it: "Conca di Cenere"
+    display_name_en: "Ashen Sink"
+    source: docx_2026-04-16
+
+  - id: cold-mirror-fen
+    slug: cold-mirror-fen
+    biome_class: wetland
+    display_name_it: "Palude dello Specchio Freddo"
+    display_name_en: "Cold Mirror Fen"
+    source: docx_2026-04-16
+
+  - id: redspur-mesa
+    slug: redspur-mesa
+    biome_class: rocky
+    display_name_it: "Mesa dello Sperone Rosso"
+    display_name_en: "Redspur Mesa"
+    source: docx_2026-04-16
+
+  - id: mistral-hollows
+    slug: mistral-hollows
+    biome_class: aerial
+    display_name_it: "Cavità del Maestrale"
+    display_name_en: "Mistral Hollows"
+    source: docx_2026-04-16

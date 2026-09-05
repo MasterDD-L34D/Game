@@ -1,0 +1,27 @@
+# TKT-P2 Brigandine seasonal — Phase B content (Battle Phase).
+#
+# Schema: cfr organization_phase.yaml header.
+# Narrative beat: Tattica + survival. Reclutamento bloccato.
+
+id: battle_phase
+display_name_it: "Fase di Battaglia"
+display_name_en: "Battle Phase"
+description_it: |
+  Tattica + survival. Encounter sequenziali sul terreno. Reclutamento
+  bloccato, decisioni binarie sotto pressione. La fase chiude quando
+  obiettivo stagionale completato o branco si ritira.
+description_en: |
+  Tactics + survival. Sequential encounters on terrain. Recruitment
+  locked, binary decisions under pressure. Phase ends when seasonal
+  objective is met or pack retreats.
+duration_turns: 3
+available_actions:
+  - engage
+  - retreat
+  - reinforce
+  - scout
+restricted_actions:
+  - recruit
+  - train
+auto_advance: false
+combat_enabled: true

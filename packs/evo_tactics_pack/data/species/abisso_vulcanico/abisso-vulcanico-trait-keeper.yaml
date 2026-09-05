@@ -1,0 +1,20 @@
+resistance_archetype: adattivo
+id: abisso-vulcanico-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- abisso_vulcanico
+derived_from_environment:
+  suggested_traits:
+  - appendici_thermotattiche
+  - batteri_endosimbionti_chemio
+  - branchie_metalloidi
+  - carapaci_ferruginosi
+  - cartilagini_pseudometalliche
+  - circolazione_supercritica
+  - cisti_iperbariche
+  - denti_ossidoferro
+  - enzimi_metanoossidanti
+  - filamenti_magnetotrofi
+  - ghiandole_fango_calde
+  - luminescenza_hydrotermica
+  - mucose_barofile

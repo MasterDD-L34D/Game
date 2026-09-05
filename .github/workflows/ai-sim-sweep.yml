@@ -1,0 +1,131 @@
+name: AI Sim Sweep — YAML scenario diversity
+
+# 2026-05-10 TKT-SWEEP-EXEC — dedicated workflow per scenario diversity sweep
+# con AI_SIM_LOAD_YAML=1 (PR #2156 harness extension).
+#
+# Differenza vs ai-sim-nightly.yml:
+#   - Manuale (workflow_dispatch only, NO cron schedule)
+#   - Default 5 scenari × N=20 seed × 1 profile aggressive = 100 run
+#   - Carica YAML wave_id=1 + spawn dynamic units (vs synthetic baseline)
+#   - Output artifact + report per master-dd review
+#
+# Cross-ref:
+#   - tests/smoke/ai-driven-sim.js:163 buildEnemiesFromYaml
+#   - tools/sim/batch-ai-runner.js --load-yaml flag
+#   - .github/workflows/ai-sim-nightly.yml (synthetic baseline cron)
+
+on:
+  workflow_dispatch:
+    inputs:
+      seed_count:
+        description: 'Seed count per scenario × profile combo'
+        type: number
+        default: 20
+      profiles:
+        description: 'Comma-separated profile keys (ai_profiles.yaml)'
+        type: string
+        default: 'aggressive'
+      scenarios:
+        description: 'Comma-separated YAML scenario IDs (no .yaml ext)'
+        type: string
+        default: 'enc_tutorial_01,enc_tutorial_02,enc_savana_01,enc_caverna_02,enc_survival_01'
+      max_rounds:
+        description: 'Max rounds per sim'
+        type: number
+        default: 30
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start backend
+        run: |
+          mkdir -p /tmp/ai-sim-sweep
+          PORT=3334 nohup node apps/backend/index.js > /tmp/ai-sim-sweep/backend.log 2>&1 &
+          echo $! > /tmp/ai-sim-sweep/backend.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:3334/api/health > /dev/null 2>&1; then
+              echo "Backend ready after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3334/api/health || (cat /tmp/ai-sim-sweep/backend.log; exit 1)
+
+      - name: Run AI sweep YAML mode
+        env:
+          TUNNEL: http://127.0.0.1:3334
+          AI_SIM_WS_URL: ws://127.0.0.1:3341/ws
+          AI_SIM_LOAD_YAML: '1'
+        run: |
+          mkdir -p /tmp/ai-sim-runs
+          SEEDS="${{ github.event.inputs.seed_count || 20 }}"
+          PROFILES="${{ github.event.inputs.profiles || 'aggressive' }}"
+          SCENARIOS="${{ github.event.inputs.scenarios || 'enc_tutorial_01,enc_tutorial_02,enc_savana_01,enc_caverna_02,enc_survival_01' }}"
+          MAX_ROUNDS="${{ github.event.inputs.max_rounds || 30 }}"
+          node tools/sim/batch-ai-runner.js \
+            --seed-count "$SEEDS" \
+            --concurrency 2 \
+            --profiles "$PROFILES" \
+            --scenarios "$SCENARIOS" \
+            --max-rounds "$MAX_ROUNDS" \
+            --load-yaml
+          BATCH_DIR=$(ls -dt /tmp/ai-sim-runs/batch-* | head -1)
+          cp -r "$BATCH_DIR" /tmp/ai-sim-sweep/batch-current
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f /tmp/ai-sim-sweep/backend.pid ]; then
+            kill "$(cat /tmp/ai-sim-sweep/backend.pid)" 2>/dev/null || true
+          fi
+
+      - name: Per-scenario stats summary
+        if: always()
+        run: |
+          # Parse summary.json e emit per-scenario WR + completion table.
+          node -e "
+            const fs = require('node:fs');
+            const summary = JSON.parse(fs.readFileSync('/tmp/ai-sim-sweep/batch-current/summary.json', 'utf8'));
+            console.log('## AI Sim Sweep — YAML diversity report');
+            console.log('');
+            console.log(\`Total runs: \${summary.total} | Completion: \${(summary.completion_rate * 100).toFixed(1)}% | Avg rounds: \${summary.avg_rounds}\`);
+            console.log('');
+            console.log('| Profile × Scenario | Runs | Victory | Defeat | Timeout | WR | Avg rounds |');
+            console.log('| ------------------ | ---: | ------: | -----: | ------: | -: | ---------: |');
+            // by_profile + scenarios cross-tab missing in current summary;
+            // emit aggregated profile + scenario distinct via run_id parsing.
+            const byProfile = summary.by_profile || {};
+            for (const [p, s] of Object.entries(byProfile)) {
+              const wr = s.runs > 0 ? ((s.victory / s.runs) * 100).toFixed(1) : '0.0';
+              console.log(\`| \${p} (all scenarios) | \${s.runs} | \${s.victory} | \${s.defeat} | \${s.timeout} | \${wr}% | \${s.avg_rounds.toFixed(2)} |\`);
+            }
+          " >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-sim-sweep-${{ github.run_id }}
+          path: |
+            /tmp/ai-sim-sweep/batch-current/
+            /tmp/ai-sim-sweep/backend.log
+          retention-days: 30

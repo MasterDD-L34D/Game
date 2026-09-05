@@ -1,0 +1,609 @@
+# M13 P3 — Perk-pair system canonical (XCOM EU/EW pattern).
+# Each job gets 6 promotion levels (2-7); each level offers binary choice
+# between perk_a and perk_b. Choice is permanent per unit (campaign-scoped).
+#
+# Design constraint (§P3 strategy 2026-04-20):
+#   - 7 jobs × 6 levels × 2 perks = 84 perks total
+#   - Each perk MUST affect combat behavior (no vanity/flavor-only)
+#   - Pairs are deliberately divergent (offense vs defense, specialist vs
+#     generalist) to force role crystallization
+#   - Effects compose with base job abilities (don't unlock new abilities;
+#     modify existing ones with additive/multiplicative bonuses)
+#
+# Effect schema:
+#   stat_bonus: { stat: 'attack_mod'|'defense_mod'|'hp_max'|'ap'|'initiative'|'attack_range', amount: int }
+#   ability_mod: { ability_id: str, field: str, delta: number }
+#   passive: { tag: str, payload?: obj }  # handled by resolver via tag lookup
+#
+# Perks evaluate additively unless noted. Stats applied at unit load time;
+# passive tags checked per-action via progressionEngine.listPassives(unitId).
+#
+# Skiv ticket #6 (Hybrid Path) — at any level a player can spend PI to take
+# BOTH perks at reduced factor instead of choosing one. Defaults below; per-level
+# overrides supported via `hybrid: { cost_pi, partial_factor }` in the level
+# entry. When choice='hybrid', engine emits a pick record listing both perk_ids
+# and scales numeric effects by `partial_factor` (default 0.5).
+
+version: '0.1.0'
+
+hybrid_path:
+  default_cost_pi: 5
+  default_partial_factor: 0.5
+
+jobs:
+  skirmisher:
+    perks:
+      level_2:
+        perk_a:
+          id: sk_r1_flank_specialist
+          name_it: 'Specialista di Fianco'
+          description_it: '+2 damage su bersagli attaccati da adiacenza alleata (flank).'
+          effect:
+            passive: { tag: flank_bonus, payload: { damage: 2 } }
+        perk_b:
+          id: sk_r1_run_and_gun
+          name_it: 'Corri e Spara'
+          description_it: '+1 move_distance su dash_strike, invariato cost_ap.'
+          effect:
+            ability_mod: { ability_id: dash_strike, field: move_distance, delta: 1 }
+      level_3:
+        perk_a:
+          id: sk_r2_lightfoot
+          name_it: 'Piede Leggero'
+          description_it: '+1 AP base (da 2 a 3). Trade-off: -1 hp_max.'
+          effect:
+            stat_bonus: { stat: ap, amount: 1 }
+            stat_bonus_2: { stat: hp_max, amount: -1 }
+        perk_b:
+          id: sk_r2_opportunist
+          name_it: 'Opportunista'
+          description_it: '+2 damage sul primo attacco di ogni round.'
+          effect:
+            passive: { tag: first_strike_bonus, payload: { damage: 2 } }
+      level_4:
+        perk_a:
+          id: sk_r3_killer_instinct
+          name_it: 'Istinto Omicida'
+          description_it: 'Dopo KO di un nemico, guadagna 1 AP (max 1/round).'
+          effect:
+            passive: { tag: kill_restore_ap, payload: { ap: 1, cap_per_round: 1 } }
+        perk_b:
+          id: sk_r3_blade_master
+          name_it: 'Maestro delle Lame'
+          description_it: 'blade_flurry: 4 attacchi invece di 3.'
+          effect:
+            ability_mod: { ability_id: blade_flurry, field: attack_count, delta: 1 }
+      level_5:
+        perk_a:
+          id: sk_r4_evasion
+          name_it: 'Evasione'
+          description_it: '+2 defense_mod quando hp_remaining >= 50%.'
+          effect:
+            passive: { tag: defense_when_healthy, payload: { threshold: 0.5, defense_mod: 2 } }
+        perk_b:
+          id: sk_r4_execution
+          name_it: 'Esecuzione'
+          description_it: '+4 damage su bersagli con hp_remaining < 25%.'
+          effect:
+            passive: { tag: execution_bonus, payload: { threshold: 0.25, damage: 4 } }
+      level_6:
+        perk_a:
+          id: sk_r5_untouchable
+          name_it: 'Intangibile'
+          description_it: 'Il primo attacco subito in ogni round è ridotto del 50%.'
+          effect:
+            passive: { tag: damage_reduction_first_hit, payload: { multiplier: 0.5 } }
+        perk_b:
+          id: sk_r5_duelist
+          name_it: 'Duellante'
+          description_it: '+3 damage contro nemici isolati (no alleati adiacenti al bersaglio).'
+          effect:
+            passive: { tag: isolated_target_bonus, payload: { damage: 3 } }
+      level_7:
+        perk_a:
+          id: sk_r6_phantom_blade
+          name_it: 'Lama Fantasma'
+          description_it: '1x/mission: attacco che ignora defense_mod del bersaglio.'
+          effect:
+            passive: { tag: pierce_defense_once_per_mission, payload: {} }
+        perk_b:
+          id: sk_r6_shadowdance
+          name_it: 'Danza delle Ombre'
+          description_it: '+2 initiative. evasive_maneuver dura 2 turni invece di 1.'
+          effect:
+            stat_bonus: { stat: initiative, amount: 2 }
+            ability_mod: { ability_id: evasive_maneuver, field: buff_duration, delta: 1 }
+
+  vanguard:
+    perks:
+      level_2:
+        perk_a:
+          id: va_r1_shieldwall
+          name_it: 'Muro di Scudi'
+          description_it: '+2 defense_mod quando adiacente ad almeno 1 alleato.'
+          effect:
+            passive: { tag: adjacent_ally_defense, payload: { defense_mod: 2 } }
+        perk_b:
+          id: va_r1_taunt_master
+          name_it: 'Maestro delle Provocazioni'
+          description_it: 'aggro_pull: +1 range.'
+          effect:
+            ability_mod: { ability_id: aggro_pull, field: range, delta: 1 }
+      level_3:
+        perk_a:
+          id: va_r2_stalwart
+          name_it: 'Saldo'
+          description_it: '+3 hp_max.'
+          effect:
+            stat_bonus: { stat: hp_max, amount: 3 }
+        perk_b:
+          id: va_r2_counterstrike
+          name_it: 'Contrattacco'
+          description_it: "Dopo aver subito un attacco, infligge 2 damage all'attaccante (1x/round)."
+          effect:
+            passive: { tag: retaliate_on_hit, payload: { damage: 2, cap_per_round: 1 } }
+      level_4:
+        perk_a:
+          id: va_r3_fortify
+          name_it: 'Fortifica'
+          description_it: '+1 defense_mod permanente.'
+          effect:
+            stat_bonus: { stat: defense_mod, amount: 1 }
+        perk_b:
+          id: va_r3_aegis
+          name_it: 'Egida'
+          description_it: "shield: scudo aumenta del 50%."
+          effect:
+            ability_mod: { ability_id: shield, field: shield_amount, delta: 2 }
+      level_5:
+        perk_a:
+          id: va_r4_unyielding
+          name_it: 'Irremovibile'
+          description_it: 'Immune a push e knockback.'
+          effect:
+            passive: { tag: immune_displacement, payload: {} }
+        perk_b:
+          id: va_r4_bulwark
+          name_it: 'Baluardo'
+          description_it: '+2 defense_mod quando hp_remaining < 50% (cornered bonus).'
+          effect:
+            passive: { tag: defense_when_low, payload: { threshold: 0.5, defense_mod: 2 } }
+      level_6:
+        perk_a:
+          id: va_r5_shield_bash
+          name_it: 'Colpo di Scudo'
+          description_it: 'Attack base: +1 damage se unità ha shield attivo.'
+          effect:
+            passive: { tag: shield_bash_bonus, payload: { damage: 1 } }
+        perk_b:
+          id: va_r5_guardian
+          name_it: 'Guardiano'
+          description_it: "Intercept reaction: danno subito dall'alleato protetto è dimezzato."
+          effect:
+            passive: { tag: intercept_damage_halved, payload: { multiplier: 0.5 } }
+      level_7:
+        perk_a:
+          id: va_r6_last_stand
+          name_it: 'Ultima Resistenza'
+          description_it: 'Alla prima caduta a 0 hp, sopravvive con 1 hp (1x/mission).'
+          effect:
+            passive: { tag: survive_death_once, payload: { hp_remaining: 1 } }
+        perk_b:
+          id: va_r6_inspiring_presence
+          name_it: 'Presenza Ispiratrice'
+          description_it: 'Alleati adiacenti guadagnano +1 attack_mod.'
+          effect:
+            passive: { tag: aura_attack_bonus, payload: { range: 1, attack_mod: 1 } }
+
+  warden:
+    perks:
+      level_2:
+        perk_a:
+          id: wa_r1_healer
+          name_it: 'Guaritore'
+          description_it: 'heal: +1 healing.'
+          effect:
+            ability_mod: { ability_id: heal, field: heal_amount, delta: 1 }
+        perk_b:
+          id: wa_r1_ward
+          name_it: 'Salvaguardia'
+          description_it: "team_buff: durata +1 turno."
+          effect:
+            ability_mod: { ability_id: team_buff, field: buff_duration, delta: 1 }
+      level_3:
+        perk_a:
+          id: wa_r2_field_medic
+          name_it: 'Medico da Campo'
+          description_it: '+1 range su heal.'
+          effect:
+            ability_mod: { ability_id: heal, field: range, delta: 1 }
+        perk_b:
+          id: wa_r2_purifier
+          name_it: 'Purificatore'
+          description_it: 'heal rimuove anche 1 status negativo (bleeding/panic/stunned).'
+          effect:
+            passive: { tag: heal_cleanses_status, payload: {} }
+      level_4:
+        perk_a:
+          id: wa_r3_revitalize
+          name_it: 'Rivitalizza'
+          description_it: 'team_heal: +1 healing.'
+          effect:
+            ability_mod: { ability_id: team_heal, field: heal_amount, delta: 1 }
+        perk_b:
+          id: wa_r3_savior
+          name_it: 'Salvatore'
+          description_it: 'Se heal porta target sopra 50% hp: target guadagna +1 AP next turn.'
+          effect:
+            passive: { tag: heal_grants_ap_over_threshold, payload: { threshold: 0.5, ap: 1 } }
+      level_5:
+        perk_a:
+          id: wa_r4_fortifier
+          name_it: 'Fortificatore'
+          description_it: '+2 hp_max agli alleati adiacenti.'
+          effect:
+            passive: { tag: aura_hp_bonus, payload: { range: 1, hp_max: 2 } }
+        perk_b:
+          id: wa_r4_cleanser
+          name_it: 'Purificatrice'
+          description_it: 'aoe_buff: range +1.'
+          effect:
+            ability_mod: { ability_id: aoe_buff, field: range, delta: 1 }
+      level_6:
+        perk_a:
+          id: wa_r5_guardian_angel
+          name_it: "Angelo Custode"
+          description_it: 'Alleati adiacenti subiscono -1 damage dai nemici.'
+          effect:
+            passive: { tag: aura_damage_reduction, payload: { range: 1, damage: 1 } }
+        perk_b:
+          id: wa_r5_chain_heal
+          name_it: 'Cura a Catena'
+          description_it: 'heal rimbalza su 1 alleato adiacente al target con 50% del healing.'
+          effect:
+            passive: { tag: chain_heal, payload: { bounce: 1, multiplier: 0.5 } }
+      level_7:
+        perk_a:
+          id: wa_r6_resurrection
+          name_it: 'Resurrezione'
+          description_it: "1x/mission: revive alleato KO con 50% hp."
+          effect:
+            passive: { tag: revive_once_per_mission, payload: { hp_ratio: 0.5 } }
+        perk_b:
+          id: wa_r6_sanctuary
+          name_it: 'Santuario'
+          description_it: 'aoe_buff evolve in team_heal + buff combo (heal 2 + attack_mod +1).'
+          effect:
+            passive: { tag: aoe_buff_adds_heal, payload: { heal: 2 } }
+
+  artificer:
+    perks:
+      level_2:
+        perk_a:
+          id: ar_r1_overcharge
+          name_it: 'Sovraccarico'
+          description_it: '+1 damage su tutte le abilità ranged.'
+          effect:
+            passive: { tag: ranged_attack_bonus, payload: { damage: 1 } }
+        perk_b:
+          id: ar_r1_precision
+          name_it: 'Precisione'
+          description_it: '+1 attack_range base.'
+          effect:
+            stat_bonus: { stat: attack_range, amount: 1 }
+      level_3:
+        perk_a:
+          id: ar_r2_volatile
+          name_it: 'Volatile'
+          description_it: 'AoE abilities: +1 damage.'
+          effect:
+            passive: { tag: aoe_damage_bonus, payload: { damage: 1 } }
+        perk_b:
+          id: ar_r2_trickshot
+          name_it: 'Tiro Acrobatico'
+          description_it: "ranged_attack ignora la prima cella di cover sulla traiettoria."
+          effect:
+            passive: { tag: pierce_cover_one, payload: {} }
+      level_4:
+        perk_a:
+          id: ar_r3_engineer
+          name_it: 'Ingegnere'
+          description_it: '+1 AP base.'
+          effect:
+            stat_bonus: { stat: ap, amount: 1 }
+        perk_b:
+          id: ar_r3_sapper
+          name_it: 'Guastatore'
+          description_it: 'debuff: durata +1 turno.'
+          effect:
+            ability_mod: { ability_id: debuff, field: buff_duration, delta: 1 }
+      level_5:
+        perk_a:
+          id: ar_r4_missile
+          name_it: 'Missile'
+          description_it: 'Surge_aoe: range +1.'
+          effect:
+            ability_mod: { ability_id: surge_aoe, field: range, delta: 1 }
+        perk_b:
+          id: ar_r4_ballistics
+          name_it: 'Balistica'
+          description_it: '+1 damage_step_mod su attacchi ranged contro bersagli a distanza >= 3.'
+          effect:
+            passive: { tag: long_range_bonus, payload: { min_distance: 3, damage: 2 } }
+      level_6:
+        perk_a:
+          id: ar_r5_plasma
+          name_it: 'Plasma'
+          description_it: 'attacchi ignorano 1 punto di defense_mod del bersaglio.'
+          effect:
+            passive: { tag: pierce_defense, payload: { amount: 1 } }
+        perk_b:
+          id: ar_r5_overload
+          name_it: 'Sovraccarico Critico'
+          description_it: 'Ogni 3 attacchi riusciti: prossimo attacco +3 damage.'
+          effect:
+            passive: { tag: combo_damage_bonus, payload: { combo_count: 3, damage: 3 } }
+      level_7:
+        perk_a:
+          id: ar_r6_nuke
+          name_it: 'Bomba Termobarica'
+          description_it: "1x/mission: AoE 3x3 per 10 damage ignorando defense."
+          effect:
+            passive: { tag: nuke_once_per_mission, payload: { range: 3, damage: 10 } }
+        perk_b:
+          id: ar_r6_master_engineer
+          name_it: 'Maestro Ingegnere'
+          description_it: '+1 AP permanente e +1 attack_mod.'
+          effect:
+            stat_bonus: { stat: ap, amount: 1 }
+            stat_bonus_2: { stat: attack_mod, amount: 1 }
+
+  invoker:
+    perks:
+      level_2:
+        perk_a:
+          id: in_r1_focused
+          name_it: 'Focalizzato'
+          description_it: '+1 damage su single-target ability.'
+          effect:
+            passive: { tag: single_target_bonus, payload: { damage: 1 } }
+        perk_b:
+          id: in_r1_channeler
+          name_it: 'Canalizzatore'
+          description_it: "drain_attack: +1 healing restituito all'invoker."
+          effect:
+            ability_mod: { ability_id: drain_attack, field: drain_amount, delta: 1 }
+      level_3:
+        perk_a:
+          id: in_r2_mind_over_matter
+          name_it: 'Mente sulla Materia'
+          description_it: '+1 defense_mod e +1 hp_max.'
+          effect:
+            stat_bonus: { stat: defense_mod, amount: 1 }
+            stat_bonus_2: { stat: hp_max, amount: 1 }
+        perk_b:
+          id: in_r2_curse
+          name_it: 'Maledizione'
+          description_it: 'debuff: +1 effetto (stack 2 penalità invece di 1).'
+          effect:
+            passive: { tag: debuff_stacks, payload: { extra_stack: 1 } }
+      level_4:
+        perk_a:
+          id: in_r3_arcane_shield
+          name_it: 'Scudo Arcano'
+          description_it: 'shield: +1 shield amount.'
+          effect:
+            ability_mod: { ability_id: shield, field: shield_amount, delta: 1 }
+        perk_b:
+          id: in_r3_drain_master
+          name_it: 'Maestro del Drenaggio'
+          description_it: "drain_attack: AP cost -1 (min 1)."
+          effect:
+            ability_mod: { ability_id: drain_attack, field: cost_ap, delta: -1 }
+      level_5:
+        perk_a:
+          id: in_r4_mind_link
+          name_it: 'Legame Mentale'
+          description_it: 'team_buff: applica anche +1 defense_mod.'
+          effect:
+            passive: { tag: team_buff_adds_defense, payload: { defense_mod: 1 } }
+        perk_b:
+          id: in_r4_hex_weaver
+          name_it: 'Tessitore di Hex'
+          description_it: 'aoe_debuff: range +1.'
+          effect:
+            ability_mod: { ability_id: aoe_debuff, field: range, delta: 1 }
+      level_6:
+        perk_a:
+          id: in_r5_soul_reaper
+          name_it: 'Mietitore di Anime'
+          description_it: "KO con drain_attack: +2 hp temporanei."
+          effect:
+            passive: { tag: kill_grants_temp_hp, payload: { hp: 2 } }
+        perk_b:
+          id: in_r5_mystic
+          name_it: 'Mistico'
+          description_it: '+1 attack_mod contro bersagli con status negativi.'
+          effect:
+            passive: { tag: debuff_target_bonus, payload: { attack_mod: 1 } }
+      level_7:
+        perk_a:
+          id: in_r6_ascendant
+          name_it: 'Ascendente'
+          description_it: '+2 attack_mod permanenti.'
+          effect:
+            stat_bonus: { stat: attack_mod, amount: 2 }
+        perk_b:
+          id: in_r6_void_master
+          name_it: 'Maestro del Vuoto'
+          description_it: "1x/mission: aoe_debuff con 2x effect su tutti i nemici entro 3 celle."
+          effect:
+            passive: { tag: master_debuff_once_per_mission, payload: { range: 3, multiplier: 2 } }
+
+  ranger:
+    perks:
+      level_2:
+        perk_a:
+          id: ra_r1_sharpshooter
+          name_it: 'Tiratore Scelto'
+          description_it: '+1 damage su attacchi ranged contro bersagli a distanza >= 3.'
+          effect:
+            passive: { tag: long_range_bonus, payload: { min_distance: 3, damage: 1 } }
+        perk_b:
+          id: ra_r1_scout
+          name_it: 'Esploratore'
+          description_it: '+1 initiative + +1 move_distance.'
+          effect:
+            stat_bonus: { stat: initiative, amount: 1 }
+            passive: { tag: move_bonus, payload: { distance: 1 } }
+      level_3:
+        perk_a:
+          id: ra_r2_steady_aim
+          name_it: 'Mira Stabile'
+          description_it: 'Se non si muove in un turno: +2 damage al prossimo attacco.'
+          effect:
+            passive: { tag: stationary_damage_bonus, payload: { damage: 2 } }
+        perk_b:
+          id: ra_r2_trapper
+          name_it: 'Cacciatore di Trappole'
+          description_it: "debuff: applica bleeding anche senza trait denti_seghettati."
+          effect:
+            passive: { tag: debuff_adds_bleeding, payload: {} }
+      level_4:
+        perk_a:
+          id: ra_r3_hunter
+          name_it: 'Cacciatore'
+          description_it: '+2 damage contro nemici isolati.'
+          effect:
+            passive: { tag: isolated_target_bonus, payload: { damage: 2 } }
+        perk_b:
+          id: ra_r3_marksman
+          name_it: 'Bersagliere'
+          description_it: '+1 attack_range permanente.'
+          effect:
+            stat_bonus: { stat: attack_range, amount: 1 }
+      level_5:
+        perk_a:
+          id: ra_r4_bow_master
+          name_it: "Maestro dell'Arco"
+          description_it: 'ranged_attack: +1 damage.'
+          effect:
+            ability_mod: { ability_id: ranged_attack, field: damage, delta: 1 }
+        perk_b:
+          id: ra_r4_skirmish
+          name_it: 'Schermaglia'
+          description_it: "Dopo ranged_attack: move 1 cella senza provocare reazioni."
+          effect:
+            passive: { tag: attack_move_free, payload: { distance: 1 } }
+      level_6:
+        perk_a:
+          id: ra_r5_lethal
+          name_it: 'Letale'
+          description_it: '+1 damage_step_mod su tutti gli attacchi.'
+          effect:
+            passive: { tag: damage_step_bonus, payload: { amount: 1 } }
+        perk_b:
+          id: ra_r5_eagle_eye
+          name_it: "Occhio d'Aquila"
+          description_it: 'Ignora cover e hazard sulla traiettoria.'
+          effect:
+            passive: { tag: ignore_cover_all, payload: {} }
+      level_7:
+        perk_a:
+          id: ra_r6_apex_predator
+          name_it: 'Predatore Apex'
+          description_it: '+2 attack_mod e +1 attack_range permanenti.'
+          effect:
+            stat_bonus: { stat: attack_mod, amount: 2 }
+            stat_bonus_2: { stat: attack_range, amount: 1 }
+        perk_b:
+          id: ra_r6_deadshot
+          name_it: 'Tiro Mortale'
+          description_it: "1x/mission: attacco che infligge 3x damage step."
+          effect:
+            passive: { tag: triple_damage_once_per_mission, payload: {} }
+
+  harvester:
+    perks:
+      level_2:
+        perk_a:
+          id: ha_r1_gatherer
+          name_it: 'Raccoglitore'
+          description_it: '+1 PE per kill partecipato.'
+          effect:
+            passive: { tag: kill_pe_bonus, payload: { pe: 1 } }
+        perk_b:
+          id: ha_r1_forager
+          name_it: 'Foraggiatore'
+          description_it: '+5 hp_max (resistente).'
+          effect:
+            stat_bonus: { stat: hp_max, amount: 5 }
+      level_3:
+        perk_a:
+          id: ha_r2_overseer
+          name_it: 'Sovrintendente'
+          description_it: '+1 AP base.'
+          effect:
+            stat_bonus: { stat: ap, amount: 1 }
+        perk_b:
+          id: ha_r2_scavenger
+          name_it: 'Saccheggiatore'
+          description_it: 'KO nemico: restituisce 2 hp.'
+          effect:
+            passive: { tag: kill_heal, payload: { hp: 2 } }
+      level_4:
+        perk_a:
+          id: ha_r3_endurance
+          name_it: 'Resistenza'
+          description_it: '+2 defense_mod.'
+          effect:
+            stat_bonus: { stat: defense_mod, amount: 2 }
+        perk_b:
+          id: ha_r3_supplier
+          name_it: 'Fornitore'
+          description_it: "Inizio battaglia: 1 alleato casuale +1 AP (round 1)."
+          effect:
+            passive: { tag: initial_ap_boost, payload: { round: 1, ap: 1, random_ally: true } }
+      level_5:
+        perk_a:
+          id: ha_r4_industrialist
+          name_it: 'Industriale'
+          description_it: '+2 hp_max a tutti gli alleati.'
+          effect:
+            passive: { tag: global_hp_bonus, payload: { hp_max: 2 } }
+        perk_b:
+          id: ha_r4_bulk
+          name_it: 'Massa'
+          description_it: "+3 hp_max, -1 initiative."
+          effect:
+            stat_bonus: { stat: hp_max, amount: 3 }
+            stat_bonus_2: { stat: initiative, amount: -1 }
+      level_6:
+        perk_a:
+          id: ha_r5_stockpile
+          name_it: "Scorta d'Emergenza"
+          description_it: "1x/mission: ripristina tutti gli AP degli alleati adiacenti."
+          effect:
+            passive: { tag: ap_refresh_once_per_mission, payload: { range: 1 } }
+        perk_b:
+          id: ha_r5_overflow
+          name_it: 'Sovrabbondanza'
+          description_it: '+2 PE per kill (stack con Raccoglitore).'
+          effect:
+            passive: { tag: kill_pe_bonus, payload: { pe: 2 } }
+      level_7:
+        perk_a:
+          id: ha_r6_apex_harvester
+          name_it: 'Apex Harvester'
+          description_it: '+1 a tutte le stat primarie (hp/ap/attack/defense).'
+          effect:
+            stat_bonus: { stat: hp_max, amount: 1 }
+            stat_bonus_2: { stat: ap, amount: 1 }
+            stat_bonus_3: { stat: attack_mod, amount: 1 }
+            stat_bonus_4: { stat: defense_mod, amount: 1 }
+        perk_b:
+          id: ha_r6_commander
+          name_it: 'Comandante'
+          description_it: 'Inizio mission: tutti gli alleati +1 attack_mod round 1.'
+          effect:
+            passive: { tag: mission_start_team_buff, payload: { round: 1, attack_mod: 1 } }

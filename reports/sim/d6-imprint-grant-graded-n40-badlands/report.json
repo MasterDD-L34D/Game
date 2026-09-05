@@ -1,0 +1,331 @@
+{
+  "probe": "d6-imprint-grant-graded",
+  "spec": "docs/planning/2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md",
+  "recon": "D6's own flag IMPRINT_TRAIT_GRANT_ENABLED is DEAD (W4-collapsed into FORM_PULSE_TRAIT_V2_ENABLED); this isolates the imprint pick liveness/power that the W6 bundle folds in.",
+  "posture": "L-069 REPORTS; the mapping/w ratify = master-dd verdict (folds into the W6 owner TODO)",
+  "measurement_point": "enc_badlands_pilot_01 party vs hardcore roster (form-pulse-v2-graded geometry)",
+  "party_size": 4,
+  "party_authored_traits": [
+    {
+      "id": "p_skirmisher",
+      "traits": []
+    },
+    {
+      "id": "p_ranger",
+      "traits": []
+    },
+    {
+      "id": "p_vanguard",
+      "traits": []
+    },
+    {
+      "id": "p_warden",
+      "traits": []
+    }
+  ],
+  "n": 40,
+  "seed": 20260701,
+  "attrition": false,
+  "positive_control": {
+    "pick": "occhi_analizzatori_di_tensione",
+    "fired_in_control": 17,
+    "status_invoked_in_control": 33
+  },
+  "per_biome": [
+    {
+      "biome": "badlands",
+      "attrition": false,
+      "baseline": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.3688,
+        "mean_enemy_hp_remaining_pct": 0.7032,
+        "mean_hp_remaining_pct": 0.9242,
+        "avg_rounds": 40
+      },
+      "drift_replicate": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.3688,
+        "mean_enemy_hp_remaining_pct": 0.7032,
+        "mean_hp_remaining_pct": 0.9242,
+        "avg_rounds": 40
+      },
+      "drift_floor": {
+        "win_rate": 0,
+        "enemy_hp_remaining": 0,
+        "creature_ko_rate": 0,
+        "hp_remaining": 0
+      },
+      "picks": [
+        {
+          "trait_id": "coda_stabilizzatrice_vortex",
+          "axis": "locomotion",
+          "pole": "VELOCE",
+          "fires": 169,
+          "party_hits": 311,
+          "fires_per_party_hit": 0.5434,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.075,
+            "creature_ko_rate": 0.3063,
+            "mean_enemy_hp_remaining_pct": 0.5428,
+            "mean_hp_remaining_pct": 0.9462,
+            "avg_rounds": 39.63
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.075,
+            "enemy_hp_remaining": -0.1604,
+            "creature_ko_rate": -0.0625,
+            "hp_remaining": 0.022
+          }
+        },
+        {
+          "trait_id": "cartilagini_flessoacustiche",
+          "axis": "locomotion",
+          "pole": "SILENZIOSA",
+          "fires": 229,
+          "party_hits": 400,
+          "fires_per_party_hit": 0.5725,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.05,
+            "creature_ko_rate": 0.2437,
+            "mean_enemy_hp_remaining_pct": 0.5405,
+            "mean_hp_remaining_pct": 0.9167,
+            "avg_rounds": 39.92
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.05,
+            "enemy_hp_remaining": -0.1627,
+            "creature_ko_rate": -0.1251,
+            "hp_remaining": -0.0075
+          }
+        },
+        {
+          "trait_id": "ferocia",
+          "axis": "offense",
+          "pole": "PROFONDA",
+          "fires": 45,
+          "party_hits": 277,
+          "fires_per_party_hit": 0.1625,
+          "granted": {
+            "N": 40,
+            "win_rate": 0,
+            "creature_ko_rate": 0.3625,
+            "mean_enemy_hp_remaining_pct": 0.689,
+            "mean_hp_remaining_pct": 0.9258,
+            "avg_rounds": 40
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0,
+            "enemy_hp_remaining": -0.0142,
+            "creature_ko_rate": -0.0063,
+            "hp_remaining": 0.0016
+          }
+        },
+        {
+          "trait_id": "dilatazione_temporale_percettiva",
+          "axis": "offense",
+          "pole": "RAPIDA",
+          "fires": 197,
+          "party_hits": 293,
+          "fires_per_party_hit": 0.6724,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.025,
+            "creature_ko_rate": 0.3312,
+            "mean_enemy_hp_remaining_pct": 0.612,
+            "mean_hp_remaining_pct": 0.9467,
+            "avg_rounds": 39.83
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.025,
+            "enemy_hp_remaining": -0.0912,
+            "creature_ko_rate": -0.0376,
+            "hp_remaining": 0.0225
+          }
+        },
+        {
+          "trait_id": "pelle_elastomera",
+          "axis": "defense",
+          "pole": "DURA",
+          "fires": 229,
+          "party_hits": 400,
+          "fires_per_party_hit": 0.5725,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.05,
+            "creature_ko_rate": 0.2437,
+            "mean_enemy_hp_remaining_pct": 0.5405,
+            "mean_hp_remaining_pct": 0.9167,
+            "avg_rounds": 39.92
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.05,
+            "enemy_hp_remaining": -0.1627,
+            "creature_ko_rate": -0.1251,
+            "hp_remaining": -0.0075
+          }
+        },
+        {
+          "trait_id": "risposta_di_fuga",
+          "axis": "defense",
+          "pole": "FLESSIBILE",
+          "fires": 229,
+          "party_hits": 400,
+          "fires_per_party_hit": 0.5725,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.05,
+            "creature_ko_rate": 0.2437,
+            "mean_enemy_hp_remaining_pct": 0.5405,
+            "mean_hp_remaining_pct": 0.9167,
+            "avg_rounds": 39.92
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.05,
+            "enemy_hp_remaining": -0.1627,
+            "creature_ko_rate": -0.1251,
+            "hp_remaining": -0.0075
+          }
+        },
+        {
+          "trait_id": "sensori_geomagnetici",
+          "axis": "senses",
+          "pole": "LONTANO",
+          "fires": 163,
+          "party_hits": 295,
+          "fires_per_party_hit": 0.5525,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.025,
+            "creature_ko_rate": 0.3375,
+            "mean_enemy_hp_remaining_pct": 0.6233,
+            "mean_hp_remaining_pct": 0.9292,
+            "avg_rounds": 39.83
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.025,
+            "enemy_hp_remaining": -0.0799,
+            "creature_ko_rate": -0.0313,
+            "hp_remaining": 0.005
+          }
+        },
+        {
+          "trait_id": "occhi_analizzatori_di_tensione",
+          "axis": "senses",
+          "pole": "ACUTO",
+          "fires": 318,
+          "party_hits": 318,
+          "fires_per_party_hit": 1,
+          "granted": {
+            "N": 40,
+            "win_rate": 0.075,
+            "creature_ko_rate": 0.3187,
+            "mean_enemy_hp_remaining_pct": 0.5316,
+            "mean_hp_remaining_pct": 0.9421,
+            "avg_rounds": 39.38
+          },
+          "delta_vs_baseline": {
+            "win_rate": 0.075,
+            "enemy_hp_remaining": -0.1716,
+            "creature_ko_rate": -0.0501,
+            "hp_remaining": 0.0179
+          }
+        }
+      ]
+    }
+  ],
+  "cross_biome_by_pick": [
+    {
+      "trait_id": "coda_stabilizzatrice_vortex",
+      "axis": "locomotion",
+      "pole": "VELOCE",
+      "total_fires": 169,
+      "total_party_hits": 311,
+      "fires_per_party_hit": 0.5434,
+      "mean_delta_enemy_hp_remaining": -0.1604,
+      "mean_delta_creature_ko_rate": -0.0625,
+      "mean_delta_hp_remaining": 0.022
+    },
+    {
+      "trait_id": "cartilagini_flessoacustiche",
+      "axis": "locomotion",
+      "pole": "SILENZIOSA",
+      "total_fires": 229,
+      "total_party_hits": 400,
+      "fires_per_party_hit": 0.5725,
+      "mean_delta_enemy_hp_remaining": -0.1627,
+      "mean_delta_creature_ko_rate": -0.1251,
+      "mean_delta_hp_remaining": -0.0075
+    },
+    {
+      "trait_id": "ferocia",
+      "axis": "offense",
+      "pole": "PROFONDA",
+      "total_fires": 45,
+      "total_party_hits": 277,
+      "fires_per_party_hit": 0.1625,
+      "mean_delta_enemy_hp_remaining": -0.0142,
+      "mean_delta_creature_ko_rate": -0.0063,
+      "mean_delta_hp_remaining": 0.0016
+    },
+    {
+      "trait_id": "dilatazione_temporale_percettiva",
+      "axis": "offense",
+      "pole": "RAPIDA",
+      "total_fires": 197,
+      "total_party_hits": 293,
+      "fires_per_party_hit": 0.6724,
+      "mean_delta_enemy_hp_remaining": -0.0912,
+      "mean_delta_creature_ko_rate": -0.0376,
+      "mean_delta_hp_remaining": 0.0225
+    },
+    {
+      "trait_id": "pelle_elastomera",
+      "axis": "defense",
+      "pole": "DURA",
+      "total_fires": 229,
+      "total_party_hits": 400,
+      "fires_per_party_hit": 0.5725,
+      "mean_delta_enemy_hp_remaining": -0.1627,
+      "mean_delta_creature_ko_rate": -0.1251,
+      "mean_delta_hp_remaining": -0.0075
+    },
+    {
+      "trait_id": "risposta_di_fuga",
+      "axis": "defense",
+      "pole": "FLESSIBILE",
+      "total_fires": 229,
+      "total_party_hits": 400,
+      "fires_per_party_hit": 0.5725,
+      "mean_delta_enemy_hp_remaining": -0.1627,
+      "mean_delta_creature_ko_rate": -0.1251,
+      "mean_delta_hp_remaining": -0.0075
+    },
+    {
+      "trait_id": "sensori_geomagnetici",
+      "axis": "senses",
+      "pole": "LONTANO",
+      "total_fires": 163,
+      "total_party_hits": 295,
+      "fires_per_party_hit": 0.5525,
+      "mean_delta_enemy_hp_remaining": -0.0799,
+      "mean_delta_creature_ko_rate": -0.0313,
+      "mean_delta_hp_remaining": 0.005
+    },
+    {
+      "trait_id": "occhi_analizzatori_di_tensione",
+      "axis": "senses",
+      "pole": "ACUTO",
+      "total_fires": 318,
+      "total_party_hits": 318,
+      "fires_per_party_hit": 1,
+      "mean_delta_enemy_hp_remaining": -0.1716,
+      "mean_delta_creature_ko_rate": -0.0501,
+      "mean_delta_hp_remaining": 0.0179
+    }
+  ],
+  "node": "v22.22.3"
+}

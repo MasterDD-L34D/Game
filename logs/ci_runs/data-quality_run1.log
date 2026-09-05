@@ -1,0 +1,50 @@
+### data-quality run 1 2025-11-30T14:37:59Z
+packs/evo_tactics_pack: 14 controlli eseguiti — 0 avvisi.
+Tutti i dataset YAML sono validi.
+
+real	0m2.410s
+user	0m1.930s
+sys	0m0.502s
+/workspace/Game/scripts/trait_audit.py:21: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
+  from jsonschema import Draft202012Validator, RefResolver, exceptions
+[BLOCCANTE] data/traits/index.json<root>: 'schema_version' is a required property
+[BLOCCANTE] data/traits/index.json<root>: 'trait_glossary' is a required property
+[BLOCCANTE] data/core/species.yaml/species/1/default_parts: {} should be non-empty
+[BLOCCANTE] data/core/species.yaml/species/1/id: 'polpo-araldo-sinaptico' does not match '^[a-z0-9_]+$'
+[BLOCCANTE] data/core/species.yaml/species/1/synergy_hints: {'role': 'keystone', 'notes': 'Buff area luminescenti, riduzione glare; limitare stacking advantage a 2.'} is not of type 'array'
+[BLOCCANTE] data/core/species.yaml/species/1/trait_plan: Additional properties are not allowed ('temp' was unexpected)
+[BLOCCANTE] data/core/species.yaml/species/2/default_parts: {} should be non-empty
+[BLOCCANTE] data/core/species.yaml/species/2/id: 'sciame-larve-neurali' does not match '^[a-z0-9_]+$'
+[BLOCCANTE] data/core/species.yaml/species/2/synergy_hints: {'role': 'threat', 'notes': 'Swarm memetico che ruba buff; cap 1 buff/cluster, durata 2 turni.'} is not of type 'array'
+[BLOCCANTE] data/core/species.yaml/species/2/trait_plan: Additional properties are not allowed ('temp' was unexpected)
+[BLOCCANTE] data/core/species.yaml/species/3/default_parts: {} should be non-empty
+[BLOCCANTE] data/core/species.yaml/species/3/id: 'leviatano-risonante' does not match '^[a-z0-9_]+$'
+[BLOCCANTE] data/core/species.yaml/species/3/synergy_hints: {'role': 'apex', 'notes': 'Forma armonica/shear; switch gratuito 1/encounter da corrente, costo stress 0.05 per switch manuale.'} is not of type 'array'
+[BLOCCANTE] data/core/species.yaml/species/3/trait_plan: Additional properties are not allowed ('temp' was unexpected)
+[BLOCCANTE] data/core/species.yaml/species/4/default_parts: {} should be non-empty
+[BLOCCANTE] data/core/species.yaml/species/4/id: 'simbionte-corallino-riflesso' does not match '^[a-z0-9_]+$'
+[BLOCCANTE] data/core/species.yaml/species/4/synergy_hints: {'role': 'flex', 'notes': 'Copia partial-trait al 50–75% per 2 turni, 1 slot temp, cooldown 3 turni.'} is not of type 'array'
+[BLOCCANTE] data/core/species.yaml/species/4/trait_plan: Additional properties are not allowed ('temp' was unexpected)
+Audit dei tratti: nessuna regressione rilevata.
+
+real	0m0.808s
+user	0m0.654s
+sys	0m0.175s
+Indice generato (CSV): data/traits/index.csv
+Totale trait: 260
+
+real	0m0.113s
+user	0m0.072s
+sys	0m0.053s
+Report coverage generato in data/derived/analysis/trait_coverage_report.json
+Controlli strict superati: min_traits_with_species=27, max_rules_missing_species=0
+
+real	0m0.990s
+user	0m0.871s
+sys	0m0.139s
+Dashboard aggiornato: reports/trait_progress.md
+Storico aggiornato: logs/trait_audit/trait_progress_history.json
+
+real	0m0.339s
+user	0m0.189s
+sys	0m0.167s

@@ -1,0 +1,85 @@
+# Ennea Voice Palette — Type 9 Stoico (vc archetype id "Stoico(9)")
+#
+# Tono canonical: pacificatore, endurance, evita conflitto, low-key resilience.
+# Voice persona: chi assorbe, dura, accetta. Niente urla. Sigla: "Resto."
+#
+# Trigger telemetry: kills<1 && damage_taken>0 && total_actions>5
+schema_version: "0.1.0"
+archetype_id: "Stoico(9)"
+ennea_type: 9
+canonical_name_it: "Stoico"
+canonical_name_en: "Peacemaker"
+voice_persona: |
+  Resto. Anche se duole, anche se serve poco. Niente urla. Niente fuga.
+  Linguaggio pacato, semplice, paziente. Sigla: "Resto."
+
+beats:
+  combat_attack_committed:
+    description: "Attacco con setup."
+    lines:
+      - id: "v9_atk_quiet"
+        text: "Faccio quel che serve. Non di più."
+      - id: "v9_atk_steady"
+        text: "Senza fretta. Senza foga."
+      - id: "v9_atk_continue"
+        text: "Continuo. Ogni colpo conta."
+
+  combat_defense_braced:
+    description: "Difesa attiva."
+    lines:
+      - id: "v9_def_endure"
+        text: "Reggo. Pazienza è scudo."
+      - id: "v9_def_unmoved"
+        text: "Non mi muovo. Niente mi sposta."
+      - id: "v9_def_quiet"
+        text: "Tengo. Senza rumore."
+
+  exploration_new_tile:
+    description: "Nuova tile."
+    lines:
+      - id: "v9_exp_walk"
+        text: "Cammino. Un passo per volta."
+      - id: "v9_exp_observe"
+        text: "Guardo. Non corro."
+      - id: "v9_exp_belong"
+        text: "Anche qui appartengo. In qualche modo."
+
+  low_hp_warning:
+    description: "HP critico."
+    lines:
+      - id: "v9_lhp_remain"
+        text: "Resto. Anche così."
+      - id: "v9_lhp_quiet_pain"
+        text: "Dolore quieto. Niente di nuovo."
+      - id: "v9_lhp_continue"
+        text: "Continuo finché serve."
+
+  victory_solo:
+    description: "Solo kill."
+    lines:
+      - id: "v9_vct_done"
+        text: "Fatto. Si va avanti."
+      - id: "v9_vct_no_fanfare"
+        text: "Senza rumore. Senza festa."
+      - id: "v9_vct_quiet_relief"
+        text: "Sollievo silenzioso. Basta così."
+
+  defeat_critical:
+    description: "KO / sconfitta."
+    lines:
+      - id: "v9_dft_endure"
+        text: "Anche questo si attraversa."
+      - id: "v9_dft_no_drama"
+        text: "Niente dramma. Solo passare."
+      - id: "v9_dft_again"
+        text: "Si riprende. Lentamente."
+
+  idle_round_start:
+    description: "Inizio round."
+    lines:
+      - id: "v9_idl_breath"
+        text: "Respiro. Una mossa per volta."
+      - id: "v9_idl_remain"
+        text: "Resto."
+      - id: "v9_idl_quiet"
+        text: "Niente fretta. Niente fuga."

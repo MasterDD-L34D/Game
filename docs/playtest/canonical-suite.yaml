@@ -1,0 +1,95 @@
+# Canonical AI-driven playtest suite manifest
+# SoT method: docs/process/CANONICAL-AI-PLAYTEST.md
+# Machine-readable list of canonical scenarios + ratified bands + run config.
+# Paradigm (2026-05-29): AI-driven multi-policy = gate/oracle; human = optional.
+version: 1
+last_verified: '2026-06-14'
+
+# N-ladder (L-069/L-073): 10 probe (+-30pp) / 40 ratify (+-15pp) / 100 forensic (+-10pp)
+n_ladder:
+  probe: 10
+  ratify: 40
+  forensic: 100
+
+# Multi-policy triangulation (Jaffe 2012). Human WR ~= band [random, strong].
+policies: [random, greedy, lookahead2, utility]
+human_wr_formula: 'greedy_WR*0.55 + lookahead_WR*0.45' # tunable if optional human data arrives
+
+# Reproducibility contract (see CANONICAL-AI-PLAYTEST.md sec 3)
+repro:
+  host: 'http://127.0.0.1' # NOT localhost (IPv6 ::1 stall on Windows)
+  lobby_ws_enabled: false # per-shard, port collision (L-071)
+  damage_curves_path_required: true # client must read backend staging file (L-069/OD-032)
+  seed_pinned: true # WIRED via TKT-PLAYTEST-SEED (batch --seed -> pseudoRng.js defaultRng at /start)
+  canonical_seed: 424242 # suite-runner pins this by default for a bit-identical gate; --no-seed = fresh statistical sample
+  config_source: data/core/balance/damage_curves.yaml
+  scenario_spawn_source: apps/backend/services/hardcoreScenario.js
+
+# Composite metric (anti false-balanced). PE_ratio term DROPPED 2026-06-23 (SDMG ratify,
+# master-dd): the canonical multi-policy N=40 experiment falsified every contestedness PE
+# source -- E_dmg_margin is degenerate on timer-race oracles (hardcore_07: zero damage
+# telemetry) and an outcome-proxy on skilled policies (|corr| 0.68-0.71); no WR-orthogonal
+# tension axis exists with current instrumentation. Pressure source was already rejected
+# (saturates). Evidence: docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md.
+# Re-weighted = the renormalized original weights (0.50:0.25 -> 0.70:0.30). NB kd_ratio is
+# itself partly outcome-collinear -> 'is any non-WR axis viable' is a follow-up (would need
+# new instrumentation: AP-usage spread / positional entropy / state-change frequency).
+composite_metric: '0.70*win_rate + 0.30*kd_ratio'
+
+scenarios:
+  - id: enc_tutorial_06_hardcore
+    role: balance_oracle
+    target_band: [0.15, 0.30] # WR upper widened 0.25->0.30 2026-06-17 (master-dd decision A, asymmetric; absorbs steep boss_hp-lever upper variance, knob unchanged ~22-23%)
+    ratified_knob: { boss_hp_multiplier: 1.02 }
+    # G2 P1: knob search space (single SoT; parity-guarded vs calibrate_optuna.py SCENARIO_CFG)
+    knob_space:
+      boss_hp_multiplier: { type: float, min: 0.50, max: 1.30 }
+      enemy_damage_multiplier_override: { type: float, min: 1.0, max: 2.5 }
+    last_wr_n40: '0.23 (N=100 2026-06-14 on node 22, seed 424242; also 0.23 on node 24 = cross-runtime-robust)'
+    status: ratified
+    tool: tools/py/batch_calibrate_hardcore06.py
+    port: 3340
+    note: 'NODE-22 RE-CALIBRATED 2026-06-14: boss_hp_multiplier 1.04 -> 1.02 (N=100 WR 23% in-band [15-25]). The interim 1.04 was tuned on node 24 (22%) but read 12.5% OOB-low on the canonical node 22 (CI/prod) -- the steep lever is node/V8-sensitive at the cliff. 1.02 = 23% on BOTH node 22 AND node 24 = cross-runtime-robust (plateau before the 1.04 cliff). Root cause = #2719 (channel-routing fix unlocked the greedy psionico exploit; band ratified under the bug, git-bisect). Calibrate on node 22 (CANONICAL sec 3 rule 8). Evidence docs/playtest/2026-06-14-canonical-forensic-n100.md. iter3 turn_limit null 0.85 still REJECTED.'
+
+  - id: enc_tutorial_07_hardcore_pod_rush
+    role: balance_oracle
+    target_band: [0.30, 0.50]
+    ratified_knob: { enemy_damage_multiplier_override: 2.5 } # REPLACES class 1.8, not stack
+    # G2 P1: knob search space (single SoT; parity-guarded vs calibrate_optuna.py SCENARIO_CFG)
+    knob_space:
+      # hc07 WR lever = enemy_damage_multiplier_override (ratified 2.5 -> 42% WR,
+      # damage_curves.yaml). enemy_count -1 was REJECTED (inverted dir, 3a iter1).
+      enemy_damage_multiplier_override: { type: float, min: 1.5, max: 2.5 }
+    last_wr_n40: '0.42 (N=100 2026-06-14, seed 424242)'
+    status: ratified
+    tool: tools/py/batch_calibrate_hardcore07.py
+    port: 3334
+    note: 'RE-CENTERED 2026-06-14: enemy_damage_multiplier_override 2.1->2.5. hc07 sat at the band ceiling (50% N=40 / 52% N=100) since the 2026-05-30 baseline = no gate margin. #2719-INDEPENDENT (fisico-only, timer-race scenario; losses are timeouts not defeats). Forensic N=100 = WR 42% mid-band [30-50]. Both oracles now in-band -> combat-balance gate phase-2 (blocking) is unblocked.'
+
+  - id: enc_tutorial_01_05
+    role: designed_winnable_ladder
+    target_band: null
+    status: not_balance_oracle
+    tool: tools/py/batch_calibrate_*.py
+    note: 'Tutorial = learning ladder, designed-winnable (greedy ~100% WR). NOT a difficulty target.'
+
+# NB: the badlands adapter scenarios (pilot / elite / ambient) are intentionally NOT in this
+# gated oracle manifest (mirrors enc_badlands_pilot_01's absence) -- they are ratified in
+# data/core/balance/damage_curves.yaml + docs/playtest/2026-06-18-badlands-s1-calibration.md,
+# and runnable via calibrate_parallel SCENARIO_MAP, but kept OUT of the per-PR combat gate
+# (the elite is a steep lever; gating on it would import hc06-style fragility).
+
+# Canonical run (parallel, ~10min N=40). One-command suite = tools/py/playtest_canonical.py (TKT-PLAYTEST-SUITE, SHIPPED 2026-05-30).
+run_canonical: |
+  # One command (pins canonical_seed for a bit-identical gate; --no-seed = fresh statistical sample):
+  python tools/py/playtest_canonical.py --n 40
+  # Manual per-scenario equivalent (--seed pins the run):
+  #   python tools/py/calibrate_parallel.py --scenario hardcore_06 --n 40 --seed 424242
+  #   python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --seed 424242
+
+gate:
+  merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'
+  ci_workflow_combat: '.github/workflows/combat-balance-gate.yml (PHASE 2 = fails red on OOB; re-flipped 2026-06-14 pm after the node-22 re-calibration). hc06 boss_hp 1.04 -> 1.02 = 23% in-band on node 22 (CI runtime) AND node 24 (dev) = cross-runtime-robust; hc07 42%. Lesson: the steep hc06 lever is node/V8-sensitive at the cliff -- calibrate on node 22 (CANONICAL sec 3 rule 8); NOT an OS thing (ubuntu and windows runners agreed at 12.5% on node 22). Hard mechanical block (required status check) DEFERRED (master-dd Option 1) -- red X suffices.'
+  ci_workflow_metaloop: '.github/workflows/meta-loop-gate.yml (PHASE 1 = warn-only, STATISTICAL). Runs `node tools/sim/full-loop-batch.js --runs 40 --seed-base 424242 --isolate --gate`; bands SoT = tools/sim/meta-band-aggregator.js (7 metrics, master-dd ratified 2026-06-03). Phase-2 follow-up: seed-pin the full-loop runner (recruit/mate/attrition currently vary per seed) -> bit-deterministic -> blocking.'
+  band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct change that shifts a ratified band (combat OR meta-loop) = block + human re-ratify, NEVER auto-update the band'
+  human_playtest: 'OPTIONAL confirmation, never blocking'

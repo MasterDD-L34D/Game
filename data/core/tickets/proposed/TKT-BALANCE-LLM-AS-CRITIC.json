@@ -1,0 +1,18 @@
+{
+  "id": "TKT-BALANCE-LLM-AS-CRITIC",
+  "title": "LLM-as-critic balance loop auto-iterativo",
+  "pillar": "P6",
+  "effort_hours": 5,
+  "donor_game": {
+    "name": "LLM-as-critic",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#8-llm-as-critic"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Prompt template + harness orchestrator chiamando LLM API tra batch run. Sostituisce manuale calibration eyeball."
+}

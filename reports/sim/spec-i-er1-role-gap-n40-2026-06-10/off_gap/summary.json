@@ -1,0 +1,68 @@
+{
+  "arm": "off_gap",
+  "args": {
+    "effect": "er1",
+    "runs": 40,
+    "seedBase": 51000,
+    "out": "reports/sim/spec-i-er1-role-gap-n40-2026-06-10",
+    "commit": "be4f3af9f",
+    "scaling": {
+      "countAdd": 7,
+      "hpAdd": 5,
+      "modAdd": 7,
+      "dcAdd": 2
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "arms": [
+      "off_gap"
+    ]
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.425,
+    "win_ci95": [
+      0.2850916852481588,
+      0.5780519956394001
+    ],
+    "timeouts": 0,
+    "rounds": {
+      "mean": 99.1,
+      "sd": 18.658606318361237,
+      "ci95": [
+        93.31763799481783,
+        104.88236200518216
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 59.8,
+      "sd": 11.765224724607382,
+      "ci95": [
+        56.15391908327831,
+        63.446080916721684
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": null,
+      "sd": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "survivors": {
+      "mean": 0.85,
+      "sd": 1.001281230506246,
+      "ci95": [
+        0.5396997318559709,
+        1.160300268144029
+      ],
+      "n": 40
+    }
+  }
+}

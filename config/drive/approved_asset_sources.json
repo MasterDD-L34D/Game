@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "playtest-telemetry",
+      "driveSourceId": "vc-logs",
+      "description": "Dataset di telemetria dei playtest VC sincronizzati da driveSync.",
+      "root": "logs/playtests",
+      "extensions": [".yaml", ".yml"],
+      "include": ["session-metrics\\.ya?ml$"]
+    },
+    {
+      "id": "drive-dryrun",
+      "description": "Output dry-run generati localmente per validare il mapping verso Google Sheets.",
+      "root": "logs/drive",
+      "extensions": [".json", ".yaml", ".yml"]
+    },
+    {
+      "id": "drive-config",
+      "description": "File di configurazione condivisi dal workflow driveSync.",
+      "root": "config/drive",
+      "extensions": [".json", ".yaml", ".yml"]
+    }
+  ]
+}

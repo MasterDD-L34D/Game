@@ -1,0 +1,16 @@
+# Path-glob -> SoT doc refs. Consumed by tools/sot-drift/detect.mjs.
+# sot_ref = vault Spaces/Dev/Evo-Tactics/<path>#<anchor> (heading slug or section number).
+# Extend conservatively: only concepts that have a canonical SoT doc.
+- pattern: 'apps/backend/services/genetics/**'
+  sot_ref: ['core/00-SOURCE-OF-TRUTH.md#24', 'core/90-FINAL-DESIGN-FREEZE.md#21.3']
+  concept: 'modello genetico D-HEIR/D-REPRO'
+- pattern: 'apps/backend/services/combat/**'
+  sot_ref:
+    ['core/10-SISTEMA_TATTICO.md', 'core/11-REGOLE_D20_TV.md', 'core/26-ECONOMY_CANONICAL.md']
+  concept: 'combat d20 / round loop / economy (PT)'
+- pattern: 'data/core/economy*'
+  sot_ref: ['core/26-ECONOMY_CANONICAL.md']
+  concept: 'economia PT/PP/SG'
+- pattern: 'data/core/biomes*'
+  sot_ref: ['core/28-NPC_BIOMI_SPAWN.md', 'core/15-LEVEL_DESIGN.md']
+  concept: 'biomi / spawn'

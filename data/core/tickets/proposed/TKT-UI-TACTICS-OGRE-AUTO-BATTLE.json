@@ -1,0 +1,18 @@
+{
+  "id": "TKT-UI-TACTICS-OGRE-AUTO-BATTLE",
+  "title": "Tactics Ogre auto-battle quick simulation button",
+  "pillar": "P1",
+  "effort_hours": 3,
+  "donor_game": {
+    "name": "Tactics Ogre Reborn",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#3-tactics-ogre-reborn-square-enix-2022--p1-ui--p3"
+  },
+  "agent_owner": "ui-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "UI button auto-resolve su `predict_combat()` esistente. Backend N=1000 sim live, manca surface."
+}

@@ -1,0 +1,14 @@
+{
+  "cache": {
+    "ttlMs": 20000
+  },
+  "telemetry": {
+    "defaultLimit": 120,
+    "timelineDays": 7
+  },
+  "orchestrator": {
+    "logDirectory": "logs/tooling",
+    "filePattern": "*.jsonl",
+    "maxEvents": 150
+  }
+}

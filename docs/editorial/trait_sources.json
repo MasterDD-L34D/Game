@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2025-11-16T00:00:00Z",
+  "sources": [
+    {
+      "slug": "controllo_psionico",
+      "title": "Controllo Psionico",
+      "kind": "expansion",
+      "aliases": ["controllo_psionico", "Controllo Psionico", "psionic_control"],
+      "notes": "Pacchetto narrativo psionico usato per i trait ambientati nei biomi risonanti."
+    },
+    {
+      "slug": "coverage_q4_2025",
+      "title": "Coverage Q4 2025",
+      "kind": "expansion",
+      "aliases": ["coverage_q4_2025", "Coverage Q4 2025", "coverage-q4-2025"],
+      "notes": "Set di copertura tattica Q4 2025, tratti di audit biome-wide e aggiornamenti ambiente."
+    },
+    {
+      "slug": "pathfinder_dataset",
+      "title": "Pathfinder Dataset",
+      "kind": "dataset",
+      "aliases": ["pathfinder_dataset", "Pathfinder Dataset", "pathfinder-dataset"],
+      "notes": "Semi narrativi dal dataset Pathfinder usati per i trait guida e onboarding."
+    }
+  ]
+}

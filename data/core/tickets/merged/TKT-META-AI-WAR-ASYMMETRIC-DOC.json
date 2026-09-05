@@ -1,0 +1,20 @@
+{
+  "id": "TKT-META-AI-WAR-ASYMMETRIC-DOC",
+  "title": "AI War asymmetric rules registry doc",
+  "pillar": "P5",
+  "effort_hours": 2,
+  "donor_game": {
+    "name": "AI War: Fleet Command",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#10-ai-war-fleet-command-arcen-2009--p5p6"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "merged",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Codify pattern AI ha rule diverse. Lock asymmetria come canonical pattern. `ai_intent_scores.yaml` data-driven già live.",
+  "merged_pr": 1934,
+  "merged_at": "2026-04-27"
+}

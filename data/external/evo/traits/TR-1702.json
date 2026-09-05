@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-1702",
+  "id": "cannone_sonico_a_raggio",
+  "label": "Cannone Sonico a Raggio",
+  "famiglia_tipologia": "Offensivo/Controllo",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "ali_fono_risonanti"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Risonanza focale su membrana alare.",
+  "uso_funzione": "Stordire/ferire con raggio sonoro.",
+  "spinta_selettiva": "Caccia rapida su sciami/uccelli piccoli.",
+  "metrics": [
+    {
+      "name": "dose_acustica",
+      "value": 140,
+      "unit": "dB·s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Stordisce pollo in 2 s a 3 m",
+    "scene_prompt": "Misura SPL puntuale + risposta preda"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

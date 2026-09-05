@@ -1,0 +1,62 @@
+species_id: elastovaranus_hydrus
+label_it: Varano Idraulico Elastico
+doc_status: stub
+doc_owner: auto-seeded
+last_verified: '2026-04-27'
+language: it
+biome_affinity_per_stage:
+  hatchling: savana
+  juvenile: deserto
+  mature: terrestre_pianeggiante
+  apex: any
+  legacy: any
+phases:
+  hatchling:
+    id: hatchling
+    label_it: Cucciolo Varano Idraulico Elastico
+    level_range:
+    - 1
+    - 1
+    mutations_required: 0
+    thoughts_internalized_required: 0
+    mbti_polarity_required: false
+  juvenile:
+    id: juvenile
+    label_it: Giovane Varano Idraulico Elastico
+    level_range:
+    - 2
+    - 4
+    mutations_required: 1
+    thoughts_internalized_required: 0
+    mbti_polarity_required: false
+  mature:
+    id: mature
+    label_it: Varano Idraulico Elastico maturo
+    level_range:
+    - 5
+    - 9
+    mutations_required: 2
+    thoughts_internalized_required: 1
+    mbti_polarity_required: true
+  apex:
+    id: apex
+    label_it: Varano Idraulico Elastico apicale
+    level_range:
+    - 10
+    - 14
+    mutations_required: 4
+    thoughts_internalized_required: 2
+    mbti_polarity_required: true
+  legacy:
+    id: legacy
+    label_it: Varano Idraulico Elastico legacy
+    level_range:
+    - 15
+    - 99
+    mutations_required: 5
+    thoughts_internalized_required: 3
+    mbti_polarity_required: true
+_notes:
+- Auto-seeded stub via tools/py/seed_lifecycle_stubs.py (Sprint 2 §IV).
+- 'Customizza per species reale: aspect_token, sprite_ascii, tactical_signature,'
+- diary_milestone_event per phase. Cf dune_stalker_lifecycle.yaml come template.

@@ -1,0 +1,18 @@
+{
+  "id": "TKT-UI-ITB-PUSH-PULL-ARROWS",
+  "title": "Into the Breach push/pull arrows + kill probability badge",
+  "pillar": "P1",
+  "effort_hours": 3,
+  "donor_game": {
+    "name": "Into the Breach",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#4-into-the-breach-subset-games--2018"
+  },
+  "agent_owner": "ui-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Render arrow overlay già computed da predictCombat. Visual blast cone before attack."
+}

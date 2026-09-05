@@ -1,0 +1,51 @@
+session_id: "followup-2025-02-26"
+build: "client-r2821"
+location: "QA Lab"
+scenarios:
+  - id: "BAL-02"
+    name: "Boss intermedio"
+    attempts: 2
+    status: "completed"
+    metrics:
+      win_rate: 0.5
+      damage_taken_avg: 420
+      encounter_duration: "PT9M32S"
+      notes:
+        - "Secondo tentativo riuscito con buff stamina minimo."
+  - id: "BAL-03"
+    name: "Horde mode"
+    attempts: 1
+    status: "interrupted"
+    metrics:
+      active_units_peak: 35
+      interruption_cause: "pathfinding_cargo_stairs"
+      notes:
+        - "Swarm bloccato vicino scala cargo nella quarta ondata."
+  - id: "PROG-03"
+    name: "Gestione risorse hub"
+    attempts: 1
+    status: "completed"
+    metrics:
+      completion_rate: 1.0
+      final_surplus_percent: 5
+      clarification_requests: 2
+      notes:
+        - "Sync automatico fogli hub richiesto oltre ciclo 1."
+  - id: "EVT-01"
+    name: "Tempesta dimensionale"
+    attempts: 1
+    status: "completed"
+    metrics:
+      decision_confirmed: true
+      response_time_seconds: 18
+      particle_glitches: 3
+      notes:
+        - "Shader closing produce flash bianco residuo."
+notes:
+  - "Cue audio ondata 4 richiesto per migliorare readiness co-op."
+  - "Considerare +10% energia drop boss per smoothing bilanciamento."
+telemetry_exports:
+  - path: "logs/playtests/2025-02-26/media/"
+    description: "Screenshot e clip video di supporto"
+  - path: "docs/playtest/SESSION-2025-02-26/feedback/"
+    description: "Trascrizioni feedback partecipanti"

@@ -1,0 +1,38 @@
+Skiv-as-Monitor — Raster sprite assets (CC0)
+==============================================
+
+Source: OpenGameArt.org (https://opengameart.org/)
+Adopted 2026-04-25 to complement hand-craft SVG sprites.
+
+----------------------------------------------------------------------
+
+ASSET: TL_Creatures.png
+Author: GrafxKid
+URL: https://opengameart.org/content/various-creatures
+Direct: https://opengameart.org/sites/default/files/TL_Creatures.png
+License: CC0 (Public Domain)
+License URL: http://creativecommons.org/publicdomain/zero/1.0/
+Dimensions: 256x352 8-bit RGB
+Size: 7.2 KB
+Tags: pixelart, platformer
+Description: Retired creature designs in cute platformer pixel art style.
+Attribution: CC0 = no attribution required, but author requested as
+"Credit me as GrafxKid". Honored here.
+
+----------------------------------------------------------------------
+
+ASSET: lpc_reptile_expansion (PENDING — manual download)
+Author: Liberated Pixel Cup community contributors
+URL: https://lpc.opengameart.org/
+License: CC-BY-SA 3.0 + GPL 3.0 (dual-license)
+Status: Deferred — license overhead vs CC0 single. Reference only.
+
+----------------------------------------------------------------------
+
+USAGE in Skiv-as-Monitor:
+- apps/play/src/skivPanel.js renderSprite() — fallback hand-craft SVG primary
+- Future <picture> element: prefer PNG raster from this dir, fallback SVG
+  for higher-res displays (browsers prefer larger source per devicePixelRatio).
+
+NO ATTRIBUTION REQUIRED for CC0 assets, but credits maintained per
+maintainer best practice. Add new assets above with full provenance.

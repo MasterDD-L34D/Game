@@ -1,0 +1,20 @@
+id: echo-wing
+environment_affinity:
+  multibiome:
+  - BADLANDS
+  - CRYOSTEPPE
+  - DESERTO_CALDO
+  - FORESTA_TEMPERATA
+  - ROVINE_PLANARI
+derived_from_environment:
+  jobs_bias:
+  - skirmisher
+network_bridge_roles:
+- dispersore_ponte
+- impollinatore
+biomes_add:
+- BADLANDS
+- FORESTA_TEMPERATA
+- DESERTO_CALDO
+- ROVINE_PLANARI
+- CRYOSTEPPE

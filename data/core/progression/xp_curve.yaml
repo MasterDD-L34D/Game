@@ -1,0 +1,31 @@
+# M13 P3 — XP curve canonical (ADR-2026-04-24 pending).
+# Inspired by XCOM EU/EW 7-promotion ladder. Cumulative XP required to reach level N.
+# Level 1 = starting level (0 XP). Level 7 = max (colonel-tier).
+# Sources: xcom_eu_progression (Squaddie→Colonel 7 steps), tuned for Evo-Tactics mission length.
+
+version: '0.1.0'
+
+# Cumulative XP required for reaching each level.
+# level_xp_thresholds[N] = XP needed to BE level N.
+level_xp_thresholds:
+  1: 0     # start
+  2: 10    # 1 encounter vittoria baseline (~8 PE → XP parity)
+  3: 25    # +15: 2nd encounter
+  4: 50    # +25: 3rd-4th encounter
+  5: 100   # +50: mid-campaign
+  6: 175   # +75: act 2 transition
+  7: 275   # +100: pre-endgame
+
+# XP grant tiers per combat outcome. Scales from encounter yaml.pe_reward.
+# Default scalars; encounter YAML can override.
+xp_grants:
+  kill_trash: 3
+  kill_elite: 8
+  kill_boss: 25
+  survive_round: 1         # per round survived (cap 5 rounds)
+  mission_victory: 12      # flat bonus on victory outcome
+  mission_participation: 5 # flat for all survivors even on defeat
+
+# Level cap + prestige system placeholder (deferred Phase C).
+max_level: 7
+prestige_enabled: false

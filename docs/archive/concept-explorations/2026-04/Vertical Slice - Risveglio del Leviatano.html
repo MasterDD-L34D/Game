@@ -1,0 +1,2128 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Evo Tactics · Vertical Slice · Risveglio del Leviatano</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1a1814;
+        --ink-2: #3a332a;
+        --ink-3: #6b6357;
+        --paper: #efe9dc;
+        --paper-2: #e6dfcf;
+        --paper-3: #d9d0bb;
+        --accent: #b8492a;
+        --accent-2: #2a5c4a;
+        --accent-3: #5a4a82;
+        --abyss: #0a1826;
+        --abyss-2: #12263a;
+        --abyss-glow: #6fd9c4;
+        --abyss-warm: #e8b059;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #c9c1ad;
+        font-family: 'Kalam', cursive;
+        color: var(--ink);
+      }
+      body {
+        padding: 14px 18px 80px;
+      }
+
+      /* topbar */
+      .topbar {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        padding: 4px 4px 12px;
+        border-bottom: 2px dashed var(--ink-3);
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+      .topbar h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 700;
+        font-size: 22px;
+        margin: 0;
+        letter-spacing: -0.3px;
+      }
+      .topbar h1 em {
+        font-style: italic;
+        color: var(--ink-3);
+        font-weight: 400;
+      }
+      .stamp {
+        display: inline-block;
+        border: 1.5px solid var(--accent);
+        color: var(--accent);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        padding: 3px 8px;
+        transform: rotate(-2deg);
+      }
+      .meta {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: var(--ink-3);
+        margin-left: auto;
+      }
+
+      /* nav */
+      .nav {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .nav button {
+        background: none;
+        border: 1.5px solid var(--ink-2);
+        font-family: 'Caveat', cursive;
+        font-size: 19px;
+        padding: 4px 14px 2px;
+        cursor: pointer;
+        color: var(--ink-2);
+        border-radius: 2px;
+      }
+      .nav button:nth-child(2n) {
+        transform: rotate(0.4deg);
+      }
+      .nav button.active {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .nav button:hover {
+        background: var(--paper-3);
+      }
+      .nav .step-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: var(--accent);
+        margin-right: 4px;
+        letter-spacing: 1px;
+      }
+      .nav .sep {
+        color: var(--ink-3);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        padding: 0 4px;
+      }
+
+      /* TV */
+      .stage {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 6px;
+      }
+      .tv {
+        position: relative;
+        background: #0e0c08;
+        border-radius: 10px;
+        padding: 14px;
+        box-shadow:
+          0 4px 0 rgba(0, 0, 0, 0.25),
+          0 20px 30px -10px rgba(0, 0, 0, 0.35);
+        width: min(1400px, calc(100vw - 48px));
+      }
+      .tv-screen {
+        aspect-ratio: 16/9;
+        background: var(--paper);
+        position: relative;
+        overflow: hidden;
+        border-radius: 2px;
+      }
+      .tv-stand {
+        width: 60%;
+        height: 10px;
+        background: #0e0c08;
+        margin: 0 auto;
+        border-radius: 0 0 12px 12px;
+      }
+      .tv-stand::after {
+        content: '';
+        display: block;
+        width: 40%;
+        height: 14px;
+        background: #0e0c08;
+        margin: 0 auto;
+        border-radius: 0 0 8px 8px;
+        margin-top: -1px;
+      }
+
+      /* scene */
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: none;
+      }
+      .scene.on {
+        display: block;
+      }
+
+      /* Sketchy post-it */
+      .postit {
+        position: absolute;
+        background: #f6e88a;
+        padding: 6px 10px;
+        font-family: 'Caveat', cursive;
+        font-size: 14px;
+        color: #5a4a2a;
+        box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
+        line-height: 1.2;
+        max-width: 180px;
+        z-index: 50;
+      }
+
+      /* Tweak panel */
+      .tweaks {
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        padding: 12px 14px;
+        z-index: 100;
+        max-width: 280px;
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18);
+        display: none;
+      }
+      .tweaks.on {
+        display: block;
+      }
+      .tweaks h4 {
+        font-family: 'Fraunces', serif;
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .tweaks .row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .tweaks label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: var(--ink-3);
+        min-width: 74px;
+      }
+      .tweaks button {
+        font-family: 'Kalam', cursive;
+        font-size: 13px;
+        background: var(--paper-2);
+        border: 1.5px solid var(--ink-2);
+        padding: 2px 8px;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+      .tweaks button.on {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      /* common svg text antialiasing */
+      svg text {
+        font-kerning: normal;
+      }
+
+      /* Companion line animation */
+      @keyframes typingLine {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .cline {
+        animation: typingLine 0.6s ease both;
+      }
+
+      /* pulse for spillover */
+      @keyframes pulseRift {
+        0%,
+        100% {
+          opacity: 0.35;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.85;
+          transform: scale(1.04);
+        }
+      }
+      .pulse-rift {
+        transform-origin: center;
+        animation: pulseRift 2s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      .shimmer {
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      .drift {
+        animation: drift 4s ease-in-out infinite;
+      }
+
+      /* step chip */
+      .chip {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        padding: 2px 8px;
+        border: 1px solid var(--ink-2);
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <h1>Evo Tactics · <em>Vertical Slice — Risveglio del Leviatano</em></h1>
+      <span class="stamp">CLICK MOMENTS v0.1</span>
+      <span class="meta">Frattura Abissale Sinaptica · 3 sotto-strati · 4 player co-op</span>
+    </div>
+
+    <div class="nav">
+      <button class="active" data-scene="pre">
+        <span class="step-num">① PRE</span>Meta-mappa &amp; briefing
+      </button>
+      <span class="sep">▸</span>
+      <button data-scene="mid"><span class="step-num">② MID</span>Spillover al T2</button>
+      <span class="sep">▸</span>
+      <button data-scene="post"><span class="step-num">③ POST</span>Debrief ecologico</button>
+      <span class="sep" style="margin-left: 16px"></span>
+      <span class="chip" style="color: var(--ink-3)"
+        >tesi: "la rete ha plasmato la missione — e io ho plasmato la rete"</span
+      >
+    </div>
+
+    <div class="stage">
+      <div class="tv">
+        <div class="tv-screen">
+          <!-- ================================ SCENE 1: PRE ================================ -->
+          <div class="scene on" data-scene="pre">
+            <svg viewBox="0 0 1600 900" width="100%" height="100%" style="display: block">
+              <defs>
+                <radialGradient id="abyssBg" cx="50%" cy="55%" r="70%">
+                  <stop offset="0%" stop-color="#12263a" />
+                  <stop offset="60%" stop-color="#0a1826" />
+                  <stop offset="100%" stop-color="#050d15" />
+                </radialGradient>
+                <linearGradient id="strat1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2a5a6e" stop-opacity=".4" />
+                  <stop offset="1" stop-color="#0a1826" stop-opacity=".1" />
+                </linearGradient>
+                <linearGradient id="strat2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3a4a6e" stop-opacity=".4" />
+                  <stop offset="1" stop-color="#0a1826" stop-opacity=".2" />
+                </linearGradient>
+                <linearGradient id="strat3" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#0a1020" stop-opacity=".3" />
+                  <stop offset="1" stop-color="#02050a" stop-opacity=".8" />
+                </linearGradient>
+                <pattern id="paperPre" width="6" height="6" patternUnits="userSpaceOnUse">
+                  <rect width="6" height="6" fill="#efe9dc" />
+                  <circle cx="2" cy="3" r=".4" fill="rgba(0,0,0,.05)" />
+                </pattern>
+                <filter id="glowPre"><feGaussianBlur stdDeviation="3" /></filter>
+              </defs>
+
+              <!-- Background: cutaway abisso -->
+              <rect width="1600" height="900" fill="url(#abyssBg)" />
+              <!-- subtle particles -->
+              <g fill="#6fd9c4" opacity=".35">
+                <circle cx="120" cy="220" r="1.5" />
+                <circle cx="380" cy="180" r="1" />
+                <circle cx="540" cy="340" r="1.3" />
+                <circle cx="820" cy="260" r="1" />
+                <circle cx="1120" cy="300" r="1.4" />
+                <circle cx="1380" cy="200" r="1" />
+                <circle cx="220" cy="580" r="1.2" />
+                <circle cx="700" cy="620" r="1" />
+                <circle cx="1260" cy="540" r="1.3" />
+                <circle cx="920" cy="700" r="1" />
+                <circle cx="1460" cy="680" r="1.2" />
+              </g>
+
+              <!-- Letterbox -->
+              <rect x="0" y="0" width="1600" height="70" fill="#040810" />
+              <rect x="0" y="830" width="1600" height="70" fill="#040810" />
+
+              <!-- Top bar info -->
+              <g font-family="JetBrains Mono" font-size="11" fill="#6fd9c4" letter-spacing="2">
+                <text x="40" y="30">CAP. VII · RISVEGLIO DEL LEVIATANO</text>
+                <text x="40" y="50">FRATTURA ABISSALE SINAPTICA · 3 STRATI</text>
+                <text x="1560" y="30" text-anchor="end">SESSIONE · EV-T · 147</text>
+                <text x="1560" y="50" text-anchor="end">SQUADRA · 4/4 · FLINT ONLINE</text>
+              </g>
+
+              <!-- Left pane: title + companion line -->
+              <g>
+                <text
+                  x="60"
+                  y="140"
+                  font-family="Fraunces"
+                  font-size="44"
+                  font-style="italic"
+                  fill="#efe9dc"
+                >
+                  La marea luminosa si ritira.
+                </text>
+                <text
+                  x="60"
+                  y="178"
+                  font-family="Fraunces"
+                  font-size="20"
+                  font-style="italic"
+                  fill="#6fd9c4"
+                >
+                  Il canto della Frattura sale di un'ottava.
+                </text>
+
+                <!-- companion card -->
+                <g transform="translate(60,220)">
+                  <rect
+                    width="620"
+                    height="150"
+                    fill="#efe9dc"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                    opacity=".96"
+                  />
+                  <g transform="translate(18,22)">
+                    <circle r="16" cx="16" cy="16" fill="#1a1814" />
+                    <circle
+                      r="22"
+                      cx="16"
+                      cy="16"
+                      fill="none"
+                      stroke="#e8b059"
+                      stroke-width="1"
+                      stroke-dasharray="2 3"
+                    />
+                  </g>
+                  <text
+                    x="70"
+                    y="34"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6b6357"
+                    letter-spacing="2"
+                  >
+                    FLINT · COMPANION
+                  </text>
+                  <text
+                    class="cline"
+                    x="70"
+                    y="60"
+                    font-family="Fraunces"
+                    font-size="16"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    « Tre sono gli strati. Tre i margini di errore.
+                  </text>
+                  <text
+                    class="cline"
+                    x="70"
+                    y="82"
+                    font-family="Fraunces"
+                    font-size="16"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    Il Leviatano Risonante dorme al fondo.
+                  </text>
+                  <text
+                    class="cline"
+                    x="70"
+                    y="104"
+                    font-family="Fraunces"
+                    font-size="16"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    Scegliete che cosa diventa di lui — e di noi. »
+                  </text>
+                  <text
+                    x="70"
+                    y="134"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#2a5c4a"
+                    letter-spacing="1"
+                  >
+                    › hook: missione modellata dalla rete ecologica
+                  </text>
+                </g>
+
+                <!-- Biome card summary -->
+                <g transform="translate(60,400)">
+                  <rect
+                    width="620"
+                    height="230"
+                    fill="#0a1826"
+                    stroke="#6fd9c4"
+                    stroke-width="1.2"
+                  />
+                  <text
+                    x="18"
+                    y="30"
+                    font-family="Fraunces"
+                    font-size="16"
+                    font-weight="600"
+                    fill="#efe9dc"
+                  >
+                    § Lettura del bioma
+                  </text>
+                  <g font-family="JetBrains Mono" font-size="11" fill="#6fd9c4">
+                    <text x="18" y="58">clastic · diff 5 · stresswave baseline 0.35</text>
+                    <text x="18" y="78" fill="#e8b059">
+                      affix: luminescente · sinaptico · gravitazionale · pressione_estrema
+                    </text>
+                    <text x="18" y="98" fill="#b8492a">
+                      hazard: photic_surge · memory_fog · gravitic_shear · black_current
+                    </text>
+                  </g>
+                  <text
+                    x="18"
+                    y="138"
+                    font-family="Fraunces"
+                    font-size="14"
+                    font-style="italic"
+                    fill="#efe9dc"
+                  >
+                    « Sinfonia abissale di luce, nebbia e shear
+                  </text>
+                  <text
+                    x="18"
+                    y="158"
+                    font-family="Fraunces"
+                    font-size="14"
+                    font-style="italic"
+                    fill="#efe9dc"
+                  >
+                    gravitazionale governata da correnti elettroluminescenti. »
+                  </text>
+                  <!-- thresholds -->
+                  <g transform="translate(18,186)">
+                    <text
+                      font-family="JetBrains Mono"
+                      font-size="10"
+                      fill="#6b9fa8"
+                      letter-spacing="1.5"
+                    >
+                      SYNC 0.52 ▸ OVERLOAD 0.74 ▸ FRACTURE 0.90
+                    </text>
+                    <rect
+                      x="0"
+                      y="10"
+                      width="420"
+                      height="14"
+                      fill="none"
+                      stroke="#6fd9c4"
+                      opacity=".5"
+                    />
+                    <rect x="0" y="10" width="147" height="14" fill="#6fd9c4" opacity=".25" />
+                    <rect x="147" y="10" width="99" height="14" fill="#e8b059" opacity=".3" />
+                    <rect x="246" y="10" width="128" height="14" fill="#b8492a" opacity=".35" />
+                    <line x1="147" y1="8" x2="147" y2="26" stroke="#efe9dc" />
+                    <line x1="378" y1="8" x2="378" y2="26" stroke="#b8492a" stroke-width="2" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- Right pane: cutaway of the 3 strata -->
+              <g transform="translate(780,110)">
+                <!-- frame -->
+                <rect width="760" height="680" fill="#040810" stroke="#6fd9c4" stroke-width="1.2" />
+                <text
+                  x="20"
+                  y="30"
+                  font-family="Fraunces"
+                  font-size="16"
+                  font-weight="600"
+                  fill="#efe9dc"
+                >
+                  § Sezione verticale · 3 strati
+                </text>
+                <text
+                  x="740"
+                  y="30"
+                  text-anchor="end"
+                  font-family="JetBrains Mono"
+                  font-size="10"
+                  fill="#6b9fa8"
+                  letter-spacing="1.5"
+                >
+                  CUTAWAY · Tav. III
+                </text>
+
+                <!-- Strato 1: Cresta Fotofase -->
+                <rect
+                  x="20"
+                  y="50"
+                  width="720"
+                  height="180"
+                  fill="url(#strat1)"
+                  stroke="#6fd9c4"
+                  stroke-width=".6"
+                />
+                <!-- corals + light -->
+                <g>
+                  <path
+                    d="M80,230 q20,-40 40,-30 q20,8 22,30"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M160,230 q14,-60 30,-54 q24,6 26,54"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M240,230 q18,-34 32,-30 q20,6 22,30"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M560,230 q22,-58 42,-50 q26,6 28,50"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M640,230 q14,-30 26,-26 q22,4 24,26"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                  />
+                  <!-- tiny shimmers -->
+                  <g class="shimmer">
+                    <circle cx="180" cy="120" r="2" fill="#e8b059" />
+                    <circle cx="380" cy="80" r="2" fill="#e8b059" />
+                    <circle cx="500" cy="140" r="2" fill="#e8b059" />
+                  </g>
+                </g>
+                <text
+                  x="32"
+                  y="80"
+                  font-family="Fraunces"
+                  font-size="18"
+                  font-weight="600"
+                  font-style="italic"
+                  fill="#e8b059"
+                >
+                  I · Cresta Fotofase
+                </text>
+                <text
+                  x="32"
+                  y="100"
+                  font-family="JetBrains Mono"
+                  font-size="10"
+                  fill="#6fd9c4"
+                  letter-spacing="1"
+                >
+                  keystone: Polpo Araldo Sinaptico · support: Simbionte Corallino
+                </text>
+                <text x="32" y="118" font-family="Kalam" font-size="13" fill="#efe9dc">
+                  ↳ strato luminoso · corridoi stabili · primo contatto
+                </text>
+
+                <!-- Strato 2: Soglia Crepuscolare -->
+                <rect
+                  x="20"
+                  y="240"
+                  width="720"
+                  height="180"
+                  fill="url(#strat2)"
+                  stroke="#6fd9c4"
+                  stroke-width=".6"
+                  stroke-dasharray="4 4"
+                />
+                <!-- fog lines -->
+                <g stroke="#e8b059" stroke-width="1" opacity=".5" fill="none">
+                  <path d="M40,310 q80,-12 160,0 q80,12 160,0 q80,-12 160,0 q80,12 160,0" />
+                  <path d="M40,340 q80,10 160,0 q80,-10 160,0 q80,10 160,0 q80,-10 160,0" />
+                  <path d="M40,380 q80,-12 160,0 q80,12 160,0 q80,-12 160,0 q80,12 160,0" />
+                </g>
+                <!-- threat swarm -->
+                <g transform="translate(440,370)">
+                  <g class="drift">
+                    <circle r="4" fill="#b8492a" />
+                    <circle cx="-10" cy="6" r="3" fill="#b8492a" />
+                    <circle cx="12" cy="-4" r="3" fill="#b8492a" />
+                    <circle cx="8" cy="10" r="3" fill="#b8492a" />
+                    <circle cx="-14" cy="-4" r="3" fill="#b8492a" />
+                  </g>
+                </g>
+                <text
+                  x="32"
+                  y="270"
+                  font-family="Fraunces"
+                  font-size="18"
+                  font-weight="600"
+                  font-style="italic"
+                  fill="#cbb89e"
+                >
+                  II · Soglia Crepuscolare
+                </text>
+                <text
+                  x="32"
+                  y="290"
+                  font-family="JetBrains Mono"
+                  font-size="10"
+                  fill="#6fd9c4"
+                  letter-spacing="1"
+                >
+                  threat: Sciame di Larve Neurali · nebbia mnesica
+                </text>
+                <text x="32" y="308" font-family="Kalam" font-size="13" fill="#efe9dc">
+                  ↳ visibilità compromessa · eclissi sinaptiche · decisione morale
+                </text>
+
+                <!-- Strato 3: Frattura Nera -->
+                <rect
+                  x="20"
+                  y="430"
+                  width="720"
+                  height="220"
+                  fill="url(#strat3)"
+                  stroke="#b8492a"
+                  stroke-width="1"
+                  stroke-dasharray="2 3"
+                />
+                <!-- leviathan silhouette -->
+                <g transform="translate(380,570)" opacity=".9">
+                  <path
+                    d="M-260,10 q-30,-40 20,-50 q60,-12 100,-4 q80,8 120,-12 q60,-22 140,-14 q80,6 80,40 q0,40 -120,48 q-120,8 -200,-4 q-90,-12 -140,-4 z"
+                    fill="#050810"
+                    stroke="#b8492a"
+                    stroke-width="1.5"
+                  />
+                  <!-- eye -->
+                  <circle
+                    cx="120"
+                    cy="0"
+                    r="10"
+                    fill="#b8492a"
+                    opacity=".9"
+                    filter="url(#glowPre)"
+                  />
+                  <circle cx="120" cy="0" r="4" fill="#e8b059" />
+                  <!-- resonance arcs -->
+                  <g fill="none" stroke="#b8492a" stroke-width="1" opacity=".5">
+                    <path d="M140,-8 q20,-20 44,-10" />
+                    <path d="M146,2 q24,-10 50,0" />
+                  </g>
+                </g>
+                <text
+                  x="32"
+                  y="460"
+                  font-family="Fraunces"
+                  font-size="18"
+                  font-weight="600"
+                  font-style="italic"
+                  fill="#b8492a"
+                >
+                  III · Frattura Nera
+                </text>
+                <text
+                  x="32"
+                  y="480"
+                  font-family="JetBrains Mono"
+                  font-size="10"
+                  fill="#b8492a"
+                  letter-spacing="1"
+                >
+                  apex: Leviatano Risonante · canto_dello_strappo
+                </text>
+                <text x="32" y="498" font-family="Kalam" font-size="13" fill="#efe9dc">
+                  ↳ climax · accordo / ritirata / combattimento
+                </text>
+              </g>
+
+              <!-- Objectives strip at bottom -->
+              <g transform="translate(60,680)">
+                <rect width="620" height="130" fill="#fef0c2" stroke="#1a1814" stroke-width="1.5" />
+                <text x="18" y="26" font-family="Fraunces" font-size="14" font-weight="600">
+                  § Obiettivi dinamici
+                </text>
+                <g font-family="Kalam" font-size="14" fill="#1a1814">
+                  <text x="18" y="54">① Stabilizza i corridoi della Cresta (3 nodi)</text>
+                  <text x="18" y="76">
+                    ② Attraversa la Soglia prima dell'eclissi
+                    <tspan font-family="JetBrains Mono" font-size="11" fill="#6b6357">
+                      T-6 turni
+                    </tspan>
+                  </text>
+                  <text x="18" y="98" fill="#b8492a">
+                    ③ Frattura Nera — risveglio del Leviatano
+                    <tspan font-family="JetBrains Mono" font-size="11" fill="#5a4a82">
+                      [esito aperto]
+                    </tspan>
+                  </text>
+                  <text
+                    x="18"
+                    y="120"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6b6357"
+                    letter-spacing="1"
+                  >
+                    › trait planare sblocca in base al comportamento · no fail state forzato
+                  </text>
+                </g>
+              </g>
+
+              <!-- Commit prompt -->
+              <g
+                transform="translate(60,850)"
+                font-family="JetBrains Mono"
+                font-size="11"
+                fill="#6fd9c4"
+                letter-spacing="2"
+              >
+                <text>[A] COMMIT SQUADRA · [X] PIANO ALTERNATIVO · [Y] FOODWEB · [B] ANNULLA</text>
+                <text x="1500" text-anchor="end">T-0 · pronti al contatto</text>
+              </g>
+            </svg>
+            <!-- overlay post-it explaining click moment -->
+            <div class="postit" style="right: 20px; top: 90px; transform: rotate(3deg)">
+              <b>Click #1 · pre-match</b><br />
+              "Aha — entro <i>perché</i> la marea si ritira.<br />
+              La rete ha già deciso la missione."
+            </div>
+          </div>
+
+          <!-- ================================ SCENE 2: MID ================================ -->
+          <div class="scene" data-scene="mid">
+            <svg viewBox="0 0 1600 900" width="100%" height="100%" style="display: block">
+              <defs>
+                <linearGradient id="gridBg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#1a3040" />
+                  <stop offset="1" stop-color="#0a1826" />
+                </linearGradient>
+                <pattern id="hexBg" width="52" height="60" patternUnits="userSpaceOnUse">
+                  <path
+                    d="M26,0 L52,15 L52,45 L26,60 L0,45 L0,15 Z"
+                    fill="none"
+                    stroke="#3a5266"
+                    stroke-width=".8"
+                  />
+                </pattern>
+                <filter id="softGlow"><feGaussianBlur stdDeviation="4" /></filter>
+              </defs>
+
+              <!-- Top HUD -->
+              <rect x="0" y="0" width="1600" height="64" fill="#050d15" />
+              <g font-family="JetBrains Mono" font-size="11" fill="#6fd9c4" letter-spacing="2">
+                <text x="30" y="28">MATCH 147 · FRATTURA ABISSALE · SOGLIA CREPUSCOLARE</text>
+                <text x="30" y="48">TURNO 2/18 · FASE: RISOLUZIONE · SYNC 0.48</text>
+              </g>
+              <!-- StressWave meter -->
+              <g transform="translate(720,20)">
+                <text
+                  x="0"
+                  y="-2"
+                  font-family="JetBrains Mono"
+                  font-size="9"
+                  fill="#6b9fa8"
+                  letter-spacing="2"
+                >
+                  STRESSWAVE · SOGLIA
+                </text>
+                <rect x="0" y="6" width="560" height="14" fill="none" stroke="#6fd9c4" />
+                <rect x="0" y="6" width="252" height="14" fill="#6fd9c4" opacity=".3" />
+                <rect
+                  x="252"
+                  y="6"
+                  width="108"
+                  height="14"
+                  fill="#e8b059"
+                  opacity=".7"
+                  id="swOverload"
+                />
+                <line x1="380" y1="4" x2="380" y2="22" stroke="#b8492a" stroke-width="2" />
+                <text x="384" y="-2" font-family="JetBrains Mono" font-size="9" fill="#b8492a">
+                  OVERLOAD 0.74
+                </text>
+                <text x="0" y="40" font-family="JetBrains Mono" font-size="9" fill="#efe9dc">
+                  current 0.45 ▲ +0.07 (spillover)
+                </text>
+              </g>
+              <text
+                x="1560"
+                y="28"
+                text-anchor="end"
+                font-family="JetBrains Mono"
+                font-size="11"
+                fill="#e8b059"
+                letter-spacing="2"
+              >
+                ⚠ SPILLOVER IN CORSO
+              </text>
+              <text
+                x="1560"
+                y="48"
+                text-anchor="end"
+                font-family="JetBrains Mono"
+                font-size="11"
+                fill="#6fd9c4"
+              >
+                [A] AZIONE · [Y] TIMELINE
+              </text>
+
+              <!-- Main play area: tactical grid (isometric-ish hex) -->
+              <rect x="0" y="64" width="1200" height="770" fill="url(#gridBg)" />
+              <rect x="0" y="64" width="1200" height="770" fill="url(#hexBg)" opacity=".8" />
+
+              <!-- Fog band (Soglia) -->
+              <g opacity=".55">
+                <ellipse cx="600" cy="540" rx="580" ry="120" fill="#e8b059" opacity=".18" />
+                <g stroke="#e8b059" stroke-width="1" opacity=".35" fill="none">
+                  <path d="M60,480 q120,-10 240,0 q120,10 240,0 q120,-10 240,0 q120,10 240,0" />
+                  <path d="M60,520 q120,10 240,0 q120,-10 240,0 q120,10 240,0 q120,-10 240,0" />
+                  <path d="M60,580 q120,-10 240,0 q120,10 240,0 q120,-10 240,0 q120,10 240,0" />
+                  <path d="M60,620 q120,10 240,0 q120,-10 240,0 q120,10 240,0 q120,-10 240,0" />
+                </g>
+              </g>
+
+              <!-- SPILLOVER: incoming rift from top-right -->
+              <g class="pulse-rift" transform="translate(950,200)">
+                <ellipse rx="140" ry="90" fill="#b8492a" opacity=".25" filter="url(#softGlow)" />
+                <path
+                  d="M-80,-20 L-40,-50 L0,-30 L30,-60 L60,-20 L40,20 L80,30 L20,50 L-20,40 L-60,30 Z"
+                  fill="none"
+                  stroke="#b8492a"
+                  stroke-width="2"
+                />
+                <text
+                  y="-80"
+                  text-anchor="middle"
+                  font-family="JetBrains Mono"
+                  font-size="11"
+                  fill="#b8492a"
+                  letter-spacing="2"
+                >
+                  PLANAR RIFT · +0.06
+                </text>
+              </g>
+              <!-- Arrow from rift to grid spawn -->
+              <g fill="none" stroke="#b8492a" stroke-width="2" stroke-dasharray="4 4">
+                <path d="M900,240 Q800,340 700,420" />
+              </g>
+
+              <!-- Party units (4 players) -->
+              <g font-family="Kalam" font-size="13" fill="#efe9dc" text-anchor="middle">
+                <!-- P1 Mara (aggro) -->
+                <g transform="translate(340,540)">
+                  <polygon
+                    points="0,-22 24,-8 24,14 0,26 -24,14 -24,-8"
+                    fill="#b8492a"
+                    stroke="#efe9dc"
+                    stroke-width="1.5"
+                  />
+                  <text y="4" font-family="JetBrains Mono" font-size="12" font-weight="700">
+                    P1
+                  </text>
+                  <text y="46" font-family="Fraunces" font-size="12" font-style="italic">Mara</text>
+                  <text y="62" font-family="JetBrains Mono" font-size="9" fill="#6fd9c4">
+                    HP 22/28
+                  </text>
+                </g>
+                <!-- P2 Ilo (support) -->
+                <g transform="translate(260,640)">
+                  <polygon
+                    points="0,-22 24,-8 24,14 0,26 -24,14 -24,-8"
+                    fill="#2a5c4a"
+                    stroke="#efe9dc"
+                    stroke-width="1.5"
+                  />
+                  <text y="4" font-family="JetBrains Mono" font-size="12" font-weight="700">
+                    P2
+                  </text>
+                  <text y="46" font-family="Fraunces" font-size="12" font-style="italic">Ilo</text>
+                  <text y="62" font-family="JetBrains Mono" font-size="9" fill="#6fd9c4">
+                    HP 24/24
+                  </text>
+                </g>
+                <!-- P3 Ven (control) -->
+                <g transform="translate(420,680)">
+                  <polygon
+                    points="0,-22 24,-8 24,14 0,26 -24,14 -24,-8"
+                    fill="#5a4a82"
+                    stroke="#efe9dc"
+                    stroke-width="1.5"
+                  />
+                  <text y="4" font-family="JetBrains Mono" font-size="12" font-weight="700">
+                    P3
+                  </text>
+                  <text y="46" font-family="Fraunces" font-size="12" font-style="italic">Ven</text>
+                  <text y="62" font-family="JetBrains Mono" font-size="9" fill="#6fd9c4">
+                    HP 20/20
+                  </text>
+                </g>
+                <!-- P4 Run (stealth) selected -->
+                <g transform="translate(500,600)">
+                  <circle
+                    r="36"
+                    fill="none"
+                    stroke="#e8b059"
+                    stroke-width="2"
+                    stroke-dasharray="4 3"
+                  />
+                  <polygon
+                    points="0,-22 24,-8 24,14 0,26 -24,14 -24,-8"
+                    fill="#1a1814"
+                    stroke="#e8b059"
+                    stroke-width="2"
+                  />
+                  <text
+                    y="4"
+                    font-family="JetBrains Mono"
+                    font-size="12"
+                    font-weight="700"
+                    fill="#e8b059"
+                  >
+                    P4
+                  </text>
+                  <text
+                    y="46"
+                    font-family="Fraunces"
+                    font-size="12"
+                    font-style="italic"
+                    fill="#e8b059"
+                  >
+                    Run ◉
+                  </text>
+                  <text y="62" font-family="JetBrains Mono" font-size="9" fill="#e8b059">
+                    HP 22/22
+                  </text>
+                </g>
+              </g>
+
+              <!-- Enemies: swarm from spillover + existing threats -->
+              <g font-family="Kalam" font-size="11" fill="#efe9dc" text-anchor="middle">
+                <!-- Sciame larve -->
+                <g transform="translate(780,440)" class="drift">
+                  <circle r="18" fill="#b8492a" opacity=".4" />
+                  <circle r="4" fill="#b8492a" />
+                  <circle cx="-8" cy="6" r="3" fill="#b8492a" />
+                  <circle cx="10" cy="-4" r="3" fill="#b8492a" />
+                  <circle cx="8" cy="10" r="3" fill="#b8492a" />
+                  <text y="38" font-family="Fraunces" font-size="11" font-style="italic">
+                    Sciame Larve
+                  </text>
+                  <text y="52" font-family="JetBrains Mono" font-size="8" fill="#b8492a">
+                    THREAT · new ↯
+                  </text>
+                </g>
+                <g transform="translate(680,480)">
+                  <circle r="14" fill="#b8492a" opacity=".5" />
+                  <circle r="3" fill="#b8492a" />
+                  <circle cx="-6" cy="5" r="2.5" fill="#b8492a" />
+                  <circle cx="7" cy="-3" r="2.5" fill="#b8492a" />
+                  <text y="32" font-family="Fraunces" font-size="11" font-style="italic">
+                    Sciame
+                  </text>
+                  <text y="44" font-family="JetBrains Mono" font-size="8" fill="#b8492a">
+                    THREAT · new ↯
+                  </text>
+                </g>
+                <!-- Polpo Araldo nearby (ally-neutral) -->
+                <g transform="translate(620,420)">
+                  <circle r="20" fill="#6fd9c4" opacity=".25" />
+                  <path
+                    d="M0,-16 q-12,0 -14,10 q-4,10 -10,12 M0,-16 q12,0 14,10 q4,10 10,12 M0,-16 q-4,14 0,22 M0,-16 q4,14 0,22"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width="1.8"
+                  />
+                  <circle r="8" fill="#6fd9c4" opacity=".3" />
+                  <text
+                    y="44"
+                    font-family="Fraunces"
+                    font-size="11"
+                    font-style="italic"
+                    fill="#6fd9c4"
+                  >
+                    Polpo Araldo
+                  </text>
+                  <text y="56" font-family="JetBrains Mono" font-size="8" fill="#6fd9c4">
+                    KEYSTONE · neutro
+                  </text>
+                </g>
+              </g>
+
+              <!-- Target preview line from P4 to enemy -->
+              <g>
+                <line
+                  x1="500"
+                  y1="600"
+                  x2="770"
+                  y2="450"
+                  stroke="#e8b059"
+                  stroke-dasharray="5 3"
+                  stroke-width="1.5"
+                />
+                <g transform="translate(770,450)">
+                  <circle
+                    r="26"
+                    fill="none"
+                    stroke="#e8b059"
+                    stroke-width="1.5"
+                    stroke-dasharray="3 3"
+                  />
+                  <text x="34" y="4" font-family="JetBrains Mono" font-size="10" fill="#e8b059">
+                    d20+4 · DC 12
+                  </text>
+                </g>
+              </g>
+
+              <!-- Right side panel: action + causal chain -->
+              <rect x="1200" y="64" width="400" height="770" fill="#050d15" />
+              <g transform="translate(1220,90)">
+                <!-- Action card -->
+                <text
+                  x="0"
+                  y="0"
+                  font-family="Fraunces"
+                  font-size="15"
+                  font-weight="600"
+                  fill="#efe9dc"
+                >
+                  § Azione P4 · Run
+                </text>
+                <line x1="0" y1="12" x2="360" y2="12" stroke="#6fd9c4" />
+                <g font-family="Kalam" font-size="14" fill="#efe9dc">
+                  <text x="0" y="38">Colpo silenzioso · d20+4 vs DC 12</text>
+                  <text x="0" y="60" font-family="JetBrains Mono" font-size="11" fill="#6fd9c4">
+                    danno atteso 2d6+3 · applica silenzio 1 turno
+                  </text>
+                </g>
+
+                <!-- dice -->
+                <g transform="translate(0,86)">
+                  <rect width="80" height="80" fill="#efe9dc" stroke="#1a1814" stroke-width="2" />
+                  <text
+                    x="40"
+                    y="58"
+                    text-anchor="middle"
+                    font-family="Fraunces"
+                    font-size="46"
+                    font-weight="700"
+                    fill="#1a1814"
+                  >
+                    14
+                  </text>
+                  <text
+                    x="40"
+                    y="96"
+                    text-anchor="middle"
+                    font-family="JetBrains Mono"
+                    font-size="9"
+                    fill="#6fd9c4"
+                  >
+                    +4 = 18 ✓ HIT
+                  </text>
+                </g>
+                <g
+                  transform="translate(100,86)"
+                  font-family="JetBrains Mono"
+                  font-size="10"
+                  fill="#efe9dc"
+                >
+                  <text y="10" fill="#6fd9c4">roll log</text>
+                  <text y="28">d20 → 14</text>
+                  <text y="44">+mod → +4</text>
+                  <text y="60" fill="#e8b059">critical → no</text>
+                  <text y="76">vs DC → 12</text>
+                  <text y="92" fill="#6fd9c4">result → hit ✓</text>
+                </g>
+
+                <!-- CAUSAL CHAIN — the key design payload -->
+                <text
+                  x="0"
+                  y="210"
+                  font-family="Fraunces"
+                  font-size="15"
+                  font-weight="600"
+                  fill="#efe9dc"
+                >
+                  § Perché sono spawnati?
+                </text>
+                <line x1="0" y1="222" x2="360" y2="222" stroke="#b8492a" />
+                <g transform="translate(0,240)">
+                  <!-- chain nodes -->
+                  <g font-family="Kalam" font-size="12" fill="#efe9dc">
+                    <g transform="translate(0,0)">
+                      <rect
+                        width="360"
+                        height="42"
+                        fill="#0a1826"
+                        stroke="#6fd9c4"
+                        stroke-width="1"
+                      />
+                      <text
+                        x="10"
+                        y="18"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#6fd9c4"
+                        letter-spacing="1"
+                      >
+                        T0 · BRIEFING
+                      </text>
+                      <text x="10" y="34">Marea ritirata · Cresta instabile</text>
+                    </g>
+                    <path d="M180,42 L180,58" stroke="#6fd9c4" stroke-width="1.5" />
+                    <g transform="translate(0,60)">
+                      <rect
+                        width="360"
+                        height="42"
+                        fill="#0a1826"
+                        stroke="#e8b059"
+                        stroke-width="1"
+                      />
+                      <text
+                        x="10"
+                        y="18"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#e8b059"
+                        letter-spacing="1"
+                      >
+                        T1 · VOSTRA SCELTA
+                      </text>
+                      <text x="10" y="34">Passaggio aggressivo in Soglia</text>
+                    </g>
+                    <path d="M180,102 L180,118" stroke="#e8b059" stroke-width="1.5" />
+                    <g transform="translate(0,120)">
+                      <rect
+                        width="360"
+                        height="58"
+                        fill="#2a0d08"
+                        stroke="#b8492a"
+                        stroke-width="1.5"
+                      />
+                      <text
+                        x="10"
+                        y="18"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#b8492a"
+                        letter-spacing="1"
+                      >
+                        T2 · SPILLOVER ↯ ADESSO
+                      </text>
+                      <text x="10" y="34" fill="#efe9dc">Eclissi sinaptica attiva una</text>
+                      <text x="10" y="50" fill="#efe9dc">fenditura planare (memory_fog)</text>
+                    </g>
+                    <path d="M180,178 L180,194" stroke="#b8492a" stroke-width="1.5" />
+                    <g transform="translate(0,196)">
+                      <rect
+                        width="360"
+                        height="42"
+                        fill="#0a1826"
+                        stroke="#b8492a"
+                        stroke-width="1"
+                      />
+                      <text
+                        x="10"
+                        y="18"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#b8492a"
+                        letter-spacing="1"
+                      >
+                        T2 · CONSEGUENZA
+                      </text>
+                      <text x="10" y="34">Sciame Larve Neurali ← rift</text>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- Companion whisper -->
+                <g transform="translate(0,520)">
+                  <rect
+                    width="360"
+                    height="94"
+                    fill="#efe9dc"
+                    stroke="#e8b059"
+                    stroke-width="1.2"
+                  />
+                  <text
+                    x="12"
+                    y="22"
+                    font-family="JetBrains Mono"
+                    font-size="9"
+                    fill="#6b6357"
+                    letter-spacing="1.5"
+                  >
+                    FLINT · sussurra
+                  </text>
+                  <text
+                    x="12"
+                    y="44"
+                    font-family="Fraunces"
+                    font-size="13"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    « Non hai sbagliato strada.
+                  </text>
+                  <text
+                    x="12"
+                    y="62"
+                    font-family="Fraunces"
+                    font-size="13"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    La Soglia sa dove farsi cercare. »
+                  </text>
+                  <text x="12" y="84" font-family="JetBrains Mono" font-size="9" fill="#2a5c4a">
+                    › spillover registrato · trait "eco_lucido" in osservazione
+                  </text>
+                </g>
+              </g>
+
+              <!-- bottom timeline -->
+              <g transform="translate(0,840)">
+                <rect width="1200" height="60" fill="#040810" />
+                <g font-family="JetBrains Mono" font-size="10" fill="#6fd9c4" letter-spacing="1.5">
+                  <text x="30" y="22">TURNI →</text>
+                  <g transform="translate(120,14)">
+                    <!-- turn pips -->
+                    <g>
+                      <rect width="30" height="16" fill="#6fd9c4" opacity=".4" />
+                      <text x="4" y="12" fill="#040810">T1</text>
+                      <rect x="36" width="30" height="16" fill="#b8492a" />
+                      <text x="40" y="12" fill="#efe9dc">T2</text>
+                      <rect x="72" width="30" height="16" fill="none" stroke="#6fd9c4" />
+                      <text x="78" y="12">T3</text>
+                      <rect x="108" width="30" height="16" fill="none" stroke="#6fd9c4" />
+                      <text x="114" y="12">T4</text>
+                      <rect x="144" width="30" height="16" fill="none" stroke="#6fd9c4" />
+                      <text x="150" y="12">T5</text>
+                      <rect x="180" width="30" height="16" fill="none" stroke="#6fd9c4" />
+                      <text x="186" y="12">T6</text>
+                    </g>
+                  </g>
+                  <text x="360" y="24" fill="#e8b059">▲ Eclissi sinaptica a T4</text>
+                  <text x="700" y="24" fill="#b8492a">◆ finestra Leviatano T10–T14</text>
+                  <text x="1170" y="24" text-anchor="end">18 turni max</text>
+                </g>
+                <g font-family="JetBrains Mono" font-size="10" fill="#6b9fa8" letter-spacing="1">
+                  <text x="30" y="48">
+                    [A] conferma · [X] annulla · [LB/RB] cambia unità · [Y] timeline estesa
+                  </text>
+                </g>
+              </g>
+            </svg>
+            <div class="postit" style="right: 420px; top: 210px; transform: rotate(-3deg)">
+              <b>Click #2 · mid-match</b><br />
+              "Aha — lo spillover <i>non è</i><br />
+              casuale. È nato da una<br />
+              mia scelta al T1."
+            </div>
+          </div>
+
+          <!-- ================================ SCENE 3: POST ================================ -->
+          <div class="scene" data-scene="post">
+            <svg viewBox="0 0 1600 900" width="100%" height="100%" style="display: block">
+              <defs>
+                <pattern id="paperPost" width="6" height="6" patternUnits="userSpaceOnUse">
+                  <rect width="6" height="6" fill="#efe9dc" />
+                </pattern>
+              </defs>
+              <rect width="1600" height="900" fill="url(#paperPost)" />
+
+              <!-- Header -->
+              <text
+                x="60"
+                y="58"
+                font-family="Fraunces"
+                font-size="34"
+                font-weight="600"
+                font-style="italic"
+                fill="#1a1814"
+                id="postTitle"
+              >
+                Debrief ecologico · Accordo
+              </text>
+              <text
+                x="60"
+                y="86"
+                font-family="JetBrains Mono"
+                font-size="12"
+                fill="#6b6357"
+                letter-spacing="2"
+                id="postSubtitle"
+              >
+                MATCH 147 · FRATTURA ABISSALE SINAPTICA · 17 TURNI · ESITO: ACCORDO CON IL LEVIATANO
+              </text>
+              <line x1="60" y1="104" x2="1540" y2="104" stroke="#1a1814" stroke-width="1.5" />
+
+              <!-- Stamp -->
+              <g transform="translate(1360,80) rotate(-8)" id="postStamp">
+                <rect
+                  x="-60"
+                  y="-18"
+                  width="120"
+                  height="36"
+                  fill="none"
+                  stroke="#2a5c4a"
+                  stroke-width="2"
+                />
+                <text
+                  y="6"
+                  text-anchor="middle"
+                  font-family="JetBrains Mono"
+                  font-size="14"
+                  fill="#2a5c4a"
+                  font-weight="700"
+                  letter-spacing="2"
+                >
+                  SINCRO
+                </text>
+              </g>
+
+              <!-- Left: network before/after -->
+              <g transform="translate(60,140)">
+                <text x="0" y="0" font-family="Fraunces" font-size="15" font-weight="600">
+                  § La rete, prima → dopo
+                </text>
+                <rect
+                  x="0"
+                  y="14"
+                  width="720"
+                  height="360"
+                  fill="#fff"
+                  stroke="#1a1814"
+                  stroke-width="1.5"
+                />
+
+                <!-- Before -->
+                <g transform="translate(20,40)">
+                  <text
+                    x="160"
+                    y="0"
+                    text-anchor="middle"
+                    font-family="Fraunces"
+                    font-size="12"
+                    font-style="italic"
+                  >
+                    prima
+                  </text>
+                  <!-- nodes layout -->
+                  <g font-family="Kalam" font-size="11" text-anchor="middle" fill="#1a1814">
+                    <g transform="translate(60,80)">
+                      <circle r="24" fill="#e6dfcf" stroke="#1a1814" stroke-width="1.2" />
+                      <text y="4">Cresta</text>
+                    </g>
+                    <g transform="translate(160,160)">
+                      <circle r="24" fill="#e6dfcf" stroke="#1a1814" stroke-width="1.2" />
+                      <text y="4">Soglia</text>
+                    </g>
+                    <g transform="translate(260,240)">
+                      <circle
+                        r="28"
+                        fill="#d6cce0"
+                        stroke="#5a4a82"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"
+                      />
+                      <text y="4" fill="#5a4a82">Frattura</text>
+                      <text y="18" font-family="JetBrains Mono" font-size="8" fill="#5a4a82">
+                        dormiente
+                      </text>
+                    </g>
+                  </g>
+                  <g stroke="#1a1814" stroke-width="1.2" fill="none">
+                    <path d="M80,160 L140,160" />
+                    <path d="M180,180 L240,220" />
+                  </g>
+                </g>
+
+                <!-- Arrow -->
+                <g transform="translate(340,220)" stroke="#1a1814" stroke-width="2" fill="#1a1814">
+                  <line x1="-20" y1="0" x2="30" y2="0" />
+                  <polygon points="30,-6 40,0 30,6" />
+                </g>
+
+                <!-- After -->
+                <g transform="translate(400,40)" id="postNetAfter">
+                  <text
+                    x="160"
+                    y="0"
+                    text-anchor="middle"
+                    font-family="Fraunces"
+                    font-size="12"
+                    font-style="italic"
+                  >
+                    dopo
+                  </text>
+                  <g font-family="Kalam" font-size="11" text-anchor="middle" fill="#1a1814">
+                    <g transform="translate(60,80)">
+                      <circle r="24" fill="#d9e8e4" stroke="#2a5c4a" stroke-width="1.5" />
+                      <text y="4">Cresta</text>
+                      <text y="18" font-family="JetBrains Mono" font-size="8" fill="#2a5c4a">
+                        bloom
+                      </text>
+                    </g>
+                    <g transform="translate(160,160)">
+                      <circle r="24" fill="#e6dfcf" stroke="#1a1814" stroke-width="1.2" />
+                      <text y="4">Soglia</text>
+                      <text y="18" font-family="JetBrains Mono" font-size="8" fill="#6b6357">
+                        recovery
+                      </text>
+                    </g>
+                    <g transform="translate(260,240)">
+                      <circle r="30" fill="#e0d8f0" stroke="#5a4a82" stroke-width="2" />
+                      <text y="4" fill="#5a4a82">Frattura</text>
+                      <text y="18" font-family="JetBrains Mono" font-size="8" fill="#5a4a82">
+                        risvegliata
+                      </text>
+                    </g>
+                  </g>
+                  <g stroke="#2a5c4a" stroke-width="1.5" fill="none">
+                    <path d="M80,160 L140,160" />
+                    <path d="M180,180 L240,220" stroke="#5a4a82" stroke-dasharray="4 3" />
+                    <!-- new connection -->
+                    <path d="M80,100 Q180,140 240,220" stroke-dasharray="4 3" />
+                    <circle cx="150" cy="125" r="3" fill="#2a5c4a" />
+                    <text x="160" y="130" font-family="Kalam" font-size="10" fill="#2a5c4a">
+                      nuovo bridge ✦
+                    </text>
+                  </g>
+                </g>
+              </g>
+
+              <!-- Middle: causal timeline -->
+              <g transform="translate(60,540)">
+                <text x="0" y="0" font-family="Fraunces" font-size="15" font-weight="600">
+                  § Catena causale · le tue 3 scelte
+                </text>
+                <rect
+                  x="0"
+                  y="14"
+                  width="720"
+                  height="260"
+                  fill="#fff"
+                  stroke="#1a1814"
+                  stroke-width="1.5"
+                />
+                <g transform="translate(24,44)">
+                  <!-- 3 event cards -->
+                  <g font-family="Kalam" font-size="13" fill="#1a1814">
+                    <g transform="translate(0,0)">
+                      <rect
+                        width="210"
+                        height="200"
+                        fill="#fef0c2"
+                        stroke="#1a1814"
+                        stroke-width="1"
+                      />
+                      <text
+                        x="12"
+                        y="22"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#b8492a"
+                        letter-spacing="1.5"
+                      >
+                        T1 · SCELTA
+                      </text>
+                      <text x="12" y="46" font-family="Fraunces" font-size="13" font-weight="600">
+                        Passaggio in Soglia
+                      </text>
+                      <text x="12" y="70" font-family="Kalam" font-size="12">
+                        Avete attraversato senza
+                      </text>
+                      <text x="12" y="86" font-family="Kalam" font-size="12">
+                        aspettare la marea.
+                      </text>
+                      <text
+                        x="12"
+                        y="130"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#b8492a"
+                      >
+                        → eclissi anticipata
+                      </text>
+                      <text
+                        x="12"
+                        y="146"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#b8492a"
+                      >
+                        → spillover al T2
+                      </text>
+                      <text
+                        x="12"
+                        y="180"
+                        font-family="Fraunces"
+                        font-size="11"
+                        font-style="italic"
+                        fill="#6b6357"
+                      >
+                        peso: alto
+                      </text>
+                    </g>
+                    <g transform="translate(230,0)">
+                      <rect
+                        width="210"
+                        height="200"
+                        fill="#d9e8e4"
+                        stroke="#1a1814"
+                        stroke-width="1"
+                      />
+                      <text
+                        x="12"
+                        y="22"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#2a5c4a"
+                        letter-spacing="1.5"
+                      >
+                        T7 · SCELTA
+                      </text>
+                      <text x="12" y="46" font-family="Fraunces" font-size="13" font-weight="600">
+                        Risparmiato il Polpo
+                      </text>
+                      <text x="12" y="70" font-family="Kalam" font-size="12">
+                        Avete lasciato vivo
+                      </text>
+                      <text x="12" y="86" font-family="Kalam" font-size="12">il keystone.</text>
+                      <text
+                        x="12"
+                        y="130"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#2a5c4a"
+                      >
+                        → Cresta in bloom
+                      </text>
+                      <text
+                        x="12"
+                        y="146"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#2a5c4a"
+                      >
+                        → nuovo bridge
+                      </text>
+                      <text
+                        x="12"
+                        y="180"
+                        font-family="Fraunces"
+                        font-size="11"
+                        font-style="italic"
+                        fill="#6b6357"
+                      >
+                        peso: alto
+                      </text>
+                    </g>
+                    <g transform="translate(460,0)">
+                      <rect
+                        width="210"
+                        height="200"
+                        fill="#e0d8f0"
+                        stroke="#1a1814"
+                        stroke-width="1"
+                      />
+                      <text
+                        x="12"
+                        y="22"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#5a4a82"
+                        letter-spacing="1.5"
+                      >
+                        T13 · SCELTA
+                      </text>
+                      <text x="12" y="46" font-family="Fraunces" font-size="13" font-weight="600">
+                        Accordo col Leviatano
+                      </text>
+                      <text x="12" y="70" font-family="Kalam" font-size="12">
+                        Avete risposto al canto
+                      </text>
+                      <text x="12" y="86" font-family="Kalam" font-size="12">
+                        invece di ingaggiarlo.
+                      </text>
+                      <text
+                        x="12"
+                        y="130"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#5a4a82"
+                      >
+                        → +trait planare
+                      </text>
+                      <text
+                        x="12"
+                        y="146"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#5a4a82"
+                      >
+                        → Frattura risvegliata
+                      </text>
+                      <text
+                        x="12"
+                        y="180"
+                        font-family="Fraunces"
+                        font-size="11"
+                        font-style="italic"
+                        fill="#6b6357"
+                      >
+                        peso: decisivo
+                      </text>
+                    </g>
+                  </g>
+                  <!-- chain arrows -->
+                  <g stroke="#1a1814" stroke-width="1.5" fill="#1a1814">
+                    <line x1="210" y1="100" x2="228" y2="100" />
+                    <polygon points="228,96 236,100 228,104" />
+                    <line x1="440" y1="100" x2="458" y2="100" />
+                    <polygon points="458,96 466,100 458,104" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- Right: rewards / unlocks -->
+              <g transform="translate(820,140)">
+                <text x="0" y="0" font-family="Fraunces" font-size="15" font-weight="600">
+                  § Sblocchi · dalla missione al Nido
+                </text>
+                <rect
+                  x="0"
+                  y="14"
+                  width="720"
+                  height="360"
+                  fill="#fff"
+                  stroke="#1a1814"
+                  stroke-width="1.5"
+                />
+
+                <!-- trait unlock -->
+                <g transform="translate(24,44)" id="rewardBlock">
+                  <rect
+                    width="320"
+                    height="290"
+                    fill="#fbf4d9"
+                    stroke="#5a4a82"
+                    stroke-width="1.5"
+                  />
+                  <text
+                    x="16"
+                    y="24"
+                    font-family="JetBrains Mono"
+                    font-size="9"
+                    fill="#5a4a82"
+                    letter-spacing="2"
+                  >
+                    NUOVO TRAIT · PLANARE
+                  </text>
+                  <text
+                    x="16"
+                    y="56"
+                    font-family="Fraunces"
+                    font-size="22"
+                    font-weight="600"
+                    fill="#1a1814"
+                  >
+                    Eco Lucido
+                  </text>
+                  <text
+                    x="16"
+                    y="78"
+                    font-family="Fraunces"
+                    font-size="12"
+                    font-style="italic"
+                    fill="#6b6357"
+                  >
+                    risonanza sinaptica amichevole
+                  </text>
+                  <!-- sketch of trait -->
+                  <g transform="translate(160,160)" stroke="#5a4a82" stroke-width="1.5" fill="none">
+                    <circle r="50" />
+                    <circle r="30" stroke-dasharray="3 3" />
+                    <circle r="10" fill="#5a4a82" stroke="none" />
+                    <path d="M-50,0 Q-30,-30 0,-30 Q30,-30 50,0" />
+                    <path d="M-50,0 Q-30,30 0,30 Q30,30 50,0" />
+                  </g>
+                  <text x="16" y="252" font-family="Kalam" font-size="13" fill="#1a1814">
+                    +2 VS confusion · dialoga con keystone
+                  </text>
+                  <text x="16" y="274" font-family="JetBrains Mono" font-size="10" fill="#2a5c4a">
+                    applicabile a: tutta la squadra · 3 sessioni
+                  </text>
+                </g>
+
+                <!-- Other rewards -->
+                <g transform="translate(364,44)" font-family="Kalam" font-size="13" fill="#1a1814">
+                  <text x="0" y="20" font-family="Fraunces" font-size="13" font-weight="600">
+                    Altri guadagni
+                  </text>
+                  <g transform="translate(0,34)">
+                    <rect width="332" height="54" fill="#d9e8e4" stroke="#2a5c4a" />
+                    <text
+                      x="12"
+                      y="22"
+                      font-family="JetBrains Mono"
+                      font-size="9"
+                      fill="#2a5c4a"
+                      letter-spacing="1.5"
+                    >
+                      BIOMA
+                    </text>
+                    <text x="12" y="42" font-size="13">
+                      Cresta Fotofase · stato "bloom" · 2 sessioni
+                    </text>
+                  </g>
+                  <g transform="translate(0,100)">
+                    <rect width="332" height="54" fill="#e0d8f0" stroke="#5a4a82" />
+                    <text
+                      x="12"
+                      y="22"
+                      font-family="JetBrains Mono"
+                      font-size="9"
+                      fill="#5a4a82"
+                      letter-spacing="1.5"
+                    >
+                      RETE
+                    </text>
+                    <text x="12" y="42" font-size="13">
+                      Nuovo bridge: Cresta → Frattura (stagionale)
+                    </text>
+                  </g>
+                  <g transform="translate(0,166)">
+                    <rect width="332" height="54" fill="#fef0c2" stroke="#1a1814" />
+                    <text
+                      x="12"
+                      y="22"
+                      font-family="JetBrains Mono"
+                      font-size="9"
+                      fill="#b8492a"
+                      letter-spacing="1.5"
+                    >
+                      NIDO
+                    </text>
+                    <text x="12" y="42" font-size="13">
+                      3 tracce memetiche · mutazione disponibile
+                    </text>
+                  </g>
+                  <g transform="translate(0,232)">
+                    <rect
+                      width="332"
+                      height="54"
+                      fill="#efe9dc"
+                      stroke="#1a1814"
+                      stroke-dasharray="3 3"
+                    />
+                    <text
+                      x="12"
+                      y="22"
+                      font-family="JetBrains Mono"
+                      font-size="9"
+                      fill="#6b6357"
+                      letter-spacing="1.5"
+                    >
+                      PENALITÀ
+                    </text>
+                    <text x="12" y="42" font-size="13">
+                      Sciame Larve +0.1 pressione · 1 sessione
+                    </text>
+                  </g>
+                </g>
+              </g>
+
+              <!-- bottom: companion closing line -->
+              <g transform="translate(820,540)">
+                <rect width="720" height="230" fill="#0a1826" stroke="#6fd9c4" stroke-width="1.2" />
+                <g transform="translate(20,20)">
+                  <circle r="16" cx="16" cy="16" fill="#1a1814" />
+                  <circle
+                    r="22"
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    stroke="#e8b059"
+                    stroke-width="1"
+                    stroke-dasharray="2 3"
+                  />
+                </g>
+                <text
+                  x="70"
+                  y="32"
+                  font-family="JetBrains Mono"
+                  font-size="10"
+                  fill="#6b9fa8"
+                  letter-spacing="2"
+                >
+                  FLINT · chiusura
+                </text>
+                <text
+                  x="70"
+                  y="78"
+                  font-family="Fraunces"
+                  font-size="22"
+                  font-style="italic"
+                  fill="#efe9dc"
+                  id="postFlint1"
+                >
+                  « Il Leviatano non è morto.
+                </text>
+                <text
+                  x="70"
+                  y="108"
+                  font-family="Fraunces"
+                  font-size="22"
+                  font-style="italic"
+                  fill="#efe9dc"
+                  id="postFlint2"
+                >
+                  E ora sa il vostro nome. »
+                </text>
+                <text
+                  x="70"
+                  y="148"
+                  font-family="JetBrains Mono"
+                  font-size="11"
+                  fill="#6fd9c4"
+                  id="postFlint3"
+                >
+                  › alla prossima sessione: il suo canto raggiungerà la Foresta
+                </text>
+                <text x="70" y="170" font-family="JetBrains Mono" font-size="10" fill="#e8b059">
+                  › rete modificata · 1 evento cross-bioma previsto
+                </text>
+
+                <g transform="translate(500,188)">
+                  <rect width="200" height="34" fill="#e8d57a" />
+                  <text
+                    x="100"
+                    y="22"
+                    text-anchor="middle"
+                    font-family="Fraunces"
+                    font-size="14"
+                    font-weight="700"
+                    fill="#1a1814"
+                  >
+                    [A] TORNA AL NIDO
+                  </text>
+                </g>
+              </g>
+
+              <!-- Post-match footer -->
+              <g
+                transform="translate(60,820)"
+                font-family="JetBrains Mono"
+                font-size="11"
+                fill="#6b6357"
+                letter-spacing="1.5"
+              >
+                <text>[A] NIDO · [X] REPLAY · [Y] SCRIVI NEL DIARIO · [LB/RB] SCORRI CAPITOLO</text>
+                <text x="1480" text-anchor="end">FLINT · debrief v0.7 · autogen</text>
+              </g>
+            </svg>
+            <div class="postit" style="left: 30px; top: 130px; transform: rotate(-2deg)">
+              <b>Click #3 · post-match</b><br />
+              "Aha — le mie scelte hanno<br />
+              modificato la rete. La prossima<br />
+              missione sarà diversa."
+            </div>
+          </div>
+        </div>
+        <!-- /tv-screen -->
+        <div class="tv-stand"></div>
+      </div>
+    </div>
+
+    <!-- ============== TWEAKS ============== -->
+    <div class="tweaks" id="tweaks">
+      <h4>Tweaks</h4>
+      <div class="row">
+        <label>ESITO</label>
+        <button data-outcome="good" class="on">accordo</button>
+        <button data-outcome="neutral">ritirata</button>
+        <button data-outcome="bad">combatt.</button>
+      </div>
+      <div class="row">
+        <label>COMPANION</label>
+        <button data-companion="on" class="on">acceso</button>
+        <button data-companion="off">spento</button>
+      </div>
+      <div class="row">
+        <label>SCENE</label>
+        <button data-scene-jump="pre">pre</button>
+        <button data-scene-jump="mid">mid</button>
+        <button data-scene-jump="post">post</button>
+      </div>
+    </div>
+
+    <script>
+      /* ---------- Nav ---------- */
+      function showScene(id) {
+        document
+          .querySelectorAll('.scene')
+          .forEach((s) => s.classList.toggle('on', s.dataset.scene === id));
+        document
+          .querySelectorAll('.nav button[data-scene]')
+          .forEach((b) => b.classList.toggle('active', b.dataset.scene === id));
+        try {
+          localStorage.setItem('et_vs_scene', id);
+        } catch (e) {}
+      }
+      document.querySelectorAll('.nav button[data-scene]').forEach((b) => {
+        b.addEventListener('click', () => showScene(b.dataset.scene));
+      });
+      try {
+        const s = localStorage.getItem('et_vs_scene');
+        if (s) showScene(s);
+      } catch (e) {}
+
+      /* ---------- Tweaks ---------- */
+      const tweaks = document.getElementById('tweaks');
+
+      const OUTCOMES = {
+        good: {
+          title: 'Debrief ecologico · Accordo',
+          subtitle:
+            'MATCH 147 · FRATTURA ABISSALE SINAPTICA · 17 TURNI · ESITO: ACCORDO CON IL LEVIATANO',
+          stampColor: '#2a5c4a',
+          stampText: 'SINCRO',
+          flint1: '« Il Leviatano non è morto.',
+          flint2: '  E ora sa il vostro nome. »',
+          flint3: '› alla prossima sessione: il suo canto raggiungerà la Foresta',
+        },
+        neutral: {
+          title: 'Debrief ecologico · Ritirata',
+          subtitle:
+            'MATCH 147 · FRATTURA ABISSALE SINAPTICA · 12 TURNI · ESITO: RITIRATA CONTROLLATA',
+          stampColor: '#6b6357',
+          stampText: 'RITIRO',
+          flint1: '« Ci siamo voltati in tempo.',
+          flint2: '  Il canto resta sotto soglia. »',
+          flint3: '› rete quasi intatta · spillover residuo · ritenteremo',
+        },
+        bad: {
+          title: 'Debrief ecologico · Frattura',
+          subtitle:
+            'MATCH 147 · FRATTURA ABISSALE SINAPTICA · 18 TURNI · ESITO: COMBATTIMENTO / FRATTURA',
+          stampColor: '#b8492a',
+          stampText: 'FRATTURA',
+          flint1: '« Il Leviatano tace ora.',
+          flint2: '  Ma la Frattura grida per lui. »',
+          flint3: '› collapse della Cresta · 2 bridge persi · tracce memetiche +5',
+        },
+      };
+
+      function applyOutcome(o) {
+        const d = OUTCOMES[o];
+        if (!d) return;
+        document.getElementById('postTitle').textContent = d.title;
+        document.getElementById('postSubtitle').textContent = d.subtitle;
+        document.getElementById('postFlint1').textContent = d.flint1;
+        document.getElementById('postFlint2').textContent = d.flint2;
+        document.getElementById('postFlint3').textContent = d.flint3;
+        const stamp = document.getElementById('postStamp');
+        stamp.querySelector('rect').setAttribute('stroke', d.stampColor);
+        const st = stamp.querySelector('text');
+        st.setAttribute('fill', d.stampColor);
+        st.textContent = d.stampText;
+      }
+
+      function applyCompanion(on) {
+        document
+          .querySelectorAll('.postit')
+          .forEach((p) => (p.style.display = on === 'on' ? 'block' : 'none'));
+        // also dim Flint cards
+        document
+          .querySelectorAll('.cline')
+          .forEach((el) => (el.style.opacity = on === 'on' ? '1' : '0.15'));
+        ['postFlint1', 'postFlint2', 'postFlint3'].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = on === 'on' ? '1' : '0.2';
+        });
+      }
+
+      tweaks.querySelectorAll('button').forEach((b) => {
+        b.addEventListener('click', () => {
+          const parent = b.parentElement;
+          parent.querySelectorAll('button').forEach((x) => x.classList.remove('on'));
+          b.classList.add('on');
+          if (b.dataset.outcome) applyOutcome(b.dataset.outcome);
+          if (b.dataset.companion) applyCompanion(b.dataset.companion);
+          if (b.dataset.sceneJump) showScene(b.dataset.sceneJump);
+          persist();
+        });
+      });
+
+      const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/ {
+        outcome: 'good',
+        companion: 'on',
+      }; /*EDITMODE-END*/
+
+      function persist() {
+        const edits = {
+          outcome: tweaks.querySelector('[data-outcome].on')?.dataset.outcome,
+          companion: tweaks.querySelector('[data-companion].on')?.dataset.companion,
+        };
+        try {
+          window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+        } catch (e) {}
+      }
+
+      window.addEventListener('message', (e) => {
+        if (!e.data || !e.data.type) return;
+        if (e.data.type === '__activate_edit_mode') tweaks.classList.add('on');
+        if (e.data.type === '__deactivate_edit_mode') tweaks.classList.remove('on');
+      });
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    </script>
+  </body>
+</html>
