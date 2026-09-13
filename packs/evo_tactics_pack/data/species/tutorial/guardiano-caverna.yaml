@@ -1,0 +1,47 @@
+id: guardiano_caverna
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Guardiano della Caverna
+display_name_en: Cave Warden
+biomes:
+  - caverna_risonante
+role_trofico: difensore_territoriale
+functional_tags:
+  - nemico_tutorial
+  - ranged_defender
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+  tutorial_phantom: true
+path: ../../packs/evo_tactics_pack/data/species/tutorial/guardiano-caverna.yaml
+balance:
+  rarity: R1
+  threat_tier: T1
+  encounter_role: threat
+playable_unit: false
+morphotype: umanoide_lanciatore
+jobs_bias:
+  - vanguard
+combat_baseline:
+  hp: 4
+  ap: 2
+  mod: 2
+  dc: 11
+  attack_range: 2
+  guardia: 0
+  ai_profile: aggressive
+used_in_encounters:
+  - enc_tutorial_03
+description: |
+  Guardiano territoriale della caverna, armato di lancia (range 2).
+  Introdurre concetto ranged vs melee nel tutorial 03.
+  Stub M5-#3 (P0-D audit fix 2026-04-19).
+receipt:
+  source: M5-#3.stub
+  author: claude-agent
+  date: '2026-04-19'
+  note: phantom species stub, baseline estratto da tutorialScenario.js

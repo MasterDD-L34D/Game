@@ -1,0 +1,69 @@
+{
+  "arm": "off",
+  "args": {
+    "effect": "er6",
+    "runs": 40,
+    "seedBase": 52000,
+    "out": "reports/sim/spec-i-er6-stresswave-n40-2026-06-11-mod10x10-iso",
+    "commit": "unknown",
+    "scaling": {
+      "countAdd": 6,
+      "hpAdd": 4,
+      "modAdd": 6,
+      "dcAdd": 2
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "modulation": "duo_hardcore",
+    "arms": [
+      "off"
+    ]
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.7,
+    "win_ci95": [
+      0.545696893456796,
+      0.819253290843047
+    ],
+    "timeouts": 3,
+    "rounds": {
+      "mean": 109.525,
+      "sd": 17.42380849768794,
+      "ci95": [
+        104.12530580400554,
+        114.92469419599448
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 66.775,
+      "sd": 11.733116620959056,
+      "ci95": [
+        63.13886948768831,
+        70.4111305123117
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": null,
+      "sd": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "survivors": {
+      "mean": 1.475,
+      "sd": 0.8469401940560459,
+      "ci95": [
+        1.2125305145941137,
+        1.7374694854058865
+      ],
+      "n": 40
+    }
+  }
+}

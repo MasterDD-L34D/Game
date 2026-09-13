@@ -1,0 +1,18 @@
+resistance_archetype: adattivo
+id: foresta-miceliale-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- foresta_miceliale
+derived_from_environment:
+  suggested_traits:
+  - empatia_coordinativa
+  - filamenti_digestivi_compattanti
+  - focus_frazionato
+  - ghiandola_caustica
+  - lingua_tattile_trama
+  - pathfinder
+  - pianificatore
+  - risonanza_di_branco
+  - spore_psichiche_silenziate
+  - struttura_elastica_amorfa
+  - tattiche_di_branco

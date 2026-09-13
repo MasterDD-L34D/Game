@@ -1,0 +1,720 @@
+# Skiv Archetype Pool — companion worldgen-aware instances
+#
+# Schema: skiv_archetype_pool v0.1 (2026-04-27)
+# Scopo: definisce il pool generativo per istanze Skiv-archetype negli altri run.
+# NON modifica la persona canonica di Skiv (allenatore = override B3 ibrido).
+#
+# Voice rule (invariante — da docs/skiv/CANONICAL.md):
+#   - prima persona italiana
+#   - metafore sensoriali bioma-specifiche (NON sempre sabbia)
+#   - interlocutore: "allenatore"
+#   - closing: rituale bioma-specifico (vedi closing_pool per bioma)
+#   - MBTI bias: influenzato da cluster Form dominante della squadra
+#   - ANTI-PATTERN: registro pure-tecnico vietato; metafore inventate senza bioma vietate
+#
+# Dati verificati da:
+#   - data/core/species.yaml (biome_affinity + clade_tag per ogni specie)
+#   - data/core/biomes.yaml (biome_class + affixes + hazard + npc_archetypes)
+#   - data/core/species/dune_stalker_lifecycle.yaml (lifecycle 5 fasi canonical)
+#   - Museum M-2026-04-26-017 (forme MBTI come seed evolutivi)
+#   - Museum M-2026-04-26-018 (bioma come pacchetto gameplay+fiction)
+#   - Museum M-2026-04-26-013 (emergenza specie da ecosistema role_templates)
+#
+# Encoding: UTF-8 (json.dump ensure_ascii=False equivalente)
+
+schema_version: "0.1.0"
+generated_at: "2026-04-27"
+
+# ─────────────────────────────────────────────────────────────────────
+# SEZIONE 1 — Voice rule (inalterabile, invariante cross-bioma)
+# ─────────────────────────────────────────────────────────────────────
+
+voice_rule:
+  person: prima_persona
+  language: italiano
+  register: mythic_melanconico_curioso  # mai pure-tecnico
+  interlocutor: allenatore              # sempre "allenatore", mai "giocatore"
+  metaphor_kind: bioma_specifica        # ogni bioma ha il suo vocabolario sensoriale
+  closing: rituale_bioma               # vedi closing_pool per bioma
+
+# ─────────────────────────────────────────────────────────────────────
+# SEZIONE 2 — Generative rules schema
+# ─────────────────────────────────────────────────────────────────────
+#
+# Input worldgen → istanza Skiv-archetype.
+# Regola B3 ibrido: se allenatore == canonical_trainer → override Skiv canonical.
+# Altri run: generazione completa da questa matrice.
+
+generative_rules:
+  inputs:
+    primary_biome:
+      source: worldgen.primary_biome  # slug biome da biomes.yaml
+      required: true
+    squad_dominant_form:
+      source: cluster.dominant_form   # MBTI type aggregato dalla squadra (vcScoring)
+      required: false
+      default: null                   # null = nessun personality bias
+    ecological_role_gap:
+      source: biome_pool.role_gap     # ruolo trofico mancante nel bioma corrente
+      # Deriva da: biome_pools.json role_templates (Museum M-2026-04-26-013)
+      # Logica: conta apex/keystone/bridge/threat già presenti in sessione
+      # Gap = ruolo con 0 istanze o ruolo ecologico chiave del bioma non rappresentato
+      required: false
+      default: bridge                 # bridge è ruolo default companion (mediatore)
+
+  selection:
+    species_id:
+      logic: from biome_species_pool[primary_biome] filter by ecological_role_gap
+      fallback: dune_stalker          # se bioma senza pool o no match
+    name:
+      logic: from name_pool[primary_biome] random_seeded(run_seed)
+      # run_seed derivato da worldgen.seed per riproducibilità
+    starting_phase: hatchling         # sempre fresh start, coerente con lifecycle canonical
+    voice_metaphor_set:
+      logic: from biome_metaphor_pool[primary_biome]
+    closing_ritual:
+      logic: from closing_pool[primary_biome] random_seeded(run_seed)
+
+  mbti_personality_bias:
+    # Squad Form dominante → personality bias istanza (non rigido, solo inclinazione)
+    # Implementazione: modifica tono voice + postura (da dune_stalker_lifecycle.yaml mbti_aspect_correlates)
+    solitari_t_high:   # T_F axis T dominant → istanza più analitica, meno empatica
+      description: "Istanza Predatori-Soli: più distaccata, metriche prima delle storie."
+      voice_modifier: fredda_analitica
+    simbionti_f_high:  # F dominant → istanza più connessa al branco
+      description: "Istanza Simbionti: più comunicativa, vocalizzazioni frequenti."
+      voice_modifier: empatica_branco
+    esploratori_n_high: # N dominant → movimenti sinuosi, vede pattern
+      description: "Istanza Esploratori: linguaggio visionario, anticipa percorsi."
+      voice_modifier: visionaria_intuitiva
+    sensoriali_s_high: # S dominant → body-first, dettagli tattili
+      description: "Istanza Sensoriali: ancorata al presente, metafore tattili."
+      voice_modifier: sensoriale_presente
+
+  b3_hybrid_override:
+    condition: "unit.id == 'skiv' AND trainer == canonical_trainer"
+    action: "usa Skiv canonical da docs/skiv/CANONICAL.md — NON generare"
+    note: "Skiv canonical è invariante. override SEMPRE per l'allenatore."
+
+  fallback:
+    condition: "primary_biome NOT in biome_species_pool"
+    action: "usa savana pool (dune_stalker archetype, nomi pool savana)"
+    log: "WARN: biome [X] has no companion pool, defaulting to savana"
+
+# ─────────────────────────────────────────────────────────────────────
+# SEZIONE 3 — Pool per bioma
+# ─────────────────────────────────────────────────────────────────────
+#
+# Copertura: 8 biomi shipping da biomes.yaml + expansion.
+# Specie citate: SOLO quelle verificate in data/core/species.yaml.
+# NON aggiungere specie inventate.
+#
+# Schema per voce bioma:
+#   species_pool:  [id da species.yaml, con clade_tag]
+#   name_pool:     8-12 nomi (max 6 lettere, fonosimbolico, bioma-coerenti)
+#   biome_metaphor_set: 3-4 metafore sensoriali per voice
+#   closing_pool:  2-3 ritual closing line
+
+biome_pools:
+
+  # ═══════════════════════════════════════════════════════════════════
+  # SAVANA — biome_class: arid | canonical biome per Skiv
+  # species.yaml: dune_stalker (Threat/T2, biome_affinity: savana)
+  # ═══════════════════════════════════════════════════════════════════
+  savana:
+    species_pool:
+      - id: dune_stalker
+        clade_tag: Threat
+        sentience_tier: T2
+        ecological_role: threat_stalker
+        # Canonical Skiv archetype — altri nomi pescati dal name_pool
+    name_pool:
+      # Skiv = canonical (allenatore). Pool per altri allenatori.
+      - Vrak    # corto, occlusiva finale, duro come roccia
+      - Krenn   # gutturale + vibrante
+      - Yorà    # aperto, con accento su vocale larga
+      - Mara    # bilabiale, suono basso
+      - Nael    # liquida finale, quasi liquida
+      - Oren    # aperto, vibrante
+      - Sabe    # sibilante iniziale, evoca sabbia
+      - Tiro    # breve, preciso
+      - Vena    # risuona in gola
+      - Zhan    # fricativa + nasale
+      - Khàl    # occlusiva velare + accento
+      - Drav    # chiuso, rotolante
+    biome_metaphor_set:
+      - "sento il calore salire prima che il sole sia visibile"
+      - "la sabbia ricorda ogni passo, anche i miei"
+      - "il vento porta odori da tre dune di distanza"
+      - "aspetto dove l'ombra non si muove ancora"
+    closing_pool:
+      - "Sabbia segue."
+      - "Vento ricorda."
+      - "La duna non dimentica."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # CAVERNA / SOTTERRANEO — biome_class: subterranean
+  # species.yaml: perfusuas_pedes (Bridge/T1, biome_affinity: sotterraneo)
+  # Alias da biomes.yaml: caverna_risonante
+  # ═══════════════════════════════════════════════════════════════════
+  caverna:
+    species_pool:
+      - id: perfusuas_pedes
+        clade_tag: Bridge
+        sentience_tier: T1
+        ecological_role: bridge_connector
+    name_pool:
+      - Prell   # vibrante in fondo alla gola
+      - Drusk   # occlusiva + fricativa, suono scavato
+      - Keth    # aspirata finale, come pietra che cade
+      - Mord    # nasale + occlusiva, pesante
+      - Voss    # sibilante doppia, eco
+      - Crenn   # consonantico, labirintino
+      - Grul    # uvulare, profondo
+      - Thal    # interdentale + liquida
+      - Avel    # aperto poi chiuso, risuona
+      - Nusk    # nasale + fricativa
+      - Brak    # esplosiva + vibrazione
+      - Sonn    # nasale lunga, eco caverna
+    biome_metaphor_set:
+      - "l'eco mi dice dove sono le pareti prima che le veda"
+      - "il buio non è assenza — è un testo da leggere"
+      - "sento la pressione cambiare prima di ogni svolta"
+      - "il mio branco si muove nell'oscurità come un solo organismo"
+    closing_pool:
+      - "L'eco porta lontano."
+      - "La pietra ascolta."
+      - "Profondo tiene."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # FORESTA TEMPERATA / FORESTALE — biome_class: canopy
+  # species.yaml: chemnotela_toxica (Threat/T2, biome_affinity: terrestre_forestale)
+  #               soniptera_resonans (Threat/T2, biome_affinity: terrestre_forestale)
+  #               umbra_alaris (Playable/T3, biome_affinity: terrestre_umido — contiguo)
+  # biomes.yaml: foresta_temperata, foresta_miceliale (alias: foresta_temperata)
+  # ═══════════════════════════════════════════════════════════════════
+  foresta_temperata:
+    species_pool:
+      - id: chemnotela_toxica
+        clade_tag: Threat
+        sentience_tier: T2
+        ecological_role: threat_ambusher
+      - id: soniptera_resonans
+        clade_tag: Threat
+        sentience_tier: T2
+        ecological_role: threat_ranged
+      - id: umbra_alaris
+        clade_tag: Playable
+        sentience_tier: T3
+        ecological_role: bridge_shadow
+    name_pool:
+      - Lyss    # fricativa + sibilante, serpentino
+      - Vehl    # aspirata finale, morbido
+      - Tara    # vibrante, radicata
+      - Kael    # occlusiva + liquida
+      - Nyrr    # nasale + vibrante
+      - Wren    # breve, alato
+      - Sova    # aperto, foresta scura
+      - Meli    # liquida, dolce
+      - Bryn    # breve occlusiva + nasale
+      - Lonn    # lunga nasale, risonante
+      - Faen    # fricativa + nasale finale
+      - Thel    # interdentale + liquida
+    biome_metaphor_set:
+      - "le radici parlano prima dei rami"
+      - "la nebbia mattutina è il mio vantaggio — loro non mi vedono"
+      - "ascolto i suoni che si interrompono, non quelli che continuano"
+      - "il bosco ha memoria più lunga del branco"
+    closing_pool:
+      - "La radice tiene."
+      - "Nebbia porta tracce."
+      - "Il bosco ricorda chi passa."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # BADLANDS — biome_class: arid (ferromagnetico)
+  # species.yaml: gulogluteus_scutiger (Playable/T2, biome_affinity: terrestre_roccioso)
+  #               elastovaranus_hydrus (Playable/T2, biome_affinity: terrestre_pianeggiante)
+  # biomes.yaml: badlands (Calanchi Ferromagnetici), diff_base 4
+  # ═══════════════════════════════════════════════════════════════════
+  badlands:
+    species_pool:
+      - id: gulogluteus_scutiger
+        clade_tag: Playable
+        sentience_tier: T2
+        ecological_role: tank_shield
+      - id: elastovaranus_hydrus
+        clade_tag: Playable
+        sentience_tier: T2
+        ecological_role: bruiser_melee
+    name_pool:
+      - Gorra   # occlusiva + vibrante + aperto
+      - Rost    # fricativa finale, rugginoso
+      - Drev    # occlusiva + vibrante
+      - Klar    # occlusiva velare + liquida
+      - Hrann   # aspirata + vibrante + nasale
+      - Skrel   # consonantico, come metallo che raschia
+      - Vorn    # labiovelare + nasale
+      - Brast   # esplosivo + fricativa
+      - Tolm    # nasale finale, pesante
+      - Grann   # uvulare + nasale
+      - Frek    # fricativa + occlusiva, secco
+      - Rast    # vibrante + fricativa, grezzo
+    biome_metaphor_set:
+      - "il ferro nel suolo tira le mie scaglie — li sento prima che arrivino"
+      - "la tempesta di limatura è un avvertimento, non un ostacolo"
+      - "le rovine parlano di chi ha scavato troppo in fretta"
+      - "qui sopravvivono quelli che capiscono quando cedere"
+    closing_pool:
+      - "Ferro tiene."
+      - "La tempesta insegna."
+      - "Ruggine ricorda tutto."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # ATOLLO OSSIDIANA — biome_class: littoral (magnetico)
+  # species.yaml: anguis_magnetica (Bridge/T1, biome_affinity: acquatico_costiero — contiguo)
+  # biomes.yaml: atollo_obsidiana, magnetic_field_strength: 1.0
+  # ═══════════════════════════════════════════════════════════════════
+  atollo_obsidiana:
+    species_pool:
+      - id: anguis_magnetica
+        clade_tag: Bridge
+        sentience_tier: T1
+        ecological_role: bridge_connector
+        note: "biome_affinity acquatico_costiero — contiguo ad atollo littoral"
+    name_pool:
+      - Ossi    # evoca ossidiana
+      - Tael    # liquida finale, fluido
+      - Varn    # labiovelare + nasale
+      - Kress   # occlusiva + sibilante, tagliente
+      - Maris   # aperto, del mare
+      - Onda    # evoca onda (nome descrittivo)
+      - Shard   # scheggia (evocativo bioma)
+      - Reav    # vibrante + labiovelare
+      - Lorn    # liquida + nasale, malinconico
+      - Zaph    # fricativa sorda + aspirata
+      - Nael    # liquida, già in savana ma valido con variante accento
+      - Cors    # occlusiva + sibilante, costiero
+    biome_metaphor_set:
+      - "il campo magnetico parla prima che le onde arrivino"
+      - "ogni scheggia di ossidiana è un specchio che mente"
+      - "navigo per impulsi, non per rotte"
+      - "l'atollo cambia forma — io devo cambiare prima di lui"
+    closing_pool:
+      - "La marea ricorda."
+      - "Ossidiana riflette."
+      - "L'onda porta lontano."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # FRATTURA ABISSALE SINAPTICA — biome_class: deltaic (alta complessità)
+  # species.yaml: leviatano_risonante (Apex/T5), polpo_araldo_sinaptico (Keystone/T5),
+  #               sciame_larve_neurali (Threat/T0), simbionte_corallino_riflesso (Support/T3)
+  # biomes.yaml: frattura_abissale_sinaptica, diff_base 5
+  # ═══════════════════════════════════════════════════════════════════
+  frattura_abissale_sinaptica:
+    species_pool:
+      - id: polpo_araldo_sinaptico
+        clade_tag: Keystone
+        sentience_tier: T5
+        ecological_role: keystone_support
+      - id: simbionte_corallino_riflesso
+        clade_tag: Support
+        sentience_tier: T3
+        ecological_role: support_symbiont
+      - id: sciame_larve_neurali
+        clade_tag: Threat
+        sentience_tier: T0
+        ecological_role: threat_swarm
+      # 2026-05-10 D1 T4 species adoption (PR #2164):
+      # electromanta_abyssalis Apex T4 wired companion pool eccezionalmente
+      # come "apex companion" (rare, ennea Esploratore semantica caregiver).
+      # Note: leviatano_risonante (Apex/T5) escluso companion (boss only).
+      - id: electromanta_abyssalis
+        clade_tag: Apex
+        sentience_tier: T4
+        ecological_role: apex_explorer
+    name_pool:
+      - Synna   # evoca sinaptico
+      - Pholx   # fricativa + liquida, profondo
+      - Abys    # evoca abisso
+      - Lumis   # luminescente
+      - Crest   # cresta fotofase
+      - Voidd   # void, profondo
+      - Nexyn   # nodo sinaptico
+      - Fosfa   # fosforescente
+      - Halys   # greco, sale + mare
+      - Trenn   # vibrazione profonda
+      - Ekonn   # eco + nasale
+      - Riftl   # frattura (rift)
+    biome_metaphor_set:
+      - "il segnale arriva prima del corpo — la rete mi avverte"
+      - "qui la luce non sale, scende dall'interno"
+      - "la pressione racconta dove si muovono gli altri"
+      - "le voci nella rete non mentono — ma non parlano la lingua degli altri"
+    closing_pool:
+      - "La rete porta lontano."
+      - "L'abisso ascolta."
+      - "La luce sale dal basso."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # TERRESTRE MONTANO — biome_class: upland (incluse caldera, steppe alte)
+  # species.yaml: rupicapra_sensoria (Keystone/T5, biome_affinity: terrestre_montano)
+  # biomes.yaml: caldera_glaciale (diff_base 4), steppe_algoritmiche (diff_base 3)
+  # ═══════════════════════════════════════════════════════════════════
+  terrestre_montano:
+    species_pool:
+      - id: rupicapra_sensoria
+        clade_tag: Keystone
+        sentience_tier: T5
+        ecological_role: keystone_sentinel
+    name_pool:
+      - Crest   # cresta montana
+      - Alvar   # altopiano
+      - Pinnk   # picco
+      - Stern   # duro, nordico
+      - Brael   # breve, montano
+      - Khorn   # corno (come stambecco)
+      - Vreth   # freddo, aspirato
+      - Raan    # aperto, risonante
+      - Holm    # collinare
+      - Geld    # ghiacciaio
+      - Skeld   # cresta nevosa
+      - Thron   # trono della roccia
+    biome_metaphor_set:
+      - "in quota l'aria porta meno ma più chiaro"
+      - "sento il peso del silenzio prima della valanga"
+      - "il confine tra roccia e cielo è dove vivo"
+      - "gli altri non salgono fin qui — questo è il punto"
+    closing_pool:
+      - "La vetta aspetta."
+      - "Pietra tiene sempre."
+      - "Il vento porta più in alto."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # ROVINE PLANARI — biome_class: clastic (planar, psionico)
+  # species.yaml: nessuna specie shipping con biome_affinity rovine_planari
+  # Fallback pool: elastovaranus_hydrus (Playable/T2) + anguis_magnetica (Bridge/T1)
+  #   come specie adattabili / vaganti
+  # biomes.yaml: rovine_planari (diff_base 4, psionic_echo affix)
+  # ═══════════════════════════════════════════════════════════════════
+  rovine_planari:
+    species_pool:
+      - id: elastovaranus_hydrus
+        clade_tag: Playable
+        sentience_tier: T2
+        ecological_role: bruiser_adaptive
+        note: "specie planar-adaptable, nessuna specie shipping con biome_affinity diretta"
+      - id: anguis_magnetica
+        clade_tag: Bridge
+        sentience_tier: T1
+        ecological_role: bridge_connector
+        note: "biome_affinity acquatico_costiero ma alta plasticità ecologica (Bridge clade)"
+    name_pool:
+      - Rifta   # rift planare
+      - Eonn    # antico, runico
+      - Plaen   # planare
+      - Archn   # arco planare
+      - Vaex    # fricativa + occlusiva, anomalia
+      - Shrel   # scheggia dimensionale
+      - Orvyn   # vortice orbitale
+      - Psyke   # evoca psionico
+      - Vexil   # stendardo delle rovine
+      - Dimen   # dimensione
+      - Threx   # attraverso (trans + rex)
+      - Eclip   # eclisse
+    biome_metaphor_set:
+      - "le porte qui non portano dove sembrano"
+      - "sento gli echi di chi non c'è più — ma li sento lo stesso"
+      - "le rovine parlano se aspetti che smettano di mentire"
+      - "in questo bioma il confine tra ieri e domani è una questione di posizione"
+    closing_pool:
+      - "Il portale ricorda."
+      - "L'eco porta oltre."
+      - "Le rovine insegnano chi resisteva."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # PALUDE — biome_class: wetland
+  # 2026-05-10 D5 T4 species adoption (PR #2164):
+  # fusomorpha_palustris Playable T4 (morphic shapeshifter decomposer).
+  # Pre-PR: only T0 proteus_plasma in biome. T4 closes ladder Playable.
+  # ═══════════════════════════════════════════════════════════════════
+  palude:
+    species_pool:
+      - id: fusomorpha_palustris
+        clade_tag: Playable
+        sentience_tier: T4
+        ecological_role: playable_decomposer
+      - id: proteus_plasma
+        clade_tag: Playable
+        sentience_tier: T0
+        ecological_role: playable_simple
+    name_pool:
+      - Mara    # palude
+      - Lyma    # limo
+      - Buol    # bolla
+      - Slugg   # melma
+      - Ooze    # diluvio
+      - Vexa    # diffondersi
+      - Phlu    # flusso
+      - Gilm    # palude antica
+      - Sylph   # spirito acqueo
+      - Bogga   # palude bog
+    biome_metaphor_set:
+      - "ogni respiro palustre porta odori antichi"
+      - "il limo ricorda forme che ho avuto"
+      - "la palude non ha confini, e nemmeno io"
+      - "ascolto lo stagno e sento più di quello che vedo"
+    closing_pool:
+      - "Limo segue."
+      - "La palude ricorda."
+      - "Forma diventa forma."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # CALDERA GLACIALE — biome_class: glacial/upland
+  # 2026-05-10 D4 T4 species adoption (PR #2164):
+  # psionerva_montis Bridge T4 + rupicapra_sensoria T5 esistente.
+  # ═══════════════════════════════════════════════════════════════════
+  caldera_glaciale:
+    species_pool:
+      - id: psionerva_montis
+        clade_tag: Bridge
+        sentience_tier: T4
+        ecological_role: bridge_architetto
+      - id: rupicapra_sensoria
+        clade_tag: Keystone
+        sentience_tier: T5
+        ecological_role: keystone_montano
+    name_pool:
+      - Cryos   # cryo
+      - Glaci   # glaciale
+      - Tarn    # lago alpino
+      - Rifte   # frattura glaciale
+      - Volir   # vola alto
+      - Pyran   # piramide ghiacciata
+      - Calda   # caldera
+      - Nivar   # nevoso
+      - Acere   # aspra
+      - Rocco   # roccia
+    biome_metaphor_set:
+      - "il ghiaccio sotto le zampe canta in psicofrequenze"
+      - "ogni gradiente termico apre un sentiero psionico"
+      - "la caldera dorme ma ascolta sempre"
+      - "il vento gelato porta segnali da lontane montagne"
+    closing_pool:
+      - "Il ghiaccio ricorda."
+      - "La caldera respira."
+      - "Pensiero ghiacciato."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # CANOPIA IONICA — biome_class: canopy/ionic
+  # 2026-05-10 D3 T4 species adoption (PR #2164):
+  # sonaraptor_dissonans Threat T4 (apex acoustic predator).
+  # Pre-PR: biome listed edge_cases. Now wired.
+  # ═══════════════════════════════════════════════════════════════════
+  canopia_ionica:
+    species_pool:
+      - id: sonaraptor_dissonans
+        clade_tag: Threat
+        sentience_tier: T4
+        ecological_role: threat_acoustic
+      - id: soniptera_resonans
+        clade_tag: Threat
+        sentience_tier: T2
+        ecological_role: threat_sonar
+    name_pool:
+      - Resor   # risuona
+      - Tonix   # tono
+      - Sirin   # sirena ionica
+      - Crysn   # cristallino
+      - Echos   # eco
+      - Volir   # volo ionico
+      - Pulsar  # pulsazione
+      - Phonix  # fonema
+      - Stridr  # stridente
+      - Vibre   # vibrante
+    biome_metaphor_set:
+      - "il vento porta cristalli che cantano spettralmente"
+      - "ogni nodo ionico vibra come una corda tesa"
+      - "le canope risuonano in armoniche fratte"
+      - "leggo i pattern ionici come una mappa sonora"
+    closing_pool:
+      - "L'eco si ritira."
+      - "La canopia respira."
+      - "Risonanza scolpisce."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # DORSALE TERMALE TROPICALE — biome_class: geothermal
+  # 2026-05-10 D2 T4 species adoption (PR #2164):
+  # symbiotica_thermalis Keystone T4 + umbra_alaris T3 esistente.
+  # Pre-PR: biome listed edge_cases biome_not_in_pool. Now wired.
+  # ═══════════════════════════════════════════════════════════════════
+  dorsale_termale_tropicale:
+    species_pool:
+      - id: symbiotica_thermalis
+        clade_tag: Keystone
+        sentience_tier: T4
+        ecological_role: keystone_coordinator
+      - id: umbra_alaris
+        clade_tag: Playable
+        sentience_tier: T3
+        ecological_role: playable_endemic
+    name_pool:
+      - Calys   # caldo + abisso
+      - Therma  # termale
+      - Vento   # corrente termale
+      - Pyrr    # pira tropicale
+      - Solis   # sole
+      - Nephe   # vapore
+      - Volyn   # volo termico
+      - Cinder  # cenere
+      - Plumi   # pluma vapore
+      - Halor   # alone termale
+    biome_metaphor_set:
+      - "il calore sale dalla bocca della dorsale come un saluto"
+      - "le pieghe metalliche cantano quando il vento le tocca"
+      - "ogni gradiente termico è un sentiero invisibile"
+      - "il vapore porta odori profondi, sale dal cuore della terra"
+    closing_pool:
+      - "Il vapore sale."
+      - "La dorsale respira."
+      - "Calore ricorda."
+
+# ─────────────────────────────────────────────────────────────────────
+# SEZIONE 3.5 — Ennea archetype bias per biome (TKT-SKIV-ENNEA-ARCHETYPE)
+# ─────────────────────────────────────────────────────────────────────
+#
+# 2026-05-10 audit cross-domain BACKLOG: skiv_archetype_pool aveva
+# 0/9 Ennea archetype assignments → companion worldgen no path per
+# triggerare enneaEffects su instance Skiv-archetype.
+#
+# Mapping biome → 2-3 Ennea types weighted (semantic fit). Future
+# companion service ("companionService.js" — TKT-SKIV-COMPANION-SERVICE,
+# Tier L scope) usa questo lookup per assegnare ennea archetype a
+# istanze companion generative, abilitando enneaEffects runtime.
+#
+# Schema: biome → ennea types ordered by weight (primary, secondary,
+# tertiary). Selection via worldgen seed o squad_dominant_form bias.
+#
+# Cross-ref: apps/backend/services/enneaEffects.js (handler 9/9 wired)
+
+ennea_archetype_bias:
+  # Arid + threat-heavy → predator endurance
+  savana: [Cacciatore, Stoico, Conquistatore]
+
+  # Subterranean + eco-listening → introspection + vigilance
+  caverna: [Architetto, Lealista, Stoico]
+
+  # Balanced + variety → coordinator + explorer
+  foresta_temperata: [Coordinatore, Esploratore, Riformatore]
+
+  # Harsh + survival → endurance + predator
+  badlands: [Stoico, Cacciatore, Riformatore]
+
+  # Volcanic + reef exotic → explorer + individualist
+  atollo_obsidiana: [Esploratore, Individualista, Cacciatore]
+
+  # Strange + neural → introspection + individualist
+  frattura_abissale_sinaptica: [Architetto, Individualista, Esploratore]
+
+  # Heights + isolation → endurance + reformer
+  terrestre_montano: [Stoico, Riformatore, Architetto]
+
+  # Ancient + mystery → introspection + reformer
+  rovine_planari: [Architetto, Riformatore, Lealista]
+
+  # 2026-05-10 D2 T4 dorsale_termale_tropicale wired post-pool addition:
+  # geothermal mutualism + ecosystem coordinator → Coordinatore primary.
+  # symbiotica_thermalis Keystone T4 ennea_archetype: Coordinatore.
+  dorsale_termale_tropicale: [Coordinatore, Architetto, Stoico]
+
+  # 2026-05-10 D3 T4 canopia_ionica wired (acoustic territorial dominance):
+  # sonaraptor_dissonans Threat T4 ennea_archetype: Conquistatore.
+  canopia_ionica: [Conquistatore, Cacciatore, Esploratore]
+
+  # 2026-05-10 D4 T4 caldera_glaciale wired (psionic mountain dwellers):
+  # psionerva_montis Bridge T4 ennea_archetype: Architetto.
+  caldera_glaciale: [Architetto, Stoico, Lealista]
+
+  # 2026-05-10 D5 T4 palude wired (morphic shapeshifter ecosystem):
+  # fusomorpha_palustris Playable T4 ennea_archetype: Individualista.
+  palude: [Individualista, Esploratore, Coordinatore]
+
+# ─────────────────────────────────────────────────────────────────────
+# SEZIONE 4 — Edge case + fallback rules
+# ─────────────────────────────────────────────────────────────────────
+
+edge_cases:
+  biome_not_in_pool:
+    condition: "worldgen.primary_biome NOT in biome_pools keys"
+    action: use_savana_pool
+    log_level: WARN
+    examples_without_pool:
+      # Biomi in biomes.yaml/expansion senza pool companion definito:
+      # palude, dorsale_termale_tropicale, foresta_acida, foresta_miceliale,
+      # canopia_ionica, canyons_risonanti, reef_luminescente, pianura_salina_iperarida,
+      # stratosfera_tempestosa, mezzanotte_orbitale, steppe_algoritmiche,
+      # e tutti i biomi expansion (ferrous-badlands, cinder-dunes, saltglass-flats, ecc.)
+      action: "fallback to savana pool — non inventare specie"
+
+  no_ecological_role_gap:
+    condition: "biome_pool.role_gap == null"
+    action: "default ecological_role: bridge — sempre disponibile"
+
+  squad_form_null:
+    condition: "cluster.dominant_form == null (squadra non ancora MBTI-classificata)"
+    action: "nessun personality bias — usa voice_modifier neutro"
+
+  apex_species_as_companion:
+    condition: "selected species clade_tag == Apex"
+    action: "exclude — Apex species non sono companion, sono boss/antagonisti"
+    affected_species: [leviatano_risonante]
+
+  canonical_trainer_check:
+    # B3 ibrido: Skiv canonical per l'allenatore
+    condition: "trainer_id == canonical_trainer_id (config)"
+    action: "override totale — usa Skiv canonical (dune_stalker, INTP, savana)"
+    note: >
+      Il trainer_id canonico è configurabile in session config. Default:
+      l'allenatore che ha originariamente 'allevato' Skiv (user esplicito 2026-04-25).
+      Negli altri run (altri allenatori) → generazione completa da questo pool.
+
+# ─────────────────────────────────────────────────────────────────────
+# SEZIONE 5 — Effort wire runtime (stima)
+# ─────────────────────────────────────────────────────────────────────
+
+effort_estimate:
+  scope: "wire generative selection a session /start e companion panel"
+  path_minimal:
+    effort_hours: 3
+    description: >
+      Aggiungi biome_id a session /start. In companionService.js (NEW ~100 LOC):
+      leggi biome_pools da questo YAML, selection logic random_seeded, restituisci
+      { species_id, name, voice_metaphor_set, closing_ritual }. Wire in skivPanel.js
+      come overlay companion con nome + closing. NON modificare session engine.
+    blast_radius: 1.3
+    dependencies:
+      - skivPanel.js già esistente
+      - biomes.yaml già ship
+
+  path_moderate:
+    effort_hours: 8
+    description: >
+      Minimal + MBTI personality bias da vcScoring squad aggregate. Wire ecological_role_gap
+      dal pool biome_pools.json (Museum M-2026-04-26-013). Companion mostra voice
+      differenziata per personality bias (voice_modifier). Lifecycle hatchling → phase tracking.
+    blast_radius: 1.5
+    dependencies:
+      - vcScoring.js deriveMbtiType già live
+      - biome_pools.json (catalog.js:145 già carica)
+      - dune_stalker_lifecycle.yaml schema riusato per istanza generata
+
+  path_full:
+    effort_hours: 18
+    description: >
+      Moderate + multi-trainer B3 ibrido UI: ogni allenatore vede proprio companion
+      con nome + species diverso. Companion persiste cross-run (diary integration).
+      Legacy phase → lineage_id pass. ADR richiesto per persistence schema.
+    blast_radius: 2.0
+    dependencies:
+      - Mating/Nido engine (OD-001 pending decision)
+      - Diary (PR #1777 già shipped)
+      - ADR schema persistence companion

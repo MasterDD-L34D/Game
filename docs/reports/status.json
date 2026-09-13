@@ -1,0 +1,733 @@
+{
+  "deployments": [],
+  "updatedAt": "2025-11-02T19:48:00.787Z",
+  "telemetry": {
+    "snapshot": {
+      "data": {
+        "overview": {
+          "title": "Versione 1",
+          "objectives": [
+            "alpha"
+          ]
+        },
+        "biomes": [],
+        "biomeSummary": {
+          "validated": 0,
+          "pending": 0
+        },
+        "encounter": {
+          "variants": []
+        },
+        "encounterSummary": {
+          "variants": 0,
+          "seeds": 0,
+          "warnings": 0
+        },
+        "qualityRelease": {
+          "checks": {
+            "traits": {
+              "passed": 4,
+              "total": 4,
+              "conflicts": 0
+            }
+          },
+          "traitDiagnosticsSummary": {
+            "total_traits": 4,
+            "glossary_ok": 4,
+            "with_conflicts": 0
+          },
+          "traitDiagnosticsGeneratedAt": "2024-05-18T10:00:00Z"
+        },
+        "initialSpeciesRequest": {
+          "trait_ids": [
+            "biome_alpha"
+          ],
+          "fallback_trait_ids": [],
+          "request_id": "req-v1",
+          "seed": "seed-v1"
+        }
+      },
+      "summary": {
+        "qualityChecks": [
+          {
+            "id": "traits",
+            "label": "traits",
+            "passed": 4,
+            "total": 4,
+            "conflicts": 0,
+            "coverage": 100,
+            "blocking": false
+          }
+        ],
+        "runtime": null,
+        "biomes": {
+          "total": 0,
+          "validated": 0,
+          "pending": 0
+        },
+        "encounters": {
+          "variants": 0,
+          "warnings": 0,
+          "seeds": 0
+        }
+      },
+      "collectedAt": "2025-11-02T21:00:51.424Z"
+    },
+    "traitDiagnostics": {
+      "diagnostics": {
+        "summary": {
+          "total_traits": 4,
+          "glossary_ok": 4,
+          "with_conflicts": 0
+        },
+        "generated_at": "2024-05-18T10:00:00Z"
+      },
+      "summary": {
+        "total_traits": 4,
+        "glossary_ok": 4,
+        "with_conflicts": 0,
+        "matrix_mismatch": 0,
+        "glossary_missing": 0
+      },
+      "status": {
+        "fetchedAt": null,
+        "error": null
+      },
+      "collectedAt": "2025-11-02T21:00:51.423Z"
+    },
+    "nebula": {
+      "atlas": {
+        "dataset": {
+          "id": "nebula-atlas",
+          "title": "Nebula Predation Initiative",
+          "summary": "Branch orchestrato dedicato alla variante Nebula, ottimizzato per branchi sincronizzati in ambienti a nebbia fotonica.",
+          "releaseWindow": "Patch 1.2 · Focus Nebbia",
+          "curator": "QA Core · Narrative Ops",
+          "metrics": {
+            "species": 6,
+            "biomes": 3,
+            "encounters": 4
+          },
+          "highlights": [
+            "Preset coordinati per branchi ad alta cadenza con segnalazione sinergie fotoniche.",
+            "Blueprint ambientali con punti di infiltrazione già bilanciati per staging Nebula.",
+            "Encounter lab calibrato per QA freeze con varianti approvate."
+          ],
+          "species": [
+            {
+              "id": "nebula-alpha",
+              "name": "Lupo Nebulare Alfa",
+              "archetype": "Predatore sinergico",
+              "rarity": "Rara",
+              "threatTier": "T2",
+              "energyProfile": "Alta intensità",
+              "synopsis": "Leader del branco Nebula, specializzato in disorientamento luminoso e coordinamento multi-branch.",
+              "traits": {
+                "core": [
+                  "coordinazione_spettrale",
+                  "fase_di_camuffamento",
+                  "risonanza_di_branco"
+                ],
+                "optional": [
+                  "eco_di_nebbia",
+                  "corsa_fotonica"
+                ],
+                "synergy": [
+                  "aurora_di_blindo",
+                  "richiamo_corale"
+                ]
+              },
+              "habitats": [
+                "Paludi del Crepuscolo"
+              ],
+              "readiness": "Pronto per staging",
+              "telemetry": {
+                "coverage": 0.82,
+                "lastValidation": "2024-05-18T08:35:00Z",
+                "curatedBy": "QA Core"
+              }
+            },
+            {
+              "id": "nebula-scout",
+              "name": "Scout Nebulare",
+              "archetype": "Ricognitore tattico",
+              "rarity": "Non comune",
+              "threatTier": "T1",
+              "energyProfile": "Media intensità",
+              "synopsis": "Esploratore leggero che mantiene canali acustici attivi per guidare i branchi principali.",
+              "traits": {
+                "core": [
+                  "sensori_geomagnetici",
+                  "ricognizione_sonora"
+                ],
+                "optional": [
+                  "oscillazione_prismatica",
+                  "ancora_risonante"
+                ],
+                "synergy": [
+                  "pattugliamento_mimetico"
+                ]
+              },
+              "habitats": [
+                "Paludi del Crepuscolo",
+                "Cresta di Ossidiana"
+              ],
+              "readiness": "Validazione completata",
+              "telemetry": {
+                "coverage": 0.76,
+                "lastValidation": "2024-05-17T21:10:00Z",
+                "curatedBy": "Narrative QA"
+              }
+            },
+            {
+              "id": "obsidian-enforcer",
+              "name": "Vincolatore d'Ossidiana",
+              "archetype": "Controllo territoriale",
+              "rarity": "Rara",
+              "threatTier": "T2",
+              "energyProfile": "Alta intensità",
+              "synopsis": "Stabilizza i corridoi cristallini e genera micro-punti ciechi per incursioni Nebula coordinate.",
+              "traits": {
+                "core": [
+                  "armatura_cristallina",
+                  "anelli_vorticanti"
+                ],
+                "optional": [
+                  "presa_geomagnetica",
+                  "eco_del_bastione"
+                ],
+                "synergy": [
+                  "contrappunto_di_luce"
+                ]
+              },
+              "habitats": [
+                "Cresta di Ossidiana"
+              ],
+              "readiness": "QA freeze",
+              "telemetry": {
+                "coverage": 0.68,
+                "lastValidation": "2024-05-18T07:05:00Z",
+                "curatedBy": "Biome Ops"
+              }
+            },
+            {
+              "id": "mist-reclaimer",
+              "name": "Reclaimer della Nebbia",
+              "archetype": "Supporto metabolico",
+              "rarity": "Non comune",
+              "threatTier": "T1",
+              "energyProfile": "Bassa intensità",
+              "synopsis": "Gestisce la saturazione fotonica e mantiene i branchi oltre soglia in scenari di durata prolungata.",
+              "traits": {
+                "core": [
+                  "riciclo_fotoforico",
+                  "membrane_nebulose"
+                ],
+                "optional": [
+                  "catalisi_mirata",
+                  "respiro_di_sospensione"
+                ],
+                "synergy": [
+                  "ridistribuzione_nebbia"
+                ]
+              },
+              "habitats": [
+                "Paludi del Crepuscolo",
+                "Crinali di Bruma"
+              ],
+              "readiness": "Staging completato",
+              "telemetry": {
+                "coverage": 0.74,
+                "lastValidation": "2024-05-18T10:45:00Z",
+                "curatedBy": "Field Lab"
+              }
+            },
+            {
+              "id": "rift-pouncer",
+              "name": "Balzo di Rift",
+              "archetype": "Assalto rapido",
+              "rarity": "Rara",
+              "threatTier": "T2",
+              "energyProfile": "Alta intensità",
+              "synopsis": "Unita impiegata nelle finestre di corridoio temporaneo per neutralizzare gli obiettivi di comando.",
+              "traits": {
+                "core": [
+                  "frattura_intermittente",
+                  "impulsi_lamellari"
+                ],
+                "optional": [
+                  "richiamo_sincronico",
+                  "falcata_prismatica"
+                ],
+                "synergy": [
+                  "telemetria_di_branchia"
+                ]
+              },
+              "habitats": [
+                "Corridoi di Rift",
+                "Cresta di Ossidiana"
+              ],
+              "readiness": "Pronto per QA freeze",
+              "telemetry": {
+                "coverage": 0.71,
+                "lastValidation": "2024-05-18T09:20:00Z",
+                "curatedBy": "Ops QA"
+              }
+            },
+            {
+              "id": "veil-herald",
+              "name": "Araldo del Velo",
+              "archetype": "Psicotattica aurorale",
+              "rarity": "Rara",
+              "threatTier": "T2",
+              "energyProfile": "Alta intensità",
+              "synopsis": "Amplifica i segnali di nebbia psicoattiva e imposta le condizioni per l'ingaggio finale del branco.",
+              "traits": {
+                "core": [
+                  "egida_fotonica",
+                  "trasmissione_aurorale"
+                ],
+                "optional": [
+                  "anelito_sinaptico",
+                  "cicli_di_sovrapposizione"
+                ],
+                "synergy": [
+                  "corruzione_di_velo"
+                ]
+              },
+              "habitats": [
+                "Paludi del Crepuscolo"
+              ],
+              "readiness": "Richiede validazione narrativa",
+              "telemetry": {
+                "coverage": 0.58,
+                "lastValidation": "2024-05-16T18:15:00Z",
+                "curatedBy": "Narrative Ops"
+              }
+            }
+          ],
+          "biomes": [
+            {
+              "id": "twilight-marsh",
+              "name": "Paludi del Crepuscolo",
+              "hazard": "Nebbia fotonica instabile",
+              "stability": "Moderata",
+              "operations": [
+                "Hub Nebula",
+                "Corridori acustici"
+              ],
+              "lanes": [
+                "Ambush",
+                "Risonanza",
+                "Fallback"
+              ],
+              "infiltration": "Ingressi modulati tramite luci fase",
+              "storyHook": "La nebbia fotonica è modulata per proteggere i branchi: mantenere i fari di fase sincronizzati."
+            },
+            {
+              "id": "obsidian-ridge",
+              "name": "Cresta di Ossidiana",
+              "hazard": "Venti cristallizzati",
+              "stability": "Bassa",
+              "operations": [
+                "Balzi di Rift",
+                "Gallerie cristalline"
+              ],
+              "lanes": [
+                "Vertical Strike",
+                "Echo Corridor"
+              ],
+              "infiltration": "Punti ciechi generati dai vincolatori cristallini.",
+              "storyHook": "I cristalli rifrangono i richiami Nebula; mantenere i segnali entro la finestra di risonanza."
+            },
+            {
+              "id": "lumina-basin",
+              "name": "Bacino di Lumina",
+              "hazard": "Tempeste fotoioniche",
+              "stability": "Alta",
+              "operations": [
+                "Staging supporto metabolico",
+                "Depositi di cariche aurorali"
+              ],
+              "lanes": [
+                "Support Corridor",
+                "Supply Loop"
+              ],
+              "infiltration": "Sfruttare i canali ridistribuiti dagli specialisti metabolici.",
+              "storyHook": "Il bacino alimenta gli assalti prolungati: coordinare i reclaimers con i branchi principali."
+            }
+          ],
+          "encounters": [
+            {
+              "id": "nebula-strike",
+              "name": "Incursione Nebula",
+              "focus": "Intercettazione rapida su nebbia controllata",
+              "biomeId": "twilight-marsh",
+              "cadence": "Impulsi rapidi",
+              "density": "Compatta",
+              "entryPoints": [
+                "Hub Nebula",
+                "Flusso laterale"
+              ],
+              "squads": [
+                {
+                  "role": "Avanguardia",
+                  "units": [
+                    "Lupo Nebulare Alfa",
+                    "Scout Nebulare"
+                  ]
+                },
+                {
+                  "role": "Supporto metabolico",
+                  "units": [
+                    "Reclaimer della Nebbia"
+                  ]
+                }
+              ],
+              "readiness": "In staging",
+              "approvals": [
+                "QA Core",
+                "Ops QA"
+              ]
+            },
+            {
+              "id": "obsidian-collapse",
+              "name": "Collasso a Ossidiana",
+              "focus": "Neutralizzare i pilastri cristallini prima del reset",
+              "biomeId": "obsidian-ridge",
+              "cadence": "Sequenza tattica",
+              "density": "Diluita",
+              "entryPoints": [
+                "Canalone principale"
+              ],
+              "squads": [
+                {
+                  "role": "Vincolatori",
+                  "units": [
+                    "Vincolatore d'Ossidiana",
+                    "Balzo di Rift"
+                  ]
+                },
+                {
+                  "role": "Ricognizione",
+                  "units": [
+                    "Scout Nebulare"
+                  ]
+                }
+              ],
+              "readiness": "Richiede approvazione narrativa",
+              "approvals": [
+                "Narrative QA"
+              ]
+            },
+            {
+              "id": "lumina-siphon",
+              "name": "Sifone Lumina",
+              "focus": "Assicurare pipeline energetiche nel bacino",
+              "biomeId": "lumina-basin",
+              "cadence": "Sostenuta",
+              "density": "Bilanciata",
+              "entryPoints": [
+                "Depositi aurorali"
+              ],
+              "squads": [
+                {
+                  "role": "Supporto metabolico",
+                  "units": [
+                    "Reclaimer della Nebbia"
+                  ]
+                },
+                {
+                  "role": "Psicotattica",
+                  "units": [
+                    "Araldo del Velo"
+                  ]
+                }
+              ],
+              "readiness": "Monitoraggio log validazione",
+              "approvals": [
+                "QA Core",
+                "Narrative Ops"
+              ]
+            },
+            {
+              "id": "veil-convergence",
+              "name": "Convergenza del Velo",
+              "focus": "Stabilizzare la sovrapposizione aurorale per ingaggio finale",
+              "biomeId": "twilight-marsh",
+              "cadence": "Sequenza sincronizzata",
+              "density": "Alta",
+              "entryPoints": [
+                "Hub Nebula",
+                "Corridori acustici"
+              ],
+              "squads": [
+                {
+                  "role": "Psicotattica",
+                  "units": [
+                    "Araldo del Velo"
+                  ]
+                },
+                {
+                  "role": "Assalto",
+                  "units": [
+                    "Lupo Nebulare Alfa",
+                    "Balzo di Rift"
+                  ]
+                }
+              ],
+              "readiness": "In approvazione",
+              "approvals": [
+                "Creative Lead",
+                "QA Core"
+              ]
+            }
+          ]
+        },
+        "telemetry": {
+          "summary": {
+            "totalEvents": 0,
+            "openEvents": 0,
+            "acknowledgedEvents": 0,
+            "highPriorityEvents": 0,
+            "lastEventAt": null
+          },
+          "coverage": {
+            "average": 72,
+            "history": [
+              40,
+              56,
+              65,
+              72
+            ],
+            "distribution": {
+              "success": 4,
+              "warning": 0,
+              "neutral": 1,
+              "critical": 1
+            }
+          },
+          "incidents": {
+            "timeline": [
+              {
+                "date": "2025-10-27",
+                "total": 0,
+                "highPriority": 0
+              },
+              {
+                "date": "2025-10-28",
+                "total": 0,
+                "highPriority": 0
+              },
+              {
+                "date": "2025-10-29",
+                "total": 0,
+                "highPriority": 0
+              },
+              {
+                "date": "2025-10-30",
+                "total": 0,
+                "highPriority": 0
+              },
+              {
+                "date": "2025-10-31",
+                "total": 0,
+                "highPriority": 0
+              },
+              {
+                "date": "2025-11-01",
+                "total": 0,
+                "highPriority": 0
+              },
+              {
+                "date": "2025-11-02",
+                "total": 0,
+                "highPriority": 0
+              }
+            ]
+          },
+          "updatedAt": "2025-11-02T21:00:51.423Z",
+          "sample": [],
+          "state": "live"
+        },
+        "generator": {
+          "status": "unknown",
+          "label": "Generatore offline",
+          "generatedAt": null,
+          "dataRoot": null,
+          "metrics": {
+            "generationTimeMs": null,
+            "speciesTotal": 6,
+            "enrichedSpecies": 4,
+            "eventTotal": 0,
+            "datasetSpeciesTotal": 6,
+            "coverageAverage": 72,
+            "coreTraits": 0,
+            "optionalTraits": 0,
+            "synergyTraits": 0,
+            "expectedCoreTraits": 0
+          },
+          "streams": {
+            "generationTime": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "species": [
+              3,
+              4,
+              4,
+              5,
+              5,
+              6
+            ],
+            "enriched": [
+              3,
+              3,
+              3,
+              4,
+              4,
+              4
+            ]
+          },
+          "updatedAt": "2025-11-02T21:00:51.423Z",
+          "sourceLabel": "Generator telemetry"
+        },
+        "orchestrator": {
+          "summary": {
+            "totalEntries": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "lastEventAt": null
+          },
+          "events": [],
+          "updatedAt": "2025-11-02T21:00:51.423Z"
+        },
+        "updatedAt": "2025-11-02T21:00:51.423Z"
+      },
+      "summary": {
+        "telemetry": {
+          "summary": {
+            "totalEvents": 0,
+            "openEvents": 0,
+            "acknowledgedEvents": 0,
+            "highPriorityEvents": 0,
+            "lastEventAt": null
+          }
+        },
+        "generator": {
+          "status": "unknown",
+          "label": "Generatore offline",
+          "metrics": {
+            "generationTimeMs": null,
+            "speciesTotal": 6,
+            "enrichedSpecies": 4,
+            "coverageAverage": 72
+          },
+          "updatedAt": "2025-11-02T21:00:51.423Z"
+        },
+        "orchestrator": {
+          "summary": {
+            "totalEntries": 0,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "lastEventAt": null
+          }
+        },
+        "error": null,
+        "collectedAt": "2025-11-02T21:00:51.423Z"
+      },
+      "collectedAt": "2025-11-02T21:00:51.423Z"
+    }
+  },
+  "goNoGo": {
+    "status": "review",
+    "checks": [
+      {
+        "id": "snapshot-quality",
+        "title": "Quality Release · Snapshot",
+        "flowReference": "Quality Release → Snapshot",
+        "severity": "warning",
+        "passed": true,
+        "summary": "Tutti i quality check marcati come passati.",
+        "details": {
+          "total": 1,
+          "blocking": 0
+        },
+        "status": "passed"
+      },
+      {
+        "id": "runtime-health",
+        "title": "Quality Release · Runtime log",
+        "flowReference": "Quality Release → Log runtime",
+        "severity": "warning",
+        "passed": true,
+        "summary": "Runtime stabile (nessun fallback)",
+        "details": {
+          "fallbackUsed": false,
+          "error": null,
+          "validationMessages": null,
+          "lastBlueprintId": null,
+          "lastRequestId": null
+        },
+        "status": "passed"
+      },
+      {
+        "id": "trait-diagnostics",
+        "title": "Quality Release · Trait diagnostics",
+        "flowReference": "Quality Release → Trait diagnostics",
+        "severity": "warning",
+        "passed": true,
+        "summary": "Conflitti attivi: 0",
+        "details": {
+          "conflicts": 0,
+          "matrixMismatch": 0,
+          "missingGlossary": 0,
+          "fetchedAt": null
+        },
+        "status": "passed"
+      },
+      {
+        "id": "nebula-telemetry",
+        "title": "Nebula Atlas · Telemetry",
+        "flowReference": "Nebula Atlas → Telemetry",
+        "severity": "warning",
+        "passed": true,
+        "summary": "Incidenti alta priorità: 0 · Incidenti aperti: 0",
+        "details": {
+          "highPriority": 0,
+          "openEvents": 0,
+          "acknowledgedEvents": 0,
+          "lastEventAt": null
+        },
+        "status": "passed"
+      },
+      {
+        "id": "nebula-generator",
+        "title": "Nebula Atlas · Generator",
+        "flowReference": "Nebula Atlas → Generator",
+        "severity": "warning",
+        "passed": false,
+        "summary": "Stato generatore: unknown · Copertura media: 72%",
+        "details": {
+          "status": "unknown",
+          "generationTimeMs": null,
+          "coverageAverage": 72
+        },
+        "status": "warning"
+      }
+    ],
+    "stats": {
+      "total": 5,
+      "failed": 0,
+      "warnings": 1,
+      "passed": 4
+    },
+    "generatedAt": "2025-11-02T21:00:51.424Z"
+  }
+}

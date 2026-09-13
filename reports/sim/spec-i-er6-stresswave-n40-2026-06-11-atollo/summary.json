@@ -1,0 +1,336 @@
+{
+  "args": {
+    "effect": "er6",
+    "runs": 40,
+    "seedBase": 53000,
+    "out": "reports/sim/spec-i-er6-stresswave-n40-2026-06-11-atollo",
+    "commit": "unknown",
+    "scaling": {
+      "countAdd": 6,
+      "hpAdd": 4,
+      "modAdd": 6,
+      "dcAdd": 2
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "biome": "atollo_obsidiana",
+    "modulation": "duo_hardcore"
+  },
+  "summaries": {
+    "off": {
+      "n": 40,
+      "win_rate": 0.775,
+      "win_ci95": [
+        0.6249660359590695,
+        0.8768404674532148
+      ],
+      "timeouts": 2,
+      "rounds": {
+        "mean": 105.85,
+        "sd": 14.204639906445882,
+        "ci95": [
+          101.44793648620477,
+          110.25206351379522
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 64,
+        "sd": 9.243154084829346,
+        "ci95": [
+          61.135516872148905,
+          66.86448312785109
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.6,
+        "sd": 0.7778998683173853,
+        "ci95": [
+          1.358926333208057,
+          1.8410736667919432
+        ],
+        "n": 40
+      }
+    },
+    "off2": {
+      "n": 40,
+      "win_rate": 0.75,
+      "win_ci95": [
+        0.5980574093302989,
+        0.8581303210445049
+      ],
+      "timeouts": 1,
+      "rounds": {
+        "mean": 103.475,
+        "sd": 12.636916818063918,
+        "ci95": [
+          99.55877890477737,
+          107.39122109522262
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 62.825,
+        "sd": 8.332474314699578,
+        "ci95": [
+          60.242739456828474,
+          65.40726054317153
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.5,
+        "sd": 0.8473185457363234,
+        "ci95": [
+          1.2374132621936234,
+          1.7625867378063766
+        ],
+        "n": 40
+      }
+    },
+    "on": {
+      "n": 40,
+      "win_rate": 0.725,
+      "win_ci95": [
+        0.5716474916687543,
+        0.8389214656685691
+      ],
+      "timeouts": 2,
+      "rounds": {
+        "mean": 105.35,
+        "sd": 14.871328463066446,
+        "ci95": [
+          100.74132756197343,
+          109.95867243802655
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 64.1,
+        "sd": 10.20758893151913,
+        "ci95": [
+          60.93663541665215,
+          67.26336458334784
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.5,
+        "sd": 0.8473185457363234,
+        "ci95": [
+          1.2374132621936234,
+          1.7625867378063766
+        ],
+        "n": 40
+      }
+    }
+  },
+  "deltas": {
+    "off2 - off (noise floor)": {
+      "pairs": 40,
+      "rounds_delta": {
+        "mean": -2.375,
+        "sd": 19.84773771258811,
+        "ci95": [
+          -8.525877642193084,
+          3.775877642193085
+        ],
+        "n": 40
+      },
+      "attacks_delta": {
+        "mean": -1.175,
+        "sd": 12.923616823276362,
+        "ci95": [
+          -5.180070347344661,
+          2.8300703473446616
+        ],
+        "n": 40
+      },
+      "flips": {
+        "loss_to_win": 6,
+        "win_to_loss": 7
+      },
+      "win_rate_delta": -0.025
+    },
+    "on - off (ER6 effect)": {
+      "pairs": 40,
+      "rounds_delta": {
+        "mean": -0.5,
+        "sd": 19.719832526464184,
+        "ci95": [
+          -6.611239414348547,
+          5.611239414348547
+        ],
+        "n": 40
+      },
+      "attacks_delta": {
+        "mean": 0.1,
+        "sd": 12.992700120077288,
+        "ci95": [
+          -3.9264794828287672,
+          4.126479482828767
+        ],
+        "n": 40
+      },
+      "flips": {
+        "loss_to_win": 7,
+        "win_to_loss": 9
+      },
+      "win_rate_delta": -0.05
+    }
+  },
+  "extras": {
+    "er6": {
+      "off": {
+        "rescue_rate": 0,
+        "rescue_turn": {
+          "mean": null,
+          "sd": null,
+          "ci95": [
+            null,
+            null
+          ],
+          "n": 0
+        },
+        "overrun_rate": 0,
+        "overrun_turn": {
+          "mean": null,
+          "sd": null,
+          "ci95": [
+            null,
+            null
+          ],
+          "n": 0
+        },
+        "spawns": {
+          "mean": 4,
+          "sd": 0,
+          "ci95": [
+            4,
+            4
+          ],
+          "n": 40
+        },
+        "last_spawn_turn": {
+          "mean": 11,
+          "sd": 0,
+          "ci95": [
+            11,
+            11
+          ],
+          "n": 40
+        }
+      },
+      "off2": {
+        "rescue_rate": 0,
+        "rescue_turn": {
+          "mean": null,
+          "sd": null,
+          "ci95": [
+            null,
+            null
+          ],
+          "n": 0
+        },
+        "overrun_rate": 0,
+        "overrun_turn": {
+          "mean": null,
+          "sd": null,
+          "ci95": [
+            null,
+            null
+          ],
+          "n": 0
+        },
+        "spawns": {
+          "mean": 4,
+          "sd": 0,
+          "ci95": [
+            4,
+            4
+          ],
+          "n": 40
+        },
+        "last_spawn_turn": {
+          "mean": 11,
+          "sd": 0,
+          "ci95": [
+            11,
+            11
+          ],
+          "n": 40
+        }
+      },
+      "on": {
+        "rescue_rate": 0,
+        "rescue_turn": {
+          "mean": null,
+          "sd": null,
+          "ci95": [
+            null,
+            null
+          ],
+          "n": 0
+        },
+        "overrun_rate": 1,
+        "overrun_turn": {
+          "mean": 9,
+          "sd": 0,
+          "ci95": [
+            9,
+            9
+          ],
+          "n": 40
+        },
+        "spawns": {
+          "mean": 4,
+          "sd": 0,
+          "ci95": [
+            4,
+            4
+          ],
+          "n": 40
+        },
+        "last_spawn_turn": {
+          "mean": 11,
+          "sd": 0,
+          "ci95": [
+            11,
+            11
+          ],
+          "n": 40
+        }
+      }
+    }
+  }
+}

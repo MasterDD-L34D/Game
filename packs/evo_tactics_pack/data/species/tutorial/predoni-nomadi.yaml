@@ -1,0 +1,49 @@
+id: predoni_nomadi
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Predoni Nomadi
+display_name_en: Nomad Raiders
+biomes:
+  - savana
+role_trofico: predatore_tutorial_secondario
+functional_tags:
+  - nemico_tutorial
+  - predone_umanoide
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+  tutorial_phantom: true
+path: ../../packs/evo_tactics_pack/data/species/tutorial/predoni-nomadi.yaml
+balance:
+  rarity: R1
+  threat_tier: T1
+  encounter_role: threat
+playable_unit: false
+morphotype: bipede_armato
+jobs_bias:
+  - skirmisher
+combat_baseline:
+  hp: 4
+  ap: 2
+  mod: 2
+  dc: 12
+  attack_range: 1
+  guardia: 0
+used_in_encounters:
+  - enc_tutorial_01
+  - enc_tutorial_02
+description: |
+  Predoni nomadi della savana. Unità tutorial introduttiva (skirmisher base,
+  nessun trait speciale). Referenziata da apps/backend/services/tutorialScenario.js
+  in encounter tutorial_01 e tutorial_02.
+  Stub creato per M5-#3 (P0-D audit fix 2026-04-19): dar base data-driven
+  a species precedentemente hardcoded-only in scenario JS.
+receipt:
+  source: M5-#3.stub
+  author: claude-agent
+  date: '2026-04-19'
+  note: phantom species stub, baseline estratto da tutorialScenario.js

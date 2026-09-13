@@ -1,0 +1,35 @@
+resistance_archetype: adattivo
+id: global-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+derived_from_environment:
+  suggested_traits:
+  - antenne_plasmatiche_tempesta
+  - armatura_pietra_planare
+  - artigli_sghiaccio_glaciale
+  - aura_scudo_radianza
+  - branchie_osmotiche_salmastra
+  - bulbi_radici_permafrost
+  - carapace_luminiscente_abissale
+  - cartilagine_flessotermica_venti
+  - cavita_risonanti_tundra
+  - chioma_parassita_canopica
+  - circolazione_bifasica_palude
+  - cute_resistente_sali
+  - cuticole_cerose
+  - enzimi_chelanti
+  - frusta_fiammeggiante
+  - grassi_termici
+  - lamelle_termoforetiche
+  - mantello_meteoritico
+  - membrane_eliofiltranti
+  - mucillagine_simbionte_mangrovie
+  - nodi_micorrizici_oracolari
+  - piume_solari_fotovoltaiche
+  - polmoni_cristallini_alta_quota
+  - random
+  - sacche_spore_stratosferiche
+  - sensori_geomagnetici
+  - sinapsi_coraline_polifoniche
+  - squame_rifrangenti_deserto
+  - vello_condensatore_nebbie
+  - zoccoli_risonanti_steppe

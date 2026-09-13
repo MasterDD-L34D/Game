@@ -1,0 +1,42 @@
+# TKT-P2 Brigandine seasonal — Phase B content (Spring).
+#
+# Reference: docs/planning/2026-05-11-big-items-scope-tickets-bundle.md §5.
+# Schema inline (NO contracts touch — Phase B keeps YAML self-contained).
+# Loader: apps/backend/services/campaign/seasonalContentLoader.js.
+# Engine: apps/backend/services/campaign/seasonalEngine.js (Phase A POC values
+# canonical match — modifiers field-by-field aligned).
+#
+# Narrative beat: Sabbie risvegliate. Risorse abbondanti, hazard alluvione.
+
+id: spring
+display_name_it: "Primavera"
+display_name_en: "Spring"
+description_it: |
+  Sabbie risvegliate. L'acqua scorre nei letti secchi, le creature
+  emergono dai nidi invernali. Risorse abbondanti ma hazard alluvione
+  nei biomi umidi.
+description_en: |
+  Awakened sands. Water flows in dry beds, creatures emerge from
+  winter nests. Abundant resources but flood hazard in wet biomes.
+duration_turns: 6
+modifiers:
+  resource_yield: 1.2
+  encounter_rate: 0.9
+  recruit_pool_delta: 1
+hazards:
+  - type: flood
+    intensity: 0.3
+    affected_biomes:
+      - umido
+      - palude
+events_pool:
+  - id: spring_bloom
+    description_it: "Fioritura tardiva. +2 morale al branco."
+    description_en: "Late bloom. +2 morale to the pack."
+    trigger: random
+    weight: 30
+  - id: spring_storm
+    description_it: "Tempesta primaverile. Cancella un encounter."
+    description_en: "Spring storm. Cancels one encounter."
+    trigger: hazard_threshold
+    weight: 20

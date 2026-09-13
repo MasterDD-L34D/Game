@@ -1,0 +1,42 @@
+# Movement Profile Archetypes — Evo-Tactics
+# Pattern W6 (wesnoth movement_type).
+# Specie riferiscono un profilo per costi terreno diversificati.
+# Il resolver moltiplica ap_cost base per il terrain multiplier.
+#
+# Vedi docs/planning/tactical-architecture-patterns.md §W6
+
+version: "0.1.0"
+
+profiles:
+  heavy:
+    label: "Pesante"
+    description: "Unita corazzate o massicce. Penalizzate su terreno difficile."
+    terrain_cost_multiplier:
+      roccia: 2.0
+      sabbia: 1.5
+      acqua_profonda: 2.0
+      vegetazione_densa: 1.5
+      ghiaccio: 1.5
+      lava: 2.0
+      default: 1.0
+
+  medium:
+    label: "Medio"
+    description: "Profilo standard. Penalita moderate su terreno difficile."
+    terrain_cost_multiplier:
+      roccia: 1.5
+      sabbia: 1.0
+      acqua_profonda: 1.5
+      vegetazione_densa: 1.0
+      ghiaccio: 1.0
+      lava: 1.5
+      default: 1.0
+
+  light:
+    label: "Leggero"
+    description: "Unita agili o volanti. Nessuna penalita terreno."
+    terrain_cost_multiplier:
+      default: 1.0
+
+# Default profile per unita senza profilo esplicito
+default_profile: medium

@@ -1,0 +1,23 @@
+schema_version: 1.0
+ecosistema:
+  id: PALUDE
+  label: Palude
+  biome_id: palude
+  trofico:
+    produttori:
+    - canneti_palustri
+    - alghe
+    consumatori:
+      primari:
+      - paludogromus-magnus
+      secondari:
+      - proteus-plasma
+      - fusomorpha-palustris
+      - calamipes-gracilis
+      terziari:
+      - limnofalcis-serrata
+      - siltovena-bifida
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

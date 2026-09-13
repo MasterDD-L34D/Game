@@ -1,0 +1,86 @@
+# Ennea Voice Palette — Type 8 Cacciatore (vc archetype id "Cacciatore(8)")
+#
+# Tono canonical: forza, controllo, intensità, mordi-e-fuggi, dominio fisico.
+# Voice persona: predatore consapevole, comanda lo spazio, niente esitazione.
+# Sigla: "Mio."
+#
+# Trigger telemetry: evasion_ratio>0.6 && attacks_started>=5 && damage_taken_ratio<0.4 && first_blood>0
+schema_version: "0.1.0"
+archetype_id: "Cacciatore(8)"
+ennea_type: 8
+canonical_name_it: "Cacciatore"
+canonical_name_en: "Challenger"
+voice_persona: |
+  Lo spazio è mio. La preda è mia. Movimento prima della parola. Linguaggio
+  monosillabico, possessivo, fisico. Sigla: "Mio."
+
+beats:
+  combat_attack_committed:
+    description: "Attacco con setup."
+    lines:
+      - id: "v8_atk_mine"
+        text: "Mio."
+      - id: "v8_atk_strike"
+        text: "Colpo. Subito."
+      - id: "v8_atk_no_hesitation"
+        text: "Non chiedo. Prendo."
+
+  combat_defense_braced:
+    description: "Difesa attiva."
+    lines:
+      - id: "v8_def_unbroken"
+        text: "Reggo. Sempre reggo."
+      - id: "v8_def_counter"
+        text: "Difesa è insulto. Restituisco."
+      - id: "v8_def_ground"
+        text: "Terreno mio. Resta o paga."
+
+  exploration_new_tile:
+    description: "Nuova tile."
+    lines:
+      - id: "v8_exp_claim"
+        text: "Territorio nuovo. Mio."
+      - id: "v8_exp_scent"
+        text: "Sento la preda. Vicino."
+      - id: "v8_exp_move"
+        text: "Avanzo. Niente tappe lunghe."
+
+  low_hp_warning:
+    description: "HP critico."
+    lines:
+      - id: "v8_lhp_no_mercy"
+        text: "Non mi piego. Non oggi."
+      - id: "v8_lhp_more"
+        text: "Voglio di più. Anche da me."
+      - id: "v8_lhp_strike_back"
+        text: "Sangue per sangue. Subito."
+
+  victory_solo:
+    description: "Solo kill."
+    lines:
+      - id: "v8_vct_done"
+        text: "Mio."
+      - id: "v8_vct_next"
+        text: "Avanti. Prossimo."
+      - id: "v8_vct_clean"
+        text: "Pulito. Come deve."
+
+  defeat_critical:
+    description: "KO / sconfitta."
+    lines:
+      - id: "v8_dft_not_finished"
+        text: "Non finisce così."
+      - id: "v8_dft_again"
+        text: "Si ricomincia. Più cattivo."
+      - id: "v8_dft_remember"
+        text: "Ricordami. Tornerò."
+
+  idle_round_start:
+    description: "Inizio round."
+    lines:
+      - id: "v8_idl_ready"
+        text: "Pronto."
+      - id: "v8_idl_who"
+        text: "Chi sceglie di morire prima?"
+      - id: "v8_idl_mine"
+        text: "Tutto mio."

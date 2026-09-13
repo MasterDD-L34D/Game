@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/trait_entry.schema.json",
+  "title": "Evo Tactics — Trait Entry (legacy-compatible)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "label",
+    "famiglia_tipologia",
+    "fattore_mantenimento_energetico",
+    "tier",
+    "slot",
+    "slot_profile",
+    "sinergie",
+    "conflitti",
+    "requisiti_ambientali",
+    "mutazione_indotta",
+    "uso_funzione",
+    "spinta_selettiva",
+    "debolezza",
+    "sinergie_pi"
+  ],
+  "properties": {
+    "trait_code": {
+      "type": "string",
+      "description": "Identificatore opzionale del trait senza codice specie",
+      "pattern": "^TR-\\d{4}$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 3
+    },
+    "famiglia_tipologia": {
+      "type": "string"
+    },
+    "fattore_mantenimento_energetico": {
+      "type": "string"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["T1", "T2", "T3", "T4", "T5", "T6"]
+    },
+    "slot": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]$"
+      }
+    },
+    "slot_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "core": {
+          "type": "string"
+        },
+        "complementare": {
+          "type": "string"
+        }
+      }
+    },
+    "sinergie": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "conflitti": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requisiti_ambientali": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "capacita_richieste": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "condizioni": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "biome_class": {
+                "type": "string"
+              }
+            }
+          },
+          "fonte": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "expansion": {
+                "type": "string"
+              },
+              "tier": {
+                "type": "string",
+                "enum": ["T1", "T2", "T3", "T4", "T5", "T6"]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "mutazione_indotta": {
+      "type": "string"
+    },
+    "uso_funzione": {
+      "type": "string"
+    },
+    "spinta_selettiva": {
+      "type": "string"
+    },
+    "debolezza": {
+      "type": "string"
+    },
+    "morph_structure": {
+      "type": "string"
+    },
+    "primary_function": {
+      "type": "string"
+    },
+    "cryptozoo_name": {
+      "type": "string"
+    },
+    "functional_description": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value", "unit"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": ["number", "string"]
+          },
+          "unit": {
+            "type": "string",
+            "description": "UCUM string (es. m/s, Cel, 1)"
+          },
+          "conditions": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "metabolic_cost": {
+      "type": "string",
+      "enum": ["Basso", "Medio", "Alto"]
+    },
+    "cost_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "type": "string"
+        },
+        "burst": {
+          "type": "string"
+        },
+        "sustained": {
+          "type": "string"
+        }
+      }
+    },
+    "trigger": {
+      "type": "string"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ecological_impact": {
+      "type": "string"
+    },
+    "output_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "testability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observable": {
+          "type": "string"
+        },
+        "scene_prompt": {
+          "type": "string"
+        }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "envo_terms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^http://purl\\.obolibrary\\.org/obo/ENVO_\\d+$"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic Versioning 2.0.0",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$"
+    },
+    "versioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created", "updated", "author"],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "author": {
+          "type": "string"
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "sinergie_pi": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "co_occorrenze": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forme": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tabelle_random": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "combo_totale": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

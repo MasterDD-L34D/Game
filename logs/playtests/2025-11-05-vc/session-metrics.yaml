@@ -1,0 +1,120 @@
+sessions:
+  - id: "delta"
+    build: "client-r2823"
+    scenario: "Skydock Siege - Tier 3 (retest)"
+    roster: ["Bulwark", "Cipher", "Aurora"]
+    telemetry_snapshot_turn: 18
+    metrics:
+      aggro:
+        attacks_started: 23
+        first_blood: 1
+        close_engage: 7
+        kill_pressure: 0.51
+        weighted_index: 0.61
+      risk:
+        damage_taken: 244
+        one_vs_many_engagements: 3
+        time_low_hp_turns: 7
+        self_heal_events: 9
+        weighted_index: 0.59
+      cohesion:
+        formation_time_turns: 17
+        assists: 12
+        support_actions: 13
+        weighted_index: 0.72
+      setup:
+        overwatch_turns: 12
+        trap_value: 7
+        cover_before_attack_ratio: 0.79
+        weighted_index: 0.69
+      explore:
+        new_tiles_revealed: 29
+        time_in_fog_of_war_turns: 9
+        optional_objectives_cleared: 2
+        weighted_index: 0.58
+      tilt:
+        pre_event_window_turns: 6
+        post_event_window_turns: 4
+        tilt_score: 0.46
+      hud_alerts:
+        - id: "risk-high"
+          triggered_turn: 11
+          cleared_turn: 13
+          weighted_index_peak: 0.62
+          acknowledged_by: ["HUD", "pi.balance.alerts"]
+          time_low_hp_turns_window: 3
+    notes:
+      - "Alert HUD attivo al turno 11; ack automatico PI entro tre turni."
+      - "Riduzione cooldown relay/scudi mantiene tilt medio 0.46."
+  - id: "echo"
+    build: "client-r2823"
+    scenario: "Skydock Siege - Tier 3 (Co-op)"
+    roster: ["Sentinel", "Cipher", "Helix"]
+    telemetry_snapshot_turn: 20
+    metrics:
+      aggro:
+        attacks_started: 24
+        first_blood: 1
+        close_engage: 8
+        kill_pressure: 0.58
+        weighted_index: 0.64
+      risk:
+        damage_taken: 238
+        one_vs_many_engagements: 5
+        time_low_hp_turns: 5
+        self_heal_events: 11
+        weighted_index: 0.54
+      cohesion:
+        formation_time_turns: 22
+        assists: 16
+        support_actions: 18
+        weighted_index: 0.80
+      setup:
+        overwatch_turns: 13
+        trap_value: 8
+        cover_before_attack_ratio: 0.77
+        weighted_index: 0.73
+      explore:
+        new_tiles_revealed: 32
+        time_in_fog_of_war_turns: 8
+        optional_objectives_cleared: 2
+        weighted_index: 0.61
+      tilt:
+        pre_event_window_turns: 6
+        post_event_window_turns: 4
+        tilt_score: 0.44
+      hud_alerts:
+        - id: "risk-high"
+          triggered_turn: 10
+          cleared_turn: 11
+          weighted_index_peak: 0.58
+          acknowledged_by: ["HUD"]
+          time_low_hp_turns_window: 2
+    notes:
+      - "Support drone cooldown a 3 turni evita permanenza prolungata sotto il 30% HP."
+      - "Alert HUD entra in warning per un singolo turno senza ping PI (sotto soglia)."
+hud_alert_log:
+  - mission_id: "skydock_siege_tier3_retest"
+    session_id: "delta"
+    turn: 11
+    status: "raised"
+    weighted_index: 0.62
+    time_low_hp_turns: 3
+    recipients: ["HUD", "pi.balance.alerts"]
+  - mission_id: "skydock_siege_tier3_retest"
+    session_id: "delta"
+    turn: 13
+    status: "cleared"
+    weighted_index: 0.57
+    time_low_hp_turns: 2
+    recipients: ["HUD"]
+  - mission_id: "skydock_siege_tier3_coop"
+    session_id: "echo"
+    turn: 10
+    status: "raised"
+    weighted_index: 0.58
+    time_low_hp_turns: 2
+    recipients: ["HUD"]
+notes:
+  - "client-r2823 integra `hud.alert.risk-high` nel middleware EMA, registrando ack PI in `hud_alert_log`."
+  - "Timer evacuazione ridotto a 6 turni con buffer tilt monitorato <0.50."

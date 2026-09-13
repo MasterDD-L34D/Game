@@ -1,0 +1,23 @@
+{
+  "scenario": "hardcore_06",
+  "scenario_id": "enc_tutorial_06_hardcore",
+  "target_band": [0.15, 0.25],
+  "method": "B-sprt-early-stop",
+  "method_ref": "docs/research/2026-05-20-calibration-knob-patterns-industry.md",
+  "decision": "CONTINUE",
+  "decision_n": 20,
+  "decision_wr": 0.1,
+  "decision_ci95": [0.027865893984153206, 0.30103820641179335],
+  "final_n": 20,
+  "final_wr": 0.1,
+  "final_ci95": [0.027865893984153206, 0.30103820641179335],
+  "wins": 2,
+  "defeats": 18,
+  "timeouts": 0,
+  "max_n_configured": 20,
+  "min_n_configured": 5,
+  "check_every": 5,
+  "elapsed_sec": 1113.0427207946777,
+  "host": "http://localhost:3340",
+  "saved_runs_vs_max": 0
+}

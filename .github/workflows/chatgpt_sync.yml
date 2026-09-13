@@ -1,0 +1,50 @@
+name: ChatGPT Sync
+
+on:
+  schedule:
+    - cron: '30 5 * * *'
+  workflow_dispatch:
+
+env:
+  # Opt-in Node.js 24 runtime per actions JavaScript (checkout, setup-node,
+  # setup-python, upload-artifact, ecc.). Evita deprecation warning Node 20
+  # (rimosso 2026-09-16). Vedi https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      CHATGPT_SYNC_SOURCE: ${{ vars.CHATGPT_SYNC_SOURCE || 'api' }}
+      CHATGPT_SYNC_PROMPT: ${{ secrets.CHATGPT_SYNC_PROMPT }}
+      CHATGPT_SYNC_MODEL: ${{ vars.CHATGPT_SYNC_MODEL || 'gpt-4o-mini' }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run ChatGPT sync wrapper
+        run: ./scripts/sync_chatgpt.sh
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          if grep -q 'Esito: Skipped' docs/chatgpt_sync_status.md; then
+            echo "Sync skipped, not committing changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: aggiorna snapshot ChatGPT"
+          git push

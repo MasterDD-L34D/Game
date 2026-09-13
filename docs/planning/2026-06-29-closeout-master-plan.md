@@ -1,0 +1,311 @@
+---
+title: 'Close-out master plan -- verified in-flight inventory + closure order (2026-06-29)'
+date: 2026-06-29
+doc_status: active
+doc_owner: master-dd
+workstream: cross-cutting
+last_verified: '2026-07-01'
+source_of_truth: false
+language: it-en
+review_cycle_days: 30
+tags: [closeout, inventory, residual, gates, anti-wip, roadmap, spec-aq, in-flight, closure-order]
+---
+
+# Close-out master plan (2026-06-29)
+
+> **Scopo**: chiudere COMPLETAMENTE i progetti in sospeso PRIMA di aprirne di nuovi
+> (anti-WIP-sprawl). Questo doc = inventario verificato (ground-truth su `origin/main`
+> `46706ae4`) + ordine di chiusura ratificato + decisioni owner. **NON apre feature nuove.**
+>
+> **Base**: estende il [`2026-06-23-residual-gate-register.md`](2026-06-23-residual-gate-register.md)
+> (spine verificata 6 giorni fa) col delta 06-23 -> 06-29. Anti-pattern #19 applicato a
+> ogni riga (marker = ipotesi, git = verita').
+>
+> **PR aperte**: ~0 su entrambi i repo (Game + Game-Godot-v2) -> nessun backlog-PR da chiudere.
+> **OD formali**: OD-001..OD-059 tutti `resolved` -> le decisioni aperte vivono qui + nel register.
+
+## 0. Delta 06-23 -> 06-29 -- chiuso dall'ultima sessione (STALE-DONE: solo marcare)
+
+Verificato su `origin/main`. Questi NON sono piu' in-flight; il register/marker che li listava va flippato.
+
+| Item                                       | Marker diceva                        | Git-verita' 2026-06-29                                                                                                            |
+| ------------------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **move-terrain-cost substrate**            | register bucket-2 "BUILD plan #2997" | **FLIPPED LIVE in prod 2026-06-29** -- #3061 `8f4b15f7` + #3065 `927eb6ce` + #3043 `162737a7` + #3050 `8ab7b5e3`. Arc CLOSED      |
+| **Final catalog/affinity re-baseline**     | register bucket-5 "ancora stale"     | **DONE via derived-canon arc** -- #3045 catalog + #3047 trait-bridge + #3055/#3056 derived-analysis + #3057 guard + #3060 aliases |
+| **stale trace_hashes**                     | register bucket-4 "OPEN repo-wide"   | **NON-issue** -- il test e' non-empty-only (no content-match); arc reproducibility copre la generazione. Niente regen rischioso   |
+| **GAP2 inert-trait mechanics (block 2+3)** | register bucket-2 "103 inerti"       | **12 wired** -- block-2 #3044 + block-3 #3068 `102ae13e`. Residuo = GAP2-next (45 boilerplate / 9 `*_2` / clusters)               |
+| **SPEC-J scar->transform**                 | register bucket-2 "verdetto"         | **BUILT flag-OFF #2994 `76d2a078`** (`nidoRitual.transformScar` + `SCAR_TRAIT_MAP` PROPOSED). Residuo = ratify map + flip         |
+| **PE_ratio -> contestedness**              | register bucket-1                    | **RESOLVED = drop-PE #3022 `eda7d9a8`** (composite = `0.70*WR + 0.30*kd`). Chokepoint PE rimosso (gia' nel register)              |
+| **aa01 D1 TV cinematic**                   | register bucket-3 "follow-up"        | **DONE** -- #2974 `eda0f529` (GGv2 #535 host-open + TV cinematic). Phone+hint gia' #531                                           |
+| **aa01 D4 auto-timer defaulting**          | register bucket-2 "decidere"         | **RESOLVED** -- #2977 `1dbd2ca7` verdetto master-dd = warning-only timer, mai auto-default                                        |
+| **OD-024 interoception flip**              | memory "flag OFF"                    | **FLIPPED ON prod 2026-06-22** (register sez.0 gia' lo segnava; runbook D7)                                                       |
+| **prod-resilience + Postgres auto-start**  | BACKLOG "OPEN owner-gated"           | **APPLIED 2026-06-22** -- #2966 `faa62e20` + #2965 `0ab859d1` (register sez.0)                                                    |
+| **governance stale burn-down**             | BACKLOG "P3 OPEN 181 warnings"       | **CLOSED 397->0** (#2914 36/36); weekly drift ora a cadenza (#3058 `7a407357`). Chip `task_f62b339f` = process, non gate          |
+| **issue #1673 BiomeMemory**                | issue OPEN "[P2 parked]"             | **codice SHIPPED #2784** (OD-059 option A); l'issue resta open solo per title stale -> CLOSE                                      |
+
+> **Azione Tier-0**: marcare le righe sopra chiuse nel register + BACKLOG; chiudere issue #1673;
+> dismiss chip `task_f62b339f`. = parte del tier housekeeping autonomo (autorizzato).
+
+## 1. Inventario verificato -- TRULY-OPEN (progetti ancora in sospeso)
+
+Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonomo) /
+**OWNER** (decisione master-dd) / **N=40** (calibration-gated) / **EXTERNAL**. Effort S/M/L.
+
+### 1A. Gate = N=40 / calibration (lane single-owner via orchestrator G2)
+
+| #      | Progetto                                                | Cosa manca per chiudere                                                                                                                                                                                                                                                | Blocker      | Effort |
+| ------ | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------ |
+| ~~N1~~ | ~~**SPEC-J `LETHAL_MISSIONS_ENABLED` flip**~~           | ✅ **DONE + FLIPPED LIVE prod 2026-06-30** -- encounter L'Ultima Caccia #3107/#3112 -> N=40 -> flip (f859817d). Permadeath attivo, reversibile                                                                                                                         | DONE         | M-L    |
+| ~~N2~~ | ~~**SPEC-H HA1 `aliena_enforcement` flip**~~            | ✅ **DONE (grilling 2026-06-30) = GUARDRAIL-LATENT**: `strength 0.5` RATIFIED, NON flippato (inerte sui pool autorati). Rimosso dalla lane N=40                                                                                                                        | DONE         | S-M    |
+| ~~N3~~ | ~~**SPEC-I ER7 flag-ON**~~ (population tick)            | ✅ **MARKER STALE (anti-pattern #19)** -- ER7 GIA' default-ON in prod dal 2026-06-11 + RATIFICATO (evidence 06-11); W5 N=40 2026-07-01 = **RE-CONFERMA** #3156/#3158/#3160/#3162 (exercise riprodotto, no-op, niente da flippare). Register sez.1 riga ER7 = dettaglio | DONE (stale) | S      |
+| ~~N4~~ | ~~**OD-024 `STAMINA_FATIGUE_ENABLED` flip**~~           | ✅ **DONE (grilling 2026-06-30)**: N=40 band-SAFE + carrier-independent RATIFIED; flip staged-latent in keys.env (next prod restart). Engine #2 #2937                                                                                                                  | DONE         | M      |
+| N5     | **A2 floor magnitude re-tune** (upward-only)            | playtest umano -> re-tune `pressure_tier_floor` solo verso l'alto. A2 gia' LIVE                                                                                                                                                                                        | OWNER        | S      |
+| ~~N6~~ | ~~**ER6 overrun carry-over fork**~~ (TKT-ER6-CARRYOVER) | ✅ **BUILT flag-OFF + N=40 band-SAFE (grilling 2026-06-30, PR #3119)** -- carry-over chosen over consume-once; flag `REINFORCEMENT_OVERRUN_CARRYOVER_ENABLED` OFF. Banda PROVISIONAL (W5). OWNER-merge                                                                 | DONE-build   | S (P3) |
+| N7     | **OD-024 interoception re-tune** (opzionale)            | knob: ammorbidire enemy-scaling per ri-centrare completion ~0.6 (flip gia' safe)                                                                                                                                                                                       | OWNER (opt)  | S      |
+| N8     | **move-terrain DR2=2 radici ratify**                    | re-valida `DR2=2` con playtest umano hold-capable (RATIFIED-PROVISIONAL)                                                                                                                                                                                               | OWNER        | S      |
+
+### 1B. Gate = decisione master-dd (design-call; nessun build-blocker tecnico)
+
+| #      | Progetto                                    | Cosa decidere / fare                                                                                                                                                                                                                                                                            | Blocker       | Effort |
+| ------ | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------ |
+| O1     | **SPEC-J scar->transform map ratify**       | ratifica/estendi `SCAR_TRAIT_MAP` + N=40 + flip; costo E6 = SPEC-E. Built #2994                                                                                                                                                                                                                 | OWNER         | S/M    |
+| O2     | **codex-lore 19 orfani** -> 13 draft        | **VERDETTO 06-29 = promuovi i 13 retired-creature lore DRAFT (#3038) via HITL**                                                                                                                                                                                                                 | OWNER (HITL)  | M      |
+| ~~O3~~ | ~~**H7 PILLAR re-ratifica**~~               | **DONE 2026-06-30** -- VALORI 6/6 ri-ratificati master-dd + P1 restore `def++` (PILLAR delta 06-30, #3096 `a6e0c034`). Non piu' TRULY-OPEN                                                                                                                                                      | DONE          | S      |
+| O4     | ~~**aa01 D6 axis->trait grant**~~           | **DONE 2026-06-30** -- ratified B + designated-axis locomotion; BUILT flag-OFF [#3083](https://github.com/MasterDD-L34D/Game/pull/3083) `b57319ad` (mapping PROPOSED -> N=40 flip)                                                                                                              | DONE          | M      |
+| O5     | **aa01 D7 player-facing prose**             | scaffold BUILT [#3084](https://github.com/MasterDD-L34D/Game/pull/3084) `3ad66130` (`brancoTendencyHint` = i18n_key + vars + TODO placeholder, NO prose); the "il tuo branco tende verso X" copy is **still master-dd HITL** (client i18n) -- TRULY-OPEN, not yet done                          | OWNER (HITL)  | S      |
+| O6     | ~~**aa01 D8 chain-lightning propagation**~~ | **DONE 2026-06-30/07-01** -- BUILT flag-OFF [#3082](https://github.com/MasterDD-L34D/Game/pull/3082) `b138a7dd` (`chainLightningStrike`). Grilling bumped caps to **3/2** (maxDepth 3) + footprint sweep (PR #3121); flip **DEFERRED** (master-dd: non-band-neutral + inert su content attuale) | DONE          | S-M    |
+| O7     | **GAP2-next mechanics**                     | **DEFERRED master-dd 06-30.** Residuo = 39 boilerplate (rewrite-first, prosa design-call) + cluster buff/recon (primitive engine nuove = forbidden-path). _(9 `*_2` DONE #3074; inert recount 91->76; small-slice block-4 = unica increment autonoma se ri-aperto)_                             | OWNER (defer) | L      |
+| O8     | **TKT-SALVAGE-A2 resistance_archetype**     | mapping archetipo-per-specie (default `adattivo`) + schema field + CI-guard. BUILD ratificato                                                                                                                                                                                                   | OWNER+build   | M      |
+
+> **DELTA 2026-07-01 (recon Tier-2 owner-batch, ground-truth su `origin/main` -- marker sopra STALE)**: la
+> maggior parte di questa tabella e' gia' drenata. Verificato via Workflow recon (4-finder, git=verita',
+> anti-pattern #19): **O1** DONE [#3098](https://github.com/MasterDD-L34D/Game/pull/3098) `2b9e978c`
+> (SCAR_TRAIT_MAP RATIFIED-PROVISIONAL 4/4 location, flag OFF) · **O2** DONE
+> [#3076](https://github.com/MasterDD-L34D/Game/pull/3076) `534cc3a4` (13 retired-creature lore draft
+> promossi, HITL eseguito) · **O5** DONE [#3097](https://github.com/MasterDD-L34D/Game/pull/3097)
+> `ffe4be8a` (D7 prose 7 biomi IT/EN reali; il marker "still master-dd HITL" e' STALE) · **I1** DONE
+> [#3071](https://github.com/MasterDD-L34D/Game/pull/3071) `7145ad66` (guard flippato a enforcing; #3067 era
+> il float-drift fix, NON il flip) · **I2** DONE (ci.yml stale refs gia' puliti: species-step rimosso, lighthouse guarded) ·
+> **I7** DONE [#3073](https://github.com/MasterDD-L34D/Game/pull/3073) (biome_aliases: laguna->reef,
+> mangrovieto->palude). **O7** GAP2-next = **defer AFFERMATO** (marker accurato 91->76; re-open solo se
+> block-4 small-slice). **O8** resistance_archetype = enum formalizzato in `species.schema.json` ->
+> **[PR #3147](https://github.com/MasterDD-L34D/Game/pull/3147) OPEN** (forbidden-path, aspetta manual
+> merge master-dd). **Truly-open residui Tier-2 = solo O8 (in-flight PR) + O7 (deferred).**
+
+### 1C. Gate = superficie Godot (cross-repo Game-Godot-v2)
+
+| #   | Progetto                                     | Gate                                                                          | Blocker          | Effort |
+| --- | -------------------------------------------- | ----------------------------------------------------------------------------- | ---------------- | ------ |
+| G1  | **SPEC-K K-07 real-device playtest**         | 2 telefoni + TV (mani master-dd). 6/7 DONE; AI smoke 8/8 PASS (#2890)         | OWNER (device)   | S      |
+| G2  | **aa01 D2 `IMPRINT_BEAT_ENABLED` flip**      | playtest + master-dd. Consumer esiste (#2970), D1 surface landed              | OWNER (playtest) | S      |
+| G3  | **META_NETWORK_ROUTING route-UI**            | build Godot choice-UI (speccata #2594) -> poi flip env-only                   | BUILD+OWNER      | M      |
+| G4  | **aa01 D5 route-vote affinity weighting**    | gated su G3 (META flip + route-UI)                                            | dep G3           | S      |
+| G5  | **GAP-C fase-3 choice-UI + fase-4 Dormans**  | POST-MVP, gate normale (~30-40h)                                              | BUILD            | L      |
+| G6  | **move-terrain Godot engine-AP-enforcement** | far caricare l'AP terrain-weighted al motore Godot. N=40 Godot-scope + parity | N=40+BUILD       | M      |
+
+### 1D. Gate = build / impl (in gran parte autonomo -- CLOSE-NOW)
+
+| #   | Progetto                                        | Cosa costruire                                                                                                                                                                                                                                                                                                                                                                    | Blocker               | Effort |
+| --- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------ |
+| B1  | **trait-mechanics slices 5-7 remainder**        | **9.5/12 trait built** (slice 5+7 #2995/#2996); restano i pezzi finali                                                                                                                                                                                                                                                                                                            | CLOSE-NOW             | M      |
+| B2  | **13 creature canonizzazione**                  | #3045 canonized + #3032 gameplay-spec + #3038 lore-draft; residuo = HITL promote + delete stub                                                                                                                                                                                                                                                                                    | OWNER(HITL)+CLOSE-NOW | M      |
+| B3  | **canon-linter follow-up**                      | tune `verify_stopwords.txt` (autonomo) -> flip markdown-tier `--strict` (forbidden-path = owner)                                                                                                                                                                                                                                                                                  | CLOSE-NOW+OWNER       | S      |
+| B4  | **SPEC-F offspring->playable lineage + export** | offspring giocabili (lineage SPEC-E) + QR/card export                                                                                                                                                                                                                                                                                                                             | BUILD                 | M      |
+| B5  | **jsonschema-shadow follow-up**                 | validation follow-ups esposti dalla rimozione stub (BACKLOG:990)                                                                                                                                                                                                                                                                                                                  | CLOSE-NOW             | S (P2) |
+| B6  | **TKT-KEEPER-CONTENT-DEBT**                     | ~138 trait portati da keeper-stub sintetici; autora specie reali nel tempo (band-neutral oggi)                                                                                                                                                                                                                                                                                    | BUILD (content)       | L      |
+| B7  | **TKT-KEEPER-VALIDATOR-SCOPE**                  | estendi scope-dir di `run_all_validators.py` quando i keeper diventano specie reali                                                                                                                                                                                                                                                                                               | CLOSE-NOW             | S (P3) |
+| B8  | **script repoint species.yaml** (TKT-STALE-B2)  | 🔁 verify-first 06-29 UPGRADE: **4 BROKEN** (frattura_abissale_validations.py:94 / evo_pack_pipeline.py:52 / data_health.py:124+:201) + **3 DEGRADED** (generator.py / build-idea-taxonomy.js / validate_datasets.py:542 silently 0-species). Logic repoint a `species_catalog.json` (loader `tools/py/lib/species_loader.py`). Bug-fix con test -> PR dedicata (NON marker-flip) | BUILD (tested PR)     | M      |
+
+### 1E. Gate = infra owner-gated / forbidden-path / mani-prod
+
+| #      | Progetto                                             | Perche' gated                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Blocker       | Effort   |
+| ------ | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- | -------- |
+| I1     | **flip CI-wire reproducibility guard -> enforcing**  | togliere `--warn-only` quando l'advisory e' quieto. `.github/workflows` = forbidden                                                                                                                                                                                                                                                                                                                                                                                | OWNER-merge   | S        |
+| I2     | **ci.yml stale refs** (chip `task_3f09765d`)         | `Validate Species` ref `species.yaml` rimosso + `lighthouse-ci` ref assente. forbidden                                                                                                                                                                                                                                                                                                                                                                             | OWNER-merge   | S        |
+| I3     | **SPEC-F durable crossbreed cooldown**               | **DEFERRED 2026-06-30** (PR #3101 PREPARED then CLOSED). Verify-first: premise undermined -- `hydrateAsync` is NEVER called, so on a fresh process `getCompanionState` 404s before the cooldown check -> restart resets companion-state + cooldown TOGETHER = no reachable bypass + zero real durability from a schema field (+ FIFO-eviction edge). Durable cooldown = persistence-layer workstream (hydrate the store / direct-Prisma key), SAME gap class as I4 | OWNER (defer) | M        |
+| I4     | **SPEC-E ritual resource-cost (E6)**                 | **DEFERRED 2026-06-30 (master-dd)** -- BLOCKED: no backend resource pool (Campaign senza balance PE/PI/SG, godotV2State read-only, no quorum-spend route). Unblock = nuovo resource-state + 4 design-call (tipo risorsa / cost-model / quorum-UX / pool shared-vs-per-player). Workstream SPEC-E, non infra-prep                                                                                                                                                   | OWNER (defer) | M        |
+| ~~I5~~ | ~~registra program-doc 2026-06-22 in docs_registry~~ | ✅ **gia' fatto** (verify-first 06-29: `unregistered_document` = 0; i 10 program-doc 06-22 sono gia' nel registry). Marker stale                                                                                                                                                                                                                                                                                                                                   | DONE          | -        |
+| I6     | **D9 CAP-12 PlayerRunTelemetry canon-home**          | migration = forbidden-path + ADR (reconstruct-from-ledger doctrine)                                                                                                                                                                                                                                                                                                                                                                                                | OWNER (defer) | L        |
+| I7     | **2 keeper env_affinity orphans**                    | `laguna_bioreattiva` + `mangrovieto_cinetico` senza bioma canonico -> assegna o accetta                                                                                                                                                                                                                                                                                                                                                                            | OWNER         | S        |
+| I8     | **prod flips bundle** (mani master-dd)               | `LETHAL` / `aliena_enforcement` / `STAMINA_FATIGUE` / `IMPRINT_BEAT` / `META_NETWORK` = env keys.env + restart (post rispettivi gate)                                                                                                                                                                                                                                                                                                                              | OWNER-hands   | umbrella |
+
+### 1F. External / triage (issue, cross-repo)
+
+| #      | Item                                                                           | Stato                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Azione                                  |
+| ------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| X1     | ~~**#3053 + W5 sim-harness AI-player upgrade**~~ (objective-aware/positioning) | ✅ **DELIVERED-VIA-PIVOT (W5 lane 2026-07-01)**: inc-2 #3130 = PIVOT master-dd -- encounter power/DPR-bound NON tactics-bound -> le graded metrics (`enemy_hp_remaining_pct`) sono la vittoria Gap-C, il build objective-aware non e' piu' il long-pole. Re-ratify consegnati: ER6 #3132 band-neutral · D8 NULL #3136 · **W6 anchor 1.15 RATIFICATO** #3139/#3143/#3152 (staged) · D6 REAL band 8/8 #3149/#3151 · ER7 re-confirm #3156-#3162. Residuo: W6 flip (owner deploy `>=92e52636`+restart) · G6 engine-AP-enforcement Godot UNBUILT (X1-gated N=40). Graded lane **PAUSED (owner 07-01)** | DONE (pivot) + PAUSED; residui owner/G6 |
+| X2     | **#2888 / #2834** AI sim nightly regression                                    | issue auto-filed da cron regression -> triage: verifica risoluzione poi chiudi                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | EXTERNAL                                |
+| X3     | **#2744** encounter YAML backport enrichments                                  | backport hand-authored (pressure floors / terrain / lethal). YAML non e' SoT piena                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | BUILD (content)                         |
+| ~~X4~~ | ~~**#1673** BiomeMemory issue~~                                                | ✅ **CLOSED 2026-06-29** (codice shipped #2784; title stale)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | DONE                                    |
+| X5     | **Godot #415** GDScript doc-comment campaign                                   | tracking issue Jules batches, cross-repo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | EXTERNAL                                |
+
+## 2. Ordine di chiusura ratificato (anti-WIP, master-dd 2026-06-29)
+
+> **Verdetto Q1 = "Approve tiered sequence".** Chiudi cheapest-first, niente progetti nuovi
+> finche' i tier 0-1 non sono drenati.
+
+### Tier 0 -- marker-flip (~0 lavoro, gia' fatti, solo segnare) -- AUTONOMO
+
+Sezione 0 sopra: flip register/BACKLOG su 12 STALE-DONE + chiudi issue #1673 (X4) + dismiss chip governance.
+
+### Tier 1 -- housekeeping autonomo (CLOSE-NOW) -- AUTORIZZATO ("Yes, whole tier")
+
+I5 (registra program-doc) / B8 (repoint species.yaml) / B3-stopwords (tune) / O3-refresh
+(PILLAR-LIVE-STATUS content) / B5 (jsonschema-shadow) / B7 (keeper-validator-scope quando applicabile) /
+B1 (trait-slices remainder). Ognuno = PR piccola, verify-before-done, auto-merge L3 se 7-gate verdi.
+
+### Tier 2 -- decisioni owner batch (prossimi round AskUserQuestion)
+
+O1 scar-map ratify / **O2 codex-lore = promuovi 13 draft #3038 (verdetto dato)** / O4/O5/O6 aa01 D6/D7/D8 /
+O7 GAP2-next / O8 resistance_archetype mapping / I1/I2/I3 forbidden-path merge / G1 K-07 device /
+I7 keeper orphans. Presentati <=4 per volta, recommended-default + reversibility-tag.
+
+> **STATO 2026-07-01 (batch DRENATO)**: recon Tier-2 eseguito (vedi DELTA sez.1B). Quasi tutto gia' chiuso su
+> `origin/main`: O1/O2/O5/I1/I2/I7 = DONE (marker stale), O4/O6 gia' DONE, O3/I5 gia' DONE, I3/I4 deferred. **Aperti
+> davvero**: **O8** (enum resistance_archetype -> PR #3147 OPEN forbidden-path, manual merge) + **O7** (GAP2-next,
+> defer affermato). Restano owner-gated fuori-batch: G1 K-07 (device fisico) + I3/I4 (persistence-layer, deferred).
+
+### Tier 3 -- flip N=40-gated (lane single-owner G2)
+
+> **Verdetto Q2 = SPEC-J LETHAL per primo.** UPDATE 2026-06-30: **N1 DONE+FLIPPED LIVE prod**
+> (permadeath attivo, reversibile). Grilling value-picks drenati (vedi sotto).
+
+1. ✅ **N1 SPEC-J LETHAL** -- DONE: encounter L'Ultima Caccia #3107/#3112 -> N=40 -> **FLIPPED LIVE** (f859817d).
+2. ✅ **N2 SPEC-H HA1** -- DONE = guardrail-latent (strength 0.5 ratify, NON flip).
+3. ✅ **N4 OD-024 STAMINA_FATIGUE** -- DONE = carrier-independent ratify + flip staged-latent.
+4. ✅ **N3 SPEC-I ER7** -- marker stale: gia' default-ON dal 06-11; W5 re-confirm #3156-#3162 = no-op. Resta: **N5 A2 retune** / **N8 DR2=2** / **N7 interoception** (OWNER playtest/knob -- NON gated W5: lane consegnata via pivot #3130, graded lane PAUSED owner 07-01).
+5. Godot lane parallela: **G3 META route-UI** -> G4 D5 / **G6 engine-AP** (dep X1 #3053) / **G5 GAP-C** (POST-MVP).
+
+### 2bis. Grilling value-picks (master-dd, 2026-06-30) -- continuation work-list
+
+6 verdetti dal /grilling post-LETHAL-flip. **Tutti band-PROVISIONAL** (W5 sim-harness NON costruito ->
+N=40 girano sull'AI-player passive = banda provvisoria; il flip power-sensitive aspetta W5).
+
+| #   | verdetto                                                                               | stato                                                      |
+| --- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 1   | **HA1** ratify `strength 0.5` GUARDRAIL-LATENT (NON enable)                            | ✅ DONE (#3117 merged)                                     |
+| 2   | **STAMINA** keep carrier-independent (NO player-only switch)                           | ✅ DONE (#3117 merged)                                     |
+| 3   | **ER6** BUILD carry-over (unspent overrun budget -> next round) + N=40                 | ✅ BUILT flag-OFF + N=40 band-SAFE (PR #3119, OWNER-merge) |
+| 4   | **D6** wire `offense/RAPIDA = dilatazione_temporale_percettiva` (7/8 gia' wired #3115) | ✅ WIRED flag-OFF, liveness-gated (PR #3120, OWNER-merge)  |
+| 5   | **D8** caps `3/2` (maxDepth 3, shock 2) + footprint                                    | ✅ BUILT flag-OFF; flip **DEFERRED** master-dd (PR #3121)  |
+
+> **Tutti i 6 value-pick DRENATI** (2026-07-01). HA1/STAMINA = doc-ratify (#3117). ER6/D6/D8 =
+> code-PR flag-OFF + evidence (#3119/#3120/#3121, master-dd merge). **D8 flip = DEFERRED** (verdetto
+> master-dd: inerte sul content attuale; graded re-ratify #3136 = **NULL by non-exercise** -> il gate
+> vero e' un encounter electrified-terrain, non W5). Bande re-ratificate (graded lane 07-01): ER6
+> band-neutral #3132 · D6 REAL band 8/8 #3149 · D8 NULL #3136.
+>
+> ~~Focus next = W5~~ **W5 CONSEGNATO via pivot (2026-07-01)**: graded metrics al posto del build
+> objective-aware (inc-2 #3130); re-ratify D6 (REAL band 8/8) / D8 (NULL) / ER6 (band-neutral) / ER7
+> (re-confirm) DONE; W6 anchor 1.15 ratificato+staged. Graded lane PAUSED (owner). Residui: W6 flip
+> (owner restart) + G6 engine-AP Godot. Vedi X1 + register sez.1.
+
+## 3. Decisioni owner ratificate (questa sessione, AskUserQuestion 2026-06-29)
+
+| Q   | Domanda               | Verdetto                                                      | Tag |
+| --- | --------------------- | ------------------------------------------------------------- | --- |
+| Q1  | Ordine di chiusura    | **Approve tiered sequence** (Tier 0->1->2->3)                 | 🔄  |
+| Q2  | Primo flip N=40-gated | **SPEC-J LETHAL_MISSIONS** (autora encounter -> N=40 -> flip) | ⛔  |
+| Q3  | Housekeeping autonomo | **Si', esegui tutto il tier** (Tier 0+1)                      | 🔄  |
+| Q4  | codex-lore 19 orfani  | **Usa i 13 retired-creature draft (#3038), HITL promote**     | 🔄  |
+
+## 4. Stato esecuzione Tier-0/1 (2026-06-29, Q3 greenlight)
+
+> Drain eseguito via Workflow recon (6-finder + critic adversariale): ogni closure
+> ground-truthed su `origin/main` PRIMA di applicare. Verify-first ha ri-dimensionato 2 item.
+
+**✅ FATTO questa sessione** (in PR #3072, doc-hygiene zero-runtime-risk):
+
+1. **Issue #1673 CLOSED** (OD-059 shipped #2784, commento esplicativo).
+2. **register flip** (`2026-06-23-residual-gate-register.md`): 8 righe STALE-DONE flippate + DELTA banner + sez.8 pointer + `last_verified` 06-29.
+3. **BACKLOG flip**: trait-mechanics 2.5/12 -> 12/12 engine-path + bullet move-terrain FLIP-LIVE + codex-lore verdetto + header delta.
+4. **PILLAR-LIVE-STATUS refresh (H7)** atomico (frontmatter + registry `last_verified` 06-29 + delta-history giugno; **VALORI 6/6 invariati = re-ratifica master-dd pending**).
+
+**✅ gia' fatto (verify-first, marker stale)**: I5 program-doc registration (`unregistered_document` = 0).
+
+**🔁 ri-dimensionati (NON marker-flip -> PR dedicata con test)**:
+
+- **B8 script repoint** -- verify-first: NON 1-2 file ma **4 broken + 3 degraded** (logic repoint a `species_catalog.json`). Inventario preciso nella riga B8. Bug-fix QA-only (rotti da #2271, non urgenti) -> PR tested separata.
+- **B3 stopwords** -- serve corpus di false-positive reali (run linter) prima del tune. **B5 jsonschema** + **B1 trait-slices remainder** = build, PR separate.
+
+**Resto** (Tier 2 design-call, Tier 3 N=40 flip) = round owner-decision / sessione calibrazione.
+
+## 5. Esplicitamente NON in-flight (gia' chiusi -- non ri-aprire)
+
+item-1 SPEC-A..Q doc-flip (17/17 `active`); move-terrain-cost (LIVE); derived-canon reproducibility
+arc (#3047-#3068); SPEC-H machinery+surface; SPEC-J backend+consent-UI; SPEC-K 6/7; OD-024 D1-D7
+interoception (FLIPPED ON); governance stale (397->0); PE-drop (#3022); prod-resilience+Postgres;
+PHASEC 32/32; GAP-A/B; H1/H2 economy; full-loop runner; aa01 D1/D4.
+
+---
+
+## 6. Aggiornamento 2026-07-01 -- Tier-1 recon reconciliation (anti-WIP)
+
+> Recon 6-finder (Workflow, ground-truth su `origin/main` `bdc01015`) su tutti i candidati
+> **Tier-1 CLOSE-NOW autonomi** (sez. 1D + Tier-1 riga 138). Verdetto: **0 residui Tier-1 sono
+> davvero autonomi-buildable** -- 4 stale-DONE + 1 dormant + 2 owner-gated. Anti-pattern #19
+> (marker = ipotesi, git = verita'); ogni SHA verificata `--is-ancestor origin/main`. Additivo:
+> NON riscrive le righe sez.1 (le marca stale qui). Non-colliding col lane parallelo form-pulse
+> (nessun file toccato -- doc-only) ne' con #3123 (che ha reconciled solo Tier-3).
+
+| #   | Candidate                   | Verdetto git 2026-07-01                                                                                                                                                                                                                                                                            |
+| --- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| B1  | trait-slices 5-7 remainder  | **STALE-DONE**: eco_sismico producer built #3027 `982dd33b` (ancestor; `stamp_tile_status` in `traitMechanics.schema.json` + `ecoSismico.js`). 12/12 mechanics engine-live. Riga 95 stale (marker precede #3027)                                                                                   |
+| B8  | script repoint species.yaml | **DONE**: #3075 `fab8f87f` + #3079 `34501442` + #3078 `d117b43a` (tutti ancestor); 14 test verdi; **0 straggler** (i ref residui = comment / fixture-gen / one-shot `.exists()`-guarded / ETL-input / `packs/.../species.yaml` che esiste). Riga 102 chiusa (inventario stale)                     |
+| X2  | AI sim nightly regression   | **DONE**: #2888/#2834 CLOSED 06-30, root-cause fix #3094 `fe07584f` (ancestor; `aggressive` WR 1.0->0.9 in `check-thresholds.js`, era placeholder #2149). #3085 OPEN = self-resolve al prossimo nightly pulito. Riga 122 chiusa                                                                    |
+| B7  | keeper-validator-scope      | **DORMANT** (non stale): precondizione non-soddisfatta -- 0 keeper e' specie reale (40 stub `playable_unit:false`). Riapre solo post B6/keeper-content. Riga 101 resta gated (corretto)                                                                                                            |
+| B5  | jsonschema-shadow           | **DOWNSCOPE**: 2/3 sub-ticket gia' fatti (schema_version migration [const '2.0' + 328 json] + win-encoding). Unico aperto = TR-2006..2010 `metrics` = **balance-values owner** (BACKLOG "cannot be fabricated"); 5 xfail puliti (`test_evo_trait_schema.py` 50 pass/5 xfail). NON autonomo-S       |
+| B3  | canon-stopwords             | **RE-SCOPE owner**: ~2648 FP-token su 47 IT design-doc (100% strict-fail) -> flat-blocklist e' il meccanismo sbagliato per il grounding di prosa. Markdown-tier resta ADVISORY (safe); flip `--strict` = forbidden-path + owner re-scope (require canonical_refs / narrow subtree). NON autonomo-S |
+
+**Conseguenza**: la lane autonoma Tier-1 e' **DRENATA** (stale/dormant/owner). I residui reali
+restano: owner-content (B5 TR-200x metrics, B3 re-scope -- entrambi in stato SAFE, no CI-harm) /
+feature-build (**B4 SPEC-F offspring->playable lineage + export** = unica riga BUILD non-owner
+residua, effort M) / Tier-2 owner-decisions / Tier-3 N=40 (lane form-pulse parallela + W5).
+
+### 6bis. B4 SPEC-F export/import/promote/resync slices DONE (2026-07-01 cont)
+
+> Tutti gli slice buildable di SPEC-F B4 (export/import/promote + additive FC1 resync) sono su
+> `origin/main`. Restano solo i residui owner/coordination. Additivo; non riscrive sez.6.
+
+| Slice B4                             | Stato git 2026-07-01                                                                                                                |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| card/qr export (`/skiv/share`)       | **DONE** #3128 `df67dabc` (companionCardExport, read-only, band-neutral)                                                            |
+| offspring->ambassador promote        | **DONE** #3129 `b3a1037b` (`POST /skiv/offspring/:id/promote` + spawn_descriptor)                                                   |
+| crossbreed-offspring promote         | **DONE** #3131 `1c582b67` (promote-from-descriptor + genome map)                                                                    |
+| import foreign card (`/skiv/import`) | **DONE** #3135 `2b28da13` (FC4-A signature+rate-limit, FC1 refuse-overwrite; import sub-part di acceptance #4)                      |
+| additive FC1 resync (`/skiv/resync`) | **DONE** #3144 `802c004e` (returning-home merge home-authoritative; 404-on-missing vs import 409; meta' buildable di acceptance #4) |
+
+**Residui B4** (tutti owner/coordination -- lo slice buildable e' DRENATO): live-run unit injection
+(session.js roster = lane W5/form-pulse, coordinare) + durable crossbreed cooldown
+(`packages/contracts` schema = forbidden-path) + full per-Nido AUTH isolation Option C (durable
+`nidoId` Prisma = forbidden-path). **Acceptance #4** = import + additive-resync buildable-parts MET;
+#1-3/#5/#7 gia' met (spec sez.10). 🔑 **Codex P1 su #3144 (nested-PII, verificato+fixato)**: la
+whitelist top-level NON ricorre -> una card firmata (sig=integrita' non autenticita') puo' smuggle
+PII dentro un item crossbreed_history/voice_diary -> leak via share per un lineage_id noto -> fix
+ROOT in `saveCompanionState` (`sanitizeItems()` per-item schema whitelist, copre import+promote).
+P2 (post-restart hydrate parziale) = truncation persistence-layer pre-esistente (solo 6 colonne
+persistite), tracked TKT-PERSISTENCE-LAYER.
+
+### 6ter. per-Nido AUTH isolation -- Option A + D DONE (2026-07-01 cont)
+
+> Il gap "full per-Nido AUTH isolation" (sez.6bis Residui) e' stato affrontato incrementalmente
+> (recon 4-finder + design-call master-dd ratificate: owner=player_id/JWT, reads=public-tier,
+> durable=DEFER). Additivo. Tutto flag-OFF/reversibile, no forbidden-path.
+
+| Opzione                  | Stato git 2026-07-01                                                                                           |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| A -- cap per-owner (mem) | **DONE** #3138 `aa1983bb` (flag `SPEC_F_NIDO_ISOLATION_ENABLED`; `ownerLineages` in-memory; warm-state)        |
+| D -- JWT write-gate      | **DONE** #3140 `61a7594e` (flag `SPEC_F_WRITE_AUTH_ENABLED`; JWT-only, enforce writes; +wired tests/routes CI) |
+| C -- durable `nidoId`    | **RESIDUO owner** -- colonna Prisma additiva + rehydrate owner-index; migrazione = forbidden-path              |
+
+**Adversarial-safe in prod** = entrambi i flag ON + `AUTH_SECRET` configurato (le write richiedono
+un JWT, il sub = owner trusted). Isolation-solo = cooperativa (client onesti). 🔑 collaterale:
+**`tests/routes/**`era CI-orfano** (anti-pattern #10, nessuna glob in`run-test-api.cjs`) -> wired
+(#3140), ora CI-copre anche i test route di #3135/#3138. **Residuo per-Nido auth = solo Option C.**
+
+---
+
+> **Roadmap-of-record**: `docs/core/40-ROADMAP.md` (strategica) + `BACKLOG.md` (operativo) +
+> [`2026-06-23-residual-gate-register.md`](2026-06-23-residual-gate-register.md) (vista per-gate) +
+> CLAUDE.md sprint pointer (live). Questo doc = snapshot di chiusura 2026-06-29; aggiorna al
+> drenaggio dei tier.

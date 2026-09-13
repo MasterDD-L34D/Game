@@ -1,0 +1,5 @@
+{
+  "note": "Baseline legacy disk->registry SVUOTATA 2026-06-10: tutti i 246 doc legacy registrati in docs_registry.json (bulk-register). File mantenuto come meccanismo: in caso di nuova eccezione motivata aggiungere il path a unregistered_known, ma la regola resta: nuovi doc governati -> registry stessa PR.",
+  "generated_at": "2026-06-10",
+  "unregistered_known": []
+}

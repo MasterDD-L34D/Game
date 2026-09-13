@@ -1,0 +1,18 @@
+AJV="tools/ajv-wrapper.sh" \
+EVO_TEMPLATES_DIR="incoming/templates" \
+EVO_TRAITS_DIR="incoming/traits" \
+EVO_SPECIES_DIR="incoming/species" \
+bash incoming/scripts/validate.sh
+🔍 Validazione trait.schema.json su 5 file…
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+incoming/traits/TR-1101.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+incoming/traits/TR-1102.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+incoming/traits/TR-1103.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+incoming/traits/TR-1104.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+incoming/traits/TR-1105.json valid
+⚠️  Nessun file da validare per schema incoming/templates/species.schema.json
+✅ Validazione completata

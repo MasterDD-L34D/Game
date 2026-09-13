@@ -1,0 +1,749 @@
+#!/usr/bin/env node
+var m = (t, e) => () => (e || t((e = { exports: {} }).exports, e), e.exports);
+var nt = m((Re, et) => {
+  var S = require('node:fs'),
+    N = require('node:path'),
+    Ot = require('node:os'),
+    _t = require('node:crypto'),
+    At = N.join(Ot.homedir(), '.supermemory-claude', 'memories'),
+    It = `Developer coding session transcript. Focus on USER message and intent.
+
+RULES:
+- Extract USER's action/intent, not every detail assistant provides
+- Condense assistant responses into what user gained from it
+- Skip granular facts from assistant output
+
+EXTRACT:
+- Research: "researched whisper.cpp for speech recognition"
+- Actions: "built auth flow with JWT", "fixed memory leak in useEffect"
+- Preferences: "prefers Tailwind over CSS modules"
+- Decisions: "chose SQLite for local storage"
+- Learnings: "learned about React Server Components"
+
+SKIP:
+- Every fact assistant mentions (condense to user's action)
+- Generic assistant explanations user didn't confirm/use`,
+    $t = `Project/codebase knowledge for team sharing.
+
+EXTRACT:
+- Architecture: "uses monorepo with turborepo", "API in /apps/api"
+- Conventions: "components in PascalCase", "hooks prefixed with use"
+- Patterns: "all API routes use withAuth wrapper", "errors thrown as ApiError"
+- Setup: "requires .env with DATABASE_URL", "run pnpm db:migrate first"
+- Decisions: "chose Drizzle over Prisma for performance", "using RSC for data fetching"`;
+  function bt(t) {
+    S.existsSync(t) || S.mkdirSync(t, { recursive: !0 });
+  }
+  function E(t, e) {
+    return N.join(At, t, e);
+  }
+  function j(t) {
+    if (!S.existsSync(t)) return [];
+    let e = S.readdirSync(t).filter((n) => n.endsWith('.json')),
+      s = [];
+    for (let n of e)
+      try {
+        let r = S.readFileSync(N.join(t, n), 'utf-8');
+        s.push(JSON.parse(r));
+      } catch {}
+    return s;
+  }
+  function Pt(t, e) {
+    let s = (t.content || '').toLowerCase(),
+      n = 0;
+    for (let i of e) s.includes(i) && (n += 1);
+    let r = Date.now() - new Date(t.createdAt || 0).getTime(),
+      o = Math.max(0, 1 - r / (720 * 60 * 60 * 1e3));
+    return n + o * 0.5;
+  }
+  var F = class {
+    constructor(e) {
+      this.containerTag = e || 'default';
+    }
+    async addMemory(e, s, n = {}) {
+      let r = s || this.containerTag,
+        o = n.type === 'project-knowledge' ? 'repo' : 'personal',
+        i = E(o, r);
+      bt(i);
+      let c = _t.randomUUID(),
+        a = {
+          id: c,
+          content: e,
+          metadata: { sm_source: 'claude-code-local', ...n },
+          createdAt: new Date().toISOString(),
+        };
+      return (
+        S.writeFileSync(N.join(i, `${c}.json`), JSON.stringify(a, null, 2)),
+        { id: c, status: 'saved', containerTag: r }
+      );
+    }
+    async search(e, s, n = {}) {
+      let r = s || this.containerTag,
+        o = n.limit || 10,
+        i = E('personal', r),
+        c = E('repo', r),
+        a = [...j(i), ...j(c)];
+      if (a.length === 0) return { results: [], total: 0 };
+      let u = e
+          .toLowerCase()
+          .split(/\s+/)
+          .filter((l) => l.length > 2),
+        f = a
+          .map((l) => ({
+            memory: l.content || '',
+            metadata: l.metadata,
+            updatedAt: l.createdAt,
+            similarity: u.length > 0 ? Pt(l, u) / u.length : 0,
+          }))
+          .filter((l) => l.similarity > 0)
+          .sort((l, p) => p.similarity - l.similarity)
+          .slice(0, o);
+      return { results: f, total: f.length };
+    }
+    async getProfile(e, s, n = 5) {
+      let r = e || this.containerTag,
+        o = E('personal', r),
+        i = E('repo', r),
+        c = j(o),
+        a = j(i),
+        u = (g, M) => new Date(M.createdAt || 0).getTime() - new Date(g.createdAt || 0).getTime();
+      (c.sort(u), a.sort(u));
+      let f = a.slice(0, n).map((g) => g.content),
+        l = c.slice(0, n).map((g) => g.content),
+        p = [...c, ...a].sort(u).slice(0, n),
+        q = {
+          results: p.map((g) => ({
+            id: g.id,
+            memory: g.content,
+            similarity: 1,
+            updatedAt: g.createdAt,
+          })),
+          total: p.length,
+        };
+      return { profile: { static: f, dynamic: l }, searchResults: q };
+    }
+  };
+  et.exports = { LocalMemoryClient: F, PERSONAL_ENTITY_CONTEXT: It, REPO_ENTITY_CONTEXT: $t };
+});
+var U = m((Ce, st) => {
+  var { execSync: O } = require('node:child_process'),
+    T = require('node:path');
+  function kt(t) {
+    let e = process.env.SUPERMEMORY_ISOLATE_WORKTREES === 'true';
+    try {
+      if (e)
+        return (
+          O('git rev-parse --show-toplevel', {
+            cwd: t,
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe'],
+          }).trim() || null
+        );
+      let s = O('git rev-parse --git-common-dir', {
+        cwd: t,
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      }).trim();
+      if (s === '.git')
+        return (
+          O('git rev-parse --show-toplevel', {
+            cwd: t,
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe'],
+          }).trim() || null
+        );
+      let n = T.resolve(t, s);
+      return T.basename(n) === '.git' && !n.includes(`${T.sep}.git${T.sep}`)
+        ? T.dirname(n)
+        : O('git rev-parse --show-toplevel', {
+            cwd: t,
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe'],
+          }).trim() || null;
+    } catch {
+      return null;
+    }
+  }
+  st.exports = { getGitRoot: kt };
+});
+var J = m((je, ut) => {
+  var w = require('node:fs'),
+    _ = require('node:path'),
+    { getGitRoot: rt } = U(),
+    ot = _.join('.claude', '.supermemory-claude'),
+    it = 'config.json';
+  function ct(t) {
+    let s = rt(t) || t;
+    return _.join(s, ot, it);
+  }
+  function at(t) {
+    try {
+      let e = ct(t);
+      if (w.existsSync(e)) return JSON.parse(w.readFileSync(e, 'utf-8'));
+    } catch {}
+    return null;
+  }
+  function vt(t, e) {
+    let n = rt(t) || t,
+      r = _.join(n, ot),
+      o = _.join(r, it);
+    w.existsSync(r) || w.mkdirSync(r, { recursive: !0 });
+    let c = { ...(at(t) || {}), ...e };
+    return (w.writeFileSync(o, JSON.stringify(c, null, 2)), o);
+  }
+  ut.exports = { getConfigPath: ct, loadProjectConfig: at, saveProjectConfig: vt };
+});
+var gt = m((Ne, pt) => {
+  var { execSync: Dt } = require('node:child_process'),
+    qt = require('node:crypto'),
+    { loadProjectConfig: lt } = J(),
+    { getGitRoot: A } = U();
+  function ft(t) {
+    return qt.createHash('sha256').update(t).digest('hex').slice(0, 16);
+  }
+  function G(t) {
+    try {
+      let s = Dt('git remote get-url origin', {
+        cwd: t,
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      })
+        .trim()
+        .match(/[/:]([^/]+?)(?:\.git)?$/);
+      return s ? s[1] : null;
+    } catch {
+      return null;
+    }
+  }
+  function Mt(t) {
+    let e = lt(t);
+    if (e?.personalContainerTag) return e.personalContainerTag;
+    let n = A(t) || t;
+    return `claudecode_project_${ft(n)}`;
+  }
+  function Lt(t) {
+    return t
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '');
+  }
+  function Ft(t) {
+    let e = lt(t);
+    if (e?.repoContainerTag) return e.repoContainerTag;
+    let n = A(t) || t,
+      o = G(n) || n.split('/').pop() || 'unknown';
+    return `repo_${Lt(o)}`;
+  }
+  function Ut(t) {
+    let s = A(t) || t;
+    return G(s) || s.split('/').pop() || 'unknown';
+  }
+  pt.exports = {
+    sha256: ft,
+    getGitRoot: A,
+    getGitRepoName: G,
+    getContainerTag: Mt,
+    getRepoContainerTag: Ft,
+    getProjectName: Ut,
+  };
+});
+var K = m((Oe, ht) => {
+  var R = require('node:fs'),
+    dt = require('node:path'),
+    Jt = require('node:os'),
+    { loadProjectConfig: mt } = J(),
+    I = dt.join(Jt.homedir(), '.supermemory-claude'),
+    x = dt.join(I, 'settings.json'),
+    $ = {
+      includeTools: [],
+      maxProfileItems: 5,
+      debug: !1,
+      injectProfile: !0,
+      signalExtraction: !1,
+      signalKeywords: [
+        'remember',
+        'implementation',
+        'refactor',
+        'architecture',
+        'decision',
+        'important',
+        'bug',
+        'fix',
+        'solved',
+        'solution',
+        'pattern',
+        'approach',
+        'design',
+        'tradeoff',
+        'migrate',
+        'upgrade',
+        'deprecate',
+      ],
+      signalTurnsBefore: 3,
+    };
+  function Gt() {
+    R.existsSync(I) || R.mkdirSync(I, { recursive: !0 });
+  }
+  function B() {
+    let t = { ...$ };
+    try {
+      if (R.existsSync(x)) {
+        let e = R.readFileSync(x, 'utf-8');
+        Object.assign(t, JSON.parse(e));
+      }
+    } catch (e) {
+      console.error(`Settings: Failed to load ${x}: ${e.message}`);
+    }
+    return (process.env.SUPERMEMORY_DEBUG === 'true' && (t.debug = !0), t);
+  }
+  function Bt(t) {
+    Gt();
+    let e = { ...t };
+    R.writeFileSync(x, JSON.stringify(e, null, 2));
+  }
+  function Kt(t, e, s) {
+    if (t.debug) {
+      let n = new Date().toISOString();
+      console.error(s ? `[${n}] ${e}: ${JSON.stringify(s)}` : `[${n}] ${e}`);
+    }
+  }
+  function Xt(t) {
+    let e = B(),
+      s = mt(t || process.cwd()),
+      n = e.includeTools || [],
+      r = s?.includeTools || [];
+    return [...new Set([...n, ...r])].map((i) => i.toLowerCase());
+  }
+  function Yt(t, e) {
+    return e.length === 0 ? !1 : e.includes(t.toLowerCase());
+  }
+  function zt(t) {
+    let e = B(),
+      s = mt(t || process.cwd()),
+      n = e.signalExtraction || !1,
+      r = s?.signalExtraction,
+      o = r !== void 0 ? r : n,
+      i = e.signalKeywords || $.signalKeywords,
+      c = s?.signalKeywords || [],
+      a = [...new Set([...i, ...c])].map((f) => f.toLowerCase()),
+      u = s?.signalTurnsBefore || e.signalTurnsBefore || $.signalTurnsBefore;
+    return { enabled: o, keywords: a, turnsBefore: u };
+  }
+  ht.exports = {
+    SETTINGS_DIR: I,
+    SETTINGS_FILE: x,
+    DEFAULT_SETTINGS: $,
+    loadSettings: B,
+    saveSettings: Bt,
+    debugLog: Kt,
+    getIncludeTools: Xt,
+    shouldIncludeTool: Yt,
+    getSignalConfig: zt,
+  };
+});
+var St = m((_e, yt) => {
+  async function Wt() {
+    return new Promise((t, e) => {
+      let s = '';
+      (process.stdin.setEncoding('utf8'),
+        process.stdin.on('data', (n) => {
+          s += n;
+        }),
+        process.stdin.on('end', () => {
+          try {
+            t(s.trim() ? JSON.parse(s) : {});
+          } catch (n) {
+            e(new Error(`Failed to parse stdin JSON: ${n.message}`));
+          }
+        }),
+        process.stdin.on('error', e),
+        process.stdin.isTTY && t({}));
+    });
+  }
+  function b(t) {
+    console.log(JSON.stringify(t));
+  }
+  function Ht(t = null) {
+    b(
+      t
+        ? { hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: t } }
+        : { continue: !0, suppressOutput: !0 },
+    );
+  }
+  function Qt(t) {
+    (console.error(`Supermemory: ${t}`), b({ continue: !0, suppressOutput: !0 }));
+  }
+  yt.exports = { readStdin: Wt, writeOutput: b, outputSuccess: Ht, outputError: Qt };
+});
+var Nt = m((Ae, jt) => {
+  var h = require('node:fs'),
+    X = require('node:path'),
+    Vt = require('node:os'),
+    { getIncludeTools: Et, shouldIncludeTool: Tt, getSignalConfig: Zt } = K(),
+    te = 500,
+    P = X.join(Vt.homedir(), '.supermemory-claude', 'trackers'),
+    k = new Map(),
+    v = [];
+  function wt() {
+    h.existsSync(P) || h.mkdirSync(P, { recursive: !0 });
+  }
+  function Y(t) {
+    wt();
+    let e = X.join(P, `${t}.txt`);
+    return h.existsSync(e) ? h.readFileSync(e, 'utf-8').trim() : null;
+  }
+  function z(t, e) {
+    wt();
+    let s = X.join(P, `${t}.txt`);
+    h.writeFileSync(s, e);
+  }
+  function W(t) {
+    if (!h.existsSync(t)) return [];
+    let s = h.readFileSync(t, 'utf-8').trim().split(`
+`),
+      n = [];
+    for (let r of s)
+      if (r.trim())
+        try {
+          n.push(JSON.parse(r));
+        } catch {}
+    return n;
+  }
+  function H(t, e) {
+    if (!e) return t.filter((r) => r.type === 'user' || r.type === 'assistant');
+    let s = !1,
+      n = [];
+    for (let r of t) {
+      if (r.uuid === e) {
+        s = !0;
+        continue;
+      }
+      s && (r.type === 'user' || r.type === 'assistant') && n.push(r);
+    }
+    return n;
+  }
+  function xt(t) {
+    let e = [];
+    if (t.type === 'user') {
+      let s = ee(t.message);
+      s && e.push(s);
+    } else if (t.type === 'assistant') {
+      let s = ne(t.message);
+      s && e.push(s);
+    }
+    return e.join(`
+`);
+  }
+  function ee(t) {
+    if (!t?.content) return null;
+    let e = t.content,
+      s = [];
+    if (typeof e == 'string') {
+      let n = d(e);
+      n && s.push(`<|start|>user<|message|>${n}<|end|>`);
+    } else if (Array.isArray(e)) {
+      for (let n of e)
+        if (n.type === 'text' && n.text) {
+          let r = d(n.text);
+          r && s.push(`<|start|>user<|message|>${r}<|end|>`);
+        } else if (n.type === 'tool_result') {
+          let r = n.tool_use_id || '',
+            o = k.get(r) || 'Unknown';
+          if (!Tt(o, v)) continue;
+          let i = Q(d(n.content || ''), te),
+            c = n.is_error ? 'error' : 'success';
+          i && s.push(`<|start|>assistant:tool_result<|message|>${o}(${c}): ${i}<|end|>`);
+        }
+    }
+    return s.length > 0
+      ? s.join(`
+`)
+      : null;
+  }
+  function ne(t) {
+    if (!t?.content) return null;
+    let e = t.content,
+      s = [];
+    if (!Array.isArray(e)) return null;
+    for (let r of e)
+      if (r.type !== 'thinking') {
+        if (r.type === 'text' && r.text) {
+          let o = d(r.text);
+          o && s.push({ type: 'text', content: o });
+        } else if (r.type === 'tool_use') {
+          let o = r.name || 'Unknown',
+            i = r.id || '';
+          if ((i && k.set(i, o), !Tt(o, v))) continue;
+          let c = r.input || {},
+            a = se(c);
+          s.push({ type: 'tool', toolName: o, inputStr: a });
+        }
+      }
+    let n = s.map((r) =>
+      r.type === 'text'
+        ? `<|start|>assistant<|message|>${r.content}<|end|>`
+        : `<|start|>assistant:tool<|message|>${r.toolName}: ${r.inputStr}<|end|>`,
+    );
+    return n.length > 0
+      ? n.join(`
+`)
+      : null;
+  }
+  function se(t) {
+    let e = [];
+    for (let [s, n] of Object.entries(t)) {
+      let r = typeof n == 'string' ? n : JSON.stringify(n);
+      ((r = Q(r, 100)), e.push(`${s}="${r}"`));
+    }
+    return e.join(' ');
+  }
+  function d(t) {
+    return !t || typeof t != 'string'
+      ? ''
+      : t
+          .replace(/<system-reminder>[\s\S]*?<\/system-reminder>/g, '')
+          .replace(/<supermemory-context>[\s\S]*?<\/supermemory-context>/g, '')
+          .trim();
+  }
+  function Q(t, e) {
+    return !t || t.length <= e ? t : `${t.slice(0, e)}...`;
+  }
+  function V(t) {
+    if (!t?.message?.content) return '';
+    let e = t.message.content;
+    if (typeof e == 'string') return d(e);
+    if (Array.isArray(e)) {
+      let s = [];
+      for (let n of e) n.type === 'text' && n.text && s.push(d(n.text));
+      return s.join(' ');
+    }
+    return '';
+  }
+  function re(t) {
+    return !t || t.isMeta ? !1 : V(t).length > 0;
+  }
+  function oe(t) {
+    let e = [],
+      s = { userEntries: [], assistantEntries: [], allEntries: [] };
+    for (let n = 0; n < t.length; n++) {
+      let r = t[n];
+      r.type === 'user'
+        ? (s.assistantEntries.length > 0 &&
+            (e.push(s), (s = { userEntries: [], assistantEntries: [], allEntries: [] })),
+          s.userEntries.push(r),
+          s.allEntries.push(r))
+        : r.type === 'assistant' && (s.assistantEntries.push(r), s.allEntries.push(r));
+    }
+    return (s.allEntries.length > 0 && e.push(s), e);
+  }
+  function ie(t) {
+    let e = [],
+      s = { userEntries: [] },
+      n = null,
+      r = () => {
+        if (s.userEntries.length === 0 && !n) return;
+        let o = n ? [n] : [],
+          i = [...s.userEntries, ...o];
+        (e.push({ userEntries: s.userEntries, assistantEntries: o, allEntries: i }),
+          (s = { userEntries: [] }),
+          (n = null));
+      };
+    for (let o = 0; o < t.length; o++) {
+      let i = t[o];
+      re(i) &&
+        (i.type === 'user' ? (n && r(), s.userEntries.push(i)) : i.type === 'assistant' && (n = i));
+    }
+    return (r(), e);
+  }
+  function ce(t) {
+    let e = [];
+    for (let s of t.userEntries) {
+      let n = V(s);
+      n && e.push(n);
+    }
+    return e.join(' ').toLowerCase();
+  }
+  function Rt(t, e) {
+    let s = [];
+    for (let n = 0; n < t.length; n++) {
+      let r = t[n],
+        o = ce(r);
+      for (let i of e)
+        if (o.includes(i)) {
+          s.push(n);
+          break;
+        }
+    }
+    return s;
+  }
+  function Ct(t, e, s) {
+    if (e.length === 0) return [];
+    let n = new Set();
+    for (let o of e) {
+      let i = Math.max(0, o - (s - 1));
+      for (let c = i; c <= o; c++) n.add(c);
+    }
+    return Array.from(n)
+      .sort((o, i) => o - i)
+      .map((o) => t[o]);
+  }
+  function ae(t) {
+    return t.type === 'user' ? ue(t.message) : t.type === 'assistant' ? le(t.message) : null;
+  }
+  function ue(t) {
+    if (!t?.content) return null;
+    let e = t.content,
+      s = [];
+    if (typeof e == 'string') {
+      let n = d(e);
+      n && s.push(`<|start|>user<|message|>${n}<|end|>`);
+    } else if (Array.isArray(e)) {
+      for (let n of e)
+        if (n.type === 'text' && n.text) {
+          let r = d(n.text);
+          r && s.push(`<|start|>user<|message|>${r}<|end|>`);
+        }
+    }
+    return s.length > 0
+      ? s.join(`
+`)
+      : null;
+  }
+  function le(t) {
+    if (!t?.content) return null;
+    let e = t.content,
+      s = [];
+    if (typeof e == 'string') {
+      let n = d(e);
+      n && s.push(`<|start|>assistant<|message|>${n}<|end|>`);
+    } else if (Array.isArray(e)) {
+      for (let n of e)
+        if (n.type === 'text' && n.text) {
+          let r = d(n.text);
+          r && s.push(`<|start|>assistant<|message|>${r}<|end|>`);
+        }
+    }
+    return s.length > 0
+      ? s.join(`
+`)
+      : null;
+  }
+  function fe(t, e, s) {
+    ((k = new Map()), (v = Et(s)));
+    let n = Zt(s),
+      { keywords: r, turnsBefore: o } = n,
+      i = W(t);
+    if (i.length === 0) return null;
+    let c = Y(e),
+      a = H(i, c);
+    if (a.length === 0) return null;
+    let u = ie(a);
+    if (u.length === 0) return null;
+    let f = Rt(u, r);
+    if (f.length === 0) return null;
+    let l = Ct(u, f, o);
+    if (l.length === 0) return null;
+    let p = [];
+    for (let L of l) p.push(...L.allEntries);
+    if (p.length === 0) return null;
+    let q = p[0],
+      g = a[a.length - 1],
+      M = q.timestamp || new Date().toISOString(),
+      C = [];
+    C.push(`<|turn_start|>${M}`);
+    for (let L of p) {
+      let tt = ae(L);
+      tt && C.push(tt);
+    }
+    C.push('<|turn_end|>');
+    let Z = C.join(`
+
+`);
+    return Z.length < 100 ? null : (z(e, g.uuid), Z);
+  }
+  function pe(t, e, s) {
+    ((k = new Map()), (v = Et(s)));
+    let n = W(t);
+    if (n.length === 0) return null;
+    let r = Y(e),
+      o = H(n, r);
+    if (o.length === 0) return null;
+    let i = o[0],
+      c = o[o.length - 1],
+      a = i.timestamp || new Date().toISOString(),
+      u = [];
+    u.push(`<|turn_start|>${a}`);
+    for (let l of o) {
+      let p = xt(l);
+      p && u.push(p);
+    }
+    u.push('<|turn_end|>');
+    let f = u.join(`
+
+`);
+    return f.length < 100 ? null : (z(e, c.uuid), f);
+  }
+  jt.exports = {
+    parseTranscript: W,
+    getEntriesSinceLastCapture: H,
+    formatEntry: xt,
+    formatNewEntries: pe,
+    formatSignalEntries: fe,
+    cleanContent: d,
+    truncate: Q,
+    getLastCapturedUuid: Y,
+    setLastCapturedUuid: z,
+    getTextFromEntry: V,
+    groupEntriesIntoTurns: oe,
+    findSignalTurnIndices: Rt,
+    getTurnsAroundSignals: Ct,
+  };
+});
+var { LocalMemoryClient: ge, PERSONAL_ENTITY_CONTEXT: Ie } = nt(),
+  { getContainerTag: de, getProjectName: me } = gt(),
+  { loadSettings: he, debugLog: y, getSignalConfig: ye } = K(),
+  { readStdin: Se, writeOutput: D } = St(),
+  { formatNewEntries: Ee, formatSignalEntries: Te } = Nt();
+async function we() {
+  let t = he();
+  try {
+    let e = await Se(),
+      s = e.cwd || process.cwd(),
+      n = e.session_id,
+      r = e.transcript_path;
+    if ((y(t, 'Stop', { sessionId: n, transcriptPath: r }), !r || !n)) {
+      (y(t, 'Missing transcript path or session id'), D({ continue: !0 }));
+      return;
+    }
+    let i = ye(s).enabled;
+    y(t, 'Signal extraction', { enabled: i });
+    let c;
+    if (
+      (i
+        ? ((c = Te(r, n, s)), y(t, 'Signal extraction result', { hasContent: !!c }))
+        : (c = Ee(r, n, s)),
+      !c)
+    ) {
+      (y(t, 'No new content to save'), D({ continue: !0 }));
+      return;
+    }
+    let a = new ge(),
+      u = de(s),
+      f = me(s);
+    (await a.addMemory(c, u, {
+      type: 'session_turn',
+      project: f,
+      timestamp: new Date().toISOString(),
+    }),
+      y(t, 'Session turn saved', { length: c.length }),
+      D({ continue: !0 }));
+  } catch (e) {
+    (y(t, 'Error', { error: e.message }),
+      console.error(`Supermemory-local: ${e.message}`),
+      D({ continue: !0 }));
+  }
+}
+we().catch((t) => {
+  (console.error(`Supermemory-local fatal: ${t.message}`), process.exit(1));
+});

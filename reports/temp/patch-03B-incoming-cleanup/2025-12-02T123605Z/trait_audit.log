@@ -1,0 +1,21 @@
+Il report generato non coincide con quello salvato. Aggiornare con lo script.
+--- /workspace/Game/logs/trait_audit.md
++++ generated
+@@ -1,4 +1,16 @@
+ # Trait Data Audit
+ 
+ - Errori bloccanti: 0
+-- Warning: 0
++- Warning: 5
++
++## Warning
++
++- Sinergia non reciproca: 'i18n:traits.ali_solari_fotoni.label' → 'i18n:traits.antenne_tesla.label'.
++- Sinergia non reciproca: 'i18n:traits.ali_solari_fotoni.label' →
++'i18n:traits.cervello_a_bassa_latenza.label'.
++- Sinergia non reciproca: 'i18n:traits.ali_solari_fotoni.label' →
++'i18n:traits.occhi_cristallo_modulare.label'.
++- Tratto 'i18n:traits.ali_solari_fotoni.label' dichiara slot 'A' ma non è referenziato in alcun
++pack/form attuale.
++- Tratto 'i18n:traits.ali_solari_fotoni.label' dichiara slot 'C' ma non è referenziato in alcun
++pack/form attuale.

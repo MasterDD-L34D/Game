@@ -1,0 +1,54 @@
+Hardcore 07 calibration: N=10 host=http://localhost:3344
+  run 1: victory rounds=9 timer_expired=False KD=3.0
+  run 2: victory rounds=12 timer_expired=False KD=3.0
+  run 3: victory rounds=13 timer_expired=False KD=3.0
+  run 4: victory rounds=8 timer_expired=False KD=3.0
+  run 5: victory rounds=9 timer_expired=False KD=3.0
+  run 6: victory rounds=10 timer_expired=False KD=3.0
+  run 7: victory rounds=12 timer_expired=False KD=3.0
+  run 8: timeout rounds=15 timer_expired=False KD=2.0
+  run 9: timeout rounds=15 timer_expired=False KD=2.0
+  run 10: victory rounds=14 timer_expired=False KD=3.0
+
+=== SUMMARY ===
+{
+  "n": 10,
+  "win_rate": 80.0,
+  "win_rate_ci95": [
+    50.0,
+    100
+  ],
+  "defeat_rate": 0.0,
+  "defeat_rate_ci95": [
+    0,
+    0
+  ],
+  "timeout_rate": 20.0,
+  "timeout_rate_ci95": [
+    0,
+    50.0
+  ],
+  "timer_expire_rate": 0.0,
+  "rounds_avg": 11.7,
+  "rounds_ci95": [
+    10.2,
+    13.3
+  ],
+  "rounds_median": 12.0,
+  "kd_avg": 2.8,
+  "kd_ci95": [
+    2.5,
+    3.0
+  ],
+  "target_band": "win 30-50%",
+  "in_band": false,
+  "player_action_distribution": {
+    "move": 80,
+    "attack": 341,
+    "unknown": 12
+  },
+  "trait_used_distribution": {},
+  "elapsed_s": 307.3,
+  "failures": 0
+}
+Saved: C:\dev\Game\docs\playtest\parallel-hardcore_07-3a-enemy-count-minus1-shard3.json

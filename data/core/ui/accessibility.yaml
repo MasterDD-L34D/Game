@@ -1,0 +1,134 @@
+# =============================================================================
+# Accessibility Settings — Defaults + Schema-conformant
+# SoT §18.2 · Risolve A2 (accessibility schema)
+# Cross-ref: docs/frontend/accessibility-deaf-visual-parity.md
+# Schema: schemas/evo/accessibility.schema.json
+# =============================================================================
+
+version: 1
+updated: '2026-04-17'
+
+# Default settings (match launch baseline)
+defaults:
+  deaf_hoh:
+    enabled: false              # toggle master per enhancement mode
+    persist_multiplier: 2.0     # durata indicatori ×
+    flash_enabled: true         # flash schermata su P0 eventi
+    icon_scale: 1.3             # dimensione icone status/turni
+    subtitle_all_sfx: false     # subtitle verbale per ogni SFX (experimental)
+
+  colorblind:
+    enabled: false
+    mode: none                  # none|protanopia|deuteranopia|tritanopia|achromatopsia
+    pattern_overlay: false      # pattern distintivi oltre colore
+
+  font:
+    size_multiplier: 1.0        # TV-safe baseline già grande
+    dyslexia_friendly: false    # alternativa OpenDyslexic-like
+
+  motion:
+    reduce_animations: false
+    reduce_shake: false         # disabilita screen shake (StressWave, crit)
+    reduce_flash: false         # override flash_enabled=true globalmente
+
+  input:
+    hold_instead_of_mash: true  # hold per attacchi ripetuti invece di tap
+    confirm_on_release: false   # confirmation extra per azioni critiche
+    remappable: true            # tutti i bind remappabili
+
+  text:
+    auto_advance_delay_ms: 3500 # delay dialogo prima autoavanzamento
+    force_manual_advance: false # disabilita autoavanzamento
+    caption_background: 'semi_opaque' # solid|semi_opaque|none
+
+  audio:
+    master_volume: 0.80
+    music_volume: 0.70
+    sfx_volume: 1.00
+    mute_on_focus_loss: true
+
+# Preset rapidi (bundle di settings)
+presets:
+  deaf_hoh_full:
+    label_it: 'Deaf / Hard of Hearing (completo)'
+    overrides:
+      deaf_hoh:
+        enabled: true
+        persist_multiplier: 3.0
+        flash_enabled: true
+        icon_scale: 1.5
+        subtitle_all_sfx: true
+
+  colorblind_protanopia:
+    label_it: 'Daltonismo (rosso)'
+    overrides:
+      colorblind:
+        enabled: true
+        mode: protanopia
+        pattern_overlay: true
+
+  colorblind_deuteranopia:
+    label_it: 'Daltonismo (verde)'
+    overrides:
+      colorblind:
+        enabled: true
+        mode: deuteranopia
+        pattern_overlay: true
+
+  colorblind_tritanopia:
+    label_it: 'Daltonismo (blu)'
+    overrides:
+      colorblind:
+        enabled: true
+        mode: tritanopia
+        pattern_overlay: true
+
+  motion_sensitive:
+    label_it: 'Riduci motion (sensibilità vestibolare)'
+    overrides:
+      motion:
+        reduce_animations: true
+        reduce_shake: true
+        reduce_flash: true
+
+  easy_reader:
+    label_it: 'Lettura facilitata'
+    overrides:
+      font:
+        size_multiplier: 1.3
+        dyslexia_friendly: true
+      text:
+        auto_advance_delay_ms: 6000
+        force_manual_advance: true
+
+# Metadata per UI Settings menu
+ui_metadata:
+  categories:
+    deaf_hoh:
+      display_it: 'Sordi / Difficoltà uditive'
+      display_en: 'Deaf / Hard of Hearing'
+      order: 1
+    colorblind:
+      display_it: 'Daltonismo'
+      display_en: 'Colorblind'
+      order: 2
+    font:
+      display_it: 'Testo'
+      display_en: 'Text'
+      order: 3
+    motion:
+      display_it: 'Movimento'
+      display_en: 'Motion'
+      order: 4
+    input:
+      display_it: 'Controlli'
+      display_en: 'Input'
+      order: 5
+    text:
+      display_it: 'Dialoghi'
+      display_en: 'Text Pacing'
+      order: 6
+    audio:
+      display_it: 'Audio'
+      display_en: 'Audio'
+      order: 7

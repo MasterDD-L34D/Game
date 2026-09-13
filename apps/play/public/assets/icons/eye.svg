@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Eye/sense icon (echolocation, scout, detect) · MIT own asset · 2026-04-28 visual upgrade Sprint C -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M 12 5 C 5 5 1 12 1 12 C 1 12 5 19 12 19 C 19 19 23 12 23 12 C 23 12 19 5 12 5 Z M 12 7 C 16.5 7 19.8 11 21 12 C 19.8 13 16.5 17 12 17 C 7.5 17 4.2 13 3 12 C 4.2 11 7.5 7 12 7 Z"/>
+  <circle cx="12" cy="12" r="3.5"/>
+  <circle cx="13" cy="11" r="1" fill="#fff" opacity="0.5"/>
+</svg>

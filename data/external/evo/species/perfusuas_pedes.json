@@ -1,0 +1,54 @@
+{
+  "species": {
+    "scientific_name": "Perfusuas pedes",
+    "common_names": [
+      "Zannapiedi"
+    ],
+    "classification": {
+      "macro_class": "Mammalo-artropode",
+      "habitat": "foreste e sistemi carsici"
+    },
+    "functional_signature": "Predatore cieco che usa sonar e chimio-navigazione; attacco a urto e digestione extracorporea.",
+    "visual_description": "Corpo allungato corazzato da placche flessibili, centinaia di arti corti e rapidi. Regione cefalica protetta, un’appendice anteriore ipertrofica per l’urto. Addome con sacche ripiegabili.",
+    "risk_profile": {
+      "danger_level": 3,
+      "vectors": [
+        "acidi proteolitici",
+        "onda d’urto"
+      ]
+    },
+    "interactions": {
+      "predates_on": [
+        "ungulati piccoli",
+        "rettili cavernicoli"
+      ],
+      "predated_by": [
+        "nessun predatore noto in età adulta"
+      ],
+      "symbiosis": "Ospita ostaggio-simbionte per supporto percettivo (dipendenza bio-cognitiva)"
+    },
+    "constraints": [
+      "Dipendenza sensoriale dall’ostaggio per compiti complessi",
+      "Alto costo energetico per secrezioni acide"
+    ],
+    "sentience_index": "T3",
+    "ecotypes": [
+      "Cavernicolo",
+      "Radura Notturna"
+    ],
+    "trait_refs": [
+      "ermafroditismo_cronologico",
+      "locomozione_miriapode_ibrida",
+      "estroflessione_gastrica_acida",
+      "artiglio_cinetico_a_urto",
+      "sistemi_chimio_sonici"
+    ],
+    "id": "perfusuas_pedes"
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  }
+}

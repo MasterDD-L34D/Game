@@ -1,0 +1,47 @@
+schema_version: '1.0'
+types:
+  cursoriale_quadrupede:
+    default_slots:
+      locomotion: 1
+      offense: 1
+      defense: 1
+      senses: 1
+    bias:
+    - skirmisher
+    - vanguard
+  volatore_planatore:
+    default_slots:
+      locomotion: 1
+      offense: 1
+      senses: 1
+    bias:
+    - skirmisher
+    - invoker
+  scavenger_corazzato:
+    default_slots:
+      defense: 2
+      offense: 1
+      senses: 1
+    bias:
+    - warden
+    - vanguard
+  ingegnere_radicante:
+    default_slots:
+      defense: 1
+      senses: 1
+    bias:
+    - artificer
+    - warden
+  anfibio_filtratore:
+    default_slots:
+      locomotion: 1
+      senses: 1
+    bias:
+    - invoker
+    - artificer
+slot_caps:
+  defense: 3
+  offense: 2
+  locomotion: 2
+  senses: 2
+  metabolism: 1

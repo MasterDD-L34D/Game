@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-labelledby="title desc">
+  <title id="title">CLI Evo Tactics – Setup e validazione rapida</title>
+  <desc id="desc">Tre pannelli riassumono installazione dipendenze, validazione dataset e generazione encounter demo.</desc>
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', sans-serif; fill: #0f172a; }
+    .label { font-size: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; fill: #475569; }
+    .headline { font-size: 26px; font-weight: 700; }
+    .title-sm { font-size: 22px; font-weight: 700; }
+    .body { font-size: 17px; line-height: 1.45; }
+    .code { font-family: 'Fira Code', 'Menlo', monospace; font-size: 15px; fill: #1d4ed8; }
+    .card { fill: #f8fafc; stroke: #cbd5f5; stroke-width: 2; rx: 18; }
+    .badge { fill: #e0e7ff; stroke: none; rx: 10; }
+    .badge text { font-size: 16px; font-weight: 600; fill: #4338ca; }
+    .divider { stroke: #d9e1ff; stroke-width: 2; stroke-dasharray: 6 8; }
+  </style>
+  <rect width="900" height="420" fill="#eef2ff" rx="28"/>
+  <text x="60" y="70" class="label">CLI QUICKSTART</text>
+  <text x="60" y="110" class="headline">Setup → Validazione → Demo encounter</text>
+  <line x1="60" y1="140" x2="840" y2="140" class="divider"/>
+
+  <g transform="translate(60,160)">
+    <rect class="card" width="240" height="220"/>
+    <rect class="badge" x="16" y="18" width="96" height="34"/>
+    <text x="32" y="40">STEP 1</text>
+    <text x="32" y="90" class="title-sm">Setup ambiente</text>
+    <text x="32" y="124" class="body">
+      <tspan x="32" dy="0">npm install</tspan>
+      <tspan x="32" dy="22">python3 -m venv .venv</tspan>
+      <tspan x="32" dy="22">pip install -r tools/py/requirements.txt</tspan>
+    </text>
+    <text x="32" y="210" class="code">source .venv/bin/activate</text>
+  </g>
+
+  <g transform="translate(330,160)">
+    <rect class="card" width="240" height="220"/>
+    <rect class="badge" x="16" y="18" width="96" height="34"/>
+    <text x="32" y="40">STEP 2</text>
+    <text x="32" y="90" class="title-sm">Validate dataset</text>
+    <text x="32" y="124" class="body">
+      <tspan x="32" dy="0">Controlla YAML dal nodo CLI</tspan>
+      <tspan x="32" dy="22">condiviso e salva gli output.</tspan>
+    </text>
+    <text x="32" y="194" class="code">cd tools/py</text>
+    <text x="32" y="222" class="code">python3 game_cli.py validate-datasets</text>
+  </g>
+
+  <g transform="translate(600,160)">
+    <rect class="card" width="240" height="220"/>
+    <rect class="badge" x="16" y="18" width="96" height="34"/>
+    <text x="32" y="40">STEP 3</text>
+    <text x="32" y="90" class="title-sm">Genera encounter demo</text>
+    <text x="32" y="124" class="body">
+      <tspan x="32" dy="0">Replica il seed di riferimento e</tspan>
+      <tspan x="32" dy="22">condividi log in #feedback-enhancements.</tspan>
+    </text>
+    <text x="32" y="198" class="code">python3 game_cli.py generate-encounter savana</text>
+    <text x="32" y="226" class="code">  --party-power 18 --seed demo</text>
+  </g>
+</svg>

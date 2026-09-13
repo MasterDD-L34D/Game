@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "difensivo"
+      ]
+    }
+  },
+  "traits": [
+    "ali_membrana_sonica",
+    "appendici_risonanti_marea",
+    "barriere_miasma_glaciale",
+    "branchie_microfiltri",
+    "capsule_paracadute",
+    "circolazione_bifasica",
+    "coda_coppia_retroattiva",
+    "cute_resistente_sali",
+    "enzimi_antipredatori_algali",
+    "filtri_planctonici",
+    "ghiandole_fango_coesivo",
+    "giunti_antitorsione",
+    "lingua_cristallina",
+    "mucose_barofile"
+  ],
+  "type": "difensivo"
+}

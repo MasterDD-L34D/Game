@@ -1,0 +1,13 @@
+{
+  "result": {
+    "messages": [
+      {
+        "level": "info",
+        "message": "Foodweb validato tramite fallback"
+      }
+    ],
+    "meta": {
+      "endpoint_source": "fallback"
+    }
+  }
+}

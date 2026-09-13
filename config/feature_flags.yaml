@@ -1,0 +1,76 @@
+feature_flags:
+  analytics:
+    squadsync_view:
+      description: 'Abilita la pagina Analytics > SquadSync e il resolver GraphQL associato.'
+      default: false
+      rollout:
+        phase: canary
+        cohorts:
+          - analytics-team
+          - qa-companion
+      owner: analytics
+      controls:
+        contact: squad-sync@gamestudio.local
+        playbook: docs/Canvas/feature-updates.md
+      metrics:
+        - 'Engagement medio > 0.58 nelle squadre canary'
+        - 'Tempo medio stand-up < 11 minuti'
+    adaptive_engine_tap:
+      description: 'Attiva il motore adaptive per SquadSync con programma TAP dedicato.'
+      default: false
+      rollout:
+        phase: limited_availability
+        program: tap
+        stage_gate: squadsync-tap-go
+        cohorts:
+          - squadsync-tap-alpha
+          - squadsync-tap-bravo
+          - qa-insights
+        start: 2025-11-18
+        target: 2025-12-02
+      owner: analytics
+      controls:
+        contact: analytics-duty@gamestudio.local
+        slack: '#analytics-squadsync'
+        playbook: docs/process/telemetry_ingestion_pipeline.md
+      metrics:
+        - 'Ack rate adaptive ≥ 82% su finestre 24h'
+        - 'Tempo medio risposta adaptive ≤ 5m'
+        - 'Tilt medio post-risposta < 0.48'
+  idea_engine:
+    feedback_enhancements:
+      description: 'Attiva il modulo feedback con fallback Slack #feedback-enhancements.'
+      default: true
+      rollout:
+        phase: general_availability
+      owner: support_ops
+      controls:
+        contact: support-qa@gamestudio.local
+        slack: '#feedback-enhancements'
+        playbook: docs/tutorials/idea-engine-feedback.md
+      metrics:
+        - 'Tempo medio risposta feedback < 24h'
+        - 'Numero escalation Slack gestite per sprint >= 3'
+  hud:
+    smart_overlay_tap:
+      description: "Abilita l'overlay telemetrico Smart HUD per il programma TAP."
+      default: false
+      rollout:
+        phase: limited_availability
+        program: tap
+        stage_gate: hud-tap-go
+        cohorts:
+          - hud-tap-alpha
+          - hud-tap-bravo
+          - ops-foxtrot
+        start: 2025-11-14
+        target: 2025-11-28
+      owner: ui_systems
+      controls:
+        contact: ui-systems@gamestudio.local
+        slack: '#hud-alerts'
+        playbook: docs/process/qa_hud.md
+      metrics:
+        - 'Durata alert P95 ≤ 2 turni'
+        - 'Ack rate ≥ 85% sulle coorti TAP'
+        - "Tilt medio < 0.50 dopo l'overlay"

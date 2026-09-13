@@ -1,0 +1,18 @@
+{
+  "id": "TKT-NARRATIVE-DISCO-INTERNAL-VOICE",
+  "title": "Disco Elysium 4-MBTI internal voice axes",
+  "pillar": "P4",
+  "effort_hours": 10,
+  "donor_game": {
+    "name": "Disco Elysium",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#9-disco-elysium-zaum-2019--p4-thought-cabinet"
+  },
+  "agent_owner": "narrative-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Narrative log debrief con voce-per-axis MBTI durante combat hint. 4 voci basic."
+}

@@ -1,0 +1,79 @@
+OK: backend healthy at http://localhost:3334
+Hardcore 07 calibration: N=40 host=http://localhost:3334
+  run 1: victory rounds=14 timer_expired=False KD=4.0
+  run 2: victory rounds=12 timer_expired=False KD=4.0
+  run 3: timeout rounds=15 timer_expired=False KD=2.0
+  run 4: timeout rounds=15 timer_expired=False KD=3.0
+  run 5: victory rounds=8 timer_expired=False KD=4.0
+  run 6: victory rounds=14 timer_expired=False KD=4.0
+  run 7: victory rounds=14 timer_expired=False KD=4.0
+  run 8: victory rounds=12 timer_expired=False KD=4.0
+  run 9: timeout rounds=15 timer_expired=False KD=2.0
+  run 10: victory rounds=15 timer_expired=False KD=4.0
+  run 11: victory rounds=13 timer_expired=False KD=4.0
+  run 12: timeout rounds=15 timer_expired=False KD=2.0
+  run 13: timeout rounds=15 timer_expired=False KD=2.0
+  run 14: victory rounds=11 timer_expired=False KD=4.0
+  run 15: victory rounds=12 timer_expired=False KD=4.0
+  run 16: timeout rounds=15 timer_expired=False KD=2.0
+  run 17: victory rounds=11 timer_expired=False KD=4.0
+  run 18: victory rounds=13 timer_expired=False KD=4.0
+  run 19: timeout rounds=15 timer_expired=False KD=2.0
+  run 20: victory rounds=15 timer_expired=False KD=4.0
+  run 21: victory rounds=13 timer_expired=False KD=4.0
+  run 22: victory rounds=12 timer_expired=False KD=4.0
+  run 23: victory rounds=11 timer_expired=False KD=4.0
+  run 24: victory rounds=12 timer_expired=False KD=4.0
+  run 25: timeout rounds=15 timer_expired=False KD=2.0
+  run 26: victory rounds=10 timer_expired=False KD=4.0
+  run 27: timeout rounds=15 timer_expired=False KD=2.0
+  run 28: timeout rounds=15 timer_expired=False KD=2.0
+  run 29: victory rounds=12 timer_expired=False KD=4.0
+  run 30: victory rounds=7 timer_expired=False KD=4.0
+  run 31: timeout rounds=15 timer_expired=False KD=2.0
+  run 32: timeout rounds=15 timer_expired=False KD=2.0
+  run 33: victory rounds=12 timer_expired=False KD=4.0
+  run 34: timeout rounds=15 timer_expired=False KD=2.0
+  run 35: victory rounds=11 timer_expired=False KD=4.0
+  run 36: timeout rounds=15 timer_expired=False KD=2.0
+  run 37: timeout rounds=15 timer_expired=False KD=2.0
+  run 38: victory rounds=14 timer_expired=False KD=4.0
+  run 39: victory rounds=9 timer_expired=False KD=4.0
+  run 40: timeout rounds=15 timer_expired=False KD=2.0
+
+=== SUMMARY ===
+{
+  "n": 40,
+  "win_rate": 60.0,
+  "win_rate_ci95": [
+    45.0,
+    75.0
+  ],
+  "defeat_rate": 0.0,
+  "defeat_rate_ci95": [
+    0,
+    0
+  ],
+  "timeout_rate": 40.0,
+  "timeout_rate_ci95": [
+    25.0,
+    55.0
+  ],
+  "timer_expire_rate": 0.0,
+  "rounds_avg": 13.2,
+  "rounds_ci95": [
+    12.53,
+    13.85
+  ],
+  "rounds_median": 14.0,
+  "kd_avg": 3.23,
+  "kd_ci95": [
+    2.9,
+    3.5
+  ],
+  "target_band": "win 30-50%",
+  "in_band": false,
+  "elapsed_s": 1357.9,
+  "failures": 0
+}
+Saved: docs/playtest/2026-05-20-hardcore-07-postwave57-n40.json

@@ -1,0 +1,174 @@
+[prisma] client non disponibile, uso stub in memoria DATABASE_URL non configurato
+unknown format "uri" ignored in schema at path "#/properties/share_url/anyOf/1"
+unknown format "uri" ignored in schema at path "#/properties/share_url/anyOf/1"
+[jobs] caricato C:\dev\Game\data\core\jobs.yaml: 8 base + 4 expansion = 12 job
+[plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[fairness] cap_pt_max=1 caricato da C:\dev\Game\data\packs.yaml
+[vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+[ai-profiles] caricato C:\dev\Game\packs\evo_tactics_pack\data\balance\ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)
+[idea-engine] API online su http://0.0.0.0:3341
+[idea-engine] Database URL: [missing]
+[idea-engine] Orchestrator autoclose: disabled (default)
+[game-database] HTTP integration ENABLED at http://localhost:3333
+[game-database] trait glossary fetched via HTTP with local file fallback. Scope: trait glossary only — see docs/adr/ADR-2026-04-14-game-database-topology.md
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[nebula-aggregator] telemetria Nebula non configurata: uso valori di fallback
+[nebula-aggregator] telemetria generatore Nebula non configurata: uso valori di fallback
+[nebula-aggregator] telemetria orchestrator non configurata: nessun evento disponibile
+[xpBudget audit] session=4697da4a-b35e-4b38-b9d3-c36e34244121 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=3139ba14-fc0b-4e57-bc2d-d43eddc7e828 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=96200c94-649f-40f4-a487-b76c4a99f569 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=7493f9d2-a170-49d4-a8ad-eaf8ab65fe7e class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=d79a63bd-9956-426b-a5e1-b12956e41d71 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=6c21144e-fd73-45c5-aa2e-8edafbaf3a66 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=3b139281-8eee-45da-ba67-fe170f661032 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=b9f65cc6-b33f-47f4-887c-f50de0a23b7a class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=1bdd82a6-95a2-47ab-b209-37f2f41aa106 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[xpBudget audit] session=293b3ed7-552e-4762-b200-6c93fcf8c725 class=standard party=4 budget=200 used=352 ratio=1.76 status=critical_over
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml

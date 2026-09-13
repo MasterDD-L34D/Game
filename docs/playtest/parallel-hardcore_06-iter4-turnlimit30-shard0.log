@@ -1,0 +1,81 @@
+M9 P6: turn_limit_defeat=30 for class 'hardcore' scenario=enc_tutorial_06_hardcore (Long War pattern)
+[1/10] L rounds=30 boss_hp=13 pa=3
+[2/10] L rounds=30 boss_hp=13 pa=5
+[3/10] V rounds=21 boss_hp=0 pa=6
+[4/10] L rounds=30 boss_hp=6 pa=4
+[5/10] L rounds=30 boss_hp=15 pa=6
+[6/10] L rounds=30 boss_hp=12 pa=3
+[7/10] L rounds=30 boss_hp=26 pa=2
+[8/10] V rounds=20 boss_hp=0 pa=6
+[9/10] L rounds=30 boss_hp=13 pa=5
+[10/10] V rounds=29 boss_hp=0 pa=6
+
+Wrote C:\dev\Game\docs\playtest\parallel-hardcore_06-iter4-turnlimit30-shard0.json
+
+=== AGGREGATE ===
+{
+  "N": 10,
+  "encounter_class": "hardcore",
+  "target_bands": {
+    "win_rate": [
+      0.15,
+      0.25
+    ],
+    "defeat_rate": [
+      0.4,
+      0.55
+    ],
+    "timeout_rate": [
+      0.15,
+      0.25
+    ]
+  },
+  "verdict": "RED",
+  "verdict_reasons": [
+    "win_rate=0.30 near band [0.15,0.25] (amber)",
+    "defeat_rate=0.70 out of band [0.4,0.55] (red)",
+    "timeout_rate=0.00 out of band [0.15,0.25] (red)"
+  ],
+  "win_rate": 0.3,
+  "defeat_rate": 0.7,
+  "timeout_rate": 0.0,
+  "win_count": 3,
+  "loss_count": 7,
+  "timeout_count": 0,
+  "turns_avg": 28,
+  "turns_median": 30.0,
+  "turns_stdev": 3.7682887362833544,
+  "turns_min": 20,
+  "turns_max": 30,
+  "turns_hist": {
+    "1-5": 0,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 1,
+    "21-30": 9,
+    "31-40": 0,
+    "41+": 0
+  },
+  "kd_avg": 1.8916666666666666,
+  "kd_median": 1.6666666666666667,
+  "dmg_dealt_avg": 46.2,
+  "dmg_taken_avg": 35.3,
+  "boss_hp_remaining_avg_on_loss": 14,
+  "players_alive_avg_on_win": 6,
+  "ai_intent_distribution": {
+    "Critical|move": 65,
+    "Critical|unknown": 21,
+    "Apex|move": 79,
+    "Apex|attack": 161,
+    "Apex|unknown": 25,
+    "Critical|attack": 16
+  },
+  "player_action_distribution": {
+    "move": 502,
+    "unknown": 997,
+    "attack": 506
+  },
+  "trait_used_distribution": {},
+  "elapsed_sec": 620.2,
+  "failures": 0
+}

@@ -1,0 +1,18 @@
+{
+  "id": "TKT-P1-FFT-CT-BAR-VISUAL",
+  "title": "FFT CT bar visual overlay (charge time per unit)",
+  "pillar": "P1",
+  "effort_hours": 4,
+  "donor_game": {
+    "name": "Final Fantasy Tactics",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#2-final-fantasy-tactics-square-1997--p1-tattica"
+  },
+  "agent_owner": "ui-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Render barre charge time per ogni unit, riempie secondo speed. Backend `initiative` formula esiste, manca UI HUD overlay."
+}

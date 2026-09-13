@@ -1,0 +1,40 @@
+/workspace/Game/scripts/trait_audit.py:21: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
+  from jsonschema import Draft202012Validator, RefResolver, exceptions
+[WARNING] Sinergia non reciproca: 'Fagocitosi Assorbente' → 'Membrana Plastica Continua'.
+[WARNING] Sinergia non reciproca: 'Filtro Metallofago' → 'Elettromagnete Biologico'.
+[WARNING] Sinergia non reciproca: 'Cervello a Bassa Latenza' → 'Ali Fono-Risonanti'.
+[WARNING] Sinergia non reciproca: 'Comunicazione Fotonica Coda-Coda' → 'Vello di Assorbimento Totale'.
+[WARNING] Sinergia non reciproca: 'Ali Solari Fotoni' → 'Cervello a Bassa Latenza'.
+[WARNING] Sinergia non reciproca: 'Bozzolo Magnetico' → 'Integumento Bipolare'.
+[WARNING] Sinergia non reciproca: 'Cisti di Ibernazione Minerale' → 'Moltiplicazione per Fusione'.
+[WARNING] Sinergia non reciproca: 'Pelage Idrorepellente Avanzato' → 'Coda Prensile Muscolare'.
+[WARNING] Sinergia non reciproca: 'Spora Psichica Silenziosa' → 'Cervello a Bassa Latenza'.
+[WARNING] Sinergia non reciproca: 'Spora Psichica Silenziosa' → 'Campo di Interferenza Acustica'.
+[WARNING] Sinergia non reciproca: 'Ectotermia Dinamica' → 'Ipertrofia Muscolare Massiva'.
+[WARNING] Sinergia non reciproca: 'Filtrazione Osmotica' → 'Zanne Idracida'.
+[WARNING] Sinergia non reciproca: 'Metabolismo di Condivisione Energetica' → 'Corna Psico-Conduttive'.
+[WARNING] Sinergia non reciproca: 'Motore Biologico Silenzioso' → 'Vello di Assorbimento Totale'.
+[WARNING] Sinergia non reciproca: 'Rete Filtro-Polmonare' → 'Scheletro Pneumatico a Maglie'.
+[WARNING] Sinergia non reciproca: 'Siero Anti-Gelo Naturale' → 'Scheletro Pneumatico a Maglie'.
+[WARNING] Sinergia non reciproca: 'Unghie a Micro-Adesione' → 'Corna Psico-Conduttive'.
+[WARNING] Sinergia non reciproca: 'Artigli Ipo-Termici' → 'Visione Multi-Spettrale Amplificata'.
+[WARNING] Sinergia non reciproca: 'Aura di Dispersione Mentale' → 'Corna Psico-Conduttive'.
+[WARNING] Sinergia non reciproca: 'Canto Infrasonico Tattico' → 'Scheletro Pneumatico a Maglie'.
+[WARNING] Sinergia non reciproca: 'Elettromagnete Biologico' → 'Integumento Bipolare'.
+[WARNING] Sinergia non reciproca: 'Estroflessione Gastrica Acida' → 'Artiglio Cinetico a Urto'.
+[WARNING] Sinergia non reciproca: 'Ghiandola Caustica' → 'Campo di Interferenza Acustica'.
+[WARNING] Sinergia non reciproca: 'Ghiandola Caustica' → 'Sistemi Chimio-Sonici'.
+[WARNING] Sinergia non reciproca: 'Ermafroditismo Cronologico' → 'Locomozione Miriapode Ibrida'.
+[WARNING] Sinergia non reciproca: 'Moltiplicazione per Fusione' → 'Membrana Plastica Continua'.
+[WARNING] Sinergia non reciproca: 'Uovo rotaia, uovo grande e uova piccole dentro...' → 'Locomozione Miriapode Ibrida'.
+[WARNING] Sinergia non reciproca: 'Uovo rotaia, uovo grande e uova piccole dentro...' → 'Flusso Ameboide Controllato'.
+[WARNING] Sinergia non reciproca: 'Occhi Analizzatori di Tensione' → 'Seta Conduttiva Elettrica'.
+[WARNING] Sinergia non reciproca: 'Occhi Cinetici' → 'Cannone Sonico a Raggio'.
+[WARNING] Sinergia non reciproca: 'Occhi a Cristallo Modulare' → 'Occhi Cinetici'.
+[WARNING] Sinergia non reciproca: 'Occhi a Cristallo Modulare' → 'Visione Multi-Spettrale Amplificata'.
+[WARNING] Sinergia non reciproca: 'Organi Sismici Cutanei' → 'Rostro Emostatico-Litico'.
+[WARNING] Sinergia non reciproca: 'Sistemi Chimio-Sonici' → 'Locomozione Miriapode Ibrida'.
+[WARNING] Sinergia non reciproca: 'Mani secernano liquido rallentante' → 'Membrana Plastica Continua'.
+[WARNING] Sinergia non reciproca: 'i18n:traits.coscienza_dalveare_diffusa.label' → 'Corna Psico-Conduttive'.
+Report schema scritto in /workspace/Game/reports/schema_validation.json
+Report scritto in /workspace/Game/logs/trait_audit.md

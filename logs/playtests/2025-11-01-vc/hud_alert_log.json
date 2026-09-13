@@ -1,0 +1,53 @@
+[
+  {
+    "alertId": "risk-high:delta",
+    "status": "raised",
+    "missionId": "skydock_siege_delta",
+    "missionTag": "delta",
+    "turn": 14,
+    "weightedIndex": 0.6,
+    "timeLowHpTurns": 2,
+    "timestamp": "2025-11-01T15:04:11Z",
+    "ackCount": 0,
+    "ackRecipients": []
+  },
+  {
+    "alertId": "risk-high:delta",
+    "status": "acknowledged",
+    "missionId": "skydock_siege_delta",
+    "missionTag": "delta",
+    "turn": 15,
+    "weightedIndex": 0.58,
+    "timeLowHpTurns": 2,
+    "timestamp": "2025-11-01T15:04:33Z",
+    "ackRecipient": "HUD",
+    "ackRecipients": ["HUD"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-11-01T15:04:33Z"
+  },
+  {
+    "alertId": "risk-high:delta",
+    "status": "cleared",
+    "missionId": "skydock_siege_delta",
+    "missionTag": "delta",
+    "turn": 16,
+    "weightedIndex": 0.55,
+    "timeLowHpTurns": 1,
+    "timestamp": "2025-11-01T15:05:05Z",
+    "ackRecipients": ["HUD"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-11-01T15:04:33Z"
+  },
+  {
+    "alertId": "risk-high:echo",
+    "status": "filtered",
+    "missionId": "skydock_siege_echo",
+    "missionTag": "echo",
+    "turn": 13,
+    "weightedIndex": 0.59,
+    "timeLowHpTurns": 2,
+    "timestamp": "2025-11-01T15:42:19Z",
+    "filterName": "canaryThreshold",
+    "filterCount": 1
+  }
+]

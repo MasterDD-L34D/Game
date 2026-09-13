@@ -1,0 +1,5155 @@
+{
+  "generated_at": "2026-04-13T23:33:31+00:00",
+  "summary": {
+    "total": 642,
+    "with_frontmatter": 71,
+    "auto_generated": 176,
+    "by_workstream": {
+      "cross-cutting": 369,
+      "flow": 23,
+      "incoming": 122,
+      "dataset-pack": 31,
+      "ops-qa": 89,
+      "backend": 2,
+      "atlas": 6
+    }
+  },
+  "files": [
+    {
+      "path": "docs/00-INDEX.md",
+      "title": "Evo Tactics — Documentazione (indice)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/01-VISIONE.md",
+      "title": "Visione",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/02-PILASTRI.md",
+      "title": "Pilastri di Design (sintesi)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/03-LOOP.md",
+      "title": "Loop di Gioco (alto livello)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/10-SISTEMA_TATTICO.md",
+      "title": "Sistema Tattico (TV/d20)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/11-REGOLE_D20_TV.md",
+      "title": "Adattamento TV/d20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/20-SPECIE_E_PARTI.md",
+      "title": "Specie & Parti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/22-FORME_BASE_16.md",
+      "title": "Forme Base (16) — seed temperamentale",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/24-TELEMETRIA_VC.md",
+      "title": "Telemetria → Vettore Comportamentale (VC)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/25-REGOLE_SBLOCCO_PE.md",
+      "title": "Regole di Sblocco + Economia PE",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/27-MATING_NIDO.md",
+      "title": "Mating / Nido (reclutamento & riproduzione)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/28-NPC_BIOMI_SPAWN.md",
+      "title": "NPG, Biomi, Affissi & Director",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/30-UI_TV_IDENTITA.md",
+      "title": "UI TV — Carta Temperamentale & Albero Evolutivo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/40-ROADMAP.md",
+      "title": "Roadmap (MVP → Alpha)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/adr/ADR-2025-11-18-cli-rollout.md",
+      "title": "ADR-2025-11-18: Rollout refactor CLI e onboarding Support/QA",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/adr/ADR-2025-11-refactor-cli.md",
+      "title": "ADR-2025-11: Consolidamento refactor CLI",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/adr/ADR-2025-12-07-generation-orchestrator.md",
+      "title": "ADR-2025-12-07: Orchestratore pipeline generazione specie",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
+      "title": "ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/adr/ADR-XXX-refactor-cli.md",
+      "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/AGENT_COMMANDS_CHEATSHEET.md",
+      "title": "AGENT_COMMANDS_CHEATSHEET.md",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/agent_telemetry.md",
+      "title": "Telemetria del flusso agenti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/AI_AGENT_AUDIT_LOG.md",
+      "title": "AI_AGENT_AUDIT_LOG.md – Diario lavori sistema agenti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/analysis/analytics-toolkit.md",
+      "title": "Analytics Toolkit",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/analysis/trait_merge_proposals.md",
+      "title": "Proposte merge trait Evo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/appendici/ALIENA_documento_integrato.md",
+      "title": "Sistema **A.L.I.E.N.A.** — Documento Integrato",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/appendici/prontuario_metriche_ucum.md",
+      "title": "Prontuario metriche & unità **UCUM** — Evo Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/appendici/sandbox/README.md",
+      "title": "Appendice Sandbox — Concept, Trait e Bilanciamento (draft)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/appendici/STYLE_GUIDE_NAMING.md",
+      "title": "Style Guide — Nomi & Descrizioni (Specie & Tratti)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/architecture/evo_tactics_pack_mongodb.md",
+      "title": "Evo Tactics Pack MongoDB",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/architecture/flusso-richieste-idea-engine.md",
+      "title": "Flusso delle richieste Idea Engine",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-1.md",
+      "title": "Guida ai Tratti Evo-Tactics · Sommario e Piano Operativo {#evo-guida-ai-tratti-1}",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-2.md",
+      "title": "Guida ai Tratti Evo-Tactics · Approfondimenti Operativi {#evo-guida-ai-tratti-2}",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-3-database.md",
+      "title": "Guida Evo-Tactics per Game-Database {#evo-guida-ai-tratti-3-database}",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
+      "title": "Guida ai Tratti Evo-Tactics · Scenario e Missioni {#evo-guida-ai-tratti-3-evo-tactics}",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guides/codex-readme.md",
+      "title": "Evo-Tactics — Game Design Codex (seed)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guides/ptpf-seed-template.md",
+      "title": "Template PTPF — Seed originario",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guides/security-ops.md",
+      "title": "Security & Ops Playbook — Evo-Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guides/template-ptpf.md",
+      "title": "Template — Game Design Structure (PTPF)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guides/vision-and-structure-notes.md",
+      "title": "Evo-Tactics · Visione & Struttura (seed)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/guides/visione-struttura.md",
+      "title": "Evo-Tactics · Visione & Struttura Concettuale",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/integration-log.md",
+      "title": "Registro integrazione Evo-Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/integrazioni-v2.md",
+      "title": "Evo-Tactics · Piano di Integrazione V2 {#evo-integrazioni-v2}",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/README.md",
+      "title": "Evo-Tactics — Hub Documentale",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/evo-tactics/security-readme.md",
+      "title": "Sicurezza Evo-Tactics (storico)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/archive/README.md",
+      "title": "Archivio documentazione",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md",
+      "title": "Frattura Abissale Sinaptica Balance Draft",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/biomes/Frattura_Abissale_Sinaptica_biome.md",
+      "title": "Frattura Abissale Sinaptica Biome",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/biomes/Frattura_Abissale_Sinaptica_lore.md",
+      "title": "Frattura Abissale Sinaptica Lore",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/biomes/manifest.md",
+      "title": "Manifest Biomi",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/biomes.md",
+      "title": "Guida al dataset dei Biomi",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/Canvas/feature-updates.md",
+      "title": "Canvas — Aggiornamenti Rapidi",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/catalog/bioma_frattura_abissale_sinaptica.md",
+      "title": "Bioma Frattura Abissale Sinaptica",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/catalog/Frattura_Abissale_Sinaptica_assets_draft.md",
+      "title": "Frattura Abissale Sinaptica Assets Draft",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/catalog/trait_reference.md",
+      "title": "Trait Reference & Glossario Allineato",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/changelog.md",
+      "title": "Changelog",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/2025-10-23.md",
+      "title": "Report ChatGPT — 23 ottobre 2025",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-10-26.md",
+      "title": "Daily PR Summary — 2025-10-26",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-10-27.md",
+      "title": "Daily PR Summary — 2025-10-27",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-10-29.md",
+      "title": "Daily PR Summary — 2025-10-29",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-10-30.md",
+      "title": "Daily PR Summary — 2025-10-30",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-10-31.md",
+      "title": "Daily PR Summary — 2025-10-31",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-01.md",
+      "title": "Daily PR Summary — 2025-11-01",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-02.md",
+      "title": "Daily PR Summary — 2025-11-02",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-03.md",
+      "title": "Daily PR Summary — 2025-11-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-04.md",
+      "title": "Daily PR Summary — 2025-11-04",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-05.md",
+      "title": "Daily PR Summary — 2025-11-05",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-06.md",
+      "title": "Daily PR Summary — 2025-11-06",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-07.md",
+      "title": "Daily PR Summary — 2025-11-07",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-08.md",
+      "title": "Daily PR Summary — 2025-11-08",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-09.md",
+      "title": "Daily PR Summary — 2025-11-09",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-10.md",
+      "title": "Daily PR Summary — 2025-11-10",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-11.md",
+      "title": "Daily PR Summary — 2025-11-11",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-12.md",
+      "title": "Daily PR Summary — 2025-11-12",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-13.md",
+      "title": "Daily PR Summary — 2025-11-13",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-14.md",
+      "title": "Daily PR Summary — 2025-11-14",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-15.md",
+      "title": "Daily PR Summary — 2025-11-15",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-16.md",
+      "title": "Daily PR Summary — 2025-11-16",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-17.md",
+      "title": "Daily PR Summary — 2025-11-17",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-18.md",
+      "title": "Daily PR Summary — 2025-11-18",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-19.md",
+      "title": "Daily PR Summary — 2025-11-19",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-20.md",
+      "title": "Daily PR Summary — 2025-11-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-21.md",
+      "title": "Daily PR Summary — 2025-11-21",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-22.md",
+      "title": "Daily PR Summary — 2025-11-22",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-23.md",
+      "title": "Daily PR Summary — 2025-11-23",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-24.md",
+      "title": "Daily PR Summary — 2025-11-24",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-25.md",
+      "title": "Daily PR Summary — 2025-11-25",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-26.md",
+      "title": "Daily PR Summary — 2025-11-26",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-27.md",
+      "title": "Daily PR Summary — 2025-11-27",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-28.md",
+      "title": "Daily PR Summary — 2025-11-28",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-29.md",
+      "title": "Daily PR Summary — 2025-11-29",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-11-30.md",
+      "title": "Daily PR Summary — 2025-11-30",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-01.md",
+      "title": "Daily PR Summary — 2025-12-01",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-02.md",
+      "title": "Daily PR Summary — 2025-12-02",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-03.md",
+      "title": "Daily PR Summary — 2025-12-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-04.md",
+      "title": "Daily PR Summary — 2025-12-04",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-05.md",
+      "title": "Daily PR Summary — 2025-12-05",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-06.md",
+      "title": "Daily PR Summary — 2025-12-06",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-07.md",
+      "title": "Daily PR Summary — 2025-12-07",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-08.md",
+      "title": "Daily PR Summary — 2025-12-08",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-09.md",
+      "title": "Daily PR Summary — 2025-12-09",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-10.md",
+      "title": "Daily PR Summary — 2025-12-10",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-11.md",
+      "title": "Daily PR Summary — 2025-12-11",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-12.md",
+      "title": "Daily PR Summary — 2025-12-12",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-13.md",
+      "title": "Daily PR Summary — 2025-12-13",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-14.md",
+      "title": "Daily PR Summary — 2025-12-14",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-15.md",
+      "title": "Daily PR Summary — 2025-12-15",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-16.md",
+      "title": "Daily PR Summary — 2025-12-16",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-17.md",
+      "title": "Daily PR Summary — 2025-12-17",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-18.md",
+      "title": "Daily PR Summary — 2025-12-18",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-19.md",
+      "title": "Daily PR Summary — 2025-12-19",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-20.md",
+      "title": "Daily PR Summary — 2025-12-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-21.md",
+      "title": "Daily PR Summary — 2025-12-21",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-22.md",
+      "title": "Daily PR Summary — 2025-12-22",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-23.md",
+      "title": "Daily PR Summary — 2025-12-23",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-24.md",
+      "title": "Daily PR Summary — 2025-12-24",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-25.md",
+      "title": "Daily PR Summary — 2025-12-25",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-26.md",
+      "title": "Daily PR Summary — 2025-12-26",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-27.md",
+      "title": "Daily PR Summary — 2025-12-27",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-28.md",
+      "title": "Daily PR Summary — 2025-12-28",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-29.md",
+      "title": "Daily PR Summary — 2025-12-29",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-30.md",
+      "title": "Daily PR Summary — 2025-12-30",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2025-12-31.md",
+      "title": "Daily PR Summary — 2025-12-31",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-01.md",
+      "title": "Daily PR Summary — 2026-01-01",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-02.md",
+      "title": "Daily PR Summary — 2026-01-02",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-03.md",
+      "title": "Daily PR Summary — 2026-01-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-04.md",
+      "title": "Daily PR Summary — 2026-01-04",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-05.md",
+      "title": "Daily PR Summary — 2026-01-05",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-06.md",
+      "title": "Daily PR Summary — 2026-01-06",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-07.md",
+      "title": "Daily PR Summary — 2026-01-07",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-08.md",
+      "title": "Daily PR Summary — 2026-01-08",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-09.md",
+      "title": "Daily PR Summary — 2026-01-09",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-10.md",
+      "title": "Daily PR Summary — 2026-01-10",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-11.md",
+      "title": "Daily PR Summary — 2026-01-11",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-12.md",
+      "title": "Daily PR Summary — 2026-01-12",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-13.md",
+      "title": "Daily PR Summary — 2026-01-13",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-14.md",
+      "title": "Daily PR Summary — 2026-01-14",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-15.md",
+      "title": "Daily PR Summary — 2026-01-15",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-16.md",
+      "title": "Daily PR Summary — 2026-01-16",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-17.md",
+      "title": "Daily PR Summary — 2026-01-17",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-18.md",
+      "title": "Daily PR Summary — 2026-01-18",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-19.md",
+      "title": "Daily PR Summary — 2026-01-19",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-20.md",
+      "title": "Daily PR Summary — 2026-01-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-21.md",
+      "title": "Daily PR Summary — 2026-01-21",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-22.md",
+      "title": "Daily PR Summary — 2026-01-22",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-23.md",
+      "title": "Daily PR Summary — 2026-01-23",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-24.md",
+      "title": "Daily PR Summary — 2026-01-24",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-25.md",
+      "title": "Daily PR Summary — 2026-01-25",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-26.md",
+      "title": "Daily PR Summary — 2026-01-26",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-27.md",
+      "title": "Daily PR Summary — 2026-01-27",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-28.md",
+      "title": "Daily PR Summary — 2026-01-28",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-29.md",
+      "title": "Daily PR Summary — 2026-01-29",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-30.md",
+      "title": "Daily PR Summary — 2026-01-30",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-01-31.md",
+      "title": "Daily PR Summary — 2026-01-31",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-01.md",
+      "title": "Daily PR Summary — 2026-02-01",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-02.md",
+      "title": "Daily PR Summary — 2026-02-02",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-03.md",
+      "title": "Daily PR Summary — 2026-02-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-04.md",
+      "title": "Daily PR Summary — 2026-02-04",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-05.md",
+      "title": "Daily PR Summary — 2026-02-05",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-06.md",
+      "title": "Daily PR Summary — 2026-02-06",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-07.md",
+      "title": "Daily PR Summary — 2026-02-07",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-08.md",
+      "title": "Daily PR Summary — 2026-02-08",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-09.md",
+      "title": "Daily PR Summary — 2026-02-09",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-10.md",
+      "title": "Daily PR Summary — 2026-02-10",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-11.md",
+      "title": "Daily PR Summary — 2026-02-11",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-12.md",
+      "title": "Daily PR Summary — 2026-02-12",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-13.md",
+      "title": "Daily PR Summary — 2026-02-13",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-14.md",
+      "title": "Daily PR Summary — 2026-02-14",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-15.md",
+      "title": "Daily PR Summary — 2026-02-15",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-16.md",
+      "title": "Daily PR Summary — 2026-02-16",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-17.md",
+      "title": "Daily PR Summary — 2026-02-17",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-18.md",
+      "title": "Daily PR Summary — 2026-02-18",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-19.md",
+      "title": "Daily PR Summary — 2026-02-19",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-20.md",
+      "title": "Daily PR Summary — 2026-02-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-21.md",
+      "title": "Daily PR Summary — 2026-02-21",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-22.md",
+      "title": "Daily PR Summary — 2026-02-22",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-23.md",
+      "title": "Daily PR Summary — 2026-02-23",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-24.md",
+      "title": "Daily PR Summary — 2026-02-24",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-25.md",
+      "title": "Daily PR Summary — 2026-02-25",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-26.md",
+      "title": "Daily PR Summary — 2026-02-26",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-27.md",
+      "title": "Daily PR Summary — 2026-02-27",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-02-28.md",
+      "title": "Daily PR Summary — 2026-02-28",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-01.md",
+      "title": "Daily PR Summary — 2026-03-01",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-02.md",
+      "title": "Daily PR Summary — 2026-03-02",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-03.md",
+      "title": "Daily PR Summary — 2026-03-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-04.md",
+      "title": "Daily PR Summary — 2026-03-04",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-05.md",
+      "title": "Daily PR Summary — 2026-03-05",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-06.md",
+      "title": "Daily PR Summary — 2026-03-06",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-07.md",
+      "title": "Daily PR Summary — 2026-03-07",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-08.md",
+      "title": "Daily PR Summary — 2026-03-08",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-09.md",
+      "title": "Daily PR Summary — 2026-03-09",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-10.md",
+      "title": "Daily PR Summary — 2026-03-10",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-11.md",
+      "title": "Daily PR Summary — 2026-03-11",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-12.md",
+      "title": "Daily PR Summary — 2026-03-12",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-13.md",
+      "title": "Daily PR Summary — 2026-03-13",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-14.md",
+      "title": "Daily PR Summary — 2026-03-14",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-15.md",
+      "title": "Daily PR Summary — 2026-03-15",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-16.md",
+      "title": "Daily PR Summary — 2026-03-16",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-17.md",
+      "title": "Daily PR Summary — 2026-03-17",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-18.md",
+      "title": "Daily PR Summary — 2026-03-18",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-19.md",
+      "title": "Daily PR Summary — 2026-03-19",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-20.md",
+      "title": "Daily PR Summary — 2026-03-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-21.md",
+      "title": "Daily PR Summary — 2026-03-21",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-22.md",
+      "title": "Daily PR Summary — 2026-03-22",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-23.md",
+      "title": "Daily PR Summary — 2026-03-23",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-24.md",
+      "title": "Daily PR Summary — 2026-03-24",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-25.md",
+      "title": "Daily PR Summary — 2026-03-25",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-26.md",
+      "title": "Daily PR Summary — 2026-03-26",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-27.md",
+      "title": "Daily PR Summary — 2026-03-27",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-28.md",
+      "title": "Daily PR Summary — 2026-03-28",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-29.md",
+      "title": "Daily PR Summary — 2026-03-29",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-30.md",
+      "title": "Daily PR Summary — 2026-03-30",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-03-31.md",
+      "title": "Daily PR Summary — 2026-03-31",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-01.md",
+      "title": "Daily PR Summary — 2026-04-01",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-02.md",
+      "title": "Daily PR Summary — 2026-04-02",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-03.md",
+      "title": "Daily PR Summary — 2026-04-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-04.md",
+      "title": "Daily PR Summary — 2026-04-04",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-05.md",
+      "title": "Daily PR Summary — 2026-04-05",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-06.md",
+      "title": "Daily PR Summary — 2026-04-06",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-07.md",
+      "title": "Daily PR Summary — 2026-04-07",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-08.md",
+      "title": "Daily PR Summary — 2026-04-08",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-09.md",
+      "title": "Daily PR Summary — 2026-04-09",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-10.md",
+      "title": "Daily PR Summary — 2026-04-10",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-11.md",
+      "title": "Daily PR Summary — 2026-04-11",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/daily-pr-summary-2026-04-12.md",
+      "title": "Daily PR Summary — 2026-04-12",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/local/2025-10-23/snapshot-20251023T174852Z-local-export.md",
+      "title": "Report snapshot snapshot-20251023T174852Z-local-export",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/local/2025-10-23/snapshot-20251023T231241Z-local-export.md",
+      "title": "Report snapshot snapshot-20251023T231241Z-local-export",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.md",
+      "title": "Report snapshot snapshot-20251024T021001Z-local-export",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021902Z-local-export.md",
+      "title": "Report snapshot snapshot-20251024T021902Z-local-export",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.md",
+      "title": "Report snapshot snapshot-20251023T231241Z-daily-notes",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021001Z-daily-notes.md",
+      "title": "Report snapshot snapshot-20251024T021001Z-daily-notes",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.md",
+      "title": "Report snapshot snapshot-20251024T021902Z-daily-notes",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": true,
+      "tier": "low"
+    },
+    {
+      "path": "docs/chatgpt_sync_status.md",
+      "title": "Stato sincronizzazione ChatGPT",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/checklist/action-items.md",
+      "title": "Action Items — Sintesi operativa",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/bug-intake.md",
+      "title": "Bug Intake Checklist",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/clone-setup.md",
+      "title": "Procedura di clone e setup iniziale",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/demo-release.md",
+      "title": "Checklist release demo pubblica",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/incoming_triage.md",
+      "title": "Checklist Triage Cartella `incoming/`",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/milestones.md",
+      "title": "Checklist Milestone",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/project-setup-todo.md",
+      "title": "TODO Operativo — Avvio completo del progetto",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/telemetry.md",
+      "title": "Checklist — Telemetry Export & QA Filters",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/checklist/vc_playtest_plan.md",
+      "title": "Playtest VC Mirati alla Telemetria",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/ci/README.md",
+      "title": "Automazioni CI — Mappa sito, Link checker, Lighthouse, E2E, Search",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ci-pipeline.md",
+      "title": "Pipeline CI completa",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ci.md",
+      "title": "Workflow CI e QA",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/COMMAND_LIBRARY.md",
+      "title": "COMMAND_LIBRARY.md",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/contributing/traits.md",
+      "title": "Guida rapida al contributo trait",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/CONTRIBUTING_SITE.md",
+      "title": "Come contribuire al sito e alla documentazione",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/data-guidelines.md",
+      "title": "Dataset YAML di gioco",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/dependency_audit.md",
+      "title": "Verifica dipendenze — Ottobre 2025",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/design/sandbox/lore_concepts.md",
+      "title": "Sandbox Lore: Concept Narrativi e Archetipi",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/DesignDoc-Overview.md",
+      "title": "Evo Tactics — Design Doc Overview",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/dev/BIOME_FEATURE_CHECKS.md",
+      "title": "BIOME_FEATURE_CHECKS.md",
+      "workstream": "backend",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/drive-sync.md",
+      "title": "Sincronizzazione YAML ↔ Google Sheets",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/evo_tactics_game_guide.md",
+      "title": "Evo Tactics – Guida completa per il Game Repository (v2.1)",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/evo_tactics_guide.md",
+      "title": "Guida Evo Tactics Pack v2: sommario e piano operativo",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guida-ai-tratti-1.md",
+      "title": "Guida ai Tratti Evo-Tactics · Sommario e Piano Operativo {#evo-guida-ai-tratti-1}",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guida-ai-tratti-2.md",
+      "title": "Guida ai Tratti Evo-Tactics · Approfondimenti Operativi {#evo-guida-ai-tratti-2}",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guida-ai-tratti-3-database.md",
+      "title": "Guida Evo-Tactics per Game-Database {#evo-guida-ai-tratti-3-database}",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
+      "title": "Guida ai Tratti Evo-Tactics · Scenario e Missioni {#evo-guida-ai-tratti-3-evo-tactics}",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guides/codex-readme.md",
+      "title": "Evo-Tactics — Game Design Codex (seed)",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guides/ptpf-seed-template.md",
+      "title": "Template PTPF — Seed originario",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guides/security-ops.md",
+      "title": "Security & Ops Playbook — Archivio",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guides/template-ptpf.md",
+      "title": "Template PTPF — Archivio",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guides/vision-and-structure-notes.md",
+      "title": "Evo-Tactics · Visione & Struttura (seed)",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/guides/visione-struttura.md",
+      "title": "Visione & Struttura — Archivio",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/integrazioni-v2.md",
+      "title": "Evo-Tactics · Piano di Integrazione V2 {#evo-integrazioni-v2}",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics/README.md",
+      "title": "Evo-Tactics — Hub Documentale",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/db-schema.md",
+      "title": "Evo Tactics Pack – MongoDB Schema",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/deploy.md",
+      "title": "Deploy bundle demo dell'Evo Tactics Pack",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/DEPLOYING.md",
+      "title": "Deploy rapido · Evo Tactics Pack",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/ennea-themes.md",
+      "title": "Temi Ennea — Biome Coherence & Telemetry Sync",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/generator-benchmarks.md",
+      "title": "Generatore Ecosystem Pack · Benchmark e Metriche Qualità",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/handover-summary.md",
+      "title": "Handover refactor generatore Evo Tactics Pack",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/internal-announcement.md",
+      "title": "Annuncio interno — refactor generatore Evo Tactics Pack",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/evo-tactics-pack/README.md",
+      "title": "Evo Tactics Pack · Catalog & Runtime Overrides",
+      "workstream": "dataset-pack",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/faq.md",
+      "title": "Domande frequenti — Support & QA",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/frontend/mockups_evo.md",
+      "title": "Evo Console — Mockup mission console",
+      "workstream": "atlas",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/git-setup.md",
+      "title": "Setup Git Remoto per Evo-Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/governance/GLOSSARY.md",
+      "title": "Glossary IT+EN",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/governance/legacy_index_mapping.md",
+      "title": "Legacy Index Mapping",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/governance/master_realign_plan.md",
+      "title": "Master Realign Plan",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/governance/README.md",
+      "title": "Docs Governance (Dual-Track)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/governance/required_checks_rollout.md",
+      "title": "Required Checks Rollout",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/governance/rollout_plan.md",
+      "title": "Governance Rollout Plan (6-8 weeks)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/governance/workstream_matrix.md",
+      "title": "Workstream Matrix",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/Guida_Evo_Tactics_Pack_v2.md",
+      "title": "Guida Evo Tactics Pack v2: sommario e piano operativo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/hooks/ema-metrics.md",
+      "title": "Hook — Trasmissione Metriche EMA & Alert Risk HUD",
+      "workstream": "backend",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/hubs/atlas.md",
+      "title": "Atlas Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/hubs/backend.md",
+      "title": "Backend Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/hubs/dataset-pack.md",
+      "title": "Dataset and Pack Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/hubs/flow.md",
+      "title": "Flow Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/hubs/incoming.md",
+      "title": "Incoming Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/hubs/ops-qa.md",
+      "title": "Ops and QA Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/hubs/README.md",
+      "title": "Canonical Workstream Hub",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "docs/ideas/changelog.md",
+      "title": "Idea Engine — Changelog rilasci",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ideas/feedback.md",
+      "title": "Idea Engine · Feedback Template",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ideas/IDEAS_INDEX.md",
+      "title": "Ideas Index",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ideas/README.md",
+      "title": "Idea Intake — Sezione sito (GitHub Pages)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ideas/refresh-plan.md",
+      "title": "Idea Engine Docs Refresh Blueprint",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/generatore.md",
+      "title": "Wireframe — Generatore (v1)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/homepage.md",
+      "title": "Wireframe — Homepage (v1)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md",
+      "title": "Analisi delle specie Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md",
+      "title": "Step 1 – Raccolta informazioni di base",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md",
+      "title": "Step 2 – Definizione e consolidamento del Game Design Document (GDD)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md",
+      "title": "Step 3 – Impostazione del backlog centralizzato",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md",
+      "title": "Step 4 – Progettazione e miglioramento della pipeline CI/CD",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md",
+      "title": "Step 5 – Integrazione della gestione della sicurezza (Secure SDLC)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md",
+      "title": "Step 6 – Pianificazione delle iterazioni e del monitoraggio",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md",
+      "title": "Step 7 – Aggiornare la documentazione e formare il team",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md",
+      "title": "Analisi dei tratti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md",
+      "title": "Proposte di unificazione e revisione dei tratti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md",
+      "title": "Revisione automatica del glossario dei tratti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md",
+      "title": "Catalogo giochi e moduli di Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md",
+      "title": "Evo‑Tactics – Game Design Document (GDD)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md",
+      "title": "Piano di risposta agli incidenti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md",
+      "title": "Politica di sicurezza e privacy",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md",
+      "title": "Registro dei rischi – Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md",
+      "title": "Threat Model – Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md",
+      "title": "Catalogo delle specie Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md",
+      "title": "Catalogo dei tratti Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_analysis_summary.md",
+      "title": "Analisi dei tratti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_review_report.md",
+      "title": "Revisione automatica del glossario dei tratti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/GDD.md",
+      "title": "Evo‑Tactics – Game Design Document (GDD)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/INTEGRAZIONE_GUIDE.md",
+      "title": "INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/prontuario_metriche_ucum.md",
+      "title": "Prontuario metriche & unità **UCUM** — Evo Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md",
+      "title": "QA Checklist — Traits/Species v2",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/README_HOWTO_AUTHOR_TRAIT.md",
+      "title": "HOW‑TO — Autore di Trait (Evo Tactics)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/incident_response.md",
+      "title": "Piano di risposta agli incidenti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/policy.md",
+      "title": "Politica di sicurezza e privacy",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/risk_register.md",
+      "title": "Registro dei rischi – Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/threat_model.md",
+      "title": "Threat Model – Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/STYLE_GUIDE_NAMING.md",
+      "title": "Style Guide — Nomi & Descrizioni (Specie & Tratti)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/traits_reference.md",
+      "title": "Guida completa ai **Trait** — Evo Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_database_guide.md",
+      "title": "Guida Evo Tactics per Game‑Database",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_guide.md",
+      "title": "Evo Tactics – Guida completa per il Game Repository (v2.1)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_guide.md",
+      "title": "Guida Evo Tactics Pack v2: sommario e piano operativo",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md",
+      "title": "Guida Operativa & Manuale — Evo Tactics Pack v2",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/games_overview.md",
+      "title": "Catalogo giochi e moduli di Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/GDD.md",
+      "title": "Evo‑Tactics – Game Design Document (GDD)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md",
+      "title": "INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README.md",
+      "title": "Evo Tactics — Pack v2 (FULL)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_CI.md",
+      "title": "Automazioni CI — Mappa sito, Link checker, Lighthouse, E2E, Search",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_HOWTO_AUTHOR_TRAIT.md",
+      "title": "HOW‑TO — Autore di Trait (Evo Tactics)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_NO_PROXY.md",
+      "title": "Site Automation — No-Proxy Pack (stdlib)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_analysis_report.md",
+      "title": "Analisi delle specie Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_catalog.md",
+      "title": "Catalogo delle specie Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step1_summary.md",
+      "title": "Step 1 – Raccolta informazioni di base",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step2_summary.md",
+      "title": "Step 2 – Definizione e consolidamento del Game Design Document (GDD)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step3_summary.md",
+      "title": "Step 3 – Impostazione del backlog centralizzato",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step4_summary.md",
+      "title": "Step 4 – Progettazione e miglioramento della pipeline CI/CD",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step5_summary.md",
+      "title": "Step 5 – Integrazione della gestione della sicurezza (Secure SDLC)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step6_summary.md",
+      "title": "Step 6 – Pianificazione delle iterazioni e del monitoraggio",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step7_summary.md",
+      "title": "Step 7 – Aggiornare la documentazione e formare il team",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/trait_merge_proposals.md",
+      "title": "Proposte di unificazione e revisione dei tratti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/traits_catalog.md",
+      "title": "Catalogo dei tratti Evo‑Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md",
+      "title": "Security & Ops Playbook — Evo-Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md",
+      "title": "Template — Game Design Structure (PTPF)",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md",
+      "title": "Evo-Tactics · Visione & Struttura Concettuale",
+      "workstream": "incoming",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/documents/README.md",
+      "title": "Archivio sorgenti Evo-Tactics",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/archive/INDEX.md",
+      "title": "Archivio Incoming — Registro decisioni agentiche",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/00-INDEX.md",
+      "title": "Evo Tactics — Documentazione (indice)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/01-VISIONE.md",
+      "title": "Visione",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/02-PILASTRI.md",
+      "title": "Pilastri di Design (sintesi)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/03-LOOP.md",
+      "title": "Loop di Gioco (alto livello)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/10-SISTEMA_TATTICO.md",
+      "title": "Sistema Tattico (TV/d20)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/11-REGOLE_D20_TV.md",
+      "title": "Adattamento TV/d20",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/20-SPECIE_E_PARTI.md",
+      "title": "Specie & Parti",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/22-FORME_BASE_16.md",
+      "title": "Forme Base (16) — seed temperamentale",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/24-TELEMETRIA_VC.md",
+      "title": "Telemetria → Vettore Comportamentale (VC)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/25-REGOLE_SBLOCCO_PE.md",
+      "title": "Regole di Sblocco + Economia PE",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/27-MATING_NIDO.md",
+      "title": "Mating / Nido",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/28-NPC_BIOMI_SPAWN.md",
+      "title": "NPG, Biomi, Affissi & Director",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/30-UI_TV_IDENTITA.md",
+      "title": "UI TV — Carta Temperamentale & Albero Evolutivo",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/docs/40-ROADMAP.md",
+      "title": "Roadmap (MVP → Alpha)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/README.md",
+      "title": "Evo Tactics — TV/d20 (Design + Data)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo-tactics/tools/README.md",
+      "title": "Tools (validator)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_enneagram_addon_v1/README_ADDON_PER_PACCHETTO.md",
+      "title": "Enneagramma — Add‑on per `evo_pacchetto_minimo_v6`",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_enneagram_addon_v1/README_ENNEAGRAMMA.md",
+      "title": "Enneagramma — Dataset Completo (Tipi, Triadi, Ali, Varianti)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_enneagram_addon_v1/README_INTEGRAZIONE_MECCANICHE.md",
+      "title": "Personality Enneagram — Mechanical Integration (Draft)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_branch_layout_v0_1/.github/pull_request_template.md",
+      "title": "PR — Sentience MVP (T1–T6, interocezione, bridge)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_branch_layout_v0_1/CHANGELOG.md",
+      "title": "Changelog",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_branch_layout_v0_1/docs/CHECKLIST_TODO.md",
+      "title": "CHECKLIST — Sentience MVP (T1–T6)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_branch_layout_v0_1/docs/ROADMAP.md",
+      "title": "ROADMAP — Sentience Track",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_branch_layout_v0_1/README.md",
+      "title": "Branch: `ancestors/rfc-sentience-v0.1`",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_rfc_pack_v0_1/docs/RFC_Sentience_Traits_v0.1.md",
+      "title": "RFC — Sentience Traits & Evolution Mapping (Ancestors → Evo Tactics) v0.1",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/evo_sentience_rfc_pack_v0_1/docs/sources.md",
+      "title": "Sources (permalink)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/EvoTactics_FullRepo_v1.0/A_flowchart_presents_a_structured_game_design_fram.md",
+      "title": "Flowchart placeholder",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/EvoTactics_FullRepo_v1.0/EchoWake_Modules_Expanded_v2_2.md",
+      "title": "EchoWake Narrative Modules — Expanded (text extract)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/EvoTactics_FullRepo_v1.0/README_DEVKIT.md",
+      "title": "EvoTactics Developer Kit",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/decompressed/README.md",
+      "title": "Asset incoming decompressi",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/Ennagramma/README_ENNEAGRAMMA.md",
+      "title": "Enneagramma — Dataset Completo (Tipi, Triadi, Ali, Varianti)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/FEATURE_MAP_EVO_TACTICS.md",
+      "title": "Evo Tactics — Feature Map (v1 → v8) — 2025-10-24",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/GAME_COMPAT_README.md",
+      "title": "GAME — Hook Enneagramma (integrazione)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md",
+      "title": "Piano di integrazione — `incoming/lavoro_da_classificare`",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/lavoro_da_classificare/scripts/README.md",
+      "title": "Scripts da classificare",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md",
+      "title": "Task board — `incoming/lavoro_da_classificare`",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/MODELLI_RIF_EVO_TACTICS.md",
+      "title": "Modelli di Riferimento — Evo Tactics (2025-10-24)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/README.md",
+      "title": "Docs Incoming – Stato e triage (PATCHSET-01)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/README_INTEGRAZIONE_MECCANICHE.md",
+      "title": "Personality Enneagram — Mechanical Integration (Draft)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/incoming/README_SCAN_STAT_EVENTI.md",
+      "title": "Flow di allineamento STAT/EVENTI (repo Game)",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/INDEX.md",
+      "title": "Indice Documentazione",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/INTEGRAZIONE_GUIDE.md",
+      "title": "INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/exports/2025-11-08-filter-selections.md",
+      "title": "Telemetry Export — Log interazioni filtri",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/incoming_triage_agenti.md",
+      "title": "Canale `#incoming-triage-agenti` — Registro aggiornamenti",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/incoming_triage_slack_plan_2025-11-10.md",
+      "title": "Bozza messaggio Slack — #incoming-triage-agenti (2025-11-10)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/link-fix-2025-12-21.md",
+      "title": "Link checker — fix rapidi (2025-12-21)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/pilot-2025-11-12/media/README.md",
+      "title": "Media sessione pilota 2025-11-12",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/pilot-2025-11-12/README.md",
+      "title": "Sessione pilota 2025-11-12 — Raccolta asset",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/playtests/2025-02-26/media/README.md",
+      "title": "Media — Playtest 2025-02-26",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/playtests/2025-02-27-vc/media/README.md",
+      "title": "Media — Playtest 2025-02-27 (VC)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/tooling/2025-10-24-tooling.md",
+      "title": "2025-10-24 — Verifica ambiente & toolchain",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/tooling/accessibility-generator.md",
+      "title": "Audit accessibilità – generator",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/tooling/generator_ui_mock.md",
+      "title": "Generator UI mock · 2025-10-28",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/trait_audit.md",
+      "title": "Trait Data Audit",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/traits_tracking.md",
+      "title": "Monitoraggio inventario trait",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/logs/web_status.md",
+      "title": "Programmazione riesami sito web",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/Mating-Reclutamento-Nido.md",
+      "title": "Mating, Reclutamento & Nido — Canvas D",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/meeting-notes/evo-enum-review.md",
+      "title": "Evo enum review",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/migration_targeted_workplan.md",
+      "title": "Piano di attività mirate per avviare la migrazione",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/next_steps_trait_migration.md",
+      "title": "Piano operativo prossimo ciclo (trait e documentazione)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/observability.md",
+      "title": "Osservabilità client webapp",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ops/handbook/mongodb.md",
+      "title": "MongoDB operations handbook",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ops/nebula-rollout.md",
+      "title": "Nebula Atlas Aggregator Rollout Runbook",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ops/npm-proxy-migration.md",
+      "title": "Migrazione variabili proxy npm",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ops/qa-window-checklist.md",
+      "title": "QA Activation Window Checklist",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ops/site-audit.md",
+      "title": "Site Audit Toolkit",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ops/workflow_diff.md",
+      "title": "OPS-01 · Workflow gap analysis",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/PI-Pacchetti-Forme.md",
+      "title": "PI, Pacchetti & Forme — Canvas B",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/piani/roadmap.md",
+      "title": "Roadmap Operativa",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/PIPELINE_TEMPLATES.md",
+      "title": "PIPELINE_TEMPLATES.md – Template pipeline multi-agente",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/pipelines/FAS2D_step1_briefing.md",
+      "title": "Fas2D Step1 Briefing",
+      "workstream": "flow",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/Frattura_Abissale_Sinaptica_execution_plan.md",
+      "title": "Frattura Abissale Sinaptica Execution Plan",
+      "workstream": "flow",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/Frattura_Abissale_Sinaptica_pipeline_run.md",
+      "title": "Frattura Abissale Sinaptica Pipeline Run",
+      "workstream": "flow",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/GOLDEN_PATH.md",
+      "title": "GOLDEN_PATH – Pipeline globale per nuove feature",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/GOLDEN_PATH_FEATURE.md",
+      "title": "GOLDEN_PATH_FEATURE – Pipeline istanziata per nuove feature complesse",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/GOLDEN_PATH_FEATURE_Urban_Flood_Missions.md",
+      "title": "Golden Path – Bioma urbano allagato con missioni, specie e trait cognitivi",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step1.md",
+      "title": "Esecuzione Step 1 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step10.md",
+      "title": "Esecuzione Step 10 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step2.md",
+      "title": "Esecuzione Step 2 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step3.md",
+      "title": "Esecuzione Step 3 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step4.md",
+      "title": "Esecuzione Step 4 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step5.md",
+      "title": "Esecuzione Step 5 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step6.md",
+      "title": "Esecuzione Step 6 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step7.md",
+      "title": "Esecuzione Step 7 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step8.md",
+      "title": "Esecuzione Step 8 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step9.md",
+      "title": "Esecuzione Step 9 (Strict-Mode) – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_SIMULATION_Frattura_Abissale_Sinaptica.md",
+      "title": "Simulazione completa – Pipeline SPECIE+BIOMI “Frattura Abissale Sinaptica”",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_SPECIE_BIOMA_Frattura_Abissale_Sinaptica.md",
+      "title": "Pipeline SPECIE+BIOMI – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissale_Sinaptica.md",
+      "title": "Pipeline SPECIE+BIOMI ISTANZIATA – Frattura Abissale Sinaptica",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDARD.md",
+      "title": "Pipeline SPECIES+BIOMES STANDARD (10 step)",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/pipelines/PIPELINE_TRAIT_STANDARD.md",
+      "title": "PIPELINE_TRAIT_STANDARD.md",
+      "workstream": "flow",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/02A_validator_report.md",
+      "title": "PATCHSET-02A – Baseline validator (report-only)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/agenda_PATCHSET-00_2025-12-07.md",
+      "title": "Agenda breve – Kickoff PATCHSET-00 (15')",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/ci-inventory.md",
+      "title": "Inventario workflow CI e script locali",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/ci-log-automation.md",
+      "title": "Raccolta automatica log CI",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_BACKUP_AND_ROLLBACK.md",
+      "title": "REF_BACKUP_AND_ROLLBACK – Runbook archivi, manifest e rollback",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_CORE_DERIVED_MATRIX.md",
+      "title": "REF_CORE_DERIVED_MATRIX – Matrice 01B (core vs derived)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_INCOMING_CATALOG.md",
+      "title": "REF_INCOMING_CATALOG – Catalogo incoming/backlog",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE0-4_LOG.md",
+      "title": "Log sandbox – pipeline migrazione (Fasi 0–4)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE0_KICKOFF.md",
+      "title": "Kickoff Fase 0 – Migrazione (sandbox)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE1_DESIGN.md",
+      "title": "Log sandbox – Fase 1 Design (concept & alias)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE2_MODELING.md",
+      "title": "Log sandbox – Fase 2 Modellazione (mapping & validator)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE3_BALANCING.md",
+      "title": "Log sandbox – Fase 3 Bilanciamento (curve & simulazioni)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE4_VALIDATION.md",
+      "title": "Log sandbox – Fase 4 Validazione (aggregazione esiti e gate)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE5_ASSET_CATALOG.md",
+      "title": "Log sandbox – Fase 5 Asset & Catalogo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE6_DOC_ARCHIVE.md",
+      "title": "Log sandbox – Fase 6 Documentazione & Archiviazione",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_MIGRATION_PHASE7_EXEC_PLAN_PATCHSET.md",
+      "title": "Log sandbox – Fase 7 Piano esecutivo & Patchset",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_PACKS_AND_DERIVED.md",
+      "title": "REF_PACKS_AND_DERIVED – Pack, snapshot e fixture",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md",
+      "title": "PATCHSET-02A → 03A/03B – Runbook operativo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_PATCHSET_03A_03B_CHECKLIST.md",
+      "title": "PATCHSET 03A → 03B – Checklist esecutiva e criteri di blocco",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_PLANNING_RIPRESA_2026.md",
+      "title": "REF_PLANNING_RIPRESA_2026 – Checkpoint rapido di riapertura",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_REDIRECT_PLAN_STAGING.md",
+      "title": "REF_REDIRECT_PLAN_STAGING – Redirect mapping, rollback e backup (bozza)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_REPO_MIGRATION_PLAN.md",
+      "title": "REF_REPO_MIGRATION_PLAN – Sequenza patchset",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_REPO_PATCH_PROPOSTA.md",
+      "title": "REF_REPO_PATCH_PROPOSTA – Applicazione iniziale dello scope",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_REPO_SCOPE.md",
+      "title": "REF_REPO_SCOPE – Refactor globale repository Game / Evo Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_REPO_SOURCES_OF_TRUTH.md",
+      "title": "REF_REPO_SOURCES_OF_TRUTH – Canonico dati core",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/REF_TOOLING_AND_CI.md",
+      "title": "REF_TOOLING_AND_CI – Allineamento tooling e CI",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/planning/TKT-03AB-FREEZE.md",
+      "title": "TKT-03AB-FREEZE — Freeze core/derived/incoming",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/playtest/BAL-03-ondata4-playbook.md",
+      "title": "Playbook BAL-03 — Ondata 4 (richiesta QA)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/EVT-02-session-plan.md",
+      "title": "Piano sessione dedicata — EVT-02 \"Alleanza inattesa\"",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/feedback-template.md",
+      "title": "Template raccolta feedback playtest",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/INSIGHTS-2025-11.md",
+      "title": "Insight playtest VC — Novembre 2025",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/pilot-session-2025-11-12.md",
+      "title": "Sessione pilota 12 novembre 2025",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/procedura-post-sessione.md",
+      "title": "Procedura post-sessione di playtest",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/REPORT-2025-11-06-bal03.md",
+      "title": "Report sintetico — Verifica fix #143 (BAL-03)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/scenari-critici.md",
+      "title": "Scenari critici di playtest",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/scenari-test.md",
+      "title": "Elenco scenari di test",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/andrea-conti.md",
+      "title": "Feedback — Andrea Conti",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/giulia-parodi.md",
+      "title": "Feedback — Giulia Parodi",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/luca-rinaldi.md",
+      "title": "Feedback — Luca Rinaldi",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/sara-neri.md",
+      "title": "Feedback — Sara Neri",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-02-26.md",
+      "title": "Report sessione di playtest — SESSION-2025-02-26",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-11-12/feedback/README.md",
+      "title": "Feedback digitali — SESSION-2025-11-12",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-2025-11-12.md",
+      "title": "Report sessione di playtest — SESSION-2025-11-12",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/SESSION-template.md",
+      "title": "Report sessione di playtest — SESSION-YYYY-MM-DD",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/tickets/encounter-bug-146-evt02-nar-01.md",
+      "title": "[Encounter bug] EVT-02 – Branch cooperativo richiama dialogo di tradimento",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/tickets/encounter-bug-147-evt02-nar-02.md",
+      "title": "[Encounter bug] EVT-02 – Flag reputazione non aggiorna esito supporto",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest/tickets/EVT-02-event-special.md",
+      "title": "Annotazioni ticket — EVT-02 \"Alleanza inattesa\"",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/playtest-log-guidelines.md",
+      "title": "Convenzione archiviazione log di playtest",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/presentations/2025-02-vc-briefing.md",
+      "title": "Briefing VC — Febbraio 2025",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/presentations/2025-11-18-onboarding.md",
+      "title": "Onboarding Support/QA — 18 novembre 2025",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/presentations/2025-11-onboarding-recordings.md",
+      "title": "Onboarding Registrato — Novembre 2025",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/presentations/assets/vc-hud-briefing-deck.md",
+      "title": "VC HUD Briefing — Slide Outline",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/presentations/demo-walkthrough-script.md",
+      "title": "Walkthrough video demo — Preset \"Bundle demo pubblico\"",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/presentations/walkthrough-demo-vc.md",
+      "title": "Walkthrough demo VC",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/process/feedback_collection_pipeline.md",
+      "title": "Pipeline di raccolta feedback",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/incident_reporting_table.md",
+      "title": "Registro Segnalazioni Cross-Team — Implementazione Operativa",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/incoming_agent_backlog.md",
+      "title": "Incoming Pipeline — Piano di lavoro agentico",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/incoming_agent_streams.md",
+      "title": "Schede operative stream agentici — Incoming",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/incoming_review_log.md",
+      "title": "Incoming Review — Registro sessioni agentiche",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/incoming_triage_pipeline.md",
+      "title": "Pipeline operativo agentica per il triage della cartella `incoming/`",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/localization.md",
+      "title": "Flusso di localizzazione dei trait",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/operations_calendar.md",
+      "title": "Calendario Operazioni",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/qa_hud.md",
+      "title": "QA — HUD Smart Alerts",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/qa_reporting_schema.md",
+      "title": "QA Telemetry & Segnalazioni — Schema condiviso",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/README.md",
+      "title": "Processo interno — Valutazione trait Evo",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/sentience_rollout_plan.md",
+      "title": "Piano Rollout Sensienza (T1…T6)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/telemetry_ingestion_pipeline.md",
+      "title": "Pipeline Dati Telemetria → Tabella QA/Design",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/tooling_maintenance_log.md",
+      "title": "Tooling Maintenance Log — Incoming Pipeline (Agenti)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/training/trait_style_session.md",
+      "title": "Trait Style Session",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/trait_data_reference.md",
+      "title": "Trait Data Reference & Workflow",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/trait_review.md",
+      "title": "Pipeline revisione trait esterni",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/trait_rollout_plan.md",
+      "title": "Piano di rollout trait editor & revisione",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/traits_checklist.md",
+      "title": "Checklist iterativa tratti",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/web_handoff.md",
+      "title": "Web Handoff · Foodweb Archetypes 2025-11-05",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/process/web_pipeline.md",
+      "title": "Pipeline web · Procedura di rilascio",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/public/sentience_sdk.md",
+      "title": "Sentience Tier Reference (SDK)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/publishing_calendar.md",
+      "title": "Calendario editoriale publishing",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/qa/playbooks/eventi.md",
+      "title": "Playbook QA - Eventi Live Orchestration",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/qa/playbooks/loadout.md",
+      "title": "Playbook QA - Loadout Dinamici",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/qa/playbooks/moderazione.md",
+      "title": "Playbook QA - Moderazione Assistita",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/qa/QA_TRAITS_V2.md",
+      "title": "QA Checklist — Traits/Species v2",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/qa/rollout_checklist.md",
+      "title": "Checklist QA — Rollout Mission Control",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/qa-checklist.md",
+      "title": "QA checklist – Support Hub & Idea Engine",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/QA.md",
+      "title": "Flusso di verifica QA per la webapp",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/readme-refresh-notes.md",
+      "title": "Note revisione README principale",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/README.md",
+      "title": "Docs (indice)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/README_HOWTO_AUTHOR_TRAIT.md",
+      "title": "Come scrivere o aggiornare un trait",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/README_SENTIENCE.md",
+      "title": "Scala di senzienza T0–T5",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/README_TRAITS.md",
+      "title": "Evo Tactics — Trait Schema Pack",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/recap/qa-playbook.md",
+      "title": "QA Playbook · Nebula Release Flow",
+      "workstream": "incoming",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/data_inventory.md",
+      "title": "Inventario dataset e sorgenti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/integration_propagation_review.md",
+      "title": "Evo Integration Propagation Review",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/inventory_audit.md",
+      "title": "Evo Inventory Audit — 2025-11-15",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/qa/status.md",
+      "title": "Stato QA – EVO",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/README.md",
+      "title": "Report integrazione Evo-Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/rollout/documentation_gap.md",
+      "title": "Gap documentazione Evo-Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/rollout/next_batch_checklist.md",
+      "title": "Checklist operativa rollout Evo-Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/rollout/species_ecosystem_gap.md",
+      "title": "Gap specie/ecosistemi Evo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/species_analysis_report.md",
+      "title": "Species analysis – checkpoint 2026-02-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/species_summary.md",
+      "title": "Evo Species Summary",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo/trait_review_report.md",
+      "title": "Trait review – checkpoint 2026-02-20",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/evo-tactics-showcase-dossier-report.md",
+      "title": "Evo-Tactics Showcase Dossier — Report di Sintesi",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_archivist_final.md",
+      "title": "Frattura Abissale Sinaptica Archivist Final",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_patchset.md",
+      "title": "ordine consigliato per rispettare le dipendenze: pool/bioma → trait → species → affinity → balance → docs",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_validation_commands.md",
+      "title": "Frattura Abissale Sinaptica – Comandi di verifica consigliati",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_validation_report.md",
+      "title": "Frattura Abissale Sinaptica Validation Report",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/incoming/inventory-2025-10-30.md",
+      "title": "Inventario cartella incoming — 2025-10-30",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/progress-dashboard.md",
+      "title": "Riepilogo avanzamento tracker — novembre 2025",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/qa-changelog.md",
+      "title": "QA export changelog",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/species/species_summary.md",
+      "title": "Evo Species Summary",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/styleguide_compliance.md",
+      "title": "Styleguide Compliance",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/styleguide_status_review.md",
+      "title": "Style Guide Status Review",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/trait-env-alignment.md",
+      "title": "Allineamento tratti PI ↔ Regole ambientali",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/trait_balance_summary.md",
+      "title": "Sintesi bilanciamento tratti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/trait_progress.md",
+      "title": "Trait Completion Dashboard",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/trait_taxonomy_analysis.md",
+      "title": "Analisi tassonomia trait",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/traits/audit_duplicates_TRT-01.md",
+      "title": "Audit duplicati trait (`TRT-01`)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/traits/merge_analysis.md",
+      "title": "Analisi merge trait – aggiornamento TRT-03",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/traits/pipeline_executor_step1_locomotivo.md",
+      "title": "Pipeline TRAIT – Famiglia LOCOMOTIVO (Step 1)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/reports/traits/pipeline_simulator_locomotivo.md",
+      "title": "Simulazione Pipeline TRAIT – Famiglia LOCOMOTIVO",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/research/README.md",
+      "title": "Ricerche & Riferimenti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/research/refs/2008_spore.md",
+      "title": "Spore (2008) — Maxis/EA — PC/Mac — Premium",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/evo-rollout-checklists.md",
+      "title": "Checklist di consegna per consumer Evo-Tactics",
+      "workstream": "ops-qa",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/evo-rollout-schedule.md",
+      "title": "Calendario e momenti di consegna",
+      "workstream": "ops-qa",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/evo-rollout-status.md",
+      "title": "Evo-Tactics rollout status",
+      "workstream": "ops-qa",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/maintenance.md",
+      "title": "Manutenzione della roadmap live",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/status/evo-weekly-20251029.md",
+      "title": "Evo Rollout – Weekly status (2025-10-29)",
+      "workstream": "ops-qa",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/status/evo-weekly-20251202.md",
+      "title": "Evo Rollout – Weekly status (2025-12-02)",
+      "workstream": "ops-qa",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap/status/evo-weekly-20251203.md",
+      "title": "Evo Rollout – Weekly status (2025-12-03)",
+      "workstream": "ops-qa",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/roadmap_generator.md",
+      "title": "Roadmap trimestrale – Generatore Pathfinder ETL (Q1)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/SistemaNPG-PF-Mutazioni.md",
+      "title": "Sistema NPG, PF & Mutazioni — Canvas C",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/species/Frattura_Abissale_Sinaptica_species_draft.md",
+      "title": "Frattura Abissale Sinaptica Species Draft",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/structure_overview.md",
+      "title": "Struttura dati e piano di migrazione",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/support/bug-template.md",
+      "title": "Template escalation bug CLI",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/support/ticket-2025-10-27-playwright-deploy-checks.md",
+      "title": "[WEB][deploy-checks] Playwright Chromium download 403",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/support/token-rotation.md",
+      "title": "Rotazione token profilo `support`",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/Telemetria-VC.md",
+      "title": "Telemetria VC — Canvas operativo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/templates/incoming_triage_meeting.md",
+      "title": "Template Sync Agentica — Incoming Review",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/templates/obsidian_template.md",
+      "title": "Evo-Tactics — Obsidian Template",
+      "workstream": "cross-cutting",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tool_run_report.md",
+      "title": "Tool Execution Report",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tooling/evo.md",
+      "title": "Tooling Evo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tools/cli.md",
+      "title": "Guida CLI modulare",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/trait-editor-api.md",
+      "title": "Trait Editor API payloads",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/trait-editor.md",
+      "title": "Trait Editor standalone — Setup, sviluppo e deploy",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/trait_reference_manual.md",
+      "title": "Trait Reference Manual (SSoT)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/traits/Frattura_Abissale_Sinaptica_trait_draft.md",
+      "title": "Frattura Abissale Sinaptica Trait Draft",
+      "workstream": "dataset-pack",
+      "has_frontmatter": true,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/traits-manuale/01-introduzione.md",
+      "title": "Introduzione e fonti dati",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/traits-manuale/02-modello-dati.md",
+      "title": "Modello dati",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/traits-manuale/03-tassonomia-famiglie.md",
+      "title": "Tassonomia e famiglie funzionali",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/traits-manuale/04-collegamenti-cross-dataset.md",
+      "title": "Collegamenti a specie, eventi e regole ambientali",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/traits-manuale/05-workflow-strumenti.md",
+      "title": "Workflow & strumenti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/traits-manuale/06-standalone-trait-editor.md",
+      "title": "STANDALONE Trait Editor",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "standard"
+    },
+    {
+      "path": "docs/traits-manuale/README.md",
+      "title": "Manuale operativo dei trait",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/traits_evo_pack_alignment.md",
+      "title": "Allineamento Evo Pack v2 ⇄ repository trait",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/traits_scheda_operativa.md",
+      "title": "Scheda operativa trait (con reference e checklist)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/traits_template.md",
+      "title": "Template dati trait",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tri-sorgente/overview.md",
+      "title": "Tri-Sorgente (Roll + Personalità + Azioni)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tri-sorgente/qa.md",
+      "title": "QA & KPI",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/adaptive-engine-quickstart.md",
+      "title": "Tutorial rapido · Adaptive engine SquadSync",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/cli-quickstart.md",
+      "title": "Tutorial rapido — CLI Evo Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/dashboard-tour.md",
+      "title": "Tutorial rapido — Dashboard & Showcase",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/feedback-form.md",
+      "title": "Tutorial · Form feedback unificato",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/hud-overlay-quickstart.md",
+      "title": "Tutorial rapido · Overlay HUD Smart Alerts (canary)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/idea-engine-feedback.md",
+      "title": "Tutorial rapido — Feedback Idea Engine",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/idea-engine.md",
+      "title": "Tutorial rapido — Idea Engine end-to-end",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/tutorials/README.md",
+      "title": "Tutorial rapidi Evo Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/ui/styleguide.md",
+      "title": "Guida stile EvoGene Deck UI",
+      "workstream": "atlas",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/wireframes/evo/mockup_evo_tactics.md",
+      "title": "Mockup Evo Tactics Console",
+      "workstream": "atlas",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/wireframes/evo/README.md",
+      "title": "Mockup Evo-Tactics",
+      "workstream": "atlas",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/wireframes/generatore.md",
+      "title": "Wireframe — Generatore (v1)",
+      "workstream": "atlas",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/wireframes/homepage.md",
+      "title": "Wireframe — Homepage (v1)",
+      "workstream": "atlas",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/workflows/ci-gap-analysis.md",
+      "title": "CI gap analysis (OPS-01)",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/workflows/drive_sync.md",
+      "title": "Workflow driveSync — approvazione asset",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "docs/workflows/gh-cli-manual-dispatch.md",
+      "title": "Avvio manuale dei workflow GitHub da terminale locale",
+      "workstream": "ops-qa",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/02A_validator_rerun.md",
+      "title": "02A validator rerun (report-only)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/memo_verifiche_2026-09-14.md",
+      "title": "Memo sintetico – Verifiche e rischi aperti (2026-09-14)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/orchestrator_load_review.md",
+      "title": "Revisione configurazione orchestrator",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/pipeline_simulation.md",
+      "title": "Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/qa-changelog.md",
+      "title": "QA export changelog",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/readiness_01B01C_status.md",
+      "title": "Readiness 01B/01C – Checkpoint 2025-11-30T23:12Z",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "reports/trait_progress.md",
+      "title": "Trait Completion Dashboard",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "agent.md",
+      "title": "agent.md",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "agent_constitution.md",
+      "title": "Agent Constitution – Game / Evo Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "AGENT_WORKFLOW_GUIDE.md",
+      "title": "AGENT_WORKFLOW_GUIDE.md – Guida passo passo per usare gli agenti",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "AGENTS.md",
+      "title": "AGENTS.md – Bootstrap per Codex",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "CLAUDE.md",
+      "title": "CLAUDE.md",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "title": "Linee guida per contribuire",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "MASTER_PROMPT.md",
+      "title": "MASTER_PROMPT.md – Prompt Master per Game / Evo Tactics",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "PULL_REQUEST_TEMPLATE.md",
+      "title": "Pull Request Template",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    },
+    {
+      "path": "README.md",
+      "title": "Evo-Tactics — Starter Monorepo",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "critical"
+    },
+    {
+      "path": "router.md",
+      "title": "ROUTER.md – Router automatico degli agenti (Game / Evo Tactics)",
+      "workstream": "cross-cutting",
+      "has_frontmatter": false,
+      "auto_generated": false,
+      "tier": "low"
+    }
+  ]
+}

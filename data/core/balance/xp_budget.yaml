@@ -1,0 +1,110 @@
+schema_version: "0.1.0"
+generated_at: "2026-04-26"
+notes: |
+  Pathfinder TTRPG XP budget transfer (P1-Tier-E adoption).
+  Source: docs/research/2026-04-26-tier-e-extraction-matrix.md (Pathfinder XP budget).
+
+  Pattern:
+    1. Encounter ha XP budget target basato su difficulty + party_size
+    2. Unit XP value calcolato da formula stat-based
+    3. Sum unit XP nemici vs budget = audit fairness
+    4. Out-of-band warning per calibration designer
+
+  Cross-ref:
+  - apps/backend/services/balance/xpBudget.js (runtime engine)
+  - apps/backend/services/balance/damageCurves.js (existing class multiplier)
+  - tools/py/batch_calibrate_*.py (future: integration audit pre-batch)
+
+# Encounter XP budget per encounter_class.
+# Formula: budget_total = budget_base * party_size_modifier
+encounter_classes:
+  tutorial:
+    budget_base: 80
+    notes: "Onboarding gentile, alta tolleranza overshoot per teaching."
+    out_of_band_pct: 0.30  # tolleranza ±30%
+  tutorial_advanced:
+    budget_base: 120
+    out_of_band_pct: 0.25
+  standard:
+    budget_base: 200
+    out_of_band_pct: 0.20  # ±20% standard band
+  elite:
+    budget_base: 320
+    out_of_band_pct: 0.20
+  hardcore:
+    budget_base: 400
+    out_of_band_pct: 0.15  # banda stretta - calibration critical
+  boss:
+    budget_base: 600
+    out_of_band_pct: 0.20  # boss spike accettabile
+
+# Party size modifier (Pathfinder-style scaling).
+# 1 player = 0.5x budget (riduce difficulty), 4+ = 1.0x (baseline), 8 = 1.6x.
+party_size_modifiers:
+  1: 0.5
+  2: 0.7
+  3: 0.85
+  4: 1.0   # baseline
+  5: 1.15
+  6: 1.3
+  7: 1.45
+  8: 1.6
+
+# Unit XP value formula:
+#   xp = (hp * hp_weight) + (mod * mod_weight) + (ap * ap_weight)
+#        + (range * range_weight) + tier_bonus + boss_bonus
+# Approssima Pathfinder CR (Challenge Rating) -> XP table.
+unit_xp_formula:
+  hp_weight: 2.0       # 10 HP -> 20 XP
+  mod_weight: 8.0      # mod +3 -> 24 XP
+  ap_weight: 6.0       # ap 2 -> 12 XP, ap 3 -> 18 XP
+  range_weight: 4.0    # range 2 -> 8 XP (vs range 1 -> 4 XP)
+  tier_bonus:
+    base: 0
+    elite: 50
+    apex: 120
+    boss: 200
+  guardia_weight: 5.0  # guardia 1 -> 5 XP
+
+# Default difficulty audit thresholds (cross-encounter aggregate).
+audit_defaults:
+  warn_under_pct: 0.20  # report se used/budget < 0.80
+  warn_over_pct: 0.20   # report se used/budget > 1.20
+  critical_over_pct: 0.50  # P0 imbalance se > 1.50
+
+# Geometry-aware difficulty terms (D9 gate slice, flag XP_BUDGET_GEOMETRY_ENABLED, default OFF).
+# Valori PROPOSED (SDMG) -> ratify N=40 via tools/sim/full-loop-batch.js (L-069). NON magic-constant.
+geometry:
+  # Shape 1 (hazard-coupled, Frosthaven donor): folds into `used` only flag-ON
+  # E solo con MOVE_TERRAIN_COST_ENABLED=true. Ratify substrate-ON 2026-07-10
+  # (evidence docs/research/2026-07-10-grid-terrain-geometry-reprobe.md, N=40
+  # paired sui 3 grid_sized): contributo misurato 0 ANCHE a substrate ON
+  # (abisso 18 lava: delta pace -0.15 CI95 [-0.50, +0.20], WR 1.0 -- il pathing
+  # paga/evita il varco identico). La shape per-tile flat e' FALSIFICATA: il
+  # pace-tax reale del substrate (canyon +6.47 round) viene dalla roccia dei
+  # detour, NON dalle tile hazard. Valori MEASURED-0 (erano PROPOSED 40/30);
+  # un predittore v2 (path-tax geometrico) = OD, decider Eduardo.
+  hazard_set: [lava, acqua_profonda]
+  hazard_xp:
+    lava: 0
+    acqua_profonda: 0
+  # Shape 3 (action-economy, calibrazione D9 2026-07-06, evidence
+  # docs/research/2026-07-06-xpbudget-geometry-calibration.md): il modello
+  # stat-mass ignora il dial intents_per_round -> over-predice (dorsale ratio
+  # 2.95 critical_over vs WR 1.0 misurato N=40). Flag-ON: used *= min(1,
+  # dial_cap_reference / (party_size * party_ap)). Valori PROPOSED (SDMG):
+  # dial_cap_reference 3 = Escalated (pressure_start 50 dei ratify N=40).
+  action_economy:
+    dial_cap_reference: 3
+    party_ap: 2
+  # Reuses the encounter_class axis (mirror 15-LEVEL_DESIGN Class column).
+  class_scalar:
+    tutorial: 1.0
+    tutorial_advanced: 1.1
+    standard: 1.2
+    hardcore: 1.8
+    boss: 2.0
+  # Shape 2 (activation-pressure, Lancer donor): reported-passive, healthy band [low,high].
+  activation_band:
+    low: 1.0
+    high: 2.0

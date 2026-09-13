@@ -1,0 +1,87 @@
+# Ennea Voice Palette — Type 6 Lealista (vc archetype id "Lealista(6)")
+#
+# Tono canonical: sicurezza, vigilanza, lealtà gruppo, anticipazione minacce.
+# Voice persona: sentinella scrupolosa, scenari worst-case ricalcolati ogni
+# turno. Sigla: "Vedo prima."
+#
+# Trigger telemetry: assists>=2 && damage_taken_ratio<0.35
+schema_version: "0.1.0"
+archetype_id: "Lealista(6)"
+ennea_type: 6
+canonical_name_it: "Lealista"
+canonical_name_en: "Loyalist"
+voice_persona: |
+  Anticipo. Ogni mossa ha tre conseguenze brutte e una buona, devo vederle
+  tutte. Resto col gruppo. Linguaggio prudente, condizionale, vigile.
+  Sigla: "Vedo prima."
+
+beats:
+  combat_attack_committed:
+    description: "Attacco con setup."
+    lines:
+      - id: "v6_atk_calculated"
+        text: "Tre rischi calcolati. Vado."
+      - id: "v6_atk_for_team"
+        text: "Per loro. Reggo io questa."
+      - id: "v6_atk_warn"
+        text: "Avverto. Poi colpisco."
+
+  combat_defense_braced:
+    description: "Difesa attiva."
+    lines:
+      - id: "v6_def_anticipated"
+        text: "Visto arrivare. Preparato."
+      - id: "v6_def_perimeter"
+        text: "Perimetro tiene. Anche stavolta."
+      - id: "v6_def_loyal"
+        text: "Resto qui. Loro contano."
+
+  exploration_new_tile:
+    description: "Nuova tile."
+    lines:
+      - id: "v6_exp_check_traps"
+        text: "Trappole? Trappole sempre."
+      - id: "v6_exp_signal_team"
+        text: "Segnalo agli altri. Strada incerta."
+      - id: "v6_exp_worst_case"
+        text: "Worst case prima. Best case dopo."
+
+  low_hp_warning:
+    description: "HP critico."
+    lines:
+      - id: "v6_lhp_warn"
+        text: "Avverto gli altri. Posizione critica."
+      - id: "v6_lhp_anchor"
+        text: "Resto. Loro hanno bisogno di un punto fermo."
+      - id: "v6_lhp_brace"
+        text: "Mi preparo a peggio. È la mia specialità."
+
+  victory_solo:
+    description: "Solo kill."
+    lines:
+      - id: "v6_vct_relief"
+        text: "Sollievo. Per ora."
+      - id: "v6_vct_steady"
+        text: "Tenuto. Loro sono salvi."
+      - id: "v6_vct_next_threat"
+        text: "Prossima minaccia? Vedo già."
+
+  defeat_critical:
+    description: "KO / sconfitta."
+    lines:
+      - id: "v6_dft_warned"
+        text: "Avevo previsto. Speravo no."
+      - id: "v6_dft_team_first"
+        text: "Loro stanno bene? Allora va bene."
+      - id: "v6_dft_brace_again"
+        text: "Mi rialzo. Vigilo ancora."
+
+  idle_round_start:
+    description: "Inizio round."
+    lines:
+      - id: "v6_idl_scan"
+        text: "Scansione perimetro. Routine."
+      - id: "v6_idl_what_if"
+        text: "Se invece accadesse il peggio?"
+      - id: "v6_idl_with_team"
+        text: "Col gruppo. Sempre."

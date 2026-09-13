@@ -1,0 +1,158 @@
+trait_id,label_it,label_en,issue_type,notes
+ali_fulminee,Ali Fulminee,Ali Fulminee,missing_translation,English label identical to Italian or trait_id
+antenne_eco_turbina,Antenne Eco Turbina,Antenne Eco Turbina,missing_translation,English label identical to Italian or trait_id
+antenne_flusso_mareale,Antenne Flusso Mareale,Antenne Flusso Mareale,missing_translation,English label identical to Italian or trait_id
+antenne_microonde_cavernose,Antenne Microonde Cavernose,Antenne Microonde Cavernose,missing_translation,English label identical to Italian or trait_id
+antenne_reagenti,Antenne Reagenti,Antenne Reagenti,missing_translation,English label identical to Italian or trait_id
+antenne_tesla,Antenne Tesla,Antenne Tesla,missing_translation,English label identical to Italian or trait_id
+antenne_waveguide,Antenne Waveguide,Antenne Waveguide,missing_translation,English label identical to Italian or trait_id
+antenne_wideband,Antenne Wideband,Antenne Wideband,missing_translation,English label identical to Italian or trait_id
+appendici_risonanti_marea,Appendici Risonanti Marea,Appendici Risonanti Marea,missing_translation,English label identical to Italian or trait_id
+appendici_thermotattiche,Appendici Thermotattiche,Appendici Thermotattiche,missing_translation,English label identical to Italian or trait_id
+artigli_acidofagi,Artigli Acidofagi,Artigli Acidofagi,missing_translation,English label identical to Italian or trait_id
+artigli_induzione,Artigli Induzione,Artigli Induzione,missing_translation,English label identical to Italian or trait_id
+artigli_radice,Artigli Radice,Artigli Radice,missing_translation,English label identical to Italian or trait_id
+artigli_scivolo_silente,Artigli Scivolo Silente,Artigli Scivolo Silente,missing_translation,English label identical to Italian or trait_id
+artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Artigli Sghiaccio Glaciale,missing_translation,English label identical to Italian or trait_id
+artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Artigli Sghiaccio Glaciale,typo,"Potential typo ""sghiaccio"" instead of ""ghiaccio"""
+artigli_vetrificati,Artigli Vetrificati,Artigli Vetrificati,missing_translation,English label identical to Italian or trait_id
+baffi_mareomotori,Baffi Mareomotori,Baffi Mareomotori,missing_translation,English label identical to Italian or trait_id
+barbigli_sensori_plasma,Barbigli Sensori Plasma,Barbigli Sensori Plasma,missing_translation,English label identical to Italian or trait_id
+barriere_miasma_glaciale,Barriere Miasma Glaciale,Barriere Miasma Glaciale,missing_translation,English label identical to Italian or trait_id
+batteri_endosimbionti_chemio,Batteri Endosimbionti Chemio,Batteri Endosimbionti Chemio,missing_translation,English label identical to Italian or trait_id
+batteri_termofili_endosimbiosi,Batteri Termofili Endosimbiosi,Batteri Termofili Endosimbiosi,missing_translation,English label identical to Italian or trait_id
+biochip_memoria,Biochip Memoria,Biochip Memoria,missing_translation,English label identical to Italian or trait_id
+biofilm_glow,Biofilm Glow,Biofilm Glow,missing_translation,English label identical to Italian or trait_id
+biofilm_iperarido,Biofilm Iperarido,Biofilm Iperarido,missing_translation,English label identical to Italian or trait_id
+branchie_dual_mode,Branchie Dual Mode,Branchie Dual Mode,missing_translation,English label identical to Italian or trait_id
+branchie_eoliche,Branchie Eoliche,Branchie Eoliche,missing_translation,English label identical to Italian or trait_id
+branchie_metalloidi,Branchie Metalloidi,Branchie Metalloidi,missing_translation,English label identical to Italian or trait_id
+branchie_microfiltri,Branchie Microfiltri,Branchie Microfiltri,missing_translation,English label identical to Italian or trait_id
+branchie_osmotiche_salmastra,Branchie Osmotiche Salmastre,Branchie Osmotiche Salmastre,missing_translation,English label identical to Italian or trait_id
+branchie_solfatiche,Branchie Solfatiche,Branchie Solfatiche,missing_translation,English label identical to Italian or trait_id
+branchie_turbina,Branchie Turbina,Branchie Turbina,missing_translation,English label identical to Italian or trait_id
+bulbi_radici_permafrost,Bulbi Radici del Permafrost,Bulbi Radici del Permafrost,missing_translation,English label identical to Italian or trait_id
+camere_anticorrosione,Camere Anticorrosione,Camere Anticorrosione,missing_translation,English label identical to Italian or trait_id
+camere_mirage,Camere Mirage,Camere Mirage,missing_translation,English label identical to Italian or trait_id
+camere_nutrienti_vent,Camere Nutrienti Vent,Camere Nutrienti Vent,missing_translation,English label identical to Italian or trait_id
+capillari_criogenici,Capillari Criogenici,Capillari Criogenici,missing_translation,English label identical to Italian or trait_id
+capillari_fluoridici,Capillari Fluoridici,Capillari Fluoridici,missing_translation,English label identical to Italian or trait_id
+capillari_fotovoltaici,Capillari Fotovoltaici,Capillari Fotovoltaici,missing_translation,English label identical to Italian or trait_id
+capsule_paracadute,Capsule Paracadute,Capsule Paracadute,missing_translation,English label identical to Italian or trait_id
+carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,descriptive,label_it appears to be a description rather than a name
+carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,translation_mismatch,Significant difference in length between Italian and English names
+carapace_luminiscente_abissale,Carapace Luminiscente Abissale,Carapace Luminiscente Abissale,missing_translation,English label identical to Italian or trait_id
+carapace_segmenti_logici,Carapace Segmenti Logici,Carapace Segmenti Logici,missing_translation,English label identical to Italian or trait_id
+carapaci_ferruginosi,Carapaci Ferruginosi,Carapaci Ferruginosi,missing_translation,English label identical to Italian or trait_id
+cartilagine_flessotermica_venti,Cartilagine Flessotermica dei Venti,Cartilagine Flessotermica dei Venti,missing_translation,English label identical to Italian or trait_id
+cartilagini_biofibre,Cartilagini Biofibre,Cartilagini Biofibre,missing_translation,English label identical to Italian or trait_id
+cartilagini_desertiche,Cartilagini Desertiche,Cartilagini Desertiche,missing_translation,English label identical to Italian or trait_id
+cartilagini_flessoacustiche,Cartilagini Flessoacustiche,Cartilagini Flessoacustiche,missing_translation,English label identical to Italian or trait_id
+cartilagini_pseudometalliche,Cartilagini Pseudometalliche,Cartilagini Pseudometalliche,missing_translation,English label identical to Italian or trait_id
+cavita_risonanti_tundra,Cavità Risonanti della Tundra,Cavità Risonanti della Tundra,missing_translation,English label identical to Italian or trait_id
+cervelletto_equilibrio_statico,Cervelletto Equilibrio Statico,Cervelletto Equilibrio Statico,missing_translation,English label identical to Italian or trait_id
+chemiorecettori_bromuro,Chemiorecettori Bromuro,Chemiorecettori Bromuro,missing_translation,English label identical to Italian or trait_id
+chioma_parassita_canopica,Chioma Parassita Canopica,Chioma Parassita Canopica,missing_translation,English label identical to Italian or trait_id
+circolazione_bifasica,Circolazione Bifasica,Circolazione Bifasica,missing_translation,English label identical to Italian or trait_id
+circolazione_cooling_loop,Circolazione Cooling Loop,Circolazione Cooling Loop,missing_translation,English label identical to Italian or trait_id
+circolazione_doppia,Circolazione Doppia,Circolazione Doppia,missing_translation,English label identical to Italian or trait_id
+circolazione_supercritica,Circolazione Supercritica,Circolazione Supercritica,missing_translation,English label identical to Italian or trait_id
+ciste_riduttive,Ciste Riduttive,Ciste Riduttive,missing_translation,English label identical to Italian or trait_id
+ciste_salmastre,Ciste Salmastre,Ciste Salmastre,missing_translation,English label identical to Italian or trait_id
+cisti_iperbariche,Cisti Iperbariche,Cisti Iperbariche,missing_translation,English label identical to Italian or trait_id
+coda_balanciere,Coda Balanciere,Coda Balanciere,missing_translation,English label identical to Italian or trait_id
+coda_contrappeso,Coda Contrappeso,Coda Contrappeso,missing_translation,English label identical to Italian or trait_id
+coda_coppia_retroattiva,Coda Coppia Retroattiva,Coda Coppia Retroattiva,missing_translation,English label identical to Italian or trait_id
+coda_stabilizzatrice_filo,Coda Stabilizzatrice Filo,Coda Stabilizzatrice Filo,missing_translation,English label identical to Italian or trait_id
+coda_stabilizzatrice_geiser,Coda Stabilizzatrice Geiser,Coda Stabilizzatrice Geiser,missing_translation,English label identical to Italian or trait_id
+coda_stabilizzatrice_vortex,Coda Stabilizzatrice Vortex,Coda Stabilizzatrice Vortex,missing_translation,English label identical to Italian or trait_id
+colonne_vibromagnetiche,Colonne Vibromagnetiche,Colonne Vibromagnetiche,missing_translation,English label identical to Italian or trait_id
+coralli_partner,Coralli Partner,Coralli Partner,missing_translation,English label identical to Italian or trait_id
+cromofori_alert_acido,Cromofori Alert Acido,Cromofori Alert Acido,missing_translation,English label identical to Italian or trait_id
+cuore_multicamera_bassa_pressione,Cuore Multicamera Bassa Pressione,Cuore Multicamera Bassa Pressione,missing_translation,English label identical to Italian or trait_id
+cuscinetti_elettrostatici,Cuscinetti Elettrostatici,Cuscinetti Elettrostatici,missing_translation,English label identical to Italian or trait_id
+cute_resistente_sali,Cute Resistente Sali,Cute Resistente Sali,missing_translation,English label identical to Italian or trait_id
+cuticole_cerose,Cuticole Cerose,Cuticole Cerose,missing_translation,English label identical to Italian or trait_id
+cuticole_neutralizzanti,Cuticole Neutralizzanti,Cuticole Neutralizzanti,missing_translation,English label identical to Italian or trait_id
+denti_chelatanti,Denti Chelatanti,Denti Chelatanti,missing_translation,English label identical to Italian or trait_id
+denti_chelatanti,Denti Chelatanti,Denti Chelatanti,colloquial,Italian label contains colloquial phrasing
+denti_ossidoferro,Denti Ossidoferro,Denti Ossidoferro,missing_translation,English label identical to Italian or trait_id
+denti_ossidoferro,Denti Ossidoferro,Denti Ossidoferro,colloquial,Italian label contains colloquial phrasing
+denti_silice_termici,Denti Silice Termici,Denti Silice Termici,missing_translation,English label identical to Italian or trait_id
+denti_silice_termici,Denti Silice Termici,Denti Silice Termici,colloquial,Italian label contains colloquial phrasing
+denti_tuning_fork,Denti Tuning Fork,Denti Tuning Fork,missing_translation,English label identical to Italian or trait_id
+denti_tuning_fork,Denti Tuning Fork,Denti Tuning Fork,colloquial,Italian label contains colloquial phrasing
+echi_risonanti,Echi Risonanti,Echi Risonanti,missing_translation,English label identical to Italian or trait_id
+enzimi_antifase_termica,Enzimi Antifase Termica,Enzimi Antifase Termica,missing_translation,English label identical to Italian or trait_id
+enzimi_antipredatori_algali,Enzimi Antipredatori Algali,Enzimi Antipredatori Algali,missing_translation,English label identical to Italian or trait_id
+enzimi_chelanti,Enzimi Chelanti,Enzimi Chelanti,missing_translation,English label identical to Italian or trait_id
+enzimi_chelatori_rapidi,Enzimi Chelatori Rapidi,Enzimi Chelatori Rapidi,missing_translation,English label identical to Italian or trait_id
+enzimi_metanoossidanti,Enzimi Metanoossidanti,Enzimi Metanoossidanti,missing_translation,English label identical to Italian or trait_id
+epidermide_dielettrica,Epidermide Dielettrica,Epidermide Dielettrica,missing_translation,English label identical to Italian or trait_id
+epitelio_fosforescente,Epitelio Fosforescente,Epitelio Fosforescente,missing_translation,English label identical to Italian or trait_id
+filamenti_magnetotrofi,Filamenti Magnetotrofi,Filamenti Magnetotrofi,missing_translation,English label identical to Italian or trait_id
+filamenti_superconduttivi,Filamenti Superconduttivi,Filamenti Superconduttivi,missing_translation,English label identical to Italian or trait_id
+filamenti_termoconduzione,Filamenti Termoconduzione,Filamenti Termoconduzione,missing_translation,English label identical to Italian or trait_id
+filtri_planctonici,Filtri Planctonici,Filtri Planctonici,missing_translation,English label identical to Italian or trait_id
+flagelli_ancoranti,Flagelli Ancoranti,Flagelli Ancoranti,missing_translation,English label identical to Italian or trait_id
+foliage_fotocatodico,Foliage Fotocatodico,Foliage Fotocatodico,missing_translation,English label identical to Italian or trait_id
+foliaggio_spugna,Foliaggio Spugna,Foliaggio Spugna,missing_translation,English label identical to Italian or trait_id
+ghiaccio_piezoelettrico,Ghiaccio Piezoelettrico,Ghiaccio Piezoelettrico,missing_translation,English label identical to Italian or trait_id
+ghiandole_cambio_salino,Ghiandole Cambio Salino,Ghiandole Cambio Salino,missing_translation,English label identical to Italian or trait_id
+ghiandole_condensa_ozono,Ghiandole Condensa Ozono,Ghiandole Condensa Ozono,missing_translation,English label identical to Italian or trait_id
+ghiandole_eco_mappanti,Ghiandole Eco Mappanti,Ghiandole Eco Mappanti,missing_translation,English label identical to Italian or trait_id
+ghiandole_fango_calde,Ghiandole Fango Calde,Ghiandole Fango Calde,missing_translation,English label identical to Italian or trait_id
+ghiandole_fango_coesivo,Ghiandole Fango Coesivo,Ghiandole Fango Coesivo,missing_translation,English label identical to Italian or trait_id
+ghiandole_grafene,Ghiandole Grafene,Ghiandole Grafene,missing_translation,English label identical to Italian or trait_id
+ghiandole_inchiostro_luce,Ghiandole Inchiostro Luce,Ghiandole Inchiostro Luce,missing_translation,English label identical to Italian or trait_id
+ghiandole_iodoattive,Ghiandole Iodoattive,Ghiandole Iodoattive,missing_translation,English label identical to Italian or trait_id
+ghiandole_minerali,Ghiandole Minerali,Ghiandole Minerali,missing_translation,English label identical to Italian or trait_id
+ghiandole_nebbia_acida,Ghiandole Nebbia Acida,Ghiandole Nebbia Acida,missing_translation,English label identical to Italian or trait_id
+ghiandole_nebbia_ionica,Ghiandole Nebbia Ionica,Ghiandole Nebbia Ionica,missing_translation,English label identical to Italian or trait_id
+ghiandole_resina_conduttiva,Ghiandole Resina Conduttiva,Ghiandole Resina Conduttiva,missing_translation,English label identical to Italian or trait_id
+ghiandole_ventosa,Ghiandole Ventosa,Ghiandole Ventosa,missing_translation,English label identical to Italian or trait_id
+giunti_antitorsione,Giunti Antitorsione,Giunti Antitorsione,missing_translation,English label identical to Italian or trait_id
+grassi_termici,Grassi Termici,Grassi Termici,missing_translation,English label identical to Italian or trait_id
+gusci_criovetro,Gusci Criovetro,Gusci Criovetro,missing_translation,English label identical to Italian or trait_id
+gusci_magnesio,Gusci Magnesio,Gusci Magnesio,missing_translation,English label identical to Italian or trait_id
+lamelle_shear,Lamelle Shear,Lamelle Shear,missing_translation,English label identical to Italian or trait_id
+lamelle_sincroniche,Lamelle Sincroniche,Lamelle Sincroniche,missing_translation,English label identical to Italian or trait_id
+lamine_filtranti_aeree,Lamine Filtranti Aeree,Lamine Filtranti Aeree,missing_translation,English label identical to Italian or trait_id
+lamine_scudo_silice,Lamine Scudo Silice,Lamine Scudo Silice,missing_translation,English label identical to Italian or trait_id
+linfa_tampone,Linfa Tampone,Linfa Tampone,missing_translation,English label identical to Italian or trait_id
+lingua_cristallina,Lingua Cristallina,Lingua Cristallina,missing_translation,English label identical to Italian or trait_id
+luminescenza_aurorale,Luminescenza Aurorale,Luminescenza Aurorale,missing_translation,English label identical to Italian or trait_id
+luminescenza_hydrotermica,Luminescenza Hydrotermica,Luminescenza Hydrotermica,missing_translation,English label identical to Italian or trait_id
+mantelli_geotermici,Mantelli Geotermici,Mantelli Geotermici,missing_translation,English label identical to Italian or trait_id
+membrane_captura_rugiada,Membrane Captura Rugiada,Membrane Captura Rugiada,missing_translation,English label identical to Italian or trait_id
+membrane_eliofiltranti,Membrane Eliofiltranti,Membrane Eliofiltranti,missing_translation,English label identical to Italian or trait_id
+membrane_planata_vectored,Membrane Planata Vectored,Membrane Planata Vectored,missing_translation,English label identical to Italian or trait_id
+membrane_pneumatofori,Membrane Pneumatofori,Membrane Pneumatofori,missing_translation,English label identical to Italian or trait_id
+midollo_antivibrazione,Midollo Antivibrazione,Midollo Antivibrazione,missing_translation,English label identical to Italian or trait_id
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,descriptive,label_it appears to be a description rather than a name
+mucillagine_simbionte_mangrovie,Mucillagine Simbionte delle Mangrovie,Mucillagine Simbionte delle Mangrovie,missing_translation,English label identical to Italian or trait_id
+mucose_aderenza_sonica,Mucose Aderenza Sonica,Mucose Aderenza Sonica,missing_translation,English label identical to Italian or trait_id
+mucose_barofile,Mucose Barofile,Mucose Barofile,missing_translation,English label identical to Italian or trait_id
+nodi_micorrizici_oracolari,Nodi Micorrizici Oracolari,Nodi Micorrizici Oracolari,missing_translation,English label identical to Italian or trait_id
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,descriptive,label_it appears to be a description rather than a name
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,translation_mismatch,Significant difference in length between Italian and English names
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,colloquial,Italian label contains colloquial phrasing
+pathfinder,Pathfinder,Pathfinder,placeholder,Trait appears to be a placeholder
+pathfinder,Pathfinder,Pathfinder,missing_translation,English label identical to Italian or trait_id
+piume_solari_fotovoltaiche,Piume Solari Fotovoltaiche,Piume Solari Fotovoltaiche,missing_translation,English label identical to Italian or trait_id
+polmoni_cristallini_alta_quota,Polmoni Cristallini d'Alta Quota,Polmoni Cristallini d'Alta Quota,missing_translation,English label identical to Italian or trait_id
+random,Trait Random,Trait Random,placeholder,Trait appears to be a placeholder
+random,Trait Random,Trait Random,missing_translation,English label identical to Italian or trait_id
+sacche_spore_stratosferiche,Sacche di Spore Stratosferiche,Sacche di Spore Stratosferiche,missing_translation,English label identical to Italian or trait_id
+sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,descriptive,label_it appears to be a description rather than a name
+sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,translation_mismatch,Significant difference in length between Italian and English names
+sinapsi_coraline_polifoniche,Sinapsi Coraline Polifoniche,Sinapsi Coraline Polifoniche,missing_translation,English label identical to Italian or trait_id
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,descriptive,label_it appears to be a description rather than a name
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,translation_mismatch,Significant difference in length between Italian and English names
+squame_rifrangenti_deserto,Squame Rifrangenti del Deserto,Squame Rifrangenti del Deserto,missing_translation,English label identical to Italian or trait_id
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,descriptive,label_it appears to be a description rather than a name
+vello_condensatore_nebbie,Vello Condensatore di Nebbie,Vello Condensatore di Nebbie,missing_translation,English label identical to Italian or trait_id
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,descriptive,label_it appears to be a description rather than a name
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,translation_mismatch,Significant difference in length between Italian and English names
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,colloquial,Italian label contains colloquial phrasing
+zoccoli_risonanti_steppe,Zoccoli Risonanti delle Steppe,Zoccoli Risonanti delle Steppe,missing_translation,English label identical to Italian or trait_id
