@@ -1,0 +1,10 @@
+Validator 02A schema-only rerun – 2026-07-24T07:30Z
+Branch: patch/03A-core-derived
+Artifacts: data/core/**, data/derived/**, incoming/** (read-only)
+
+Checks (14): PASS
+Warnings: 0
+Notes:
+- Schema version OK (core/species/traits)
+- Trait glossary aligned to manifest reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt
+- No drift detected vs reports/backups/2025-11-25_freeze/manifest.txt

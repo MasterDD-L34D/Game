@@ -1,0 +1,44 @@
+schema_version: 1.0
+ecosistema:
+  id: SAVANA
+  label: Savana
+  biome_id: savana
+  clima:
+    temperatura_C:
+      media_annua: 24.0
+      min_mese_piu_freddo: 9.0
+      max_mese_piu_caldo: 42.0
+    precipitazioni_mm:
+      totale_annuo: 280
+      indice_stagionalita: estivo
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.05
+  abiotico:
+    salinita: arida
+    nutrienti:
+      N: basso
+      P: medio
+      K: alto
+  trofico:
+    produttori:
+    - arbusti_xerofili
+    - cianobatteri
+    consumatori:
+      primari:
+      - arenaceros-placidus
+      secondari: []
+      terziari:
+      - dune-stalker
+      - arenavolux-sagittalis
+      - pulverator-gregarius
+    decompositori: []
+  note: 'Savana Ionizzata (arid): dune fotoniche, tempeste ioniche e sabbia vetrificata;
+    baseline calda/temperata (vault card 01).'
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

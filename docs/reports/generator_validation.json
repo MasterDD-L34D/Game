@@ -1,0 +1,16 @@
+{
+  "generated_at": "2025-11-02T00:56:48.805849Z",
+  "summary": {
+    "total_traits": null,
+    "validated_traits": null,
+    "failed_traits": null,
+    "checks_total": null,
+    "checks_passed": null,
+    "checks_failed": null
+  },
+  "checks": [],
+  "warnings": [],
+  "errors": [],
+  "context": {},
+  "sources": {}
+}

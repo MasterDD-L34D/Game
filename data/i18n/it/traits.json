@@ -1,0 +1,362 @@
+{
+  "_meta": {
+    "locale": "it",
+    "language_name": "Italiano",
+    "direction": "ltr",
+    "version": 1,
+    "updated": "2026-07-14",
+    "completion_percent": 17
+  },
+  "traits": {
+    "aculei_velenosi": {
+      "label": "Aculei Velenosi",
+      "mutazione_indotta": "Le setole dorsali si sono fatte cave, innestate su sacche che distillano tossine emolitiche.",
+      "spinta_selettiva": "Un morso solo non bastava: serviva che la ferita continuasse a uccidere dopo il contatto.",
+      "uso_funzione": "Ogni colpo in mischia applica 3 turni di sanguinamento per disgregazione vascolare.",
+      "debolezza": "Le tossine devono entrare: contro una corazza spessa gli aculei non pescano sangue."
+    },
+    "adattamento_volo": {
+      "label": "Adattamento al Volo",
+      "mutazione_indotta": "Pieghe cutanee si tendono fra gli arti e trasformano ogni salto in una planata controllata.",
+      "spinta_selettiva": "Il terreno peggiore era anche il più sicuro: chi lo sorvolava smetteva di pagarne il prezzo.",
+      "uso_funzione": "Al grado 1 la planata annulla il costo di movimento aggiuntivo del terreno normale.",
+      "debolezza": "Una planata non si corregge a metà: chi la inizia non sceglie più dove atterrare."
+    },
+    "ali_ioniche": {
+      "label": "Ali Ioniche",
+      "mutazione_indotta": "Le membrane alari accumulano carica lungo nervature metalliche e la scaricano in micro-impulsi.",
+      "spinta_selettiva": "Nella canopia ionica l'aria è già elettrica: chi sa spenderla si muove per primo.",
+      "uso_funzione": "Un attacco portato da posizione sopraelevata applica 1 turno di stordimento.",
+      "debolezza": "Lo stordimento dura un istante: se il branco non lo sfrutta subito, è sprecato."
+    },
+    "antenne_flusso_mareale": {
+      "label": "Antenne di Flusso Mareale",
+      "mutazione_indotta": "Le antenne si sono sintonizzate sul ritmo delle maree, immagazzinando l'onda nei condotti muscolari.",
+      "spinta_selettiva": "Nella laguna bioreattiva colpire fuori tempo significa colpire l'acqua e nient'altro.",
+      "uso_funzione": "Con un colpo netto (margine 5 o più) il timing perfetto aggiunge 2 danni.",
+      "debolezza": "Un colpo approssimativo manca l'ondata: senza precisione le antenne non aggiungono nulla."
+    },
+    "artigli_psionici": {
+      "label": "Artigli Psionici",
+      "mutazione_indotta": "Le unghie conducono il pensiero: ogni presa preleva un frammento della mente che tocca.",
+      "spinta_selettiva": "Chi caccia lo stesso branco due volte impara che conoscere la preda vale più che ferirla.",
+      "uso_funzione": "Colpendo in mischia studia la preda: difendendosi da quella stessa preda accumula riduzione danno, fino a 3.",
+      "debolezza": "La lettura arriva solo col contatto: contro chi tiene le distanze gli artigli non sanno nulla."
+    },
+    "aura_glaciale": {
+      "label": "Aura Glaciale",
+      "mutazione_indotta": "Il sangue periferico scende sotto zero e l'aria intorno al corpo si condensa in brina.",
+      "spinta_selettiva": "Rallentare la preda costa meno che inseguirla, e il freddo non si stanca mai.",
+      "uso_funzione": "Ogni colpo applica 2 turni di gelo: il bersaglio perde 1 AP al reset e subisce -1 agli attacchi.",
+      "debolezza": "La brina si dissolve dove l'aria è calda: nei biomi roventi l'aura non riesce a condensare."
+    },
+    "canto_di_richiamo": {
+      "label": "Canto di Richiamo",
+      "mutazione_indotta": "Le sacche vocali si sono ampliate in camere che sostengono una nota lunga quanto un respiro intero.",
+      "spinta_selettiva": "Un branco che non celebra la preda dimentica perché caccia insieme.",
+      "uso_funzione": "Dopo un'uccisione il canto amplifica la furia per 2 turni e onora la preda caduta.",
+      "debolezza": "Due turni di furia sono pochi: il canto arriva quando lo scontro è già deciso."
+    },
+    "cervello_predittivo": {
+      "label": "Cervello Predittivo",
+      "mutazione_indotta": "La corteccia gira un passo avanti al presente e vede il movimento prima che accada.",
+      "spinta_selettiva": "In uno scontro fra pari vince chi arriva dove l'altro sarà, non dove l'altro è.",
+      "uso_funzione": "Con un colpo eccellente (margine 6 o più) il bersaglio resta stordito per 2 turni.",
+      "debolezza": "La previsione presuppone una regola: contro chi agisce a caso la corteccia sbaglia con sicurezza."
+    },
+    "corteccia_memetica": {
+      "label": "Corteccia Memetica",
+      "mutazione_indotta": "La corteccia registra ogni colpo pesante come una cicatrice che gli alleati sanno leggere.",
+      "spinta_selettiva": "Nei boschi antichi sopravvive chi trasforma la propria ferita in avvertimento condiviso.",
+      "uso_funzione": "Subito un colpo da 3 danni o più indurisce (danno -2) e concede +1 attacco agli alleati entro 3.",
+      "debolezza": "Serve essere feriti sul serio: contro il logoramento leggero la corteccia non si sveglia mai."
+    },
+    "criostasi_adattiva": {
+      "label": "Criostasi Adattiva",
+      "mutazione_indotta": "Il sangue si carica di enzimi crioprotettivi che fermano il metabolismo senza spezzare i tessuti.",
+      "spinta_selettiva": "Chi non sa attraversare l'inverno deve saperlo dormire.",
+      "uso_funzione": "Attivata, irrigidisce i tessuti: +2 alla difesa per 1 turno e +20% di resistenza al canale ionico.",
+      "debolezza": "La stasi dura un turno soltanto: fuori da quella finestra il corpo resta scoperto."
+    },
+    "cuore_in_furia": {
+      "label": "Cuore in Furia",
+      "mutazione_indotta": "Il miocardio è cresciuto oltre misura e regge una tachicardia che ucciderebbe un cuore normale.",
+      "spinta_selettiva": "La prima uccisione apre le altre: chi non sa incassare l'euforia la spreca.",
+      "uso_funzione": "Dopo un'uccisione il cuore entra in tachicardia e scatena 3 turni di furia adrenalinica.",
+      "debolezza": "Serve un'uccisione per accenderlo: in una battaglia di stallo il cuore non parte mai."
+    },
+    "denti_seghettati": {
+      "label": "Denti Seghettati",
+      "mutazione_indotta": "Le cuspidi dentali si sono scheggiate in lame ricurve che trattengono la carne.",
+      "spinta_selettiva": "Prede che si liberavano dal morso: serviva una ferita che continuasse a lavorare da sola.",
+      "uso_funzione": "Il morso lacera la carne e applica sanguinamento profondo per 2 turni.",
+      "debolezza": "Le lame si spuntano sulle corazze e vanno rifatte dopo ogni preda dura."
+    },
+    "eco_sismico": {
+      "label": "Eco Sismico",
+      "mutazione_indotta": "Placche cutanee percepiscono la vibrazione del suolo e la restituiscono amplificata.",
+      "spinta_selettiva": "Sotto la roccia la vista non serve: conta solo chi sente arrivare il peso.",
+      "uso_funzione": "Un impulso marca il terreno come zona risonante per 2 round: chi vi entra resta disorientato.",
+      "debolezza": "La zona non insegue: un nemico che la aggira non ne subisce nulla."
+    },
+    "ferocia": {
+      "label": "Ferocia",
+      "mutazione_indotta": "Le ghiandole surrenali restano semiaperte e il dolore arriva sempre un istante troppo tardi.",
+      "spinta_selettiva": "Sotto pressione l'esitazione uccide più della ferita: sopravvive chi raddoppia il colpo.",
+      "uso_funzione": "Ogni uccisione scatena 3 turni di furia: niente ritirata e +1 danno sui colpi riusciti.",
+      "debolezza": "In furia la ritirata è preclusa: chi entra in rabbia resta in campo anche mentre perde."
+    },
+    "filtri_bioattivi": {
+      "label": "Filtri Bioattivi",
+      "mutazione_indotta": "Un reticolo di ghiandole filtra il sangue in circolo e ricuce i tessuti mentre li attraversa.",
+      "spinta_selettiva": "Nelle acque marce la ferita infetta prima di chiudersi: serviva un corpo che si lavasse da solo.",
+      "uso_funzione": "Ogni round purga 1 sanguinamento e 1 frattura, e cura 1 per ogni stato rimosso.",
+      "debolezza": "Il filtro lavora un male alla volta: sotto molti stati insieme resta indietro."
+    },
+    "intimidatore": {
+      "label": "Aura Intimidatoria",
+      "mutazione_indotta": "La postura si è irrigidita in una sagoma che il cervello della preda legge come inevitabile.",
+      "spinta_selettiva": "Una preda che scappa non combatte: spaventare costa meno che vincere.",
+      "uso_funzione": "Ogni colpo in mischia riuscito applica 2 turni di panico al bersaglio.",
+      "debolezza": "Il terrore ha bisogno di occhi e di vicinanza: da lontano resta solo una sagoma."
+    },
+    "legame_di_branco": {
+      "label": "Legame di Branco",
+      "mutazione_indotta": "Le vocalizzazioni si sono ridotte a segnali brevi che il branco decodifica senza guardarsi.",
+      "spinta_selettiva": "Un branco che scopre la minaccia insieme la subisce una volta sola.",
+      "uso_funzione": "Quando un compagno adiacente della stessa specie attacca, il portatore ottiene +1 all'attacco e +1 alla difesa fino a fine round.",
+      "debolezza": "Il legame riconosce solo la propria specie: in una squadra mista resta muto."
+    },
+    "marchio_predatorio": {
+      "label": "Marchio Predatorio",
+      "mutazione_indotta": "Ghiandole ascellari rilasciano un feromone che aderisce alla preda e la rende leggibile al branco.",
+      "spinta_selettiva": "Cacciare in molti serve a poco se ognuno insegue una preda diversa.",
+      "uso_funzione": "Ogni colpo marchia il bersaglio per 2 turni: il prossimo attacco su di lui ottiene +1 danno e consuma il marchio.",
+      "debolezza": "Il marchio vale un colpo solo, e lo spende il primo che arriva, non il migliore."
+    },
+    "membrane_osmotiche": {
+      "label": "Membrane Osmotiche",
+      "mutazione_indotta": "La membrana esterna beve ciò che la colpisce e ne trattiene una parte prima che raggiunga il sangue.",
+      "spinta_selettiva": "Dove ogni tocco è veleno, un corpo impermeabile perde meno tempo a guarire.",
+      "uso_funzione": "Accorcia di 1 turno ogni stato in arrivo (uno da 1 turno non attecchisce); a fine round cura 1 se adiacente ad acqua o palude.",
+      "debolezza": "Contro uno stato lungo l'assorbimento è un rinvio, non una difesa."
+    },
+    "mente_lucida": {
+      "label": "Mente Lucida",
+      "mutazione_indotta": "L'attenzione non si sposta con la paura: lo sguardo resta fermo dove la guardia si apre.",
+      "spinta_selettiva": "Nel panico tutti vedono l'arma. Vince chi continua a vedere il varco.",
+      "uso_funzione": "Un colpo netto (margine 5 o più) fa sentire visto il bersaglio: 2 turni di panico.",
+      "debolezza": "La lucidità è lenta: costa un istante che in mischia stretta non sempre esiste."
+    },
+    "midollo_iperattivo": {
+      "label": "Midollo Iperattivo",
+      "mutazione_indotta": "Il midollo osseo produce catecolamine come se ogni uccisione fosse la prima.",
+      "spinta_selettiva": "Chi caccia in serie non può permettersi di raffreddarsi fra una preda e l'altra.",
+      "uso_funzione": "Ogni uccisione pompa adrenalina e scatena 3 turni di furia.",
+      "debolezza": "Il midollo consuma sé stesso: le ossa si rigenerano più lente di quanto si spendano."
+    },
+    "pelle_elastomera": {
+      "label": "Pelle Elastomera",
+      "mutazione_indotta": "Il derma si è stratificato in fogli elastomerici che restituiscono l'urto invece di trasmetterlo.",
+      "spinta_selettiva": "Contro un predatore che non si può evitare, l'unica risposta è assorbire e restare in piedi.",
+      "uso_funzione": "Ammortizza ogni colpo in arrivo e riduce il danno subito di 1.",
+      "debolezza": "L'elastomero attutisce l'impatto, non il veleno che passa attraverso la pelle."
+    },
+    "pelli_anti_ustione": {
+      "label": "Pelli Anti-Ustione",
+      "mutazione_indotta": "Lo strato dermico si è riempito di cellule vuote che disperdono il calore prima che scenda.",
+      "spinta_selettiva": "Sulle croste laviche il contatto è breve e continuo: bruciarsi era una condanna lenta.",
+      "uso_funzione": "L'effetto cuscinetto termico riduce di 1 il danno di ogni colpo subito.",
+      "debolezza": "Un punto di danno in meno non ferma un colpo grosso: contro chi picchia forte è quasi nulla."
+    },
+    "pelli_cave": {
+      "label": "Pelli Cave",
+      "mutazione_indotta": "Sotto la pelle si sono aperte sacche d'aria che trattengono il caldo fuori e il fresco dentro.",
+      "spinta_selettiva": "Nell'arido l'ombra non basta: il corpo deve portarsi addosso la propria.",
+      "uso_funzione": "Le sacche d'aria attutiscono l'impatto e riducono di 1 il danno di ogni colpo.",
+      "debolezza": "Le sacche riducono l'urto ma non l'ustione, né il veleno che filtra tra i pori."
+    },
+    "pelli_fitte": {
+      "label": "Pelli Fitte",
+      "mutazione_indotta": "Le fibre dermiche si sono intrecciate fitte come un feltro, e l'acqua non trova più uscita.",
+      "spinta_selettiva": "Il vento costante non ferisce: prosciuga. Sopravvive chi trattiene.",
+      "uso_funzione": "Ogni colpo in mischia subito viene attutito di 2 danni.",
+      "debolezza": "Il feltro para la mischia: contro chi colpisce da lontano non attutisce nulla."
+    },
+    "radici_ancora_planare": {
+      "label": "Radici Ancora Planare",
+      "mutazione_indotta": "Radici escono dai talloni e mordono il piano su cui il corpo si ferma.",
+      "spinta_selettiva": "Un tronco non fugge. Se deve reggere l'urto, tanto vale essere impossibile da spostare.",
+      "uso_funzione": "A inizio round mette radici: da fermo riduce di 2 il danno, ma muoversi rompe l'ancora.",
+      "debolezza": "Un nemico che non lo attacca lo ignora: ancorato, il portatore non insegue nessuno."
+    },
+    "sensori_sismici": {
+      "label": "Sensori Sismici",
+      "mutazione_indotta": "Recettori cutanei si sono affinati fino a distinguere il peso che si sposta da quello che si posa.",
+      "spinta_selettiva": "Un predatore tradisce l'attacco col piede prima che con gli occhi.",
+      "uso_funzione": "Con un colpo netto in mischia (margine 5 o più) entra nell'apertura e infligge 1 danno extra.",
+      "debolezza": "Il suolo deve trasmettere: sull'acqua e sulla sabbia mossa i sensori tacciono."
+    },
+    "spirito_combattivo": {
+      "label": "Spirito Combattivo",
+      "mutazione_indotta": "L'amigdala si è calibrata verso il basso: la minaccia arriva, ma non prende il comando.",
+      "spinta_selettiva": "Un branco che si sfalda al primo urlo perde prima ancora di combattere.",
+      "uso_funzione": "Quando un alleato adiacente attacca, il portatore guadagna +1 all'attacco fino a fine round.",
+      "debolezza": "Da solo non vale nulla: senza un alleato accanto il morale non si accende."
+    },
+    "spore_paniche": {
+      "label": "Spore Paniche",
+      "mutazione_indotta": "Sacche sporali maturano sotto la pelle e si aprono al primo segnale di minaccia.",
+      "spinta_selettiva": "Non serve uccidere il predatore: basta convincerlo che il branco è già perduto.",
+      "uso_funzione": "Le spore neurotossiche inducono allucinazioni e mettono in fuga: 3 turni di panico.",
+      "debolezza": "Un bersaglio in panico fugge: le spore lo tolgono dalla mischia prima che tu possa finirlo."
+    },
+    "sussurro_psichico": {
+      "label": "Sussurro Psichico",
+      "mutazione_indotta": "Una sacca sublinguale emette frequenze che il timpano non registra ma il nervo sì.",
+      "spinta_selettiva": "Confondere un avversario più forte costa un soffio; affrontarlo costa il branco.",
+      "uso_funzione": "Ogni colpo solido (margine 5 o più) applica 1 turno di disorientamento: -2 ai tiri d'attacco.",
+      "debolezza": "Serve un colpo netto: un tocco appena riuscito non porta il sussurro fino al nervo."
+    },
+    "tela_appiccicosa": {
+      "label": "Tela Appiccicosa",
+      "mutazione_indotta": "Ghiandole addominali filano un secreto che indurisce solo quando qualcosa prova a staccarsene.",
+      "spinta_selettiva": "Non serve essere più veloci della preda: basta che sia più lenta di ieri.",
+      "uso_funzione": "Ogni colpo applica 3 turni di rallentamento: -1 AP al reset, con almeno 1 AP garantito.",
+      "debolezza": "Una preda che smette di tirare non resta invischiata: la tela punisce chi si dibatte."
+    },
+    "tentacoli_uncinati": {
+      "label": "Tentacoli Uncinati",
+      "mutazione_indotta": "Uncini di cheratina spuntano lungo i tentacoli e si chiudono all'indietro come ami.",
+      "spinta_selettiva": "Trattenere la preda un istante in più valeva quanto un secondo morso.",
+      "uso_funzione": "Ogni colpo in mischia applica 1 turno di frattura: il bersaglio scende a 1 AP.",
+      "debolezza": "Un uncino che entra deve uscire: staccarsi da una preda corazzata li spezza."
+    },
+    "tessuti_adattivi": {
+      "label": "Tessuti Adattivi",
+      "mutazione_indotta": "I tessuti campionano ciò che li ferisce e si riorganizzano contro quello stesso canale.",
+      "spinta_selettiva": "Un ambiente che colpisce sempre allo stesso modo insegna in fretta a chi sopravvive.",
+      "uso_funzione": "Subiti 2 o più danni di un canale, ottiene +15% di resistenza a quel canale per 3 round e cura 1; al massimo 2 canali insieme.",
+      "debolezza": "L'adattamento guarda indietro: chi alterna i canali di danno non gli lascia mai imparare."
+    },
+    "voce_imperiosa": {
+      "label": "Voce Imperiosa",
+      "mutazione_indotta": "Le corde vocali si sono ispessite in una camera che risuona sotto la soglia dell'udito.",
+      "spinta_selettiva": "In un branco l'ordine di fuga arriva prima del predatore: chi lo pronuncia comanda.",
+      "uso_funzione": "In mischia, un colpo netto (margine 5 o più) applica 2 turni di panico.",
+      "debolezza": "Vale solo a portata di voce e non tocca chi non ha volontà da spezzare."
+    },
+    "zampe_a_molla": {
+      "label": "Zampe a Molla",
+      "mutazione_indotta": "I tendini posteriori si sono avvolti come molle che trattengono la spinta fra un balzo e l'altro.",
+      "spinta_selettiva": "Nella foresta miceliale il suolo cede: sopravvive chi non resta fermo abbastanza da sprofondare.",
+      "uso_funzione": "Colpendo da posizione sopraelevata con margine 5 o più, infligge 1 danno extra.",
+      "debolezza": "Il balzo serve solo a salire: senza un colpo preciso dall'alto le molle non pagano."
+    },
+    "zampe_radianti": {
+      "label": "Zampe Radianti",
+      "mutazione_indotta": "I cuscinetti plantari accumulano l'urto della caduta e lo restituiscono all'impatto.",
+      "spinta_selettiva": "Chi attacca dall'alto ha già l'energia: bastava non sprecarla nell'atterraggio.",
+      "uso_funzione": "Attaccando da posizione sopraelevata la pulsazione cinetica aggiunge 2 danni all'impatto.",
+      "debolezza": "Serve un dislivello: sul piano le zampe non hanno caduta da convertire."
+    },
+    "arco_voltaico": {
+      "label": "Arco Voltaico",
+      "mutazione_indotta": "Un filamento dorsale si e' caricato di cellule elettrogeniche che accumulano tensione fino a scaricarla in un arco visibile.",
+      "spinta_selettiva": "Colpire il sistema nervoso della preda prima dei denti: un lampo che disorienta vale piu' di un morso.",
+      "uso_funzione": "Un colpo ionico riuscito (MoS >= 5) applica 1 turno di disorient al bersaglio; concede +15% di resistenza ionica.",
+      "debolezza": "L'arco deve ricaricarsi: contro bersagli isolati dal terreno o ben schermati la scarica si disperde."
+    },
+    "martello_osseo": {
+      "label": "Martello Osseo",
+      "mutazione_indotta": "L'estremita' di un arto o della coda si e' ispessita in una massa ossea compatta, pesante come una mazza.",
+      "spinta_selettiva": "Rompere la struttura del nemico invece di ferirlo: chi non riesce a muoversi non fugge e non contrattacca.",
+      "uso_funzione": "Ogni critico (MoS >= 8) applica 2 turni di frattura: al reset il bersaglio resta con 1 solo AP, limitandone il movimento.",
+      "debolezza": "La massa ossea e' lenta da caricare: contro bersagli agili il colpo pesante manca il tempo giusto."
+    },
+    "pungiglione_paralizzante": {
+      "label": "Pungiglione Paralizzante",
+      "mutazione_indotta": "Un pungiglione retrattile si e' riempito di ghiandole che sintetizzano una neurotossina inibitrice.",
+      "spinta_selettiva": "Una preda immobilizzata non va inseguita: il veleno fa il lavoro che i muscoli non possono.",
+      "uso_funzione": "Un colpo preciso in mischia (MoS >= 5) applica 2 turni di stunned: il bersaglio salta i due turni successivi.",
+      "debolezza": "La riserva di tossina e' limitata e va rigenerata: contro organismi resistenti ai veleni l'effetto svanisce."
+    },
+    "scarica_ionica": {
+      "label": "Scarica Ionica",
+      "mutazione_indotta": "Membrane specializzate accumulano ioni lungo il corpo e li rilasciano in un impulso diretto al contatto.",
+      "spinta_selettiva": "Aggiungere una scossa a ogni colpo: un piccolo margine elettrico che nel tempo logora la preda.",
+      "uso_funzione": "Un colpo ionico riuscito (MoS >= 5) scarica un impulso da 1 PT di danno extra; concede +10% di resistenza ionica.",
+      "debolezza": "La carica si esaurisce in ambienti umidi o molto conduttivi, dove l'impulso si disperde prima di colpire."
+    },
+    "matrice_antimagia": {
+      "label": "Matrice Antimagia",
+      "mutazione_indotta": "Nei costrutti delle rovine planari, reticoli runici incisi nel corpo emettono un campo che destabilizza gli impulsi attivi di chi viene colpito.",
+      "spinta_selettiva": "Difendere i siti planari da intrusi capaci di tecniche complesse: spegnere le loro abilita' vale piu' che ferirli.",
+      "uso_funzione": "Ogni colpo ravvicinato riuscito impone inibito per 1 turno: il bersaglio non puo' usare abilita' attive (restano movimento, attacchi base e reazioni).",
+      "debolezza": "Il campo agisce solo a corto raggio e sul singolo colpo: bersagli che si affidano agli attacchi base ne sono immuni."
+    },
+    "nuclei_di_controllo": {
+      "label": "Nuclei di Controllo",
+      "mutazione_indotta": "Un nucleo di coordinamento, tipico dei costrutti delle rovine, sincronizza i colpi del portatore e degli alleati vicini.",
+      "spinta_selettiva": "Trasformare un gruppo in un'unita' coordinata: la somma dei colpi allineati batte l'iniziativa individuale.",
+      "uso_funzione": "Finche' il nucleo e' intatto coordina i colpi (+1 attacco) e irradia +1 attacco agli alleati entro raggio 2. Un colpo preciso (MoS >= 5) lo danneggia, un secondo lo distrugge con una detonazione da +2 PT.",
+      "debolezza": "Il nucleo e' un punto debole esposto: due colpi precisi lo spengono e ne fanno un'arma contro il branco."
+    },
+    "risonanza_magnetica": {
+      "label": "Risonanza Magnetica",
+      "mutazione_indotta": "Il tessuto neurale si e' sintonizzato sui campi magnetici locali, che vibrano in sincronia con le frequenze mentali del branco.",
+      "spinta_selettiva": "Comunicare senza suono ne' vista: nei biomi di faglia la coordinazione silenziosa e' un vantaggio di caccia.",
+      "uso_funzione": "Un'uccisione con MoS >= 5 attiva un legame telepatico per 5 turni, condividendo coordinate tattiche con gli alleati vicini.",
+      "debolezza": "Il legame si innesca solo dopo un'uccisione e richiede campi magnetici stabili: lontano dalle faglie si affievolisce."
+    },
+    "equilibrio_vestibolare": {
+      "label": "Equilibrio Vestibolare",
+      "mutazione_indotta": "L'apparato vestibolare si e' affinato fino a correggere in tempo reale ogni perdita di assetto.",
+      "spinta_selettiva": "Restare in piedi dove gli altri cadono: su terreni instabili l'equilibrio decide chi combatte e chi ruzzola.",
+      "uso_funzione": "Riduce di 1 PT il danno da attacchi destabilizzanti e attenua le cadute.",
+      "debolezza": "Il controllo dell'assetto non protegge dai colpi diretti: contro danno puro non offre difesa."
+    },
+    "nocicezione": {
+      "label": "Nocicezione",
+      "mutazione_indotta": "Una rete nocicettiva ipersensibile converte il dolore in una risposta difensiva immediata.",
+      "spinta_selettiva": "Fare del dolore un'arma: chi ferisce un organismo gia' provato paga il contrattacco piu' caro.",
+      "uso_funzione": "Quando e' Ferito, i contrattacchi reattivi infliggono +1 PT di danno.",
+      "debolezza": "Il vantaggio esiste solo da Ferito: a piena salute la reattivita' non si attiva."
+    },
+    "pigmenti_aurorali": {
+      "label": "Pigmenti Aurorali",
+      "mutazione_indotta": "Cromofori dermici accumulano composti fluorescenti che si accendono sotto luce polare o tempesta magnetica.",
+      "spinta_selettiva": "Un bagliore che confonde: abbagliare chi si avvicina troppo compra il tempo per riposizionarsi.",
+      "uso_funzione": "Finche' e' in salute (HP >= 50%), a fine round i pigmenti abbagliano i nemici adiacenti: -1 attacco al loro prossimo colpo.",
+      "debolezza": "Sotto meta' vita il bagliore si spegne: proprio quando servirebbe di piu', i pigmenti si affievoliscono."
+    },
+    "propriocezione": {
+      "label": "Propriocezione",
+      "mutazione_indotta": "Il senso della posizione del corpo si e' affinato fino a guidare ogni movimento con precisione millimetrica.",
+      "spinta_selettiva": "Sapere sempre dove sono gli arti: la mira nasce prima dai muscoli che dagli occhi.",
+      "uso_funzione": "Concede +1 agli attacchi grazie al controllo costante di equilibrio e posizione.",
+      "debolezza": "E' un vantaggio di precisione, non di potenza: contro difese elevate il piccolo bonus non basta."
+    },
+    "senso_magnetico": {
+      "label": "Senso Magnetico",
+      "mutazione_indotta": "Recettori magnetorecettivi percepiscono passivamente i campi magnetici dell'ambiente circostante.",
+      "spinta_selettiva": "Orientarsi al buio e sentire il metallo prima di vederlo: un senso in piu' dove la vista non arriva.",
+      "uso_funzione": "Percezione passiva dei campi magnetici: a ogni colpo riuscito l'unita' affina il proprio senso magnetico (sensed, 1 turno). Prerequisito della risonanza magnetica.",
+      "debolezza": "In ambienti saturi di interferenze il segnale si confonde e la percezione perde nitidezza."
+    },
+    "sintonia_magnetica": {
+      "label": "Sintonia Magnetica",
+      "mutazione_indotta": "L'apparato sensoriale si e' adattato alle turbolenze elettromagnetiche di faglia, canalizzandone l'energia.",
+      "spinta_selettiva": "Trasformare il disturbo magnetico del bioma in vantaggio: dove altri perdono l'orientamento, il portatore si accorda.",
+      "uso_funzione": "Un colpo deciso (MoS >= 8) sintonizza l'unita' con l'energia magnetica del bioma per 2 turni. Prerequisito della risonanza magnetica.",
+      "debolezza": "La sintonia dipende dai campi di faglia: fuori dai biomi magnetici non ha nulla su cui accordarsi."
+    },
+    "termocezione": {
+      "label": "Termocezione",
+      "mutazione_indotta": "Recettori termici distribuiti sulla pelle mantengono un continuo bilancio caldo/freddo dell'ambiente e del corpo.",
+      "spinta_selettiva": "Leggere il calore per sopravvivere agli estremi: chi sente la temperatura la subisce meno.",
+      "uso_funzione": "Riduce di 1 PT il danno da attacchi termici (fuoco e ghiaccio).",
+      "debolezza": "La difesa e' solo termica: contro danno fisico o ionico i recettori non offrono protezione."
+    }
+  }
+}

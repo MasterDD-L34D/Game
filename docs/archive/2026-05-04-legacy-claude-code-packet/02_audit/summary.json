@@ -1,0 +1,176 @@
+{
+  "summary": [
+    {
+      "category": "biomes",
+      "files": 4,
+      "unmapped": 1,
+      "semantic/translated_match": 1,
+      "exact_or_asset_match": 2
+    },
+    {
+      "category": "director",
+      "files": 11,
+      "design_reference_only": 10,
+      "exact_or_asset_match": 1
+    },
+    {
+      "category": "ennea",
+      "files": 1,
+      "exact_or_asset_match": 1
+    },
+    {
+      "category": "exports/spawn_packs",
+      "files": 3,
+      "unmapped": 3
+    },
+    {
+      "category": "form",
+      "files": 3,
+      "design_reference_only": 3
+    },
+    {
+      "category": "jobs",
+      "files": 6,
+      "exact_or_asset_match": 6
+    },
+    {
+      "category": "modules/personality/enneagram",
+      "files": 12,
+      "unmapped": 12
+    },
+    {
+      "category": "morph",
+      "files": 12,
+      "semantic/translated_match": 7,
+      "unmapped": 5
+    },
+    {
+      "category": "nest",
+      "files": 1,
+      "design_reference_only": 1
+    },
+    {
+      "category": "rules",
+      "files": 17,
+      "design_reference_only": 16,
+      "exact_or_asset_match": 1
+    },
+    {
+      "category": "social",
+      "files": 3,
+      "design_reference_only": 2,
+      "exact_or_asset_match": 1
+    },
+    {
+      "category": "species",
+      "files": 5,
+      "exact_or_asset_match": 1,
+      "unmapped": 4
+    },
+    {
+      "category": "surge",
+      "files": 5,
+      "unmapped": 4,
+      "exact_or_asset_match": 1
+    },
+    {
+      "category": "tags",
+      "files": 3,
+      "unmapped": 3
+    },
+    {
+      "category": "telemetry",
+      "files": 2,
+      "exact_or_asset_match": 1,
+      "design_reference_only": 1
+    },
+    {
+      "category": "traits",
+      "files": 2,
+      "unmapped": 2
+    }
+  ],
+  "notes": [
+    [
+      "species",
+      5,
+      ["dune_stalker", "sand_burrower", "echo_wing", "rust_scavenger", "species_index"]
+    ],
+    [
+      "morph",
+      12,
+      [
+        "spring_legs",
+        "acid_gland",
+        "elastomer_skin",
+        "echolocate",
+        "burst_anaerobic",
+        "burrow_claws",
+        "ferrous_carapace",
+        "mag_sense",
+        "glide_wings",
+        "iron_spine",
+        "aero_exchange",
+        "rust_ingest"
+      ]
+    ],
+    ["jobs", 6, ["skirmisher", "vanguard", "warden", "artificer", "invoker", "harvester"]],
+    ["biomes", 4, ["starter_biomes", "desert", "cavern", "badlands"]],
+    [
+      "rules",
+      17,
+      [
+        "stats",
+        "resources",
+        "economy",
+        "preferences_tables",
+        "privacy",
+        "checklists",
+        "validation",
+        "job_gates",
+        "proficiency",
+        "checks",
+        "stances",
+        "units_grid",
+        "mating_biome_links",
+        "tuning",
+        "synergies",
+        "synergy_tuning",
+        "synergy_tuning"
+      ]
+    ],
+    ["social", 3, ["affinity_trust", "mating", "species_preferences"]],
+    ["nest", 1, ["requirements"]],
+    ["ennea", 1, ["themes"]],
+    [
+      "director",
+      11,
+      [
+        "regista",
+        "",
+        "npg_skirmisher_desert_01",
+        "npg_warden_cavern_01",
+        "behavior_tables",
+        "npg_vanguard_desert_01",
+        "npg_invoker_cavern_01",
+        "npg_artificer_badlands_01",
+        "npg_harvester_badlands_01",
+        "regista_rewards",
+        "encounter_tables"
+      ]
+    ],
+    ["surge", 5, ["pierce", "spin", "chain", "pulse", "overdrive"]],
+    ["tags", 3, ["weapon", "weapon_extra", "weapon_advanced"]],
+    ["traits", 2, ["focus_frazionato", "backstab"]],
+    ["telemetry", 2, ["vc", "pf_session"]],
+    ["form", 3, ["ENTP", "mbti_job_affinities", "mbti_gates"]]
+  ],
+  "godot_counts": {
+    "traits": 458,
+    "biomes": 20,
+    "lifecycles": 15,
+    "encounters": 14,
+    "companion": 5
+  },
+  "godot_file_count": 594
+}

@@ -1,0 +1,9 @@
+{
+  "name": "claude-supermemory",
+  "version": "0.0.2",
+  "description": "Persistent memory across Claude Code sessions using Supermemory",
+  "author": {
+    "name": "Supermemory",
+    "email": "support@supermemory.ai"
+  }
+}

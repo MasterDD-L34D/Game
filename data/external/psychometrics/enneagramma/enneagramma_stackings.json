@@ -1,0 +1,22 @@
+{
+  "stackings": {
+    "sp/so": {
+      "summary_it": "pratico e orientato alla stabilità; poi rete/ruolo"
+    },
+    "sp/sx": {
+      "summary_it": "conservazione con slanci intensi selettivi"
+    },
+    "so/sp": {
+      "summary_it": "sociale/comunitario con base pratica solida"
+    },
+    "so/sx": {
+      "summary_it": "visibilità e legami; ricerca di impatto relazionale"
+    },
+    "sx/sp": {
+      "summary_it": "intensità e legame; base pragmatica a supporto"
+    },
+    "sx/so": {
+      "summary_it": "intensità diretta verso visibilità e appartenenza"
+    }
+  }
+}

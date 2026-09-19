@@ -1,0 +1,50 @@
+# OD-013 Path B — MBTI dialogue color codes (diegetic).
+#
+# 8 colori per le 8 lettere MBTI (E/I S/N T/F J/P).
+# Selezionati per garantire WCAG AA (≥4.5:1) di contrasto vs sfondo bianco
+# (#ffffff) — usati come `color` su testo dark-on-light. Per inversione
+# light-on-dark (#0b0d12 / #131722), tutti i colori restano leggibili (>3:1
+# AA large text); il front-end deve quindi preferire bg chiaro nelle bolle
+# dialogo. La hover/tooltip mostra il label italiano dell'asse.
+#
+# Pattern Disco Elysium: ogni colore segnala l'origine "tonale" di una linea
+# di dialogo (es. linea Estroversione = arancio caldo, Pensiero = teal).
+# Gating Path A: il colore è renderizzato SOLO se `mbti_revealed[axis]`
+# è true; altrimenti la frase è plain-text (no color leak prematuro).
+#
+# Modifiche al palette → ricontrolla contrasto con tools/check_wcag (script
+# manuale o test in tests/services/mbtiPalette.test.js).
+version: 1
+palette:
+  E:
+    color: '#b45309' # warm orange (amber-700) — Estroversione (energia che esce)
+    label: 'Estroversione'
+    axis: 'E_I'
+  I:
+    color: '#1e40af' # deep blue (blue-800) — Introversione (raccoglimento)
+    label: 'Introversione'
+    axis: 'E_I'
+  S:
+    color: '#15803d' # forest green (green-700) — Sensazione (terra, dettaglio)
+    label: 'Sensazione'
+    axis: 'S_N'
+  N:
+    color: '#6d28d9' # violet (violet-700) — Intuizione (visione, astrazione)
+    label: 'Intuizione'
+    axis: 'S_N'
+  T:
+    color: '#0e7490' # teal (cyan-700) — Pensiero (logica fredda)
+    label: 'Pensiero'
+    axis: 'T_F'
+  F:
+    color: '#be185d' # rose (pink-700) — Sentimento (calore, valore)
+    label: 'Sentimento'
+    axis: 'T_F'
+  J:
+    color: '#854d0e' # amber dark (yellow-800) — Giudizio (struttura, peso)
+    label: 'Giudizio'
+    axis: 'J_P'
+  P:
+    color: '#0369a1' # sky dark (sky-700) — Percezione (apertura, fluidità)
+    label: 'Percezione'
+    axis: 'J_P'

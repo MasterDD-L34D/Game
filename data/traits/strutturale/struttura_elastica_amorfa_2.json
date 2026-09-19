@@ -1,0 +1,23 @@
+{
+  "schema_version": "2.0",
+  "id": "struttura_elastica_amorfa_2",
+  "label": "i18n:traits.struttura_elastica_amorfa_2.label",
+  "famiglia_tipologia": "Strutturale/Locomotorio",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "tier": "T1",
+  "slot_profile": {
+    "core": "strutturale",
+    "complementare": "locomotorio"
+  },
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.struttura_elastica_amorfa_2.mutazione_indotta",
+  "uso_funzione": "i18n:traits.struttura_elastica_amorfa_2.uso_funzione",
+  "spinta_selettiva": "i18n:traits.struttura_elastica_amorfa_2.spinta_selettiva",
+  "debolezza": "i18n:traits.struttura_elastica_amorfa_2.debolezza",
+  "data_origin": "appendix_a_variant_deep_research_grounded",
+  "completion_flags": {
+    "design_stub": false
+  }
+}

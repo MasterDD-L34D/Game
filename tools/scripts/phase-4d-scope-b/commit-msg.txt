@@ -1,0 +1,28 @@
+feat(import): Phase 4d Scope B — read species_catalog.json canonical 53 species (Game/ SOT v0.4.x)
+
+Cross-stack consume Game/ canonical SOT bypassando mirror Pack v2 21.
+
+Game-Database import-taxonomy.js ora:
+- Prefer canonical: ../Game/data/core/species/species_catalog.json (53 species rich schema)
+- Fallback graceful: existing mirror logic (packs/evo_tactics_pack/docs/catalog/*) se canonical missing
+- Override CI/test: GAME_CANONICAL_CATALOG_PATH env var
+
+Schema map v0.4.x → Species collection:
+- species_id → slug
+- clade_tag preserved (Apex|Threat|Bridge|Keystone|Support|Playable)
+- role_tags + ecotypes + sentience_index + default_parts + ecology + risk_profile preserved
+- _provenance audit trail preserved as _provenance_audit (Path D HYBRID)
+- _catalog_version + _imported_at metadata
+
+Tests aggiunti:
+- canonical catalog 53 species load + schema validation
+- dune_stalker (Skiv) preservation check
+- fallback graceful test (missing path + malformed JSON)
+- env override test
+
+Cross-link:
+- Game/ ADR: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+- Game/ closure PR: #2271 Phase 4d Scope A canonical-index.json mirror
+- Game/ polish PRs: #2272 D.5+D.6 + #2273 v2 grammar pass
+- Topology ADR: ADR-2026-04-14-game-database-topology.md
+- Master-dd execution guide: ../Game/tools/scripts/phase-4d-scope-b/README.md

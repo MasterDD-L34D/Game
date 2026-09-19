@@ -1,0 +1,21 @@
+[prisma] client non disponibile, uso stub in memoria DATABASE_URL non configurato
+unknown format "uri" ignored in schema at path "#/properties/share_url/anyOf/1"
+unknown format "uri" ignored in schema at path "#/properties/share_url/anyOf/1"
+[jobs] caricato C:\dev\Game\data\core\jobs.yaml: 8 base + 4 expansion = 12 job
+[plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+[trait-effects] 500 trait attivi caricati da C:\dev\Game\data\core\traits\active_effects.yaml
+[fairness] cap_pt_max=1 caricato da C:\dev\Game\data\packs.yaml
+[vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+[ai-profiles] caricato C:\dev\Game\packs\evo_tactics_pack\data\balance\ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)
+[idea-engine] API online su http://0.0.0.0:3342
+[idea-engine] Database URL: [missing]
+[idea-engine] Orchestrator autoclose: disabled (default)
+[game-database] HTTP integration ENABLED at http://localhost:3333
+[game-database] trait glossary fetched via HTTP with local file fallback. Scope: trait glossary only — see docs/adr/ADR-2026-04-14-game-database-topology.md
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[nebula-aggregator] telemetria Nebula non configurata: uso valori di fallback
+[nebula-aggregator] telemetria generatore Nebula non configurata: uso valori di fallback
+[nebula-aggregator] telemetria orchestrator non configurata: nessun evento disponibile

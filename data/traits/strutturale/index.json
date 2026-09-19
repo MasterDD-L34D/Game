@@ -1,0 +1,34 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "strutturale"
+      ]
+    }
+  },
+  "traits": [
+    "antenne_tesla",
+    "artigli_vetrificati",
+    "branchie_dual_mode",
+    "capillari_criogenici",
+    "carapace_fase_variabile",
+    "carapace_luminiscente_abissale",
+    "cartilagini_pseudometalliche",
+    "cisti_iperbariche",
+    "cromofori_alert_acido",
+    "denti_tuning_fork",
+    "filamenti_magnetotrofi",
+    "ghiandole_condensa_ozono",
+    "ghiandole_nebbia_ionica",
+    "lamine_filtranti_aeree",
+    "membrane_pneumatofori",
+    "scheletro_idro_regolante",
+    "struttura_elastica_amorfa"
+  ],
+  "type": "strutturale"
+}

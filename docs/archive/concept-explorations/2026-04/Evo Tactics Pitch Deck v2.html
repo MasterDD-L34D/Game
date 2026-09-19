@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Evo Tactics · Concept Exploration · aprile 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="deck-stage.js"></script>
+    <style>
+      :root {
+        --abyss: #070d16;
+        --abyss-2: #0f1c2e;
+        --paper: #efe9dc;
+        --ink: #1a1814;
+        --ink-3: #6b6357;
+        --mint: #6fd9c4;
+        --amber: #e8b059;
+        --rust: #b8492a;
+        --moss: #2a5c4a;
+        --iris: #8a79c2;
+        --ok: #6fd9c4;
+        --warn: #e8b059;
+        --bad: #b8492a;
+        --new: #8a79c2;
+        --soft: #9ab0a8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #000;
+        font-family: 'Fraunces', serif;
+        color: var(--paper);
+      }
+      section {
+        background: var(--abyss);
+        padding: 72px 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .chip {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 16px;
+        letter-spacing: 4px;
+        color: var(--amber);
+        text-transform: uppercase;
+      }
+      h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 108px;
+        line-height: 1;
+        margin: 20px 0;
+        font-style: italic;
+        letter-spacing: -2px;
+      }
+      h2 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 60px;
+        line-height: 1;
+        margin: 0 0 20px;
+        letter-spacing: -1px;
+      }
+      h3 {
+        font-family: 'Fraunces', serif;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 1.15;
+        margin: 0 0 12px;
+        font-style: italic;
+      }
+      p,
+      li {
+        font-family: 'Kalam', cursive;
+        font-size: 24px;
+        line-height: 1.4;
+        color: var(--paper);
+      }
+      small {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: #8a8477;
+        text-transform: uppercase;
+      }
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .paper {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .paper h2,
+      .paper h3,
+      .paper p,
+      .paper li,
+      .paper td,
+      .paper th {
+        color: var(--ink);
+      }
+      .paper small {
+        color: var(--ink-3);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      .three {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 28px;
+      }
+      .four {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 18px;
+      }
+      .card {
+        background: #0a1826;
+        border: 1.5px solid #2a3a4a;
+        padding: 24px;
+        border-radius: 6px;
+      }
+      .paper .card {
+        background: #f7f1e2;
+        border-color: #d0c8b3;
+      }
+      .card h3 {
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+      .card p {
+        font-size: 19px;
+      }
+      .tag {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 2px;
+        padding: 3px 8px;
+        border: 1px solid currentColor;
+        border-radius: 3px;
+        margin-right: 6px;
+      }
+      .footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 2px;
+        color: #8a8477;
+      }
+      .paper .footer {
+        color: var(--ink-3);
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 4px;
+        background: #000;
+      }
+      .frame {
+        background: #0a0806;
+        padding: 10px;
+        border-radius: 8px;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .frame .lbl {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        color: #8a8477;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+      }
+      .frame .box {
+        flex: 1;
+        background: #000;
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .frame .box img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+      .shot-row {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 24px;
+        flex: 1;
+        min-height: 0;
+      }
+      .shot-row .sidenote {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 4px;
+      }
+      .shot-row .note {
+        background: #0a1826;
+        border-left: 3px solid var(--amber);
+        padding: 12px 16px;
+        border-radius: 2px;
+      }
+      .shot-row .note small {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--amber);
+      }
+      .shot-row .note p {
+        font-size: 18px;
+        margin: 0;
+        line-height: 1.35;
+      }
+      .pill {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 2px;
+      }
+      .warn-banner {
+        background: #2a1810;
+        border: 2px solid var(--rust);
+        padding: 18px 24px;
+        border-radius: 4px;
+        margin-top: 24px;
+      }
+      .warn-banner b {
+        color: var(--rust);
+        font-family: 'JetBrains Mono', monospace;
+        letter-spacing: 2px;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .warn-banner p {
+        font-size: 20px;
+        margin: 0;
+        color: var(--paper);
+        font-family: 'Fraunces', serif;
+        font-style: italic;
+      }
+      table.diff {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 15px;
+        margin-top: 20px;
+      }
+      table.diff th {
+        background: #0a1826;
+        color: var(--amber);
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 2px solid #2a3a4a;
+        font-weight: 500;
+        letter-spacing: 2px;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+      table.diff td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #1a2838;
+        vertical-align: top;
+      }
+      table.diff td:first-child {
+        width: 36%;
+        color: var(--paper);
+      }
+      table.diff td:nth-child(2) {
+        width: 40%;
+        color: #b8c5d0;
+      }
+      table.diff td:last-child {
+        width: 24%;
+        white-space: nowrap;
+      }
+      .paper table.diff th {
+        background: #e4dcc6;
+        color: var(--ink);
+        border-bottom-color: #c0b89c;
+      }
+      .paper table.diff td {
+        color: var(--ink);
+        border-bottom-color: #d8d0ba;
+      }
+      .paper table.diff td:nth-child(2) {
+        color: var(--ink-3);
+      }
+      .st-ok {
+        color: var(--ok);
+      }
+      .st-warn {
+        color: var(--warn);
+      }
+      .st-bad {
+        color: var(--bad);
+      }
+      .st-new {
+        color: var(--new);
+      }
+      .st-soft {
+        color: var(--soft);
+      }
+      .badge-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        padding: 3px 8px;
+        border-radius: 2px;
+        border: 1px solid;
+      }
+      .b-ok {
+        color: var(--ok);
+        border-color: var(--ok);
+      }
+      .b-bad {
+        color: var(--bad);
+        border-color: var(--bad);
+      }
+      .b-new {
+        color: var(--new);
+        border-color: var(--new);
+      }
+      .b-warn {
+        color: var(--warn);
+        border-color: var(--warn);
+      }
+      .legend {
+        display: flex;
+        gap: 20px;
+        margin-top: 14px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+      }
+      .legend span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="application/json" id="speaker-notes">
+      ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    </script>
+    <deck-stage width="1920" height="1080">
+      <!-- 01 COVER — onesto -->
+      <section
+        data-label="Cover"
+        style="
+          justify-content: center;
+          background: radial-gradient(ellipse at 30% 40%, #221a2e 0%, #070d16 70%);
+        "
+      >
+        <div class="chip">Evo Tactics · concept exploration · aprile 2026</div>
+        <h1 style="font-size: 132px">
+          4 giorni<br />di <span style="color: var(--iris)">esplorazione</span><br />parallela.
+        </h1>
+        <p style="font-size: 30px; color: #b8c5d0; max-width: 1300px; margin-top: 28px">
+          Un vertical-slice concept, scritto
+          <em style="color: var(--iris); font-style: italic">in parallelo</em> al Design Freeze v0.9
+          di Evo Tactics. Non un update. Un sketchbook che solleva 3 domande al design canonico.
+        </p>
+        <div class="warn-banner" style="margin-top: 40px; max-width: 1500px">
+          <b>⚠ disclaimer importante</b>
+          <p>
+            Questo deck <b>non aggiorna</b> il GDD Master, il SoT v4 né il Freeze v0.9. È materiale
+            esplorativo parallelo. La slide 13 mostra il diff onesto.
+          </p>
+        </div>
+        <div class="footer" style="margin-top: 40px">
+          <span>v0.2 · concept exploration</span><span>15 slide · ~12 min</span>
+        </div>
+      </section>
+
+      <!-- 02 COSA È QUESTO DOC -->
+      <section data-label="Cosa è" class="paper">
+        <small>01 · cosa stai leggendo</small>
+        <h2>
+          Non è un pitch di prodotto.<br />È un
+          <em style="font-style: italic; color: var(--iris)">esperimento di framing</em>.
+        </h2>
+        <div class="three" style="margin-top: 40px; flex: 1">
+          <div class="card">
+            <small style="color: var(--rust)">NON è</small>
+            <h3>un update al Freeze</h3>
+            <p>Il Freeze v0.9 (A3) resta autorità. Nulla qui lo sostituisce.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">NON è</small>
+            <h3>una roadmap alternativa</h3>
+            <p>La roadmap canonica (M1–M6) resta il piano. Questo è sketchbook.</p>
+          </div>
+          <div class="card" style="border-color: var(--iris)">
+            <small style="color: var(--iris)">È</small>
+            <h3>3 domande per il Freeze</h3>
+            <p>3 concept da valutare come possibili estensioni future, zero impatto immediato.</p>
+          </div>
+        </div>
+        <p style="margin-top: 40px; font-style: italic; font-size: 26px; color: var(--ink-3)">
+          Destinazione consigliata:
+          <span class="mono" style="font-style: normal"
+            >docs/archive/concept-explorations/2026-04/</span
+          >
+        </p>
+      </section>
+
+      <!-- 03 IL SETUP ONESTO: COSA HO COSTRUITO -->
+      <section data-label="Setup">
+        <small>02 · cosa abbiamo effettivamente costruito</small>
+        <h2>
+          4 vertical-slice HTML · 4 minuti di gioco
+          <em style="font-style: italic; color: var(--mint)">raccontato</em>.
+        </h2>
+        <div class="four" style="margin-top: 48px; flex: 1">
+          <div class="card">
+            <small style="color: var(--mint)">M0 · 60s</small>
+            <h3>Onboarding clan</h3>
+            <p>Arrivo · Rifiuto · Prova · Esito. 4 beat narrativi, no combat.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--amber)">M1 · 60s</small>
+            <h3>Briefing + worldgen</h3>
+            <p>Meta-ecosistema, voti Form sul phone, creature collegate.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">M2 · 60s</small>
+            <h3>Combat 3 turni</h3>
+            <p>d20 vs DC, evento mutageno, "4 vie · nessuna giusta".</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--iris)">M3 · 60s</small>
+            <h3>Debrief + stance</h3>
+            <p>Form reveal, timeline bioma, scelta relazionale.</p>
+          </div>
+        </div>
+        <div
+          class="warn-banner"
+          style="margin-top: 36px; background: #1a1a10; border-color: var(--amber)"
+        >
+          <b>⚠ avvertenza metodologica</b>
+          <p>
+            Questo lavoro è stato sviluppato <b>senza prima leggere</b> il Freeze v0.9 né il SoT v4.
+            Il risultato: storytelling forte, allineamento debole. Le slide 7–13 documentano il
+            diff.
+          </p>
+        </div>
+      </section>
+
+      <!-- 04 M0 SCREENSHOT -->
+      <section data-label="Slice M0" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 0 · onboarding al clan · 4 beat</small>
+        <h2 style="font-size: 42px; margin-bottom: 14px">
+          Il Form <em style="font-style: italic; color: var(--mint)">emerge dalle azioni</em>, non
+          si dichiara.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">Minuto 0 · Beat 3 (La Prova) · TV+phone</div>
+            <div class="box"><img src="deck-assets/m0-beat3.png" alt="beat 3" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note">
+              <small>1 · arrivo</small>
+              <p>la Radura convoca. 4 clan osservano in silenzio.</p>
+            </div>
+            <div class="note">
+              <small>2 · rifiuto</small>
+              <p>«non sei pronto per nessuno di noi.» 4/4 rifiutano.</p>
+            </div>
+            <div class="note" style="border-color: var(--mint)">
+              <small style="color: var(--mint)">3 · la Prova</small>
+              <p>
+                2 minuti, 4 stimoli simultanei. il Form iniziale viene <i>letto</i> dalle azioni.
+              </p>
+            </div>
+            <div class="note">
+              <small>4 · esito</small>
+              <p>un clan ti accoglie. Flint assegnato. Form parte ibrido.</p>
+            </div>
+            <div class="badge-row">
+              <span class="badge b-new">🆕 onboarding narrativo</span>
+              <span class="badge b-new">🆕 Flint/A.L.I.E.N.A.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 M1 SCREENSHOT -->
+      <section data-label="Slice M1" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 1 · briefing + worldgen</small>
+        <h2 style="font-size: 42px; margin-bottom: 14px">
+          60s · bioma, voti, creature, Flint, A.L.I.E.N.A.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">Minuto 1 · briefing squadra · TV+phone</div>
+            <div class="box"><img src="deck-assets/m1-60s.png" alt="briefing 60s" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note">
+              <small>worldgen</small>
+              <p>meta-ecosistema → bioma → 4 creature collegate.</p>
+            </div>
+            <div class="note" style="border-color: var(--mint)">
+              <small style="color: var(--mint)">voti Form</small>
+              <p>ogni player vota un asse dal telefono. squadra in diretta.</p>
+            </div>
+            <div class="note">
+              <small>validatori visibili</small>
+              <p>keystone, spillover, affix: leggibili <i>prima</i> di scegliere.</p>
+            </div>
+            <div class="note">
+              <small>voce</small>
+              <p>A.L.I.E.N.A. dati, Flint narra, mondo respira.</p>
+            </div>
+            <div class="badge-row">
+              <span class="badge b-new">🆕 couch co-op TV+phone</span>
+              <span class="badge b-warn">🟡 worldgen (Freeze §17)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 M2 SCREENSHOT -->
+      <section data-label="Slice M2" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 2 · combat · evento mutageno</small>
+        <h2 style="font-size: 42px; margin-bottom: 14px">
+          3 turni · 4 vie · <em style="font-style: italic; color: var(--rust)">nessuna giusta</em> ·
+          costi visibili.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">Minuto 2 · T2 escalation · soglia mutagena</div>
+            <div class="box"><img src="deck-assets/m2-combat.png" alt="combat T2" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note">
+              <small>T1 · setup</small>
+              <p>il bioma mostra il suo affix.</p>
+            </div>
+            <div class="note" style="border-color: var(--amber)">
+              <small style="color: var(--amber)">T2 · spillover</small>
+              <p>barra pressione → soglia. non-scelti reagiscono.</p>
+            </div>
+            <div class="note">
+              <small>T3 · conseguenza</small>
+              <p>mondo spostato, party spostato, tutto leggibile.</p>
+            </div>
+            <div class="note" style="border-color: var(--iris)">
+              <small style="color: var(--iris)">design claim</small>
+              <p>acquisire un trait → il bioma perde un affix. <b>costo visibile sul mondo.</b></p>
+            </div>
+            <div class="badge-row">
+              <span class="badge b-ok">✅ d20 vs DC</span>
+              <span class="badge b-bad">❌ no AP/PT/PP/SG</span>
+              <span class="badge b-bad">❌ no round-loop</span>
+              <span class="badge b-warn">🟡 biomi/specie inseribili</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 M3 SCREENSHOT -->
+      <section data-label="Slice M3" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 3 · conseguenza · nexus</small>
+        <h2 style="font-size: 42px; margin-bottom: 14px">
+          Form reveal · timeline bioma ·
+          <em style="font-style: italic; color: var(--iris)">stance persistente</em>.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">
+              Minuto 3 · Nexus · scelta relazionale (simbiosi/dominio/testimone)
+            </div>
+            <div class="box"><img src="deck-assets/m3-debrief.png" alt="nexus debrief" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note" style="border-color: var(--mint)">
+              <small style="color: var(--mint)">in-world · 30s</small>
+              <p>party resta sul bioma. Flint chiude la scena.</p>
+            </div>
+            <div class="note">
+              <small>nexus · 60s</small>
+              <p>timeline bioma aggiornata. wiki scritta da sola.</p>
+            </div>
+            <div class="note" style="border-color: var(--iris)">
+              <small style="color: var(--iris)">scelta relazionale</small>
+              <p>simbiosi / dominio / testimone. modifica Form + tono Flint + missioni future.</p>
+            </div>
+            <div class="note">
+              <small>persistenza</small>
+              <p>prossima sessione = mondo che ricorda.</p>
+            </div>
+            <div class="badge-row">
+              <span class="badge b-new">🆕 BiomeMemory cross-mission</span>
+              <span class="badge b-new">🆕 stance player-facing</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 DIFF HEADER -->
+      <section data-label="Diff intro" class="paper" style="justify-content: center">
+        <small>03 · il momento onesto</small>
+        <h1 style="font-size: 96px; color: var(--ink)">
+          E adesso,<br />il <em style="font-style: italic; color: var(--rust)">diff</em>.
+        </h1>
+        <p style="font-size: 30px; color: var(--ink-3); max-width: 1400px; margin-top: 32px">
+          Questi 4 slice sono stati scritti <b>prima</b> di leggere il Design Freeze v0.9. Le slide
+          seguenti confrontano riga per riga quello che abbiamo disegnato con quello che il Freeze
+          già definisce. È un esercizio di umiltà, non di giustificazione.
+        </p>
+        <div class="legend" style="margin-top: 40px">
+          <span><span class="dot" style="background: var(--ok)"></span> allineato</span>
+          <span><span class="dot" style="background: var(--warn)"></span> variante</span>
+          <span><span class="dot" style="background: var(--bad)"></span> divergente</span>
+          <span><span class="dot" style="background: var(--new)"></span> lacuna / nuovo</span>
+          <span><span class="dot" style="background: var(--soft)"></span> fuori scope</span>
+        </div>
+      </section>
+
+      <!-- 09 DIFF · COMBAT -->
+      <section data-label="Diff combat">
+        <small>04 · diff · combat</small>
+        <h2>
+          Combat — <em style="font-style: italic; color: var(--rust)">qui perdiamo di più</em>.
+        </h2>
+        <table class="diff">
+          <thead>
+            <tr>
+              <th>Vertical slice (M2)</th>
+              <th>Freeze v0.9</th>
+              <th>Stato</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>d20 vs DC, MoS +1 step ogni +5</td>
+              <td>§7.1 identico</td>
+              <td class="st-ok">✅ allineato</td>
+            </tr>
+            <tr>
+              <td>3 turni (setup/escalation/conseguenza)</td>
+              <td>§26 B5: 3–5 round medi</td>
+              <td class="st-ok">✅ allineato</td>
+            </tr>
+            <tr>
+              <td>Nessuna menzione di AP, PT, PP, SG, PI, PE</td>
+              <td>§7.1-7.2 <b>cuore del sistema</b></td>
+              <td class="st-bad">❌ grave</td>
+            </tr>
+            <tr>
+              <td>Nessun parry contestata, reazioni, status</td>
+              <td>§7.4 bleeding/fracture/disorient/rage/panic</td>
+              <td class="st-bad">❌ grave</td>
+            </tr>
+            <tr>
+              <td>Nessun round loop planning→commit→resolution</td>
+              <td>§7.1 ADR-2026-04-15 <b>architettura</b></td>
+              <td class="st-bad">❌ grave</td>
+            </tr>
+            <tr>
+              <td>Trait "strappo planare" dato live in combat</td>
+              <td>§7.4 active_effects <b>deferred Fase 3</b></td>
+              <td class="st-bad">❌ contraddice scope</td>
+            </tr>
+            <tr>
+              <td>"Costi visibili": Cresta −1 affix luminescente</td>
+              <td>§17 biomi come modifier, no cost-of-trait</td>
+              <td class="st-new">🆕 concept nuovo</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 10 DIFF · FORM/IDENTITÀ -->
+      <section data-label="Diff form" class="paper">
+        <small>05 · diff · form / identità</small>
+        <h2>
+          Form — <em style="font-style: italic; color: var(--iris)">sistema parallelo</em>, non
+          allineato.
+        </h2>
+        <table class="diff">
+          <thead>
+            <tr>
+              <th>Vertical slice</th>
+              <th>Freeze v0.9</th>
+              <th>Stato</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5 assi (esplorativo/simbiotico/agile/cauto/predatorio)</td>
+              <td>§13 PF session: <b>4 assi MBTI</b> (E/N/T/P)</td>
+              <td class="st-bad">❌ sistema diverso</td>
+            </tr>
+            <tr>
+              <td>Form pentagono, update real-time in combat</td>
+              <td>§13.4 update <b>lento fine sessione</b>, forme ≠ psicologia simulata</td>
+              <td class="st-bad">❌ contraddice filosofia</td>
+            </tr>
+            <tr>
+              <td>—</td>
+              <td>§15 VC metrics: aggro/risk/cohesion/setup/explore/tilt</td>
+              <td class="st-new">🆕 mai toccato</td>
+            </tr>
+            <tr>
+              <td>—</td>
+              <td>§14 Enneagramma (modulo secondario)</td>
+              <td class="st-new">🆕 mai toccato</td>
+            </tr>
+            <tr>
+              <td>—</td>
+              <td>§13 Forme 16 (shipping)</td>
+              <td class="st-new">🆕 mai toccato</td>
+            </tr>
+            <tr>
+              <td>Stance finale (simbiosi/dominio/testimone) modifica Form</td>
+              <td>—</td>
+              <td class="st-new">🆕 concept nuovo</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 24px; font-style: italic; color: var(--ink-3); font-size: 22px">
+          Il Form a 5 assi real-time è <b>più semplice</b> di quello del Freeze. Il Freeze ha
+          MBTI(4) × Ennea(9) × VC(6) × Forme 16. Più ricco ma anche più pesante da comunicare.
+        </p>
+      </section>
+
+      <!-- 11 DIFF · MONDO / BIOMI -->
+      <section data-label="Diff mondo">
+        <small>06 · diff · mondo, biomi, memoria</small>
+        <h2>
+          Mondo — qui ci sono
+          <em style="font-style: italic; color: var(--amber)">3 lacune interessanti</em>.
+        </h2>
+        <table class="diff">
+          <thead>
+            <tr>
+              <th>Vertical slice</th>
+              <th>Freeze v0.9</th>
+              <th>Stato</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Biomi: Cresta Fotofase, Soglia, Frattura/Abisso</td>
+              <td>§17: Desert, Cavern, Badlands (placeholder)</td>
+              <td class="st-warn">🟡 inseribili</td>
+            </tr>
+            <tr>
+              <td>Specie: Polpo, Sciame, Micelia, Balena</td>
+              <td>§9: Dune Stalker, Sand Burrower, Echo Wing, Rust Scavenger (placeholder)</td>
+              <td class="st-warn">🟡 inseribili</td>
+            </tr>
+            <tr>
+              <td>Foodweb visibile (4 creature collegate in UI)</td>
+              <td>§9-17 dati esistono, UI non specificata</td>
+              <td class="st-warn">🟡 possibile</td>
+            </tr>
+            <tr>
+              <td><b>BiomeMemory cross-mission</b> (affix persistenti)</td>
+              <td>§17 bioma modifica <b>in missione</b>, no persistenza</td>
+              <td class="st-new">🆕 lacuna potenziale</td>
+            </tr>
+            <tr>
+              <td>Spillover mutageno (creature che si contaminano)</td>
+              <td>—</td>
+              <td class="st-new">🆕 concept nuovo</td>
+            </tr>
+            <tr>
+              <td>Affix del bioma (luminescente, ipogeo, caustico)</td>
+              <td>§17.1 hazard + modifier (concetto simile)</td>
+              <td class="st-warn">🟡 rinaming possibile</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 12 DIFF · PILASTRI NON TOCCATI -->
+      <section data-label="Pilastri non toccati" class="paper">
+        <small>07 · diff · pilastri del freeze mai toccati</small>
+        <h2>
+          <em style="font-style: italic; color: var(--rust)">7 pilastri</em> del Freeze non
+          compaiono nei 4 slice.
+        </h2>
+        <div class="four" style="margin-top: 36px">
+          <div class="card">
+            <small style="color: var(--rust)">§11 · Job</small>
+            <h3>6 job base</h3>
+            <p>skirmisher, vanguard, warden, artificer, invoker, harvester. Mai menzionati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">§10 · Morph</small>
+            <h3>5 slot obbligatori</h3>
+            <p>locomotion, offense, defense, senses, metabolism. Mai menzionati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">§12 · Traits</small>
+            <h3>surge/armi</h3>
+            <p>pierce/spin/chain/pulse/overdrive + twin_blades/arc_rod. Mai menzionati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">§15 · VC</small>
+            <h3>telemetria</h3>
+            <p>aggro/risk/cohesion/setup/explore/tilt. Mai menzionati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">§19 · Economy</small>
+            <h3>PE/PI/seed</h3>
+            <p>5 PE → 1 PI, seed da elite/mating. Mai menzionati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">§20-21 · Meta</small>
+            <h3>Recruit/Nido/Mating</h3>
+            <p>affinity, trust, nido slice. Mai menzionati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">§18 · Director</small>
+            <h3>Regista NPG</h3>
+            <p>generazione dinamica NPG. Mai menzionato.</p>
+          </div>
+          <div class="card" style="border-color: var(--ok)">
+            <small style="color: var(--ok)">conclusione</small>
+            <h3>sketchbook, non slice</h3>
+            <p>Manca troppo del Freeze per chiamarlo vertical slice reale.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 SINTESI DEL DIFF -->
+      <section data-label="Sintesi diff">
+        <small>08 · sintesi onesta</small>
+        <h2>Di 4 giorni di lavoro:</h2>
+        <div class="two" style="margin-top: 36px; flex: 1">
+          <div>
+            <div class="card" style="border-color: var(--ok); margin-bottom: 16px">
+              <small style="color: var(--ok)">✅ allineato</small>
+              <h3>solo il core d20</h3>
+              <p>d20 vs DC, MoS +1 step ogni +5, 3–5 round. Basta.</p>
+            </div>
+            <div class="card" style="border-color: var(--bad); margin-bottom: 16px">
+              <small style="color: var(--bad)">❌ divergente grave</small>
+              <h3>combat system, Form axes</h3>
+              <p>
+                Zero AP/PT/PP/SG. Zero round-loop. Zero parry/status. Trait active in combat (Fase 3
+                deferred). Form 5 assi miei vs 4 MBTI.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="border-color: var(--iris); margin-bottom: 16px">
+              <small style="color: var(--iris)">🆕 lacune potenziali</small>
+              <h3>3 concept nuovi utili</h3>
+              <p>
+                <b>1.</b> BiomeMemory cross-mission<br /><b>2.</b> Costo visibile del trait sul
+                mondo<br /><b>3.</b> Onboarding narrativo M0 + stance finale
+              </p>
+            </div>
+            <div class="card" style="border-color: var(--soft)">
+              <small style="color: var(--soft)">⚠ fuori scope Freeze (§4.2)</small>
+              <h3>worldbuilding parallelo</h3>
+              <p>
+                A.L.I.E.N.A., Flint, biomi Cresta/Soglia/Frattura, spillover, TV+phone:
+                <b>sketchbook</b>, non design utilizzabile.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 PROPOSTE CONCRETE -->
+      <section data-label="Proposte" class="paper">
+        <small>09 · cosa facciamo di utile</small>
+        <h2>3 exploration note.<br />Zero impatto sul Freeze.</h2>
+        <div class="three" style="margin-top: 36px; flex: 1">
+          <div class="card" style="border-color: var(--iris)">
+            <small style="color: var(--iris)">proposta 1</small>
+            <h3>BiomeMemory cross-mission</h3>
+            <p>
+              1 pagina in
+              <span class="mono" style="font-size: 15px"
+                >docs/archive/concept-explorations/2026-04/</span
+              >
+            </p>
+            <p style="margin-top: 10px">
+              Formulata come <b>possibile estensione di §17</b>, con esempio concreto. Da valutare
+              <i>dopo</i> il freeze combat (M1).
+            </p>
+          </div>
+          <div class="card" style="border-color: var(--amber)">
+            <small style="color: var(--amber)">proposta 2</small>
+            <h3>Costo ambientale del trait</h3>
+            <p>
+              Come possibile estensione di §7.4 <i>quando</i>
+              <span class="mono" style="font-size: 15px">active_effects</span> esce dal NOOP.
+            </p>
+            <p style="margin-top: 10px">
+              Idea: ogni trait attivato lascia una "impronta" sul bioma. Rientra nella filosofia del
+              Freeze "ogni scelta build deve avere un costo" (§3).
+            </p>
+          </div>
+          <div class="card" style="border-color: var(--mint)">
+            <small style="color: var(--mint)">proposta 3</small>
+            <h3>Onboarding narrativo M0</h3>
+            <p>"Ingresso al clan" come <b>tutorial integrato</b>, non pop-up.</p>
+            <p style="margin-top: 10px">
+              Il Freeze non formalizza l'onboarding del player. Questo pattern (4 beat:
+              arrivo/rifiuto/prova/esito) può essere un hook utile per M4 UX Shipping.
+            </p>
+          </div>
+        </div>
+        <p style="margin-top: 32px; font-style: italic; color: var(--ink-3); font-size: 22px">
+          Tutte e tre vanno come <b>exploration-note</b>, mai come PR su file canonici. La
+          governance decide se e quando triage.
+        </p>
+      </section>
+
+      <!-- 15 CTA ONESTA -->
+      <section data-label="CTA">
+        <!-- 15B REALTÀ DEL REPO -->
+        <section data-label="Realtà repo" class="paper">
+          <small>10 · realtà del repo al 17 aprile (letto adesso)</small>
+          <h2>
+            Lo stato vero <em style="font-style: italic; color: var(--iris)">è diverso</em> da
+            quello che ho scritto.
+          </h2>
+          <div class="two" style="margin-top: 32px; flex: 1">
+            <div>
+              <h3 style="color: var(--ok)">cosa è già chiuso</h3>
+              <ul style="list-style: none; padding: 0">
+                <li style="margin: 10px 0">
+                  <b style="color: var(--ok)">✓</b> <b>4 playtest</b> eseguiti (non 1): #1 tabletop,
+                  #2 abilities, #3 smoke, M3 batch N=30
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--ok)">✓</b> <b>FRICTION #1, #2, #3</b> → RESOLVED (PR #1491,
+                  commit cdc26cd3)
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--ok)">✓</b> <b>Tuning M3</b>: T04 33% ✅ e T05 ∼20% ✅ in
+                  band
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--ok)">✓</b> <b>4/6 pilastri 🟢</b> (P1, P3, P4, P5), 1 🟡
+                  (P6 Fairness), 1 ⚪ (P2)
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--ok)">✓</b> <b>Stack end-to-end giocabile</b>: backend 6/6
+                  endpoint, frontend Vite 20KB
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="color: var(--rust)">cosa è ancora aperto</h3>
+              <ul style="list-style: none; padding: 0">
+                <li style="margin: 10px 0">
+                  <b style="color: var(--rust)">○</b> <b>FRICTION #4</b>: Skirmisher ability
+                  integration (marcata post-M4)
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--rust)">○</b> <b>FRICTION #6</b>: positioning ability reach
+                  / chain move+ability
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--rust)">○</b> <b>FRICTION #7</b>: ability effect miss
+                  semantics (on-hit vs always-on)
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--rust)">○</b> <b>M3 human playtest</b> su T04/T05 con tuning
+                  — non ancora eseguito
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--iris)">○</b>
+                  <b>P2 Evoluzione emergente ⚪ mai testato</b> ← qui la nostra exploration tocca
+                  terra
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="warn-banner"
+            style="margin-top: 28px; background: #efe4c8; border-color: var(--iris)"
+          >
+            <b style="color: var(--iris)">📍 coincidenza interessante</b>
+            <p style="color: var(--ink)">
+              Il pilastro <b>non testato</b> (P2 — trait, mating, Nido) è esattamente il terreno
+              delle 3 exploration-note di slide 14 (BiomeMemory, costo ambientale, stance).
+              <b>Non una giustificazione</b>, ma un segnale: forse vale davvero la pena triage.
+            </p>
+          </div>
+        </section>
+
+        <!-- 16 CTA — aggiornata -->
+        <section data-label="CTA">
+          <small>11 · cosa fare davvero ora</small>
+          <h2>
+            Le FRICTION che avevo citato<br /><em style="font-style: italic; color: var(--mint)"
+              >erano già chiuse</em
+            >.
+          </h2>
+          <div class="two" style="margin-top: 36px; flex: 1">
+            <div>
+              <h3 style="color: var(--rust)">ciò che non va fatto</h3>
+              <ul style="list-style: none; padding: 0">
+                <li style="margin: 12px 0">
+                  <b style="color: var(--rust)">✗</b> portare i 4 HTML nel repo come "update"
+                </li>
+                <li style="margin: 12px 0">
+                  <b style="color: var(--rust)">✗</b> riscrivere §7/§13 del Freeze
+                </li>
+                <li style="margin: 12px 0">
+                  <b style="color: var(--rust)">✗</b> aprire un quinto fronte prima di chiudere i
+                  precedenti
+                </li>
+                <li style="margin: 12px 0">
+                  <b style="color: var(--rust)">✗</b> trattare FRICTION #1–#2 come aperte (sono
+                  chiuse da aprile)
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="color: var(--mint)">ciò che va fatto — in ordine</h3>
+              <ul style="list-style: none; padding: 0">
+                <li style="margin: 10px 0">
+                  <b style="color: var(--mint)">1.</b> archiviare i 4 HTML in
+                  <span class="mono" style="font-size: 17px"
+                    >docs/archive/concept-explorations/2026-04/</span
+                  >
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--mint)">2.</b> <b>eseguire M3 human playtest</b> su T04/T05
+                  (citato nelle note come "next step")
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--mint)">3.</b> triage <b>FRICTION #4 / #6 / #7</b> — queste
+                  sono le aperte reali
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--mint)">4.</b> valutare le 3 exploration-note contro
+                  <b>P2 ⚪</b>
+                </li>
+                <li style="margin: 10px 0">
+                  <b style="color: var(--mint)">5.</b> <i>solo poi</i> decidere se aprire nuovo
+                  fronte design
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p
+            style="
+              margin-top: 32px;
+              font-style: italic;
+              font-size: 24px;
+              color: #b8c5d0;
+              max-width: 1600px;
+            "
+          >
+            Morale: non buildare mai raccomandazioni su dati che non hai letto. Adesso i dati ci
+            sono — e cambiano la CTA.
+          </p>
+          <div class="footer">
+            <span>v0.3 · aprile 2026</span
+            ><span>concept exploration · archive-bound · CTA fact-checked</span>
+          </div>
+        </section>
+        <div class="footer">
+          <span>v0.2 · aprile 2026</span><span>concept exploration · archive-bound</span>
+        </div>
+      </section>
+    </deck-stage>
+  </body>
+</html>

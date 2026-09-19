@@ -1,0 +1,100 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "$SITE_BASE_URL/",
+        "$SITE_BASE_URL/generatore",
+        "$SITE_BASE_URL/bestiario",
+        "$SITE_BASE_URL/biomi"
+      ],
+      "startServerCommand": "",
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop",
+        "formFactor": "desktop",
+        "locale": "it",
+        "throttlingMethod": "provided",
+        "disableDeviceEmulation": true,
+        "extraHeaders": {
+          "Accept-Language": "it-IT,it;q=0.9"
+        },
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1365,
+          "height": 935,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "disableStorageReset": true,
+        "chromeFlags": "--no-sandbox --headless=new --ignore-certificate-errors --disable-dev-shm-usage"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": [
+          "warn",
+          {
+            "minScore": 0.8
+          }
+        ],
+        "categories:accessibility": [
+          "warn",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:seo": [
+          "warn",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:best-practices": [
+          "warn",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:pwa": [
+          "warn",
+          {
+            "minScore": 0.7
+          }
+        ],
+        "cumulative-layout-shift": [
+          "warn",
+          {
+            "maxNumericValue": 0.15
+          }
+        ],
+        "largest-contentful-paint": [
+          "warn",
+          {
+            "maxNumericValue": 4000
+          }
+        ],
+        "total-blocking-time": [
+          "warn",
+          {
+            "maxNumericValue": 200
+          }
+        ],
+        "first-contentful-paint": [
+          "warn",
+          {
+            "maxNumericValue": 2500
+          }
+        ],
+        "uses-responsive-images": [
+          "warn",
+          {
+            "maxLength": 0
+          }
+        ]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

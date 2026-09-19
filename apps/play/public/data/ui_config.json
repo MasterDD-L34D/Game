@@ -1,0 +1,9 @@
+{
+  "_comment": "Spike POC BG3-lite Tier 1 (2026-04-29). Toggle pre/post side-by-side rubric. Tier 2 add-ons (sub-tile float + vcScoring float + flanking 5-zone) DEFERRED full G.2b post-spike-pass.",
+  "bg3lite_hide_grid": true,
+  "bg3lite_smooth_movement": true,
+  "bg3lite_range_circle": true,
+  "bg3lite_aoe_shape": true,
+  "bg3lite_movement_zone_arc": true,
+  "bg3lite_smooth_duration_ms": 250
+}

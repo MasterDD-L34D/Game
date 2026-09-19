@@ -1,0 +1,18 @@
+{
+  "id": "TKT-COOP-NS2-STRATEGIST-ROLE",
+  "title": "NS2 Strategist role 5p+ async coop",
+  "pillar": "P5",
+  "effort_hours": 28,
+  "donor_game": {
+    "name": "Natural Selection 2",
+    "tier": "B",
+    "matrix_anchor": "docs/research/2026-04-26-tier-b-extraction-matrix.md#6-natural-selection-2-2012"
+  },
+  "agent_owner": "coop-phase-validator",
+  "status": "proposed",
+  "reuse_level": "full",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Modulation 5p+: 1 player Strategist (vista atlas + pressure overlay + intent suggest), altri tactical 4p classic."
+}

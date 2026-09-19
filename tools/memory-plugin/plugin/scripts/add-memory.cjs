@@ -1,0 +1,275 @@
+#!/usr/bin/env node
+var R = (e, t) => () => (t || e((t = { exports: {} }).exports, t), t.exports);
+var D = R((pe, A) => {
+  var g = require('node:fs'),
+    T = require('node:path'),
+    J = require('node:os'),
+    X = require('node:crypto'),
+    z = T.join(J.homedir(), '.supermemory-claude', 'memories'),
+    W = `Developer coding session transcript. Focus on USER message and intent.
+
+RULES:
+- Extract USER's action/intent, not every detail assistant provides
+- Condense assistant responses into what user gained from it
+- Skip granular facts from assistant output
+
+EXTRACT:
+- Research: "researched whisper.cpp for speech recognition"
+- Actions: "built auth flow with JWT", "fixed memory leak in useEffect"
+- Preferences: "prefers Tailwind over CSS modules"
+- Decisions: "chose SQLite for local storage"
+- Learnings: "learned about React Server Components"
+
+SKIP:
+- Every fact assistant mentions (condense to user's action)
+- Generic assistant explanations user didn't confirm/use`,
+    Y = `Project/codebase knowledge for team sharing.
+
+EXTRACT:
+- Architecture: "uses monorepo with turborepo", "API in /apps/api"
+- Conventions: "components in PascalCase", "hooks prefixed with use"
+- Patterns: "all API routes use withAuth wrapper", "errors thrown as ApiError"
+- Setup: "requires .env with DATABASE_URL", "run pnpm db:migrate first"
+- Decisions: "chose Drizzle over Prisma for performance", "using RSC for data fetching"`;
+  function B(e) {
+    g.existsSync(e) || g.mkdirSync(e, { recursive: !0 });
+  }
+  function m(e, t) {
+    return T.join(z, e, t);
+  }
+  function S(e) {
+    if (!g.existsSync(e)) return [];
+    let t = g.readdirSync(e).filter((o) => o.endsWith('.json')),
+      n = [];
+    for (let o of t)
+      try {
+        let r = g.readFileSync(T.join(e, o), 'utf-8');
+        n.push(JSON.parse(r));
+      } catch {}
+    return n;
+  }
+  function K(e, t) {
+    let n = (e.content || '').toLowerCase(),
+      o = 0;
+    for (let a of t) n.includes(a) && (o += 1);
+    let r = Date.now() - new Date(e.createdAt || 0).getTime(),
+      s = Math.max(0, 1 - r / (720 * 60 * 60 * 1e3));
+    return o + s * 0.5;
+  }
+  var j = class {
+    constructor(t) {
+      this.containerTag = t || 'default';
+    }
+    async addMemory(t, n, o = {}) {
+      let r = n || this.containerTag,
+        s = o.type === 'project-knowledge' ? 'repo' : 'personal',
+        a = m(s, r);
+      B(a);
+      let c = X.randomUUID(),
+        l = {
+          id: c,
+          content: t,
+          metadata: { sm_source: 'claude-code-local', ...o },
+          createdAt: new Date().toISOString(),
+        };
+      return (
+        g.writeFileSync(T.join(a, `${c}.json`), JSON.stringify(l, null, 2)),
+        { id: c, status: 'saved', containerTag: r }
+      );
+    }
+    async search(t, n, o = {}) {
+      let r = n || this.containerTag,
+        s = o.limit || 10,
+        a = m('personal', r),
+        c = m('repo', r),
+        l = [...S(a), ...S(c)];
+      if (l.length === 0) return { results: [], total: 0 };
+      let u = t
+          .toLowerCase()
+          .split(/\s+/)
+          .filter((i) => i.length > 2),
+        h = l
+          .map((i) => ({
+            memory: i.content || '',
+            metadata: i.metadata,
+            updatedAt: i.createdAt,
+            similarity: u.length > 0 ? K(i, u) / u.length : 0,
+          }))
+          .filter((i) => i.similarity > 0)
+          .sort((i, y) => y.similarity - i.similarity)
+          .slice(0, s);
+      return { results: h, total: h.length };
+    }
+    async getProfile(t, n, o = 5) {
+      let r = t || this.containerTag,
+        s = m('personal', r),
+        a = m('repo', r),
+        c = S(s),
+        l = S(a),
+        u = (p, G) => new Date(G.createdAt || 0).getTime() - new Date(p.createdAt || 0).getTime();
+      (c.sort(u), l.sort(u));
+      let h = l.slice(0, o).map((p) => p.content),
+        i = c.slice(0, o).map((p) => p.content),
+        y = [...c, ...l].sort(u).slice(0, o),
+        U = {
+          results: y.map((p) => ({
+            id: p.id,
+            memory: p.content,
+            similarity: 1,
+            updatedAt: p.createdAt,
+          })),
+          total: y.length,
+        };
+      return { profile: { static: h, dynamic: i }, searchResults: U };
+    }
+  };
+  A.exports = { LocalMemoryClient: j, PERSONAL_ENTITY_CONTEXT: W, REPO_ENTITY_CONTEXT: Y };
+});
+var P = R((le, w) => {
+  var { execSync: C } = require('node:child_process'),
+    f = require('node:path');
+  function H(e) {
+    let t = process.env.SUPERMEMORY_ISOLATE_WORKTREES === 'true';
+    try {
+      if (t)
+        return (
+          C('git rev-parse --show-toplevel', {
+            cwd: e,
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe'],
+          }).trim() || null
+        );
+      let n = C('git rev-parse --git-common-dir', {
+        cwd: e,
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      }).trim();
+      if (n === '.git')
+        return (
+          C('git rev-parse --show-toplevel', {
+            cwd: e,
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe'],
+          }).trim() || null
+        );
+      let o = f.resolve(e, n);
+      return f.basename(o) === '.git' && !o.includes(`${f.sep}.git${f.sep}`)
+        ? f.dirname(o)
+        : C('git rev-parse --show-toplevel', {
+            cwd: e,
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe'],
+          }).trim() || null;
+    } catch {
+      return null;
+    }
+  }
+  w.exports = { getGitRoot: H };
+});
+var k = R((ue, M) => {
+  var d = require('node:fs'),
+    v = require('node:path'),
+    { getGitRoot: _ } = P(),
+    O = v.join('.claude', '.supermemory-claude'),
+    q = 'config.json';
+  function x(e) {
+    let n = _(e) || e;
+    return v.join(n, O, q);
+  }
+  function I(e) {
+    try {
+      let t = x(e);
+      if (d.existsSync(t)) return JSON.parse(d.readFileSync(t, 'utf-8'));
+    } catch {}
+    return null;
+  }
+  function Q(e, t) {
+    let o = _(e) || e,
+      r = v.join(o, O),
+      s = v.join(r, q);
+    d.existsSync(r) || d.mkdirSync(r, { recursive: !0 });
+    let c = { ...(I(e) || {}), ...t };
+    return (d.writeFileSync(s, JSON.stringify(c, null, 2)), s);
+  }
+  M.exports = { getConfigPath: x, loadProjectConfig: I, saveProjectConfig: Q };
+});
+var $ = R((ge, L) => {
+  var { execSync: V } = require('node:child_process'),
+    Z = require('node:crypto'),
+    { loadProjectConfig: b } = k(),
+    { getGitRoot: E } = P();
+  function F(e) {
+    return Z.createHash('sha256').update(e).digest('hex').slice(0, 16);
+  }
+  function N(e) {
+    try {
+      let n = V('git remote get-url origin', {
+        cwd: e,
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      })
+        .trim()
+        .match(/[/:]([^/]+?)(?:\.git)?$/);
+      return n ? n[1] : null;
+    } catch {
+      return null;
+    }
+  }
+  function ee(e) {
+    let t = b(e);
+    if (t?.personalContainerTag) return t.personalContainerTag;
+    let o = E(e) || e;
+    return `claudecode_project_${F(o)}`;
+  }
+  function te(e) {
+    return e
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '');
+  }
+  function oe(e) {
+    let t = b(e);
+    if (t?.repoContainerTag) return t.repoContainerTag;
+    let o = E(e) || e,
+      s = N(o) || o.split('/').pop() || 'unknown';
+    return `repo_${te(s)}`;
+  }
+  function ne(e) {
+    let n = E(e) || e;
+    return N(n) || n.split('/').pop() || 'unknown';
+  }
+  L.exports = {
+    sha256: F,
+    getGitRoot: E,
+    getGitRepoName: N,
+    getContainerTag: ee,
+    getRepoContainerTag: oe,
+    getProjectName: ne,
+  };
+});
+var { LocalMemoryClient: re, PERSONAL_ENTITY_CONTEXT: me } = D(),
+  { getContainerTag: se, getProjectName: ie } = $();
+async function ce() {
+  let e = process.argv.slice(2).join(' ');
+  if (!e || !e.trim()) {
+    console.log('No content provided. Usage: node add-memory.cjs "content to save"');
+    return;
+  }
+  let t = process.cwd(),
+    n = se(t),
+    o = ie(t);
+  try {
+    let s = await new re(n).addMemory(e, n, {
+      type: 'manual',
+      project: o,
+      timestamp: new Date().toISOString(),
+    });
+    (console.log(`Memory saved to project: ${o}`), console.log(`ID: ${s.id}`));
+  } catch (r) {
+    console.log(`Error saving memory: ${r.message}`);
+  }
+}
+ce().catch((e) => {
+  (console.error(`Fatal error: ${e.message}`), process.exit(1));
+});

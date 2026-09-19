@@ -1,0 +1,156 @@
+summary:
+  generated_at: '2025-10-31T18:03:49.697Z'
+  dataset_generated_at: '2025-11-12T09:45:00Z'
+  season: v0.9-playtest-05
+  source_snapshot: playtest_telemetry_batch_512
+  items_considered: 3
+  total_score: 31.53
+  average_score: 10.51
+  defaults:
+    tolerance: 0.02
+    weight: 1
+  alerts:
+    - id: ember_wand
+      name: Ember Wand
+      peak_severity: critical
+      total_score: 15.07
+      suggested_direction: buff
+    - id: glacial_aegis
+      name: Glacial Aegis
+      peak_severity: critical
+      total_score: 12.2
+      suggested_direction: nerf
+    - id: verdant_surge
+      name: Verdant Surge
+      peak_severity: major
+      total_score: 4.2667
+      suggested_direction: nerf
+items:
+  - id: ember_wand
+    name: Ember Wand
+    role: caster
+    rarity: rare
+    notes: Burst mage loadout underperforming in late game.
+    summary:
+      peak_severity: critical
+      total_score: 15.07
+      suggested_direction: buff
+    metrics:
+      avg_damage:
+        current: 118
+        target: 140
+        delta: 22
+        delta_ratio: 0.1571
+        tolerance: 12
+        severity: moderate
+        action: buff
+        weight: 0.8
+        score: 1.4667
+        recommendation: Incrementare avg damage di 22 (2200%).
+      pick_rate:
+        current: 0.11
+        target: 0.14
+        delta: 0.03
+        delta_ratio: 0.2143
+        tolerance: 0.01
+        severity: critical
+        action: buff
+        weight: 1.2
+        score: 3.6
+        recommendation: Incrementare pick rate di 0.03 (3%).
+      win_rate:
+        current: 0.46
+        target: 0.52
+        delta: 0.06
+        delta_ratio: 0.1154
+        tolerance: 0.015
+        severity: critical
+        action: buff
+        weight: 2.5
+        score: 10
+        recommendation: Incrementare win rate di 0.06 (6%).
+  - id: glacial_aegis
+    name: Glacial Aegis
+    role: tank
+    rarity: epic
+    summary:
+      peak_severity: critical
+      total_score: 12.2
+      suggested_direction: nerf
+    metrics:
+      avg_damage:
+        current: 84
+        target: 80
+        delta: -4
+        delta_ratio: -0.05
+        tolerance: 12
+        severity: trivial
+        action: hold
+        weight: 0.8
+        score: 0.2667
+        recommendation: 'Monitorare: scostamento entro la soglia.'
+      pick_rate:
+        current: 0.21
+        target: 0.18
+        delta: -0.03
+        delta_ratio: -0.1667
+        tolerance: 0.01
+        severity: critical
+        action: nerf
+        weight: 1.2
+        score: 3.6
+        recommendation: Ridurre pick rate di 0.03 (-3%).
+      win_rate:
+        current: 0.57
+        target: 0.52
+        delta: -0.05
+        delta_ratio: -0.0962
+        tolerance: 0.015
+        severity: critical
+        action: nerf
+        weight: 2.5
+        score: 8.3333
+        recommendation: Ridurre win rate di 0.05 (-5%).
+  - id: verdant_surge
+    name: Verdant Surge
+    role: support
+    rarity: uncommon
+    notes: Healing numbers inflated by duo queue stacking.
+    summary:
+      peak_severity: major
+      total_score: 4.2667
+      suggested_direction: nerf
+    metrics:
+      avg_damage:
+        current: 63
+        target: 60
+        delta: -3
+        delta_ratio: -0.05
+        tolerance: 12
+        severity: trivial
+        action: hold
+        weight: 0.8
+        score: 0.2
+        recommendation: 'Monitorare: scostamento entro la soglia.'
+      pick_rate:
+        current: 0.19
+        target: 0.17
+        delta: -0.02
+        delta_ratio: -0.1176
+        tolerance: 0.01
+        severity: major
+        action: nerf
+        weight: 1.2
+        score: 2.4
+        recommendation: Ridurre pick rate di 0.02 (-2%).
+      win_rate:
+        current: 0.51
+        target: 0.5
+        delta: -0.01
+        delta_ratio: -0.02
+        tolerance: 0.015
+        severity: minor
+        action: nerf
+        weight: 2.5
+        score: 1.6667
+        recommendation: Ridurre win rate di 0.01 (-1%).

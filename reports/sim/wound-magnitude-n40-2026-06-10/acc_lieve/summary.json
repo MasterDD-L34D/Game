@@ -1,0 +1,61 @@
+{
+  "arm": "acc_lieve",
+  "args": {
+    "runs": 40,
+    "seedBase": 42000,
+    "scenario": "enc_hardcore_reinf_01",
+    "out": "reports/sim/wound-magnitude-n40-2026-06-10",
+    "commit": "adc8cd9e2903a6db20731cd748950958ccabbad7",
+    "scaling": {
+      "countAdd": 6,
+      "hpAdd": 4,
+      "modAdd": 6,
+      "dcAdd": 2
+    }
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.975,
+    "win_ci95": [
+      0.8711834051199223,
+      0.9955732825922052
+    ],
+    "timeouts": 0,
+    "rounds": {
+      "mean": 81,
+      "sd": 4.512092015792049,
+      "ci95": [
+        79.601688197348,
+        82.398311802652
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 47.9,
+      "sd": 3.070120685842989,
+      "ci95": [
+        46.94855974223151,
+        48.85144025776849
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": 0,
+      "sd": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "n": 40
+    },
+    "survivors": {
+      "mean": 1.95,
+      "sd": 0.3162277660168379,
+      "ci95": [
+        1.8519999999999999,
+        2.048
+      ],
+      "n": 40
+    }
+  }
+}

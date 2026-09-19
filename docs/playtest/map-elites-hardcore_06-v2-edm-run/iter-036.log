@@ -1,0 +1,12 @@
+OK: backend healthy at http://127.0.0.1:3390
+M9 P6: turn_limit_defeat=34 for class 'hardcore' scenario=enc_tutorial_06_hardcore (Long War pattern)
+[1/40] V rounds=29 boss_hp=0 pa=6
+[2/40] L rounds=34 boss_hp=7 pa=6
+[3/40] V rounds=23 boss_hp=0 pa=6
+[4/40] L rounds=34 boss_hp=11 pa=6
+[5/40] V rounds=23 boss_hp=0 pa=5
+[6/40] V rounds=34 boss_hp=0 pa=6
+[7/40] V rounds=20 boss_hp=0 pa=7
+[8/40] V rounds=30 boss_hp=0 pa=6
+[9/40] V rounds=24 boss_hp=0 pa=5
+[10/40] V rounds=26 boss_hp=0 pa=6

@@ -1,0 +1,41 @@
+# TKT-M14-B Phase B — Conviction dialogue branch.
+#
+# Trigger semantica: cibo scarso, tribù affamata incrocia il branco.
+# Axis space: Utility (keep all for self) vs Liberty (split half) vs Morality (give all).
+
+id: conv_branch_resource_split
+title: "Resource Split"
+description_it: |
+  Una tribù affamata blocca il sentiero. Bambini con occhi vuoti.
+  Le tue scorte bastano per il branco. Forse. Sole basso, vento freddo.
+description_en: |
+  A starving tribe blocks the path. Children with empty eyes.
+  Your supplies are enough for the pack. Maybe. Low sun, cold wind.
+trigger:
+  encounter_id: null
+  axis_threshold: null
+choices:
+  - id: keep_all
+    text_it: "Niente. Il branco prima di tutto."
+    text_en: "Nothing. The pack comes first."
+    delta:
+      utility: +8
+      liberty: 0
+      morality: -8
+    consequence: "Tribù urla maledizioni. Branco mangia stanotte. Domani forse peggio."
+  - id: split_half
+    text_it: "Dividiamo. Metà a loro, metà a noi."
+    text_en: "We split. Half to them, half to us."
+    delta:
+      utility: -3
+      liberty: +5
+      morality: +6
+    consequence: "Tribù chiede nomi. Bond_hearts +1. Branco mormora ma accetta."
+  - id: give_all
+    text_it: "Prendetelo tutto. Noi sapremo cacciare ancora."
+    text_en: "Take all. We will hunt again."
+    delta:
+      utility: -10
+      liberty: +3
+      morality: +12
+    consequence: "Tribù piange di gratitudine. Branco affamato. Skiv ringhia piano."

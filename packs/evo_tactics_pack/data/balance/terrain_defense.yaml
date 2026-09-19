@@ -1,0 +1,198 @@
+# Terrain Defense & Movement — Evo-Tactics
+# Pattern W4 (wesnoth terrain defense) + §14.2 SoT v4 extensions.
+# Mappa terrain type → defense_mod, movement_cost, cover, blocks_los.
+# Applicato in resolver.py: cd += terrain_defense_mod
+# Applicato in hexGrid.js: costFn(from, to) usa movement_cost
+#
+# Vedi docs/core/00-SOURCE-OF-TRUTH.md §14.2
+# Vedi docs/adr/ADR-2026-04-16-grid-type-hex-axial.md
+
+version: '0.2.0'
+
+# ─── Terrain types ───
+# defense_mod:   bonus CD difensore (+ = più difficile colpire)
+# movement_cost: AP per attraversare (1 = normale, 2 = difficile, null = impassabile)
+# cover:         riduzione danno (0 = nessuna, 0.25 = parziale, 0.5 = piena)
+# blocks_los:    blocca linea di vista
+# hazard_effect: ref a hazard da biomes.yaml (null = nessuno)
+
+terrain_types:
+  # Copertura naturale
+  roccia:
+    defense_mod: 2
+    movement_cost: 1
+    cover: 0.5
+    blocks_los: false
+    hazard_effect: null
+
+  vegetazione_densa:
+    defense_mod: 2
+    movement_cost: 2
+    cover: 0.5
+    blocks_los: true
+    hazard_effect: null
+
+  corallo:
+    defense_mod: 1
+    movement_cost: 2
+    cover: 0.25
+    blocks_los: false
+    hazard_effect: null
+
+  cristalli:
+    defense_mod: 1
+    movement_cost: 1
+    cover: 0.25
+    blocks_los: false
+    hazard_effect: null
+
+  # Terreno aperto / ostile
+  sabbia:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: null
+
+  pianura:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: null
+
+  lava:
+    defense_mod: -1
+    movement_cost: 2
+    cover: 0
+    blocks_los: false
+    hazard_effect: heat_damage
+
+  acqua_profonda:
+    defense_mod: -1
+    movement_cost: null # impassabile
+    cover: 0
+    blocks_los: false
+    hazard_effect: drowning
+
+  # Terreni speciali
+  termico:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: heat_stress
+
+  luminescente:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: null
+
+  spore_diluite:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: spore_status
+
+  ghiaccio:
+    defense_mod: -1
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: slip
+
+  nebbia:
+    defense_mod: 1
+    movement_cost: 1
+    cover: 0.25
+    blocks_los: true
+    hazard_effect: null
+
+  muro:
+    defense_mod: 0
+    movement_cost: null # impassabile
+    cover: 0
+    blocks_los: true
+    hazard_effect: null
+
+# ─── Elevation ───
+# 3 livelli: 0 (basso), 1 (medio), 2 (alto)
+# Effetti:
+#   attaccante sopra: +1 attack_mod, +1 range
+#   attaccante sotto: -1 attack_mod
+#   LOS: alto→basso = chiara, basso→alto = check intermedi
+
+elevation:
+  levels: 3
+  attack_mod_above: 1
+  attack_mod_below: -1
+  range_bonus_above: 1
+  # M14-A 2026-04-25 (Triangle Strategy Mechanic 3A): damage multiplier
+  # applicato al danno finale in base al delta elevation attaccante-difensore.
+  # delta >= 1  → * (1 + attack_damage_bonus)
+  # delta == 0  → * 1
+  # delta <= -1 → * (1 + attack_damage_penalty) (penalty è negativo)
+  # Ref: docs/research/triangle-strategy-transfer-plan.md:185
+  attack_damage_bonus: 0.30
+  attack_damage_penalty: -0.15
+
+# ─── Legacy compatibility ───
+# Vecchio formato flat per backward compat con resolver.py
+terrain_defense:
+  roccia: 2
+  vegetazione_densa: 2
+  corallo: 1
+  cristalli: 1
+  sabbia: 0
+  lava: -1
+  acqua_profonda: -1
+  termico: 0
+  luminescente: 0
+  spore_diluite: 0
+  ghiaccio: -1
+  nebbia: 1
+
+default_modifier: 0
+
+# ─── Time of Day (Wesnoth) ───
+# Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #5 Wesnoth.
+# Pattern: lawful/chaotic/neutral creature dmg shift per orario combat.
+# 4 stati canonical (4-stage Wesnoth standard, simplified vs Wesnoth 6-stage).
+#
+# Encounter dichiara `time_of_day: dawn|day|dusk|night` (default 'day').
+# Resolver consume modifier in base a creature alignment field
+# (creature.alignment: lawful|chaotic|neutral).
+#
+# Effect:
+#   lawful creature in 'day' → +1 attack_mod, +1 dmg
+#   lawful creature in 'night' → -1 attack_mod
+#   chaotic creature in 'night' → +1 attack_mod, +1 dmg
+#   chaotic creature in 'day' → -1 attack_mod
+#   neutral creature → no modifier per time
+#   dawn/dusk → midpoint (0 modifier)
+
+time_of_day:
+  states: [dawn, day, dusk, night]
+  default: day
+  alignments: [lawful, chaotic, neutral]
+  modifiers:
+    # state → alignment → { attack_mod, damage_mod }
+    dawn:
+      lawful: { attack_mod: 0, damage_mod: 0 }
+      chaotic: { attack_mod: 0, damage_mod: 0 }
+      neutral: { attack_mod: 0, damage_mod: 0 }
+    day:
+      lawful: { attack_mod: 1, damage_mod: 1 }
+      chaotic: { attack_mod: -1, damage_mod: 0 }
+      neutral: { attack_mod: 0, damage_mod: 0 }
+    dusk:
+      lawful: { attack_mod: 0, damage_mod: 0 }
+      chaotic: { attack_mod: 0, damage_mod: 0 }
+      neutral: { attack_mod: 0, damage_mod: 0 }
+    night:
+      lawful: { attack_mod: -1, damage_mod: 0 }
+      chaotic: { attack_mod: 1, damage_mod: 1 }
+      neutral: { attack_mod: 0, damage_mod: 0 }

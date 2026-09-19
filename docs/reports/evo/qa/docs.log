@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> docs:lint
+> python tools/check_site_links.py docs
+
+Tutti i collegamenti interni risultano validi.

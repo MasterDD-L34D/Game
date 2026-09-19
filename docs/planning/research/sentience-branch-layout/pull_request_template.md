@@ -1,0 +1,41 @@
+---
+title: PR — Sentience MVP (T1–T6, interocezione, bridge)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+
+# PR — Sentience MVP (T1–T6, interocezione, bridge)
+
+## Descrizione
+
+<!-- Riassumi cosa include questa PR -->
+
+## Checklist QA (compila prima di richiedere review)
+
+- [ ] Nessuna modifica a `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**` nella finestra freeze 2025-11-25T12:05Z–2025-11-27T12:05Z (salvo rollback autorizzati Master DD)
+- [ ] RFC `docs/RFC_Sentience_Traits_v0.1.md` presente e linkato dal README
+- [ ] `data/traits_sensienza.yaml` valida (lint) e caricata
+- [ ] `data/neurons_bridge.csv` valida (CSV header corretto; sample rows presenti)
+- [ ] `docs/sources.md` aggiornato con link permanenti
+- [ ] `docs/CHECKLIST_TODO.md` e `docs/ROADMAP.md` presenti
+- [ ] CHANGELOG entry aggiunta (Unreleased → 2025-10-29)
+
+## Gate di approvazione
+
+- [ ] **Scope/Backlog sign‑off** (Board): allineamento su scopo MVP e criteri A
+- [ ] **Release sign‑off** (Board): OK per merge in integrazione
+
+## Impatti
+
+- [ ] Nessun breaking change
+- [ ] Documentazione aggiornata (README/RFC)
+- [ ] Hook ai sistemi esistenti (AI, energia, morale) annotati
+
+## Note addizionali
+
+<!-- Link a discussioni, ticket, o esperimenti di playtest -->

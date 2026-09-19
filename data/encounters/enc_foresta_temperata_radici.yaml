@@ -1,0 +1,79 @@
+# Encounter: Foresta Temperata — pattuglia 3v3 + Sentinella Radice (apex_neutral)
+# Pilot PHASE 2 (2026-06-21): sblocca il codex di sentinella_radice via
+# encounter_completed. Balance clonato da standard_01 (template ratificato:
+# difficulty standard, party 3, pe_base 5, difficulty_multiplier 1.0) -> numeri
+# proposti, ratifica master-dd sulla PR. Threat roster RIUSATO dal roster combat
+# esistente (cameo apex_neutral, scelta master-dd 2026-06-21): nessun nuovo
+# profilo combat introdotto.
+#
+# Win conditions:
+#   1. Keystone (umbroid_lurker) abbattuto, OR
+#   2. Sopravvivenza party >= 6 round
+# Loss: party wipe.
+id: enc_foresta_temperata_radici
+label: "Radici Sentinella"
+difficulty: standard
+biome_id: foresta_temperata
+description_it: >-
+  Nella nebbia radiosa della Foresta Temperata Umida una pattuglia ostile
+  taglia la radura bioenergetica. Sul margine, una Sentinella Radice
+  (sentinella_radice) -- tronco-sentinella sessile dalle escrescenze a occhio --
+  schiude i suoi sensori al passaggio degli intrusi: osserva, non interviene.
+  La sua presenza basta a sbloccare il Codex.
+
+party_size: 3
+party_suggested_tier: 3
+
+groups:
+  - role: keystone
+    power: 7
+    count: 1
+    species_hint: umbroid_lurker
+    trait_ids: [artigli_sette_vie, coda_frusta_cinetica]
+    notes: "Predatore d'ombra: sfrutta canopy_web per gli avvicinamenti in nebbia."
+  - role: bridge
+    power: 4
+    count: 1
+    species_hint: mud_sentinel
+    trait_ids: [struttura_elastica_amorfa]
+    notes: "Sentinella del suolo allagato (floodpulse)."
+  - role: support
+    power: 3
+    count: 1
+    species_hint: echo_seer
+    trait_ids: [spore_psichiche_silenziate]
+    notes: "Veggente d'eco: telegrafa, non ingaggia in mischia."
+  - role: apex_neutral
+    power: 5
+    count: 1
+    species_hint: sentinella_radice
+    trait_ids: [empatia_coordinativa, focus_frazionato, pianificatore]
+    notes: >-
+      Sentinella Radice (sentinella_radice): organismo radicante SESSILE --
+      non si muove, non insegue, non interferisce con la pattuglia. Osservatore
+      puro: la sua presenza sblocca il Codex (encounter_completed). Pattern
+      apex_neutral (cfr. perfusuas_pedes in standard_01, dune_stalker in
+      enc_savana_pack_clash). Sessile = il cameo apex_neutral piu' sicuro:
+      non puo' alterare il bilanciamento dello scontro.
+
+party_vc:
+  difficulty_multiplier: 1.0
+  pe_base: 5
+
+grid:
+  width: 6
+  height: 6
+  terrain_features:
+    - { x: 2, y: 2, type: vegetazione_densa, defense_mod: 2 }
+    - { x: 4, y: 3, type: vegetazione_densa, defense_mod: 2 }
+    - { x: 1, y: 4, type: roccia, defense_mod: 2 }
+    - { x: 5, y: 5, type: radura, defense_mod: 1 }
+
+hazard:
+  description: "Floodpulse: pozze stagionali allagano le caselle basse ogni 3 round (-1 movimento)."
+  severity: medium
+  stress_modifier: 0.03
+
+notes: >-
+  Pilot PHASE 2 cameo apex_neutral. Target win rate (template standard_01):
+  ~50%. Balance = clone ratificato, nessuna calibrazione nuova richiesta.

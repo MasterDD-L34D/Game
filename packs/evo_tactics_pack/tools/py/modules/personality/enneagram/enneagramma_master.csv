@@ -1,0 +1,10 @@
+type_id,name_it,name_en,center,core_emotion,basic_fear,basic_desire,passion,fixation,virtue,stress_point,growth_point,wing_left,wing_right
+1,Riformatore,The Reformer,Centro Istintivo,Rabbia,Essere corrotti o difettosi,Essere integri e buoni,Ira,Risentimento,Serenità,4,7,9,2
+2,Altruista,The Helper,Centro Emotivo,Vergogna,Non essere amato,Essere amato e desiderato,Orgoglio,Adulazione,Umiltà,8,4,1,3
+3,Realizzatore,The Achiever,Centro Emotivo,Vergogna,Essere senza valore,Sentirsi valido e ammirato,Inganno,Vanità,Veracità,9,6,2,4
+4,Individualista,The Individualist,Centro Emotivo,Vergogna,Non avere identità o significato,Trovare se stessi e il proprio valore,Invidia,Melanconia,Equanimità,2,1,3,5
+5,Investigatore,The Investigator,Centro Mentale,Paura,Essere impotente o inutile,Essere capace e competente,Avarizia,Avarizia mentale,Distacco,7,8,4,6
+6,Lealista,The Loyalist,Centro Mentale,Paura,Essere senza supporto o guida,Trovare sicurezza e supporto,Paura,Sospetto,Coraggio,3,9,5,7
+7,Entusiasta,The Enthusiast,Centro Mentale,Paura,Essere privato o nel dolore,Essere soddisfatto e felice,Gola,Pianificazione,Sobrietà,1,5,6,8
+8,Protettore,The Challenger,Centro Istintivo,Rabbia,Essere danneggiato o controllato,Proteggere se stessi e i propri,Libidine,Vendetta,Innocenza,5,2,7,9
+9,Mediatore,The Peacemaker,Centro Istintivo,Rabbia,Perdere connessione o creare conflitto,Mantenere pace e stabilità,Accidia,Indolenza,Azione,6,3,8,1
