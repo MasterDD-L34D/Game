@@ -1,0 +1,169 @@
+# Promotion config — TKT-M15 + OD-025 Phase B2 ai-station extension
+#
+# FFT-style class advancement. Original v0.1.0 ladder (base → veteran →
+# captain) extended 2026-05-14 via ai-station Envelope B re-verdict OD-025
+# Phase B2: +elite +master tier. Per ladder canonical (1→5 tier).
+#
+# Engine: apps/backend/services/progression/promotionEngine.js (302 LOC LIVE)
+# Endpoint: POST /api/session/:id/promote { unit_id, target_tier }
+# Godot v2 mirror: scripts/progression/promotion_engine.gd (#226) +
+#                  PromotionPanel (#243)
+# Cross-link: docs/governance/open-decisions/OD-024-031-verdict-record.md
+#
+# Pillar P3 Identità Specie × Job 🟢ⁿ rinforzato — depth FFT-style 5-tier
+# ladder.
+
+version: "0.2.0"
+
+# Tier ladder canonical: 5-tier ladder from base to master.
+# Each promotion = stat buffs + 1 unlock new ability tier (r2-r5).
+tier_ladder:
+  - base
+  - veteran
+  - captain
+  - elite
+  - master
+
+# Eligibility thresholds. Cumulative across battles in a campaign.
+# evaluatePromotion(unit, log) checks unit.progression_metrics.* vs these.
+# Progression curve: linear in early tiers, exponential at elite/master gate.
+thresholds:
+  veteran:
+    kills_min: 3
+    objectives_min: 1
+    # If both criteria met → eligible. Player can accept/defer (no auto-apply).
+  captain:
+    kills_min: 8
+    objectives_min: 3
+    assists_min: 2
+  # OD-025-B2: elite tier — leadership emergence. Requires sustained command
+  # impact (assists weight ↑) + survival (no death events in last campaign).
+  elite:
+    kills_min: 18
+    objectives_min: 6
+    assists_min: 6
+  # OD-025-B2: master tier — legendary status. Requires apex campaign
+  # contribution + diverse engagement profile (kills AND assists AND obj).
+  master:
+    kills_min: 35
+    objectives_min: 12
+    assists_min: 12
+
+# Stat reward per promotion. Additive on top of base stat.
+# r2-r5 ability tiers unlocked progressively. Each tier brings significantly
+# stronger buff (curve respects FFT-style escalation).
+rewards:
+  veteran:
+    hp_bonus: 5
+    attack_mod_bonus: 1
+    ability_unlock_tier: r2
+  captain:
+    hp_bonus: 10
+    attack_mod_bonus: 2
+    initiative_bonus: 2
+    ability_unlock_tier: r3
+  # OD-025-B2: elite reward — leadership-flavored stat profile.
+  # Defensive bias (HP+15) reflects survival prerequisite; modest attack/init
+  # gain. New: defense_mod_bonus introduces tier-gated stat (engine extension).
+  elite:
+    hp_bonus: 15
+    attack_mod_bonus: 3
+    defense_mod_bonus: 2
+    initiative_bonus: 3
+    ability_unlock_tier: r4
+  # OD-025-B2: master reward — apex stat profile. All-stat upgrade + crit.
+  master:
+    hp_bonus: 25
+    attack_mod_bonus: 4
+    defense_mod_bonus: 3
+    initiative_bonus: 4
+    crit_chance_bonus: 5
+    ability_unlock_tier: r5
+
+# Job archetype bias (OD-025-B2 Phase B2): per-Job tier adjustment.
+# Allows certain Jobs to specialize their ladder. NOT consumed by engine
+# yet — reserved for Phase B3 engine extension. Documented here as schema
+# anchor so future engine code knows where to look.
+#
+# Schema:
+#   <job_id>:
+#     <tier>:
+#       hp_bonus: <override>           # replaces base reward
+#       attack_mod_bonus: <override>
+#       ability_id_override: <ability_id>  # specific ability slot at tier
+#
+# Examples below illustrate intended specialization:
+job_archetype_bias:
+  guerriero:
+    elite:
+      hp_bonus: 18           # +3 over base (defensive bias)
+      attack_mod_bonus: 4    # +1 over base (offensive specialist)
+    master:
+      hp_bonus: 30           # +5 over base
+      attack_mod_bonus: 5    # +1 over base
+  esploratore:
+    elite:
+      initiative_bonus: 4    # +1 over base (scout speed; was +2 = over-tuned per GSD audit 2026-05-14)
+      defense_mod_bonus: 1   # -1 from base (fragile but fast)
+    master:
+      initiative_bonus: 5    # +1 over base (was +2 = over-tuned)
+      crit_chance_bonus: 8   # +3 over base (ambush bias preserved)
+  tessitore:
+    elite:
+      ability_unlock_tier: r4
+      ability_id_override: weave_mastery
+    master:
+      ability_unlock_tier: r5
+      ability_id_override: weave_apex
+  custode:
+    elite:
+      hp_bonus: 20           # +5 over base (tank specialist)
+      defense_mod_bonus: 4   # +2 over base
+    master:
+      hp_bonus: 35           # +10 over base (apex tank)
+      defense_mod_bonus: 5   # +2 over base
+
+# Job-specific threshold override (GSD audit 2026-05-14 economy-design GAP-003).
+# Closes assists_min gate mismatch vs tank playstyle: custode generates kills,
+# not assists. Alternative path: replace assists_min with damage_taken_min
+# threshold (proxy for "tank shielded party from N points of damage").
+#
+# Schema:
+#   <job_id>:
+#     <tier>:
+#       <metric_to_replace>: <new_threshold> OR null to remove
+#
+# Engine consumption: Phase B4 reserved — promotionEngine.js evaluatePromotion
+# merges job_threshold_override[unit.job_id][next_tier] onto base threshold
+# (same shallow-merge pattern as job_archetype_bias rewards).
+# 2026-05-17 Envelope C (playtest #2 coverage) — custode veteran/captain
+# tank-path extension. Same design rationale as the elite/master block
+# (GAP-003): the custode is a tank that generates kills + soaks damage, it
+# does NOT grab mission objectives. The session combat engine does not emit
+# `objective_complete` / `mission_objective` events from a pure-elimination
+# flow, so `objectives_min` is structurally unreachable for a tank in
+# headless AI-vs-AI sim. Replace the objective gate with a damage_taken_min
+# proxy (consistent with the existing assists_min → damage_taken_min
+# substitution). Promotion still requires REAL kills from REAL combat —
+# only the unreachable objective sub-gate is swapped, NOT fabricated.
+job_threshold_override:
+  custode:
+    veteran:
+      # Remove the structurally-unreachable objective sub-gate. The session
+      # combat engine never emits objective_complete / mission_objective
+      # events (pre-existing backend gap), so objectives_min:1 can NEVER be
+      # satisfied for ANY job from a pure-combat flow. For the earliest
+      # tier the honest replacement is no proxy at all: veteran then
+      # requires only REAL kills_min:3 from REAL killing blows.
+      objectives_min: null
+    captain:
+      objectives_min: null
+      damage_taken_min: 3    # tank proxy: soaked ≥3 real PT (mid tier)
+    elite:
+      assists_min: null      # remove gate; tank doesn't generate assists
+      objectives_min: null   # see Envelope C rationale above
+      damage_taken_min: 30   # NEW: shielded ≥30 PT damage instead
+    master:
+      assists_min: null
+      objectives_min: null
+      damage_taken_min: 75

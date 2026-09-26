@@ -1,0 +1,288 @@
+'use strict';
+// fase-2b meta-band-aggregator. PURE: given a list of full-loop run-results (runFullLoop
+// output), computes the 5 meta band-metrics (spec §7) and places each vs a PROVISIONAL
+// range. No I/O, no clock, no randomness -> deterministic + unit-testable.
+//
+// The ranges below are PROVISIONAL (Claude-derived from the cited industry sources in the
+// goal doc / spec §7). They are NOT ratified: master-dd ratifies the EXACT band numbers
+// post-N=40, exactly like the combat bands (L-069). The aggregator's job is the PROCESS
+// (compute + place), not to assert canon. An anti-pattern guard (spec §7): these bands keep
+// the design SPACE healthy (Quality-Diversity) -- do NOT optimize to a single best run.
+
+const { roleOf } = require('./species-roles');
+
+const PROVISIONAL_BANDS = {
+  // % campaigns completed over N runs. XCOM Long War 2: completable-but-hard.
+  completion_rate: [0.4, 0.7],
+  // survivors / units-that-fought over the arc. Exclusive (>0 & <100%): real losses, no
+  // wipe, not a cake-walk. XCOM-LW2 attrition + AI War scaling.
+  roster_attrition: [0, 1],
+  // build-power drift = (build power per chapter, last third) / (first third). Bounded:
+  // neither runaway power-creep (>2x) nor collapse (<0.5x). Machinations / Hades-StS curve.
+  economy_flow: [0.5, 2.0],
+  // composite (recruit happens + earned-affinity gate fires + mating fires) -> monotonic,
+  // non-stall. wesnoth recruit/retain + SoT 27-MATING_NIDO. No single [lo,hi].
+  relationship_progress: null,
+  // mean offspring per run >= threshold (breeding is exercised). Niche + Spore. >=1.
+  offspring_viability: [1, null],
+  // >= N distinct role_classes across the recruited roster (healthy spread, no collapse).
+  // POLICY-SENSITIVE: the dominant role(s) diverge by temperament -> this is where P4 is
+  // measurable (the quantity metrics above are policy-insensitive). >=3.
+  roster_composition: [3, null],
+  // >= N distinct offspring crosses (parent-species pairs) across the batch. The breeding analog
+  // of roster_composition: the dominant cross is POLICY-SENSITIVE -> P4 in breeding. GATE >= 3
+  // (master-dd ratified 2026-06-03): a breeding pool collapsed to < 3 distinct crosses is unhealthy.
+  lineage_diversity: [3, null],
+  note:
+    'RATIFIED 2026-06-03 by master-dd (L-069): the working bands. Reversible (two-way door) -- ' +
+    'revise when evidence warrants. Keep the design space healthy (Quality-Diversity); do not ' +
+    'optimize to a single best run. GRAPH-MODE RE-RATIFIED 2026-06-04 by master-dd (#2603): with ' +
+    'the real draft rosters + the cm3/hp2/dcAdd1 overlay, graph-mode completion lands ~0.66 ' +
+    '(N=40 greedy 0.675 / ESFP 0.70 / INTJ 0.60), inside this 0.4-0.7 band -- the fallback-era ' +
+    'wider 0.4-0.85 is superseded; completion_rate [0.4, 0.7] holds for both static and graph mode.',
+};
+
+function mean(arr) {
+  if (!arr || arr.length === 0) return 0;
+  return arr.reduce((s, x) => s + (Number(x) || 0), 0) / arr.length;
+}
+
+// Build-power drift across one run's chapters: ratio of mean build power per chapter in the
+// last third vs the first third. 1.0 = flat (healthy). Returns 1 when there is too little
+// signal to measure (a single chapter can't drift).
+function buildPowerDrift(chapters) {
+  const bp = (chapters || []).map(
+    (c) => (Number(c && c.xpGranted) || 0) + (Number(c && c.mpEarned) || 0),
+  );
+  if (bp.length < 2) return 1;
+  const third = Math.max(1, Math.floor(bp.length / 3));
+  const firstAvg = mean(bp.slice(0, third));
+  const lastAvg = mean(bp.slice(-third));
+  if (firstAvg === 0) return lastAvg === 0 ? 1 : Infinity;
+  return lastAvg / firstAvg;
+}
+
+function round(x, dp = 3) {
+  if (!Number.isFinite(x)) return x;
+  const f = 10 ** dp;
+  return Math.round(x * f) / f;
+}
+
+// Aggregate N run-results into the 5 band-metrics + placement. Tolerates [] (n=0 -> every
+// metric out of band) and missing fields (treated as 0/empty), never throws.
+function aggregate(runs) {
+  const list = Array.isArray(runs) ? runs : [];
+  const n = list.length;
+
+  // 1. completion_rate
+  const completed = list.filter((r) => r && r.completed === true).length;
+  const completionValue = n === 0 ? 0 : round(completed / n);
+  const [cLo, cHi] = PROVISIONAL_BANDS.completion_rate;
+  const completion_rate = {
+    value: completionValue,
+    range: PROVISIONAL_BANDS.completion_rate,
+    in_band: n > 0 && completionValue >= cLo && completionValue <= cHi,
+    note: 'completed campaigns / N',
+  };
+
+  // 2. roster_attrition = survivors / units-that-fought (initial party + combat-recruits;
+  // economy-recruits do not fight). In (0,1) exclusive.
+  const survivorRatios = list.map((r) => {
+    const fought = (Number(r && r.initialRosterSize) || 0) + ((r && r.recruited) || []).length;
+    const survivors = ((r && r.finalRoster) || []).length;
+    return fought === 0 ? 0 : survivors / fought;
+  });
+  const attritionValue = n === 0 ? 0 : round(mean(survivorRatios));
+  const roster_attrition = {
+    value: attritionValue,
+    range: PROVISIONAL_BANDS.roster_attrition,
+    in_band: n > 0 && attritionValue > 0 && attritionValue < 1,
+    note: 'survivors / units-that-fought (exclusive: real losses, no wipe)',
+  };
+
+  // 3. economy_flow: PE earned + build power (XP + MP) + drift; PI sink surfaced.
+  const peEarnedAvg = round(
+    mean(list.map((r) => Number(r && r.economy && r.economy.peEarnedTotal) || 0)),
+  );
+  const buildPowerAvg = round(
+    mean(
+      list.map(
+        (r) =>
+          (Number(r && r.economy && r.economy.xpGrantedTotal) || 0) +
+          (Number(r && r.economy && r.economy.mpEarnedTotal) || 0),
+      ),
+    ),
+  );
+  const driftAvg = n === 0 ? 1 : round(mean(list.map((r) => buildPowerDrift(r && r.chapters))));
+  const piSinkExercised = list.some(
+    (r) => (Number(r && r.economy && r.economy.piSpentTotal) || 0) > 0,
+  );
+  const piPickAttempts = list.reduce(
+    (s, r) => s + (Number(r && r.economy && r.economy.piPickAttempts) || 0),
+    0,
+  );
+  const piInsufficient = list.reduce(
+    (s, r) => s + (Number(r && r.economy && r.economy.piInsufficient) || 0),
+    0,
+  );
+  const [eLo, eHi] = PROVISIONAL_BANDS.economy_flow;
+  // Codex #2568 P2: build-power drift defaults to the neutral 1 when there is nothing to
+  // measure (empty chapters / zero grants), which sits INSIDE the band. Guard on a real
+  // signal so a no-reward batch (backend regression that stops emitting XP/MP/PE, or an
+  // all-failed batch) reads out-of-band instead of falsely certifying a healthy economy.
+  const hasSignal = buildPowerAvg > 0;
+  const economy_flow = {
+    pe_earned_avg: peEarnedAvg,
+    build_power_avg: buildPowerAvg,
+    build_power_drift: driftAvg,
+    pi_sink_exercised: piSinkExercised,
+    pi_pick_attempts: piPickAttempts,
+    pi_insufficient: piInsufficient,
+    has_signal: hasSignal,
+    range: PROVISIONAL_BANDS.economy_flow,
+    in_band: n > 0 && hasSignal && driftAvg >= eLo && driftAvg <= eHi,
+    note: !hasSignal
+      ? 'NO economy signal across the batch (zero XP/MP/PE) -> cannot certify economy_flow'
+      : piSinkExercised
+        ? `PE earned + build-power drift; PI sink exercised (${piPickAttempts} attempts)`
+        : piPickAttempts === 0
+          ? 'PE earned + build-power drift; PI sink wired (no pick opportunities this batch)'
+          : piInsufficient > 0
+            ? `PE earned + build-power drift; PI sink WIRED but unaffordable (${piPickAttempts} attempts, ${piInsufficient} insufficient_pi at the PE->PI 5:1 rate)`
+            : `PE earned + build-power drift; PI sink WIRED + attempted (${piPickAttempts}x) but no spend and no insufficiency -> picks blocked elsewhere (e.g. perk-job/level coverage)`,
+  };
+
+  // 4. relationship_progress: recruit rate + earned-affinity proof + mating, all firing =
+  // monotonic, non-stall.
+  const recruitRate = round(mean(list.map((r) => ((r && r.recruited) || []).length)));
+  // affinity_proven_rate is CONDITIONAL on reaching the Nido step (a run with >=1 combat
+  // recruit ran the earned-affinity gate). A calibrated batch (completion < 0.9 by design)
+  // has runs that fail the gate mission BEFORE any recruit -> they never exercise the
+  // affinity gate, so counting them as "not proven" would conflate this metric with
+  // completion_rate (and make the two bands un-satisfiable together). Decoupled: among runs
+  // that reached the step, did the earned-affinity gate fire? (1.0 = always, the healthy case.)
+  const reachedStep = list.filter(
+    (r) => r && Array.isArray(r.recruited) && r.recruited.length > 0,
+  ).length;
+  const affinityProvenRate =
+    reachedStep === 0
+      ? 0
+      : round(list.filter((r) => r && r.economyAffinityProven === true).length / reachedStep);
+  const matingRate = round(mean(list.map((r) => Number(r && r.offspring) || 0)));
+  const relationship_progress = {
+    recruit_rate: recruitRate,
+    affinity_proven_rate: affinityProvenRate,
+    reached_step: reachedStep,
+    mating_rate: matingRate,
+    range: null,
+    in_band: n > 0 && recruitRate > 0 && affinityProvenRate >= 0.9 && matingRate > 0,
+    note: 'recruit + earned-affinity gate (proven among runs that REACHED the step, decoupled from completion) + mating all fire',
+  };
+
+  // 5. offspring_viability: mean offspring per run >= threshold (did breeding happen at all).
+  // The lineage SPREAD of that breeding is the separate lineage_diversity metric (6) -- the count
+  // answers "did breeding happen", the diversity answers "is the breeding pool healthy".
+  const offspringAvg = round(mean(list.map((r) => Number(r && r.offspring) || 0)));
+  const [oLo] = PROVISIONAL_BANDS.offspring_viability;
+  const offspring_viability = {
+    offspring_avg: offspringAvg,
+    viable_rate: 1, // the runner only counts mating rolls that returned a viable offspring
+    range: PROVISIONAL_BANDS.offspring_viability,
+    in_band: n > 0 && offspringAvg >= oLo,
+    note: 'mean offspring per run >= threshold (breeding exercised); lineage spread = the separate lineage_diversity metric',
+  };
+
+  // 6. lineage_diversity: the BREEDING analog of roster_composition, a first-class GATED metric.
+  // Each offspring's lineage is the CROSS that bred it (its two parent species), keyed
+  // order-insensitively. POLICY-SENSITIVE -> mbti courts a different species ORDER, so it breeds a
+  // different dominant cross: P4 is measurable in breeding, not only in recruiting (the quantity
+  // metric offspring_avg is policy-insensitive). GATE >= 3 distinct crosses (master-dd ratified
+  // 2026-06-03): a breeding pool collapsed to < 3 distinct crosses is unhealthy, mirroring
+  // roster_composition's >= 3 roles. NOT keyed on the engine's lineage_id: that hashes the per-run
+  // courtship ids -> unique per run AND identical across policies -> no diversity/P4 signal. A
+  // cross with an UNKNOWN/missing parent species (roleOf -> UNKNOWN) is invalid telemetry, not a
+  // real lineage: kept OUT of the profile + tracked as unknown_lineage_count (mirrors
+  // roster_composition's UNKNOWN handling, Codex #2573 P2).
+  const lineageProfile = {};
+  let unknownLineageCount = 0;
+  for (const r of list) {
+    for (const lin of (r && r.offspringLineages) || []) {
+      const sp = (lin && lin.parentSpecies) || [];
+      const a = sp[0];
+      const b = sp[1];
+      if (!a || !b || roleOf(a) === 'UNKNOWN' || roleOf(b) === 'UNKNOWN') {
+        unknownLineageCount += 1;
+        continue;
+      }
+      const key = [a, b].sort().join(' x ');
+      lineageProfile[key] = (lineageProfile[key] || 0) + 1;
+    }
+  }
+  const lineageDistinct = Object.keys(lineageProfile).length;
+  const maxLineageFreq = Math.max(0, ...Object.values(lineageProfile));
+  const dominantLineages = Object.keys(lineageProfile)
+    .filter((k) => lineageProfile[k] === maxLineageFreq)
+    .sort();
+  const [ldLo] = PROVISIONAL_BANDS.lineage_diversity;
+  const lineage_diversity = {
+    value: lineageDistinct,
+    lineage_profile: lineageProfile,
+    dominant_lineages: dominantLineages,
+    unknown_lineage_count: unknownLineageCount,
+    range: PROVISIONAL_BANDS.lineage_diversity,
+    in_band: n > 0 && lineageDistinct >= ldLo,
+    note: 'distinct parent-species crosses across the batch (>= 3 = healthy spread, no collapse); dominant cross is POLICY-SENSITIVE -> P4 in breeding; UNKNOWN/missing parents excluded, tracked as unknown_lineage_count',
+  };
+
+  // 7. roster_composition: role_class profile of the recruited roster (recruitedSpecies ->
+  // roleOf). POLICY-SENSITIVE -> the dominant role(s) diverge by temperament (mbtiPolicy
+  // recruits a different role mix than greedy), so P4 is MEASURABLE here even though the
+  // quantity metrics above are policy-insensitive. Band: >= 3 distinct roles = healthy spread.
+  // UNKNOWN (a species outside the canonical role map -> a typo/unmapped recruit) is invalid
+  // telemetry, NOT a real ecological role: it is tracked separately (unknown_count) and kept
+  // OUT of role_profile / distinct_roles / dominance, so it can never inflate diversity or
+  // appear dominant and mask a collapsed roster (Codex #2573 P2).
+  const roleProfile = {};
+  let unknownCount = 0;
+  for (const r of list) {
+    for (const sp of (r && r.recruitedSpecies) || []) {
+      const role = roleOf(sp);
+      if (role === 'UNKNOWN') {
+        unknownCount += 1;
+        continue;
+      }
+      roleProfile[role] = (roleProfile[role] || 0) + 1;
+    }
+  }
+  const distinctRoles = Object.keys(roleProfile).length;
+  const maxFreq = Math.max(0, ...Object.values(roleProfile));
+  const dominantRoles = Object.keys(roleProfile)
+    .filter((k) => roleProfile[k] === maxFreq)
+    .sort();
+  const [rcLo] = PROVISIONAL_BANDS.roster_composition;
+  const roster_composition = {
+    role_profile: roleProfile,
+    distinct_roles: distinctRoles,
+    dominant_roles: dominantRoles,
+    unknown_count: unknownCount,
+    range: PROVISIONAL_BANDS.roster_composition,
+    in_band: n > 0 && distinctRoles >= rcLo,
+    note: 'role_class profile of the recruited roster (UNKNOWN excluded, tracked as unknown_count); dominant_roles diverge by policy -> P4 measurable (composition, not quantity)',
+  };
+
+  return {
+    n,
+    provisional: false, // RATIFIED by master-dd 2026-06-03 (L-069); reversible two-way door
+    metrics: {
+      completion_rate,
+      roster_attrition,
+      economy_flow,
+      relationship_progress,
+      offspring_viability,
+      lineage_diversity,
+      roster_composition,
+    },
+  };
+}
+
+module.exports = { aggregate, buildPowerDrift, mean, PROVISIONAL_BANDS };

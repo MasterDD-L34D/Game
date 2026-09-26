@@ -1,0 +1,18 @@
+# MEMORY.md — Auto-loaded index per Claude Code (user-level)
+
+> Template: dopo copia in `~/.claude/projects/<repo-hash>/memory/`, rimuovere questa header + personalizzare righe progetto.
+
+Memory files auto-caricati da Claude Code ogni sessione. Max 200 righe — lines successive troncate.
+
+## Flint workflow patterns (sempre-utili)
+
+- [Claude workflow consolidated (9 pattern)](feedback_claude_workflow_consolidated.md) — tabella opzioni + caveman voice + checkpoint memory + CI auto-merge + delega research + piano file:line + admit+reinvestigate + probe-before-batch + research-critique
+- [Meta-checkpoint directive](feedback_meta_checkpoint_directive.md) — pausa riflessiva 5-step. Auto-trigger su "analizza"/"ricorda"/"checkpoint". Invocabile via `/meta-checkpoint`
+- [Flint optimization guide + sources](reference_flint_optimization_guide.md) — 40+ fonti research (landscape + rischi), kill 60% decision log, follow-up priority
+
+## Progetto <NOME_PROGETTO>
+
+<!-- Aggiungi qui memory specifiche del tuo progetto. Esempi: -->
+<!-- - [External repos curated](reference_external_repos.md) -->
+<!-- - [GDD open questions](project_<slug>_open_questions.md) -->
+<!-- - [Sprint progress <date>](project_<slug>_sprint.md) -->

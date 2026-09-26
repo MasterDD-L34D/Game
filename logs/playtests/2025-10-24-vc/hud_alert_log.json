@@ -1,0 +1,57 @@
+[
+  {
+    "alertId": "risk-high:skydock_siege_tier3",
+    "status": "raised",
+    "missionId": "skydock_siege_tier3",
+    "missionTag": "delta",
+    "turn": 9,
+    "weightedIndex": 0.6,
+    "timeLowHpTurns": 4,
+    "roster": ["Bulwark", "Cipher", "Aurora"],
+    "timestamp": "2025-10-24T07:48:10Z",
+    "ackCount": 0,
+    "ackRecipients": []
+  },
+  {
+    "alertId": "risk-high:skydock_siege_tier3",
+    "status": "acknowledged",
+    "missionId": "skydock_siege_tier3",
+    "missionTag": "delta",
+    "turn": 10,
+    "weightedIndex": 0.59,
+    "timeLowHpTurns": 4,
+    "roster": ["Bulwark", "Cipher", "Aurora"],
+    "timestamp": "2025-10-24T07:48:42Z",
+    "ackRecipient": "HUD",
+    "ackRecipients": ["HUD"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-10-24T07:48:42Z"
+  },
+  {
+    "alertId": "risk-high:skydock_siege_tier3",
+    "status": "cleared",
+    "missionId": "skydock_siege_tier3",
+    "missionTag": "delta",
+    "turn": 12,
+    "weightedIndex": 0.56,
+    "timeLowHpTurns": 3,
+    "roster": ["Bulwark", "Cipher", "Aurora"],
+    "timestamp": "2025-10-24T07:50:05Z",
+    "ackRecipients": ["HUD"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-10-24T07:48:42Z"
+  },
+  {
+    "alertId": "risk-high:skydock_siege_tier4",
+    "status": "filtered",
+    "missionId": "skydock_siege_tier4",
+    "missionTag": "echo",
+    "turn": 11,
+    "weightedIndex": 0.58,
+    "timeLowHpTurns": 3,
+    "roster": ["Sentinel", "Vesper", "Aurora"],
+    "timestamp": "2025-10-24T08:22:19Z",
+    "filterName": "overcapGuardCooloff",
+    "filterCount": 1
+  }
+]

@@ -1,0 +1,63 @@
+[prisma] client non disponibile, uso stub in memoria DATABASE_URL non configurato
+unknown format "uri" ignored in schema at path "#/properties/share_url/anyOf/1"
+unknown format "uri" ignored in schema at path "#/properties/share_url/anyOf/1"
+[jobs] caricato C:\dev\Game\.claude\worktrees\map-elites-v2\data\core\jobs.yaml: 8 base + 4 expansion = 12 job
+[plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+[auth] nessun provider configurato: gli endpoint non sono protetti
+[trait-effects] 428 trait attivi caricati da C:\dev\Game\.claude\worktrees\map-elites-v2\data\core\traits\active_effects.yaml
+[fairness] cap_pt_max=1 caricato da C:\dev\Game\.claude\worktrees\map-elites-v2\data\packs.yaml
+[vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+[ai-profiles] caricato C:\dev\Game\.claude\worktrees\map-elites-v2\packs\evo_tactics_pack\data\balance\ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)
+[idea-engine] API online su http://0.0.0.0:3392
+[idea-engine] Database URL: [missing]
+[idea-engine] Orchestrator autoclose: disabled (default)
+[game-database] HTTP integration ENABLED at http://localhost:3333
+[game-database] trait glossary fetched via HTTP with local file fallback. Scope: trait glossary only — see docs/adr/ADR-2026-04-14-game-database-topology.md
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[catalog] game-database glossary HTTP fetch failed, falling back to local file: fetch failed
+[nebula-aggregator] telemetria Nebula non configurata: uso valori di fallback
+[nebula-aggregator] telemetria generatore Nebula non configurata: uso valori di fallback
+[nebula-aggregator] telemetria orchestrator non configurata: nessun evento disponibile
+[ermes] boot report: generated
+[xpBudget audit] session=3a60325b-826e-4f0e-946a-2df96ca84373 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=6bca3fe1-4fa6-4624-b479-a7c0e337e9d5 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=31f4e6d4-e49f-40a0-8759-c39ba359ed60 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=3470a172-3848-4a26-b83f-2be6b872d7fa class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=9aae090f-9e7b-4794-b1c2-e1f850f2d2d7 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=fbdbe601-8417-45da-8246-805249a867d8 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=cc01f319-2659-46a3-ba2a-b140e44b2bc0 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=e0e548b1-cd01-4e2c-9cfd-0e3c984f4000 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=1fdd91bf-29ae-49e9-934f-0c1506ddbb18 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=d40fe372-8754-4757-a45c-ceef6c7dee30 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=c1433110-4974-408a-ab46-533b3aa9b7da class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=27eeea97-6343-499e-bc45-337af4b04ae1 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=36fe1dea-4bb3-42de-a204-33ebb4a6d667 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=8bbee9de-58b0-4925-b916-7a4cb51e337c class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=2567c49e-3d0a-4760-a941-248d18e204f6 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=2e00d8c8-f36c-406a-ab9c-77e41106ca40 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=ebe2ecf9-baab-4e51-b6d9-e8d07b8e7c98 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=c0a95333-dbb4-46b8-b5fe-80b5a3cd801d class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=4b86c21f-3a09-4436-8f2c-765fd89cc07d class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=40cbfa07-cf47-4ebc-bcca-5d2b9e3ab12c class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=abb0b27c-4f7b-4345-80c3-e5ee2173cf2d class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=a7f4eece-d075-48ab-adf0-3a028eb8c165 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=4a531db7-6e93-442e-ab52-0c50f5c52292 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=2bee682e-87de-41e7-bd94-53cbeaf8f226 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=e4ce28b7-4bc1-4c95-b302-e8172e5187b7 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=f93fbfd4-887b-4968-8b55-0be43316cb75 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=93563e95-c0d2-4cb1-a142-5847295db782 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=24700f05-7853-46aa-bddc-1dbad6b6e7a2 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=924441e7-aee9-4752-8a89-5ed906f93c18 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=59479764-65ac-4a17-9026-ad8a4876199d class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=69c0cbb4-5f2d-4d49-9121-cd289ebaf0d7 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=28e40164-47ba-4712-bdcd-ecdfcc7b2be5 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=48b5b5d4-47f4-4df3-a50a-2259ad11541a class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=79aedc62-75e3-445b-b3d0-04ef96fefe27 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=59199fb0-eb02-4817-a3bc-6bae1454230f class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=fdc53f65-ce8d-44d7-b5c6-97187c1ab5a5 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=fac2cf19-bbc0-420d-93e8-aa05b5036e2e class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=f2562abc-7d18-4dab-8068-13ecfc146452 class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=084ffca3-7ee4-4436-b59e-2acd9f40f3fd class=standard party=8 budget=320 used=0 ratio=0 status=under
+[xpBudget audit] session=cb3a8753-392c-45ec-9352-aeaa46a2506d class=standard party=8 budget=320 used=0 ratio=0 status=under

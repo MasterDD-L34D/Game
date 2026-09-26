@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/species.schema.json",
+  "title": "Evo Tactics Species",
+  "$comment": "ADR-2026-05-15 Q1 Option A Phase 4c.7 (2026-05-15): legacy sentience_tier field intentionally NOT in schema (only sentience_index per RFC v0.1). Scope: validate per-species rich JSON files (skipped automatically for species_catalog.json which uses extended v0.4.x schema with clade_tag/role_tags/default_parts/biome_affinity additive fields preserved via ETL legacy-yaml-merge — see tools/etl/merge_pack_v2_species.py).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["species"],
+  "properties": {
+    "species": {
+      "type": "object",
+      "title": "Species payload",
+      "additionalProperties": false,
+      "required": ["scientific_name", "classification", "functional_signature", "trait_refs"],
+      "properties": {
+        "scientific_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "common_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "classification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["macro_class", "habitat"],
+          "properties": {
+            "macro_class": {
+              "$ref": "enums.json#/$defs/macro_class"
+            },
+            "habitat": {
+              "$ref": "enums.json#/$defs/habitat_profile"
+            }
+          }
+        },
+        "functional_signature": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visual_description": {
+          "type": "string"
+        },
+        "risk_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "danger_level": {
+              "$ref": "enums.json#/$defs/danger_level"
+            },
+            "vectors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "interactions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "predates_on": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "predated_by": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "symbiosis": {
+              "type": "string"
+            }
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sentience_index": {
+          "$ref": "enums.json#/$defs/sentience_tier"
+        },
+        "ecotypes": {
+          "type": "array",
+          "items": {
+            "$ref": "enums.json#/$defs/ecotype_cluster"
+          },
+          "uniqueItems": true
+        },
+        "trait_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^TR-\\d{4}$"
+          },
+          "uniqueItems": true
+        },
+        "ecology": {
+          "type": "object",
+          "title": "Food web + social ecology metadata (additive, optional, ADR-2026-05-02)",
+          "additionalProperties": false,
+          "properties": {
+            "trophic_tier": {
+              "type": "string",
+              "enum": [
+                "producer",
+                "primary_consumer",
+                "secondary_consumer",
+                "tertiary_consumer",
+                "apex",
+                "decomposer",
+                "scavenger",
+                "omnivore"
+              ]
+            },
+            "pack_size": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["min", "max"],
+              "properties": {
+                "min": { "type": "integer", "minimum": 1 },
+                "max": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "prey_of": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "preys_on": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "competes_with": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "scavenges_from": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "mutualism_with": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["species_id", "type"],
+                "properties": {
+                  "species_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["direct", "indirect", "obligate", "facultative"]
+                  },
+                  "note": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$"
+    },
+    "versioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created", "updated", "author"],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "author": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

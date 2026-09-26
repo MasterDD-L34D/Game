@@ -1,0 +1,64 @@
+{
+  "probe": "electric_channel_tkt_d4_enrich_2533",
+  "seed_base": 7000,
+  "runs_per_arm": 40,
+  "elapsed_sec": 30.3,
+  "arms": {
+    "control": {
+      "arm": "control",
+      "n": 40,
+      "win_rate": 0.65,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.35,
+      "turns_avg": 23.98,
+      "dmg_per_hit_by_archetype": {
+        "corazzato": {
+          "hits": 401,
+          "dmg_per_hit": 2.893
+        },
+        "bioelettrico": {
+          "hits": 118,
+          "dmg_per_hit": 3.492
+        },
+        "adattivo": {
+          "hits": 129,
+          "dmg_per_hit": 2.519
+        }
+      },
+      "trait_trigger_tally": {
+        "status:slow_down": 59
+      },
+      "status_applied_tally": {}
+    },
+    "live": {
+      "arm": "live",
+      "n": 40,
+      "win_rate": 0.85,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.15,
+      "turns_avg": 20.77,
+      "dmg_per_hit_by_archetype": {
+        "corazzato": {
+          "hits": 380,
+          "dmg_per_hit": 3.0
+        },
+        "bioelettrico": {
+          "hits": 127,
+          "dmg_per_hit": 3.472
+        },
+        "adattivo": {
+          "hits": 104,
+          "dmg_per_hit": 3.385
+        }
+      },
+      "trait_trigger_tally": {
+        "elettromagnete_biologico": 104,
+        "seta_conduttiva_elettrica": 157,
+        "status:slow_down": 52
+      },
+      "status_applied_tally": {
+        "disorient": 308
+      }
+    }
+  }
+}

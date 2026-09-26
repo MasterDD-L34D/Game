@@ -1,0 +1,63 @@
+{
+  "scenario": "enc_savana_01",
+  "arm": "on",
+  "args": {
+    "scenario": "enc_savana_01",
+    "arm": "on",
+    "runs": 40,
+    "seedBase": 60000,
+    "out": "reports/sim/a2-pressure-n40-2026-06-16",
+    "commit": "2a7f3853",
+    "aggregate": false
+  },
+  "fire": {
+    "sistema_tier": "Alert",
+    "sistema_pressure": 25,
+    "floor": 2,
+    "expected_min": 25
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 1,
+    "win_ci95": [
+      0.9123754607496077,
+      1
+    ],
+    "defeat_rate": 0,
+    "defeat_ci95": [
+      0,
+      0.08762453925039232
+    ],
+    "timeout_rate": 0,
+    "wins": 40,
+    "defeats": 0,
+    "timeouts": 0,
+    "rounds": {
+      "mean": 11.675,
+      "sd": 1.7742820866696822,
+      "ci95": [
+        11.125144284659779,
+        12.224855715340222
+      ],
+      "n": 40
+    },
+    "survivors": {
+      "mean": 2,
+      "sd": 0,
+      "ci95": [
+        2,
+        2
+      ],
+      "n": 40
+    },
+    "spawns": {
+      "mean": 0,
+      "sd": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "n": 40
+    }
+  }
+}

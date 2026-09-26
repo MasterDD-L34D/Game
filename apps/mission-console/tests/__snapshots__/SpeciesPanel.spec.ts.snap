@@ -1,0 +1,112 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SpeciesPanel > renders species narrative and mechanics 1`] = `
+"<section data-v-73eb6eb5="" class="species-panel">
+  <section data-v-966c492d="" data-v-73eb6eb5="" class="nebula-shell">
+    <div data-v-966c492d="" class="nebula-shell__frame">
+      <header data-v-966c492d="" class="nebula-shell__header">
+        <div data-v-966c492d="" class="nebula-shell__status-grid">
+          <div data-v-966c492d="" class="nebula-shell__status"><span data-v-966c492d="" class="nebula-shell__status-led" data-tone="neutral"></span>
+            <div data-v-966c492d="">
+              <p data-v-966c492d="" class="nebula-shell__status-label">Rarità</p>
+              <p data-v-966c492d="" class="nebula-shell__status-value">R2</p>
+            </div>
+          </div>
+          <div data-v-966c492d="" class="nebula-shell__status"><span data-v-966c492d="" class="nebula-shell__status-led" data-tone="critical"></span>
+            <div data-v-966c492d="">
+              <p data-v-966c492d="" class="nebula-shell__status-label">Threat tier</p>
+              <p data-v-966c492d="" class="nebula-shell__status-value">T3</p>
+            </div>
+          </div>
+          <div data-v-966c492d="" class="nebula-shell__status"><span data-v-966c492d="" class="nebula-shell__status-led" data-tone="critical"></span>
+            <div data-v-966c492d="">
+              <p data-v-966c492d="" class="nebula-shell__status-label">Allineamento</p>
+              <p data-v-966c492d="" class="nebula-shell__status-value">42%</p>
+            </div>
+          </div>
+        </div>
+        <div data-v-966c492d="" class="nebula-shell__actions">
+          <div data-v-78ecd3ce="" data-v-73eb6eb5="" class="species-quick-actions"><button data-v-78ecd3ce="" type="button" class="species-quick-actions__button"> Esporta scheda </button><button data-v-78ecd3ce="" type="button" class="species-quick-actions__button species-quick-actions__button--secondary"> Salva nel pack </button></div>
+        </div>
+      </header>
+      <div data-v-966c492d="" class="nebula-shell__cards">
+        <article data-v-1960f20b="" data-v-73eb6eb5="" class="species-card">
+          <header data-v-1960f20b="" class="species-card__header">
+            <div data-v-1960f20b="">
+              <p data-v-1960f20b="" class="species-card__kicker">Profilo non definito</p>
+              <h3 data-v-1960f20b="" class="species-card__title">Predatore / Coda a Frusta Cinetica</h3>
+            </div>
+            <div data-v-1960f20b="" class="species-card__badges"><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✦</span><span data-v-48844140="" class="trait-chip__label">R2</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="hazard"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">⚡</span><span data-v-48844140="" class="trait-chip__label">T3</span></span></div>
+          </header>
+          <p data-v-1960f20b="" class="species-card__synopsis">Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante</p>
+          <section data-v-1960f20b="" class="species-card__traits" aria-label="Tratti principali">
+            <div data-v-1960f20b="">
+              <h4 data-v-1960f20b="">Core</h4>
+              <div data-v-1960f20b="" class="species-card__trait-grid"><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✶</span><span data-v-48844140="" class="trait-chip__label">Artigli a Sette Vie</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✶</span><span data-v-48844140="" class="trait-chip__label">Coda a Frusta Cinetica</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✶</span><span data-v-48844140="" class="trait-chip__label">Scheletro Idro-Regolante</span></span></div>
+            </div>
+            <div data-v-1960f20b="">
+              <h4 data-v-1960f20b="">Derivati</h4>
+              <div data-v-1960f20b="" class="species-card__trait-grid"><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="derived"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">☲</span><span data-v-48844140="" class="trait-chip__label">struttura_elastica_amorfa</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="derived"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">☲</span><span data-v-48844140="" class="trait-chip__label">sacche_galleggianti_ascensoriali</span></span></div>
+            </div>
+            <!--v-if-->
+          </section>
+          <footer data-v-1960f20b="" class="species-card__footer">
+            <div data-v-1960f20b="" class="species-card__info-block"><span data-v-1960f20b="" class="species-card__label">Energia</span><span data-v-1960f20b="">medio</span></div>
+            <div data-v-1960f20b="" class="species-card__info-block"><span data-v-1960f20b="" class="species-card__label">Habitat</span><span data-v-1960f20b=""></span></div>
+            <!--v-if-->
+          </footer>
+        </article>
+      </div>
+      <nav data-v-966c492d="" class="nebula-shell__tabs" aria-label="Navigazione schede" role="tablist"><button data-v-966c492d="" type="button" class="nebula-shell__tab" role="tab" id="nebula-shell-1-tab-0" aria-controls="nebula-shell-1-panel-0" aria-selected="false" tabindex="-1"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">🧬</span><span data-v-966c492d="">Scheda</span></button><button data-v-966c492d="" type="button" class="nebula-shell__tab" role="tab" id="nebula-shell-1-tab-1" aria-controls="nebula-shell-1-panel-1" aria-selected="false" tabindex="-1"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">🌿</span><span data-v-966c492d="">Biologia</span></button><button data-v-966c492d="" type="button" class="nebula-shell__tab nebula-shell__tab--active" role="tab" id="nebula-shell-1-tab-2" aria-controls="nebula-shell-1-panel-2" aria-selected="true" tabindex="0"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">📡</span><span data-v-966c492d="">Telemetry</span></button><button data-v-966c492d="" type="button" class="nebula-shell__tab" role="tab" id="nebula-shell-1-tab-3" aria-controls="nebula-shell-1-panel-3" aria-selected="false" tabindex="-1"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">∞</span><span data-v-966c492d="">Sinergie</span></button></nav>
+      <div data-v-966c492d="" class="nebula-shell__content" role="tabpanel" id="nebula-shell-1-panel-2" aria-labelledby="nebula-shell-1-tab-2" tabindex="0">
+        <div data-v-73eb6eb5="" class="species-panel__section species-panel__section--columns">
+          <section data-v-e6469edf="" data-v-73eb6eb5="" class="species-statistics">
+            <h3 data-v-e6469edf="">Statistiche</h3>
+            <dl data-v-e6469edf="" class="species-statistics__grid">
+              <div data-v-e6469edf="" class="species-statistics__stat">
+                <dt data-v-e6469edf="">Minaccia</dt>
+                <dd data-v-e6469edf="">T3</dd>
+              </div>
+              <div data-v-e6469edf="" class="species-statistics__stat">
+                <dt data-v-e6469edf="">Rarità</dt>
+                <dd data-v-e6469edf="">R2</dd>
+              </div>
+              <div data-v-e6469edf="" class="species-statistics__stat">
+                <dt data-v-e6469edf="">Energia</dt>
+                <dd data-v-e6469edf="">medio</dd>
+              </div>
+              <div data-v-e6469edf="" class="species-statistics__stat">
+                <dt data-v-e6469edf="">Sinergia</dt>
+                <dd data-v-e6469edf="">42%</dd>
+              </div>
+            </dl>
+          </section>
+          <section data-v-5b00ee54="" data-v-73eb6eb5="" class="species-timeline">
+            <div data-v-5b00ee54="" class="species-timeline__header">
+              <h3 data-v-5b00ee54="">Revisioni validate</h3>
+              <div data-v-5b00ee54="" class="species-timeline__filters"><button data-v-5b00ee54="" type="button" class="species-timeline__filter species-timeline__filter--active"><span data-v-5b00ee54="" class="species-timeline__filter-icon">✦</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Tutte</span><span data-v-5b00ee54="" class="species-timeline__filter-count">2</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">✧</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Info</span><span data-v-5b00ee54="" class="species-timeline__filter-count">1</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">⚠️</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Avvisi</span><span data-v-5b00ee54="" class="species-timeline__filter-count">1</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">☠️</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Critici</span><span data-v-5b00ee54="" class="species-timeline__filter-count">0</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">✨</span><span data-v-5b00ee54="" class="species-timeline__filter-label">OK</span><span data-v-5b00ee54="" class="species-timeline__filter-count">0</span></button></div>
+            </div>
+            <ol data-v-5b00ee54="" class="species-timeline__list">
+              <li data-v-5b00ee54="" class="species-timeline__entry" data-tone="info">
+                <div data-v-5b00ee54="" class="species-timeline__entry-header"><span data-v-5b00ee54="" class="species-timeline__badge" data-tone="info"><span data-v-5b00ee54="" class="species-timeline__badge-icon">✧</span><span data-v-5b00ee54="" class="species-timeline__badge-text">Info</span></span>
+                  <div data-v-5b00ee54="" class="species-timeline__entry-meta"><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.schema_version.defaulted</span></div>
+                </div>
+                <p data-v-5b00ee54="" class="species-timeline__message">schema_version mancante</p>
+              </li>
+              <li data-v-5b00ee54="" class="species-timeline__entry" data-tone="warning">
+                <div data-v-5b00ee54="" class="species-timeline__entry-header"><span data-v-5b00ee54="" class="species-timeline__badge" data-tone="warning"><span data-v-5b00ee54="" class="species-timeline__badge-icon">⚠️</span><span data-v-5b00ee54="" class="species-timeline__badge-text">Avviso</span></span>
+                  <div data-v-5b00ee54="" class="species-timeline__entry-meta"><strong data-v-5b00ee54="">Avviso</strong><span data-v-5b00ee54="" class="species-timeline__code">species.environment_affinity.missing</span></div>
+                </div>
+                <p data-v-5b00ee54="" class="species-timeline__message">environment_affinity non presente</p>
+              </li>
+            </ol>
+          </section>
+          <!--v-if-->
+          <!--v-if-->
+        </div>
+      </div>
+      <footer data-v-966c492d="" class="nebula-shell__footer"></footer>
+    </div>
+  </section>
+</section>"
+`;

@@ -1,0 +1,8 @@
+zip_file: evo_pacchetto_minimo_v2.zip
+timestamp: 20251029-212034
+cli_origin: repository
+working_directory: /tmp/incoming_validation.O8CpfD/evo_pacchetto_minimo_v2
+validate_datasets_exit_code: 0
+validate_datasets_log: reports/incoming/validation/evo_pacchetto_minimo_v2-20251029-212034/validate-datasets.log
+validate_ecosystem_pack_exit_code: 0
+validate_ecosystem_pack_log: reports/incoming/validation/evo_pacchetto_minimo_v2-20251029-212034/validate-ecosystem-pack.log

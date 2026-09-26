@@ -1,0 +1,92 @@
+# Trait environmental costs — M11 pilot (ADR-2026-04-21c, issue #1674).
+#
+# Pilot scope STRICT: 4 trait × 3 biomi = 12 cell. NON generalizzare
+# pre-playtest validation (vedi ADR Scope guard).
+#
+# Runtime wire:
+#   session.js /start → legge biome_id da req.body (fallback encounter.biome_id)
+#   → applyBiomeTraitCosts(unit, biome_id) in apps/backend/services/traitEffects.js
+#   → muta unit.attack_mod_bonus / unit.defense_mod_bonus / unit.mobility
+#
+# NO economy channel nuovo: penalty sono stat_delta runtime session-scoped.
+# NO Prisma persistence: ricalcolato a ogni session.start.
+#
+# Vedi: docs/adr/ADR-2026-04-21c-trait-environmental-costs.md
+
+version: '1.0'
+schema_version: '1.0.0'
+
+# ─── Matrix 4 trait × 3 biomi ─────────────────────────────────────────
+# Delta range ±1/±2. Cell vuota `{}` = bioma neutral per quel trait.
+# Rationale breve per audit balance. Playtest follow-up: validate o revert.
+
+trait_costs:
+  thermal_armor:
+    savana:
+      defense_mod: -1
+      mobility: -1
+      rationale: 'Caldo arido: corazza termica surriscalda, rallenta e riduce efficienza difensiva.'
+    caverna_risonante:
+      defense_mod: 2
+      rationale: 'Freddo umido: isolamento termico premium, corazza attiva protezione massima.'
+    rovine_planari: {}  # neutral
+
+  zampe_a_molla:
+    savana:
+      mobility: 1
+      rationale: 'Terreno aperto secco: slancio efficace, pushoff pulito.'
+    caverna_risonante:
+      mobility: -1
+      rationale: 'Superficie umida scivolosa: rebound instabile.'
+    rovine_planari: {}  # neutral
+
+  pelle_elastomera:
+    savana:
+      defense_mod: -1
+      rationale: 'Calore estremo degrada elasticità polimerica.'
+    caverna_risonante:
+      defense_mod: 1
+      rationale: 'Umidità preserva modulo elastico: assorbimento colpo migliora.'
+    rovine_planari: {}  # neutral
+
+  denti_seghettati:
+    savana:
+      attack_mod: 1
+      rationale: 'Prede ossee abbondanti affilano naturalmente i denti.'
+    caverna_risonante:
+      attack_mod: -1
+      rationale: 'Dieta molle scarsa di prede dure: denti rimangono smussati.'
+    rovine_planari: {}  # neutral
+
+# ─── Biome metadata ───────────────────────────────────────────────────
+# Climate axis per future extension M12+. Pilot usa biome_id diretto.
+
+biomes:
+  savana:
+    climate: hot_arid
+    description: 'Savana calda arida pilot (tutorial_01/02).'
+  caverna_risonante:
+    climate: cold_humid
+    description: 'Caverna umida fresca pilot (tutorial_03).'
+  rovine_planari:
+    climate: neutral
+    description: 'Rovine planari neutrale pilot (tutorial_05 boss).'
+
+# ─── Validation ───────────────────────────────────────────────────────
+
+validation:
+  stats_allowed: [attack_mod, defense_mod, mobility]
+  delta_range_min: -2
+  delta_range_max: 2
+  pilot_trait_count: 4
+  pilot_biome_count: 3
+  pilot_cell_count: 12
+  enforcement: 'tests/ai/traitEnvironmentalCosts.test.js'
+
+# ─── Riferimenti ──────────────────────────────────────────────────────
+
+references:
+  adr: 'docs/adr/ADR-2026-04-21c-trait-environmental-costs.md'
+  issue: 'https://github.com/MasterDD-L34D/Game/issues/1674'
+  trait_mechanics: 'packs/evo_tactics_pack/data/balance/trait_mechanics.yaml'
+  triage_source: 'docs/planning/2026-04-21-triage-exploration-notes.md'

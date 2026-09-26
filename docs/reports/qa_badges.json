@@ -1,0 +1,54 @@
+{
+  "generated_at": "2025-11-03T12:30:04.520252Z",
+  "summary": {
+    "total_traits": 174,
+    "glossary_ok": 174,
+    "glossary_missing": 0,
+    "matrix_ok": 174,
+    "matrix_mismatch": 0,
+    "with_conflicts": 0,
+    "matrix_only_traits": 45
+  },
+  "checks": {
+    "traits": {
+      "passed": 174,
+      "total": 174,
+      "conflicts": 0,
+      "missing_glossary": 0,
+      "matrix_mismatch": 0
+    }
+  },
+  "highlights": {
+    "glossary_missing": [],
+    "matrix_only_traits": [
+      "Strategist",
+      "adattamento_volo",
+      "ali_solari_fotoni",
+      "architetto",
+      "artigli_psionici",
+      "assenza_respirazione",
+      "campo_di_fase",
+      "ciclo_vitale_anomalo",
+      "ciclo_vitale_completo",
+      "corteccia_memetica",
+      "eco_sismico",
+      "filtri_bioattivi",
+      "fisiologia_predatoria",
+      "fotosintesi_bifase",
+      "ghiandole_nettare_memetico",
+      "intangibilita_parziale",
+      "lamenti_diradanti",
+      "maschera_illusoria",
+      "matrice_antimagia",
+      "membrane_osmotiche"
+    ],
+    "matrix_mismatch_traits": [],
+    "zero_coverage_traits": [],
+    "top_conflicts": []
+  },
+  "sources": {
+    "trait_reference": "data/traits/index.json",
+    "trait_matrix": "docs/catalog/species_trait_matrix.json",
+    "trait_glossary": "data/core/traits/glossary.json"
+  }
+}

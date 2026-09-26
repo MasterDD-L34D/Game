@@ -1,0 +1,10 @@
+indices:
+  focus_index:
+    label: "Indice di focus"
+    value: 0.72
+    change: "stabile"
+    notes: "Valore sintetico per la suite di test."
+  stress_index:
+    label: "Indice di stress"
+    value: 0.35
+    change: "in calo"

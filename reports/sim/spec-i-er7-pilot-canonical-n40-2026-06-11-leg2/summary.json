@@ -1,0 +1,362 @@
+{
+  "args": {
+    "effect": "er7",
+    "runs": 40,
+    "seedBase": 73000,
+    "out": "reports/sim/spec-i-er7-pilot-canonical-n40-2026-06-11-leg2",
+    "commit": "c85710fb0",
+    "scaling": {
+      "countAdd": 6,
+      "hpAdd": 4,
+      "modAdd": 7,
+      "dcAdd": 2
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "scenario": "enc_badlands_foodweb_pilot_01",
+    "aggregate": true
+  },
+  "isolated_arms": true,
+  "summaries": {
+    "off": {
+      "n": 40,
+      "win_rate": 0.675,
+      "win_ci95": [
+        0.52017458088898,
+        0.7991568303733828
+      ],
+      "timeouts": 0,
+      "rounds": {
+        "mean": 103.4,
+        "sd": 10.364634148181064,
+        "ci95": [
+          100.1879665997841,
+          106.6120334002159
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 61.975,
+        "sd": 6.346763762454866,
+        "ci95": [
+          60.008117532483034,
+          63.94188246751697
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.3,
+        "sd": 0.9391758525703702,
+        "ci95": [
+          1.0089463878798186,
+          1.5910536121201815
+        ],
+        "n": 40
+      }
+    },
+    "off2": {
+      "n": 40,
+      "win_rate": 0.625,
+      "win_ci95": [
+        0.4703216005453191,
+        0.7577722646420829
+      ],
+      "timeouts": 0,
+      "rounds": {
+        "mean": 101.275,
+        "sd": 11.361174325362764,
+        "ci95": [
+          97.75413559928742,
+          104.79586440071259
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 60.425,
+        "sd": 7.203587069416643,
+        "ci95": [
+          58.19258523865598,
+          62.657414761344015
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.225,
+        "sd": 0.973692417078886,
+        "ci95": [
+          0.9232495937164167,
+          1.5267504062835835
+        ],
+        "n": 40
+      }
+    },
+    "on_depleted": {
+      "n": 40,
+      "win_rate": 0.6,
+      "win_ci95": [
+        0.44595619827393507,
+        0.7365188938759865
+      ],
+      "timeouts": 1,
+      "rounds": {
+        "mean": 106.925,
+        "sd": 16.38853179387874,
+        "ci95": [
+          101.84614137847528,
+          112.00385862152471
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 64.55,
+        "sd": 10.367478738083594,
+        "ci95": [
+          61.337085052240184,
+          67.76291494775981
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.175,
+        "sd": 0.9577618139744831,
+        "ci95": [
+          0.8781865387668026,
+          1.4718134612331975
+        ],
+        "n": 40
+      }
+    },
+    "on_abundant": {
+      "n": 40,
+      "win_rate": 0.6,
+      "win_ci95": [
+        0.44595619827393507,
+        0.7365188938759865
+      ],
+      "timeouts": 0,
+      "rounds": {
+        "mean": 103.275,
+        "sd": 12.649085301884837,
+        "ci95": [
+          99.35500785257197,
+          107.19499214742804
+        ],
+        "n": 40
+      },
+      "player_attacks": {
+        "mean": 61.925,
+        "sd": 7.559634708309452,
+        "ci95": [
+          59.58224493220219,
+          64.26775506779781
+        ],
+        "n": 40
+      },
+      "overcharge_uses": {
+        "mean": null,
+        "sd": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "survivors": {
+        "mean": 1.15,
+        "sd": 0.9753368911725072,
+        "ci95": [
+          0.847739965914896,
+          1.452260034085104
+        ],
+        "n": 40
+      }
+    }
+  },
+  "deltas": {
+    "off2 - off (noise floor)": {
+      "pairs": 40,
+      "rounds_delta": {
+        "mean": -2.125,
+        "sd": 14.191343515299415,
+        "ci95": [
+          -6.52294291948826,
+          2.27294291948826
+        ],
+        "n": 40
+      },
+      "attacks_delta": {
+        "mean": -1.55,
+        "sd": 9.128568848991018,
+        "ci95": [
+          -4.37897279536638,
+          1.27897279536638
+        ],
+        "n": 40
+      },
+      "flips": {
+        "loss_to_win": 8,
+        "win_to_loss": 10
+      },
+      "win_rate_delta": -0.05
+    },
+    "on_depleted - off (prey exclusion)": {
+      "pairs": 40,
+      "rounds_delta": {
+        "mean": 3.525,
+        "sd": 19.858457476182114,
+        "ci95": [
+          -2.6291997313487747,
+          9.679199731348774
+        ],
+        "n": 40
+      },
+      "attacks_delta": {
+        "mean": 2.575,
+        "sd": 11.982653060110449,
+        "ci95": [
+          -1.138462655990483,
+          6.288462655990483
+        ],
+        "n": 40
+      },
+      "flips": {
+        "loss_to_win": 8,
+        "win_to_loss": 11
+      },
+      "win_rate_delta": -0.075
+    },
+    "on_abundant - off (apex boost)": {
+      "pairs": 40,
+      "rounds_delta": {
+        "mean": -0.125,
+        "sd": 14.651835449911456,
+        "ci95": [
+          -4.665650848524375,
+          4.415650848524375
+        ],
+        "n": 40
+      },
+      "attacks_delta": {
+        "mean": -0.05,
+        "sd": 8.13334384194361,
+        "ci95": [
+          -2.5705493703169404,
+          2.4705493703169408
+        ],
+        "n": 40
+      },
+      "flips": {
+        "loss_to_win": 8,
+        "win_to_loss": 11
+      },
+      "win_rate_delta": -0.075
+    }
+  },
+  "extras": {
+    "er7": {
+      "off": {
+        "spawns_per_run": 6,
+        "by_species": {
+          "rust-scavenger": 1.925,
+          "sand-burrower": 1.95,
+          "echo-wing": 0.55,
+          "dune-stalker": 0.725,
+          "ferrocolonia-magnetotattica": 0.85
+        },
+        "by_role": {
+          "prey": 3.875,
+          "mesopredator": 1.4,
+          "apex": 0.725,
+          "other": 0
+        },
+        "prey_share": 0.6458333333333334,
+        "meso_share": 0.23333333333333334,
+        "apex_share": 0.12083333333333333
+      },
+      "off2": {
+        "spawns_per_run": 6,
+        "by_species": {
+          "sand-burrower": 1.975,
+          "rust-scavenger": 2.175,
+          "ferrocolonia-magnetotattica": 0.45,
+          "echo-wing": 0.7,
+          "dune-stalker": 0.7
+        },
+        "by_role": {
+          "prey": 4.15,
+          "mesopredator": 1.15,
+          "apex": 0.7,
+          "other": 0
+        },
+        "prey_share": 0.6916666666666667,
+        "meso_share": 0.19166666666666668,
+        "apex_share": 0.11666666666666667
+      },
+      "on_depleted": {
+        "spawns_per_run": 6,
+        "by_species": {
+          "ferrocolonia-magnetotattica": 1.825,
+          "dune-stalker": 2.3,
+          "echo-wing": 1.875
+        },
+        "by_role": {
+          "prey": 0,
+          "mesopredator": 3.7,
+          "apex": 2.3,
+          "other": 0
+        },
+        "prey_share": 0,
+        "meso_share": 0.6166666666666667,
+        "apex_share": 0.38333333333333336
+      },
+      "on_abundant": {
+        "spawns_per_run": 6,
+        "by_species": {
+          "dune-stalker": 1.625,
+          "rust-scavenger": 1.55,
+          "sand-burrower": 1.875,
+          "ferrocolonia-magnetotattica": 0.65,
+          "echo-wing": 0.3
+        },
+        "by_role": {
+          "prey": 3.425,
+          "mesopredator": 0.95,
+          "apex": 1.625,
+          "other": 0
+        },
+        "prey_share": 0.5708333333333333,
+        "meso_share": 0.15833333333333333,
+        "apex_share": 0.2708333333333333
+      }
+    }
+  }
+}

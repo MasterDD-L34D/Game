@@ -1,0 +1,8 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> schema:lint
+> python tools/automation/evo_schema_lint.py schemas/evo --pattern schemas/evo/species.schema.json schemas/evo/trait.schema.json
+
+✅ schemas/evo/species.schema.json
+✅ schemas/evo/trait.schema.json
+All schemas passed structural validation.

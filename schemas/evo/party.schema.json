@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/party.schema.json",
+  "title": "Party Configuration",
+  "description": "Party canonical config: coop scaling, roster, grid, modulation presets. ADR-2026-04-17.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "party"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "party": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_players_coop",
+        "max_deployed_per_encounter",
+        "max_roster_total",
+        "grid_scaling",
+        "defaults",
+        "modulation"
+      ],
+      "properties": {
+        "max_players_coop": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "max_deployed_per_encounter": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "max_roster_total": { "type": "integer", "minimum": 1, "maximum": 32 },
+        "grid_scaling": {
+          "type": "object",
+          "patternProperties": {
+            "^deployed_[0-9_]+$": {
+              "type": "string",
+              "pattern": "^\\d+x\\d+$"
+            }
+          }
+        },
+        "defaults": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tutorial", "standard", "boss", "hardcore"],
+          "properties": {
+            "tutorial": { "type": "integer", "minimum": 1, "maximum": 16 },
+            "standard": { "type": "integer", "minimum": 1, "maximum": 16 },
+            "boss": { "type": "integer", "minimum": 1, "maximum": 16 },
+            "hardcore": { "type": "integer", "minimum": 1, "maximum": 16 }
+          }
+        },
+        "modulation": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z_]+$": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["description", "pg_per_player", "deployed"],
+              "properties": {
+                "description": { "type": "string", "minLength": 1 },
+                "pg_per_player": {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 1, "maximum": 8 },
+                  "minItems": 1,
+                  "maxItems": 8
+                },
+                "deployed": { "type": "integer", "minimum": 1, "maximum": 16 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

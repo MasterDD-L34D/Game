@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-07-20T00:00:00Z",
+  "pools": [
+    {
+      "id": "canyon_fotosferico",
+      "label": "Canyon Fotosferico",
+      "summary": "Gole basaltiche attraversate da colonne di luce aurorale e flussi di plasma superficiale.",
+      "climate_tags": ["arid", "nocturnal", "auroral"],
+      "size": { "min": 3, "max": 5 },
+      "hazard": {
+        "severity": "high",
+        "description": "Vortici fotonici e microdetriti ionizzati che alterano orientamento e respirazione.",
+        "stress_modifiers": {
+          "vortice_fotonico": 0.06,
+          "detriti_ionici": 0.05
+        }
+      },
+      "ecology": {
+        "biome_type": "canyon_fotosferico",
+        "primary_resources": ["plasma_fotosferico", "basalto_poroso"],
+        "notes": "Reticoli di micelio riflettente amplificano l'aurora al livello del suolo."
+      },
+      "traits": {
+        "core": [
+          "raggi_fotosferici",
+          "membrane_barocera"
+        ],
+        "support": [
+          "alveoli_luminescenti",
+          "filamenti_superconduttivi"
+        ]
+      },
+      "role_templates": [
+        {
+          "role": "keystone",
+          "label": "Pilastro Fotonico",
+          "summary": "Stabilizza le colonne di luce e dirige le migrazioni notturne.",
+          "functional_tags": ["supporto", "navigazione"],
+          "preferred_traits": ["raggi_fotosferici", "alveoli_luminescenti"],
+          "tier": 3
+        },
+        {
+          "role": "apex",
+          "label": "Cacciatore Barocromico",
+          "summary": "Sfrutta le membrane pressorie per incanalare detriti incandescenti.",
+          "functional_tags": ["assalto", "controllo_campo"],
+          "preferred_traits": ["membrane_barocera", "raggi_fotosferici"],
+          "tier": 4
+        },
+        {
+          "role": "bridge",
+          "label": "Vettore Aurorale",
+          "summary": "Trasporta nutrienti fotonici tra sacche di micelio attive.",
+          "functional_tags": ["logistica", "energia"],
+          "preferred_traits": ["alveoli_luminescenti"],
+          "tier": 2
+        }
+      ]
+    }
+  ]
+}

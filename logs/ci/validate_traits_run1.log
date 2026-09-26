@@ -1,0 +1,5 @@
+[INDEX] Errori rilevati:
+ - traits/nebbia_mnesica/famiglia_tipologia: deve rispettare il formato Macro/Sotto con caratteri alfanumerici o spazi.
+ - traits/sensori_planctonici/famiglia_tipologia: deve rispettare il formato Macro/Sotto con caratteri alfanumerici o spazi.
+[COVERAGE] Disallineamenti:
+ - Trait presenti in index.json ma senza file dedicato: bioantenne_gravitiche, camere_risonanza_abyssal, canto_risonante, coralli_sinaptici_fotofase, corazze_ferro_magnetico, emettitori_voidsong, emolinfa_conducente, filamenti_echo, filamenti_guidalampo, ghiandole_mnemoniche, impulsi_bioluminescenti, lobi_risonanti_crepuscolo, membrane_fotoconvoglianti, nebbia_mnesica, nodi_sinaptici_superficiali, organi_metacronici, pelle_piezo_satura, placca_diffusione_foschia, placche_pressioniche, riverbero_memetico, scintilla_sinaptica, secrezioni_antistatiche, sensori_planctonici, spicole_canalizzatrici, squame_diffusori_ionici, vortice_nera_flash.

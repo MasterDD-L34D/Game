@@ -1,0 +1,20 @@
+{
+  "id": "TKT-TELEMETRY-TUFTE-SPARKLINES",
+  "title": "Tufte sparklines + small multiples HTML dashboard",
+  "pillar": "P6",
+  "effort_hours": 7,
+  "donor_game": {
+    "name": "Tufte sparklines",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#9-tufte-sparklines--small-multiples"
+  },
+  "agent_owner": "telemetry-viz-illuminator",
+  "status": "merged",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Dashboard statico micro-charts inline + griglie ripetute. /api/session/telemetry JSONL output viz layer.",
+  "merged_pr": 1940,
+  "merged_at": "2026-04-27"
+}

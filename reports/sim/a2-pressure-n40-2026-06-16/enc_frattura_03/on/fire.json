@@ -1,0 +1,6 @@
+{
+  "sistema_tier": "Critical",
+  "sistema_pressure": 75,
+  "floor": 4,
+  "expected_min": 75
+}
