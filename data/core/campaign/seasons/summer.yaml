@@ -1,0 +1,37 @@
+# TKT-P2 Brigandine seasonal — Phase B content (Summer).
+#
+# Schema: cfr spring.yaml header.
+# Narrative beat: Sole alto, sabbia rovente. Encounter più frequenti.
+
+id: summer
+display_name_it: "Estate"
+display_name_en: "Summer"
+description_it: |
+  Sole alto, sabbia rovente. Le creature si spostano di notte per
+  evitare il calore. Encounter più frequenti durante le ore fresche,
+  hazard siccità nei deserti.
+description_en: |
+  High sun, scorching sand. Creatures move at night to avoid heat.
+  Encounters more frequent during cool hours, drought hazard in deserts.
+duration_turns: 6
+modifiers:
+  resource_yield: 1.0
+  encounter_rate: 1.1
+  recruit_pool_delta: 0
+hazards:
+  - type: drought
+    intensity: 0.4
+    affected_biomes:
+      - deserto
+      - dune
+events_pool:
+  - id: summer_mirage
+    description_it: "Miraggio. Scout perde 1 turno."
+    description_en: "Mirage. Scout loses 1 turn."
+    trigger: random
+    weight: 25
+  - id: summer_harvest
+    description_it: "Raccolta. +1 risorsa stagionale."
+    description_en: "Harvest. +1 seasonal resource."
+    trigger: random
+    weight: 30

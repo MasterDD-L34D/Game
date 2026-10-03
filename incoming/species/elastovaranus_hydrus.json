@@ -1,0 +1,28 @@
+{
+  "species": {
+    "scientific_name": "Elastovaranus hydrus",
+    "common_names": ["Viverna-Elastico"],
+    "classification": {
+      "macro_class": "Reptilia",
+      "habitat": "savana calda con gole rocciose"
+    },
+    "functional_signature": "Attacchi a proiettile con inoculazione multipla tramite rostro estensibile, guidati da sensibilità sismica.",
+    "visual_description": "Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti; squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.",
+    "risk_profile": {
+      "danger_level": 3,
+      "vectors": ["tossine litiche", "emorragia"]
+    },
+    "interactions": {
+      "predates_on": ["antilopi piccole", "varani", "uccelli terricoli"],
+      "predated_by": ["felidi grandi", "rapaci diurni"],
+      "symbiosis": "nessuna"
+    },
+    "constraints": [
+      "Richiede pressione idraulica pre-caricata (cooldown dopo 3 colpi)",
+      "Prestazioni ridotte in freddo prolungato"
+    ],
+    "sentience_index": "T1",
+    "ecotypes": ["Gole Ventose", "Letti Fluviali"],
+    "trait_refs": ["TR-1101", "TR-1102", "TR-1103", "TR-1104", "TR-1105"]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "trait_code": "TR-9811",
+  "id": "alveoli_luminescenti",
+  "label": "Alveoli Luminescenti",
+  "tier": "T2",
+  "slot": ["S"],
+  "sinergie": ["TR-9810"],
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "canyon_fotosferico"
+      },
+      "capacita_richieste": ["metabolismo_fotochimico"],
+      "fonte": "sandbox_canyon_fotosferico",
+      "meta": {
+        "tier": "T1",
+        "notes": "Richiede strati di micelio riflettente presenti solo nelle gole aurorali."
+      }
+    }
+  ],
+  "mutazione_indotta": "conversione_radiazione_termica",
+  "uso_funzione": "Accumula fotoni nelle sacche dermiche per rilasciare lampi sincroni o nutrimento lento.",
+  "spinta_selettiva": "Ridurre il fabbisogno di caccia notturna sfruttando la fotosintesi aurorale.",
+  "metrics": [
+    {
+      "name": "capacita_accumulo",
+      "value": 2.4,
+      "unit": "K/W",
+      "conditions": "gole a emissione continua"
+    },
+    {
+      "name": "rilascio_pulsato",
+      "value": 3.1,
+      "unit": "A",
+      "conditions": "scarica difensiva"
+    }
+  ],
+  "applicability": {
+    "clades": ["mammalo-artropode"],
+    "envo_terms": ["http://purl.obolibrary.org/obo/ENVO_01001042"],
+    "notes": "Funziona meglio su carapaci con microcanali di ventilazione."
+  },
+  "version": "0.1.0",
+  "versioning": {
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "author": "sandbox-trait-curator"
+  }
+}

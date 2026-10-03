@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Evo Tactics · Pitch Deck interno</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="deck-stage.js"></script>
+    <style>
+      :root {
+        --abyss: #070d16;
+        --abyss-2: #0f1c2e;
+        --paper: #efe9dc;
+        --ink: #1a1814;
+        --ink-3: #6b6357;
+        --mint: #6fd9c4;
+        --amber: #e8b059;
+        --rust: #b8492a;
+        --moss: #2a5c4a;
+        --iris: #8a79c2;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #000;
+        font-family: 'Fraunces', serif;
+        color: var(--paper);
+      }
+      section {
+        background: var(--abyss);
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .chip {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 18px;
+        letter-spacing: 4px;
+        color: var(--amber);
+        text-transform: uppercase;
+      }
+      h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 120px;
+        line-height: 1;
+        margin: 24px 0;
+        font-style: italic;
+        letter-spacing: -2px;
+      }
+      h2 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 68px;
+        line-height: 1;
+        margin: 0 0 24px;
+        letter-spacing: -1px;
+      }
+      h3 {
+        font-family: 'Fraunces', serif;
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 1.15;
+        margin: 0 0 14px;
+        font-style: italic;
+      }
+      p,
+      li {
+        font-family: 'Kalam', cursive;
+        font-size: 26px;
+        line-height: 1.4;
+        color: var(--paper);
+      }
+      small {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 2px;
+        color: #8a8477;
+        text-transform: uppercase;
+      }
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .paper {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .paper h2,
+      .paper h3,
+      .paper p,
+      .paper li {
+        color: var(--ink);
+      }
+      .paper small {
+        color: var(--ink-3);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+      }
+      .three {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 32px;
+      }
+      .four {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 20px;
+      }
+      .card {
+        background: #0a1826;
+        border: 1.5px solid #2a3a4a;
+        padding: 28px;
+        border-radius: 6px;
+      }
+      .paper .card {
+        background: #f7f1e2;
+        border-color: #d0c8b3;
+      }
+      .card h3 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+      .card p {
+        font-size: 20px;
+      }
+      .tag {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        letter-spacing: 2px;
+        padding: 4px 10px;
+        border: 1px solid currentColor;
+        border-radius: 3px;
+        margin-right: 6px;
+      }
+      .footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: #8a8477;
+      }
+      .big {
+        font-size: 200px;
+        line-height: 0.9;
+        font-weight: 700;
+        font-style: italic;
+        letter-spacing: -4px;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 4px;
+        background: #000;
+      }
+      .frame {
+        background: #0a0806;
+        padding: 10px;
+        border-radius: 8px;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .frame .lbl {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        color: #8a8477;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+      }
+      .frame .box {
+        flex: 1;
+        background: #000;
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .frame .box img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+      .shot-row {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 28px;
+        flex: 1;
+        min-height: 0;
+      }
+      .shot-row .sidenote {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding-top: 8px;
+      }
+      .shot-row .note {
+        background: #0a1826;
+        border-left: 3px solid var(--amber);
+        padding: 14px 18px;
+        border-radius: 2px;
+      }
+      .shot-row .note small {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--amber);
+      }
+      .shot-row .note p {
+        font-size: 20px;
+        margin: 0;
+        line-height: 1.35;
+      }
+      .pill {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="application/json" id="speaker-notes">
+      ["", "", "", "", "", "", "", "", "", "", "", "", ""]
+    </script>
+    <deck-stage width="1920" height="1080">
+      <!-- 01 COVER -->
+      <section
+        data-label="Cover"
+        style="
+          justify-content: center;
+          background: radial-gradient(ellipse at 30% 40%, #221a2e 0%, #070d16 70%);
+        "
+      >
+        <div class="chip">Evo Tactics · pitch deck · team interno · v0.1</div>
+        <h1 style="font-size: 140px">
+          plasma il tuo mondo.<br /><span style="color: var(--iris)">sopravvivi.</span><br />salva
+          la tua specie.
+        </h1>
+        <p style="font-size: 32px; color: #b8c5d0; max-width: 1200px; margin-top: 32px">
+          Un tactical-evolutivo a squadre dove ogni scelta è visibile, permanente, e letta dal mondo
+          stesso.
+        </p>
+        <div class="footer" style="margin-top: 80px">
+          <span>v0.1 · aprile 2026</span><span>12 slide · 10 min</span>
+        </div>
+      </section>
+
+      <!-- 02 PROBLEMA -->
+      <section data-label="Problema" class="paper">
+        <small>01 · il problema</small>
+        <h2>I JRPG tattici ti danno scelte.<br />Ma il mondo non le ricorda.</h2>
+        <div class="three" style="margin-top: 48px; flex: 1">
+          <div class="card">
+            <small style="color: var(--rust)">oggi</small>
+            <h3>scelte cosmetiche</h3>
+            <p>"buono/cattivo", 2-3 finali, il gameplay resta identico.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">oggi</small>
+            <h3>mondi statici</h3>
+            <p>i biomi sono scenari, non soggetti. Non cambiano dopo di te.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">oggi</small>
+            <h3>team fissi</h3>
+            <p>il party è una lista di stat. Non è una squadra che deriva nel tempo.</p>
+          </div>
+        </div>
+        <p style="margin-top: 48px; font-style: italic; font-size: 30px; color: var(--ink-3)">
+          Il giocatore lo sente: le scelte non pesano davvero.
+        </p>
+      </section>
+
+      <!-- 03 VISIONE -->
+      <section data-label="Visione">
+        <small>02 · la visione</small>
+        <h2 style="max-width: 1400px">
+          Un mondo che <em style="color: var(--iris); font-style: italic">si ricorda</em> di te.<br />Un
+          party che <em style="color: var(--amber); font-style: italic">deriva</em> con te.
+        </h2>
+        <div class="two" style="margin-top: 48px; flex: 1">
+          <div>
+            <h3 style="color: var(--mint)">tre pilastri</h3>
+            <ul style="list-style: none; padding: 0">
+              <li style="margin: 20px 0">
+                <b style="color: var(--iris)">◆ FORM collettivo</b> — il party è un pentagono che si
+                deforma con le azioni
+              </li>
+              <li style="margin: 20px 0">
+                <b style="color: var(--amber)">◆ MONDO persistente</b> — biomi come soggetti con
+                storia, affix, memoria
+              </li>
+              <li style="margin: 20px 0">
+                <b style="color: var(--rust)">◆ SCELTE senza "giusto"</b> — ogni via ha un costo
+                visibile
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: var(--amber)">una frase</h3>
+            <p
+              style="
+                font-family: 'Fraunces', serif;
+                font-style: italic;
+                font-size: 38px;
+                line-height: 1.2;
+                color: var(--paper);
+                border-left: 4px solid var(--iris);
+                padding-left: 28px;
+              "
+            >
+              «il mondo parla, anche quando non parli tu.»
+            </p>
+            <p style="color: #8a8477; margin-top: 20px">— Flint, A.L.I.E.N.A. v0.9.2</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 LOOP MACRO -->
+      <section data-label="Loop" class="paper">
+        <small>03 · il loop di gioco</small>
+        <h2>Onboarding → Missione → Conseguenza → Deriva</h2>
+        <div class="four" style="margin-top: 56px; flex: 1">
+          <div class="card">
+            <small style="color: var(--mint)">M0 · onboarding</small>
+            <h3>Radura della Prima Luce</h3>
+            <p>
+              4 clan ti rifiutano. La Prova legge chi sei dalle tue azioni, non dalle dichiarazioni.
+            </p>
+          </div>
+          <div class="card">
+            <small style="color: var(--amber)">M1 · briefing</small>
+            <h3>Scelta del bioma</h3>
+            <p>Missione = bioma + evento. Flint commenta. A.L.I.E.N.A. mostra i dati.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--rust)">M2 · combat</small>
+            <h3>3 turni · 4 vie</h3>
+            <p>Nessuna via è giusta. Il Form si sposta. Il mondo si sposta con te.</p>
+          </div>
+          <div class="card">
+            <small style="color: var(--iris)">M3 · conseguenza</small>
+            <h3>Nexus · debrief</h3>
+            <p>Timeline del bioma. Form reveal. Scelta relazionale persistente.</p>
+          </div>
+        </div>
+        <p style="margin-top: 40px; font-style: italic; color: var(--ink-3)">
+          Ogni sessione scrive nel mondo. La sessione dopo, il mondo te lo ricorda.
+        </p>
+      </section>
+
+      <!-- 05 MECCANICHE -->
+      <section data-label="Meccaniche">
+        <small>04 · le tre meccaniche visibili</small>
+        <h2 style="color: var(--paper)">Tutto ciò che conta,<br />è in vista.</h2>
+        <div class="three" style="margin-top: 40px; flex: 1">
+          <div class="card" style="border-color: var(--iris)">
+            <small style="color: var(--iris)">meccanica 1</small>
+            <h3 style="color: var(--paper)">FORM collettivo</h3>
+            <p>
+              Pentagono su 5 assi: esploratore, simbionte, agile, cauto, predatore. Si aggiorna in
+              tempo reale dalle azioni del party. Visibile al player, visibile al mondo.
+            </p>
+          </div>
+          <div class="card" style="border-color: var(--amber)">
+            <small style="color: var(--amber)">meccanica 2</small>
+            <h3 style="color: var(--paper)">Spillover mutageno</h3>
+            <p>
+              Gli eventi crescono durante il combat (barra pressione). Al T2 attraversano la soglia:
+              i nemici mutano, il bioma si apre, i non-scelti reagiscono.
+            </p>
+          </div>
+          <div class="card" style="border-color: var(--mint)">
+            <small style="color: var(--mint)">meccanica 3</small>
+            <h3 style="color: var(--paper)">Trait comportamentali</h3>
+            <p>
+              Sbloccati da come giochi, non da livelli. Acquisire = costo visibile sul mondo. Il
+              bioma perde un affix; tu guadagni un potere.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 VERTICAL SLICE · INTRO -->
+      <section data-label="Slice intro" class="paper">
+        <small>05 · vertical slice · 4 minuti</small>
+        <h2>
+          Abbiamo costruito<br /><em style="font-style: italic; color: var(--iris)"
+            >i 4 minuti che contano</em
+          >.
+        </h2>
+        <div class="four" style="margin-top: 56px; flex: 1">
+          <div class="card">
+            <small>minuto 0</small>
+            <h3>Onboarding</h3>
+            <p>Arrivo · Rifiuto · Prova · Esito. 4 beat.</p>
+          </div>
+          <div class="card">
+            <small>minuto 1</small>
+            <h3>Briefing + worldgen</h3>
+            <p>bioma, voti Form, creature, Flint.</p>
+          </div>
+          <div class="card">
+            <small>minuto 2</small>
+            <h3>Combat</h3>
+            <p>3 turni · evento · 4 vie · conseguenze.</p>
+          </div>
+          <div class="card">
+            <small>minuto 3</small>
+            <h3>Debrief + stance</h3>
+            <p>timeline, Form reveal, scelta persistente.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 SCREENSHOT MINUTO 0 -->
+      <section data-label="Slice M0" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 0 · onboarding al clan</small>
+        <h2 style="font-size: 44px; margin-bottom: 18px">
+          4 beat · il Form <em style="font-style: italic; color: var(--mint)">emerge</em>, non si
+          dichiara.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">Minuto 0 · Beat 3 (La Prova) · TV+phone</div>
+            <div class="box"><img src="deck-assets/m0-beat3.png" alt="beat 3" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note">
+              <small>1 · arrivo</small>
+              <p>la Radura ti convoca. 4 clan ti osservano in silenzio.</p>
+            </div>
+            <div class="note">
+              <small>2 · rifiuto</small>
+              <p>«non sei pronto per nessuno di noi.» 4/4 rifiutano.</p>
+            </div>
+            <div class="note" style="border-color: var(--mint)">
+              <small style="color: var(--mint)">3 · la Prova</small>
+              <p>
+                2 minuti, 4 stimoli simultanei. il Form iniziale viene letto dalle azioni — non
+                dichiarato.
+              </p>
+            </div>
+            <div class="note">
+              <small>4 · esito</small>
+              <p>un clan ti accoglie. Flint ti viene assegnato. il Form parte <i>già ibrido</i>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 SCREENSHOT MINUTO 1 -->
+      <section data-label="Slice M1" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 1 · briefing + worldgen</small>
+        <h2 style="font-size: 44px; margin-bottom: 18px">
+          60s · bioma, voti, creature, Flint, A.L.I.E.N.A.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">Minuto 1 · briefing squadra · TV+phone</div>
+            <div class="box"><img src="deck-assets/m1-60s.png" alt="briefing 60s" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note">
+              <small>worldgen</small>
+              <p>meta-ecosistema → bioma della missione → 4 creature collegate.</p>
+            </div>
+            <div class="note" style="border-color: var(--mint)">
+              <small style="color: var(--mint)">voti Form</small>
+              <p>ogni player vota un asse dal telefono. la squadra si compone in diretta.</p>
+            </div>
+            <div class="note">
+              <small>validatori visibili</small>
+              <p>
+                keystone, spillover, affix: leggibili <i>prima</i> di scegliere. nessuna sorpresa a
+                freddo.
+              </p>
+            </div>
+            <div class="note">
+              <small>voce</small>
+              <p>A.L.I.E.N.A. silenziosa, solo dati. Flint narra. il mondo respira.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 SCREENSHOT MINUTO 2 -->
+      <section data-label="Slice M2" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 2 · combat · evento mutageno</small>
+        <h2 style="font-size: 44px; margin-bottom: 18px">
+          3 turni · 4 vie · <em style="font-style: italic; color: var(--rust)">nessuna giusta</em> ·
+          costi visibili.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">Minuto 2 · T2 escalation · soglia mutagena raggiunta</div>
+            <div class="box"><img src="deck-assets/m2-combat.png" alt="combat T2" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note">
+              <small>T1 · setup</small>
+              <p>il bioma mostra il suo affix. il party riconosce la scena.</p>
+            </div>
+            <div class="note" style="border-color: var(--amber)">
+              <small style="color: var(--amber)">T2 · spillover</small>
+              <p>
+                la barra di pressione attraversa la soglia. i non-scelti reagiscono. i trait
+                atterrano.
+              </p>
+            </div>
+            <div class="note">
+              <small>T3 · conseguenza</small>
+              <p>il mondo si è spostato. il party anche. tutto leggibile, tutto annotato.</p>
+            </div>
+            <div class="note" style="border-color: var(--iris)">
+              <small style="color: var(--iris)">design claim</small>
+              <p>
+                acquisire un trait → il bioma perde un affix. guadagno per il party, costo per il
+                mondo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 SCREENSHOT MINUTO 3 -->
+      <section data-label="Slice M3" style="padding: 40px 60px">
+        <small style="margin-bottom: 8px">slice · minuto 3 · conseguenza · nexus</small>
+        <h2 style="font-size: 44px; margin-bottom: 18px">
+          Form reveal · timeline bioma ·
+          <em style="font-style: italic; color: var(--iris)">stance persistente</em>.
+        </h2>
+        <div class="shot-row">
+          <div class="frame">
+            <div class="lbl">
+              Minuto 3 · Nexus · scelta relazionale (simbiosi/dominio/testimone)
+            </div>
+            <div class="box"><img src="deck-assets/m3-debrief.png" alt="nexus debrief" /></div>
+          </div>
+          <div class="sidenote">
+            <div class="note" style="border-color: var(--mint)">
+              <small style="color: var(--mint)">in-world · 30s</small>
+              <p>il party resta sul bioma. Flint chiude la scena. il silenzio ha peso.</p>
+            </div>
+            <div class="note">
+              <small>nexus · 60s</small>
+              <p>timeline del bioma aggiornata. wiki scritta da sola. Form del party deriva.</p>
+            </div>
+            <div class="note" style="border-color: var(--iris)">
+              <small style="color: var(--iris)">scelta relazionale</small>
+              <p>
+                simbiosi / dominio / testimone. modifica Form, tono di Flint, missioni future.
+                cambiabile ogni 3 sessioni.
+              </p>
+            </div>
+            <div class="note">
+              <small>persistenza</small>
+              <p>la prossima sessione inizia con il mondo che ricorda. non un save, una memoria.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11 PIPELINE TECNICA -->
+      <section data-label="Pipeline">
+        <small>06 · pipeline tecnica</small>
+        <h2>Tre sistemi che parlano tra loro.</h2>
+        <div class="three" style="margin-top: 40px; flex: 1">
+          <div class="card" style="border-color: var(--iris)">
+            <small style="color: var(--iris)">sistema A</small>
+            <h3 style="color: var(--paper)">FormEngine</h3>
+            <p>
+              Legge azioni → aggiorna vettore 5D → emette eventi. Deterministico, serializzabile,
+              debuggabile.
+            </p>
+            <div style="margin-top: 16px">
+              <span class="tag" style="color: var(--iris)">input: action stream</span>
+            </div>
+          </div>
+          <div class="card" style="border-color: var(--amber)">
+            <small style="color: var(--amber)">sistema B</small>
+            <h3 style="color: var(--paper)">BiomeMemory</h3>
+            <p>
+              Ogni bioma = entità con affix, storia, relazioni. Persistent store. Ogni evento vi si
+              imprime.
+            </p>
+            <div style="margin-top: 16px">
+              <span class="tag" style="color: var(--amber)">output: world state diff</span>
+            </div>
+          </div>
+          <div class="card" style="border-color: var(--mint)">
+            <small style="color: var(--mint)">sistema C</small>
+            <h3 style="color: var(--paper)">A.L.I.E.N.A.</h3>
+            <p>Wiki semi-autonoma. Cataloga automaticamente. Flint è il layer narrativo sopra.</p>
+            <div style="margin-top: 16px">
+              <span class="tag" style="color: var(--mint)">layer: storytelling</span>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 32px; color: #8a8477; font-style: italic">
+          FormEngine → eventi → BiomeMemory. BiomeMemory → dati → A.L.I.E.N.A. → voce.
+        </p>
+      </section>
+
+      <!-- 12 RISCHI · ROADMAP -->
+      <section data-label="Rischi & Roadmap" class="paper">
+        <small>07 · rischi e prossimi passi</small>
+        <h2>Cosa ci preoccupa.<br />Cosa facciamo dopo.</h2>
+        <div class="two" style="margin-top: 48px; flex: 1">
+          <div>
+            <h3 style="color: var(--rust)">rischi</h3>
+            <ul style="list-style: none; padding: 0">
+              <li style="margin: 16px 0">
+                <b style="color: var(--rust)">· leggibilità:</b> 5 assi sono tanti. Test con
+                giocatori non-nostri.
+              </li>
+              <li style="margin: 16px 0">
+                <b style="color: var(--rust)">· grind:</b> se Form cambia troppo lentamente, non si
+                sente.
+              </li>
+              <li style="margin: 16px 0">
+                <b style="color: var(--rust)">· persistenza opprime:</b> alcune sessioni servono a
+                "respirare".
+              </li>
+              <li style="margin: 16px 0">
+                <b style="color: var(--rust)">· coop:</b> 4 player sul Form collettivo = design di
+                conflitto, non solo coop.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: var(--mint)">roadmap 90 giorni</h3>
+            <ul style="list-style: none; padding: 0">
+              <li style="margin: 16px 0">
+                <b style="color: var(--mint)">· +30g:</b> prototipo giocabile Minuto 2 (1 scenario,
+                4 vie)
+              </li>
+              <li style="margin: 16px 0">
+                <b style="color: var(--mint)">· +60g:</b> 3 biomi connessi + persistenza
+                cross-session
+              </li>
+              <li style="margin: 16px 0">
+                <b style="color: var(--mint)">· +90g:</b> playtest interno 4 player · 3 sessioni in
+                fila
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 CHIUSURA -->
+      <section
+        data-label="Chiusura"
+        style="
+          justify-content: center;
+          background: radial-gradient(ellipse at 70% 60%, #0a2830 0%, #070d16 70%);
+        "
+      >
+        <small style="color: var(--mint)">finale</small>
+        <h1 style="font-size: 110px">
+          il mondo respira.<br />voi <span style="color: var(--iris)">decidete</span><br />come.
+        </h1>
+        <p
+          style="
+            font-size: 30px;
+            color: #b8c5d0;
+            max-width: 1200px;
+            margin-top: 40px;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+          "
+        >
+          Evo Tactics · vertical slice v0.1 · aprile 2026
+        </p>
+        <p
+          style="
+            font-size: 22px;
+            color: #8a8477;
+            margin-top: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px;
+          "
+        >
+          grazie. domande · obiezioni · idee.
+        </p>
+      </section>
+    </deck-stage>
+  </body>
+</html>

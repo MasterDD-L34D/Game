@@ -1,0 +1,29 @@
+# Sprint δ Meta Systemic — seed event chain (Stellaris pattern).
+# Placeholder text. D4 writer commission deferred (Phase 3 iter).
+chain_id: savana_intro_chain
+description_it: |
+  Catena introduttiva al biome savana. Branching condizionato su asse T_F.
+events:
+  - id: arrive
+    text_it: "Il caldo della savana ti accoglie. L'erba alta nasconde forme che si muovono al vento."
+    text_en: "The savanna's warmth greets you. Tall grass hides shapes moving with the wind."
+    condition: null
+    next_event_id: scout
+  - id: scout
+    text_it: "Distinguete tracce di altre creature. Sono vicine. Si percepisce un odore acre."
+    text_en: "You distinguish tracks of other creatures. They are nearby. An acrid scent lingers."
+    condition: null
+    next_event_id: feeling_check
+  - id: feeling_check
+    text_it: "Cosa senti? Un istinto ti spinge a osservare prima di agire."
+    text_en: "What do you feel? An instinct urges you to observe before acting."
+    condition:
+      vc_axis: T_F
+      threshold: 0.5
+      op: '>'
+    next_event_id: confront_emotional
+  - id: confront_emotional
+    text_it: "Decidi di avvicinarti pacificamente. La compassione precede la lama."
+    text_en: "You decide to approach peacefully. Compassion precedes the blade."
+    condition: null
+    next_event_id: null

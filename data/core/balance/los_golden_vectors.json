@@ -1,0 +1,28 @@
+{
+  "note": "Shared LOS parity vectors. cells in blockers[] are [x,y]. expected = lineOfSightClear(from,to,blocks). The Godot port must reproduce every result. coords bounded to [0,64].",
+  "cases": [
+    { "from": [0, 0], "to": [4, 0], "blockers": [], "expected": true },
+    { "from": [0, 0], "to": [4, 0], "blockers": [[2, 0]], "expected": false },
+    { "from": [1, 1], "to": [2, 1], "blockers": [[2, 1]], "expected": true },
+    { "from": [0, 0], "to": [3, 0], "blockers": [[3, 0]], "expected": true },
+    { "from": [0, 0], "to": [3, 3], "blockers": [[1, 1]], "expected": false },
+    { "from": [0, 0], "to": [2, 2], "blockers": [[1, 0]], "expected": true },
+    {
+      "from": [0, 0],
+      "to": [2, 2],
+      "blockers": [
+        [1, 0],
+        [0, 1]
+      ],
+      "expected": false
+    },
+    { "from": [5, 2], "to": [1, 6], "blockers": [[3, 4]], "expected": false },
+    { "from": [0, 0], "to": [63, 63], "blockers": [[31, 31]], "expected": false },
+    { "from": [0, 0], "to": [4, 2], "blockers": [], "expected": true },
+    { "from": [0, 0], "to": [4, 2], "blockers": [[2, 1]], "expected": false },
+    { "from": [0, 0], "to": [4, 2], "blockers": [[1, 1]], "expected": true },
+    { "from": [4, 2], "to": [0, 0], "blockers": [[2, 1]], "expected": false },
+    { "from": [0, 0], "to": [6, 4], "blockers": [[3, 2]], "expected": false },
+    { "from": [0, 0], "to": [2, 2], "blockers": [[0, 1]], "expected": true }
+  ]
+}

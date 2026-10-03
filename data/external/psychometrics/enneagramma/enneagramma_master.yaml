@@ -1,0 +1,154 @@
+types:
+- type_id: 1
+  type_name_it: Il Perfezionista / Riformatore
+  center_label: Centro Istintivo (Gut)
+  core_emotion: Rabbia
+  basic_fear: Essere corrotti/cattivi, difettosi
+  basic_desire: Essere buoni, integri, equilibrati
+  passion: Ira
+  fixation: Risentimento
+  virtue: Serenità
+  stress_to: 4
+  growth_to: 7
+  wings:
+  - 1w9
+  - 1w2
+  wings_names_ei:
+  - 1w9 – The Idealist
+  - 1w2 – The Advocate
+- type_id: 2
+  type_name_it: Il Donatore / Aiutante
+  center_label: Centro Emotivo (Heart)
+  core_emotion: Vergogna
+  basic_fear: Essere indesiderati, indegni di amore
+  basic_desire: Sentirsi amati
+  passion: Superbia
+  fixation: Adulazione (lusinga)
+  virtue: Umiltà
+  stress_to: 8
+  growth_to: 4
+  wings:
+  - 2w1
+  - 2w3
+  wings_names_ei:
+  - 2w1 – The Servant
+  - 2w3 – The Host/Hostess
+- type_id: 3
+  type_name_it: L’Esecutore / Realizzatore
+  center_label: Centro Emotivo (Heart)
+  core_emotion: Vergogna
+  basic_fear: Essere senza valore
+  basic_desire: Sentirsi di valore e meritevoli
+  passion: Inganno (autoinganno)
+  fixation: Vanità
+  virtue: Veridicità (autenticità)
+  stress_to: 9
+  growth_to: 6
+  wings:
+  - 3w2
+  - 3w4
+  wings_names_ei:
+  - 3w2 – The Charmer
+  - 3w4 – The Professional
+- type_id: 4
+  type_name_it: Il Romantico / Individualista
+  center_label: Centro Emotivo (Heart)
+  core_emotion: Vergogna
+  basic_fear: Non avere identità o significato personale
+  basic_desire: Essere se stessi in modo unico
+  passion: Invidia
+  fixation: Malinconia
+  virtue: Equanimità
+  stress_to: 2
+  growth_to: 1
+  wings:
+  - 4w3
+  - 4w5
+  wings_names_ei:
+  - 4w3 – The Aristocrat
+  - 4w5 – The Bohemian
+- type_id: 5
+  type_name_it: L’Osservatore / Investigatore
+  center_label: Centro Mentale (Head)
+  core_emotion: Paura
+  basic_fear: Essere impotenti, incapaci, incompetenti
+  basic_desire: Competenza e comprensione
+  passion: Avarizia
+  fixation: Ritenzione (stinginess)
+  virtue: Distacco
+  stress_to: 7
+  growth_to: 8
+  wings:
+  - 5w4
+  - 5w6
+  wings_names_ei:
+  - 5w4 – The Iconoclast
+  - 5w6 – The Problem Solver
+- type_id: 6
+  type_name_it: Lo Scettico Leale / Lealista
+  center_label: Centro Mentale (Head)
+  core_emotion: Paura
+  basic_fear: Essere senza supporto o guida
+  basic_desire: Avere sicurezza e supporto
+  passion: Paura
+  fixation: Vigliaccheria
+  virtue: Coraggio
+  stress_to: 3
+  growth_to: 9
+  wings:
+  - 6w5
+  - 6w7
+  wings_names_ei:
+  - 6w5 – The Defender
+  - 6w7 – The Buddy
+- type_id: 7
+  type_name_it: L’Ottimista / Entusiasta
+  center_label: Centro Mentale (Head)
+  core_emotion: Paura
+  basic_fear: Essere privati, intrappolati nel dolore
+  basic_desire: Essere soddisfatti e appagati
+  passion: Gola (gluttonia)
+  fixation: Pianificazione
+  virtue: Sobrietà
+  stress_to: 1
+  growth_to: 5
+  wings:
+  - 7w6
+  - 7w8
+  wings_names_ei:
+  - 7w6 – The Entertainer
+  - 7w8 – The Realist
+- type_id: 8
+  type_name_it: Il Capo / Sfidante
+  center_label: Centro Istintivo (Gut)
+  core_emotion: Rabbia
+  basic_fear: Essere controllati, feriti o violati
+  basic_desire: Proteggersi ed essere autosufficienti
+  passion: Lussuria
+  fixation: Vendetta
+  virtue: Innocenza
+  stress_to: 5
+  growth_to: 2
+  wings:
+  - 8w7
+  - 8w9
+  wings_names_ei:
+  - 8w7 – The Maverick
+  - 8w9 – The Bear
+- type_id: 9
+  type_name_it: Il Mediatore / Pacificatore
+  center_label: Centro Istintivo (Gut)
+  core_emotion: Rabbia
+  basic_fear: Perdita, frammentazione, separazione
+  basic_desire: Pace della mente, interezza
+  passion: Accidia (pigrizia)
+  fixation: Indolenza
+  virtue: Azione
+  stress_to: 6
+  growth_to: 3
+  wings:
+  - 9w8
+  - 9w1
+  wings_names_ei:
+  - 9w8 – The Referee
+  - 9w1 – The Dreamer

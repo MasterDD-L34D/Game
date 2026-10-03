@@ -1,0 +1,25 @@
+{
+  "session_id": "pilot-2025-11-12-evt02",
+  "timestamp_utc": "2025-11-12T16:42:05Z",
+  "flags": [
+    {
+      "branch": "alliance_intro",
+      "flag": "evt02_alliance_state",
+      "value": "aligned",
+      "owner": "Narrative QA"
+    },
+    {
+      "branch": "intel_exchange",
+      "flag": "evt02_spy_trust",
+      "value": 0.94,
+      "owner": "Narrative QA"
+    },
+    {
+      "branch": "siege_support",
+      "flag": "evt02_support_tokens",
+      "value": 3,
+      "owner": "Combat Team"
+    }
+  ],
+  "notes": "Flag export eseguito via scripts/playtest/export_evt_flags.sh --branch=pilot-2025-11-12"
+}

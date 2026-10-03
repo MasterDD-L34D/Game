@@ -1,0 +1,23 @@
+Archive: core_snapshot_2025-11-25T1724Z.tar.gz
+SHA256: a20b73d3eed4556b4a4a1b9025789493f882adf0ffd9916e733c3482f85a885f
+Location: s3://evo-backups/game/2025-11-25T1724Z_masterdd_freeze/core_snapshot_2025-11-25T1724Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed)
+
+Archive: derived_snapshot_2025-11-25T1724Z.tar.gz
+SHA256: e8d5f747952f42677619f08f1810f62f4a2b0f21a2a19766c9367f1d7cd61d3d
+Location: s3://evo-backups/game/2025-11-25T1724Z_masterdd_freeze/derived_snapshot_2025-11-25T1724Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed)
+
+Archive: docs_incoming_backup_2025-11-25T1724Z.tar.gz
+SHA256: b40e4cc9945d180a4a440a9f3c2386ec622fde121a601424ec2bded3f9520d5a
+Location: s3://evo-backups/game/2025-11-25T1724Z_masterdd_freeze/docs_incoming_backup_2025-11-25T1724Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed; required for rollback 03A/03B)
+
+Archive: incoming_backup_2025-11-25T1724Z.tar.gz
+SHA256: 034c6d4a4e4ada80cbc46def215eb70fa7070115ea289bb8974d4a29ba67f69f
+Location: s3://evo-backups/game/2025-11-25T1724Z_masterdd_freeze/incoming_backup_2025-11-25T1724Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed; required for rollback 03A/03B)

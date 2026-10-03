@@ -1,0 +1,52 @@
+tier,hint_ancestors_node,effect_short,notes,source_slug
+T1,SE 01 (Perception),abilita focus sensoriale base,gateway Senses,wiki:Senses
+T1,SE 02 (Eye Vigilance),estende campo visivo 30%,vigilanza diurna,wiki:Senses
+T1,SS 01 (Sound Perception),soglia uditiva base abilitata,gateway Sound,wiki:Senses
+T1,SO 01 (Smell Awareness),identifica odori familiari,gateway Olfactory,wiki:Senses
+T1,DE 01 (Manual Dexterity),manipolazione oggetti base,gateway Dexterity,wiki:Dexterity
+T1,AB 01 (Endurance), riduce costo energetico di movimento/sprint,soglia motorio-sociale,wiki:AB01
+T2,SE 03 (Color Perception),distingue 4 famiglie cromatiche,evoluzione spettrale,wiki:Senses
+T2,SE 04 (Night Vision Onset),visione crepuscolare ridotta,proto-scotopic,wiki:Senses
+T2,SS 02 (Sound Localization),localizza fonte sonora 180°,proto-stereo,wiki:Senses
+T2,SS 03 (Sound Pitch Range),estende range frequenze udibili,evolution-driven,wiki:Senses
+T2,SO 02 (Chemoreceptor Acuity),maggiore raggio identificazione odori,progressione olfattiva,wiki:Senses
+T2,SO 03 (Pheromone Detection),legge feromoni di specie affini,sociale-precursore,wiki:Senses
+T2,DE 02 (Power Grip),presa di forza per ramo+carico,vincolo carrying,wiki:Dexterity
+T2,DE 03 (Precision Grip),presa di precisione pollice-indice,gateway tool-use,wiki:Dexterity
+T2,AB 02 (Stride Length),allunga passo +15%,movement upgrade,wiki:Ambulation
+T2,AB 03 (Carrying Onset),trasporto 1-mano abilitato,pre-encumbrance,wiki:Ambulation
+T3,SE 05 (Acuity Mid),acuità visiva mid-range,target tracking,wiki:Senses
+T3,SE 06 (Motion Detection),rileva movimento periferico,reflex-precursore,wiki:Senses
+T3,SS 06 (Sound Detection),auto-ID non-minacce ampia,richiede focus hearing,wiki:Senses
+T3,SS 07 (Sound Pattern Recognition),distingue richiami specie,proto-linguistico,wiki:Senses
+T3,SS 08 (Sound Detection Mid),estende auto-ID a contesti misti,sociale-grooming,wiki:Senses
+T3,SO 04 (Trail Tracking),tracking olfattivo terreno,caccia coordinata,wiki:Senses
+T3,SO 05 (Food Quality),valuta freschezza cibo,survival mid,wiki:Senses
+T3,DE 04 (Tool Grip),impugnatura strumento dedicato,Acheulean precursore,wiki:Dexterity
+T3,DE 05 (Throwing),lancio mirato 5m,projection skill,wiki:Dexterity
+T3,AB 04 (Climbing),arrampicata verticale,vincolo DE 02-04,wiki:Ambulation
+T3,AB 05 (Jumping),salto attivo + atterraggio,plyometric,wiki:Ambulation
+T4,SE 07 (Acuity High),acuità visiva apex,head-of-genus tracking,wiki:Senses
+T4,SE 08 (Color Vision Full),vista tricromatica completa,prerequisito symbol-recognition,wiki:Senses
+T4,SE 09 (Night Vision Full),scotopic full + reflective tapetum,nocturnal apex,wiki:Senses
+T4,SS 10 (Sound Awareness),auto-ID minacce completo,identifica minacce per specie/tutte,wiki:Senses
+T4,SS 11 (Sound Localization Full),3D spatial audio mapping,echo-mapping precursore,wiki:Senses
+T4,SO 09 (Chemotopy Onset),mappa olfattiva 2D,prerequisito spatial chem,wiki:Senses
+T4,SO 12 (Chemotopy Full),auto-ID non-minacce completo,per specie → tutte,wiki:Senses
+T4,DE 06 (Fine Manipulation),manipolazione fine 2-mani,bipedalism gate,wiki:Dexterity
+T4,DE 07 (Tool Crafting),costruzione strumento composto,Oldowan-Acheulean,wiki:Dexterity
+T4,DE 08 (Two-Handed Tool),attrezzo a 2 mani,encumbrance offset,wiki:Dexterity
+T4,AB 07 (Carrying Endurance Low),carico-trasporto 2-mani base,vincolo DE 02-04,wiki:AB07-09
+T4,AB 08 (Carrying Endurance Mid),carico-trasporto 2-mani mid,plateau training,wiki:AB07-09
+T4,AB 09 (Carrying Endurance High),carico-trasporto 2-mani full,encumbrance complete,wiki:AB07-09
+T4,AB 10 (Bipedal Locomotion),bipedismo stabile,gating verbal-language,wiki:Ambulation
+T5,SE 10 (Sight Memory BB SX 01-2),slot memoria visiva +1,mutazione iconic,wiki:Senses
+T5,SE 11 (Sight Memory BB SX 01-3),slot memoria visiva +2,iconic stack,wiki:Senses
+T5,SE 12 (Sight Memory BB SX 01-4),slot memoria visiva +3,iconic complete,wiki:Senses
+T5,SS 12 (Sound Memory BB SS 01),slot memoria uditiva +1,echoic-onset,wiki:Senses
+T5,SS 13 (Sound Memory BB SS 02),slot memoria uditiva +2,echoic-stack,wiki:Senses
+T5,DE 09 (Composite Tools),strumenti compositi multi-fase,proto-techne,wiki:Dexterity
+T5,AB 11 (Pain Endurance),riduce costo quando ferito,stato: Injured,wiki:AB11
+T6,Senses 37/37,ramo sensoriale completo,self-contained,wiki:Senses
+T6,Ambulation 26/26,capacità motorie complete,cross-link con Dexterity,wiki:Dexterity
+T6,Dexterity 13/13,manipolazione/tool-making completo,industrial-tier,wiki:Dexterity

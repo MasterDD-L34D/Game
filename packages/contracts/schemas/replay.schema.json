@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/contracts/replay.schema.json",
+  "title": "Match Replay Payload",
+  "description": "GET /api/v1/session/:id/replay response. Q-001 T2.4 PR-2.",
+  "type": "object",
+  "required": ["session_id", "events", "meta"],
+  "additionalProperties": false,
+  "properties": {
+    "session_id": { "type": "string", "minLength": 1 },
+    "encounter_id": { "type": ["string", "null"] },
+    "biome_id": { "type": ["string", "null"] },
+    "started_at": { "type": ["string", "null"] },
+    "ended_at": { "type": ["string", "null"] },
+    "result": {
+      "type": ["string", "null"],
+      "enum": ["victory", "defeat", "abandoned", null]
+    },
+    "seed": { "type": ["integer", "null"] },
+    "units_snapshot_initial": {
+      "type": ["array", "null"],
+      "items": { "type": "object" }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action_type", "turn"],
+        "additionalProperties": true,
+        "properties": {
+          "action_type": { "type": "string" },
+          "turn": { "type": "integer", "minimum": 0 },
+          "actor_id": { "type": ["string", "null"] },
+          "target_id": { "type": ["string", "null"] },
+          "damage_dealt": { "type": ["number", "null"] },
+          "result": { "type": ["string", "null"] },
+          "position_from": {
+            "type": ["array", "null"],
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "position_to": {
+            "type": ["array", "null"],
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["turns_played", "events_count", "export_version"],
+      "additionalProperties": true,
+      "properties": {
+        "turns_played": { "type": "integer", "minimum": 0 },
+        "events_count": { "type": "integer", "minimum": 0 },
+        "export_version": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

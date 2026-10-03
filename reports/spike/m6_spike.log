@@ -1,0 +1,48 @@
+Could not find platform independent libraries <prefix>
+[1/5] V rounds=40 boss_hp=0 pa=5
+[2/5] T rounds=41 boss_hp=6 pa=6
+[3/5] T rounds=41 boss_hp=18 pa=4
+[4/5] T rounds=41 boss_hp=16 pa=4
+[5/5] T rounds=41 boss_hp=12 pa=3
+
+Wrote reports/spike/m6_spike.json
+
+=== AGGREGATE ===
+{
+  "N": 5,
+  "win_rate": 0.2,
+  "win_count": 1,
+  "loss_count": 0,
+  "timeout_count": 4,
+  "turns_avg": 40.8,
+  "turns_median": 41,
+  "turns_stdev": 0.4,
+  "turns_min": 40,
+  "turns_max": 41,
+  "turns_hist": {
+    "1-5": 0,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 0,
+    "21-30": 0,
+    "31-40": 1
+  },
+  "kd_avg": 1.6,
+  "kd_median": 1.25,
+  "dmg_dealt_avg": 59.6,
+  "dmg_taken_avg": 38.2,
+  "boss_hp_remaining_avg_on_loss": null,
+  "players_alive_avg_on_win": 5,
+  "ai_intent_distribution": {
+    "Critical|move": 35,
+    "Critical|unknown": 10,
+    "Apex|unknown": 13,
+    "Apex|attack": 104,
+    "Apex|move": 72,
+    "Critical|attack": 15,
+    "High|attack": 8,
+    "High|move": 2
+  },
+  "elapsed_sec": 439.4,
+  "failures": 0
+}

@@ -1,0 +1,22 @@
+{
+  "source": "export",
+  "original_path": "/workspace/Game/data/derived/exports/local-conversation.json",
+  "stored_path": "/workspace/Game/data/derived/exports/local-conversation.json",
+  "timestamp": "2025-10-24T02:10:01.975222+00:00",
+  "export_preview": [
+    {
+      "id": "conv-001",
+      "title": "Aggiornamento progetto",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Qual è lo stato attuale del progetto?"
+        },
+        {
+          "role": "assistant",
+          "content": "Il progetto è in fase di test e la release è prevista per venerdì."
+        }
+      ]
+    }
+  ]
+}

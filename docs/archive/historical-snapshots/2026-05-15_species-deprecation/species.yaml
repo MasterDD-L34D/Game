@@ -1,0 +1,939 @@
+# =============================================================================
+# DEPRECATED 2026-05-15 — ADR-2026-05-15 Option A canonical migration ACCEPTED.
+# =============================================================================
+#
+# This file is the LEGACY species registry. Canonical source-of-truth is now
+# `data/core/species/species_catalog.json` (rich schema v0.3.0, 53 species,
+# absorbed via tools/etl/merge_pack_v2_species.py Phase 1).
+#
+# Status:
+#   - Phase 1 (autonomous, shipped 2026-05-15): ETL absorb 38 residue species
+#     into species_catalog.json. Sentience tier preserved via legacy override.
+#   - Phase 2 (autonomous, this commit): vcScoring + nebulaTelemetry consume
+#     species_catalog.json full 53 species. This file marked DEPRECATED.
+#   - Phase 3 (master-dd review pending): rich schema fields fill draft
+#     (scientific_name, visual_description, ecotypes, risk_profile per 38
+#     legacy-yaml-merge entries).
+#   - Phase 4 (master-dd authority pending): Game-Database build-time import
+#     update + this file removal post-sync (preserve historical snapshot in
+#     docs/archive/).
+#
+# Read-only consumers may continue reading this file during Phase 2-3
+# transition. New consumers MUST use species_catalog.json.
+#
+# Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+# =============================================================================
+
+catalog:
+  slots:
+    locomotion:
+      burrower:
+        name: Burrower
+        effects:
+          resistances:
+            res:
+              sand: 1
+      # 2026-05-10 D1 T4 electromanta_abyssalis additions:
+      glider_magnetic:
+        name: Magnetic Glider
+        effects:
+          resistances:
+            res:
+              elettrico: 1
+      # 2026-05-10 D2 T4 symbiotica_thermalis additions:
+      thermal_floater:
+        name: Thermal Floater
+        effects:
+          resistances:
+            res:
+              heat: 1
+      # 2026-05-10 D3 T4 sonaraptor_dissonans additions:
+      ionic_glider:
+        name: Ionic Glider
+        effects:
+          resistances:
+            res:
+              elettrico: 1
+              wind: 1
+      # 2026-05-10 D4 T4 psionerva_montis additions:
+      cryogenic_climber:
+        name: Cryogenic Climber
+        effects:
+          resistances:
+            res:
+              cold: 1
+      # 2026-05-10 D5 T4 fusomorpha_palustris additions:
+      amoeboid_flow:
+        name: Amoeboid Flow
+        effects:
+          resistances:
+            res:
+              fisico: 1
+    metabolism:
+      sand_digest:
+        name: Sand Digestor
+        effects:
+          resistances:
+            res:
+              sand: 1
+      bioelectric_field:
+        name: Bioelectric Field
+        effects:
+          resistances:
+            res:
+              elettrico: 2
+      thermal_pulse:
+        name: Thermal Pulse
+        effects:
+          resistances:
+            res:
+              heat: 2
+      sonic_amplifier:
+        name: Sonic Amplifier
+        effects:
+          resistances:
+            res:
+              sonic: 2
+      cryostasis_adaptive:
+        name: Cryostasis Adaptive
+        effects:
+          resistances:
+            res:
+              cold: 2
+      phagocyte_absorber:
+        name: Phagocyte Absorber
+        effects:
+          resistances:
+            res:
+              chimico: 1
+    offense:
+      sand_claws:
+        name: Sand Claws
+        effects: {}
+      electric_pulse:
+        name: Electric Pulse
+        effects: {}
+      vent_steam_burst:
+        name: Vent Steam Burst
+        effects: {}
+      sonic_lance:
+        name: Sonic Lance
+        effects: {}
+      psionic_horn:
+        name: Psionic Horn
+        effects: {}
+      pseudopod_lash:
+        name: Pseudopod Lash
+        effects: {}
+    defense:
+      heat_scales:
+        name: Heat Scales
+        effects:
+          resistances:
+            res:
+              heat: 1
+      bipolar_skin:
+        name: Bipolar Skin
+        effects:
+          resistances:
+            res:
+              elettrico: 1
+              fisico: 1
+      hydraulic_carapace:
+        name: Hydraulic Carapace
+        effects:
+          resistances:
+            res:
+              fisico: 1
+              heat: 1
+      sonic_dampener:
+        name: Sonic Dampener
+        effects:
+          resistances:
+            res:
+              sonic: 2
+      psi_shield:
+        name: Psionic Shield
+        effects:
+          resistances:
+            res:
+              mentale: 2
+      osmotic_membrane:
+        name: Osmotic Membrane
+        effects:
+          resistances:
+            res:
+              chimico: 2
+    senses:
+      echolocation:
+        name: Echolocation
+        effects:
+          resistances:
+            res:
+              sonic: 1
+      magnetic_olfaction:
+        name: Magnetic Olfaction
+        effects:
+          resistances:
+            res:
+              elettrico: 1
+      thermal_gradient:
+        name: Thermal Gradient Sensor
+        effects:
+          resistances:
+            res:
+              heat: 1
+      chemo_sonic_array:
+        name: Chemo Sonic Array
+        effects:
+          resistances:
+            res:
+              sonic: 1
+              chimico: 1
+  synergies:
+    # Schema (additive, runtime read by apps/backend/services/combat/synergyDetector.js):
+    #   id        — slug stabile (telemetria + log)
+    #   name      — label diegetic
+    #   when_all  — list di "slot.part" tutti richiesti per fire
+    #   effect    — opzionale; { bonus_damage: N }. Default 1 se assente.
+    - id: echo_backstab
+      name: Echo Backstab
+      when_all:
+        - senses.echolocation
+        - offense.sand_claws
+      effect:
+        bonus_damage: 1
+
+global_rules:
+  morph_budget:
+    default_weight_budget: 12
+  stacking_caps:
+    res_cap_per_type: 2
+    dr_cap_per_type: 1
+  counters_reference:
+    - counter: ultrasound_ping
+      counters:
+        - echolocation
+
+species:
+  - id: dune_stalker
+    legacy_slug: dune_stalker
+    genus: Arenavenator
+    epithet: vagans
+    clade_tag: Threat
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: Predatore delle Dune
+    display_name_en: Dune Stalker
+    display_name: Dune Stalker
+    estimated_weight: 11
+    weight_budget: 12
+    biome_affinity: savana
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    synergy_hints: [echo_backstab]
+    trait_plan:
+      core:
+        - artigli_sette_vie
+        - struttura_elastica_amorfa
+        - scheletro_idro_regolante
+        - sensori_geomagnetici
+      optional:
+        - coda_frusta_cinetica
+        - sacche_galleggianti_ascensoriali
+        - criostasi_adattiva
+        - lamelle_termoforetiche
+        - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
+        - ferocia
+        - biofilm_iperarido
+        - antenne_dustsense
+        - antenne_reagenti # Wave 5 ASSIGN-A — reactive antennae savana ambush
+        - coda_coppia_retroattiva # Wave 5 ASSIGN-A — counter-torque tail desert burst
+      synergies:
+        - focus_frazionato
+        - risonanza_di_branco
+        - tattiche_di_branco
+      environment_focus:
+        biome_class: caverna
+        rationale: >-
+          Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
+          in cui si rifugia il branco durante le tempeste desertiche.
+    # ecology block additivo (ADR-2026-05-02): apex savana, solitario.
+    # Compete con pulverator_gregarius per nicchia (entrambi apex).
+    # Mutualismo indirect rare (Pulverator pack scaccia prede a Skiv).
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 1
+      competes_with:
+        - pulverator_gregarius
+      prey_of: []
+      preys_on: []
+      scavenges_from: []
+      mutualism_with:
+        - species_id: pulverator_gregarius
+          type: indirect
+          note: >-
+            Pulverator pack scaccia prede da copertura agevolando ambush
+            di Skiv (effetto raro, non intenzionale dal pack).
+
+  - id: polpo_araldo_sinaptico
+    legacy_slug: polpo_araldo_sinaptico
+    genus: Synaptopus
+    epithet: praeco
+    clade_tag: Keystone
+    sentience_tier: T5
+    sentience_index: T5
+    display_name_it: Polpo Araldo Sinaptico
+    display_name_en: Synaptic Herald Octopus
+    display_name: Polpo Araldo Sinaptico
+    estimated_weight: 14
+    weight_budget: 14
+    biome_affinity: frattura_abissale_sinaptica
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core: [impulsi_bioluminescenti, nodi_sinaptici_superficiali, membrane_fotoconvoglianti, lobi_risonanti_crepuscolo]
+      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche, scintilla_sinaptica, canto_risonante, tentacoli_uncinati]
+      synergies: [impulsi_bioluminescenti]
+    synergy_hints: []
+
+  - id: sciame_larve_neurali
+    legacy_slug: sciame_larve_neurali
+    genus: Neurolarva
+    epithet: gregaria
+    clade_tag: Threat
+    sentience_tier: T0
+    sentience_index: T0
+    display_name_it: Sciame di Larve Neurali
+    display_name_en: Neural Larva Swarm
+    display_name: Sciame di Larve Neurali
+    estimated_weight: 9
+    weight_budget: 10
+    biome_affinity: frattura_abissale_sinaptica
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core: [nebbia_mnesica, lobi_risonanti_crepuscolo, ghiandole_mnemoniche, organi_metacronici]
+      # Sprint 6: spirito_combattivo (any-ally morale) fits swarm dynamics
+      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash, spirito_combattivo, canto_di_richiamo]
+      synergies: [lobi_risonanti_crepuscolo]
+    synergy_hints: []
+
+  - id: leviatano_risonante
+    legacy_slug: leviatano_risonante
+    genus: Resonoleviathan
+    epithet: abyssalis
+    clade_tag: Apex
+    sentience_tier: T5
+    sentience_index: T5
+    display_name_it: Leviatano Risonante
+    display_name_en: Resonant Leviathan
+    display_name: Leviatano Risonante
+    estimated_weight: 28
+    weight_budget: 30
+    biome_affinity: frattura_abissale_sinaptica
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core: [camere_risonanza_abyssal, emettitori_voidsong, corazze_ferro_magnetico, bioantenne_gravitiche]
+      optional:
+        - emolinfa_conducente
+        - placche_pressioniche
+        - filamenti_echo
+        - spicole_canalizzatrici
+        - lobi_risonanti_crepuscolo
+        - pelle_piezo_satura
+        - canto_risonante
+        - vortice_nera_flash
+        - ghiandole_eco_mappanti # Wave 5 ASSIGN-A — echo-mapping glands sonar abyssal
+        - cuore_multicamera_bassa_pressione # Wave 5/6 ASSIGN-A — abyssal pressure heart
+      synergies: [emettitori_voidsong]
+    synergy_hints: []
+
+  # 2026-05-10 D1 T4 species adoption (PR #2164 proposal canonical):
+  # electromanta_abyssalis (Apex/T4/frattura_abissale_sinaptica, Esploratore NT).
+  # Closes T4 ladder Apex gap (was T5 leviatano_risonante only).
+  # 5 orphan trait activated: elettromagnete_biologico + scivolamento_magnetico +
+  # seta_conduttiva_elettrica + integumento_bipolare + olfatto_risonanza_magnetica.
+  - id: electromanta_abyssalis
+    legacy_slug: electromanta_abyssalis
+    genus: Electromanta
+    epithet: abyssalis
+    clade_tag: Apex
+    sentience_tier: T4
+    sentience_index: T4
+    display_name_it: Electromanta Abissale
+    display_name_en: Abyssal Electromanta
+    display_name: Electromanta Abissale
+    estimated_weight: 18
+    weight_budget: 22
+    biome_affinity: frattura_abissale_sinaptica
+    default_parts:
+      locomotion: glider_magnetic
+      metabolism: bioelectric_field
+      offense: [electric_pulse]
+      defense: [bipolar_skin]
+      senses: [magnetic_olfaction]
+    trait_plan:
+      core: [elettromagnete_biologico, scivolamento_magnetico, integumento_bipolare, olfatto_risonanza_magnetica]
+      optional:
+        - seta_conduttiva_elettrica
+        - capillari_fotovoltaici
+        - antenne_tesla
+        - bioantenne_gravitiche
+        - artigli_induzione
+        - epidermide_dielettrica
+        - ghiandole_nebbia_ionica
+        - filamenti_superconduttivi
+        - filamenti_magnetotrofi # Wave 5 ASSIGN-A — magnetotrophic filaments
+        - barbigli_sensori_plasma # Wave 6 ASSIGN-A — plasma sensor barbels
+      synergies: [elettromagnete_biologico, scivolamento_magnetico]
+    synergy_hints:
+      - "Active electromagnetic field doubles as sensing + weapon (Esploratore archetype)"
+      - "Bipolar polarity switching enables attack/defense duality (NT strategic)"
+    ennea_archetype: Esploratore
+    mbti_form_bias: NT
+
+  # 2026-05-10 D2 T4 species adoption (PR #2164 proposal canonical):
+  # symbiotica_thermalis (Keystone/T4/dorsale_termale_tropicale, Coordinatore NF).
+  # Closes T4 Keystone slot (was T3 umbra_alaris playable only in biome).
+  # Orphan trait shared con rupicapra_sensoria (T5): metabolismo + risonanza_di_branco.
+  - id: symbiotica_thermalis
+    legacy_slug: symbiotica_thermalis
+    genus: Symbiotica
+    epithet: thermalis
+    clade_tag: Keystone
+    sentience_tier: T4
+    sentience_index: T4
+    display_name_it: Simbionte Termale
+    display_name_en: Thermal Symbiont
+    display_name: Simbionte Termale
+    estimated_weight: 14
+    weight_budget: 18
+    biome_affinity: dorsale_termale_tropicale
+    default_parts:
+      locomotion: thermal_floater
+      metabolism: thermal_pulse
+      offense: [vent_steam_burst]
+      defense: [hydraulic_carapace]
+      senses: [thermal_gradient]
+    trait_plan:
+      core: [metabolismo_di_condivisione_energetica, scheletro_idraulico_a_pistoni, filtro_metallofago, sacche_galleggianti_ascensoriali]
+      optional:
+        - risonanza_di_branco
+        - capillari_fluoridici
+        - branchie_metalloidi
+        - batteri_termofili_endosimbiosi
+        - denti_chelatanti
+        - ghiandole_iodoattive
+        - enzimi_antipredatori_algali
+        - batteri_endosimbionti_chemio
+        - filamenti_termoconduzione
+        - pelli_anti_ustione # Wave 5/6 ASSIGN-A — burn-resistant skin thermal biome
+      synergies: [metabolismo_di_condivisione_energetica, risonanza_di_branco]
+    synergy_hints:
+      - "Heat-energy sharing with adjacent allies (Coordinatore archetype)"
+      - "Mutualistic network builder reads inter-species needs (NF empath)"
+    ennea_archetype: Coordinatore
+    mbti_form_bias: NF
+
+  # 2026-05-10 D3 T4 species adoption (PR #2164 proposal canonical):
+  # sonaraptor_dissonans (Threat/T4/canopia_ionica, Conquistatore SJ).
+  # Closes T4 Threat slot. Acoustic apex predator above T2 soniptera_resonans.
+  - id: sonaraptor_dissonans
+    legacy_slug: sonaraptor_dissonans
+    genus: Sonaraptor
+    epithet: dissonans
+    clade_tag: Threat
+    sentience_tier: T4
+    sentience_index: T4
+    display_name_it: Sonaraptor Dissonante
+    display_name_en: Dissonant Sonaraptor
+    display_name: Sonaraptor Dissonante
+    estimated_weight: 16
+    weight_budget: 20
+    biome_affinity: canopia_ionica
+    default_parts:
+      locomotion: ionic_glider
+      metabolism: sonic_amplifier
+      offense: [sonic_lance]
+      defense: [sonic_dampener]
+      senses: [chemo_sonic_array]
+    trait_plan:
+      core: [cannone_sonico_a_raggio, campo_di_interferenza_acustica, sistemi_chimio_sonici, visione_multi_spettrale_amplificata]
+      optional:
+        - comunicazione_fotonica_coda_coda
+        - ali_fono_risonanti
+        - antenne_tesla
+        - ali_solari_fotoni
+        - denti_tuning_fork
+        - coda_stabilizzatrice_vortex # Wave 5 ASSIGN-A — vortex stabilizer flight
+        - branchie_eoliche # Wave 5/6 ASSIGN-A — wind gills canopia ionica
+      synergies: [cannone_sonico_a_raggio, campo_di_interferenza_acustica]
+    synergy_hints:
+      - "Sonic territorial dominance + jamming field disruption (Conquistatore)"
+      - "Methodical territorial hunter + routine acoustic mapping (SJ)"
+    ennea_archetype: Conquistatore
+    mbti_form_bias: SJ
+
+  # 2026-05-10 D4 T4 species adoption (PR #2164 proposal canonical):
+  # psionerva_montis (Bridge/T4/caldera_glaciale, Architetto NT).
+  # Closes T4 Bridge slot. Proto-sapient psionic mountain dweller.
+  - id: psionerva_montis
+    legacy_slug: psionerva_montis
+    genus: Psionerva
+    epithet: montis
+    clade_tag: Bridge
+    sentience_tier: T4
+    sentience_index: T4
+    display_name_it: Psionerva Montano
+    display_name_en: Psinerve Highlander
+    display_name: Psionerva Montano
+    estimated_weight: 12
+    weight_budget: 16
+    biome_affinity: caldera_glaciale
+    default_parts:
+      locomotion: cryogenic_climber
+      metabolism: cryostasis_adaptive
+      offense: [psionic_horn]
+      defense: [psi_shield]
+      senses: [magnetic_olfaction]
+    trait_plan:
+      core: [corna_psico_conduttive, focus_frazionato, criostasi_adattiva, olfatto_risonanza_magnetica]
+      optional:
+        - metabolismo_di_condivisione_energetica
+        - lobi_risonanti_crepuscolo
+        - antenne_tesla
+        - capillari_criogenici
+        - artigli_sghiaccio_glaciale
+        - enzimi_antifase_termica
+        - occhi_cristallo_modulare
+        - lingua_cristallina # Wave 6 ASSIGN-A — crystal tongue cryo sensor
+        - gusci_criovetro # Wave 6 ASSIGN-A — cryo-glass shells caldera glaciale
+      synergies: [corna_psico_conduttive, focus_frazionato]
+    synergy_hints:
+      - "Psionic signal amplification via horn geometry (Architetto)"
+      - "Distributed attention proto-sapient coordination (NT pattern-sensing)"
+    ennea_archetype: Architetto
+    mbti_form_bias: NT
+
+  # 2026-05-10 D5 T4 species adoption (PR #2164 proposal canonical):
+  # fusomorpha_palustris (Playable/T4/palude, Individualista NF).
+  # Closes T4 Playable slot + ladder COMPLETE (5/5 species T4 ship).
+  # Morphic shapeshifter ecosystem decomposer.
+  - id: fusomorpha_palustris
+    legacy_slug: fusomorpha_palustris
+    genus: Fusomorpha
+    epithet: palustris
+    clade_tag: Playable
+    sentience_tier: T4
+    sentience_index: T4
+    display_name_it: Fusomorfa Palustre
+    display_name_en: Marsh Fusomorph
+    display_name: Fusomorfa Palustre
+    estimated_weight: 10
+    weight_budget: 14
+    biome_affinity: palude
+    default_parts:
+      locomotion: amoeboid_flow
+      metabolism: phagocyte_absorber
+      offense: [pseudopod_lash]
+      defense: [osmotic_membrane]
+      senses: [chemo_sonic_array]
+    trait_plan:
+      core: [flusso_ameboide_controllato, fagocitosi_assorbente, filtrazione_osmotica, ermafroditismo_cronologico]
+      optional:
+        - moltiplicazione_per_fusione
+        - branchie_metalloidi
+        - capillari_fluoridici
+        - scheletro_idro_regolante
+        - spore_paniche
+        - branchie_microfiltri # Wave 5 ASSIGN-A — filter gills palude
+      synergies: [flusso_ameboide_controllato, moltiplicazione_per_fusione]
+    synergy_hints:
+      - "Empathic shapeshifter reads group emotional state (Individualista)"
+      - "Mutualistic seasonal sex-role switching social complexity (NF)"
+    ennea_archetype: Individualista
+    mbti_form_bias: NF
+
+  - id: simbionte_corallino_riflesso
+    legacy_slug: simbionte_corallino_riflesso
+    genus: Corallosymbion
+    epithet: speculans
+    clade_tag: Support
+    sentience_tier: T3
+    sentience_index: T3
+    display_name_it: Simbionte Corallino Riflesso
+    display_name_en: Mirror Coral Symbiont
+    display_name: Simbionte Corallino Riflesso
+    estimated_weight: 15
+    weight_budget: 15
+    biome_affinity: frattura_abissale_sinaptica
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core: [coralli_sinaptici_fotofase, membrane_fotoconvoglianti, placca_diffusione_foschia, organi_metacronici, nodi_sinaptici_superficiali]
+      # Sprint 6: spirito_combattivo (any-ally morale) — Support clade encourages mixed-team buff
+      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante, spirito_combattivo, carapace_luminiscente_abissale]
+      synergies: [coralli_sinaptici_fotofase]
+    synergy_hints: []
+
+  - id: anguis_magnetica
+    legacy_slug: anguis_magnetica
+    genus: Anguimagnus
+    epithet: litoralis
+    clade_tag: Bridge
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: Anguilla Magnetica
+    display_name_en: Magnetic Eel
+    display_name: Anguis Magnetica
+    estimated_weight: 9
+    weight_budget: 10
+    biome_affinity: atollo_obsidiana
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - integumento_bipolare
+        - elettromagnete_biologico
+        - scivolamento_magnetico
+        - filtro_metallofago
+        - bozzolo_magnetico
+      optional:
+        - antenne_flusso_mareale # Wave 5 ASSIGN-A — tidal sensors atollo obsidiana
+        - branchie_dual_mode # Wave 5 ASSIGN-A — water/air gills transitional
+        - ghiandole_resina_conduttiva # Wave 5 ASSIGN-A — conductive resin electric eel
+        - baffi_mareomotori # Wave 5/6 ASSIGN-A — tidal whiskers
+        - appendici_risonanti_marea # Wave 6 ASSIGN-A — tidal resonant appendages
+      synergies: []
+    synergy_hints: []
+
+  - id: chemnotela_toxica
+    legacy_slug: chemnotela_toxica
+    genus: Chemnotela
+    epithet: toxifera
+    clade_tag: Threat
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: Tessitrice Tossica
+    display_name_en: Toxic Weaver
+    display_name: Chemnotela Toxica
+    estimated_weight: 11
+    weight_budget: 12
+    biome_affinity: foresta_acida
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - zanne_idracida
+        - seta_conduttiva_elettrica
+        - articolazioni_a_leva_idraulica
+        - filtrazione_osmotica
+        - occhi_analizzatori_di_tensione
+      optional:
+        - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
+        - artigli_acidofagi
+        - aculei_velenosi
+        - cuticole_neutralizzanti
+        - ghiandole_nebbia_acida
+        - enzimi_chelatori_rapidi
+        - cuore_in_furia # Wave 5/6 ASSIGN-A — rage heart toxic threat
+      synergies: []
+    synergy_hints: []
+
+  - id: elastovaranus_hydrus
+    legacy_slug: elastovaranus_hydrus
+    genus: Elastovaranus
+    epithet: hydraulicus
+    clade_tag: Playable
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: Varano Idraulico Elastico
+    display_name_en: Hydraulic Elastic Varan
+    display_name: Elastovaranus Hydrus
+    estimated_weight: 12
+    weight_budget: 12
+    biome_affinity: pianura_salina_iperarida
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - rostro_emostatico_litico
+        - scheletro_idraulico_a_pistoni
+        - ipertrofia_muscolare_massiva
+        - ectotermia_dinamica
+        - organi_sismici_cutanei
+      optional:
+        - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
+        - pelle_elastomera
+        - branchie_osmotiche_salmastra # Wave 5 ASSIGN-A — saltwater osmotic gills
+        - ghiandole_cambio_salino # Wave 6 ASSIGN-A — salt-shift glands hyperarid
+      synergies: []
+    synergy_hints: []
+
+  - id: gulogluteus_scutiger
+    legacy_slug: gulogluteus_scutiger
+    genus: Gulogluteus
+    epithet: scutiger
+    clade_tag: Playable
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: Scudo Roccioso Prensile
+    display_name_en: Prehensile Rock Shield
+    display_name: Gulogluteus Scutiger
+    estimated_weight: 10
+    weight_budget: 10
+    biome_affinity: canyons_risonanti
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - pelage_idrorepellente_avanzato
+        - scudo_gluteale_cheratinizzato
+        - articolazioni_multiassiali
+        - coda_prensile_muscolare
+        - rostro_linguale_prensile
+      optional:
+        - martello_osseo
+        - ghiandole_minerali # Wave 5 ASSIGN-A — mineral glands rock shield
+        - ghiandole_grafene # Wave 5/6 ASSIGN-A — graphene armor canyon shield
+      synergies: []
+    synergy_hints: []
+
+  - id: perfusuas_pedes
+    legacy_slug: perfusuas_pedes
+    genus: Perfusuas
+    epithet: subterraneus
+    clade_tag: Bridge
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: Miriapode delle Cripte
+    display_name_en: Crypt Myriapod
+    display_name: Perfusuas Pedes
+    estimated_weight: 13
+    weight_budget: 13
+    biome_affinity: caverna
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - ermafroditismo_cronologico
+        - locomozione_miriapode_ibrida
+        - estroflessione_gastrica_acida
+        - artiglio_cinetico_a_urto
+        - sistemi_chimio_sonici
+      optional:
+        - sensori_sismici # Wave 5/6 ASSIGN-A — seismic sensors caverna underground
+      synergies: []
+    synergy_hints: []
+
+  - id: proteus_plasma
+    legacy_slug: proteus_plasma
+    genus: Proteoplasma
+    epithet: amoebiforme
+    clade_tag: Playable
+    sentience_tier: T0
+    sentience_index: T0
+    display_name_it: Plasma Proteico
+    display_name_en: Protean Plasma
+    display_name: Proteus Plasma
+    estimated_weight: 8
+    weight_budget: 8
+    biome_affinity: palude
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - membrana_plastica_continua
+        - flusso_ameboide_controllato
+        - fagocitosi_assorbente
+        - moltiplicazione_per_fusione
+        - cisti_di_ibernazione_minerale
+      optional:
+        - cartilagini_biofibre
+        - pelli_cave # Wave 6 ASSIGN-A — hollow skin amorphous malleability
+      synergies: []
+    synergy_hints: []
+
+  - id: rupicapra_sensoria
+    legacy_slug: rupicapra_sensoria
+    genus: Rupicapra
+    epithet: sensoria
+    clade_tag: Keystone
+    sentience_tier: T5
+    sentience_index: T5
+    display_name_it: Stambecco Sensoriale
+    display_name_en: Sensory Ibex
+    display_name: Rupicapra Sensoria
+    estimated_weight: 16
+    weight_budget: 16
+    biome_affinity: caldera_glaciale
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - corna_psico_conduttive
+        - aura_di_dispersione_mentale
+        - metabolismo_di_condivisione_energetica
+        - unghie_a_micro_adesione
+        - coscienza_d_alveare_diffusa
+      optional:
+        - zampe_a_molla
+        - coda_balanciere
+        - barriere_miasma_glaciale # Wave 6 ASSIGN-A — glacial miasma barriers
+        - bulbi_radici_permafrost # Wave 6 ASSIGN-A — permafrost root bulbs
+      synergies: []
+    synergy_hints: []
+
+  - id: soniptera_resonans
+    legacy_slug: soniptera_resonans
+    genus: Soniptera
+    epithet: resonans
+    clade_tag: Threat
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: Ala Risonante
+    display_name_en: Resonant Wing
+    display_name: Soniptera Resonans
+    estimated_weight: 7
+    weight_budget: 8
+    biome_affinity: canopia_ionica
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - ali_fono_risonanti
+        - cannone_sonico_a_raggio
+        - campo_di_interferenza_acustica
+        - cervello_a_bassa_latenza
+        - occhi_cinetici
+      optional:
+        - ali_ioniche
+        - cartilagini_flessoacustiche
+        - antenne_eco_turbina # Wave 5 ASSIGN-A — turbina antennae wind biome sensors
+        - coda_stabilizzatrice_filo # Wave 5 ASSIGN-A — wire stabilizer flight control
+        - lamine_filtranti_aeree # Wave 6 ASSIGN-A — air filter laminae canopia ionica
+      synergies: []
+    synergy_hints: []
+
+  - id: terracetus_ambulator
+    legacy_slug: terracetus_ambulator
+    genus: Terracetus
+    epithet: ambulator
+    clade_tag: Keystone
+    sentience_tier: T3
+    sentience_index: T3
+    display_name_it: Cetaceo Terrestre
+    display_name_en: Walking Cetacean
+    display_name: Terracetus Ambulator
+    estimated_weight: 14
+    weight_budget: 14
+    biome_affinity: steppe_algoritmiche
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - scheletro_pneumatico_a_maglie
+        - cinghia_iper_ciliare
+        - rete_filtro_polmonare
+        - canto_infrasonico_tattico
+        - siero_anti_gelo_naturale
+      optional:
+        - stordimento
+        - pelli_fitte # Wave 5/6 ASSIGN-A — dense skin steppe walker
+        - midollo_antivibrazione # Wave 5/6 ASSIGN-A — anti-vibration marrow steppe gait
+        - armatura_pietra_planare # Wave 6 ASSIGN-A — T3 planar stone armor (T3-capable)
+      synergies: []
+    synergy_hints: []
+
+  - id: umbra_alaris
+    legacy_slug: umbra_alaris
+    genus: Umbralaris
+    epithet: silens
+    clade_tag: Playable
+    sentience_tier: T3
+    sentience_index: T3
+    display_name_it: Ala d'Ombra
+    display_name_en: Shadow Wing
+    display_name: Umbra Alaris
+    estimated_weight: 6
+    weight_budget: 7
+    biome_affinity: dorsale_termale_tropicale
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - vello_di_assorbimento_totale
+        - visione_multi_spettrale_amplificata
+        - motore_biologico_silenzioso
+        - artigli_ipo_termici
+        - comunicazione_fotonica_coda_coda
+      optional:
+        - artigli_scivolo_silente
+        - ghiandole_inchiostro_luce
+        - luminescenza_aurorale # Wave 6 ASSIGN-A — aurora luminescence concealment
+      synergies: []
+    synergy_hints: []

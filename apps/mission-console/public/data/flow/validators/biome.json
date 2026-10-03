@@ -1,0 +1,13 @@
+{
+  "result": {
+    "messages": [
+      {
+        "level": "info",
+        "message": "Biome fallback: validazione ok"
+      }
+    ],
+    "meta": {
+      "endpoint_source": "fallback"
+    }
+  }
+}

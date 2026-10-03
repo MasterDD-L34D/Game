@@ -1,0 +1,678 @@
+{
+  "scenario": "hardcore_06",
+  "iterations": 50,
+  "mode": "STUB",
+  "knob_space": {
+    "boss_hp_multiplier": ["float", 0.5, 1.0],
+    "turn_limit_defeat_override": ["int", 25, 35]
+  },
+  "wr_buckets": [
+    [0, 0.1],
+    [0.1, 0.2],
+    [0.2, 0.3],
+    [0.3, 0.4],
+    [0.4, 1.0]
+  ],
+  "defeat_buckets": [
+    [0, 0.3],
+    [0.3, 0.5],
+    [0.5, 0.7],
+    [0.7, 0.9],
+    [0.9, 1.0]
+  ],
+  "feature_map": {
+    "0,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.945,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.07497548849228139, 0.8182494649255816],
+      "fitness": 0.03093247477163945,
+      "iter_first": 0,
+      "iter_last": 45,
+      "origin": "random"
+    },
+    "4,1": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.541,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.5016048935222768, 0.37286509425193826],
+      "fitness": 0.20024215686079522,
+      "iter_first": 1,
+      "iter_last": 27,
+      "origin": "mutate"
+    },
+    "3,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.34990816454857204, 0.5876807832810353],
+      "fitness": 0.012319559014792562,
+      "iter_first": 2,
+      "iter_last": 8,
+      "origin": "mutate"
+    },
+    "4,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.59,
+        "turn_limit_defeat_override": 34
+      },
+      "features": [0.41427940867774204, 0.5248369317574401],
+      "fitness": 0.29544160697704114,
+      "iter_first": 5,
+      "iter_last": 5,
+      "origin": "mutate"
+    },
+    "1,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.858,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.1284059280604355, 0.7979499304043267],
+      "fitness": 0.0216911670566199,
+      "iter_first": 10,
+      "iter_last": 47,
+      "origin": "random"
+    },
+    "2,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.632,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.24204126386600353, 0.5957678748859097],
+      "fitness": 0.009014009309507905,
+      "iter_first": 13,
+      "iter_last": 15,
+      "origin": "random"
+    },
+    "0,4": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.773,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.07977527841021301, 0.9129059487154522],
+      "fitness": 0.0475661207700014,
+      "iter_first": 24,
+      "iter_last": 24,
+      "origin": "mutate"
+    },
+    "2,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.904,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.23170044022595815, 0.7276409096741402],
+      "fitness": 0.07463720145282562,
+      "iter_first": 37,
+      "iter_last": 37,
+      "origin": "random"
+    }
+  },
+  "stats": {
+    "cells_populated": 8,
+    "cells_replaced": 10,
+    "cells_skipped": 0,
+    "cells_active": 8,
+    "max_cells": 25,
+    "coverage_pct": 32.0
+  },
+  "history": [
+    {
+      "iter": 0,
+      "knobs": {
+        "boss_hp_multiplier": 0.82,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.08801132723714751, 0.7745651950968175],
+      "cell": [0, 3],
+      "fitness": 0.04573609404827295,
+      "origin": "random"
+    },
+    {
+      "iter": 1,
+      "knobs": {
+        "boss_hp_multiplier": 0.551,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.4292294979830701, 0.4979643029128139],
+      "cell": [4, 1],
+      "fitness": 0.2879473379069405,
+      "origin": "random"
+    },
+    {
+      "iter": 2,
+      "knobs": {
+        "boss_hp_multiplier": 0.609,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.3040599541199098, 0.5575604557523512],
+      "cell": [3, 2],
+      "fitness": 0.06254280719165813,
+      "origin": "random"
+    },
+    {
+      "iter": 3,
+      "knobs": {
+        "boss_hp_multiplier": 0.575,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.3626678599567526, 0.5394149832384166],
+      "cell": [3, 2],
+      "fitness": 0.06189522543690451,
+      "origin": "mutate"
+    },
+    {
+      "iter": 4,
+      "knobs": {
+        "boss_hp_multiplier": 0.57,
+        "turn_limit_defeat_override": 34
+      },
+      "features": [0.379386134142772, 0.5451319924869042],
+      "cell": [3, 2],
+      "fitness": 0.06224181173708009,
+      "origin": "mutate"
+    },
+    {
+      "iter": 5,
+      "knobs": {
+        "boss_hp_multiplier": 0.59,
+        "turn_limit_defeat_override": 34
+      },
+      "features": [0.41427940867774204, 0.5248369317574401],
+      "cell": [4, 2],
+      "fitness": 0.29544160697704114,
+      "origin": "mutate"
+    },
+    {
+      "iter": 6,
+      "knobs": {
+        "boss_hp_multiplier": 0.534,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.4410744536265144, 0.45072674629316645],
+      "cell": [4, 1],
+      "fitness": 0.2638477617003777,
+      "origin": "mutate"
+    },
+    {
+      "iter": 7,
+      "knobs": {
+        "boss_hp_multiplier": 0.506,
+        "turn_limit_defeat_override": 31
+      },
+      "features": [0.33052767791704135, 0.5239089902619506],
+      "cell": [3, 2],
+      "fitness": 0.07854306519520615,
+      "origin": "mutate"
+    },
+    {
+      "iter": 8,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.34990816454857204, 0.5876807832810353],
+      "cell": [3, 2],
+      "fitness": 0.012319559014792562,
+      "origin": "mutate"
+    },
+    {
+      "iter": 9,
+      "knobs": {
+        "boss_hp_multiplier": 0.511,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.42946632002383905, 0.44792192835725736],
+      "cell": [4, 1],
+      "fitness": 0.2747453060907901,
+      "origin": "mutate"
+    },
+    {
+      "iter": 10,
+      "knobs": {
+        "boss_hp_multiplier": 0.817,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.17910095344218557, 0.7169931521026637],
+      "cell": [1, 3],
+      "fitness": 0.0879602312928734,
+      "origin": "random"
+    },
+    {
+      "iter": 11,
+      "knobs": {
+        "boss_hp_multiplier": 0.995,
+        "turn_limit_defeat_override": 35
+      },
+      "features": [0.17288910686006004, 0.7137715048480388],
+      "cell": [1, 3],
+      "fitness": 0.08921471060886237,
+      "origin": "random"
+    },
+    {
+      "iter": 12,
+      "knobs": {
+        "boss_hp_multiplier": 0.884,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.02541317304042698, 0.8762633929989361],
+      "cell": [0, 3],
+      "fitness": 0.08012875371332161,
+      "origin": "random"
+    },
+    {
+      "iter": 13,
+      "knobs": {
+        "boss_hp_multiplier": 0.634,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.2556618679671031, 0.6996457424520746],
+      "cell": [2, 2],
+      "fitness": 0.09980646641226253,
+      "origin": "random"
+    },
+    {
+      "iter": 14,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 35
+      },
+      "features": [0.3621020287319257, 0.6055213767038216],
+      "cell": [3, 2],
+      "fitness": 0.013302056237058222,
+      "origin": "mutate"
+    },
+    {
+      "iter": 15,
+      "knobs": {
+        "boss_hp_multiplier": 0.632,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.24204126386600353, 0.5957678748859097],
+      "cell": [2, 2],
+      "fitness": 0.009014009309507905,
+      "origin": "random"
+    },
+    {
+      "iter": 16,
+      "knobs": {
+        "boss_hp_multiplier": 0.63,
+        "turn_limit_defeat_override": 34
+      },
+      "features": [0.33476738190390043, 0.5925129138016936],
+      "cell": [3, 2],
+      "fitness": 0.016973188085992852,
+      "origin": "mutate"
+    },
+    {
+      "iter": 17,
+      "knobs": {
+        "boss_hp_multiplier": 0.878,
+        "turn_limit_defeat_override": 26
+      },
+      "features": [0.08054157607537142, 0.8363829719792972],
+      "cell": [0, 3],
+      "fitness": 0.047502721176939156,
+      "origin": "random"
+    },
+    {
+      "iter": 18,
+      "knobs": {
+        "boss_hp_multiplier": 0.841,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.1690769082928273, 0.7755082145769849],
+      "cell": [1, 3],
+      "fitness": 0.03104474163558069,
+      "origin": "mutate"
+    },
+    {
+      "iter": 19,
+      "knobs": {
+        "boss_hp_multiplier": 0.626,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.3518720898463595, 0.5422969643394197],
+      "cell": [3, 2],
+      "fitness": 0.057733396269741895,
+      "origin": "random"
+    },
+    {
+      "iter": 20,
+      "knobs": {
+        "boss_hp_multiplier": 0.694,
+        "turn_limit_defeat_override": 29
+      },
+      "features": [0.17778930557557085, 0.7630294192551657],
+      "cell": [1, 3],
+      "fitness": 0.046250073999754546,
+      "origin": "mutate"
+    },
+    {
+      "iter": 21,
+      "knobs": {
+        "boss_hp_multiplier": 0.977,
+        "turn_limit_defeat_override": 29
+      },
+      "features": [0.12594419321330017, 0.8574527157120664],
+      "cell": [1, 3],
+      "fitness": 0.062285603335365945,
+      "origin": "random"
+    },
+    {
+      "iter": 22,
+      "knobs": {
+        "boss_hp_multiplier": 0.805,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.1299192552038813, 0.7201613108898576],
+      "cell": [1, 3],
+      "fitness": 0.08232528524331288,
+      "origin": "mutate"
+    },
+    {
+      "iter": 23,
+      "knobs": {
+        "boss_hp_multiplier": 0.687,
+        "turn_limit_defeat_override": 27
+      },
+      "features": [0.11231391973761269, 0.7664205400370867],
+      "cell": [1, 3],
+      "fitness": 0.050475942556271296,
+      "origin": "random"
+    },
+    {
+      "iter": 24,
+      "knobs": {
+        "boss_hp_multiplier": 0.773,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.07977527841021301, 0.9129059487154522],
+      "cell": [0, 4],
+      "fitness": 0.0475661207700014,
+      "origin": "mutate"
+    },
+    {
+      "iter": 25,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.4858442809825365, 0.4506651479319866],
+      "cell": [4, 1],
+      "fitness": 0.22006732879475052,
+      "origin": "mutate"
+    },
+    {
+      "iter": 26,
+      "knobs": {
+        "boss_hp_multiplier": 0.81,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.00358986389328686, 0.9356981415761347],
+      "cell": [0, 4],
+      "fitness": 0.048563812533819084,
+      "origin": "mutate"
+    },
+    {
+      "iter": 27,
+      "knobs": {
+        "boss_hp_multiplier": 0.541,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.5016048935222768, 0.37286509425193826],
+      "cell": [4, 1],
+      "fitness": 0.20024215686079522,
+      "origin": "mutate"
+    },
+    {
+      "iter": 28,
+      "knobs": {
+        "boss_hp_multiplier": 0.645,
+        "turn_limit_defeat_override": 29
+      },
+      "features": [0.2986980006259753, 0.5454397554209804],
+      "cell": [2, 2],
+      "fitness": 0.07313217864585958,
+      "origin": "mutate"
+    },
+    {
+      "iter": 29,
+      "knobs": {
+        "boss_hp_multiplier": 0.612,
+        "turn_limit_defeat_override": 30
+      },
+      "features": [0.316892519974577, 0.6460853334665377],
+      "cell": [3, 2],
+      "fitness": 0.05674471952839106,
+      "origin": "random"
+    },
+    {
+      "iter": 30,
+      "knobs": {
+        "boss_hp_multiplier": 0.828,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.08143983597948566, 0.8017496046353617],
+      "cell": [0, 3],
+      "fitness": 0.03148848047774043,
+      "origin": "mutate"
+    },
+    {
+      "iter": 31,
+      "knobs": {
+        "boss_hp_multiplier": 0.516,
+        "turn_limit_defeat_override": 30
+      },
+      "features": [0.37527197185656047, 0.5406041080938413],
+      "cell": [3, 2],
+      "fitness": 0.06454877641634171,
+      "origin": "random"
+    },
+    {
+      "iter": 32,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 35
+      },
+      "features": [0.4304398301406834, 0.4720493397651074],
+      "cell": [4, 1],
+      "fitness": 0.2790229247484362,
+      "origin": "mutate"
+    },
+    {
+      "iter": 33,
+      "knobs": {
+        "boss_hp_multiplier": 0.547,
+        "turn_limit_defeat_override": 35
+      },
+      "features": [0.4830360149256039, 0.36932838623230896],
+      "cell": [4, 1],
+      "fitness": 0.21912124203389588,
+      "origin": "random"
+    },
+    {
+      "iter": 34,
+      "knobs": {
+        "boss_hp_multiplier": 0.865,
+        "turn_limit_defeat_override": 35
+      },
+      "features": [0.2895325070155316, 0.5693786483101686],
+      "cell": [2, 2],
+      "fitness": 0.05000486266599875,
+      "origin": "random"
+    },
+    {
+      "iter": 35,
+      "knobs": {
+        "boss_hp_multiplier": 0.864,
+        "turn_limit_defeat_override": 26
+      },
+      "features": [0.02878397026588935, 0.8714902317576342],
+      "cell": [0, 3],
+      "fitness": 0.07457193275247,
+      "origin": "random"
+    },
+    {
+      "iter": 36,
+      "knobs": {
+        "boss_hp_multiplier": 0.711,
+        "turn_limit_defeat_override": 29
+      },
+      "features": [0.256977987844536, 0.5439514455492397],
+      "cell": [2, 2],
+      "fitness": 0.05648126034693572,
+      "origin": "random"
+    },
+    {
+      "iter": 37,
+      "knobs": {
+        "boss_hp_multiplier": 0.904,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.23170044022595815, 0.7276409096741402],
+      "cell": [2, 3],
+      "fitness": 0.07463720145282562,
+      "origin": "random"
+    },
+    {
+      "iter": 38,
+      "knobs": {
+        "boss_hp_multiplier": 0.87,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.15195620066469523, 0.7046740922301149],
+      "cell": [1, 3],
+      "fitness": 0.09534597743582685,
+      "origin": "mutate"
+    },
+    {
+      "iter": 39,
+      "knobs": {
+        "boss_hp_multiplier": 0.743,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.25965978187865585, 0.5592669744943914],
+      "cell": [2, 2],
+      "fitness": 0.04186276093121145,
+      "origin": "random"
+    },
+    {
+      "iter": 40,
+      "knobs": {
+        "boss_hp_multiplier": 0.501,
+        "turn_limit_defeat_override": 31
+      },
+      "features": [0.3611501545609361, 0.6259951207507636],
+      "cell": [3, 2],
+      "fitness": 0.028285548422817337,
+      "origin": "random"
+    },
+    {
+      "iter": 41,
+      "knobs": {
+        "boss_hp_multiplier": 0.712,
+        "turn_limit_defeat_override": 33
+      },
+      "features": [0.2736353851603459, 0.5772506072198496],
+      "cell": [2, 2],
+      "fitness": 0.03280497376227361,
+      "origin": "random"
+    },
+    {
+      "iter": 42,
+      "knobs": {
+        "boss_hp_multiplier": 0.609,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.14057429053445042, 0.729597394265575],
+      "cell": [1, 3],
+      "fitness": 0.07103077426810049,
+      "origin": "random"
+    },
+    {
+      "iter": 43,
+      "knobs": {
+        "boss_hp_multiplier": 0.882,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.07663482650240806, 0.8791402072028912],
+      "cell": [0, 3],
+      "fitness": 0.08350201422079545,
+      "origin": "mutate"
+    },
+    {
+      "iter": 44,
+      "knobs": {
+        "boss_hp_multiplier": 0.562,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.3424202786243644, 0.5249324720339898],
+      "cell": [3, 2],
+      "fitness": 0.0754492275047265,
+      "origin": "mutate"
+    },
+    {
+      "iter": 45,
+      "knobs": {
+        "boss_hp_multiplier": 0.945,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.07497548849228139, 0.8182494649255816],
+      "cell": [0, 3],
+      "fitness": 0.03093247477163945,
+      "origin": "random"
+    },
+    {
+      "iter": 46,
+      "knobs": {
+        "boss_hp_multiplier": 0.829,
+        "turn_limit_defeat_override": 34
+      },
+      "features": [0.149885944697717, 0.7334501540218084],
+      "cell": [1, 3],
+      "fitness": 0.06654994371397331,
+      "origin": "random"
+    },
+    {
+      "iter": 47,
+      "knobs": {
+        "boss_hp_multiplier": 0.858,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.1284059280604355, 0.7979499304043267],
+      "cell": [1, 3],
+      "fitness": 0.0216911670566199,
+      "origin": "random"
+    },
+    {
+      "iter": 48,
+      "knobs": {
+        "boss_hp_multiplier": 0.87,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.2813667890950916, 0.6881788036583043],
+      "cell": [2, 2],
+      "fitness": 0.09359154274156262,
+      "origin": "mutate"
+    },
+    {
+      "iter": 49,
+      "knobs": {
+        "boss_hp_multiplier": 0.545,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.3097810175570239, 0.5763103179989163],
+      "cell": [3, 2],
+      "fitness": 0.0466772705078273,
+      "origin": "mutate"
+    }
+  ],
+  "elapsed_sec": 0.00023293495178222656,
+  "method": "D-map-elites-qd",
+  "method_ref": "docs/research/2026-05-20-calibration-knob-patterns-industry.md",
+  "seed": 42,
+  "status": "STUB-Sprint-M14"
+}

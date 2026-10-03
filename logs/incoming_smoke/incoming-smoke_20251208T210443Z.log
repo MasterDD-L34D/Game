@@ -1,0 +1,13 @@
+Dispatching incoming-smoke at 20251208T210443Z
+unknown shorthand flag: 'b' in -b
+
+Usage:  gh workflow run [<workflow-id> | <workflow-name>] [flags]
+
+Flags:
+  -F, --field key=value       Add a string parameter in key=value format, respecting @ syntax (see "gh help api").
+      --json                  Read workflow inputs as JSON via STDIN
+  -f, --raw-field key=value   Add a string parameter in key=value format
+  -r, --ref string            The branch or tag name which contains the version of the workflow file you'd like to run
+  
+To get started with GitHub CLI, please run:  gh auth login
+Alternatively, populate the GH_TOKEN environment variable with a GitHub API authentication token.

@@ -1,0 +1,21 @@
+resistance_archetype: adattivo
+id: mezzanotte-orbitale-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- mezzanotte_orbitale
+derived_from_environment:
+  suggested_traits:
+  - artigli_sette_vie
+  - carapace_fase_variabile
+  - criostasi_adattiva
+  - eco_interno_riflesso
+  - filamenti_digestivi_compattanti
+  - mimetismo_cromatico_passivo
+  - olfatto_risonanza_magnetica
+  - respiro_a_scoppio
+  - sacche_galleggianti_ascensoriali
+  - sangue_piroforico
+  - scheletro_idro_regolante
+  - sonno_emisferico_alternato
+  - spore_psichiche_silenziate
+  - ventriglio_gastroliti

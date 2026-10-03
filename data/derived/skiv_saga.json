@@ -1,0 +1,227 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-05-15T10:03:29Z",
+  "unit_id": "skiv",
+  "species_id": "dune_stalker",
+  "biome_id": "savana",
+  "mbti_axes": {
+    "E_I": {
+      "value": 0.68,
+      "coverage": "full"
+    },
+    "T_F": {
+      "value": 0.72,
+      "coverage": "full"
+    },
+    "S_N": {
+      "value": 0.22,
+      "coverage": "full"
+    },
+    "J_P": {
+      "value": 0.32,
+      "coverage": "full"
+    }
+  },
+  "progression": {
+    "unit_id": "skiv",
+    "job": "stalker",
+    "xp_total": 210,
+    "level": 4,
+    "picked_perks": [
+      {
+        "level": 2,
+        "perk_id": "st_r1_marksman",
+        "choice": "a"
+      }
+    ],
+    "previous_job": "skirmisher"
+  },
+  "cabinet": {
+    "unlocked": [
+      "i_osservatore",
+      "n_intuizione_terrena",
+      "n_pioniere_possibile",
+      "p_adattatore"
+    ],
+    "researching": [],
+    "internalized": [
+      "i_osservatore",
+      "n_intuizione_terrena"
+    ],
+    "slots_max": 3,
+    "slots_used": 2
+  },
+  "mutations": [
+    {
+      "id": "artigli_grip_to_glass",
+      "trait_swap": {
+        "remove": [
+          "artigli_sette_vie"
+        ],
+        "add": [
+          "artigli_vetrificati"
+        ]
+      },
+      "tier": 2,
+      "category": "physiological"
+    }
+  ],
+  "aspect": {
+    "lifecycle_phase": "mature",
+    "polarity_stable": true,
+    "mbti_form_label": "INTP-leaning-I",
+    "aspect_it": "Forma adulta consolidata. Gli artigli a sette vie si vetrificano\n(mutation artigli_grip_to_glass) → punte trasparenti come ossidiana\nche riflettono il sole. Le orecchie hanno scolpito conche per\nl'echolocation, visibili come solchi. Il pelo lungo il dorso si è\ncondensato in una cresta scura. Lo sguardo è fisso, leggero\nsocchiudere — primo segno di voce interna. Il branco lo riconosce\ncome predatore-stalker, non più cucciolo.",
+    "sprite_ascii": "      /\\_/\\        *\n     (  o.o )       *\n      > ^ <\n      /|||\\",
+    "tactical_signature": "Stalker Lv 4. Synergy echo_backstab live. Thought Cabinet 2/3 slot.",
+    "label_it": "Predatore Maturo",
+    "label_en": "Mature Stalker",
+    "mutation_morphology": {
+      "visual_swap_it": "Le punte degli artigli si vetrificano: trasparenza ossidiana riflettente sole. Lascia tracce iridescenti nella sabbia.",
+      "phase_unlock": "mature",
+      "aspect_token": "claws_glass"
+    },
+    "mbti_correlates": [
+      {
+        "polarity": "I_high",
+        "manifestation": "Postura chiusa, silenzioso, orecchie verso interno (ricezione)."
+      },
+      {
+        "polarity": "T_high",
+        "manifestation": "Sguardo freddo socchiuso, decisioni rapide post-pause."
+      },
+      {
+        "polarity": "N_high",
+        "manifestation": "Movimenti sinuosi, scarsa pausa, sembra vedere senza guardare."
+      },
+      {
+        "polarity": "P_high",
+        "manifestation": "Routine assente; cambia direzione su input minimi."
+      }
+    ]
+  },
+  "diary": [
+    {
+      "ts": "2026-04-25T18:00:00Z",
+      "turn": 1,
+      "encounter_id": "enc_savana_alpha",
+      "event_type": "scenario_completed",
+      "payload": {
+        "scenario": "enc_savana_alpha",
+        "outcome": "victory",
+        "rounds": 6,
+        "biome_id": "savana"
+      }
+    },
+    {
+      "ts": "2026-04-25T19:00:00Z",
+      "turn": null,
+      "encounter_id": null,
+      "event_type": "mbti_axis_threshold_crossed",
+      "payload": {
+        "axis": "S_N",
+        "from_value": 0.34,
+        "to_value": 0.22,
+        "newly_unlocked": [
+          "n_intuizione_terrena",
+          "n_pioniere_possibile"
+        ]
+      }
+    },
+    {
+      "ts": "2026-04-25T20:00:00Z",
+      "turn": 2,
+      "encounter_id": "enc_savana_beta",
+      "event_type": "thought_internalized",
+      "payload": {
+        "thought_id": "i_osservatore",
+        "research_cost": 1,
+        "effect_bonus": {
+          "attack_range": 1
+        },
+        "effect_cost": {
+          "ap": 1
+        }
+      }
+    },
+    {
+      "ts": "2026-04-25T21:00:00Z",
+      "turn": 4,
+      "encounter_id": "enc_savana_beta",
+      "event_type": "thought_internalized",
+      "payload": {
+        "thought_id": "n_intuizione_terrena",
+        "research_cost": 1,
+        "effect_bonus": {
+          "attack_range": 1
+        },
+        "effect_cost": {
+          "defense_dc": 1
+        },
+        "biome_resonance_eligible": true
+      }
+    },
+    {
+      "ts": "2026-04-25T22:00:00Z",
+      "turn": null,
+      "encounter_id": null,
+      "event_type": "job_changed",
+      "payload": {
+        "from_job": "skirmisher",
+        "to_job": "stalker",
+        "reason": "species_alignment",
+        "level": 4
+      }
+    },
+    {
+      "ts": "2026-04-25T23:00:00Z",
+      "turn": 1,
+      "encounter_id": "enc_savana_gamma",
+      "event_type": "synergy_triggered",
+      "payload": {
+        "synergy_id": "echo_backstab",
+        "parts": [
+          "senses.echolocation",
+          "offense.sand_claws"
+        ],
+        "bonus_damage": 1,
+        "ability": "alpha_strike"
+      }
+    },
+    {
+      "ts": "2026-04-26T00:00:00Z",
+      "turn": 3,
+      "encounter_id": "enc_savana_gamma",
+      "event_type": "defy_used",
+      "payload": {
+        "sg_cost": 2,
+        "pressure_before": 75,
+        "pressure_after": 50,
+        "tier_before": "Critical",
+        "tier_after": "Escalated",
+        "ap_penalty_next_turn": 1
+      }
+    },
+    {
+      "ts": "2026-04-26T01:00:00Z",
+      "turn": null,
+      "encounter_id": null,
+      "event_type": "mutation_acquired",
+      "payload": {
+        "mutation_id": "artigli_grip_to_glass",
+        "tier": 2,
+        "category": "physiological",
+        "trait_swap": {
+          "remove": [
+            "artigli_sette_vie"
+          ],
+          "add": [
+            "artigli_vetrificati"
+          ]
+        },
+        "pe_cost": 12,
+        "pi_cost": 7
+      }
+    }
+  ],
+  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py."
+}

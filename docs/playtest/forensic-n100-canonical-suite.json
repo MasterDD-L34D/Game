@@ -1,0 +1,48 @@
+{
+  "suite": "canonical-ai-playtest",
+  "label": "forensic-n100",
+  "manifest": "C:\\dev\\Game-forensic\\docs\\playtest\\canonical-suite.yaml",
+  "n": 100,
+  "seed": 424242,
+  "ladder_role": "ratify",
+  "all_in_band": false,
+  "repro": {
+    "host": "http://127.0.0.1",
+    "lobby_ws_enabled": false,
+    "damage_curves_path_required": true,
+    "seed_pinned": true,
+    "canonical_seed": 424242,
+    "config_source": "data/core/balance/damage_curves.yaml",
+    "scenario_spawn_source": "apps/backend/services/hardcoreScenario.js"
+  },
+  "scenarios": [
+    {
+      "id": "enc_tutorial_06_hardcore",
+      "parallel_key": "hardcore_06",
+      "target_band": [0.15, 0.25],
+      "ratified_knob": {
+        "boss_hp_multiplier": 0.65
+      },
+      "status": "ok",
+      "n_runs": 100,
+      "win_rate": 0.53,
+      "in_band": false,
+      "elapsed_sec": 21.264872074127197,
+      "merged_path": "C:\\dev\\Game-forensic\\docs\\playtest\\_canonical-work-forensic-n100\\parallel-hardcore_06-forensic-n100-merged.json"
+    },
+    {
+      "id": "enc_tutorial_07_hardcore_pod_rush",
+      "parallel_key": "hardcore_07",
+      "target_band": [0.3, 0.5],
+      "ratified_knob": {
+        "enemy_damage_multiplier_override": 2.1
+      },
+      "status": "ok",
+      "n_runs": 100,
+      "win_rate": 0.52,
+      "in_band": false,
+      "elapsed_sec": 20.50495481491089,
+      "merged_path": "C:\\dev\\Game-forensic\\docs\\playtest\\_canonical-work-forensic-n100\\parallel-hardcore_07-forensic-n100-merged.json"
+    }
+  ]
+}

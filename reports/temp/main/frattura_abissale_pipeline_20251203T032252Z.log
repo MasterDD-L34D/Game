@@ -1,0 +1,18 @@
+\n==> Schema + coherence checks
+Frattura Abissale Sinaptica: validazioni passate
+[OK] Schema + coherence checks
+\n==> Trait style check
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> style:check
+> node scripts/trait_style_check.js
+
+Trait style: 0 suggerimenti (error=0, warning=0, info=0) su 252 file ✅
+[OK] Trait style check
+\n==> Trait evaluate (read-only output)
+Report JSON generato in: /tmp/frattura_abissale_traits_eval.json
+Report CSV generato in: /tmp/frattura_abissale_traits_eval.csv
+[OK] Trait evaluate (read-only output)
+\n==> Trait index sync (dry-run)
+Trait aggiunti al glossario: 0
+[OK] Trait index sync (dry-run)

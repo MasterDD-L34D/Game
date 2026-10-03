@@ -1,0 +1,37 @@
+{
+  "instincts": [
+    {
+      "instinct_code": "SP",
+      "instinct_label": "SP (Self-preservation)",
+      "instinct_focus": "Sicurezza fisica, risorse, salute/comfort",
+      "instinct_keywords": [
+        "praticità",
+        "conservazione",
+        "routine",
+        "protezione"
+      ]
+    },
+    {
+      "instinct_code": "SO",
+      "instinct_label": "SO (Social)",
+      "instinct_focus": "Appartenenza, reti, ruolo nel gruppo/status",
+      "instinct_keywords": [
+        "connessione",
+        "cooperazione",
+        "contributo",
+        "immagine sociale"
+      ]
+    },
+    {
+      "instinct_code": "SX",
+      "instinct_label": "SX (Sessuale/One-to-one)",
+      "instinct_focus": "Intensità relazionale, attrazione, fusione/creatività",
+      "instinct_keywords": [
+        "magnetismo",
+        "focus",
+        "passione",
+        "rischio"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+
+## 2025-12-09T18:32:10Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 94 (core: 11/90, mock: 4/4)
+- Nessun avviso registrato.
+- ❌ Errori critici:
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml
+
+## 2025-12-09T18:34:13Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 94 (core: 32/90, mock: 4/4)
+- Nessun avviso registrato.
+- ❌ Errori critici:
+  - /workspace/Game/packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml
+  - /workspace/Game/packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml: Risorsa mancante: packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml
+
+## 2025-12-09T18:34:34Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 94 (core: 90/90, mock: 4/4)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
+
+## 2025-12-09T18:34:56Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 94 (core: 90/90, mock: 4/4)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
+
+## 2025-12-09T18:35:04Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 94 (core: 90/90, mock: 4/4)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.

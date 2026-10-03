@@ -1,0 +1,46 @@
+name: Idea Intake Index
+on:
+  push:
+    paths: ['docs/ideas/submissions/**']
+permissions:
+  contents: write
+
+env:
+  # Opt-in Node.js 24 runtime per actions JavaScript (checkout, setup-node,
+  # setup-python, upload-artifact, ecc.). Evita deprecation warning Node 20
+  # (rimosso 2026-09-16). Vedi https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build ideas index
+        run: |
+          echo "# Ideas Index" > IDEAS_INDEX.md
+          echo "" >> IDEAS_INDEX.md
+          if ls docs/ideas/submissions/*.md > /dev/null 2>&1; then
+            for f in docs/ideas/submissions/*.md; do
+              [ -e "$f" ] || continue
+              title=$(head -n 1 "$f" | sed 's/#\s*//')
+              echo "- [$title]($f)" >> IDEAS_INDEX.md
+            done
+          else
+            echo "_(nessuna idea ancora)_" >> IDEAS_INDEX.md
+          fi
+      - name: Reminder changelog widget/backend
+        run: |
+          set -euo pipefail
+          CHANGED=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- 'docs/ideas/**' 'docs/public/**' 'server/**' || true)
+          if [ -n "$CHANGED" ]; then
+            echo "::warning::Sono stati modificati file del widget/backend (${CHANGED//$'\n'/, }). Aggiorna README.md, README_IDEAS.md e docs/ideas/changelog.md con le note di rilascio."
+          else
+            echo "Nessun file widget/backend in modifica, nessun promemoria changelog.";
+          fi
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(ideas): update IDEAS_INDEX.md'

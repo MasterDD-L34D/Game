@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "supporto"
+      ]
+    }
+  },
+  "traits": [
+    "antenne_eco_turbina",
+    "artigli_acidofagi",
+    "aura_scudo_radianza",
+    "batteri_termofili_endosimbiosi",
+    "branchie_turbina",
+    "carapaci_ferruginosi",
+    "circolazione_doppia",
+    "coda_stabilizzatrice_geiser",
+    "cuticole_neutralizzanti",
+    "empatia_coordinativa",
+    "enzimi_chelatori_rapidi",
+    "foliage_fotocatodico",
+    "ghiandole_inchiostro_luce",
+    "gusci_criovetro",
+    "luminescenza_hydrotermica",
+    "risonanza_di_branco"
+  ],
+  "type": "supporto"
+}

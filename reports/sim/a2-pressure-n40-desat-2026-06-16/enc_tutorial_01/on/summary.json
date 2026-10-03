@@ -1,0 +1,68 @@
+{
+  "scenario": "enc_tutorial_01",
+  "arm": "on",
+  "args": {
+    "scenario": "enc_tutorial_01",
+    "arm": "on",
+    "runs": 40,
+    "seedBase": 70000,
+    "out": "reports/sim/a2-pressure-n40-desat-2026-06-16",
+    "commit": "2a7f3853",
+    "aggregate": false,
+    "scaling": {
+      "countAdd": 3,
+      "modAdd": 3
+    },
+    "roster": "weak"
+  },
+  "fire": {
+    "sistema_tier": "Calm",
+    "sistema_pressure": 0,
+    "floor": 1,
+    "expected_min": 0
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.9,
+    "win_ci95": [
+      0.7694792561952611,
+      0.9604211124044252
+    ],
+    "defeat_rate": 0.1,
+    "defeat_ci95": [
+      0.03957888759557486,
+      0.230520743804739
+    ],
+    "timeout_rate": 0,
+    "wins": 36,
+    "defeats": 4,
+    "timeouts": 0,
+    "rounds": {
+      "mean": 30,
+      "sd": 7.867492351279148,
+      "ci95": [
+        27.561838860208425,
+        32.438161139791575
+      ],
+      "n": 40
+    },
+    "survivors": {
+      "mean": 1.8,
+      "sd": 0.6076436202501996,
+      "ci95": [
+        1.6116892911252176,
+        1.9883107088747825
+      ],
+      "n": 40
+    },
+    "spawns": {
+      "mean": 0,
+      "sd": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "n": 40
+    }
+  }
+}

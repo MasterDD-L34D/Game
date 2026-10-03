@@ -1,0 +1,20 @@
+{
+  "id": "TKT-BALANCE-FALLOUT-NUMERIC-REF-DOC",
+  "title": "Fallout Tactics balance numeric reference doc",
+  "pillar": "P6",
+  "effort_hours": 3,
+  "donor_game": {
+    "name": "Fallout Tactics",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#11-fallout-tactics-micro-forte-2001--p1p6"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "merged",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Doc canonical 'balance numeric reference' consolidato `data/core/balance/*.yaml`.",
+  "merged_pr": 1934,
+  "merged_at": "2026-04-27"
+}

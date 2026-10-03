@@ -1,0 +1,96 @@
+---
+title: Evo Tactics — Design Doc Overview
+doc_status: active
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: '2026-04-28'
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+
+# Evo Tactics — Design Doc Overview
+
+## Visione & Statement
+
+- **Visione** — Co-op tattico TV/app dove cellule di resistenza guidano forme bio-meccanoidi in campagne generate, alternando briefing, incursioni e fasi Nido per difendere habitat in mutazione costante.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L10-L24】
+- **Statement** — "Trasformare l'ansia da tiro di dado in un'intesa condivisa": ogni scelta comunica impatto immediato (risk/cohesion) e conseguenze a lungo termine (stress, fiducia, reputazione) tramite HUD sincronizzato tra TV e companion.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L26-L33】
+- **Esperienza target** — Gruppi da 3-6 giocatori in sessioni da ~90 minuti con onboarding <10 minuti supportato da preset di Forme e direttive assistite.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L35-L41】
+
+## Pilastri
+
+> **Aggiornamento Sprint v3.5 (2026-04-27)**: i pilastri canonical sono i **6 P1-P6**
+> definiti in [`docs/core/02-PILASTRI.md`](02-PILASTRI.md) (formal: [`ADR-2026-04-27-pilastri-canonical-6.md`](../adr/ADR-2026-04-27-pilastri-canonical-6.md)).
+> Le 4 voci Canvas A storiche restano come baseline narrativa ma vivono dentro i 6 canonical.
+> Cross-ref: [`docs/planning/2026-04-26-v3-canonical-flow-decisions.md`](../planning/2026-04-26-v3-canonical-flow-decisions.md).
+
+1. **P1 — Tattica leggibile** (FFT-like): iniziativa, posizionamento, altezze, facing, reazioni — d20 + MoS + AP budget + reactions first-class.【F:docs/hubs/combat.md†L1-L40】
+2. **P2 — Evoluzione emergente** (Spore-like): tratti, morfologie e job sbloccati da comportamenti. Pattern proven Wesnoth advancement + AI War pack unlock (NON sim continuo).【F:docs/core/PI-Pacchetti-Forme.md†L1-L20】
+3. **P3 — Identità doppia** (Specie × Job): biologia × ruolo → sinergie/counter chiari. 84 specie + 7 job + 4 archetype.【F:docs/20-SPECIE_E_PARTI.md†L1-L10】
+4. **P4 — Temperamenti giocati** (MBTI/Ennea): VC → telemetria ludica + reveal diegetic post-encounter (Disco Elysium pattern). Engine 4 MBTI + UI surface 5 axes player-felt.【F:apps/backend/services/mbtiSurface.js†L1-L30】
+5. **P5 — Co-op vs Sistema** (TV condivisa): 4-8 player vs antagonista AI data-driven. Pattern proven Jackbox room-code (M11).【F:docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md†L1-L40】
+6. **P6 — Fairness**: budget morfologico, cap stack, counter espliciti, damage scaling curves, verdict GREEN/AMBER/RED, timeout=defeat. MMR post-MVP.【F:docs/adr/ADR-2026-04-20-damage-scaling-curves.md†L1-L40】
+
+### Componenti operative ereditate da Canvas A
+
+I quattro temi Canvas A (cooperazione situazionale, mutazione significativa,
+telemetria visibile, narrazione reattiva) restano vivi come **componenti
+trasversali** dei 6 pilastri canonical. Ad esempio:
+
+- Cooperazione situazionale (Canvas A 1) ⊂ P5 (network) + P1 (reactions/facing).
+- Mutazione significativa (Canvas A 2) ⊂ P2 (Form evolution) + P3 (Specie × Job).
+- Telemetria visibile (Canvas A 3) ⊂ P4 (VC telemetria) + P6 (verdict harness).
+- Narrazione reattiva (Canvas A 4) ⊂ P5 (Sistema antagonist AI) + P4 (reveal diegetic).
+
+## Loop Principale
+
+1. **Briefing**: selezione missione, obiettivi, heatmap minacce e trend StressWave.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L75-L86】
+2. **Setup Squad**: drafting Forme/Job, moduli PI, check sinergie tramite companion.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L87-L92】【F:data/packs.yaml†L1-L23】
+3. **Incursione**: turni misti comando rapido + risoluzione d20 con combo cooperative e clock a segmenti.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L93-L110】【F:docs/11-REGOLE_D20_TV.md†L1-L7】
+4. **Eventi dinamici**: NPG reattivi, affissi bioma, escalation StressWave.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L111-L116】【F:docs/appendici/C-CANVAS_NPG_BIOMI.txt†L33-L82】
+5. **Debriefing**: calcolo risk/cohesion finale, loot, aggiornamento telemetria e StressWave.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L117-L121】【F:data/core/telemetry.yaml†L1-L49】
+6. **Fase Nido**: investimenti infrastruttura, mutazioni e gestione comunità.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L122-L124】【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L1-L69】
+
+## Progressione & Metriche Chiave
+
+- **Livello Squadra** 1-10: sblocca slot PI e missioni avanzate; bilanciato con `pi_shop` e budget curve baseline/veteran/elite.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L126-L135】【F:data/packs.yaml†L1-L20】
+- **Prestigio Forma** (5 tier): concede tratti e mutazioni legate a Forme e Nido.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L136-L141】【F:data/core/mating.yaml†L1-L101】
+- **Reputazione Fazioni** e **StressWave**: impattano spawn, ricompense e soglie di allerta HUD (>0.60).【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L142-L151】【F:data/core/telemetry.yaml†L1-L25】
+
+## Sistema TV/d20 & Companion
+
+- **Risoluzione**: bande critico/successo/parziale/fallimento su d20 con modificatori PI, stance e Stress Mod legato a StressWave.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L153-L164】【F:docs/11-REGOLE_D20_TV.md†L1-L7】
+- **Clock**: segmenti d6 per eventi a tempo (evacuazione, anomalie).【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L165-L168】
+- **Companion App**: drafting Forme/Job, macro azioni, chat tattica e upload telemetria JSON/YAML verso repo condiviso.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L170-L184】
+- **HUD**: overlay risk/cohesion con indicatori mismatch ruoli e supporto second screen per mappa tattica e Nido.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L186-L198】【F:docs/03-LOOP.md†L1-L5】
+
+## Job & Trait di base
+
+- **Famiglie Job**: vanguard, skirmisher, warden, artificer, invoker, harvester — ciascuna con bias di pack (`job_bias`) e abilità signature documentate in `data/packs.yaml`.【F:data/packs.yaml†L21-L90】
+- **Tratti**: `trait_T1`/`T2`/`T3` alimentano combo PI, sinergie e costi `pi_shop`; i validatori assicurano coerenza tra dataset e CLI (`tools/py` e `tools/ts`) e dipendono dall'inventario centralizzato (`docs/catalog/traits_inventory.json`) che viene aggiornato ad ogni commit.【F:data/packs.yaml†L1-L20】【F:docs/20-SPECIE_E_PARTI.md†L5-L10】【F:docs/catalog/traits_inventory.json†L1-L120】
+- **Prestigio/Mutazioni**: progressioni Forma sbloccano nuove combinazioni di parti e tratti, con telemetria MBTI/Ennea a supporto del seed temperamentale.【F:data/core/telemetry.yaml†L41-L73】【F:docs/22-FORME_BASE_16.md†L1-L6】
+
+## Workflow tratti end-to-end
+
+1. **Allineare il glossario** — aggiungi/aggiorna l'entry in `data/core/traits/glossary.json` (label IT/EN, note sintetiche) e propaga la copia automatica in `docs/evo-tactics-pack/trait-glossary.json` / `packs/evo_tactics_pack/docs/catalog/trait_glossary.json` se necessario.【F:data/core/traits/glossary.json†L1-L118】【F:docs/evo-tactics-pack/trait-glossary.json†L1-L118】【F:packs/evo_tactics_pack/docs/catalog/trait_glossary.json†L1-L118】
+2. **Sincronizzare registri** — collega il nuovo tratto nelle regole ambientali e nel reference genetico (`env_traits.json` e `data/traits/index.json`, entrambi puntano al glossario condiviso).【F:packs/evo_tactics_pack/docs/catalog/env_traits.json†L1-L19】【F:data/traits/index.json†L1-L23】
+3. **Integrare nei biomi** — aggiorna `docs/catalog/species_trait_matrix.json` con le nuove associazioni Forma↔bioma↔tratto e usa `python tools/traits.py validate --matrix docs/catalog/species_trait_matrix.json` per assicurare che i mapping rispettino requisiti ambientali e morfotipi.【F:docs/catalog/species_trait_matrix.json†L1-L240】【F:tools/traits.py†L1-L236】
+4. **Rigenerare baseline** — esegui `python tools/py/build_trait_baseline.py packs/evo_tactics_pack/docs/catalog/env_traits.json data/traits/index.json --trait-glossary data/core/traits/glossary.json` per aggiornare `data/derived/analysis/trait_baseline.yaml` e verificare archetipi/tier.【F:tools/py/build_trait_baseline.py†L1-L46】
+5. **Validare naming** — usa `python tools/py/validate_registry_naming.py --trait-glossary data/core/traits/glossary.json` per controllare slug, mapping biomi/hazard/morphotype e coerenza del glossario referenziato in `config/project_index.json`.【F:tools/py/validate_registry_naming.py†L1-L270】【F:config/project_index.json†L1-L91】
+6. **Copertura & diff** — genera il report matriciale con `python tools/py/report_trait_coverage.py --out-json data/derived/analysis/trait_coverage_report.json --out-csv data/derived/analysis/trait_coverage_matrix.csv` per confrontare biomi↔forme mappati dalle regole con quelli realmente assegnati alle specie.【F:tools/py/report_trait_coverage.py†L1-L85】【F:tools/py/game_utils/trait_coverage.py†L1-L249】
+7. **QA interattivo** — ricarica il catalogo nel generator (`docs/evo-tactics-pack/generator.js`) per ottenere label dal glossario centralizzato e visualizzare i nuovi suggerimenti in UI senza duplicare stringhe.【F:docs/evo-tactics-pack/generator.js†L360-L449】【F:docs/evo-tactics-pack/generator.js†L666-L760】
+8. **Inventario & log** — aggiungi o aggiorna l'entry dedicata in `docs/catalog/traits_inventory.json` e lancia `python tools/py/traits_validator.py` per registrare il run in `logs/traits_tracking.md`, garantendo che baseline e specie citate rimangano sincronizzate.【F:docs/catalog/traits_inventory.json†L1-L120】【F:tools/py/traits_validator.py†L1-L200】【F:logs/traits_tracking.md†L1-L40】
+9. **Gate CI & deploy** — conferma che `scripts/run_deploy_checks.sh` e il workflow `deploy-test-interface.yml` ereditino gli stessi controlli (inventario, registri generatore, audit) prima della pubblicazione web, così da mantenere allineati generator, dataset e bundle pubblico.【F:scripts/run_deploy_checks.sh†L1-L80】【F:.github/workflows/deploy-test-interface.yml†L1-L200】
+
+## Quality Gates
+
+- **Audit tratti ↔ ambienti** — consulta `docs/reports/trait-env-alignment.md` per verificare coperture, lacune e note di bilanciamento tra tratti PI e regole ambientali; usalo prima dei playtest per pianificare i pick consigliati e dopo per registrare gap emersi.【F:docs/reports/trait-env-alignment.md†L1-L80】
+- **Matrice specie** — incrocia il report audit con `docs/catalog/species_trait_matrix.json` e il CSV generato (`data/derived/analysis/trait_coverage_matrix.csv`) per individuare rapidamente specie o biomi sottorappresentati; durante i playtest annota il diff tra comportamento atteso e osservato e ri-esegui `report_trait_coverage.py` per aggiornare la telemetria di riferimento.【F:docs/catalog/species_trait_matrix.json†L1-L240】【F:data/derived/analysis/trait_coverage_matrix.csv†L1-L40】
+- **Gate di bilanciamento** — prima del freeze build, assicurati che i pick-rate raccolti (`data/core/telemetry.yaml`) rispettino le soglie suggerite dall'audit e che eventuali deroghe siano documentate nel log playtest; un diff >5% rispetto al target impone un nuovo ciclo di QA con `scripts/cli_smoke.sh` e validazione trait coverage per confermare la stabilità dei dataset.【F:data/core/telemetry.yaml†L1-L73】【F:scripts/cli_smoke.sh†L1-L120】
+- **Canary SquadSync analytics** — la pipeline `scripts/analytics/etl_squadsync.py` alimenta lo schema/resolver GraphQL e la pagina analytics con il dataset canary novembre 2025 (01/11→05/11) per le squadre Bravo/Delta/Echo, attivati dal job pianificato e dal flag `analytics.squadsync_view` per controllare rollout e QA continuo.【F:scripts/analytics/etl_squadsync.py†L1-L220】【F:tools/graphql/schema.ts†L1-L78】【F:tools/graphql/resolvers/squadsync.ts†L1-L154】【F:public/analytics/squadsync/index.tsx†L1-L200】【F:config/jobs/etl.yaml†L1-L12】【F:config/feature_flags.yaml†L1-L16】
+  ![SquadSync canary novembre 2025](../assets/analytics/squadsync_mock.svg)
+
+## Stato & Prossimi Passi
+
+- Vertical slice VC con 3 missioni giocabili, telemetria StressWave integrata e companion app v0.9 già in test interno.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L200-L214】
+- Priorità correnti: migliorare onboarding, bilanciare pacchetti PI/EMA e ampliare contenuti Nido itinerante in linea con roadmap VC 2025.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L215-L220】【F:docs/piani/roadmap.md†L1-L60】

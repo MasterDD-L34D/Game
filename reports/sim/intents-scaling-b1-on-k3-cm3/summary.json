@@ -1,0 +1,43 @@
+{
+  "scenario": "enc_badlands_dorsale_ferrosa_01",
+  "grid": "16x12 (board_scale=grid_sized)",
+  "party_source": "enc_badlands_pilot_01",
+  "pressure_start": 50,
+  "scaling": {
+    "hpAdd": 0,
+    "modAdd": 0,
+    "dcAdd": 0,
+    "countMult": 3,
+    "rangeAdd": 0,
+    "intentsScaling": true,
+    "intentsK": 3
+  },
+  "objective": "elimination",
+  "ratified_bands": {
+    "completion": 1,
+    "pace_rounds": [
+      10,
+      18
+    ],
+    "reinforcements_at_cap": 4
+  },
+  "wiring_proof": {
+    "grid_width": 16,
+    "grid_height": 12,
+    "terrain_features": 36,
+    "combat_los_enabled_env": "(unset -> default ON #3226)"
+  },
+  "N": 10,
+  "wins": 10,
+  "defeats": 0,
+  "timeouts": 0,
+  "win_rate": 1,
+  "wr_ci95_wilson": [
+    0.722,
+    1
+  ],
+  "creature_ko_rate": 0.025,
+  "avg_rounds": 21.1,
+  "avg_reinforcements": 4,
+  "node": "v24.11.0"
+}

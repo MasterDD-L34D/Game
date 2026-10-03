@@ -1,0 +1,271 @@
+{
+  "aggregate": {
+    "N": 10,
+    "win_rate": 0.9,
+    "win_count": 9,
+    "loss_count": 0,
+    "timeout_count": 1,
+    "turns_avg": 28.8,
+    "turns_median": 28.0,
+    "turns_stdev": 6.4,
+    "turns_min": 21,
+    "turns_max": 41,
+    "turns_hist": {
+      "1-5": 0,
+      "6-10": 0,
+      "11-15": 0,
+      "16-20": 0,
+      "21-30": 6,
+      "31-40": 3
+    },
+    "kd_avg": 2.345,
+    "kd_median": 2.5,
+    "dmg_dealt_avg": 80.8,
+    "dmg_taken_avg": 30.8,
+    "boss_hp_remaining_avg_on_loss": null,
+    "players_alive_avg_on_win": 5.333333333333333,
+    "ai_intent_distribution": {
+      "Apex|move": 224,
+      "Apex|unknown": 64,
+      "Apex|attack": 167,
+      "Critical|attack": 4,
+      "Critical|move": 2
+    },
+    "elapsed_sec": 652.7
+  },
+  "runs": [
+    {
+      "run": 0,
+      "outcome": "victory",
+      "rounds": 21,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 11,
+        "Apex|unknown": 8,
+        "Apex|attack": 14
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 1,
+      "outcome": "victory",
+      "rounds": 21,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 35,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 8,
+        "Apex|unknown": 5,
+        "Apex|attack": 14
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 2,
+      "outcome": "victory",
+      "rounds": 31,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 24,
+        "Apex|unknown": 8,
+        "Apex|attack": 21
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 3,
+      "outcome": "timeout",
+      "rounds": 41,
+      "players_alive": 4,
+      "players_dead": 4,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 70,
+      "dmg_taken_player": 42,
+      "boss_hp_remaining": 12,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Apex|move": 44,
+        "Apex|unknown": 8,
+        "Apex|attack": 19,
+        "Critical|attack": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 4,
+      "outcome": "victory",
+      "rounds": 36,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 26,
+        "Apex|unknown": 10,
+        "Apex|attack": 15
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 5,
+      "outcome": "victory",
+      "rounds": 22,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 16,
+        "Apex|unknown": 4,
+        "Apex|attack": 13
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 6,
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 23,
+        "Apex|unknown": 4,
+        "Apex|attack": 13
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 7,
+      "outcome": "victory",
+      "rounds": 28,
+      "players_alive": 3,
+      "players_dead": 5,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 56,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 16,
+        "Apex|unknown": 4,
+        "Apex|attack": 22,
+        "Critical|attack": 2,
+        "Critical|move": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 8,
+      "outcome": "victory",
+      "rounds": 28,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 38,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 23,
+        "Apex|unknown": 6,
+        "Apex|attack": 19
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 9,
+      "outcome": "victory",
+      "rounds": 34,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 35,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Apex|move": 33,
+        "Apex|unknown": 7,
+        "Apex|attack": 17
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    }
+  ]
+}

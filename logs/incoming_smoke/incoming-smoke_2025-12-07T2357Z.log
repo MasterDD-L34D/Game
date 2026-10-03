@@ -1,0 +1,3 @@
+[2025-12-07T23:57:15Z] Attempted to dispatch incoming-smoke.yml via `gh workflow run incoming-smoke.yml -b main` with required inputs `path`/`pack`.
+Outcome: NOT EXECUTED – GitHub CLI (`gh`) is not installed and no GH_TOKEN/PAT is configured, so the workflow could not be triggered or its artifacts downloaded.
+Follow-up: install GitHub CLI, supply a PAT with actions:read/workflow and contents permissions, provide the required `path`/`pack` inputs, rerun, and archive smoke logs under logs/incoming_smoke/.

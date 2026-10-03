@@ -1,0 +1,42 @@
+{
+  "species": "Proteus plasma",
+  "ecotypes": [
+    {
+      "id": "PRP-ECO1",
+      "label": "Stagno Quieto",
+      "biome_class": "acquatico_dolce",
+      "envo_terms": [],
+      "trait_adjustments": [
+        {
+          "metric": "tolleranza_termica",
+          "delta": 10,
+          "unit": "K",
+          "notes": "Sedimenti silicatici ricchi",
+          "trait_id": "cisti_di_ibernazione_minerale"
+        }
+      ]
+    },
+    {
+      "id": "PRP-ECO2",
+      "label": "Torrente Lento",
+      "biome_class": "acquatico_dolce",
+      "envo_terms": [],
+      "trait_adjustments": [
+        {
+          "metric": "raggio_di_volta",
+          "delta": 0.05,
+          "unit": "m",
+          "notes": "Flusso impone curve più larghe",
+          "trait_id": "flusso_ameboide_controllato"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "proteus_plasma"
+}

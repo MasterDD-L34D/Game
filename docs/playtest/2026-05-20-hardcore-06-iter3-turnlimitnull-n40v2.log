@@ -1,0 +1,113 @@
+OK: backend healthy at http://localhost:3340
+M9 P6: turn_limit_defeat DISABLED for scenario=enc_tutorial_06_hardcore (override null OR class no limit)
+[1/40] T rounds=41 boss_hp=8 pa=5
+[2/40] V rounds=40 boss_hp=0 pa=5
+[3/40] V rounds=28 boss_hp=0 pa=5
+[4/40] V rounds=23 boss_hp=0 pa=6
+[5/40] V rounds=29 boss_hp=0 pa=4
+[6/40] V rounds=25 boss_hp=0 pa=5
+[7/40] T rounds=41 boss_hp=3 pa=2
+[8/40] V rounds=36 boss_hp=0 pa=6
+[9/40] V rounds=39 boss_hp=0 pa=4
+[10/40] V rounds=39 boss_hp=0 pa=6
+[11/40] V rounds=39 boss_hp=0 pa=5
+[12/40] T rounds=41 boss_hp=2 pa=5
+[13/40] V rounds=26 boss_hp=0 pa=6
+[14/40] V rounds=29 boss_hp=0 pa=6
+[15/40] V rounds=25 boss_hp=0 pa=6
+[16/40] V rounds=27 boss_hp=0 pa=6
+[17/40] V rounds=30 boss_hp=0 pa=4
+[18/40] V rounds=26 boss_hp=0 pa=6
+[19/40] V rounds=28 boss_hp=0 pa=5
+[20/40] V rounds=28 boss_hp=0 pa=4
+[21/40] V rounds=23 boss_hp=0 pa=5
+[22/40] T rounds=41 boss_hp=2 pa=2
+[23/40] V rounds=30 boss_hp=0 pa=5
+[24/40] T rounds=41 boss_hp=6 pa=6
+[25/40] V rounds=38 boss_hp=0 pa=6
+[26/40] V rounds=33 boss_hp=0 pa=5
+[27/40] V rounds=29 boss_hp=0 pa=6
+[28/40] V rounds=29 boss_hp=0 pa=4
+[29/40] V rounds=18 boss_hp=0 pa=6
+[30/40] V rounds=28 boss_hp=0 pa=5
+[31/40] V rounds=29 boss_hp=0 pa=4
+[32/40] V rounds=38 boss_hp=0 pa=6
+[33/40] T rounds=41 boss_hp=8 pa=5
+[34/40] V rounds=35 boss_hp=0 pa=6
+[35/40] V rounds=39 boss_hp=0 pa=2
+[36/40] V rounds=29 boss_hp=0 pa=6
+[37/40] V rounds=35 boss_hp=0 pa=4
+[38/40] V rounds=41 boss_hp=0 pa=2
+[39/40] V rounds=31 boss_hp=0 pa=6
+[40/40] V rounds=38 boss_hp=0 pa=6
+
+Wrote docs/playtest/2026-05-20-hardcore-06-iter3-turnlimitnull-n40v2.json
+
+=== AGGREGATE ===
+{
+  "N": 40,
+  "encounter_class": "hardcore",
+  "target_bands": {
+    "win_rate": [
+      0.15,
+      0.25
+    ],
+    "defeat_rate": [
+      0.4,
+      0.55
+    ],
+    "timeout_rate": [
+      0.15,
+      0.25
+    ]
+  },
+  "verdict": "RED",
+  "verdict_reasons": [
+    "win_rate=0.85 out of band [0.15,0.25] (red)",
+    "defeat_rate=0.00 out of band [0.4,0.55] (red)"
+  ],
+  "win_rate": 0.85,
+  "defeat_rate": 0.0,
+  "timeout_rate": 0.15,
+  "win_count": 34,
+  "loss_count": 0,
+  "timeout_count": 6,
+  "turns_avg": 32.65,
+  "turns_median": 30.5,
+  "turns_stdev": 6.389640052459919,
+  "turns_min": 18,
+  "turns_max": 41,
+  "turns_hist": {
+    "1-5": 0,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 1,
+    "21-30": 19,
+    "31-40": 13,
+    "41+": 7
+  },
+  "kd_avg": 2.191666666666667,
+  "kd_median": 2.0,
+  "dmg_dealt_avg": 55.275,
+  "dmg_taken_avg": 31.65,
+  "boss_hp_remaining_avg_on_loss": null,
+  "players_alive_avg_on_win": 5.088235294117647,
+  "ai_intent_distribution": {
+    "Critical|move": 220,
+    "Critical|unknown": 85,
+    "Apex|move": 448,
+    "Apex|attack": 638,
+    "Apex|unknown": 119,
+    "Critical|attack": 49,
+    "High|attack": 19,
+    "High|move": 24
+  },
+  "player_action_distribution": {
+    "move": 2593,
+    "unknown": 4736,
+    "attack": 2320
+  },
+  "trait_used_distribution": {},
+  "elapsed_sec": 2871.4,
+  "failures": 0
+}
