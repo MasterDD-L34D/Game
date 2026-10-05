@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-05T07:15:33+00:00",
+  "generated_at": "2026-10-05T07:23:00+00:00",
   "summary": {
-    "total": 611,
+    "total": 643,
     "errors": 0,
-    "warnings": 611
+    "warnings": 643
   },
   "issues": [
     {
@@ -999,7 +999,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-25-content-sprint-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-25-content-sprint-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1011,7 +1011,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-25-illuminator-orchestra-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-25-illuminator-orchestra-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1023,7 +1023,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-25-museum-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-25-museum-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1035,7 +1035,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-25-parallel-sprint-jobs-wire-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1065,7 +1065,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-25-workspace-audit-drift-fixes-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-25-workspace-audit-drift-fixes-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1077,7 +1077,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-26-next-session-handoff-M14-C.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-26-next-session-handoff-M14-C.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1089,13 +1089,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-26-vision-gap-sprint-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-26-vision-gap-sprint-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-bundle-b-recovery-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-bundle-b-recovery-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1107,49 +1107,49 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-skiv-personal-sprint-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-skiv-personal-sprint-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-sprint-1-5-autonomous-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-sprint-1-5-autonomous-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-sprint-6-beast-bond-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-sprint-6-beast-bond-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-sprint-6-channel-resistance-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-sprint-6-channel-resistance-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-sprint-7-beast-bond-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-sprint-7-beast-bond-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-sprint-8-ability-r3-r4-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-sprint-8-ability-r3-r4-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-sprint-abgd-coordinated-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-sprint-abgd-coordinated-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-27-status-effects-phase-a-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-27-status-effects-phase-a-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1179,7 +1179,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-04-29-ermes-cleanup-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-28"
     },
     {
@@ -1203,7 +1203,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-02-pulverator-ecology-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-02-pulverator-ecology-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1215,13 +1215,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-05-audit-triage-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-05-audit-triage-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-05-repo-content-audit-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-05-repo-content-audit-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1233,7 +1233,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-06-ferrospora-pipeline-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-06-ferrospora-pipeline-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-04"
     },
     {
@@ -1251,13 +1251,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-06-sessione-2-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-06-sessione-2-closure-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-06-sessione-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-06-sessione-closure-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1275,13 +1275,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-07-cutover-handoff-alternative-qa.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-07-cutover-handoff-alternative-qa.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-07-phase-a-handoff-next-session.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-07-phase-a-handoff-next-session.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1317,7 +1317,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-09-status-effects-phase-a-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-09-status-effects-phase-a-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1329,7 +1329,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-15-handoff-cross-pc-pr2271-closure.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-15-handoff-cross-pc-pr2271-closure.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1347,13 +1347,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-15-session-closure-cumulative-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-15-session-closure-cumulative-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-20-parallel-cascade-multi-agent-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-18"
     },
     {
@@ -1383,7 +1383,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-31-parallel-sessions-sync-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-05-31-parallel-sessions-sync-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-29"
     },
     {
@@ -1395,13 +1395,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-01-goal-coordinator-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-01-goal-coordinator-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-30"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-01-master-goal-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-01-master-goal-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-30"
     },
     {
@@ -1413,7 +1413,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-02-full-loop-build-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-02-full-loop-build-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-31"
     },
     {
@@ -1425,7 +1425,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-02-full-loop-fase2-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-02-full-loop-fase2-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-31"
     },
     {
@@ -1437,19 +1437,19 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-02-h2-economy-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-02-h2-economy-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-08-31"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-04-option-c-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-04-option-c-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-02"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-04-session-handoff-optionc-flip.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-04-session-handoff-optionc-flip.md",
       "message": "Documento stale: revisione scaduta il 2026-09-02"
     },
     {
@@ -1521,37 +1521,37 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-09-lenovo-handoff-item2-item3.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-09-lenovo-handoff-item2-item3.md",
       "message": "Documento stale: revisione scaduta il 2026-09-07"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-09-maintenance-hygiene-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-09-maintenance-hygiene-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-07"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-09-reconstruction-residuals-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-09-reconstruction-residuals-closure-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-07"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-10-mega-session-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-10-mega-session-closure-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-08"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-14-issue-2746-coop-ws-closure-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-12"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-16-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-16-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-14"
     },
     {
@@ -1563,19 +1563,19 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-17-session-handoff-continuation.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-17-session-handoff-continuation.md",
       "message": "Documento stale: revisione scaduta il 2026-09-15"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-17-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-17-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-15"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-18-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-18-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-18"
     },
     {
@@ -1593,13 +1593,13 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-20"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-20-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-20-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-07-04"
     },
     {
@@ -1647,7 +1647,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-22-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-22-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-20"
     },
     {
@@ -1713,7 +1713,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-23-derived-canon-salvage-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-23-derived-canon-salvage-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-21"
     },
     {
@@ -1743,7 +1743,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-24-form-pulse-trait-v2-coverage-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-24-form-pulse-trait-v2-coverage-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-22"
     },
     {
@@ -1767,7 +1767,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-27"
     },
     {
@@ -1785,7 +1785,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-29-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-29-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-27"
     },
     {
@@ -1803,97 +1803,97 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-30-session-handoff-aa01-codex-aisim.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-30-session-handoff-aa01-codex-aisim.md",
       "message": "Documento stale: revisione scaduta il 2026-09-28"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-30-session-handoff-closeout-residuals.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-30-session-handoff-closeout-residuals.md",
       "message": "Documento stale: revisione scaduta il 2026-09-28"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-30-session-handoff-lethal-flip-grilling.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-30-session-handoff-lethal-flip-grilling.md",
       "message": "Documento stale: revisione scaduta il 2026-09-28"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-06-30-session-handoff-tier2-infra-closeout.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-06-30-session-handoff-tier2-infra-closeout.md",
       "message": "Documento stale: revisione scaduta il 2026-09-28"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-fc1-tier2-o8-closeout.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-fc1-tier2-o8-closeout.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-grilling-value-picks-drained.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-spec-f-auth-isolation.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-spec-f-fc1-resync.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-spec-f-import.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-spec-f-import.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-tkt-p6-tier1-spec-f-b4.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-tkt-p6-tier1-spec-f-b4.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-w5-d8-w6-close.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff-w5-inc123.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff-w5-inc123.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-01-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-01-session-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-09-29"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-02-session-handoff-w5-graded-close.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-02-session-handoff-w5-graded-close.md",
       "message": "Documento stale: revisione scaduta il 2026-09-30"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-03-fase2c-grid-wiring-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-10-01"
     },
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-07-04-tkt-p6-ap3-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/handoffs-2026/2026-07-04-tkt-p6-ap3-closure-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-10-02"
     },
     {
@@ -3669,8 +3669,200 @@
     {
       "level": "warning",
       "code": "unregistered_document",
+      "path": "docs/reports/2026-10-05-drift-audit.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
       "path": "docs/superpowers/specs/2026-07-04-ai-los-repositioning-design.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-04-25-illuminator-orchestra-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:1313, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-04-27-skiv-personal-sprint-handoff.md",
+      "message": "citato da tools/py/batch_calibrate_skiv_solo_pack.py:13, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-04-27-sprint-1-5-autonomous-handoff.md",
+      "message": "citato da BACKLOG.md:1341, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-07-cutover-handoff-alternative-qa.md",
+      "message": "citato da tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts:794, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-07-phase-a-handoff-next-session.md",
+      "message": "citato da COMPACT_CONTEXT.md:464, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-09-fase1-2-handoff-next-session.md",
+      "message": "citato da COMPACT_CONTEXT.md:478, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-05-10-tkt-bond-hud-surface-frontend-handoff.md",
+      "message": "citato da apps/backend/services/combat/bondReactionTrigger.js:275, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-02-full-loop-build-handoff.md",
+      "message": "citato da BACKLOG.md:30, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-02-full-loop-fase2-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:196, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-02-goal-master-session-handoff.md",
+      "message": "citato da BACKLOG.md:22, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-09-maintenance-hygiene-handoff.md",
+      "message": "citato da CLAUDE.md:232, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-09-reconstruction-residuals-closure-handoff.md",
+      "message": "citato da CLAUDE.md:231, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-10-mega-session-closure-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:168, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md",
+      "message": "citato da BACKLOG.md:1041, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-16-session-handoff.md",
+      "message": "citato da CLAUDE.md:227, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-17-session-handoff-continuation.md",
+      "message": "citato da CLAUDE.md:223, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-17-session-handoff.md",
+      "message": "citato da CLAUDE.md:225, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-18-session-handoff.md",
+      "message": "citato da CLAUDE.md:217, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
+      "message": "citato da BACKLOG.md:235, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-22-session-handoff.md",
+      "message": "citato da COMPACT_CONTEXT.md:132, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
+      "message": "citato da BACKLOG.md:49, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-29-session-handoff.md",
+      "message": "citato da CLAUDE.md:205, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-06-30-session-handoff-tier2-infra-closeout.md",
+      "message": "citato da COMPACT_CONTEXT.md:110, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md",
+      "message": "citato da COMPACT_CONTEXT.md:84, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md",
+      "message": "citato da BACKLOG.md:407, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md",
+      "message": "citato da COMPACT_CONTEXT.md:56, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-import.md",
+      "message": "citato da COMPACT_CONTEXT.md:71, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md",
+      "message": "citato da BACKLOG.md:113, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-01-session-handoff.md",
+      "message": "citato da BACKLOG.md:109, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-02-session-handoff-w5-graded-close.md",
+      "message": "citato da COMPACT_CONTEXT.md:33, non esiste su disco"
+    },
+    {
+      "level": "warning",
+      "code": "broken_doc_pin",
+      "path": "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md",
+      "message": "citato da BACKLOG.md:36, non esiste su disco"
     }
   ],
   "doc_pins": {
