@@ -1,0 +1,206 @@
+{
+  "scenario": "enc_tutorial_07_hardcore_pod_rush",
+  "runs": [
+    {
+      "run": 1,
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 37,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 2,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 3,
+      "outcome": "victory",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 42,
+        "unknown": 4
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 4,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 5,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 6,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 7,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 8,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 9,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 47
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 10,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    }
+  ],
+  "summary": {
+    "n": 10,
+    "win_rate": 20.0,
+    "win_rate_ci95": [0, 50.0],
+    "defeat_rate": 0.0,
+    "defeat_rate_ci95": [0, 0],
+    "timeout_rate": 80.0,
+    "timeout_rate_ci95": [50.0, 100],
+    "timer_expire_rate": 0.0,
+    "rounds_avg": 14.7,
+    "rounds_ci95": [14.1, 15],
+    "rounds_median": 15.0,
+    "kd_avg": 2.5,
+    "kd_ci95": [2.0, 3.0],
+    "target_band": "win 30-50%",
+    "in_band": false,
+    "player_action_distribution": {
+      "move": 50,
+      "attack": 441,
+      "unknown": 8
+    },
+    "trait_used_distribution": {
+      "zampe_a_molla": 5
+    },
+    "elapsed_s": 370.2,
+    "failures": 0
+  }
+}

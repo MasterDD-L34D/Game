@@ -1,0 +1,2799 @@
+{
+  "args": {
+    "scenario": "",
+    "arm": "",
+    "runs": 40,
+    "seedBase": 60000,
+    "out": "reports/sim/a2-pressure-n40-desat-2026-06-16",
+    "commit": "2a7f3853",
+    "aggregate": true,
+    "scaling": {
+      "countAdd": 3,
+      "modAdd": 3
+    },
+    "roster": "weak"
+  },
+  "isolated_arms": true,
+  "bands": {
+    "tutorial": {
+      "win_rate": [
+        0.6,
+        0.8
+      ],
+      "defeat_rate": [
+        0.1,
+        0.2
+      ],
+      "timeout_rate": [
+        0.05,
+        0.1
+      ]
+    },
+    "tutorial_advanced": {
+      "win_rate": [
+        0.4,
+        0.6
+      ],
+      "defeat_rate": [
+        0.2,
+        0.35
+      ],
+      "timeout_rate": [
+        0.05,
+        0.15
+      ]
+    },
+    "standard": {
+      "win_rate": [
+        0.35,
+        0.55
+      ],
+      "defeat_rate": [
+        0.25,
+        0.4
+      ],
+      "timeout_rate": [
+        0.1,
+        0.2
+      ]
+    },
+    "hardcore": {
+      "win_rate": [
+        0.15,
+        0.25
+      ],
+      "defeat_rate": [
+        0.75,
+        0.85
+      ],
+      "timeout_rate": [
+        0,
+        0.05
+      ]
+    },
+    "boss": {
+      "win_rate": [
+        0.05,
+        0.15
+      ],
+      "defeat_rate": [
+        0.55,
+        0.7
+      ],
+      "timeout_rate": [
+        0.1,
+        0.25
+      ]
+    },
+    "badlands": {
+      "win_rate": [
+        0.4,
+        0.6
+      ],
+      "defeat_rate": [
+        0.3,
+        0.6
+      ],
+      "timeout_rate": [
+        0,
+        0.15
+      ]
+    }
+  },
+  "perScenario": {
+    "enc_tutorial_01": {
+      "enc": {
+        "id": "enc_tutorial_01",
+        "class": "tutorial",
+        "floor": 1,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 0.9,
+          "win_ci95": [
+            0.7694792561952611,
+            0.9604211124044252
+          ],
+          "defeat_rate": 0.1,
+          "defeat_ci95": [
+            0.03957888759557486,
+            0.230520743804739
+          ],
+          "timeout_rate": 0,
+          "wins": 36,
+          "defeats": 4,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 31.6,
+            "sd": 9.87304021448931,
+            "ci95": [
+              28.540313138194094,
+              34.65968686180591
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.8,
+            "sd": 0.6076436202501998,
+            "ci95": [
+              1.6116892911252176,
+              1.9883107088747825
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 0.8,
+          "win_ci95": [
+            0.6524239261814334,
+            0.8950013502683313
+          ],
+          "defeat_rate": 0.2,
+          "defeat_ci95": [
+            0.10499864973166873,
+            0.34757607381856676
+          ],
+          "timeout_rate": 0,
+          "wins": 32,
+          "defeats": 8,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 34.3,
+            "sd": 11.453809130142844,
+            "ci95": [
+              30.75042777586383,
+              37.84957222413616
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.6,
+            "sd": 0.8101914936669334,
+            "ci95": [
+              1.3489190548336234,
+              1.8510809451663768
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 0.9,
+          "win_ci95": [
+            0.7694792561952611,
+            0.9604211124044252
+          ],
+          "defeat_rate": 0.1,
+          "defeat_ci95": [
+            0.03957888759557486,
+            0.230520743804739
+          ],
+          "timeout_rate": 0,
+          "wins": 36,
+          "defeats": 4,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 30,
+            "sd": 7.867492351279148,
+            "ci95": [
+              27.561838860208425,
+              32.438161139791575
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.8,
+            "sd": 0.6076436202501996,
+            "ci95": [
+              1.6116892911252176,
+              1.9883107088747825
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 2.7,
+            "sd": 12.985593595428782,
+            "ci95": [
+              -1.3242771480233015,
+              6.724277148023302
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 2,
+            "win_to_loss": 6
+          },
+          "win_rate_delta": -0.1
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": -1.6,
+            "sd": 13.174956818885107,
+            "ci95": [
+              -5.6829614189602555,
+              2.482961418960256
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 4,
+            "win_to_loss": 4
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 1,
+          "expected_min": 0
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 1,
+          "expected_min": 0
+        },
+        "on": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 1,
+          "expected_min": 0
+        }
+      }
+    },
+    "enc_tutorial_02": {
+      "enc": {
+        "id": "enc_tutorial_02",
+        "class": "tutorial",
+        "floor": 1,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 15.975,
+            "sd": 0.15811388300841892,
+            "ci95": [
+              15.926,
+              16.024
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 16,
+            "sd": 0,
+            "ci95": [
+              16,
+              16
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 16,
+            "sd": 0,
+            "ci95": [
+              16,
+              16
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0.025,
+            "sd": 0.15811388300841894,
+            "ci95": [
+              -0.023999999999999987,
+              0.07399999999999998
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0.025,
+            "sd": 0.15811388300841894,
+            "ci95": [
+              -0.023999999999999987,
+              0.07399999999999998
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 1,
+          "expected_min": 0
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 1,
+          "expected_min": 0
+        },
+        "on": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 1,
+          "expected_min": 0
+        }
+      }
+    },
+    "enc_savana_01": {
+      "enc": {
+        "id": "enc_savana_01",
+        "class": "standard",
+        "floor": 2,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 0.85,
+          "win_ci95": [
+            0.7092737396097997,
+            0.9293890829149257
+          ],
+          "defeat_rate": 0.15,
+          "defeat_ci95": [
+            0.07061091708507436,
+            0.2907262603902002
+          ],
+          "timeout_rate": 0,
+          "wins": 34,
+          "defeats": 6,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 31.975,
+            "sd": 9.694004226774297,
+            "ci95": [
+              28.970796965617193,
+              34.979203034382806
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.7,
+            "sd": 0.7232405706795789,
+            "ci95": [
+              1.4758654250404286,
+              1.9241345749595713
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 0.75,
+          "win_ci95": [
+            0.5980574093302989,
+            0.8581303210445049
+          ],
+          "defeat_rate": 0.25,
+          "defeat_ci95": [
+            0.14186967895549518,
+            0.40194259066970106
+          ],
+          "timeout_rate": 0,
+          "wins": 30,
+          "defeats": 10,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 34.375,
+            "sd": 11.235674639975324,
+            "ci95": [
+              30.893028354730394,
+              37.85697164526961
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.5,
+            "sd": 0.8770580193070292,
+            "ci95": [
+              1.2281969038496379,
+              1.7718030961503621
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 0.85,
+          "win_ci95": [
+            0.7092737396097997,
+            0.9293890829149257
+          ],
+          "defeat_rate": 0.15,
+          "defeat_ci95": [
+            0.07061091708507436,
+            0.2907262603902002
+          ],
+          "timeout_rate": 0,
+          "wins": 34,
+          "defeats": 6,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 31.05,
+            "sd": 7.074511852327195,
+            "ci95": [
+              28.85758606285335,
+              33.24241393714665
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.7,
+            "sd": 0.7232405706795789,
+            "ci95": [
+              1.4758654250404286,
+              1.9241345749595713
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 2.4,
+            "sd": 16.95060697801341,
+            "ci95": [
+              -2.8530475257408736,
+              7.653047525740874
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 6,
+            "win_to_loss": 10
+          },
+          "win_rate_delta": -0.1
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": -0.925,
+            "sd": 12.90078013939964,
+            "ci95": [
+              -4.922993185689604,
+              3.0729931856896044
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 6,
+            "win_to_loss": 6
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "on": {
+          "sistema_tier": "Alert",
+          "sistema_pressure": 25,
+          "floor": 2,
+          "expected_min": 25
+        }
+      }
+    },
+    "enc_caverna_02": {
+      "enc": {
+        "id": "enc_caverna_02",
+        "class": "standard",
+        "floor": 2,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 16,
+            "sd": 0,
+            "ci95": [
+              16,
+              16
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 16,
+            "sd": 0,
+            "ci95": [
+              16,
+              16
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 16,
+            "sd": 0,
+            "ci95": [
+              16,
+              16
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "on": {
+          "sistema_tier": "Alert",
+          "sistema_pressure": 25,
+          "floor": 2,
+          "expected_min": 25
+        }
+      }
+    },
+    "enc_capture_01": {
+      "enc": {
+        "id": "enc_capture_01",
+        "class": "standard",
+        "floor": 2,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 1,
+          "defeat_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "timeout_rate": 0,
+          "wins": 0,
+          "defeats": 40,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 30.875,
+            "sd": 3.749786318698365,
+            "ci95": [
+              29.712929180409564,
+              32.03707081959044
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 1,
+          "defeat_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "timeout_rate": 0,
+          "wins": 0,
+          "defeats": 40,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 31.425,
+            "sd": 3.908488461193413,
+            "ci95": [
+              30.213746876905937,
+              32.636253123094065
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 1,
+          "defeat_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "timeout_rate": 0,
+          "wins": 0,
+          "defeats": 40,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 34.75,
+            "sd": 1.5317159809030676,
+            "ci95": [
+              34.275316299643,
+              35.224683700357
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0.55,
+            "sd": 5.242577170115419,
+            "ci95": [
+              -1.0746914973429456,
+              2.1746914973429456
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 3.875,
+            "sd": 3.7770392691929535,
+            "ci95": [
+              2.7044834035503373,
+              5.045516596449662
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "on": {
+          "sistema_tier": "Alert",
+          "sistema_pressure": 25,
+          "floor": 2,
+          "expected_min": 25
+        }
+      }
+    },
+    "enc_escort_01": {
+      "enc": {
+        "id": "enc_escort_01",
+        "class": "standard",
+        "floor": 2,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 1,
+          "defeat_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "timeout_rate": 0,
+          "wins": 0,
+          "defeats": 40,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 1,
+            "sd": 0,
+            "ci95": [
+              1,
+              1
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 1,
+          "defeat_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "timeout_rate": 0,
+          "wins": 0,
+          "defeats": 40,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 1,
+            "sd": 0,
+            "ci95": [
+              1,
+              1
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 1,
+          "defeat_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "timeout_rate": 0,
+          "wins": 0,
+          "defeats": 40,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 1,
+            "sd": 0,
+            "ci95": [
+              1,
+              1
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 2,
+          "expected_min": 25
+        },
+        "on": {
+          "sistema_tier": "Alert",
+          "sistema_pressure": 25,
+          "floor": 2,
+          "expected_min": 25
+        }
+      }
+    },
+    "enc_survival_01": {
+      "enc": {
+        "id": "enc_survival_01",
+        "class": "hardcore",
+        "floor": 3,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 25.1,
+            "sd": 2.10980616438621,
+            "ci95": [
+              24.446164295709444,
+              25.75383570429056
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 25.2,
+            "sd": 2.1387751107489015,
+            "ci95": [
+              24.53718672622115,
+              25.862813273778848
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 21.525,
+            "sd": 3.281552946942917,
+            "ci95": [
+              20.508036205671825,
+              22.541963794328172
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0.1,
+            "sd": 3.3877607762241824,
+            "ci95": [
+              -0.9498779416235451,
+              1.1498779416235452
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": -3.575,
+            "sd": 3.8556485370201514,
+            "ci95": [
+              -4.769877860939813,
+              -2.380122139060188
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 3,
+          "expected_min": 50
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 3,
+          "expected_min": 50
+        },
+        "on": {
+          "sistema_tier": "Escalated",
+          "sistema_pressure": 50,
+          "floor": 3,
+          "expected_min": 50
+        }
+      }
+    },
+    "enc_savana_skiv_solo_vs_pack": {
+      "enc": {
+        "id": "enc_savana_skiv_solo_vs_pack",
+        "class": "hardcore",
+        "floor": 3,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 13,
+            "sd": 0,
+            "ci95": [
+              13,
+              13
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 13,
+            "sd": 0,
+            "ci95": [
+              13,
+              13
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 2,
+            "sd": 0,
+            "ci95": [
+              2,
+              2
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 13,
+            "sd": 0,
+            "ci95": [
+              13,
+              13
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.975,
+            "sd": 0.15811388300841894,
+            "ci95": [
+              1.9260000000000002,
+              2.024
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 3,
+          "expected_min": 50
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 3,
+          "expected_min": 50
+        },
+        "on": {
+          "sistema_tier": "Escalated",
+          "sistema_pressure": 50,
+          "floor": 3,
+          "expected_min": 50
+        }
+      }
+    },
+    "enc_hardcore_reinf_01": {
+      "enc": {
+        "id": "enc_hardcore_reinf_01",
+        "class": "hardcore",
+        "floor": 4,
+        "reinf": true,
+        "modulation": "duo_hardcore"
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 0.075,
+          "win_ci95": [
+            0.025835556771858243,
+            0.19864530159097524
+          ],
+          "defeat_rate": 0.925,
+          "defeat_ci95": [
+            0.8013546984090248,
+            0.9741644432281419
+          ],
+          "timeout_rate": 0,
+          "wins": 3,
+          "defeats": 37,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 68.3,
+            "sd": 9.92329556507287,
+            "ci95": [
+              65.22473884369356,
+              71.37526115630644
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 0.15,
+            "sd": 0.533493565673837,
+            "ci95": [
+              -0.015331368888246794,
+              0.31533136888824675
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 0.075,
+          "win_ci95": [
+            0.025835556771858243,
+            0.19864530159097524
+          ],
+          "defeat_rate": 0.925,
+          "defeat_ci95": [
+            0.8013546984090248,
+            0.9741644432281419
+          ],
+          "timeout_rate": 0,
+          "wins": 3,
+          "defeats": 37,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 67.6,
+            "sd": 8.752435558467608,
+            "ci95": [
+              64.88759211901666,
+              70.31240788098333
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 0.15,
+            "sd": 0.5334935656738373,
+            "ci95": [
+              -0.015331368888246905,
+              0.31533136888824687
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 0,
+          "win_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "defeat_rate": 0.675,
+          "defeat_ci95": [
+            0.52017458088898,
+            0.7991568303733828
+          ],
+          "timeout_rate": 0.325,
+          "wins": 0,
+          "defeats": 27,
+          "timeouts": 13,
+          "rounds": {
+            "mean": 94,
+            "sd": 47.5265108204803,
+            "ci95": [
+              79.27138170353115,
+              108.72861829646885
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 0.325,
+            "sd": 0.4743416490252569,
+            "ci95": [
+              0.17800000000000002,
+              0.472
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 4,
+            "sd": 0,
+            "ci95": [
+              4,
+              4
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": -0.7,
+            "sd": 12.424541471186402,
+            "ci95": [
+              -4.550405293352496,
+              3.150405293352496
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 3,
+            "win_to_loss": 3
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 25.7,
+            "sd": 46.91738511086296,
+            "ci95": [
+              11.16015171665935,
+              40.23984828334065
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 3
+          },
+          "win_rate_delta": -0.075
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 4,
+          "expected_min": 75
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 4,
+          "expected_min": 75
+        },
+        "on": {
+          "sistema_tier": "Critical",
+          "sistema_pressure": 75,
+          "floor": 4,
+          "expected_min": 75
+        }
+      }
+    },
+    "enc_frattura_03": {
+      "enc": {
+        "id": "enc_frattura_03",
+        "class": "hardcore",
+        "floor": 4,
+        "reinf": false,
+        "modulation": null
+      },
+      "summaries": {
+        "off": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 33.975,
+            "sd": 0.15811388300841886,
+            "ci95": [
+              33.926,
+              34.024
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.95,
+            "sd": 0.22072142786315224,
+            "ci95": [
+              1.8815977208356929,
+              2.018402279164307
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "off2": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 33.975,
+            "sd": 0.15811388300841892,
+            "ci95": [
+              33.926,
+              34.024
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.95,
+            "sd": 0.22072142786315224,
+            "ci95": [
+              1.8815977208356929,
+              2.018402279164307
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        },
+        "on": {
+          "n": 40,
+          "win_rate": 1,
+          "win_ci95": [
+            0.9123754607496077,
+            1
+          ],
+          "defeat_rate": 0,
+          "defeat_ci95": [
+            0,
+            0.08762453925039232
+          ],
+          "timeout_rate": 0,
+          "wins": 40,
+          "defeats": 0,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 34,
+            "sd": 0,
+            "ci95": [
+              34,
+              34
+            ],
+            "n": 40
+          },
+          "survivors": {
+            "mean": 1.825,
+            "sd": 0.38480764425479264,
+            "ci95": [
+              1.7057468755448828,
+              1.944253124455117
+            ],
+            "n": 40
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 40
+          }
+        }
+      },
+      "deltas": {
+        "noise": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0,
+            "sd": 0.22645540682891915,
+            "ci95": [
+              -0.07017925765586441,
+              0.07017925765586441
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        },
+        "effect": {
+          "pairs": 40,
+          "rounds_delta": {
+            "mean": 0.025,
+            "sd": 0.15811388300841892,
+            "ci95": [
+              -0.02399999999999998,
+              0.07399999999999998
+            ],
+            "n": 40
+          },
+          "attacks_delta": {
+            "mean": null,
+            "sd": null,
+            "ci95": [
+              null,
+              null
+            ],
+            "n": 0
+          },
+          "flips": {
+            "loss_to_win": 0,
+            "win_to_loss": 0
+          },
+          "win_rate_delta": 0
+        }
+      },
+      "fire": {
+        "off": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 4,
+          "expected_min": 75
+        },
+        "off2": {
+          "sistema_tier": "Calm",
+          "sistema_pressure": 0,
+          "floor": 4,
+          "expected_min": 75
+        },
+        "on": {
+          "sistema_tier": "Critical",
+          "sistema_pressure": 75,
+          "floor": 4,
+          "expected_min": 75
+        }
+      }
+    }
+  },
+  "classSummaries": {
+    "tutorial": {
+      "summaries": {
+        "off": {
+          "n": 80,
+          "win_rate": 0.95,
+          "win_ci95": [
+            0.878375474489178,
+            0.9803867628727043
+          ],
+          "defeat_rate": 0.05,
+          "defeat_ci95": [
+            0.019613237127295572,
+            0.121624525510822
+          ],
+          "timeout_rate": 0,
+          "wins": 76,
+          "defeats": 4,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 23.7875,
+            "sd": 10.485304665294688,
+            "ci95": [
+              21.48980630835333,
+              26.085193691646673
+            ],
+            "n": 80
+          },
+          "survivors": {
+            "mean": 1.9,
+            "sd": 0.4386400156063501,
+            "ci95": [
+              1.803878768530358,
+              1.996121231469642
+            ],
+            "n": 80
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 80
+          }
+        },
+        "off2": {
+          "n": 80,
+          "win_rate": 0.9,
+          "win_ci95": [
+            0.8148912101660255,
+            0.9484530008223145
+          ],
+          "defeat_rate": 0.1,
+          "defeat_ci95": [
+            0.051546999177685536,
+            0.18510878983397458
+          ],
+          "timeout_rate": 0,
+          "wins": 72,
+          "defeats": 8,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 25.15,
+            "sd": 12.22893435435148,
+            "ci95": [
+              22.47021660614618,
+              27.829783393853816
+            ],
+            "n": 80
+          },
+          "survivors": {
+            "mean": 1.8,
+            "sd": 0.6037855265119526,
+            "ci95": [
+              1.6676896628510998,
+              1.9323103371489003
+            ],
+            "n": 80
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 80
+          }
+        },
+        "on": {
+          "n": 80,
+          "win_rate": 0.95,
+          "win_ci95": [
+            0.878375474489178,
+            0.9803867628727043
+          ],
+          "defeat_rate": 0.05,
+          "defeat_ci95": [
+            0.019613237127295572,
+            0.121624525510822
+          ],
+          "timeout_rate": 0,
+          "wins": 76,
+          "defeats": 4,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 23,
+            "sd": 8.954173060080613,
+            "ci95": [
+              21.03783031482552,
+              24.96216968517448
+            ],
+            "n": 80
+          },
+          "survivors": {
+            "mean": 1.9,
+            "sd": 0.43864001560635013,
+            "ci95": [
+              1.803878768530358,
+              1.996121231469642
+            ],
+            "n": 80
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 80
+          }
+        }
+      },
+      "verdicts": {
+        "off": {
+          "verdict": "RED",
+          "reasons": [
+            "win_rate=0.95 out of band [0.6,0.8] (red)",
+            "defeat_rate=0.05 near band [0.1,0.2] (amber)",
+            "timeout_rate=0.00 near band [0.05,0.1] (amber)"
+          ]
+        },
+        "off2": {
+          "verdict": "RED",
+          "reasons": [
+            "win_rate=0.90 out of band [0.6,0.8] (red)",
+            "timeout_rate=0.00 near band [0.05,0.1] (amber)"
+          ]
+        },
+        "on": {
+          "verdict": "RED",
+          "reasons": [
+            "win_rate=0.95 out of band [0.6,0.8] (red)",
+            "defeat_rate=0.05 near band [0.1,0.2] (amber)",
+            "timeout_rate=0.00 near band [0.05,0.1] (amber)"
+          ]
+        }
+      },
+      "band": {
+        "win_rate": [
+          0.6,
+          0.8
+        ],
+        "defeat_rate": [
+          0.1,
+          0.2
+        ],
+        "timeout_rate": [
+          0.05,
+          0.1
+        ]
+      }
+    },
+    "standard": {
+      "summaries": {
+        "off": {
+          "n": 160,
+          "win_rate": 0.4625,
+          "win_ci95": [
+            0.38702770939000536,
+            0.539730818358747
+          ],
+          "defeat_rate": 0.5375,
+          "defeat_ci95": [
+            0.4602691816412529,
+            0.6129722906099947
+          ],
+          "timeout_rate": 0,
+          "wins": 74,
+          "defeats": 86,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 19.9625,
+            "sd": 13.680950121479679,
+            "ci95": [
+              17.84261481598738,
+              22.08238518401262
+            ],
+            "n": 160
+          },
+          "survivors": {
+            "mean": 1.925,
+            "sd": 0.38116009611175644,
+            "ci95": [
+              1.86593863121279,
+              1.9840613687872102
+            ],
+            "n": 160
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 160
+          }
+        },
+        "off2": {
+          "n": 160,
+          "win_rate": 0.4375,
+          "win_ci95": [
+            0.36298967596179843,
+            0.5149412036194556
+          ],
+          "defeat_rate": 0.5625,
+          "defeat_ci95": [
+            0.48505879638054433,
+            0.6370103240382016
+          ],
+          "timeout_rate": 0,
+          "wins": 70,
+          "defeats": 90,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 20.7,
+            "sd": 14.624782963502735,
+            "ci95": [
+              18.433866401935504,
+              22.966133598064495
+            ],
+            "n": 160
+          },
+          "survivors": {
+            "mean": 1.875,
+            "sd": 0.4856429311786321,
+            "ci95": [
+              1.799748848187841,
+              1.950251151812159
+            ],
+            "n": 160
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 160
+          }
+        },
+        "on": {
+          "n": 160,
+          "win_rate": 0.4625,
+          "win_ci95": [
+            0.38702770939000536,
+            0.539730818358747
+          ],
+          "defeat_rate": 0.5375,
+          "defeat_ci95": [
+            0.4602691816412529,
+            0.6129722906099947
+          ],
+          "timeout_rate": 0,
+          "wins": 74,
+          "defeats": 86,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 20.7,
+            "sd": 13.879898138208512,
+            "ci95": [
+              18.549287501414398,
+              22.8507124985856
+            ],
+            "n": 160
+          },
+          "survivors": {
+            "mean": 1.925,
+            "sd": 0.3811600961117564,
+            "ci95": [
+              1.86593863121279,
+              1.9840613687872102
+            ],
+            "n": 160
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 160
+          }
+        }
+      },
+      "verdicts": {
+        "off": {
+          "verdict": "RED",
+          "reasons": [
+            "defeat_rate=0.54 out of band [0.25,0.4] (red)",
+            "timeout_rate=0.00 out of band [0.1,0.2] (red)"
+          ]
+        },
+        "off2": {
+          "verdict": "RED",
+          "reasons": [
+            "defeat_rate=0.56 out of band [0.25,0.4] (red)",
+            "timeout_rate=0.00 out of band [0.1,0.2] (red)"
+          ]
+        },
+        "on": {
+          "verdict": "RED",
+          "reasons": [
+            "defeat_rate=0.54 out of band [0.25,0.4] (red)",
+            "timeout_rate=0.00 out of band [0.1,0.2] (red)"
+          ]
+        }
+      },
+      "band": {
+        "win_rate": [
+          0.35,
+          0.55
+        ],
+        "defeat_rate": [
+          0.25,
+          0.4
+        ],
+        "timeout_rate": [
+          0.1,
+          0.2
+        ]
+      }
+    },
+    "hardcore": {
+      "summaries": {
+        "off": {
+          "n": 160,
+          "win_rate": 0.76875,
+          "win_ci95": [
+            0.6975797578679621,
+            0.8273174599326454
+          ],
+          "defeat_rate": 0.23125,
+          "defeat_ci95": [
+            0.17268254006735462,
+            0.30242024213203794
+          ],
+          "timeout_rate": 0,
+          "wins": 123,
+          "defeats": 37,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 35.09375,
+            "sd": 21.23418297767917,
+            "ci95": [
+              31.803479259350116,
+              38.38402074064988
+            ],
+            "n": 160
+          },
+          "survivors": {
+            "mean": 1.525,
+            "sd": 0.8463759219506783,
+            "ci95": [
+              1.3938526921656367,
+              1.6561473078343631
+            ],
+            "n": 160
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 160
+          }
+        },
+        "off2": {
+          "n": 160,
+          "win_rate": 0.76875,
+          "win_ci95": [
+            0.6975797578679621,
+            0.8273174599326454
+          ],
+          "defeat_rate": 0.23125,
+          "defeat_ci95": [
+            0.17268254006735462,
+            0.30242024213203794
+          ],
+          "timeout_rate": 0,
+          "wins": 123,
+          "defeats": 37,
+          "timeouts": 0,
+          "rounds": {
+            "mean": 34.94375,
+            "sd": 20.81975563840193,
+            "ci95": [
+              31.71769544087133,
+              38.16980455912867
+            ],
+            "n": 160
+          },
+          "survivors": {
+            "mean": 1.525,
+            "sd": 0.8463759219506783,
+            "ci95": [
+              1.3938526921656367,
+              1.6561473078343631
+            ],
+            "n": 160
+          },
+          "spawns": {
+            "mean": 0,
+            "sd": 0,
+            "ci95": [
+              0,
+              0
+            ],
+            "n": 160
+          }
+        },
+        "on": {
+          "n": 160,
+          "win_rate": 0.75,
+          "win_ci95": [
+            0.6775748906186185,
+            0.8107015910563651
+          ],
+          "defeat_rate": 0.16875,
+          "defeat_ci95": [
+            0.11864352018350914,
+            0.2343901415971375
+          ],
+          "timeout_rate": 0.08125,
+          "wins": 120,
+          "defeats": 27,
+          "timeouts": 13,
+          "rounds": {
+            "mean": 40.63125,
+            "sd": 39.600302056372946,
+            "ci95": [
+              34.495119624089384,
+              46.76738037591062
+            ],
+            "n": 160
+          },
+          "survivors": {
+            "mean": 1.53125,
+            "sd": 0.76825273455481,
+            "ci95": [
+              1.4122080054675488,
+              1.6502919945324512
+            ],
+            "n": 160
+          },
+          "spawns": {
+            "mean": 1,
+            "sd": 1.7374889710522776,
+            "ci95": [
+              0.7307732946605695,
+              1.2692267053394306
+            ],
+            "n": 160
+          }
+        }
+      },
+      "verdicts": {
+        "off": {
+          "verdict": "RED",
+          "reasons": [
+            "win_rate=0.77 out of band [0.15,0.25] (red)",
+            "defeat_rate=0.23 out of band [0.75,0.85] (red)"
+          ]
+        },
+        "off2": {
+          "verdict": "RED",
+          "reasons": [
+            "win_rate=0.77 out of band [0.15,0.25] (red)",
+            "defeat_rate=0.23 out of band [0.75,0.85] (red)"
+          ]
+        },
+        "on": {
+          "verdict": "RED",
+          "reasons": [
+            "win_rate=0.75 out of band [0.15,0.25] (red)",
+            "defeat_rate=0.17 out of band [0.75,0.85] (red)",
+            "timeout_rate=0.08 near band [0,0.05] (amber)"
+          ]
+        }
+      },
+      "band": {
+        "win_rate": [
+          0.15,
+          0.25
+        ],
+        "defeat_rate": [
+          0.75,
+          0.85
+        ],
+        "timeout_rate": [
+          0,
+          0.05
+        ]
+      }
+    }
+  }
+}

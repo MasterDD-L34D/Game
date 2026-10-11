@@ -1,0 +1,20 @@
+{
+  "id": "TKT-UI-ANCIENTBEAST-WIKI-CROSS-LINK",
+  "title": "AncientBeast wiki cross-link runtime",
+  "pillar": "cross-cutting",
+  "effort_hours": 3,
+  "donor_game": {
+    "name": "AncientBeast",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#6-ancientbeast-freezingmoon--p1-hex"
+  },
+  "agent_owner": "ui-design-illuminator",
+  "status": "merged",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Cross-link tra `packs/evo_tactics_pack/docs/catalog/` + runtime via slug. Showcase generator.",
+  "merged_pr": 1937,
+  "merged_at": "2026-04-27"
+}

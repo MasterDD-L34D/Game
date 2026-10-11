@@ -1,0 +1,23 @@
+[shard-3341] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_07-3a-enemy-count-minus1-shards\shard-3341.log
+[shard-3342] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_07-3a-enemy-count-minus1-shards\shard-3342.log
+[shard-3343] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_07-3a-enemy-count-minus1-shards\shard-3343.log
+[shard-3344] starting backend, log=C:\dev\Game\docs\playtest\parallel-hardcore_07-3a-enemy-count-minus1-shards\shard-3344.log
+[parallel] waiting 4 shards healthy (max 60s each)...
+[parallel] http://localhost:3341 ready ~2.0s
+[parallel] http://localhost:3342 ready ~2.0s
+[parallel] http://localhost:3343 ready ~2.0s
+[parallel] http://localhost:3344 ready ~2.0s
+[parallel] N=40 distributed: [10, 10, 10, 10]
+[parallel] launch shard host=http://localhost:3341 N=10
+[parallel] launch shard host=http://localhost:3342 N=10
+[parallel] launch shard host=http://localhost:3343 N=10
+[parallel] launch shard host=http://localhost:3344 N=10
+[parallel] 4 batches running...
+[parallel] shard http://localhost:3341 done N=10 OK elapsed=359.6s
+[parallel] shard http://localhost:3342 done N=10 OK elapsed=359.6s
+[parallel] shard http://localhost:3343 done N=10 OK elapsed=359.6s
+[parallel] shard http://localhost:3344 done N=10 OK elapsed=359.6s
+[parallel] all shards done in 359.6s
+[parallel] merged 40 runs from 4 JSONLs
+[parallel] merged report: C:\dev\Game\docs\playtest\parallel-hardcore_07-3a-enemy-count-minus1-merged.json
+[parallel] 4 shards stopped

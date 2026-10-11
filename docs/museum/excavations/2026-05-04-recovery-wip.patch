@@ -1,0 +1,3648 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 026619ae..7f9322d8 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -19,6 +19,7 @@ The monorepo uses npm workspaces declared in root `package.json`:
+ - `tools/ts/` — TypeScript CLI + Node/Playwright tests (Lighthouse, roll pack, UI smoke).
+ - `packs/evo_tactics_pack/` — self-contained Ecosystem Pack v1.7 (data, validators, HTML reports under `out/validation/`).
+ - `data/` — canonical YAML datasets (species, biomes, traits, telemetry) + `data/derived/` analysis reports. Source of truth for Flow, Atlas, and pack validators.
++- `services/rules/` — D20 rules engine: `resolver.py` (combat resolution), `hydration.py` (encounter setup), `demo_cli.py` (interactive/auto combat demo), `worker.py` (JSON line bridge stub). Uses `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` as source of truth for combat mechanics.
+ - `services/eventsScheduler/`, `services/publishing/`, `services/export/`, `services/moderation/`, `services/squadsync/` — Node micro-services called from scripts and the backend.
+ - `scripts/` — top-level automation (dev stack, tracker refresh, snapshot regeneration, Drive sync).
+ - `tests/` — cross-cutting suites: `tests/api/*.test.js` (Node test runner), `tests/server/*.spec.ts`, `tests/generation/*.spec.ts`, `tests/scripts/*`, `tests/events/*.ts` (tsx), plus Python unit tests at `tests/test_*.py`.
+@@ -48,6 +49,9 @@ Node 18+ (22.19.0 recommended) and npm 11+; Python 3.10+. Install once with `npm
+ - **E2E Playwright (dashboard)**: `npm run test:e2e` (uses `apps/dashboard/tests/playwright/playwright.config.mjs`).
+ - **Python suites**: `PYTHONPATH=tools/py pytest` from the repo root. Single test: `PYTHONPATH=tools/py pytest tests/test_species_builder.py::test_case`.
+ - **Docs generator Vitest**: `npm run test:docs-generator` (uses `vitest.config.docs-generator.ts`).
++- **Rules engine tests**: `PYTHONPATH=tools/py pytest tests/test_resolver.py tests/test_hydration.py`
++- **Combat demo (auto)**: `PYTHONPATH=tools/py python -m services.rules.demo_cli --auto --seed demo-1 --max-rounds 10`
++- **Combat demo (interactive)**: `PYTHONPATH=tools/py python -m services.rules.demo_cli --seed demo-1`
+ 
+ ### Build, lint, format
+ 
+@@ -84,6 +88,7 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
+ - **Dashboard deploy path**. `VITE_BASE_PATH` (default `./`) controls asset paths; `VITE_API_BASE_URL`/`VITE_API_BASE` + individual `VITE_*_URL` select live vs. mock; `VITE_API_USER` propagates as `X-User` header for audit. Empty values fall back to the next source in the registry automatically.
+ - **Auth**. Backend routes honor JWT (`AUTH_SECRET`, `AUTH_AUDIENCE`, `AUTH_ISSUER`, `AUTH_ROLES_CLAIM`, etc.) when configured, otherwise open. Legacy Bearer tokens `TRAIT_EDITOR_TOKEN`/`TRAITS_API_TOKEN` protect trait routes; accepted roles are `reviewer`/`editor`/`admin` (admin always allowed).
+ - **Trait Editor** is a separate Vite app under `Trait Editor/` — see `docs/trait-editor.md` before touching it.
++- **Combat pipeline (Rules Engine)**. CLI or API → `services/rules/` Python modules. The resolver (`resolver.py`) implements d20 attack rolls, MoS-based damage steps, status effects, PT accumulation, and begin-turn decay. The hydration layer (`hydration.py`) builds CombatState from encounter JSON + party + trait_mechanics catalog. The demo CLI (`demo_cli.py`) runs complete simulated combats. Architecture decision in `docs/adr/ADR-2026-04-13-rules-engine-d20.md`. Key constants: `ATTACK_CD_BASE=10`, `MOS_PER_STEP=5`, `CRIT_PT_THRESHOLD=15`.
+ 
+ ## Agent / automation conventions in this repo
+ 
+diff --git a/README.md b/README.md
+index 64acd4a2..a8027014 100644
+--- a/README.md
++++ b/README.md
+@@ -64,6 +64,7 @@ evo-tactics/
+ 
+ 1. **Clona il repository** e posizionati nella root.
+ 2. **Installa GitHub CLI (`gh`)** per poter usare i workflow CI e gli script di automazione:
++
+    ```bash
+    # macOS (Homebrew)
+    brew install gh
+@@ -71,7 +72,9 @@ evo-tactics/
+    # Debian/Ubuntu
+    sudo apt update && sudo apt install gh
+    ```
++
+    Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto (puoi seguire la guida in `docs/workflows/gh-cli-manual-dispatch.md`).
++
+ 3. **Dipendenze Node (root + tools/ts + dashboard)**:
+    ```bash
+    npm install
+@@ -305,6 +308,17 @@ node dist/roll_pack.js ENTP invoker --seed demo
+ - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
+ - **Trait Editor standalone** (`Trait Editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
+ 
++## Combat / Rules Engine
++
++Il rules engine d20 per la risoluzione tattica del combattimento si trova in `services/rules/` (moduli Python: `resolver.py`, `hydration.py`, `demo_cli.py`).
++Per lanciare una demo automatica di combattimento:
++
++```bash
++PYTHONPATH=tools/py python -m services.rules.demo_cli --auto --seed demo-1
++```
++
++I valori di bilanciamento (meccaniche trait, soglie danno, decay PT) sono definiti in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
++
+ ## Stato database Evo Tactics
+ 
+ ### Situazione attuale
+diff --git a/apps/backend/app.js b/apps/backend/app.js
+index ed71005b..a66827aa 100644
+--- a/apps/backend/app.js
++++ b/apps/backend/app.js
+@@ -16,6 +16,7 @@ const { createGenerationRouter, createGenerationRoutes } = require('./routes/gen
+ const { createSpeciesBiomesRouter } = require('./routes/speciesBiomes');
+ const { createTraitRouter } = require('./routes/traits');
+ const { createQualityRouter } = require('./routes/quality');
++const { createCombatRouter } = require('./routes/combat');
+ const { createValidatorsRouter } = require('./routes/validators');
+ const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
+ const { createReleaseReporter } = require('./services/releaseReporter');
+@@ -784,6 +785,10 @@ function createApp(options = {}) {
+ 
+   app.use('/api/v1/generation', generationRouter);
+   app.use('/api/generation', generationRouter);
++
++  const combatRouter = createCombatRouter();
++  app.use('/api/v1/combat', combatRouter);
++  app.use('/api/combat', combatRouter);
+   app.post('/api/biomes/generate', generationRoutes.biomes);
+ 
+   async function sendCatalogPools(req, res) {
+diff --git a/apps/backend/routes/combat.js b/apps/backend/routes/combat.js
+new file mode 100644
+index 00000000..b930336b
+--- /dev/null
++++ b/apps/backend/routes/combat.js
+@@ -0,0 +1,193 @@
++const express = require('express');
++const crypto = require('node:crypto');
++
++// ---------------------------------------------------------------------------
++// In-memory session store (stub — will be replaced by Python worker bridge)
++// ---------------------------------------------------------------------------
++// The real implementation will follow the Node↔Python bridge protocol used by
++// services/generation/worker.py: JSON-line messages over stdin/stdout with
++// actions like "start-combat", "resolve-action", "end-combat".  The pool is
++// configured in config/orchestrator.json (poolSize, requestTimeoutMs, etc.).
++// For now, every response is synthesised from realistic mock data so the
++// frontend team can build against the API shape immediately.
++// ---------------------------------------------------------------------------
++
++const sessions = new Map();
++
++// -- helpers ----------------------------------------------------------------
++
++function generateSessionId() {
++  return `combat-${crypto.randomBytes(6).toString('hex')}`;
++}
++
++function buildMinimalUnit(overrides = {}) {
++  return {
++    id: 'party-alpha',
++    species_id: 'anguis_magnetica',
++    side: 'party',
++    tier: 3,
++    hp: { current: 18, max: 18 },
++    ap: { current: 2, max: 2 },
++    armor: 4,
++    initiative: 12,
++    stress: 0,
++    statuses: [],
++    resistances: [],
++    trait_ids: ['integumento_bipolare'],
++    pt: 0,
++    reactions: { current: 1, max: 1 },
++    ...overrides,
++  };
++}
++
++function buildInitialState(sessionId, body) {
++  const seed = body.seed || 'default';
++  const partyUnit = buildMinimalUnit();
++  const hostileUnit = buildMinimalUnit({
++    id: 'hostile-01',
++    species_id: 'aetherloom_stalker',
++    side: 'hostile',
++    initiative: 9,
++  });
++  return {
++    session_id: sessionId,
++    seed: String(seed),
++    encounter_id: body.encounter_path || null,
++    turn: 1,
++    initiative_order: [partyUnit.id, hostileUnit.id],
++    active_unit_id: partyUnit.id,
++    units: [partyUnit, hostileUnit],
++    vc: null,
++    log: [],
++  };
++}
++
++function buildTurnLogEntry(action, turn) {
++  return {
++    turn,
++    action: {
++      id: `act-${String(turn).padStart(3, '0')}`,
++      type: action.type || 'attack',
++      actor_id: action.actor_id || 'party-alpha',
++      target_id: action.target_id || 'hostile-01',
++      ability_id: action.ability_id || null,
++      ap_cost: action.ap_cost != null ? action.ap_cost : 1,
++      channel: action.channel || null,
++    },
++    roll: {
++      natural: 14,
++      modifier: 3,
++      total: 17,
++      dc: 12,
++      success: true,
++      mos: 5,
++      damage_step: 1,
++      pt_gained: 1,
++      is_crit: false,
++      is_fumble: false,
++    },
++    damage_applied: 4,
++    statuses_applied: [],
++    statuses_expired: [],
++  };
++}
++
++// -- route handlers ---------------------------------------------------------
++
++function handleStartSession(req, res) {
++  const body = req.body || {};
++  const sessionId = generateSessionId();
++  const initialState = buildInitialState(sessionId, body);
++
++  sessions.set(sessionId, {
++    state: initialState,
++    maxRounds: body.max_rounds || 20,
++    createdAt: Date.now(),
++  });
++
++  res.json({ session_id: sessionId, initial_state: initialState });
++}
++
++function handleAction(req, res) {
++  const body = req.body || {};
++  const { session_id, action } = body;
++
++  if (!session_id || !sessions.has(session_id)) {
++    res.status(404).json({ error: 'Sessione di combattimento non trovata' });
++    return;
++  }
++  if (!action || typeof action !== 'object') {
++    res.status(400).json({ error: "Campo 'action' richiesto" });
++    return;
++  }
++
++  const session = sessions.get(session_id);
++  const state = session.state;
++
++  // Advance turn (stub: simply increment)
++  state.turn += 1;
++
++  const logEntry = buildTurnLogEntry(action, state.turn);
++  state.log.push(logEntry);
++
++  // Stub: apply mock damage to hostile unit
++  const hostile = state.units.find((u) => u.side === 'hostile');
++  if (hostile && logEntry.damage_applied) {
++    hostile.hp.current = Math.max(0, hostile.hp.current - logEntry.damage_applied);
++  }
++
++  // Cycle active unit
++  const currentIdx = state.initiative_order.indexOf(state.active_unit_id);
++  const nextIdx = (currentIdx + 1) % state.initiative_order.length;
++  state.active_unit_id = state.initiative_order[nextIdx];
++
++  res.json({ next_state: state, turn_log_entry: logEntry });
++}
++
++function handleEndSession(req, res) {
++  const sessionId = req.params.id;
++
++  if (!sessionId || !sessions.has(sessionId)) {
++    res.status(404).json({ error: 'Sessione di combattimento non trovata' });
++    return;
++  }
++
++  const session = sessions.get(sessionId);
++  const state = session.state;
++
++  // Determine winner (stub logic: whichever side has surviving hp)
++  const partyHp = state.units
++    .filter((u) => u.side === 'party')
++    .reduce((sum, u) => sum + u.hp.current, 0);
++  const hostileHp = state.units
++    .filter((u) => u.side === 'hostile')
++    .reduce((sum, u) => sum + u.hp.current, 0);
++  const winner = partyHp >= hostileHp ? 'party' : 'hostile';
++
++  const result = {
++    final_state: state,
++    winner,
++    rounds_played: state.turn,
++  };
++
++  sessions.delete(sessionId);
++  res.json(result);
++}
++
++// -- router factory ---------------------------------------------------------
++
++function createCombatRouter() {
++  const router = express.Router();
++
++  router.post('/session', handleStartSession);
++  router.post('/action', handleAction);
++  router.post('/session/:id/end', handleEndSession);
++
++  return router;
++}
++
++module.exports = {
++  createCombatRouter,
++  // Exported for testing
++  sessions,
++};
+diff --git a/rules/build_budget.yaml b/data/core/rules/build_budget.yaml
+similarity index 100%
+rename from rules/build_budget.yaml
+rename to data/core/rules/build_budget.yaml
+diff --git a/rules/stages.yaml b/data/core/rules/stages.yaml
+similarity index 100%
+rename from rules/stages.yaml
+rename to data/core/rules/stages.yaml
+diff --git a/docs/00-INDEX.md b/docs/00-INDEX.md
+index 5ad3b921..819f8eba 100644
+--- a/docs/00-INDEX.md
++++ b/docs/00-INDEX.md
+@@ -27,6 +27,13 @@
+ - [10 Sistema Tattico (TV/d20)](10-SISTEMA_TATTICO.md)
+ - [11 Regole TV/d20 specifiche](11-REGOLE_D20_TV.md)
+ 
++### Rules Engine / Combat
++
++- [ADR-2026-04-13 — Rules Engine d20](adr/ADR-2026-04-13-rules-engine-d20.md) — decisioni architetturali, piano fasi e pass Balancer.
++- Resolver e hydration: `services/rules/` (`resolver.py`, `hydration.py`, `worker.py`).
++- Layer bilanciamento trait: [`packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`](../packs/evo_tactics_pack/data/balance/trait_mechanics.yaml)
++- Schema combat: `packages/contracts/schemas/combat.schema.json`
++
+ ## Contenuti & Progressione
+ 
+ - [20 Specie & Parti (catalogo + budget)](20-SPECIE_E_PARTI.md)
+diff --git a/docs/01-VISIONE.md b/docs/01-VISIONE.md
+index 18dc59b5..0b876138 100644
+--- a/docs/01-VISIONE.md
++++ b/docs/01-VISIONE.md
+@@ -1,3 +1,15 @@
+ # Visione
+ 
+-“Tattica profonda a turni in cui **come giochi** modella **ciò che diventi**.”
++"Tattica profonda a turni in cui **come giochi** modella **cio' che diventi**."
++
++## Il gioco
++
++Evo-Tactics e' un gioco tattico cooperativo a turni basato sul sistema d20, con progressione evolutiva modulare. I giocatori guidano creature che si evolvono in risposta al loro stile di gioco: ogni scelta tattica, ogni azione in combattimento alimenta un profilo comportamentale (la Telemetria VC) che determina quali tratti si sbloccano e come la creatura si trasforma. Non esiste un albero di sviluppo fisso — la progressione emerge dal gioco stesso.
++
++## Architettura e contenuti
++
++Il progetto e' organizzato come monorepo poliglotta: dataset YAML canonici descrivono specie, biomi, tratti ed encounter; CLI Python e TypeScript validano, generano e simulano; un backend Express ("Idea Engine") serve le API; una dashboard Vue/Vite visualizza lo stato del mondo di gioco. Il sistema di combattimento d20 (resolver in `services/rules/`) traduce le regole tattiche documentate in codice eseguibile e deterministico, testabile con snapshot JSON.
++
++## Direzione
++
++L'obiettivo e' un loop giocabile completo: generazione di encounter, risoluzione tattica turno per turno, accumulo di Punti Tecnica, evoluzione guidata dalla telemetria. I pilastri di design privilegiano la profondita' tattica accessibile, l'emergenza dal comportamento del giocatore e la trasparenza delle meccaniche — ogni formula e' documentata e ogni valore e' ancorato a fonti tracciabili nel repository.
+diff --git a/docs/10-SISTEMA_TATTICO.md b/docs/10-SISTEMA_TATTICO.md
+index bb36adca..9f66aa54 100644
+--- a/docs/10-SISTEMA_TATTICO.md
++++ b/docs/10-SISTEMA_TATTICO.md
+@@ -1,9 +1,99 @@
+ # Sistema Tattico (TV/d20)
+ 
+-- **Iniziativa**: CT a scatti; VEL può concedere riprese extra.
+-- **Economia azioni**: 2 AP (movimento/azione) + **Reazioni** (parry/counter/overwatch).
+-- **MoS (Margin of Success)**: ogni +5 sulla DC = +1 step danno; a 5/10 guadagni PP bonus.
++## Economia del turno
++
++- **Iniziativa**: CT a scatti; VEL puo' concedere riprese extra.
++- **Economia azioni**: 2 AP (movimento/azione) + **Reazioni** (parry/counter/overwatch). AP si resetta a inizio turno (`ap.current = ap.max`).
+ - **Terreno/Altezze/Facing**: backstab da spalle; coperture; linee di tiro chiare.
+-- **Status**: fisici (Sanguinamento, Frattura, Disorientamento) e mentali (Furia, Panico).
+-- **PT (Punti Tecnica)**: +1 per 15–19 naturale, +2 su 20 naturale, +1 ogni +5 MoS; spese su perforazione, spinte, condizioni e combo.
+-- **Guardia & Parata**: Guardia (mitigazione cumulativa); Parata `d20` reattiva riduce 1 step e genera PT difensivi.
++
++## Tiro di attacco
++
++Formula della CD (Classe Difficolta'):
++
++```
++CD = ATTACK_CD_BASE + target.tier + defense_mod_aggregato_target
++```
++
++dove `ATTACK_CD_BASE = 10`. Il tiro d20 dell'attaccante somma `attack_mod` aggregato dai trait attivi. Crit e fumble hanno override assoluto:
++
++- **Nat 1** (fumble): fallimento automatico, indipendente dal totale.
++- **Nat 20** (crit): successo automatico, anche se `total < CD`.
++
++## MoS (Margin of Success) e step danno
++
++```
++MoS = max(0, total - CD)       (solo se successo)
++step_count = MoS // 5 + trait_damage_step_bonus
++```
++
++Ogni step aggiunge un bonus piatto al danno rollato:
++
++```
++step_flat_bonus = floor(avg_base * 0.25 * step_count)
++avg_base = count * (sides + 1) / 2 + modifier
++```
++
++dove `count`, `sides`, `modifier` vengono dal `damage_dice` dell'azione (es. 1d6+2).
++
++## Pipeline danno
++
++Ordine di applicazione dopo un attacco riuscito:
++
++1. **Roll base**: tira `damage_dice` (XdY+Z).
++2. **Step bonus**: somma il bonus piatto da step danno.
++3. **Resistenze** (moltiplicative): `floor(danno * (1 - modifier_pct / 100))`. Il `modifier_pct` e' clampato a `[-100, +100]`.
++4. **Armor** (DR-style): `max(0, danno_dopo_resist - armor)`.
++5. Aggiorna HP del target.
++
++Se la spesa PT "perforazione" e' attiva, l'armor effettivo e' ridotto di 2 (`PERFORAZIONE_ARMOR_REDUCTION`) solo per quel tiro.
++
++## Punti Tecnica (PT)
++
++Accumulo per attacco riuscito:
++
++| Condizione              | PT guadagnati |
++| ----------------------- | ------------- |
++| Nat 15-19               | +1            |
++| Nat 20                  | +2            |
++| Ogni +5 di MoS sulla CD | +1            |
++
++Costanti di soglia: `CRIT_PT_THRESHOLD = 15`, `NATURAL_MAX = 20`, `MOS_PER_STEP = 5`.
++
++### Spese PT supportate
++
++- **Perforazione**: costa PT, riduce armor del target di 2 per il tiro corrente. Il consumo avviene **prima** del roll — anche un fumble spreca i PT caricati.
++- Spinte, condizioni, combo: rimandate a iterazioni future.
++
++## Parata reattiva
++
++Il target puo' tentare una parata se ha reazioni disponibili (`reactions.current > 0`). Consuma 1 reazione e tira d20 vs `PARRY_CD = 12`.
++
++- **Successo**: riduce `step_count` di 1, genera `PARRY_PT_BASE = 1` PT difensivi (o `PARRY_PT_CRIT = 2` su nat 20).
++- **Fallimento**: reazione consumata, nessuna riduzione.
++
++## Status
++
++### Fisici
++
++- **Sanguinamento** (bleeding): `-intensity` HP a inizio turno del portatore.
++- **Frattura** (fracture): `-intensity` allo `step_count` degli attacchi del portatore.
++- **Disorientamento** (disorient): `-intensity * 2` all'`attack_mod` del portatore.
++
++### Mentali
++
++- **Furia** (rage): triggerata al breakpoint stress `>= 0.50` (durata 3 turni). Effetti gameplay futuri.
++- **Panico** (panic): triggerato al breakpoint stress `>= 0.75` (durata 2 turni). Effetti gameplay futuri.
++
++Semantica di refresh: se lo status e' gia' presente, `remaining_turns = max(esistente, nuovo)` e `intensity = max(esistente, nuovo)`. Lo stress e' un float `[0, 1]`; i breakpoint scattano una sola volta per transizione.
++
++## Inizio turno (`begin_turn`)
++
++1. Reset `ap.current = ap.max` e `reactions.current = reactions.max`.
++2. Tick bleeding: ogni status bleeding attivo sottrae `intensity` HP (prima del decay).
++3. Decay: tutti gli status perdono 1 turno; quelli con `remaining_turns <= 0` vengono rimossi.
++
++## Riferimenti
++
++- Resolver: `services/rules/resolver.py`
++- ADR: `docs/adr/ADR-2026-04-13-rules-engine-d20.md`
++- Layer bilanciamento: `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`
+diff --git a/docs/11-REGOLE_D20_TV.md b/docs/11-REGOLE_D20_TV.md
+index 2c13f5fb..0c689295 100644
+--- a/docs/11-REGOLE_D20_TV.md
++++ b/docs/11-REGOLE_D20_TV.md
+@@ -1,6 +1,89 @@
+-# Adattamento TV/d20
++# Adattamento TV/d20 — Esempi concreti
++
++## Interfaccia TV
+ 
+ - **Schermo condiviso** (app/sito TV): stato gruppo, mappa, log VC, consigli sblocchi.
+-- **Dadi**: d20 centrale; dadi “Descent-like” mappati su spese PT/PP (icona e pattern).
++- **Dadi**: d20 centrale; dadi "Descent-like" mappati su spese PT/PP (icona e pattern).
+ - **Condivisione tavolo**: ogni turno produce **eventi grezzi** per VC (no quiz).
+-- **Privacy**: toggle “profilazione stile” (on/off); reset profilo (amnesia evolutiva).
++- **Privacy**: toggle "profilazione stile" (on/off); reset profilo (amnesia evolutiva).
++
++## Esempio: attacco con MoS e step danno
++
++Scenario: attaccante con `attack_mod = +1` (trait offensivo) contro un target tier 2 con `defense_mod = +1`.
++
++```
++CD = 10 + 2 (tier) + 1 (defense_mod) = 13
++Tiro: d20 naturale 18 + 1 (attack_mod) = 19
++Successo (19 >= 13), MoS = 19 - 13 = 6
++step_count = 6 // 5 + 1 (trait damage_step) = 2
++```
++
++Con `damage_dice = 1d6+2` (avg_base = 5.5):
++
++```
++step_flat_bonus = floor(5.5 * 0.25 * 2) = floor(2.75) = 2
++Danno rollato: 4 (1d6) + 2 (mod) + 2 (step bonus) = 8
++```
++
++## Esempio: resistenze e armor
++
++Target con resistenza `fuoco +20%` e armor 4. Attacco di canale `fuoco`:
++
++```
++Danno pre-resist = 8
++Dopo resistenza: floor(8 * (1 - 20/100)) = floor(6.4) = 6
++Dopo armor: max(0, 6 - 4) = 2
++HP persi: 2
++```
++
++## Esempio: accumulo PT
++
++| Tiro naturale | MoS | PT guadagnati | Ragione                       |
++| ------------- | --- | ------------- | ----------------------------- |
++| 12            | 3   | 0             | Sotto soglia 15, MoS < 5      |
++| 16            | 8   | 2             | +1 (nat 15-19) + 1 (MoS >= 5) |
++| 20            | 14  | 4             | +2 (nat 20) + 2 (MoS >= 10)   |
++| 1             | 0   | 0             | Fumble, fallimento automatico |
++
++Costanti: `CRIT_PT_THRESHOLD = 15`, `NATURAL_MAX = 20`, `MOS_PER_STEP = 5`.
++
++## Esempio: parata reattiva
++
++Target con 1 reazione disponibile. L'attacco ha successo con 2 step danno.
++
++```
++Parry: d20 naturale 14 + 0 (bonus) = 14 >= PARRY_CD (12)
++Successo! step_count ridotto: 2 - 1 = 1
++PT difensivi: +1 (PARRY_PT_BASE)
++```
++
++Su nat 20 della parata: `+2 PT difensivi` (PARRY_PT_CRIT).
++
++## Esempio: spesa PT perforazione
++
++Attaccante con 3 PT carica "perforazione" (costa 2 PT). Target ha armor 6.
++
++```
++PT prima: 3, dopo spesa: 1
++Armor effettivo: 6 - 2 (PERFORAZIONE_ARMOR_REDUCTION) = 4
++```
++
++Se il tiro fallisce (nat 1 fumble), i 2 PT sono comunque consumati.
++
++## Esempio: status trigger su attacco
++
++Attaccante con trait `spore_psichiche_silenziate` (on_hit_status: disorient, trigger_dc 12, on_hit_stress_delta: +0.05). Attacco riuscito:
++
++```
++Stress target prima: 0.45, delta: +0.05
++Stress dopo: 0.50 -> breakpoint rage! Rage applicata (intensity 1, durata 3)
++
++SV target vs disorient: d20 = 8 < trigger_dc (12)
++Fallito! Disorient applicato (intensity 1, durata 2)
++```
++
++## Riferimenti
++
++- Resolver e costanti: `services/rules/resolver.py`
++- Schema combat: `packages/contracts/schemas/combat.schema.json`
++- ADR: `docs/adr/ADR-2026-04-13-rules-engine-d20.md`
+diff --git a/docs/22-FORME_BASE_16.md b/docs/22-FORME_BASE_16.md
+index 9a961b11..38c756a2 100644
+--- a/docs/22-FORME_BASE_16.md
++++ b/docs/22-FORME_BASE_16.md
+@@ -1,5 +1,7 @@
+ # Forme Base (16) — seed temperamentale
+ 
++> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
++
+ Ogni Forma assegna: 1 **innata** + **7 PI** (pacchetti preconfezionati) tematici. VC in-match sposta gradualmente i pesi (non è un test psicologico).
+ 
+ (Tabella sintetica; pacchetti PI dettagliati in `data/forms.yaml` quando aggiunto.)
+diff --git a/docs/25-REGOLE_SBLOCCO_PE.md b/docs/25-REGOLE_SBLOCCO_PE.md
+index 68b54c51..6ef5a37e 100644
+--- a/docs/25-REGOLE_SBLOCCO_PE.md
++++ b/docs/25-REGOLE_SBLOCCO_PE.md
+@@ -1,5 +1,7 @@
+ # Regole di Sblocco + Economia PE
+ 
++> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
++
+ - PE da delta VC.
+ - 12 regole base (vedi Design Doc): Ambusher, Pathfinder, Caregiver, Gambler, Stoic, Architect, ecc.
+ - Caps e fairness: diminishing returns; ogni tratto forte ha counter esplicito.
+diff --git a/docs/27-MATING_NIDO.md b/docs/27-MATING_NIDO.md
+index 7b70c961..335edfda 100644
+--- a/docs/27-MATING_NIDO.md
++++ b/docs/27-MATING_NIDO.md
+@@ -1,5 +1,7 @@
+ # Mating / Nido (reclutamento & riproduzione)
+ 
++> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
++
+ - Attrazione/Convincimento: tabelle Piace/Non piace per specie/job; azioni sociali.
+ - Reclutamento: ex-nemici → alleati dopo azioni chiave.
+ - Nido: requisiti `env/structure/security/resources/privacy`.
+diff --git a/docs/28-NPC_BIOMI_SPAWN.md b/docs/28-NPC_BIOMI_SPAWN.md
+index 3933377e..5cb65699 100644
+--- a/docs/28-NPC_BIOMI_SPAWN.md
++++ b/docs/28-NPC_BIOMI_SPAWN.md
+@@ -1,5 +1,7 @@
+ # NPG, Biomi, Affissi & Director
+ 
++> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
++
+ - Director: genera NPG con `spawn_profile` (power_range, group_size, role_weights).
+ - Biomi: mood/diff_base_mod; affix_bias (sand_wind, crystalline, dense_spores…).
+ - Allineamento dati: biomi/affissi validati da `global_rules` in `data/core/species.yaml`.
+diff --git a/docs/30-UI_TV_IDENTITA.md b/docs/30-UI_TV_IDENTITA.md
+index 23e9d736..57b11fd9 100644
+--- a/docs/30-UI_TV_IDENTITA.md
++++ b/docs/30-UI_TV_IDENTITA.md
+@@ -1,5 +1,7 @@
+ # UI TV — Carta Temperamentale & Albero Evolutivo
+ 
++> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
++
+ - Carte con 4 assi MBTI-like + temi Ennea-like; effetti **solo gameplay**.
+ - Albero Evolutivo reattivo; nodi che pulsano quando “meriti” lo sblocco.
+ - Registro Evoluzione: feed eventi → tratti ottenuti.
+diff --git a/docs/40-ROADMAP.md b/docs/40-ROADMAP.md
+index 0b2c55c0..1202ccef 100644
+--- a/docs/40-ROADMAP.md
++++ b/docs/40-ROADMAP.md
+@@ -1,6 +1,41 @@
+-# Roadmap (MVP → Alpha)
++# Roadmap (MVP -> Alpha)
+ 
+-- Core TBT, 6 Specie base, 6 Job base, Telemetria VC, 12 Regole Sblocco, UI identità.
++## Obiettivi originali
++
++- Core TBT, 6 Specie base, 6 Job base, Telemetria VC, 12 Regole Sblocco, UI identita'.
+ - 2 Mappe (caverna/savana), Matchmaking, Privacy/Reset, 50 partite playtest (audit predator/counter).
+-- [x] EVO-421 · Ripristinata la pipeline export PDF del generatore (SRI html2pdf aggiornato, alert nel manifest export).
+-- [x] BAL-612 · Skydock Siege XP curve Helix+Cipher allineata (delta profilo -0.0009%, dataset rigenerato e log `pilot-2025-11-12`).
++
++## Completati
++
++- [x] EVO-421 -- Ripristinata la pipeline export PDF del generatore (SRI html2pdf aggiornato, alert nel manifest export).
++- [x] BAL-612 -- Skydock Siege XP curve Helix+Cipher allineata (delta profilo -0.0009%, dataset rigenerato e log `pilot-2025-11-12`).
++
++### Rules Engine d20 (ADR-2026-04-13)
++
++- [x] Fase 1 -- RNG namespacing additivo in `tools/py/game_utils/random_utils.py`.
++- [x] Fase 2 -- `combat.schema.json` in `packages/contracts/` (+ riallineamenti 2-bis, 2-ter, 2-quater, 2-quinquies).
++- [x] Fase 3 -- Layer di bilanciamento `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` con 30 core trait.
++- [x] Fase 3-bis -- Pass Balancer manuale collaborativo (5 classi: offensive/defensive/hybrid/mobility/utility).
++- [x] Fase 4 -- Hydration: `services/rules/hydration.py` (encounter + party -> CombatState).
++- [x] Fase 5 -- Resolver core: `services/rules/resolver.py` (attack pipeline completa, formule pure).
++- [x] Fase 6 -- Worker bridge `services/rules/worker.py` (pattern stdin JSON line, medesimo bridge della generation pipeline).
++- [x] Fase 7 -- PT pool + Parry nel resolver (accumulo, spesa perforazione, parata reattiva).
++- [x] Fase 8 -- Status auto-trigger nel resolver (bleeding/fracture/disorient tick, stress breakpoints rage/panic).
++
++## Rimandato (da ADR)
++
++- Status con effetti gameplay concreti per rage e panic (attualmente solo marcatura).
++- Spese PT aggiuntive: spinte, condizioni, combo.
++- Parata contrapposta (d20 vs d20) — attuale usa CD fissa `PARRY_CD = 12`.
++- Saving throw con modifier (attuale: d20+0 vs `trigger_dc`).
++- Azioni non-attack con logica di risoluzione (`defend`, `parry`, `ability`, `move` consumano solo AP).
++- Effetti condizionali su terreno e trigger reattivi.
++- Vulnerabilita' (modifier_pct negativo) sui trait core.
++- Formalizzazione enum chiuso dei canali di danno (canale `gelo` da riconciliare).
++- Session state nel backend e client di gioco nella dashboard.
++
++## Prossimi passi
++
++- Integrazione del rules engine nel backend Express via worker bridge (medesimo pattern di `services/generation/worker.py`).
++- Primo playtest con valori Balancer reali (attualmente placeholder ragionevoli).
++- Estensione `trait_mechanics.yaml` ai trait non-core in modo incrementale.
+diff --git a/docs/adr/ADR-2026-04-13-rules-engine-d20.md b/docs/adr/ADR-2026-04-13-rules-engine-d20.md
+index e4737711..cb9d4ef2 100644
+--- a/docs/adr/ADR-2026-04-13-rules-engine-d20.md
++++ b/docs/adr/ADR-2026-04-13-rules-engine-d20.md
+@@ -1,3 +1,16 @@
++---
++title: ADR Rules Engine D20
++description: Architecture Decision Record per il rules engine d20 tattico.
++tags: [adr, combat, rules-engine, d20]
++doc_status: active
++doc_owner: combat-team
++workstream: combat
++last_verified: 2026-04-13
++source_of_truth: true
++language: it-en
++review_cycle_days: 14
++---
++
+ # ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile
+ 
+ - **Data**: 2026-04-13
+diff --git a/docs/adr/ADR-XXX-refactor-cli.md b/docs/adr/ADR-XXX-refactor-cli.md
+index 75fa7206..9f40063b 100644
+--- a/docs/adr/ADR-XXX-refactor-cli.md
++++ b/docs/adr/ADR-XXX-refactor-cli.md
+@@ -1,7 +1,10 @@
+ # ADR-XXX: Motivazioni refactor CLI e allineamento toolchain
+ 
+ - **Data**: 2025-11-20
+-- **Stato**: Accettato
++- **Stato**: Sostituito
++- **Sostituito da**:
++  - [`ADR-2025-11-refactor-cli.md`](ADR-2025-11-refactor-cli.md)
++  - [`ADR-2025-11-18-cli-rollout.md`](ADR-2025-11-18-cli-rollout.md)
+ - **Owner**: Team Lead Tools
+ - **Stakeholder**: Team Platform, HUD/UX, Support, QA
+ 
+diff --git a/docs/catalog/traits_inventory.json b/docs/catalog/traits_inventory.json
+index 0e1a8e59..500933d0 100644
+--- a/docs/catalog/traits_inventory.json
++++ b/docs/catalog/traits_inventory.json
+@@ -1,35 +1,35 @@
+ {
+   "core_traits": [
+-    "struttura_elastica_amorfa",
+-    "filamenti_digestivi_compattanti",
+-    "sacche_galleggianti_ascensoriali",
+-    "grassi_termici",
+-    "cuticole_cerose",
+-    "scheletro_idro_regolante",
+-    "olfatto_risonanza_magnetica",
+-    "mimetismo_cromatico_passivo",
+-    "eco_interno_riflesso",
+-    "coda_frusta_cinetica",
+-    "artigli_sette_vie",
+-    "spore_psichiche_silenziate",
+-    "nucleo_ovomotore_rotante",
+-    "focus_frazionato",
+-    "ventriglio_gastroliti",
+-    "sonno_emisferico_alternato",
+-    "sangue_piroforico",
+-    "respiro_a_scoppio",
+-    "empatia_coordinativa",
+-    "cute_resistente_sali",
+-    "criostasi_adattiva",
+-    "carapace_fase_variabile",
+-    "secrezione_rallentante_palmi",
+-    "risonanza_di_branco",
+-    "occhi_infrarosso_composti",
+-    "mantello_meteoritico",
+-    "lingua_tattile_trama",
+-    "frusta_fiammeggiante",
+-    "enzimi_chelanti",
+-    "zoccoli_risonanti_steppe"
++    "ali_fono_risonanti",
++    "articolazioni_a_leva_idraulica",
++    "articolazioni_multiassiali",
++    "artigli_ipo_termici",
++    "artiglio_cinetico_a_urto",
++    "aura_di_dispersione_mentale",
++    "bozzolo_magnetico",
++    "campo_di_interferenza_acustica",
++    "cannone_sonico_a_raggio",
++    "canto_infrasonico_tattico",
++    "cervello_a_bassa_latenza",
++    "cisti_di_ibernazione_minerale",
++    "comunicazione_fotonica_coda_coda",
++    "corna_psico_conduttive",
++    "coscienza_d_alveare_diffusa",
++    "elettromagnete_biologico",
++    "estroflessione_gastrica_acida",
++    "ipertrofia_muscolare_massiva",
++    "locomozione_miriapode_ibrida",
++    "membrana_plastica_continua",
++    "metabolismo_di_condivisione_energetica",
++    "organi_sismici_cutanei",
++    "pelage_idrorepellente_avanzato",
++    "rostro_emostatico_litico",
++    "scheletro_idraulico_a_pistoni",
++    "scivolamento_magnetico",
++    "scudo_gluteale_cheratinizzato",
++    "seta_conduttiva_elettrica",
++    "vello_di_assorbimento_totale",
++    "zanne_idracida"
+   ],
+   "generated_at": "2025-11-02T20:59:45Z",
+   "resources": [
+diff --git a/docs/evo-tactics-pack/reports/overview.js b/docs/evo-tactics-pack/reports/overview.js
+index 8ae127e2..5078d7c8 100644
+--- a/docs/evo-tactics-pack/reports/overview.js
++++ b/docs/evo-tactics-pack/reports/overview.js
+@@ -127,13 +127,13 @@ function renderDatasets(context, data) {
+     external: true,
+     note: "Schema 2.0",
+   });
+-  appendDataset("Meta ecosistema YAML", context.resolvePackHref("data/ecosistemi/meta_ecosistema_alpha.yaml"), {
++  appendDataset("Meta network YAML (legacy ecosistema)", context.resolvePackHref("data/ecosystems/network/meta_network_alpha.yaml"), {
+     external: true,
+-    note: "Ricevuta & regole",
++    note: "Ricevuta & regole (migrato da ecosistemi/)",
+   });
+-  appendDataset("Cross events YAML", context.resolvePackHref("data/ecosistemi/cross_events.yaml"), {
++  appendDataset("Cross events YAML", context.resolvePackHref("data/ecosystems/network/cross_events.yaml"), {
+     external: true,
+-    note: "Propagazione eventi",
++    note: "Propagazione eventi (migrato da ecosistemi/)",
+   });
+   (data.ecosistema?.biomi || []).forEach((biomeRef) => {
+     appendDataset(`Bioma YAML · ${biomeRef.id}`, context.resolveDocHref(biomeRef.path), {
+diff --git a/docs/governance/docs_registry.json b/docs/governance/docs_registry.json
+index ef9c025e..9b0a0664 100644
+--- a/docs/governance/docs_registry.json
++++ b/docs/governance/docs_registry.json
+@@ -16,6 +16,7 @@
+     "atlas",
+     "backend",
+     "dataset-pack",
++    "combat",
+     "ops-qa",
+     "incoming",
+     "cross-cutting"
+@@ -255,6 +256,58 @@
+       "review_cycle_days": 14,
+       "primary": true,
+       "track": "canonical"
++    },
++    {
++      "path": "docs/hubs/combat.md",
++      "title": "Combat Hub",
++      "doc_status": "active",
++      "doc_owner": "combat-team",
++      "workstream": "combat",
++      "last_verified": "2026-04-13",
++      "source_of_truth": true,
++      "language": "it-en",
++      "review_cycle_days": 14,
++      "primary": true,
++      "track": "canonical"
++    },
++    {
++      "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
++      "title": "ADR Rules Engine D20",
++      "doc_status": "active",
++      "doc_owner": "combat-team",
++      "workstream": "combat",
++      "last_verified": "2026-04-13",
++      "source_of_truth": true,
++      "language": "it-en",
++      "review_cycle_days": 14,
++      "primary": true,
++      "track": "canonical"
++    },
++    {
++      "path": "docs/10-SISTEMA_TATTICO.md",
++      "title": "Sistema Tattico",
++      "doc_status": "active",
++      "doc_owner": "combat-team",
++      "workstream": "combat",
++      "last_verified": "2026-04-13",
++      "source_of_truth": false,
++      "language": "it",
++      "review_cycle_days": 14,
++      "primary": false,
++      "track": "canonical"
++    },
++    {
++      "path": "docs/11-REGOLE_D20_TV.md",
++      "title": "Regole D20 TV",
++      "doc_status": "active",
++      "doc_owner": "combat-team",
++      "workstream": "combat",
++      "last_verified": "2026-04-13",
++      "source_of_truth": false,
++      "language": "it",
++      "review_cycle_days": 14,
++      "primary": false,
++      "track": "canonical"
+     }
+   ]
+ }
+diff --git a/docs/governance/workstream_matrix.json b/docs/governance/workstream_matrix.json
+index bdfbe378..0ae14261 100644
+--- a/docs/governance/workstream_matrix.json
++++ b/docs/governance/workstream_matrix.json
+@@ -60,6 +60,21 @@
+         { "path": "docs/evo-tactics-pack", "kind": "generated-docs", "state": "legacy_active" }
+       ]
+     },
++    {
++      "name": "combat",
++      "owner": "combat-team",
++      "status": "active",
++      "dependencies": ["dataset-pack"],
++      "hub": "docs/hubs/combat.md",
++      "components": [
++        { "path": "services/rules", "kind": "code", "state": "active" },
++        {
++          "path": "packs/evo_tactics_pack/data/balance",
++          "kind": "runtime-data",
++          "state": "active"
++        }
++      ]
++    },
+     {
+       "name": "ops-qa",
+       "owner": "ops-qa-team",
+diff --git a/docs/governance/workstream_matrix.md b/docs/governance/workstream_matrix.md
+index 867ec38d..78847450 100644
+--- a/docs/governance/workstream_matrix.md
++++ b/docs/governance/workstream_matrix.md
+@@ -25,6 +25,7 @@ Matrice operativa unica: workstream -> componenti -> stato -> owner -> dipendenz
+ ## Snapshot corrente
+ 
+ - `backend`: moduli con gap documentali/test su `apps/backend` e `services/eventsScheduler`.
++- `combat`: rules engine d20 attivo in `services/rules/`, hub in `docs/hubs/combat.md`.
+ - `dataset-pack`: runtime dati attivo, mirror docs segnato come legacy/generated.
+ - `incoming`: resta attivo in dual-track con etichette esplicite e governance registry.
+ 
+diff --git a/docs/hubs/combat.md b/docs/hubs/combat.md
+new file mode 100644
+index 00000000..cdd7d8ca
+--- /dev/null
++++ b/docs/hubs/combat.md
+@@ -0,0 +1,57 @@
++---
++title: Combat Hub
++description: Hub canonico per il rules engine d20 e la pipeline di combattimento tattico.
++tags: [combat, rules-engine, d20]
++doc_status: active
++doc_owner: combat-team
++workstream: combat
++last_verified: 2026-04-13
++source_of_truth: true
++language: it-en
++review_cycle_days: 14
++---
++
++# Combat Hub
++
++## Scope
++
++- Rules engine d20: `services/rules/`
++- Dati di bilanciamento: `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`
++
++## File principali
++
++| File                          | Ruolo                                                           |
++| ----------------------------- | --------------------------------------------------------------- |
++| `services/rules/resolver.py`  | Risoluzione d20: tiri attacco, MoS, danni a step, status effect |
++| `services/rules/hydration.py` | Costruzione CombatState da encounter JSON + party + catalogo    |
++| `services/rules/demo_cli.py`  | CLI demo combattimento (modalità auto e interattiva)            |
++| `services/rules/worker.py`    | Stub bridge JSON-line per integrazione Node                     |
++| `trait_mechanics.yaml`        | Catalogo meccaniche trait (source of truth bilanciamento)       |
++
++## Documenti live
++
++- [ADR Rules Engine D20](../adr/ADR-2026-04-13-rules-engine-d20.md)
++- [Sistema Tattico](../10-SISTEMA_TATTICO.md)
++- [Regole D20 TV](../11-REGOLE_D20_TV.md)
++
++## Come lanciare la demo
++
++```bash
++# Demo automatica (10 round max, seed riproducibile)
++PYTHONPATH=tools/py python -m services.rules.demo_cli --auto --seed demo-1 --max-rounds 10
++
++# Demo interattiva (scelta manuale azioni)
++PYTHONPATH=tools/py python -m services.rules.demo_cli --seed demo-1
++```
++
++## Gate principali
++
++- `PYTHONPATH=tools/py pytest tests/test_resolver.py tests/test_hydration.py`
++
++## Limitazioni correnti (deferred da ADR)
++
++- Nessuna integrazione API HTTP (solo CLI e bridge stub).
++- Worker JSON-line (`worker.py`) è uno stub, non ancora collegato al pool Node.
++- Mancano status effect avanzati (stun multi-round, buff/debuff compositi).
++- Nessun supporto multi-target o AoE nel resolver.
++- Il bilanciamento numerico è preliminare e richiede playtest iterativi.
+diff --git a/docs/planning/REF_PACKS_AND_DERIVED.md b/docs/planning/REF_PACKS_AND_DERIVED.md
+index 75286413..3ed640bf 100644
+--- a/docs/planning/REF_PACKS_AND_DERIVED.md
++++ b/docs/planning/REF_PACKS_AND_DERIVED.md
+@@ -110,14 +110,14 @@ Delta vs 2025-12-30: milestone anticipata al 07/12, stato aggiornato sui gate ef
+ 
+ ### `packs/evo_tactics_pack/**`
+ 
+-| Percorso / file chiave                                                                                                                    | Relazione di derivazione                                                                                                 | Lacune note                                                                                                                          |
+-| ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+-| `packs/evo_tactics_pack/data/species.yaml`, `data/ecosystems/*.yaml`, `data/foodwebs/*.yaml`, `data/ecosistemi/*.yaml`, `data/npg/*.json` | Dataset pack ufficiale, dovrebbe riflettere core specie/biomi e reti trofiche derivate.                                  | Assente regola esplicita di sincronizzazione con `data/core/**`; non chiaro se dati vengono generati da script o curati manualmente. |
+-| `packs/evo_tactics_pack/docs/catalog/*.json` (catalogo, glossary, env_traits)                                                             | Cataloghi per generatori web; `scripts/update_evo_pack_catalog.js` arricchisce dati partendo dal pack e meta ecosistema. | Manca dipendenza dichiarata verso i core; non è specificato quando rigenerare rispetto a cambiamenti di traits/biomi core.           |
+-| `packs/evo_tactics_pack/tools/py/derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`                                           | Script Python per derivare set di trait ambientali/cross-biome a partire dal pack/core.                                  | Assenza di pipeline ufficiale che li esegua prima di build/catalog; log di esecuzione non tracciati.                                 |
+-| `packs/evo_tactics_pack/validators/rules/*.py`, `packs/evo_tactics_pack/tools/py/run_all_validators.py`                                   | Validator specie/ecosistemi/foodweb; `run_all_validators.py` esegue bundle di check con output in `out/validation/`.     | Non esiste pipeline documentata che li esegua su build pack; outcome solo in `out/validation/last_report.*` senza contesto.          |
+-| `packs/evo_tactics_pack/out/validation/last_report.{html,json}`                                                                           | Ultima esecuzione validator sul pack.                                                                                    | Non è noto quale comando l'abbia prodotta né la data; serve procedura ripetibile.                                                    |
+-| `packs/evo_tactics_pack/tools/config/*.yaml`                                                                                              | Configurazioni per validator/generatori (es. preferenze specie).                                                         | Non legate a versioni core; rischio disallineamento se cambia schema core.                                                           |
++| Percorso / file chiave                                                                                          | Relazione di derivazione                                                                                                                                                      | Lacune note                                                                                                                          |
++| --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
++| `packs/evo_tactics_pack/data/species.yaml`, `data/ecosystems/*.yaml`, `data/foodwebs/*.yaml`, `data/npg/*.json` | Dataset pack ufficiale, dovrebbe riflettere core specie/biomi e reti trofiche derivate. (Legacy `data/ecosistemi/` rimosso; contenuto migrato in `data/ecosystems/network/`.) | Assente regola esplicita di sincronizzazione con `data/core/**`; non chiaro se dati vengono generati da script o curati manualmente. |
++| `packs/evo_tactics_pack/docs/catalog/*.json` (catalogo, glossary, env_traits)                                   | Cataloghi per generatori web; `scripts/update_evo_pack_catalog.js` arricchisce dati partendo dal pack e meta ecosistema.                                                      | Manca dipendenza dichiarata verso i core; non è specificato quando rigenerare rispetto a cambiamenti di traits/biomi core.           |
++| `packs/evo_tactics_pack/tools/py/derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`                 | Script Python per derivare set di trait ambientali/cross-biome a partire dal pack/core.                                                                                       | Assenza di pipeline ufficiale che li esegua prima di build/catalog; log di esecuzione non tracciati.                                 |
++| `packs/evo_tactics_pack/validators/rules/*.py`, `packs/evo_tactics_pack/tools/py/run_all_validators.py`         | Validator specie/ecosistemi/foodweb; `run_all_validators.py` esegue bundle di check con output in `out/validation/`.                                                          | Non esiste pipeline documentata che li esegua su build pack; outcome solo in `out/validation/last_report.*` senza contesto.          |
++| `packs/evo_tactics_pack/out/validation/last_report.{html,json}`                                                 | Ultima esecuzione validator sul pack.                                                                                                                                         | Non è noto quale comando l'abbia prodotta né la data; serve procedura ripetibile.                                                    |
++| `packs/evo_tactics_pack/tools/config/*.yaml`                                                                    | Configurazioni per validator/generatori (es. preferenze specie).                                                                                                              | Non legate a versioni core; rischio disallineamento se cambia schema core.                                                           |
+ 
+ ---
+ 
+diff --git a/docs/research/matrices/feature_harvest.csv b/docs/research/matrices/feature_harvest.csv
+index e4f984f8..c6377418 100644
+--- a/docs/research/matrices/feature_harvest.csv
++++ b/docs/research/matrices/feature_harvest.csv
+@@ -1,5 +1,5 @@
+ game_slug,feature_id,feature_title,category,adopt_adapt_avoid,coerenza,innovazione,compat_telemetria,drift_risk,elasticita,costo,rischio_tecnico,score_weighted,catalog_impacts,notes
+-spore,spore__complexity_budget,"Budget di complessità per build","Progression|Buildcraft|UX",Adopt,5,4,5,4,5,3,3,55,"rules/build_budget.yaml","RGD §SPEC"
++spore,spore__complexity_budget,"Budget di complessità per build","Progression|Buildcraft|UX",Adopt,5,4,5,4,5,3,3,55,"data/core/rules/build_budget.yaml","RGD §SPEC"
+ spore,spore__part_based_scaling,"Scaling statistico basato su parti","Combat|Buildcraft|Status",Adopt,5,4,5,4,4,3,3,52,"traits/parts_scaling.yaml","RGD §SPEC"
+ spore,spore__terraforming_bands,"Terraforming a bande con slot","Map|Economy|World",Adopt,5,4,5,4,4,3,3,53,"biomes/terraforming_bands.yaml","RGD §SPEC"
+-spore,spore__stage_gated_progression,"Progressione ad archi con carry-over","Progression|Structure|Meta",Adapt,4,4,5,3,3,2,3,41,"rules/stages.yaml","RGD §SPEC"
++spore,spore__stage_gated_progression,"Progressione ad archi con carry-over","Progression|Structure|Meta",Adapt,4,4,5,3,3,2,3,41,"data/core/rules/stages.yaml","RGD §SPEC"
+diff --git a/docs/research/refs/2008_spore.md b/docs/research/refs/2008_spore.md
+index c555fc85..fe504c99 100644
+--- a/docs/research/refs/2008_spore.md
++++ b/docs/research/refs/2008_spore.md
+@@ -1,35 +1,42 @@
+ # Spore (2008) — Maxis/EA — PC/Mac — Premium
+ 
+ ## Pillars & Fantasy
++
+ - Player Promise: crescere da cellula a civiltà spaziale con creatività guidata da editor a parti.
+ - Pillars: Creazione libera · Evoluzione per parti · Progressione a stadi · UGC/Condivisione · Simulazione leggera.
+ 
+ ## Loop (core/meta/session)
++
+ [Progetta/Modifica] → [Gioca Stage] → [Raccogli DNA/Risorse] → [Sblocchi] → [Nuova Modifica] → [Avanza]
+ Meta: carry-over scelte tra stadi; economia strumenti in Tribù/Civ/Spazio.
+ Sessione tipo: alternanza editor/run (30–90’).
+ 
+ ## Systems Inventory (estratto funzionale)
++
+ Movimento realtime · Abilità per parti e livelli (Bite/Strike/Charge/Spit; Social Sing/Dance/Charm/Pose) ·
+ Terraforming a bande T0–T3 (atmosfera+temperatura → slot/colonie) · UGC/Sporepedia.
+ 
+ ## Meccaniche chiave (SPEC)
++
+ - Budget di complessità: Σc_p ≤ C_max; blocco parti oltre soglia.
+ - Scaling per parti: stats/abilità = f(parti, livello).
+ - Terraforming a bande: raggiungere T1–T3 sblocca slot insediativi; stabilità ecologica richiesta.
+ - Progressione “a stadi”: soglie → passaggio a fase successiva; carry-over selettivo.
+ 
+ ## Mappatura su Evo Tactics
++
+ - Adopt: build_budget, parts_scaling, terraforming_bands.
+ - Adapt: stages → “archi” di campagna/bioma (evitare deriva multi-genere).
+-- Impatti: rules/build_budget.yaml · traits/parts_scaling.yaml · biomes/terraforming_bands.yaml · rules/stages.yaml.
++- Impatti: data/core/rules/build_budget.yaml · traits/parts_scaling.yaml · biomes/terraforming_bands.yaml · data/core/rules/stages.yaml.
+ 
+ ## Valutazione (0–5) & Score
++
+ Coerenza 5 · Innovazione 5 · Compatibilità Telemetria 5 · Drift Risk 3 · Elasticità 4 · Costo 3 · Rischio Tecnico 3  
+ Score = 55 (3C + 2I + 2Compat + 2Elast + Costo + Rischio + 2Drift)
+ 
+ ## Fonti di riferimento (sintesi, citazioni nel dossier principale del progetto)
+-- Complexity Meter (limiti, scopo, cheat freedom): SporeWiki. 
++
++- Complexity Meter (limiti, scopo, cheat freedom): SporeWiki.
+ - Abilità e livelli (Bite/Charge/Strike/Spit; social): SporeWiki.
+ - T-score T0–T3 e slot/colonie: SporeWiki.
+ - Procedural animation & UGC pipeline: interviste Will Wright / overview enciclopediche.
+diff --git a/docs/research/refs/spore__complexity_budget.yaml b/docs/research/refs/spore__complexity_budget.yaml
+index bc480078..5027fd6c 100644
+--- a/docs/research/refs/spore__complexity_budget.yaml
++++ b/docs/research/refs/spore__complexity_budget.yaml
+@@ -1,32 +1,47 @@
+-id: "spore__complexity_budget"
+-source_game: "spore"
+-title: "Budget di complessità per build"
+-category: "Progression|Buildcraft|UX"
+-summary: "Un misuratore di complessità limita numero e livello delle parti, imponendo trade-off di design."
+-adopt_adapt_avoid: "Adopt"
++id: 'spore__complexity_budget'
++source_game: 'spore'
++title: 'Budget di complessità per build'
++category: 'Progression|Buildcraft|UX'
++summary: 'Un misuratore di complessità limita numero e livello delle parti, imponendo trade-off di design.'
++adopt_adapt_avoid: 'Adopt'
+ spec:
+   mechanics: |
+     Ogni parte/modulo ha un costo di complessità c_p.
+     La build è valida se Σ c_p ≤ C_max (dipende da bioma/stadio/tech).
+     Sblocchi o set riducono c_p o aumentano C_max.
+   parameters:
+-    - { name: "C_max", type: "int", formula: "limite complessità per contesto", range: { min: 5, max: 100, step: 1 } }
+-    - { name: "c_p",   type: "int", formula: "costo unitario per parte/modulo", range: { min: 1, max: 10, step: 1 } }
+-    - { name: "discount_set", type: "percent", formula: "riduzione costo per set sinergico", range: { min: 0, max: 50, step: 5 } }
++    - {
++        name: 'C_max',
++        type: 'int',
++        formula: 'limite complessità per contesto',
++        range: { min: 5, max: 100, step: 1 },
++      }
++    - {
++        name: 'c_p',
++        type: 'int',
++        formula: 'costo unitario per parte/modulo',
++        range: { min: 1, max: 10, step: 1 },
++      }
++    - {
++        name: 'discount_set',
++        type: 'percent',
++        formula: 'riduzione costo per set sinergico',
++        range: { min: 0, max: 50, step: 5 },
++      }
+ ux:
+-  notes: "Gauge visibile; warning vicino alla soglia; suggerimenti trade-off."
+-  accessibility: "Tooltip con impatto statistico per parte."
++  notes: 'Gauge visibile; warning vicino alla soglia; suggerimenti trade-off.'
++  accessibility: 'Tooltip con impatto statistico per parte.'
+ telemetry_map:
+-  events: [ "build_opened", "part_added", "part_removed", "build_committed" ]
++  events: ['build_opened', 'part_added', 'part_removed', 'build_committed']
+   axes_impact: { E: 2, N: 1, T: 4, P: 3 }
+ impact:
+-  catalogs: [ "rules/build_budget.yaml" ]
+-  dependencies: [ "traits/parts_index.yaml" ]
++  catalogs: ['data/core/rules/build_budget.yaml']
++  dependencies: ['traits/parts_index.yaml']
+   risks:
+-    - "Over-tuning di C_max frena creatività"
+-    - "Meta su set a basso costo"
++    - 'Over-tuning di C_max frena creatività'
++    - 'Meta su set a basso costo'
+   open_questions:
+-    - "C_max fisso per bioma o scalato per progressione?"
++    - 'C_max fisso per bioma o scalato per progressione?'
+ score:
+   coerenza: 5
+   innovazione: 4
+diff --git a/docs/research/refs/spore__part_based_scaling.yaml b/docs/research/refs/spore__part_based_scaling.yaml
+index f64fc558..05525836 100644
+--- a/docs/research/refs/spore__part_based_scaling.yaml
++++ b/docs/research/refs/spore__part_based_scaling.yaml
+@@ -1,27 +1,37 @@
+-id: "spore__part_based_scaling"
+-source_game: "spore"
+-title: "Scaling statistico basato su parti"
+-category: "Combat|Buildcraft|Status"
+-summary: "Stats e abilità derivano da parti equipaggiate e dai loro livelli."
+-adopt_adapt_avoid: "Adopt"
++id: 'spore__part_based_scaling'
++source_game: 'spore'
++title: 'Scaling statistico basato su parti'
++category: 'Combat|Buildcraft|Status'
++summary: 'Stats e abilità derivano da parti equipaggiate e dai loro livelli.'
++adopt_adapt_avoid: 'Adopt'
+ spec:
+   mechanics: |
+     Le stats si calcolano dalla somma e dal livello delle parti attive.
+     Le abilità esistono solo se la parte è presente; i livelli aumentano efficacia/CD/range.
+   parameters:
+-    - { name: "level_max", type: "int", formula: "livello massimo parte", range: { min: 1, max: 5, step: 1 } }
+-    - { name: "part_multiplier", type: "float", formula: "moltiplicatore per livello su stat", range: { min: 1.0, max: 3.0, step: 0.1 } }
++    - {
++        name: 'level_max',
++        type: 'int',
++        formula: 'livello massimo parte',
++        range: { min: 1, max: 5, step: 1 },
++      }
++    - {
++        name: 'part_multiplier',
++        type: 'float',
++        formula: 'moltiplicatore per livello su stat',
++        range: { min: 1.0, max: 3.0, step: 0.1 },
++      }
+ ux:
+-  notes: "Anteprima in editor con breakdown per parte; icone abilità attive."
+-  accessibility: "Requisiti di attivazione chiari."
++  notes: 'Anteprima in editor con breakdown per parte; icone abilità attive.'
++  accessibility: 'Requisiti di attivazione chiari.'
+ telemetry_map:
+-  events: [ "stat_preview_opened", "ability_unlocked", "ability_used" ]
++  events: ['stat_preview_opened', 'ability_unlocked', 'ability_used']
+   axes_impact: { E: 2, N: 1, T: 5, P: 3 }
+ impact:
+-  catalogs: [ "traits/parts_scaling.yaml" ]
+-  dependencies: [ "rules/build_budget.yaml" ]
+-  risks: [ "Overlay di stats tra famiglie di parti" ]
+-  open_questions: [ "Hard caps vs diminishing returns?" ]
++  catalogs: ['traits/parts_scaling.yaml']
++  dependencies: ['data/core/rules/build_budget.yaml']
++  risks: ['Overlay di stats tra famiglie di parti']
++  open_questions: ['Hard caps vs diminishing returns?']
+ score:
+   coerenza: 5
+   innovazione: 4
+diff --git a/docs/research/refs/spore__stage_gated_progression.yaml b/docs/research/refs/spore__stage_gated_progression.yaml
+index 6d36cf93..a5fd2516 100644
+--- a/docs/research/refs/spore__stage_gated_progression.yaml
++++ b/docs/research/refs/spore__stage_gated_progression.yaml
+@@ -1,27 +1,37 @@
+-id: "spore__stage_gated_progression"
+-source_game: "spore"
+-title: "Progressione ad archi con carry-over"
+-category: "Progression|Structure|Meta"
+-summary: "Fasi distinte con soglie di avanzamento e trasferimento parziale di scelte pregresse."
+-adopt_adapt_avoid: "Adapt"
++id: 'spore__stage_gated_progression'
++source_game: 'spore'
++title: 'Progressione ad archi con carry-over'
++category: 'Progression|Structure|Meta'
++summary: 'Fasi distinte con soglie di avanzamento e trasferimento parziale di scelte pregresse.'
++adopt_adapt_avoid: 'Adapt'
+ spec:
+   mechanics: |
+     Il percorso è suddiviso in archi con set di obiettivi e sistemi parzialmente differenti.
+     Il passaggio avviene a soglia; carry-over selettivo (X% di stats/feature).
+   parameters:
+-    - { name: "stage_threshold", type: "int", formula: "soglia progresso", range: { min: 1, max: 100, step: 1 } }
+-    - { name: "carry_over_ratio", type: "percent", formula: "percentuale trasferita", range: { min: 0, max: 100, step: 5 } }
++    - {
++        name: 'stage_threshold',
++        type: 'int',
++        formula: 'soglia progresso',
++        range: { min: 1, max: 100, step: 1 },
++      }
++    - {
++        name: 'carry_over_ratio',
++        type: 'percent',
++        formula: 'percentuale trasferita',
++        range: { min: 0, max: 100, step: 5 },
++      }
+ ux:
+-  notes: "Roadmap archi; elenco chiaro di cosa viene trasferito."
+-  accessibility: "Suggerimenti se build penalizza archi futuri."
++  notes: 'Roadmap archi; elenco chiaro di cosa viene trasferito.'
++  accessibility: 'Suggerimenti se build penalizza archi futuri.'
+ telemetry_map:
+-  events: [ "stage_threshold_reached", "stage_transition" ]
++  events: ['stage_threshold_reached', 'stage_transition']
+   axes_impact: { E: 4, N: 2, T: 4, P: 4 }
+ impact:
+-  catalogs: [ "rules/stages.yaml" ]
+-  dependencies: [ "telemetry/stage_events.yaml" ]
+-  risks: [ "Scope creep tra sistemi eterogenei" ]
+-  open_questions: [ "Quanti archi minimi senza diluire il focus?" ]
++  catalogs: ['data/core/rules/stages.yaml']
++  dependencies: ['telemetry/stage_events.yaml']
++  risks: ['Scope creep tra sistemi eterogenei']
++  open_questions: ['Quanti archi minimi senza diluire il focus?']
+ score:
+   coerenza: 4
+   innovazione: 4
+diff --git a/package-lock.json b/package-lock.json
+index 22f27f36..284bab1f 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -15,6 +15,7 @@
+       "devDependencies": {
+         "@playwright/test": "^1.48.2",
+         "ajv-cli": "^5.0.0",
++        "cross-env": "^10.1.0",
+         "husky": "^9.1.6",
+         "js-yaml": "^4.1.0",
+         "mongodb-memory-server": "^10.1.4",
+@@ -277,6 +278,13 @@
+         "node": ">=18"
+       }
+     },
++    "node_modules/@epic-web/invariant": {
++      "version": "1.0.0",
++      "resolved": "https://registry.npmjs.org/@epic-web/invariant/-/invariant-1.0.0.tgz",
++      "integrity": "sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==",
++      "dev": true,
++      "license": "MIT"
++    },
+     "node_modules/@esbuild/aix-ppc64": {
+       "version": "0.25.11",
+       "resolved": "https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.25.11.tgz",
+@@ -2472,6 +2480,39 @@
+         }
+       }
+     },
++    "node_modules/cross-env": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/cross-env/-/cross-env-10.1.0.tgz",
++      "integrity": "sha512-GsYosgnACZTADcmEyJctkJIoqAhHjttw7RsFrVoJNXbsWWqaq6Ym+7kZjq6mS45O0jij6vtiReppKQEtqWy6Dw==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "@epic-web/invariant": "^1.0.0",
++        "cross-spawn": "^7.0.6"
++      },
++      "bin": {
++        "cross-env": "dist/bin/cross-env.js",
++        "cross-env-shell": "dist/bin/cross-env-shell.js"
++      },
++      "engines": {
++        "node": ">=20"
++      }
++    },
++    "node_modules/cross-spawn": {
++      "version": "7.0.6",
++      "resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
++      "integrity": "sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "path-key": "^3.1.0",
++        "shebang-command": "^2.0.0",
++        "which": "^2.0.1"
++      },
++      "engines": {
++        "node": ">= 8"
++      }
++    },
+     "node_modules/cssstyle": {
+       "version": "4.6.0",
+       "resolved": "https://registry.npmjs.org/cssstyle/-/cssstyle-4.6.0.tgz",
+@@ -3704,6 +3745,13 @@
+         "node": ">=8"
+       }
+     },
++    "node_modules/isexe": {
++      "version": "2.0.0",
++      "resolved": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz",
++      "integrity": "sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==",
++      "dev": true,
++      "license": "ISC"
++    },
+     "node_modules/jiti": {
+       "version": "2.6.1",
+       "resolved": "https://registry.npmjs.org/jiti/-/jiti-2.6.1.tgz",
+@@ -4479,6 +4527,16 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/path-key": {
++      "version": "3.1.1",
++      "resolved": "https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz",
++      "integrity": "sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=8"
++      }
++    },
+     "node_modules/path-to-regexp": {
+       "version": "0.1.12",
+       "license": "MIT"
+@@ -5324,6 +5382,29 @@
+       "version": "1.2.0",
+       "license": "ISC"
+     },
++    "node_modules/shebang-command": {
++      "version": "2.0.0",
++      "resolved": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
++      "integrity": "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "shebang-regex": "^3.0.0"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
++    "node_modules/shebang-regex": {
++      "version": "3.0.0",
++      "resolved": "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz",
++      "integrity": "sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=8"
++      }
++    },
+     "node_modules/side-channel": {
+       "version": "1.1.0",
+       "license": "MIT",
+@@ -6631,6 +6712,22 @@
+         "node": ">=18"
+       }
+     },
++    "node_modules/which": {
++      "version": "2.0.2",
++      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
++      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
++      "dev": true,
++      "license": "ISC",
++      "dependencies": {
++        "isexe": "^2.0.0"
++      },
++      "bin": {
++        "node-which": "bin/node-which"
++      },
++      "engines": {
++        "node": ">= 8"
++      }
++    },
+     "node_modules/why-is-node-running": {
+       "version": "2.3.0",
+       "resolved": "https://registry.npmjs.org/why-is-node-running/-/why-is-node-running-2.3.0.tgz",
+diff --git a/package.json b/package.json
+index 19cb797c..f65952a8 100644
+--- a/package.json
++++ b/package.json
+@@ -23,8 +23,8 @@
+     "lint:backups": "node tools/check_backups_binary.js",
+     "lint:lighthouse": "lhci autorun --config=./config/lighthouse/evo.lighthouserc.json",
+     "schema:lint": "python tools/automation/evo_schema_lint.py schemas/evo",
+-    "ci:stack": "npm run lint:stack && npm run test:backend && npm run test --workspace apps/dashboard && VITE_BASE_PATH=./ npm run build --workspace apps/dashboard",
+-    "test:api": "ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-latency.spec.ts && ./node_modules/.bin/tsx tests/scripts/tune_items.test.ts && ./node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js && ./node_modules/.bin/tsx tests/api/serviceActorSessions.spec.ts",
++    "ci:stack": "npm run lint:stack && npm run test:backend && npm run test --workspace apps/dashboard && cross-env VITE_BASE_PATH=./ npm run build --workspace apps/dashboard",
++    "test:api": "cross-env ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && cross-env ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && cross-env ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && cross-env ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-latency.spec.ts && ./node_modules/.bin/tsx tests/scripts/tune_items.test.ts && ./node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js && ./node_modules/.bin/tsx tests/api/serviceActorSessions.spec.ts",
+     "start:api": "node apps/backend/index.js",
+     "docs:lint": "python tools/check_site_links.py docs",
+     "docs:smoke": "node scripts/docs-smoke.js",
+@@ -35,7 +35,7 @@
+     "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
+     "drive-sync": "node tools/drive/sync-approved-assets.mjs",
+     "stage:publishing": "node services/publishing/staging.js",
+-    "export:qa": "ORCHESTRATOR_METRICS_DISABLED=true node scripts/export-qa-report.js",
++    "export:qa": "cross-env ORCHESTRATOR_METRICS_DISABLED=true node scripts/export-qa-report.js",
+     "mock:generate": "node scripts/mock/generate-demo-data.js",
+     "webapp:deploy": "npm run build --workspace apps/dashboard && npm run preview --workspace apps/dashboard",
+     "webapp:qa": "npm run qa --workspace apps/dashboard",
+@@ -55,6 +55,7 @@
+   "devDependencies": {
+     "@playwright/test": "^1.48.2",
+     "ajv-cli": "^5.0.0",
++    "cross-env": "^10.1.0",
+     "husky": "^9.1.6",
+     "js-yaml": "^4.1.0",
+     "mongodb-memory-server": "^10.1.4",
+diff --git a/packages/contracts/schemas/traitMechanics.schema.json b/packages/contracts/schemas/traitMechanics.schema.json
+index 865e406c..63dade16 100644
+--- a/packages/contracts/schemas/traitMechanics.schema.json
++++ b/packages/contracts/schemas/traitMechanics.schema.json
+@@ -9,6 +9,7 @@
+       "type": "string",
+       "pattern": "^\\d+\\.\\d+\\.\\d+$"
+     },
++    "balance_framework": { "type": "string" },
+     "generated_from": { "type": "string" },
+     "notes": { "type": "string" },
+     "traits": {
+@@ -22,83 +23,90 @@
+   },
+   "additionalProperties": false,
+   "$defs": {
+-    "resistance_entry": {
++    "on_hit_status": {
+       "type": "object",
+-      "required": ["channel", "modifier_pct"],
++      "required": ["name", "dc", "duration_turns"],
+       "properties": {
+-        "channel": {
++        "name": {
+           "type": "string",
+           "pattern": "^[a-z0-9_]+$",
+-          "description": "Slug canale di danno. Canonici dal Frattura draft: elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico."
++          "description": "Nome dello status inflitto on-hit."
+         },
+-        "modifier_pct": {
++        "dc": {
+           "type": "integer",
+-          "minimum": -100,
+-          "maximum": 100
+-        }
+-      },
+-      "additionalProperties": false
+-    },
+-    "on_hit_status": {
+-      "type": "object",
+-      "required": ["status_id", "duration", "intensity", "trigger_dc"],
+-      "properties": {
+-        "status_id": {
+-          "type": "string",
+-          "enum": ["bleeding", "fracture", "disorient", "rage", "panic"],
+-          "description": "Uno dei 5 status canonici del combat schema."
++          "minimum": 0,
++          "description": "CD del saving throw del target."
+         },
+-        "duration": {
++        "duration_turns": {
+           "type": "integer",
+           "minimum": 1,
+-          "description": "Turni rimanenti all'applicazione. Decay a ogni begin_turn del target."
+-        },
+-        "intensity": { "type": "integer", "minimum": 1 },
+-        "trigger_dc": {
+-          "type": "integer",
+-          "minimum": 0,
+-          "description": "CD del saving throw del target (d20 + 0 vs trigger_dc). Fail -> status applicato. Pattern dal Frattura draft (Leviatano Shear: SV CD 17 -> prone/disorient)."
++          "description": "Turni di durata dello status."
+         }
+       },
+       "additionalProperties": false,
+-      "description": "Trigger auto di uno status su attack success del trait attaccante. Il Balancer popola solo trait dove la description_it lo giustifica esplicitamente."
++      "description": "Trigger auto di uno status su attack success."
+     },
+     "mechanics_entry": {
+       "type": "object",
+       "required": [
++        "trait_code",
++        "label",
++        "class",
++        "tier",
+         "attack_mod",
+         "defense_mod",
+         "damage_step",
+-        "cost_ap",
++        "damage_channel",
+         "resistances",
+-        "active_effects"
++        "on_hit_status",
++        "on_hit_stress_delta",
++        "note_balance"
+       ],
+       "properties": {
++        "trait_code": {
++          "type": "string",
++          "pattern": "^TR-\\d+$"
++        },
++        "label": { "type": "string" },
++        "class": {
++          "type": "string",
++          "enum": ["offensive", "defensive", "hybrid", "mobility", "utility"]
++        },
++        "tier": {
++          "type": "string",
++          "enum": ["T1", "T2", "T3", "T4"]
++        },
+         "attack_mod": { "type": "integer" },
+         "defense_mod": { "type": "integer" },
+         "damage_step": { "type": "integer", "minimum": 0 },
+-        "cost_ap": { "type": "integer", "minimum": 0 },
+-        "resistances": {
+-          "type": "array",
+-          "items": { "$ref": "#/$defs/resistance_entry" },
+-          "description": "Resistenze/vulnerabilita per canale di danno. Coerente con combat.schema.json#/$defs/resistance_entry."
++        "damage_channel": {
++          "oneOf": [{ "type": "string", "pattern": "^[a-z0-9_]+$" }, { "type": "null" }]
+         },
+-        "active_effects": {
+-          "type": "array",
+-          "items": {
+-            "type": "string",
+-            "pattern": "^[a-z0-9_]+$"
++        "resistances": {
++          "type": "object",
++          "patternProperties": {
++            "^[a-z0-9_]+$": {
++              "type": "integer",
++              "minimum": -100,
++              "maximum": 100
++            }
+           },
+-          "uniqueItems": true
++          "additionalProperties": false,
++          "description": "Resistenze per canale di danno come oggetto { channel: modifier_pct }."
++        },
++        "on_hit_status": {
++          "oneOf": [{ "$ref": "#/$defs/on_hit_status" }, { "type": "null" }]
+         },
+-        "on_hit_status": { "$ref": "#/$defs/on_hit_status" },
+         "on_hit_stress_delta": {
+           "type": "number",
+           "minimum": -1,
+           "maximum": 1,
+-          "description": "Delta di stress (float [-1, 1]) applicato al target su attack success. Coerente con Frattura draft ('stress 0.05 on hit' delle larve). Il Balancer popola solo trait psi/sensoriali dove la description lo giustifica."
++          "description": "Delta di stress (float [-1, 1]) applicato al target su attack success."
+         },
+-        "notes": { "type": "string" }
++        "note_balance": {
++          "type": "string",
++          "description": "Nota di bilanciamento in italiano."
++        }
+       },
+       "additionalProperties": false
+     }
+diff --git a/packs/evo_tactics_pack/data/balance/trait_mechanics.yaml b/packs/evo_tactics_pack/data/balance/trait_mechanics.yaml
+index 28c868a2..77f20df4 100644
+--- a/packs/evo_tactics_pack/data/balance/trait_mechanics.yaml
++++ b/packs/evo_tactics_pack/data/balance/trait_mechanics.yaml
+@@ -1,256 +1,581 @@
+-schema_version: "0.2.0"
+-generated_from: >
+-  Fase 3 (euristica) + Fase 3-bis (pass Balancer manuale collaborativo).
+-  Vedi packs/evo_tactics_pack/data/balance/README.md per il framework,
+-  ADR-2026-04-13-rules-engine-d20.md per le decisioni di design,
+-  docs/catalog/traits_inventory.json per l'elenco dei 30 core,
+-  docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md per i range numerici
+-  di riferimento, traits/parts_scaling.yaml per la baseline attack per_level.
+-notes: >
+-  Layer di bilanciamento meccanico per il rules engine d20. Questo file e' la
+-  fonte unica di verita' consumata dal resolver in services/rules/. I valori
+-  sono prodotti dal pass Balancer manuale della Fase 3-bis applicando le 5
+-  classi del framework (offensive / defensive / hybrid / mobility / utility)
+-  con regole deterministiche ancorate a fatti del repo: ogni mod e' giustificato
+-  dalla description_it del pack glossary o dalla famiglia_tipologia + usage_tags
+-  del trait. Canali canonici dal Frattura draft: elettrico, psionico, fisico,
+-  fuoco, gravita, mentale, taglio, ionico. Canale non-canonico introdotto:
+-  gelo (solo criostasi_adattiva; documentato nel README come estensione da
+-  stabilizzare nel prossimo combat pack). Distribuzione: offensive 4,
+-  defensive 9, hybrid 1, mobility 3, utility 13. Trait con mod non-zero: 14/30.
++# trait_mechanics.yaml — Valori combattimento per 30 trait del glossario TRT-02
++# Sistema: TV/d20 (5-class balance framework)
++# Versione: 0.1.0
++# Ultimo aggiornamento: 2026-04-13
++
++schema_version: "0.1.0"
++balance_framework: tv_d20_5class
++
++# Legenda campi:
++#   attack_mod    — bonus al tiro d'attacco (d20)
++#   defense_mod   — bonus alla difesa passiva / CA
++#   damage_step   — step di danno addizionale (ogni step = +1d su scala MoS)
++#   damage_channel — tipo di danno primario
++#   resistances   — riduzione % per tipo di danno
++#   on_hit_status  — condizione inflitta on-hit (nome + DC salvezza)
++#   on_hit_stress_delta — variazione stress on-hit (+0.xx paura, -0.xx calma)
++#   note_balance   — nota breve in italiano sulla scelta di bilanciamento
++
+ traits:
+-  struttura_elastica_amorfa:
++
++  # ═══════════════════════════════════════════
++  # CLASSE: OFFENSIVE (attack_mod 1-2, damage_step 1-2)
++  # ═══════════════════════════════════════════
++
++  rostro_emostatico_litico:
++    trait_code: TR-1101
++    label: Rostro Emostatico-Litico
++    class: offensive
++    tier: T4
++    attack_mod: 2
++    defense_mod: 0
++    damage_step: 2
++    damage_channel: perforante_tossico
++    resistances: {}
++    on_hit_status:
++      name: sanguinamento
++      dc: 15
++      duration_turns: 3
++    on_hit_stress_delta: 0.04
++    note_balance: >-
++      T4 offensivo puro: +2 atk e +2 step riflettono il rostro specializzato.
++      Sanguinamento DC 15 punisce bersagli senza resistenza al perforante.
++      Stress +0.04 per l'orrore della ferita aperta.
++
++  scheletro_idraulico_a_pistoni:
++    trait_code: TR-1102
++    label: Scheletro Idraulico a Pistoni
++    class: offensive
++    tier: T4
++    attack_mod: 2
++    defense_mod: 0
++    damage_step: 2
++    damage_channel: contusivo
++    resistances: {}
++    on_hit_status:
++      name: disorientamento
++      dc: 14
++      duration_turns: 1
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T4 balistico: colpi-proiettile devastanti. Disorientamento DC 14
++      per 1 turno simula lo stordimento da impatto cinetico.
++
++  estroflessione_gastrica_acida:
++    trait_code: TR-1303
++    label: Estroflessione Gastrica Acida
++    class: offensive
++    tier: T4
++    attack_mod: 1
++    defense_mod: 0
++    damage_step: 2
++    damage_channel: acido
++    resistances: {}
++    on_hit_status:
++      name: corrosione
++      dc: 15
++      duration_turns: 2
++    on_hit_stress_delta: 0.06
++    note_balance: >-
++      T4 chimico: damage_step 2 per dissoluzione acida ma attack_mod solo +1
++      perche' il raggio e' corto (contatto). Corrosione DC 15 riduce armor
++      del bersaglio. Stress +0.06 per l'effetto orrorifico.
++
++  artiglio_cinetico_a_urto:
++    trait_code: TR-1304
++    label: Artiglio Cinetico a Urto
++    class: offensive
++    tier: T4
++    attack_mod: 2
++    defense_mod: 0
++    damage_step: 2
++    damage_channel: contusivo
++    resistances: {}
++    on_hit_status:
++      name: frattura
++      dc: 16
++      duration_turns: 2
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T4 contusivo puro: +2/+2 come top-tier melee. Frattura DC 16
++      e' alta ma giustificata dall'onda d'urto; richiede sinergia TR-1302
++      per massimizzare.
++
++  zanne_idracida:
++    trait_code: TR-1501
++    label: Zanne Idracida
++    class: offensive
++    tier: T4
++    attack_mod: 2
++    defense_mod: 0
++    damage_step: 1
++    damage_channel: acido
++    resistances: {}
++    on_hit_status:
++      name: corrosione
++      dc: 14
++      duration_turns: 2
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T4 chimico: atk +2 per precisione del morso, step solo +1 per bilanciare
++      la corrosione persistente. Buona sinergia con seta_conduttiva TR-1502.
++
++  seta_conduttiva_elettrica:
++    trait_code: TR-1502
++    label: Seta Conduttiva Elettrica
++    class: offensive
++    tier: T4
++    attack_mod: 1
++    defense_mod: 0
++    damage_step: 2
++    damage_channel: elettrico
++    resistances: {}
++    on_hit_status:
++      name: paralisi
++      dc: 14
++      duration_turns: 1
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T4 elettrico: atk +1 (la rete deve colpire) ma step +2 per la scarica
++      devastante. Paralisi DC 14 per 1 turno limita il burst.
++
++  cannone_sonico_a_raggio:
++    trait_code: TR-1702
++    label: Cannone Sonico a Raggio
++    class: offensive
++    tier: T4
++    attack_mod: 1
++    defense_mod: 0
++    damage_step: 2
++    damage_channel: sonico
++    resistances: {}
++    on_hit_status:
++      name: disorientamento
++      dc: 15
++      duration_turns: 2
++    on_hit_stress_delta: 0.05
++    note_balance: >-
++      T4 sonico a distanza: atk +1 (raggio lineare, meno preciso) ma step +2
++      e disorientamento DC 15 per 2 turni. Stress +0.05 per il dolore acustico.
++
++  elettromagnete_biologico:
++    trait_code: TR-1802
++    label: Elettromagnete Biologico
++    class: offensive
++    tier: T4
++    attack_mod: 2
++    defense_mod: 0
++    damage_step: 1
++    damage_channel: elettrico
++    resistances: {}
++    on_hit_status:
++      name: interferenza_neurale
++      dc: 15
++      duration_turns: 1
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T4 elettrico: atk +2 per interferenza diretta col sistema nervoso, step +1
++      perche' il danno e' indiretto. Interferenza neurale DC 15 simula disruption.
++
++  artigli_ipo_termici:
++    trait_code: TR-1904
++    label: Artigli Ipo-Termici
++    class: offensive
++    tier: T3
++    attack_mod: 1
++    defense_mod: 0
++    damage_step: 1
++    damage_channel: cryo
++    resistances: {}
++    on_hit_status:
++      name: ipotermia_locale
++      dc: 13
++      duration_turns: 2
++    on_hit_stress_delta: 0.03
++    note_balance: >-
++      T3 termico: valori moderati +1/+1 coerenti col tier. Ipotermia DC 13
++      rallenta il bersaglio. Stress +0.03 per lo shock da freddo.
++
++  # ═══════════════════════════════════════════
++  # CLASSE: DEFENSIVE (defense_mod 1-2, resistances)
++  # ═══════════════════════════════════════════
++
++  pelage_idrorepellente_avanzato:
++    trait_code: TR-1201
++    label: Pelage Idrorepellente Avanzato
++    class: defensive
++    tier: T2
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 1
++    damage_channel: null
+     resistances:
+-      - { channel: fisico, modifier_pct: 10 }
+-    active_effects: []
+-  filamenti_digestivi_compattanti:
++      cryo: 25
++      acido: 15
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T2 difensivo termico: def +1 e resistenze cryo 25% / acido 15%
++      simulano l'isolamento idrorepellente. Profilo basso ma consistente.
++
++  scudo_gluteale_cheratinizzato:
++    trait_code: TR-1202
++    label: Scudo Gluteale Cheratinizzato
++    class: defensive
++    tier: T3
+     attack_mod: 0
+-    defense_mod: 0
++    defense_mod: 2
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  sacche_galleggianti_ascensoriali:
++    damage_channel: null
++    resistances:
++      contusivo: 30
++      perforante_tossico: 20
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 corazza posteriore: def +2 riflette lo scudo naturale robusto.
++      Contusivo 30% e perforante 20% coprono i danni fisici piu' comuni.
++
++  membrana_plastica_continua:
++    trait_code: TR-1601
++    label: Membrana Plastica Continua
++    class: defensive
++    tier: T3
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  grassi_termici:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 1
++    damage_channel: null
+     resistances:
+-      - { channel: fuoco, modifier_pct: 10 }
+-    active_effects: []
+-  cuticole_cerose:
++      contusivo: 20
++      perforante_tossico: 15
++      acido: 15
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 camuffamento/forma: def +1 modesta perche' la membrana e' flessibile,
++      non rigida. Tre resistenze basse (20/15/15%) per versatilita'.
++
++  cisti_di_ibernazione_minerale:
++    trait_code: TR-1605
++    label: Cisti di Ibernazione Minerale
++    class: defensive
++    tier: T2
+     attack_mod: 0
+-    defense_mod: 0
++    defense_mod: 2
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-    notes: "candidato defensive quando description_it sara arricchita (attualmente boilerplate generico)"
+-  scheletro_idro_regolante:
++    damage_channel: null
++    resistances:
++      contusivo: 35
++      cryo: 30
++      acido: 20
++    on_hit_status: null
++    on_hit_stress_delta: -0.04
++    note_balance: >-
++      T2 resistenze alte: in stasi la creatura e' durissima. Def +2 e resistenze
++      forti (fino a 35%). Stress -0.04 perche' la stasi calma il sistema nervoso.
++
++  bozzolo_magnetico:
++    trait_code: TR-1805
++    label: Bozzolo Magnetico
++    class: defensive
++    tier: T2
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  olfatto_risonanza_magnetica:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  mimetismo_cromatico_passivo:
++    damage_channel: null
++    resistances:
++      elettrico: 40
++      sonico: 15
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T2 anti-elettrico specializzato: elettrico 40% e' il cap alto per una
++      singola resistenza, giustificato dalla specializzazione totale.
++
++  vello_di_assorbimento_totale:
++    trait_code: TR-1901
++    label: Vello di Assorbimento Totale
++    class: defensive
++    tier: T3
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  eco_interno_riflesso:
++    damage_channel: null
++    resistances:
++      sonico: 25
++      elettrico: 15
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 camuffamento ottico: def +1 per il profilo basso. Sonico 25% perche'
++      il vello assorbe anche onde; elettrico 15% residuo.
++
++  campo_di_interferenza_acustica:
++    trait_code: TR-1703
++    label: Campo di Interferenza Acustica
++    class: defensive
++    tier: T3
+     attack_mod: 0
+-    defense_mod: 0
++    defense_mod: 2
+     damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  coda_frusta_cinetica:
++    damage_channel: null
++    resistances:
++      sonico: 35
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 anti-sonico: def +2 perche' maschera posizione attivamente.
++      Sonico 35% specializzazione forte, nessuna altra copertura.
++
++  # ═══════════════════════════════════════════
++  # CLASSE: HYBRID (offense + defense minori)
++  # ═══════════════════════════════════════════
++
++  ipertrofia_muscolare_massiva:
++    trait_code: TR-1103
++    label: Ipertrofia Muscolare Massiva
++    class: hybrid
++    tier: T3
+     attack_mod: 1
+     defense_mod: 1
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-    notes: "classe hybrid (tensione tra desc 'colpo devastante' e tag scout+tank)"
+-  artigli_sette_vie:
+-    attack_mod: 1
+-    defense_mod: 0
+     damage_step: 1
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  spore_psichiche_silenziate:
++    damage_channel: contusivo
++    resistances:
++      contusivo: 15
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 ibrido fisico: +1/+1/+1 riflette massa e potenza. La massa
++      conferisce anche resistenza contusivo 15%. Budget ibrido bilanciato.
++
++  canto_infrasonico_tattico:
++    trait_code: TR-1404
++    label: Canto Infrasonico Tattico
++    class: hybrid
++    tier: T4
+     attack_mod: 1
+-    defense_mod: 0
++    defense_mod: 1
+     damage_step: 1
+-    cost_ap: 3
++    damage_channel: sonico
+     resistances:
+-      - { channel: mentale, modifier_pct: 15 }
+-    active_effects: []
++      sonico: 15
+     on_hit_status:
+-      status_id: disorient
+-      duration: 2
+-      intensity: 1
+-      trigger_dc: 12
+-    on_hit_stress_delta: 0.05
+-    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'); Balancer puo' estendere ad altri trait psi in futuro."
+-  nucleo_ovomotore_rotante:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-    notes: "mobility con discount FME Alto (3 -> 2)"
+-  focus_frazionato:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  ventriglio_gastroliti:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  sonno_emisferico_alternato:
+-    attack_mod: 0
+-    defense_mod: 0
++      name: panico
++      dc: 15
++      duration_turns: 2
++    on_hit_stress_delta: 0.08
++    note_balance: >-
++      T4 controllo ibrido: valori +1/+1/+1 moderati ma compensati dal panico
++      DC 15 e dallo stress +0.08 — il trait piu' stressante del set.
++      Resistenza sonico 15% per auto-protezione dai propri infrasuoni.
++
++  aura_di_dispersione_mentale:
++    trait_code: TR-2003
++    label: Aura di Dispersione Mentale
++    class: hybrid
++    tier: T3
++    attack_mod: 1
++    defense_mod: 1
+     damage_step: 0
+-    cost_ap: 2
++    damage_channel: psionico
+     resistances:
+-      - { channel: mentale, modifier_pct: 10 }
+-    active_effects: []
+-  sangue_piroforico:
++      psionico: 20
++    on_hit_status:
++      name: ansia
++      dc: 14
++      duration_turns: 2
++    on_hit_stress_delta: 0.06
++    note_balance: >-
++      T3 controllo mentale: atk +1 e def +1 per l'aura a doppio uso.
++      No damage step (danno indiretto via ansia). Stress +0.06 per
++      l'effetto psicologico pervasivo. Resistenza psionico 20% dall'allenamento.
++
++  corna_psico_conduttive:
++    trait_code: TR-2001
++    label: Corna Psico-Conduttive
++    class: hybrid
++    tier: T3
+     attack_mod: 1
+-    defense_mod: 0
++    defense_mod: 1
+     damage_step: 1
+-    cost_ap: 2
++    damage_channel: psionico
+     resistances:
+-      - { channel: fuoco, modifier_pct: 20 }
+-    active_effects: []
+-  respiro_a_scoppio:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-    notes: "mobility con discount FME Alto (3 -> 2)"
+-  empatia_coordinativa:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  cute_resistente_sali:
+-    attack_mod: 0
+-    defense_mod: 1
++      psionico: 15
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 ibrido psionico: le corna servono sia per caricare (atk) che per
++      ricevere segnali (def). Step +1 per danno neurale diretto.
++      Resistenza psionico 15% dall'integrazione sinaptica.
++
++  coscienza_d_alveare_diffusa:
++    trait_code: TR-2002
++    label: Coscienza d'Alveare Diffusa
++    class: hybrid
++    tier: T4
++    attack_mod: 1
++    defense_mod: 2
+     damage_step: 0
+-    cost_ap: 2
++    damage_channel: psionico
+     resistances:
+-      - { channel: fuoco, modifier_pct: 15 }
+-      - { channel: taglio, modifier_pct: 10 }
+-    active_effects: []
+-  criostasi_adattiva:
++      psionico: 30
++    on_hit_status: null
++    on_hit_stress_delta: -0.05
++    note_balance: >-
++      T4 ibrido difensivo-psionico: def +2 e psionico 30% perche' la mente
++      collettiva e' estremamente resistente al controllo. Atk +1 per
++      coordinazione di branco. Stress -0.05 perche' la rete calma l'individuo.
++
++  # ═══════════════════════════════════════════
++  # CLASSE: MOBILITY (minor defense, no damage)
++  # ═══════════════════════════════════════════
++
++  articolazioni_multiassiali:
++    trait_code: TR-1203
++    label: Articolazioni Multiassiali
++    class: mobility
++    tier: T3
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 3
+-    resistances:
+-      - { channel: gelo, modifier_pct: 20 }
+-    active_effects: []
+-    notes: "introduce canale non-canonico 'gelo' (vedi README.md sezione canali)"
+-  carapace_fase_variabile:
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 mobilita': def +1 per l'evasione superiore data dalle articolazioni
++      multiassiali. Nessun danno — il vantaggio e' puramente posizionale.
++
++  locomozione_miriapode_ibrida:
++    trait_code: TR-1302
++    label: Locomozione Miriapode Ibrida
++    class: mobility
++    tier: T3
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 3
+-    resistances:
+-      - { channel: fisico, modifier_pct: 15 }
+-    active_effects: []
+-  secrezione_rallentante_palmi:
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 mobilita' terrestre: def +1 per aderenza superiore su ogni superficie.
++      Sinergia con artiglio_cinetico TR-1304 per combinazioni melee.
++
++  articolazioni_a_leva_idraulica:
++    trait_code: TR-1503
++    label: Articolazioni a Leva Idraulica
++    class: mobility
++    tier: T3
+     attack_mod: 0
+     defense_mod: 1
+     damage_step: 0
+-    cost_ap: 2
+-    resistances: []
+-    active_effects: []
+-  risonanza_di_branco:
+-    attack_mod: 0
+-    defense_mod: 0
+-    damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  occhi_infrarosso_composti:
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 mobilita' salto: def +1 per capacita' di schivata aerea.
++      Nessun danno diretto — il salto amplifica il posizionamento tattico.
++
++  scivolamento_magnetico:
++    trait_code: TR-1803
++    label: Scivolamento Magnetico
++    class: mobility
++    tier: T3
+     attack_mod: 0
+-    defense_mod: 0
++    defense_mod: 1
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  mantello_meteoritico:
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 mobilita' magnetica: def +1 per velocita' di scorrimento che
++      rende difficile essere colpiti. Zero danno — pura evasione.
++
++  ali_fono_risonanti:
++    trait_code: TR-1701
++    label: Ali Fono-Risonanti
++    class: mobility
++    tier: T3
+     attack_mod: 0
+-    defense_mod: 2
++    defense_mod: 1
+     damage_step: 0
+-    cost_ap: 3
++    damage_channel: null
+     resistances:
+-      - { channel: fisico, modifier_pct: 20 }
+-      - { channel: fuoco, modifier_pct: 20 }
+-    active_effects: []
+-    notes: "T3 bump applied to defense_mod (defensive class + T3)"
+-  lingua_tattile_trama:
++      sonico: 10
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T3 mobilita' aerea: def +1 per volo elusivo. Sonico 10% residuo
++      per auto-protezione dalla propria risonanza.
++
++  # ═══════════════════════════════════════════
++  # CLASSE: UTILITY (effetti debuff, minor stats)
++  # ═══════════════════════════════════════════
++
++  organi_sismici_cutanei:
++    trait_code: TR-1105
++    label: Organi Sismici Cutanei
++    class: utility
++    tier: T2
+     attack_mod: 0
+-    defense_mod: 0
++    defense_mod: 1
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  frusta_fiammeggiante:
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: 0.0
++    note_balance: >-
++      T2 sensoriale: def +1 perche' percepire vibrazioni migliora l'evasione.
++      Nessun contributo offensivo — utility pura da ricognizione.
++
++  cervello_a_bassa_latenza:
++    trait_code: TR-1704
++    label: Cervello a Bassa Latenza
++    class: utility
++    tier: T3
+     attack_mod: 1
+-    defense_mod: 0
+-    damage_step: 1
+-    cost_ap: 2
+-    resistances:
+-      - { channel: fuoco, modifier_pct: 10 }
+-    active_effects: []
+-  enzimi_chelanti:
++    defense_mod: 1
++    damage_step: 0
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: -0.03
++    note_balance: >-
++      T3 cognitivo: atk +1 e def +1 per riflessi superiori, senza danno
++      diretto. Stress -0.03 per la calma decisionale del processamento rapido.
++
++  metabolismo_di_condivisione_energetica:
++    trait_code: TR-2004
++    label: Metabolismo di Condivisione Energetica
++    class: utility
++    tier: T3
+     attack_mod: 0
+-    defense_mod: 0
++    defense_mod: 1
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
+-  zoccoli_risonanti_steppe:
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: -0.04
++    note_balance: >-
++      T3 supporto metabolico: def +1 per la resilienza collettiva.
++      Stress -0.04 per la sicurezza del sostegno di branco. Trait da healer.
++
++  comunicazione_fotonica_coda_coda:
++    trait_code: TR-1905
++    label: Comunicazione Fotonica Coda-Coda
++    class: utility
++    tier: T2
+     attack_mod: 0
+     defense_mod: 0
+     damage_step: 0
+-    cost_ap: 1
+-    resistances: []
+-    active_effects: []
++    damage_channel: null
++    resistances: {}
++    on_hit_status: null
++    on_hit_stress_delta: -0.02
++    note_balance: >-
++      T2 sociale puro: zero stats combattimento — il valore e' nella
++      coordinazione tattica fuori dal danno. Stress -0.02 per il comfort
++      della comunicazione sociale.
+diff --git a/packs/evo_tactics_pack/data/ecosistemi/cross_events.yaml b/packs/evo_tactics_pack/data/ecosistemi/cross_events.yaml
+deleted file mode 100644
+index 49d71678..00000000
+--- a/packs/evo_tactics_pack/data/ecosistemi/cross_events.yaml
++++ /dev/null
+@@ -1,31 +0,0 @@
+-schema_version: 1.0
+-events:
+-  - species_id: evento-tempesta-ferrosa
+-    from_nodes:
+-      - BADLANDS
+-    propagate_via:
+-      - corridor
+-      - seasonal_bridge
+-    to_nodes:
+-      - FORESTA_TEMPERATA
+-      - DESERTO_CALDO
+-    effect: polveri ferrose e carica magnetica, penalità visibilità/gear 
+-      metallico
+-  - species_id: evento-ondata-termica
+-    from_nodes:
+-      - DESERTO_CALDO
+-    propagate_via:
+-      - corridor
+-    to_nodes:
+-      - BADLANDS
+-    effect: ondata di calore e ionizzazione, stress termico esteso
+-  - species_id: evento-brinastorm
+-    from_nodes:
+-      - CRYOSTEPPE
+-    propagate_via:
+-      - seasonal_bridge
+-      - corridor
+-    to_nodes:
+-      - FORESTA_TEMPERATA
+-      - BADLANDS
+-    effect: ghiaccio fine in sospensione, visibilità ridotta e attrito aumentato
+diff --git a/packs/evo_tactics_pack/data/ecosistemi/meta_ecosistema_alpha.yaml b/packs/evo_tactics_pack/data/ecosistemi/meta_ecosistema_alpha.yaml
+deleted file mode 100644
+index d6d54546..00000000
+--- a/packs/evo_tactics_pack/data/ecosistemi/meta_ecosistema_alpha.yaml
++++ /dev/null
+@@ -1,109 +0,0 @@
+-schema_version: 2.0
+-receipt:
+-  source: PTPF.v1.0
+-  author: designer
+-  date: '2025-10-25'
+-  trace_hash: 5c41be656dc4e7d12af87aa1e3f0da837c7aca39057b225696204a632f22544c
+-links:
+-  biomi:
+-    - packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml
+-    - packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml
+-    - packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml
+-    - packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml
+-ecosistema:
+-  id: ET_NET_ALPHA
+-  label: Evo-Tactics Meta‑Ecosystem Alpha
+-  biomi:
+-    - id: BADLANDS
+-      biome_id: canyons_risonanti
+-      path: packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml
+-      weight: 0.45
+-    - id: FORESTA_TEMPERATA
+-      biome_id: foresta_miceliale
+-      path: packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml
+-      weight: 0.55
+-    - id: DESERTO_CALDO
+-      biome_id: savana
+-      path: packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml
+-      weight: 0.4
+-    - id: CRYOSTEPPE
+-      biome_id: mezzanotte_orbitale
+-      path: packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml
+-      weight: 0.4
+-  connessioni:
+-    - from: BADLANDS
+-      to: FORESTA_TEMPERATA
+-      type: corridor
+-      resistance: 0.6
+-      seasonality: primavera/autunno
+-      notes: gole ombreggiate e canyon → valichi boscosi
+-    - from: FORESTA_TEMPERATA
+-      to: BADLANDS
+-      type: trophic_spillover
+-      resistance: 0.4
+-      seasonality: episodico
+-      notes: boom detrito → pulse detritivoro in badlands
+-    - from: BADLANDS
+-      to: DESERTO_CALDO
+-      type: corridor
+-      resistance: 0.5
+-      seasonality: estate
+-      notes: canali wadi → dune mobili
+-    - from: DESERTO_CALDO
+-      to: BADLANDS
+-      type: corridor
+-      resistance: 0.55
+-      seasonality: estate/notte
+-      notes: carovane notturne sfruttano i canali raffreddati
+-    - from: FORESTA_TEMPERATA
+-      to: CRYOSTEPPE
+-      type: seasonal_bridge
+-      resistance: 0.6
+-      seasonality: inverno
+-      notes: valichi nevosi con copertura forestale rada
+-    - from: CRYOSTEPPE
+-      to: FORESTA_TEMPERATA
+-      type: seasonal_bridge
+-      resistance: 0.65
+-      seasonality: inverno profondo
+-      notes: coltri di ghiaccio creano corridoi di transito sotto chioma
+-    - from: CRYOSTEPPE
+-      to: BADLANDS
+-      type: trophic_spillover
+-      resistance: 0.5
+-      seasonality: episodico
+-      notes: pulse detrito post disgelo
+-    - from: CRYOSTEPPE
+-      to: BADLANDS
+-      type: corridor
+-      resistance: 0.7
+-      seasonality: tarda_inverno
+-      notes: gole ghiacciate convogliano tempeste di brina verso le gole ferrose
+-  bridge_species_map:
+-    - species_id: echo-wing
+-      roles:
+-        - dispersore_ponte
+-        - impollinatore
+-      present_in_nodes:
+-        - BADLANDS
+-        - CRYOSTEPPE
+-        - DESERTO_CALDO
+-        - FORESTA_TEMPERATA
+-    - species_id: ferrocolonia-magnetotattica
+-      roles:
+-        - sentinella
+-        - ingegnere_ecosistema
+-      present_in_nodes:
+-        - BADLANDS
+-  rules:
+-    at_least:
+-      sentient: 1
+-      apex: 1
+-      keystone: 2
+-      bridge: 1
+-      threat: 1
+-      event: 1
+-    per_biome_min:
+-      predatori: 1
+-      detritivori: 1
+-      impollinatori: 1
+diff --git a/packs/evo_tactics_pack/docs/catalog/index.html b/packs/evo_tactics_pack/docs/catalog/index.html
+index e4eedd13..79670587 100644
+--- a/packs/evo_tactics_pack/docs/catalog/index.html
++++ b/packs/evo_tactics_pack/docs/catalog/index.html
+@@ -24,7 +24,7 @@ a:hover{text-decoration:underline}
+ <span class='badge'>Biomi: 4</span>
+ <span class='badge'>Connessioni: 5</span>
+ <span class='badge'><a href='../../out/validation/last_report.json'>Validator report (JSON)</a></span>
+-<span class='badge'><a href='../../data/ecosistemi/meta_ecosistema_alpha.yaml'>meta_ecosistema_alpha.yaml</a></span>
++<span class='badge'><a href='../../data/ecosystems/network/meta_network_alpha.yaml'>meta_network_alpha.yaml</a></span>
+ </div>
+ <div class='meta'>Connessioni:</div><ul>
+ <li><span class='code'>BADLANDS</span> → <span class='code'>FORESTA_TEMPERATA</span> <span class='small'>[corridor, primavera/autunno, res=0.6]</span></li>
+diff --git a/packs/evo_tactics_pack/out/validation/core_sync.sha256 b/packs/evo_tactics_pack/out/validation/core_sync.sha256
+index f7e64bfe..c2d69912 100644
+--- a/packs/evo_tactics_pack/out/validation/core_sync.sha256
++++ b/packs/evo_tactics_pack/out/validation/core_sync.sha256
+@@ -7,8 +7,7 @@ data_checksum: 0018c5acd3794140d13a9e9bcd1f32fb570cd21b1629726eeb2d35e3cc99a0e4
+ 
+ f94d74d8f7654f4d963c026ca53737e41bdb9b5bba84de782613b89cc0e1c15a  biome_aliases.yaml
+ 358c4ce291d64a31833476533b120d85db24bec936f72d93a3b82de81d3eab4c  biomes.yaml
+-a101801c9aff371cbef668b93b97dfae9e044682e8ddb6b75601b18bc26ef149  ecosistemi/cross_events.yaml
+-95964a8d1d74d110a2478c198fba87e3154ebe5932b6311aeb943225fbdfeb3d  ecosistemi/meta_ecosistema_alpha.yaml
++# legacy ecosistemi/ removed — content migrated to ecosystems/network/
+ 7766543dbf0d85dae1debf7a7531e9e526d953c5a376dda937943e3370fd2194  ecosystems/badlands.biome.yaml
+ f2d43bb6bdd05fec79150a74dd05ea1c619dc75887cbbb6f19d7d4a9c915aeae  ecosystems/badlands.ecosystem.yaml
+ 695bb4bd30d0bb8d7cdf7be3ed1c1477e7854c5be918568dd50044c84804c4fb  ecosystems/cryosteppe.biome.yaml
+diff --git a/packs/evo_tactics_pack/tools/legacy/DEPRECATED.md b/packs/evo_tactics_pack/tools/legacy/DEPRECATED.md
+new file mode 100644
+index 00000000..c6b60ac3
+--- /dev/null
++++ b/packs/evo_tactics_pack/tools/legacy/DEPRECATED.md
+@@ -0,0 +1,11 @@
++# Deprecated Legacy Validators
++
++The 5 scripts in this directory are superseded by `tools/py/game_cli.py validate-*` subcommands:
++
++- `spawn_npg.py`
++- `validate_forms.py`
++- `validate_package.py`
++- `validate_species.py`
++- `validate_v7.py`
++
++Use `game_cli.py validate-*` for all validation workflows going forward.
+diff --git a/reports/docs/governance_drift_report.json b/reports/docs/governance_drift_report.json
+index c0cbc254..f9315dd9 100644
+--- a/reports/docs/governance_drift_report.json
++++ b/reports/docs/governance_drift_report.json
+@@ -1,5 +1,5 @@
+ {
+-  "generated_at": "2026-04-13T21:29:02+00:00",
++  "generated_at": "2026-04-13T22:19:33+00:00",
+   "summary": {
+     "total": 0,
+     "errors": 0,
+diff --git a/scripts/lint-stack.mjs b/scripts/lint-stack.mjs
+index 054e0050..7745e6a9 100755
+--- a/scripts/lint-stack.mjs
++++ b/scripts/lint-stack.mjs
+@@ -83,7 +83,7 @@ if (files.length === 0) {
+ }
+ 
+ const prettierArgs = ['prettier', '--check', ...files];
+-const result = spawnSync('npx', prettierArgs, { stdio: 'inherit' });
++const result = spawnSync('npx', prettierArgs, { stdio: 'inherit', shell: true });
+ 
+ if (result.error) {
+   console.error('Failed to execute prettier:', result.error.message);
+diff --git a/services/rules/demo_cli.py b/services/rules/demo_cli.py
+index 05e05a98..5e6db71d 100644
+--- a/services/rules/demo_cli.py
++++ b/services/rules/demo_cli.py
+@@ -62,17 +62,17 @@ DEFAULT_PARTY: List[Dict[str, Any]] = [
+     {
+         "id": "party-01",
+         "species_id": "anguis_magnetica",
+-        "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
++        "trait_ids": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
+     },
+     {
+         "id": "party-02",
+         "species_id": "aetherloom_stalker",
+-        "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
++        "trait_ids": ["cannone_sonico_a_raggio", "articolazioni_multiassiali"],
+     },
+     {
+         "id": "party-03",
+         "species_id": "crysalis_ember",
+-        "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
++        "trait_ids": ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
+     },
+ ]
+ 
+@@ -83,10 +83,10 @@ DEFAULT_HOSTILE_SPECIES: List[str] = [
+     "crystal_ward",
+ ]
+ DEFAULT_HOSTILE_TRAITS: List[List[str]] = [
+-    [],
+-    [],
+-    ["spore_psichiche_silenziate"],
+-    [],
++    ["artiglio_cinetico_a_urto"],
++    ["scudo_gluteale_cheratinizzato"],
++    ["cannone_sonico_a_raggio"],
++    ["bozzolo_magnetico"],
+ ]
+ 
+ #: Damage dice di default per attack di ogni unita' in modalita' demo.
+diff --git a/services/rules/hydration.py b/services/rules/hydration.py
+index 98c71754..8adc9b22 100644
+--- a/services/rules/hydration.py
++++ b/services/rules/hydration.py
+@@ -111,12 +111,22 @@ def aggregate_resistances(
+         entry = catalog.get(trait_id)
+         if not isinstance(entry, Mapping):
+             continue
+-        for res in entry.get("resistances") or []:
+-            channel = res.get("channel")
+-            mod = res.get("modifier_pct")
+-            if not isinstance(channel, str) or not isinstance(mod, int):
+-                continue
+-            totals[channel] = totals.get(channel, 0) + mod
++        raw = entry.get("resistances")
++        if not raw:
++            continue
++        # Supporta sia il formato dict {channel: pct} che il formato
++        # lista [{channel, modifier_pct}] per retrocompatibilita'.
++        if isinstance(raw, Mapping):
++            for channel, mod in raw.items():
++                if isinstance(channel, str) and isinstance(mod, (int, float)):
++                    totals[channel] = totals.get(channel, 0) + int(mod)
++        else:
++            for res in raw:
++                channel = res.get("channel")
++                mod = res.get("modifier_pct")
++                if not isinstance(channel, str) or not isinstance(mod, int):
++                    continue
++                totals[channel] = totals.get(channel, 0) + mod
+ 
+     return [
+         {
+diff --git a/services/rules/resolver.py b/services/rules/resolver.py
+index 592553e2..c2964378 100644
+--- a/services/rules/resolver.py
++++ b/services/rules/resolver.py
+@@ -74,7 +74,13 @@ MOS_PER_STEP = 5
+ 
+ #: Action types che consumano AP ma non hanno logica di risoluzione in
+ #: questa iterazione del resolver.
+-NOOP_ACTION_TYPES = frozenset({"defend", "parry", "ability", "move"})
++NOOP_ACTION_TYPES = frozenset({"parry", "ability", "move"})
++
++#: Durata del buff difensivo applicato dall'azione ``defend`` (in turni).
++DEFEND_BUFF_DURATION = 1
++
++#: Intensita' del buff difensivo (ogni punto = +1 defense_mod effettivo).
++DEFEND_BUFF_INTENSITY = 1
+ 
+ #: CD fissa per il tiro reattivo di parata (Fase 7). Semplificata rispetto
+ #: al pattern "d20 contrapposto" del doc per la prima iterazione.
+@@ -530,6 +536,11 @@ def resolve_action(
+                 int(disorient.get("intensity", 1)) * DISORIENT_ATTACK_MALUS_PER_INTENSITY
+             )
+ 
++        # Bonus difensivo da azione defend (status "defense_up")
++        defense_up = get_status(target, "defense_up")
++        if defense_up is not None:
++            defense_mod_target += int(defense_up.get("intensity", 1))
++
+         cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target
+ 
+         natural = roll_die(rng, 20)
+@@ -643,12 +654,18 @@ def resolve_action(
+                     continue
+                 sv_natural = roll_die(rng, 20)
+                 sv_total = sv_natural  # +0 mod per ora
+-                trigger_dc = int(on_hit.get("trigger_dc", 10))
++                trigger_dc = int(on_hit.get("dc", on_hit.get("trigger_dc", 10)))
+                 if sv_total < trigger_dc:
++                    status_name = str(
++                        on_hit.get("name", on_hit.get("status_id", "unknown"))
++                    )
++                    status_dur = int(
++                        on_hit.get("duration_turns", on_hit.get("duration", 1))
++                    )
+                     applied = apply_status(
+                         target,
+-                        status_id=str(on_hit.get("status_id")),
+-                        duration=int(on_hit.get("duration", 1)),
++                        status_id=status_name,
++                        duration=status_dur,
+                         intensity=int(on_hit.get("intensity", 1)),
+                         source_unit_id=actor.get("id"),
+                         source_action_id=action.get("id"),
+@@ -675,6 +692,19 @@ def resolve_action(
+         log_entry["roll"] = roll_result
+         log_entry["damage_applied"] = int(damage_applied)
+         log_entry["statuses_applied"] = statuses_applied
++    elif action_type == "defend":
++        # Defend: AP consumato sopra, applica buff defense_up per 1 turno.
++        # Il buff viene letto da aggregate_mod nella pipeline di attacco del
++        # prossimo turno via get_status("defense_up").
++        defense_status = apply_status(
++            actor,
++            "defense_up",
++            duration=DEFEND_BUFF_DURATION,
++            intensity=DEFEND_BUFF_INTENSITY,
++            source_unit_id=str(action.get("actor_id")),
++            source_action_id=str(action.get("id", "defend")),
++        )
++        log_entry["statuses_applied"] = [defense_status]
+     elif action_type in NOOP_ACTION_TYPES:
+         # AP gia' consumato sopra. Nessun roll, nessun update stato oltre.
+         pass
+@@ -701,6 +731,8 @@ def _consume_ap(unit: Dict[str, Any], ap_cost: int) -> None:
+ __all__ = [
+     "ATTACK_CD_BASE",
+     "CRIT_PT_THRESHOLD",
++    "DEFEND_BUFF_DURATION",
++    "DEFEND_BUFF_INTENSITY",
+     "DISORIENT_ATTACK_MALUS_PER_INTENSITY",
+     "FRACTURE_STEP_REDUCTION_PER_INTENSITY",
+     "MOS_PER_STEP",
+diff --git a/tests/api/combat.test.js b/tests/api/combat.test.js
+new file mode 100644
+index 00000000..a2f043f2
+--- /dev/null
++++ b/tests/api/combat.test.js
+@@ -0,0 +1,166 @@
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const request = require('supertest');
++
++const { createApp } = require('../../apps/backend/app');
++const { sessions } = require('../../apps/backend/routes/combat');
++
++function buildApp() {
++  return createApp().app;
++}
++
++test('POST /api/v1/combat/session restituisce session_id e initial_state', async () => {
++  const app = buildApp();
++  const response = await request(app)
++    .post('/api/v1/combat/session')
++    .send({ seed: 'test-seed-1', max_rounds: 10 })
++    .expect(200);
++
++  const { session_id, initial_state } = response.body;
++  assert.ok(session_id, 'la risposta deve contenere session_id');
++  assert.ok(
++    typeof session_id === 'string' && session_id.startsWith('combat-'),
++    'session_id deve iniziare con combat-',
++  );
++  assert.ok(initial_state, 'la risposta deve contenere initial_state');
++  assert.equal(initial_state.session_id, session_id);
++  assert.equal(initial_state.seed, 'test-seed-1');
++  assert.equal(initial_state.turn, 1);
++  assert.ok(Array.isArray(initial_state.units), 'units deve essere un array');
++  assert.ok(initial_state.units.length >= 2, 'devono esserci almeno 2 unit');
++  assert.ok(Array.isArray(initial_state.initiative_order), 'initiative_order deve essere un array');
++  assert.ok(initial_state.active_unit_id, 'active_unit_id deve essere presente');
++  assert.deepEqual(initial_state.log, []);
++
++  // Cleanup
++  sessions.delete(session_id);
++});
++
++test('POST /api/v1/combat/action restituisce next_state e turn_log_entry', async () => {
++  const app = buildApp();
++
++  // Start a session first
++  const startRes = await request(app)
++    .post('/api/v1/combat/session')
++    .send({ seed: 'action-test' })
++    .expect(200);
++
++  const { session_id } = startRes.body;
++
++  // Send an action
++  const actionRes = await request(app)
++    .post('/api/v1/combat/action')
++    .send({
++      session_id,
++      action: {
++        type: 'attack',
++        actor_id: 'party-alpha',
++        target_id: 'hostile-01',
++        ap_cost: 1,
++      },
++    })
++    .expect(200);
++
++  const { next_state, turn_log_entry } = actionRes.body;
++  assert.ok(next_state, 'la risposta deve contenere next_state');
++  assert.ok(turn_log_entry, 'la risposta deve contenere turn_log_entry');
++  assert.equal(next_state.turn, 2, 'il turno deve avanzare');
++  assert.ok(next_state.log.length > 0, 'il log deve contenere almeno una entry');
++  assert.equal(turn_log_entry.action.type, 'attack');
++  assert.equal(turn_log_entry.action.actor_id, 'party-alpha');
++  assert.equal(turn_log_entry.action.target_id, 'hostile-01');
++  assert.ok(typeof turn_log_entry.roll === 'object', 'roll deve essere un oggetto');
++  assert.ok(
++    typeof turn_log_entry.damage_applied === 'number',
++    'damage_applied deve essere un numero',
++  );
++
++  // Cleanup
++  sessions.delete(session_id);
++});
++
++test('POST /api/v1/combat/action ritorna 404 per sessione inesistente', async () => {
++  const app = buildApp();
++
++  const response = await request(app)
++    .post('/api/v1/combat/action')
++    .send({
++      session_id: 'combat-nonexistent',
++      action: { type: 'attack', actor_id: 'party-alpha', target_id: 'hostile-01', ap_cost: 1 },
++    })
++    .expect(404);
++
++  assert.ok(response.body.error);
++});
++
++test('POST /api/v1/combat/action ritorna 400 senza action', async () => {
++  const app = buildApp();
++
++  const startRes = await request(app)
++    .post('/api/v1/combat/session')
++    .send({ seed: 'no-action-test' })
++    .expect(200);
++
++  const { session_id } = startRes.body;
++
++  const response = await request(app)
++    .post('/api/v1/combat/action')
++    .send({ session_id })
++    .expect(400);
++
++  assert.ok(response.body.error);
++
++  // Cleanup
++  sessions.delete(session_id);
++});
++
++test('POST /api/v1/combat/session/:id/end restituisce final_state, winner e rounds_played', async () => {
++  const app = buildApp();
++
++  // Start a session
++  const startRes = await request(app)
++    .post('/api/v1/combat/session')
++    .send({ seed: 'end-test' })
++    .expect(200);
++
++  const { session_id } = startRes.body;
++
++  // Send an action to advance state
++  await request(app)
++    .post('/api/v1/combat/action')
++    .send({
++      session_id,
++      action: { type: 'attack', actor_id: 'party-alpha', target_id: 'hostile-01', ap_cost: 1 },
++    })
++    .expect(200);
++
++  // End the session
++  const endRes = await request(app).post(`/api/v1/combat/session/${session_id}/end`).expect(200);
++
++  const { final_state, winner, rounds_played } = endRes.body;
++  assert.ok(final_state, 'la risposta deve contenere final_state');
++  assert.ok(typeof winner === 'string', 'winner deve essere una stringa');
++  assert.ok(['party', 'hostile'].includes(winner), 'winner deve essere party o hostile');
++  assert.ok(typeof rounds_played === 'number', 'rounds_played deve essere un numero');
++  assert.ok(rounds_played >= 2, 'devono essere passati almeno 2 turni');
++
++  // Session should be removed from store
++  assert.equal(sessions.has(session_id), false, 'la sessione deve essere rimossa dopo end');
++});
++
++test('POST /api/v1/combat/session/:id/end ritorna 404 per sessione inesistente', async () => {
++  const app = buildApp();
++
++  await request(app).post('/api/v1/combat/session/combat-nonexistent/end').expect(404);
++});
++
++test('POST /api/combat/session funziona anche senza prefisso v1', async () => {
++  const app = buildApp();
++  const response = await request(app)
++    .post('/api/combat/session')
++    .send({ seed: 'legacy-path' })
++    .expect(200);
++
++  assert.ok(response.body.session_id);
++  sessions.delete(response.body.session_id);
++});
+diff --git a/tests/api/contracts-hydration-snapshot.test.js b/tests/api/contracts-hydration-snapshot.test.js
+index 541557c5..5ee9edf3 100644
+--- a/tests/api/contracts-hydration-snapshot.test.js
++++ b/tests/api/contracts-hydration-snapshot.test.js
+@@ -44,22 +44,26 @@ test('hydration snapshot ha 7 unita (3 party + 4 hostile) coerenti con encounter
+ 
+ test('hydration snapshot aggrega correttamente resistances per canale', () => {
+   const state = loadSnapshot();
+-  const party02 = state.units.find((u) => u.id === 'party-02');
+-  assert.ok(party02, 'party-02 presente');
+-  // mantello_meteoritico: fisico +20, fuoco +20
+-  // sangue_piroforico: fuoco +20
+-  // Atteso aggregato: fisico 20, fuoco 40
+-  const byChannel = Object.fromEntries(party02.resistances.map((r) => [r.channel, r.modifier_pct]));
+-  assert.equal(byChannel.fisico, 20);
+-  assert.equal(byChannel.fuoco, 40);
++  const party03 = state.units.find((u) => u.id === 'party-03');
++  assert.ok(party03, 'party-03 presente');
++  // pelage_idrorepellente_avanzato: cryo +25, acido +15
++  // cisti_di_ibernazione_minerale: contusivo +35, cryo +30, acido +20
++  // Atteso aggregato: acido 35, contusivo 35, cryo 55
++  const byChannel = Object.fromEntries(party03.resistances.map((r) => [r.channel, r.modifier_pct]));
++  assert.equal(byChannel.acido, 35);
++  assert.equal(byChannel.contusivo, 35);
++  assert.equal(byChannel.cryo, 55);
+ });
+ 
+-test('hydration snapshot contiene canale non-canonico gelo su party-03', () => {
++test('hydration snapshot contiene canale cryo su party-03', () => {
+   const state = loadSnapshot();
+   const party03 = state.units.find((u) => u.id === 'party-03');
+   assert.ok(party03, 'party-03 presente');
+-  const hasGelo = party03.resistances.some((r) => r.channel === 'gelo');
+-  assert.ok(hasGelo, 'criostasi_adattiva deve propagare il canale gelo');
++  const hasCryo = party03.resistances.some((r) => r.channel === 'cryo');
++  assert.ok(
++    hasCryo,
++    'pelage_idrorepellente_avanzato e cisti_di_ibernazione_minerale devono propagare il canale cryo',
++  );
+ });
+ 
+ test('hydration snapshot hostile derivati da power: power 7 -> hp 110 armor 5 init 15', () => {
+diff --git a/tests/api/contracts-trait-mechanics.test.js b/tests/api/contracts-trait-mechanics.test.js
+index 14fd0046..64c7611a 100644
+--- a/tests/api/contracts-trait-mechanics.test.js
++++ b/tests/api/contracts-trait-mechanics.test.js
+@@ -67,11 +67,18 @@ test('traitMechanics schema rifiuta entry con campo obbligatorio mancante', () =
+     schema_version: '0.1.0',
+     traits: {
+       broken_entry: {
++        trait_code: 'TR-9999',
++        label: 'Broken',
++        class: 'offensive',
++        tier: 'T1',
+         attack_mod: 0,
+         defense_mod: 0,
+         damage_step: 0,
+-        cost_ap: 1,
+-        resistances: [],
++        damage_channel: null,
++        resistances: {},
++        on_hit_status: null,
++        on_hit_stress_delta: 0.0,
++        // note_balance mancante
+       },
+     },
+   };
+@@ -87,12 +94,18 @@ test('traitMechanics schema rifiuta damage_step negativo', () => {
+     schema_version: '0.1.0',
+     traits: {
+       broken_entry: {
++        trait_code: 'TR-9999',
++        label: 'Broken',
++        class: 'offensive',
++        tier: 'T1',
+         attack_mod: 0,
+         defense_mod: 0,
+         damage_step: -1,
+-        cost_ap: 1,
+-        resistances: [],
+-        active_effects: [],
++        damage_channel: null,
++        resistances: {},
++        on_hit_status: null,
++        on_hit_stress_delta: 0.0,
++        note_balance: 'test',
+       },
+     },
+   };
+@@ -108,12 +121,18 @@ test('traitMechanics schema rifiuta chiave trait con pattern invalido', () => {
+     schema_version: '0.1.0',
+     traits: {
+       'Bad-Key': {
++        trait_code: 'TR-9999',
++        label: 'Broken',
++        class: 'offensive',
++        tier: 'T1',
+         attack_mod: 0,
+         defense_mod: 0,
+         damage_step: 0,
+-        cost_ap: 1,
+-        resistances: [],
+-        active_effects: [],
++        damage_channel: null,
++        resistances: {},
++        on_hit_status: null,
++        on_hit_stress_delta: 0.0,
++        note_balance: 'test',
+       },
+     },
+   };
+@@ -127,7 +146,12 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
+   const catalog = loadCatalog();
+   const t = catalog.traits;
+ 
+-  const breakerTraits = ['artigli_sette_vie', 'sangue_piroforico', 'frusta_fiammeggiante'];
++  // Offensive traits (breaker): attack_mod >= 1 e damage_step >= 1
++  const breakerTraits = [
++    'rostro_emostatico_litico',
++    'scheletro_idraulico_a_pistoni',
++    'estroflessione_gastrica_acida',
++  ];
+   for (const id of breakerTraits) {
+     assert.ok(t[id], `breaker trait ${id} presente`);
+     assert.ok(
+@@ -140,10 +164,11 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
+     );
+   }
+ 
++  // Defensive traits (tank): defense_mod >= 1
+   const tankSampleTraits = [
+-    'struttura_elastica_amorfa',
+-    'cute_resistente_sali',
+-    'carapace_fase_variabile',
++    'scudo_gluteale_cheratinizzato',
++    'membrana_plastica_continua',
++    'cisti_di_ibernazione_minerale',
+   ];
+   for (const id of tankSampleTraits) {
+     assert.ok(t[id], `tank trait ${id} presente`);
+@@ -153,50 +178,58 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
+     );
+   }
+ 
+-  const t3 = t.mantello_meteoritico;
+-  assert.ok(t3, 'mantello_meteoritico presente');
++  const t3 = t.scudo_gluteale_cheratinizzato;
++  assert.ok(t3, 'scudo_gluteale_cheratinizzato presente');
+   assert.equal(
+     t3.defense_mod,
+     2,
+-    'mantello_meteoritico e T3 tank: defense_mod deve essere promosso a 2',
++    'scudo_gluteale_cheratinizzato e T3 tank: defense_mod deve essere promosso a 2',
+   );
+ });
+ 
+-test('trait_mechanics.yaml rispetta cost_ap derivato da fattore_mantenimento_energetico', () => {
++test('trait_mechanics.yaml rispetta tier coerente con valori combat', () => {
+   const catalog = loadCatalog();
+   const t = catalog.traits;
+-  assert.equal(t.artigli_sette_vie.cost_ap, 1, 'Basso -> 1');
+-  assert.equal(t.scheletro_idro_regolante.cost_ap, 2, 'Medio -> 2');
+-  assert.equal(t.criostasi_adattiva.cost_ap, 3, 'Alto -> 3');
++  // T4 offensive traits should have higher combined attack_mod + damage_step
++  assert.equal(t.rostro_emostatico_litico.tier, 'T4');
++  assert.ok(t.rostro_emostatico_litico.attack_mod + t.rostro_emostatico_litico.damage_step >= 3);
++  // T2 utility should have low combat stats
++  assert.equal(t.comunicazione_fotonica_coda_coda.tier, 'T2');
++  assert.equal(t.comunicazione_fotonica_coda_coda.attack_mod, 0);
++  assert.equal(t.comunicazione_fotonica_coda_coda.damage_step, 0);
+ });
+ 
+-test('Fase 8: spore_psichiche_silenziate ha on_hit_status e on_hit_stress_delta popolati', () => {
++test('Fase 8: rostro_emostatico_litico ha on_hit_status e on_hit_stress_delta popolati', () => {
+   const catalog = loadCatalog();
+-  const spore = catalog.traits.spore_psichiche_silenziate;
+-  assert.ok(spore, 'spore_psichiche_silenziate presente');
+-  assert.ok(spore.on_hit_status, 'on_hit_status presente');
+-  assert.equal(spore.on_hit_status.status_id, 'disorient');
+-  assert.ok(typeof spore.on_hit_stress_delta === 'number' && spore.on_hit_stress_delta > 0);
++  const rostro = catalog.traits.rostro_emostatico_litico;
++  assert.ok(rostro, 'rostro_emostatico_litico presente');
++  assert.ok(rostro.on_hit_status, 'on_hit_status presente');
++  assert.equal(rostro.on_hit_status.name, 'sanguinamento');
++  assert.ok(typeof rostro.on_hit_stress_delta === 'number' && rostro.on_hit_stress_delta > 0);
+ });
+ 
+-test('traitMechanics schema rifiuta on_hit_status con status_id non canonico', () => {
++test('traitMechanics schema rifiuta on_hit_status con name non snake_case', () => {
+   const validator = buildValidator();
+   const broken = {
+     schema_version: '0.2.0',
+     traits: {
+       bad_trait: {
++        trait_code: 'TR-9999',
++        label: 'Bad',
++        class: 'offensive',
++        tier: 'T1',
+         attack_mod: 0,
+         defense_mod: 0,
+         damage_step: 0,
+-        cost_ap: 1,
+-        resistances: [],
+-        active_effects: [],
++        damage_channel: null,
++        resistances: {},
+         on_hit_status: {
+-          status_id: 'frozen',
+-          duration: 2,
+-          intensity: 1,
+-          trigger_dc: 12,
++          name: 'Bad-Name',
++          dc: 12,
++          duration_turns: 2,
+         },
++        on_hit_stress_delta: 0.0,
++        note_balance: 'test',
+       },
+     },
+   };
+@@ -212,13 +245,18 @@ test('traitMechanics schema rifiuta on_hit_stress_delta fuori range [-1, 1]', ()
+     schema_version: '0.2.0',
+     traits: {
+       bad_trait: {
++        trait_code: 'TR-9999',
++        label: 'Bad',
++        class: 'offensive',
++        tier: 'T1',
+         attack_mod: 0,
+         defense_mod: 0,
+         damage_step: 0,
+-        cost_ap: 1,
+-        resistances: [],
+-        active_effects: [],
++        damage_channel: null,
++        resistances: {},
++        on_hit_status: null,
+         on_hit_stress_delta: 1.5,
++        note_balance: 'test',
+       },
+     },
+   };
+@@ -228,74 +266,75 @@ test('traitMechanics schema rifiuta on_hit_stress_delta fuori range [-1, 1]', ()
+   );
+ });
+ 
+-test('Fase 3-bis: coda_frusta_cinetica e hybrid (attack 1, defense 1, damage 0)', () => {
++test('Fase 3-bis: ipertrofia_muscolare_massiva e hybrid (attack 1, defense 1, damage 1)', () => {
+   const catalog = loadCatalog();
+-  const coda = catalog.traits.coda_frusta_cinetica;
+-  assert.ok(coda, 'coda_frusta_cinetica presente');
+-  assert.equal(coda.attack_mod, 1, 'hybrid: attack_mod == 1');
+-  assert.equal(coda.defense_mod, 1, 'hybrid: defense_mod == 1');
+-  assert.equal(coda.damage_step, 0, 'hybrid: damage_step == 0 (no double-dip)');
++  const ipertrofia = catalog.traits.ipertrofia_muscolare_massiva;
++  assert.ok(ipertrofia, 'ipertrofia_muscolare_massiva presente');
++  assert.equal(ipertrofia.attack_mod, 1, 'hybrid: attack_mod == 1');
++  assert.equal(ipertrofia.defense_mod, 1, 'hybrid: defense_mod == 1');
++  assert.equal(ipertrofia.damage_step, 1, 'hybrid: damage_step == 1');
++  assert.equal(ipertrofia.class, 'hybrid');
+ });
+ 
+-test('Fase 3-bis: mobility discount selettivo solo per FME Alto', () => {
++test('Fase 3-bis: mobility traits hanno defense_mod 1 e damage_step 0', () => {
+   const catalog = loadCatalog();
+   const t = catalog.traits;
+-  assert.equal(
+-    t.nucleo_ovomotore_rotante.cost_ap,
+-    2,
+-    'nucleo_ovomotore_rotante: FME Alto con discount mobility -> 3-1=2',
+-  );
+-  assert.equal(
+-    t.respiro_a_scoppio.cost_ap,
+-    2,
+-    'respiro_a_scoppio: FME Alto con discount mobility -> 3-1=2',
+-  );
+-  assert.equal(
+-    t.zoccoli_risonanti_steppe.cost_ap,
+-    1,
+-    'zoccoli_risonanti_steppe: FME Basso gia al floor, no discount',
+-  );
+-  assert.equal(
+-    t.criostasi_adattiva.cost_ap,
+-    3,
+-    'criostasi_adattiva: defensive non mobility, FME Alto invariato',
++  const mobilityTraits = Object.entries(t).filter(([, entry]) => entry.class === 'mobility');
++  assert.ok(
++    mobilityTraits.length >= 4,
++    `almeno 4 mobility trait presenti (trovati: ${mobilityTraits.length})`,
+   );
++  for (const [id, entry] of mobilityTraits) {
++    assert.equal(
++      entry.defense_mod,
++      1,
++      `mobility ${id}: defense_mod == 1 (attuale ${entry.defense_mod})`,
++    );
++    assert.equal(
++      entry.damage_step,
++      0,
++      `mobility ${id}: damage_step == 0 (attuale ${entry.damage_step})`,
++    );
++  }
+ });
+ 
+-test('Fase 3-bis: damage_step cap <= 1 per tutti i 30 core', () => {
++test('Fase 3-bis: damage_step cap <= 2 per tutti i 30 core', () => {
+   const catalog = loadCatalog();
+   const violations = Object.entries(catalog.traits)
+-    .filter(([, entry]) => entry.damage_step > 1)
++    .filter(([, entry]) => entry.damage_step > 2)
+     .map(([id, entry]) => `${id}: damage_step=${entry.damage_step}`);
+   assert.deepEqual(
+     violations,
+     [],
+-    `damage_step deve essere <= 1 per tutti i core (cap framework). Violazioni: ${violations.join(', ')}`,
++    `damage_step deve essere <= 2 per tutti i core (T4 offensive cap). Violazioni: ${violations.join(', ')}`,
+   );
+ });
+ 
+ test('Fase 3-bis: resistances presenti e coerenti (permissivo)', () => {
+   const catalog = loadCatalog();
+   const withRes = Object.entries(catalog.traits).filter(
+-    ([, entry]) => Array.isArray(entry.resistances) && entry.resistances.length > 0,
++    ([, entry]) =>
++      typeof entry.resistances === 'object' &&
++      entry.resistances !== null &&
++      Object.keys(entry.resistances).length > 0,
+   );
+   assert.ok(
+     withRes.length >= 8,
+-    `almeno 8 trait dovrebbero avere resistances (pass Balancer 3-bis ne ha popolate 10). Trovati: ${withRes.length}`,
++    `almeno 8 trait dovrebbero avere resistances. Trovati: ${withRes.length}`,
+   );
+-  const allChannels = withRes.flatMap(([, entry]) => entry.resistances.map((r) => r.channel));
++  const allChannels = withRes.flatMap(([, entry]) => Object.keys(entry.resistances));
+   assert.ok(
+-    allChannels.includes('gelo'),
+-    "canale non-canonico 'gelo' deve essere presente (criostasi_adattiva, documentato in README)",
++    allChannels.includes('cryo'),
++    "canale 'cryo' deve essere presente (pelage_idrorepellente_avanzato, cisti_di_ibernazione_minerale)",
+   );
+   for (const [id, entry] of withRes) {
+-    for (const res of entry.resistances) {
++    for (const [channel, modifierPct] of Object.entries(entry.resistances)) {
+       assert.ok(
+-        typeof res.channel === 'string' && res.channel.length > 0,
++        typeof channel === 'string' && channel.length > 0,
+         `${id}: ogni resistance deve avere channel valido`,
+       );
+       assert.ok(
+-        Number.isInteger(res.modifier_pct) && res.modifier_pct >= -100 && res.modifier_pct <= 100,
++        Number.isInteger(modifierPct) && modifierPct >= -100 && modifierPct <= 100,
+         `${id}: modifier_pct deve essere intero in [-100, 100]`,
+       );
+     }
+diff --git a/tests/snapshots/hydration_caverna.json b/tests/snapshots/hydration_caverna.json
+index d08e15df..4506ae45 100644
+--- a/tests/snapshots/hydration_caverna.json
++++ b/tests/snapshots/hydration_caverna.json
+@@ -31,8 +31,13 @@
+       "initiative": 12,
+       "stress": 0.0,
+       "statuses": [],
+-      "resistances": [],
+-      "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
++      "resistances": [
++        {
++          "channel": "contusivo",
++          "modifier_pct": 15
++        }
++      ],
++      "trait_ids": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+@@ -56,17 +61,8 @@
+       "initiative": 12,
+       "stress": 0.0,
+       "statuses": [],
+-      "resistances": [
+-        {
+-          "channel": "fisico",
+-          "modifier_pct": 20
+-        },
+-        {
+-          "channel": "fuoco",
+-          "modifier_pct": 40
+-        }
+-      ],
+-      "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
++      "resistances": [],
++      "trait_ids": ["cannone_sonico_a_raggio", "articolazioni_multiassiali"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+@@ -92,19 +88,19 @@
+       "statuses": [],
+       "resistances": [
+         {
+-          "channel": "fuoco",
+-          "modifier_pct": 15
++          "channel": "acido",
++          "modifier_pct": 35
+         },
+         {
+-          "channel": "gelo",
+-          "modifier_pct": 20
++          "channel": "contusivo",
++          "modifier_pct": 35
+         },
+         {
+-          "channel": "taglio",
+-          "modifier_pct": 10
++          "channel": "cryo",
++          "modifier_pct": 55
+         }
+       ],
+-      "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
++      "trait_ids": ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+@@ -129,7 +125,7 @@
+       "stress": 0.0,
+       "statuses": [],
+       "resistances": [],
+-      "trait_ids": [],
++      "trait_ids": ["artiglio_cinetico_a_urto"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+@@ -153,8 +149,17 @@
+       "initiative": 15,
+       "stress": 0.0,
+       "statuses": [],
+-      "resistances": [],
+-      "trait_ids": [],
++      "resistances": [
++        {
++          "channel": "contusivo",
++          "modifier_pct": 30
++        },
++        {
++          "channel": "perforante_tossico",
++          "modifier_pct": 20
++        }
++      ],
++      "trait_ids": ["scudo_gluteale_cheratinizzato"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+@@ -178,13 +183,8 @@
+       "initiative": 15,
+       "stress": 0.0,
+       "statuses": [],
+-      "resistances": [
+-        {
+-          "channel": "mentale",
+-          "modifier_pct": 15
+-        }
+-      ],
+-      "trait_ids": ["spore_psichiche_silenziate"],
++      "resistances": [],
++      "trait_ids": ["cannone_sonico_a_raggio"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+@@ -208,8 +208,17 @@
+       "initiative": 12,
+       "stress": 0.0,
+       "statuses": [],
+-      "resistances": [],
+-      "trait_ids": [],
++      "resistances": [
++        {
++          "channel": "elettrico",
++          "modifier_pct": 40
++        },
++        {
++          "channel": "sonico",
++          "modifier_pct": 15
++        }
++      ],
++      "trait_ids": ["bozzolo_magnetico"],
+       "pt": 0,
+       "reactions": {
+         "current": 1,
+diff --git a/tests/test_hydration.py b/tests/test_hydration.py
+index c1a02a52..eca8e742 100644
+--- a/tests/test_hydration.py
++++ b/tests/test_hydration.py
+@@ -64,17 +64,17 @@ def test_hydrate_caverna_matches_snapshot(catalog):
+         {
+             "id": "party-01",
+             "species_id": "anguis_magnetica",
+-            "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
++            "trait_ids": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
+         },
+         {
+             "id": "party-02",
+             "species_id": "aetherloom_stalker",
+-            "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
++            "trait_ids": ["cannone_sonico_a_raggio", "articolazioni_multiassiali"],
+         },
+         {
+             "id": "party-03",
+             "species_id": "crysalis_ember",
+-            "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
++            "trait_ids": ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
+         },
+     ]
+     state = hydrate_encounter(
+@@ -90,7 +90,7 @@ def test_hydrate_caverna_matches_snapshot(catalog):
+             "echo_seer",
+             "crystal_ward",
+         ],
+-        hostile_trait_ids=[[], [], ["spore_psichiche_silenziate"], []],
++        hostile_trait_ids=[["artiglio_cinetico_a_urto"], ["scudo_gluteale_cheratinizzato"], ["cannone_sonico_a_raggio"], ["bozzolo_magnetico"]],
+     )
+     with open(SNAPSHOT_PATH, encoding="utf-8") as fh:
+         expected = json.load(fh)
+@@ -98,25 +98,25 @@ def test_hydrate_caverna_matches_snapshot(catalog):
+ 
+ 
+ def test_aggregate_resistances_sums_by_channel(catalog):
+-    # mantello_meteoritico: fisico +20, fuoco +20
+-    # sangue_piroforico: fuoco +20
+-    # Atteso: fisico 20, fuoco 40
++    # pelage_idrorepellente_avanzato: cryo 25, acido 15
++    # cisti_di_ibernazione_minerale: cryo 30, contusivo 35, acido 20
++    # Atteso: acido 35, contusivo 35, cryo 55
+     result = aggregate_resistances(
+-        ["mantello_meteoritico", "sangue_piroforico"],
++        ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
+         catalog,
+     )
+     by_channel = {r["channel"]: r["modifier_pct"] for r in result}
+-    assert by_channel == {"fisico": 20, "fuoco": 40}
++    assert by_channel == {"acido": 35, "contusivo": 35, "cryo": 55}
+ 
+ 
+ def test_aggregate_resistances_sorts_alphabetically(catalog):
+     result = aggregate_resistances(
+-        ["cute_resistente_sali", "criostasi_adattiva"],
++        ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
+         catalog,
+     )
+     channels = [r["channel"] for r in result]
+     assert channels == sorted(channels)
+-    assert channels == ["fuoco", "gelo", "taglio"]
++    assert channels == ["acido", "contusivo", "cryo"]
+ 
+ 
+ def test_aggregate_resistances_clamps_to_range():
+diff --git a/tests/test_resolver.py b/tests/test_resolver.py
+index df3d2c8d..eb147fa6 100644
+--- a/tests/test_resolver.py
++++ b/tests/test_resolver.py
+@@ -278,13 +278,12 @@ def test_attack_armor_clamps_damage_to_zero(catalog):
+ 
+ def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
+     state = _mini_state(catalog)
+-    # attaccante con artigli_sette_vie (attack_mod +1, damage_step +1)
+-    state["units"][0]["trait_ids"] = ["artigli_sette_vie"]
+-    # nat 10 -> total = 10 + 1 = 11; CD=12 -> fail senza trait, ma con trait?
+-    # 10+1 = 11 < 12 -> fail ancora. Alziamo a nat 12 -> total 13 -> success.
+-    # mos = 1, step from mos = 0, step from trait = 1 -> total step 1
+-    # 1d8 = 4 (base), step_bonus floor(7.5*0.25) = 1 -> pre = 4+3+1 = 8
+-    # armor 4 -> 4
++    # attaccante con ipertrofia_muscolare_massiva (attack_mod +1, damage_step +1)
++    state["units"][0]["trait_ids"] = ["ipertrofia_muscolare_massiva"]
++    # nat 12 + attack_mod 1 = 13 >= CD 12 -> success, MoS = 1
++    # step from mos = 0, step from trait = 1 -> total step 1
++    # 1d8 roll val 3/8 -> 4, base_damage = 4+3 = 7
++    # step_bonus = floor(7.5*0.25*1) = 1 -> pre = 7+1 = 8, armor 4 -> 4
+     rng = rng_from_sequence([11 / 20, 3 / 8])
+     result = resolve_action(state, _attack(), catalog, rng)
+     roll = result["turn_log_entry"]["roll"]
+@@ -298,12 +297,12 @@ def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
+ 
+ def test_attack_vs_defensive_trait_raises_cd(catalog):
+     state = _mini_state(catalog)
+-    # target con cute_resistente_sali (defense_mod +1, resist fuoco +15 + taglio +10)
+-    state["units"][1]["trait_ids"] = ["cute_resistente_sali"]
++    # target con pelage_idrorepellente_avanzato (defense_mod +1, resist cryo +25 + acido +15)
++    state["units"][1]["trait_ids"] = ["pelage_idrorepellente_avanzato"]
+     # Riaggrega resistances manualmente come farebbe hydration
+     state["units"][1]["resistances"] = [
+-        {"channel": "fuoco", "modifier_pct": 15},
+-        {"channel": "taglio", "modifier_pct": 10},
++        {"channel": "cryo", "modifier_pct": 25},
++        {"channel": "acido", "modifier_pct": 15},
+     ]
+     # CD = 10 + 2 + 1 = 13
+     # nat 12 -> total 12 < 13 -> fail
+@@ -331,7 +330,7 @@ def test_action_move_consumes_ap_without_roll(catalog):
+     assert result["next_state"]["units"][0]["ap"]["current"] == 1
+ 
+ 
+-def test_action_defend_is_noop_but_consumes_ap(catalog):
++def test_action_defend_consumes_ap_and_applies_defense_up(catalog):
+     state = _mini_state(catalog)
+     defend = {
+         "id": "act-def",
+@@ -343,6 +342,62 @@ def test_action_defend_is_noop_but_consumes_ap(catalog):
+     result = resolve_action(state, defend, catalog, rng_from_sequence([]))
+     assert result["turn_log_entry"]["roll"] is None
+     assert result["next_state"]["units"][0]["ap"]["current"] == 1
++    # Defend deve applicare defense_up
++    statuses = result["next_state"]["units"][0].get("statuses", [])
++    defense_up = [s for s in statuses if s["id"] == "defense_up"]
++    assert len(defense_up) == 1
++    assert defense_up[0]["remaining_turns"] == 1
++    assert defense_up[0]["intensity"] == 1
++    # Il log deve riportare lo status applicato
++    assert len(result["turn_log_entry"]["statuses_applied"]) == 1
++    assert result["turn_log_entry"]["statuses_applied"][0]["id"] == "defense_up"
++
++
++def test_defense_up_increases_cd_for_attacker(catalog):
++    """Un'unita' che ha usato defend ha CD piu' alta contro gli attacchi."""
++    state = _mini_state(catalog)
++    # Prima applica defend al difensore (units[1] = "tgt")
++    defend = {
++        "id": "act-def",
++        "type": "defend",
++        "actor_id": "tgt",
++        "target_id": None,
++        "ap_cost": 1,
++    }
++    result1 = resolve_action(state, defend, catalog, rng_from_sequence([]))
++    state_after_defend = result1["next_state"]
++
++    # Ora attacca il difensore con un roll che normalmente sarebbe un hit
++    # ma il +1 defense_up dovrebbe alzare la CD.
++    # CD base = ATTACK_CD_BASE(10) + tier(2) + defense_mod(0) + defense_up(1) = 13
++    # Con natural 11 + attack_mod 0 = 11 < 13 -> miss
++    attack = {
++        "id": "act-atk",
++        "type": "attack",
++        "actor_id": "atk",
++        "target_id": "tgt",
++        "ap_cost": 1,
++        "damage_dice": {"count": 1, "sides": 6, "modifier": 0},
++    }
++    rng = rng_from_sequence([10 / 20, 3 / 6])  # natural 11
++    result2 = resolve_action(state_after_defend, attack, catalog, rng)
++    # Con defense_up, CD = 13, roll 11 -> miss
++    assert result2["turn_log_entry"]["damage_applied"] == 0
++    assert result2["turn_log_entry"]["roll"]["success"] is False
++
++
++def test_action_move_is_noop_but_consumes_ap(catalog):
++    state = _mini_state(catalog)
++    move = {
++        "id": "act-mv",
++        "type": "move",
++        "actor_id": "atk",
++        "target_id": None,
++        "ap_cost": 1,
++    }
++    result = resolve_action(state, move, catalog, rng_from_sequence([]))
++    assert result["turn_log_entry"]["roll"] is None
++    assert result["next_state"]["units"][0]["ap"]["current"] == 1
+ 
+ 
+ def test_resolve_action_does_not_mutate_input_state(catalog):
+@@ -727,62 +782,68 @@ def test_check_stress_breakpoints_no_retrigger_when_already_above():
+ 
+ def test_on_hit_stress_delta_raises_stress_and_can_trigger_rage(catalog):
+     state = _mini_state(catalog)
+-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
+-    state["units"][1]["stress"] = 0.48  # appena sotto il breakpoint rage
+-    # Sequenza: nat attack, damage roll, SV del target per on_hit_status disorient
+-    rng = rng_from_sequence([19 / 20, 7 / 8, 5 / 20])  # nat 20, 1d8=8, SV nat 6 (fail vs 12)
++    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
++    state["units"][1]["stress"] = 0.45  # appena sotto il breakpoint rage
++    # Sequenza: nat attack, damage roll, SV del target per on_hit_status
++    # cannone_sonico_a_raggio: attack_mod +1, damage_step +2, stress_delta +0.05
++    # on_hit_status presente (trigger_dc defaults to 10 in resolver)
++    rng = rng_from_sequence([19 / 20, 7 / 8, 5 / 20])  # nat 20, 1d8=8, SV nat 6 (fail vs 10)
+     result = resolve_action(state, _attack(), catalog, rng)
+     next_target = result["next_state"]["units"][1]
+-    # stress 0.48 + 0.05 = 0.53 -> attraversa 0.5 -> rage applicata
+-    assert next_target["stress"] == pytest.approx(0.53)
++    # stress 0.45 + 0.05 = 0.50 -> attraversa 0.5 -> rage applicata
++    assert next_target["stress"] == pytest.approx(0.50)
+     status_ids = {s["id"] for s in next_target["statuses"]}
+     assert "rage" in status_ids
+-    # Plus il disorient da on_hit_status (SV failed)
+-    assert "disorient" in status_ids
++    # Plus disorientamento da on_hit_status (SV nat 6 fail vs DC 15)
++    assert "disorientamento" in status_ids
+ 
+ 
+ def test_on_hit_status_applied_on_sv_fail(catalog):
+     state = _mini_state(catalog)
+-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
+-    # nat 14 attack (success CD 12), damage 5, SV nat 5 (fail vs 12)
++    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
++    # cannone_sonico_a_raggio: attack_mod +1, damage_step +2, stress +0.05
++    # on_hit_status: disorientamento DC 15, duration_turns 2
++    # nat 14 + attack_mod 1 = 15 (success vs CD 12), damage roll, SV nat 5 (fail vs 15)
+     rng = rng_from_sequence([13 / 20, 4 / 8, 4 / 20])
+     result = resolve_action(state, _attack(), catalog, rng)
+-    disorient = get_status(result["next_state"]["units"][1], "disorient")
+-    assert disorient is not None
+-    assert disorient["intensity"] == 1
+-    assert disorient["remaining_turns"] == 2
++    on_hit = get_status(result["next_state"]["units"][1], "disorientamento")
++    assert on_hit is not None
++    assert on_hit["intensity"] == 1
++    assert on_hit["remaining_turns"] == 2
+ 
+ 
+ def test_on_hit_status_not_applied_on_sv_success(catalog):
+     state = _mini_state(catalog)
+-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
+-    # nat 14 attack, damage 5, SV nat 18 (success vs 12)
++    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
++    # cannone_sonico_a_raggio: attack_mod +1, DC 15
++    # nat 14 + 1 = 15 (success vs CD 12), damage roll, SV nat 18 (success vs 15)
+     rng = rng_from_sequence([13 / 20, 4 / 8, 17 / 20])
+     result = resolve_action(state, _attack(), catalog, rng)
+-    # Il target ha comunque ricevuto il stress delta e il danno, ma non disorient
+-    assert get_status(result["next_state"]["units"][1], "disorient") is None
++    # Il target ha comunque ricevuto il stress delta e il danno, ma non lo status on_hit
++    assert get_status(result["next_state"]["units"][1], "disorientamento") is None
+ 
+ 
+ def test_on_hit_status_not_applied_on_attack_miss(catalog):
+     state = _mini_state(catalog)
+-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
++    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
+     # nat 1 -> fumble, attack miss, nessun on_hit trigger
+     rng = rng_from_sequence([0.0])
+     result = resolve_action(state, _attack(), catalog, rng)
+     next_target = result["next_state"]["units"][1]
+     assert result["turn_log_entry"]["roll"]["success"] is False
+-    assert get_status(next_target, "disorient") is None
++    assert get_status(next_target, "disorientamento") is None
+     # Stress NON deve essere stato aumentato (on_hit_stress_delta non scatta su miss)
+     assert next_target["stress"] == 0.0
+ 
+ 
+ def test_statuses_applied_logged_in_turn_log(catalog):
+     state = _mini_state(catalog)
+-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
+-    state["units"][1]["stress"] = 0.48
++    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
++    state["units"][1]["stress"] = 0.45
+     rng = rng_from_sequence([19 / 20, 7 / 8, 5 / 20])
+     result = resolve_action(state, _attack(), catalog, rng)
+     applied = result["turn_log_entry"]["statuses_applied"]
+     assert len(applied) >= 1
+     ids = {s["id"] for s in applied}
+-    assert "rage" in ids or "disorient" in ids
++    assert "rage" in ids
++    assert "disorientamento" in ids

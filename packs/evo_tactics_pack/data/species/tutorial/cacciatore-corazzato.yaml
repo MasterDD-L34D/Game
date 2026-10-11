@@ -1,0 +1,49 @@
+id: cacciatore_corazzato
+schema_version: '1.7'
+resistance_archetype: corazzato
+display_name: Cacciatore Corazzato
+display_name_en: Armored Hunter
+biomes:
+  - savana
+role_trofico: predatore_tutorial_tank
+functional_tags:
+  - nemico_tutorial
+  - tank_armored
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+  tutorial_phantom: true
+path: ../../packs/evo_tactics_pack/data/species/tutorial/cacciatore-corazzato.yaml
+balance:
+  rarity: R2
+  threat_tier: T2
+  encounter_role: threat
+playable_unit: false
+morphotype: bipede_corazzato
+jobs_bias:
+  - vanguard
+combat_baseline:
+  hp: 6
+  ap: 2
+  mod: 2
+  dc: 13
+  attack_range: 1
+  guardia: 0
+  ai_profile: aggressive
+used_in_encounters:
+  - enc_tutorial_02
+description: |
+  Cacciatore corazzato — target ideale per tank giocatore nel tutorial 02.
+  HP 6 calibrato per essere offensive threat cumulativo con nomadi mod 3.
+  ai_profile=aggressive abilita Utility AI (rivelato pressure umana in
+  v0.6 P6 human-balance).
+  Stub M5-#3 (P0-D audit fix 2026-04-19).
+receipt:
+  source: M5-#3.stub
+  author: claude-agent
+  date: '2026-04-19'
+  note: phantom species stub, baseline estratto da tutorialScenario.js

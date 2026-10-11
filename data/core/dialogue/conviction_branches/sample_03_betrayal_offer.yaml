@@ -1,0 +1,45 @@
+# TKT-M14-B Phase B — Conviction dialogue branch.
+#
+# Trigger semantica: NPC compagno propone tradimento per vantaggio strategico.
+# Axis space: Utility (accept) vs Morality (refuse) vs Liberty (counter-offer).
+#
+# Threshold trigger: utility>=60 + liberty>=40 (NPC valuta player pragmatico).
+
+id: conv_branch_betrayal_offer
+title: "Betrayal Offer"
+description_it: |
+  Un alleato ti prende da parte. Sussurra. Conosce un sentiero che
+  porterebbe il rivale in trappola. Senza testimoni. Solo sabbia e silenzio.
+description_en: |
+  An ally takes you aside. Whispers. Knows a path that would lead
+  the rival into a trap. No witnesses. Only sand and silence.
+trigger:
+  encounter_id: null
+  axis_threshold:
+    utility: 60
+    liberty: 40
+choices:
+  - id: accept
+    text_it: "Accetto. Il rivale è una minaccia da rimuovere."
+    text_en: "I accept. The rival is a threat to be removed."
+    delta:
+      utility: +12
+      liberty: 0
+      morality: -15
+    consequence: "Trappola scattata. Rivale eliminato. Alleato sogghigna. Bond_hearts -2."
+  - id: refuse
+    text_it: "Rifiuto. Non così. Mai così."
+    text_en: "I refuse. Not like this. Never like this."
+    delta:
+      utility: -5
+      liberty: +3
+      morality: +15
+    consequence: "Alleato si chiude. Rivale resta. Skiv annuisce piano. Bond_hearts +1."
+  - id: counter_offer
+    text_it: "Confrontiamolo apertamente. Niente trappole."
+    text_en: "Let us confront him openly. No traps."
+    delta:
+      utility: +3
+      liberty: +10
+      morality: +5
+    consequence: "Scontro aperto pianificato. Branco prepara. Alleato osserva sorpreso."

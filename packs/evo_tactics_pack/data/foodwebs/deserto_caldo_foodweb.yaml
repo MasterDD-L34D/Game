@@ -1,0 +1,99 @@
+pack_slug: deserto_caldo
+display_name_it: "Foodweb Deserto Caldo"
+display_name_en: "Hot Desert Foodweb"
+biome_slug: deserto_caldo
+biome_legacy_slug: deserto_caldo
+nodes:
+- id: succulente_xerofile
+  node_id: succulente_xerofile
+  legacy_slug: succulente_xerofile
+  display_name_it: "Succulente Xerofile"
+  display_name_en: "Xerophyte Succulents"
+  kind: resource
+- id: cianobatteri_dune
+  node_id: cianobatteri_dune
+  legacy_slug: cianobatteri_dune
+  display_name_it: "Cianobatteri delle Dune"
+  display_name_en: "Dune Cyanobacteria"
+  kind: resource
+- id: licheni_cripto
+  node_id: licheni_cripto
+  legacy_slug: licheni_cripto
+  display_name_it: "Licheni Criptici"
+  display_name_en: "Cryptic Lichens"
+  kind: resource
+- id: cactus-weaver
+  node_id: cactus-weaver
+  legacy_slug: cactus_weaver
+  display_name_it: "Tessitore di Cactus"
+  display_name_en: "Cactus Weaver"
+  kind: species
+- id: noctule-termico
+  node_id: noctule-termico
+  legacy_slug: noctule_termico
+  display_name_it: "Pipistrello Termico"
+  display_name_en: "Thermal Noctule"
+  kind: species
+- id: thermo-raptor
+  node_id: thermo-raptor
+  legacy_slug: thermo_raptor
+  display_name_it: "Termo-Raptor"
+  display_name_en: "Thermo Raptor"
+  kind: species
+- id: silica-bloom
+  node_id: silica-bloom
+  legacy_slug: silica_bloom
+  display_name_it: "Fioritura Silicea"
+  display_name_en: "Silica Bloom"
+  kind: hazard
+- id: evento-ondata-termica
+  node_id: evento-ondata-termica
+  legacy_slug: evento_ondata_termica
+  display_name_it: "Evento Ondata Termica"
+  display_name_en: "Heat Wave Event"
+  kind: hazard
+- id: detrito
+  node_id: detrito
+  legacy_slug: detrito
+  display_name_it: "Detrito"
+  display_name_en: "Detritus"
+  kind: resource
+- id: carcasse
+  node_id: carcasse
+  legacy_slug: carcasse
+  display_name_it: "Carcasse"
+  display_name_en: "Carcasses"
+  kind: resource
+edges:
+- from: succulente_xerofile
+  to: cactus-weaver
+  type: herbivory
+  weight: 0.5
+- from: licheni_cripto
+  to: cactus-weaver
+  type: grazing
+  weight: 0.4
+- from: cianobatteri_dune
+  to: cactus-weaver
+  type: grazing
+  weight: 0.3
+- from: cactus-weaver
+  to: thermo-raptor
+  type: predation
+  weight: 0.6
+- from: noctule-termico
+  to: succulente_xerofile
+  type: dispersal
+  weight: 0.5
+- from: detrito
+  to: cactus-weaver
+  type: detritus
+  weight: 0.4
+- from: carcasse
+  to: cactus-weaver
+  type: scavenging
+  weight: 0.3
+- from: silica-bloom
+  to: cactus-weaver
+  type: suppression
+  weight: 0.5

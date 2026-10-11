@@ -1,0 +1,19 @@
+schema_version: 1.0
+ecosistema:
+  id: CANOPIA_IONICA
+  label: Canopia Ionica
+  biome_id: canopia_ionica
+  trofico:
+    produttori:
+    - piante_superiori
+    - alghe
+    consumatori:
+      primari: []
+      secondari: []
+      terziari:
+      - soniptera-resonans
+      - sonaraptor-dissonans
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

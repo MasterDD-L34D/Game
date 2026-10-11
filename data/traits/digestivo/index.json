@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "digestivo"
+      ]
+    }
+  },
+  "traits": [
+    "filamenti_digestivi_compattanti",
+    "ventriglio_gastroliti"
+  ],
+  "type": "digestivo"
+}

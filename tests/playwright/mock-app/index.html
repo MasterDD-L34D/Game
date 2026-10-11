@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Evo-Tactics Mission Console (Mock)</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell" id="app" data-route="/">
+      <button
+        class="app-shell__menu-toggle"
+        type="button"
+        aria-controls="mission-console-navigation"
+        aria-expanded="false"
+      >
+        <span class="visually-hidden">Apri il menù Evo-Tactics Console</span>
+        ☰
+      </button>
+      <nav id="mission-console-navigation" class="navigation" aria-label="Navigazione Evo-Tactics">
+        <div class="navigation__topbar">
+          <button
+            class="navigation__topbar-item navigation__topbar-item--active"
+            data-target="/"
+            data-active-when="/,/mission-console"
+          >
+            <span class="navigation__topbar-text">Mission Console</span>
+          </button>
+          <button
+            class="navigation__topbar-item"
+            data-target="/mission-control"
+            data-active-when="/mission-control"
+          >
+            <span class="navigation__topbar-text">Mission Control</span>
+          </button>
+          <button
+            class="navigation__topbar-item"
+            data-target="/generator"
+            data-active-when="/generator"
+          >
+            <span class="navigation__topbar-text">Generatore</span>
+          </button>
+          <button
+            class="navigation__topbar-item"
+            data-target="/dashboard"
+            data-active-when="/dashboard"
+          >
+            <span class="navigation__topbar-text">Dashboard</span>
+          </button>
+          <button
+            class="navigation__topbar-item"
+            data-target="/ecosystem-pack"
+            data-active-when="/ecosystem-pack"
+          >
+            <span class="navigation__topbar-text">Ecosystem Pack</span>
+          </button>
+          <button class="navigation__topbar-item" data-target="/atlas" data-active-when="/atlas">
+            <span class="navigation__topbar-text">Atlas</span>
+          </button>
+          <button class="navigation__topbar-item" data-target="/traits" data-active-when="/traits">
+            <span class="navigation__topbar-text">Traits</span>
+          </button>
+          <button class="navigation__topbar-item" data-target="/nebula" data-active-when="/nebula">
+            <span class="navigation__topbar-text">Nebula</span>
+          </button>
+        </div>
+        <ul class="navigation__menu" role="menu">
+          <li><button type="button" data-target="/" role="menuitem">Dashboard</button></li>
+          <li>
+            <button type="button" data-target="/mission-console" role="menuitem">
+              Mission Console
+            </button>
+          </li>
+          <li>
+            <button type="button" data-target="/mission-control" role="menuitem">
+              Mission Control
+            </button>
+          </li>
+          <li>
+            <button type="button" data-target="/generator" role="menuitem">Generatore</button>
+          </li>
+          <li>
+            <button type="button" data-target="/ecosystem-pack" role="menuitem">
+              Ecosystem Pack
+            </button>
+          </li>
+          <li><button type="button" data-target="/atlas" role="menuitem">Atlas</button></li>
+          <li><button type="button" data-target="/traits" role="menuitem">Traits</button></li>
+          <li><button type="button" data-target="/nebula" role="menuitem">Nebula</button></li>
+        </ul>
+      </nav>
+      <div class="app-shell__overlay" aria-hidden="true"></div>
+      <main class="app-shell__content" id="content" tabindex="-1"></main>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

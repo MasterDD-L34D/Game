@@ -1,0 +1,46 @@
+id: arboryxis-lenis
+schema_version: '1.7'
+notes: 'identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc/genetic_traits/foodweb/ecology authored 2026-06-18 (master-dd ratified, docs/planning/2026-06-18-species-calib-5stub-ratification.md); vc aggro/risk/explore telemetry-refined S3 (N=60, seed 424242, docs/playtest/2026-06-18-vc-telemetry-s3.md); cohesion/setup/tilt kept heuristic (non-derivable from current sim logs); win-rate calibration done S1/S2 (merged).'
+display_name: Vagabondo della Volta
+biomes:
+- foresta_temperata
+role_trofico: consumatore_primario
+functional_tags: []
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: true
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  densita: low
+vc:
+  aggro: 0.22
+  risk: 0.36
+  cohesion: 0.4
+  setup: 0.6
+  explore: 0.05
+  tilt: 0.2
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+genetic_traits:
+  core:
+  - zampe_a_molla
+  - articolazioni_a_leva_idraulica
+  - pelle_elastomera
+  optional:
+  - pelage_idrorepellente_avanzato
+  - sacche_galleggianti_ascensoriali
+  synergy:
+  - focus_frazionato
+  - legame_di_branco
+environment_affinity: {}
+derived_from_environment: {}
+receipt:
+  source: legacy-catalog-promote
+  author: master-dd
+  note: 'promoted from species_catalog.json legacy-yaml-merge; clade/role canonical per ADR-2026-05-15; trait_refs empty in canon; balance pending calibration'

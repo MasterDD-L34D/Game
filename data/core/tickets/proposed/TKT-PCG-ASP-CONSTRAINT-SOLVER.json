@@ -1,0 +1,21 @@
+{
+  "id": "TKT-PCG-ASP-CONSTRAINT-SOLVER",
+  "title": "ASP constraint solvers (clingo) encounter authoring",
+  "pillar": "P5",
+  "effort_hours": 28,
+  "donor_game": {
+    "name": "ASP / clingo",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#5-asp-constraint-solvers-answer-set-programming"
+  },
+  "agent_owner": "pcg-level-design-illuminator",
+  "status": "blocked",
+  "reuse_level": "full",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "BLOCKED dep approval. Designer scrive constraint, ASP enumera valid layouts. clingo Python binding.",
+  "blockers": [
+    "new dependency approval required"
+  ]
+}

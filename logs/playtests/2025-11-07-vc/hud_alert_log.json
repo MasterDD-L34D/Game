@@ -1,0 +1,36 @@
+[
+  {
+    "alertId": "risk-high:bal03_followup",
+    "status": "raised",
+    "missionId": "bal03_followup",
+    "missionTag": "validation",
+    "turn": 0,
+    "weightedIndex": 0.63,
+    "timeLowHpTurns": null,
+    "timestamp": "2025-11-07T07:02:44Z",
+    "ackCount": 0,
+    "ackRecipients": []
+  },
+  {
+    "alertId": "risk-high:bal03_followup",
+    "status": "acknowledged",
+    "missionId": "bal03_followup",
+    "missionTag": "validation",
+    "turn": 0,
+    "timestamp": "2025-11-07T07:03:18Z",
+    "ackRecipient": "qa.lead",
+    "ackRecipients": ["qa.lead"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-11-07T07:03:18Z"
+  },
+  {
+    "alertId": "risk-high:bal03_followup",
+    "status": "filtered",
+    "missionId": "bal03_followup",
+    "missionTag": "validation",
+    "turn": 0,
+    "timestamp": "2025-11-07T07:03:20Z",
+    "filterName": "missingPlaybook",
+    "filterCount": 1
+  }
+]

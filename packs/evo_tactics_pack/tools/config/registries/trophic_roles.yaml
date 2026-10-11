@@ -1,0 +1,40 @@
+schema_version: '1.0'
+roles_enum:
+- produttore
+- produttore_chemiotrofo
+- erbivoro_primario
+- grazing
+- filtratore_grazing
+- predatore_secondario
+- predatore_filtratore_secondario
+- predatore_regolatore_simbionte
+- predatore_terziario_apex
+# Legacy ecological-consumer synonyms (#2850 5-stub species): standard
+# primary/secondary/tertiary-consumer taxonomy, kept as canonical role_trofico
+# (master-dd field). Adapter ROLE_TROFICO_MAP maps them to APEX/PREDATOR/PREY.
+- predatore_terziario
+- consumatore_secondario
+- consumatore_primario
+- decompositore
+- impollinatore
+- impollinatore_notturno
+- commensale
+- commensale_opportunista
+- parassita
+- parassita_acquatico
+- detritivoro
+- ingegneri_ecosistema
+- onnivoro_invasivo
+- minaccia_microbica
+- evento_ecologico
+- dispersore_ponte
+compat_groups:
+  produttore:
+  - produttori
+  decompositore:
+  - decompositori
+  impollinatore:
+  - impollinatori
+  predatore_terziario_apex:
+  - consumatori_terziari
+  - specie_chiave

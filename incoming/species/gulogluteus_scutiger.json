@@ -1,0 +1,28 @@
+{
+  "species": {
+    "scientific_name": "Gulogluteus scutiger",
+    "common_names": ["Ghiotton-Scudo"],
+    "classification": {
+      "macro_class": "Mammalia",
+      "habitat": "foreste umide con corsi d'acqua"
+    },
+    "functional_signature": "Manipolazione a lungo raggio tramite lingua prensile quanto il corpo e stabilizzazione caudale; difesa passiva dorsale a placca cheratinizzata.",
+    "visual_description": "Mammifero robusto e basso, pelliccia scura lucida idrofoba; coda spessa prensile; regione glutea corazzata in rilievo; zampe corte ma molto mobili; lingua che si estende come una proboscide muscolare.",
+    "risk_profile": {
+      "danger_level": 2,
+      "vectors": ["schiacciamento", "graffi"]
+    },
+    "interactions": {
+      "predates_on": ["insetti lignicoli", "frutti duri", "uova"],
+      "predated_by": ["grossi felidi", "umani"],
+      "symbiosis": "dispersione di semi tramite pelliccia oleosa"
+    },
+    "constraints": [
+      "Alto costo elettrolitico per secrezioni oleose in siccità",
+      "La corazza riduce la velocità in sprint prolungati"
+    ],
+    "sentience_index": "T1",
+    "ecotypes": ["Chioma Umida", "Forre Umide"],
+    "trait_refs": ["TR-1201", "TR-1202", "TR-1203", "TR-1204", "TR-1205"]
+  }
+}

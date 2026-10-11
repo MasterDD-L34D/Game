@@ -1,0 +1,68 @@
+{
+  "scenario": "enc_frattura_03",
+  "arm": "off",
+  "args": {
+    "scenario": "enc_frattura_03",
+    "arm": "off",
+    "runs": 40,
+    "seedBase": 70000,
+    "out": "reports/sim/a2-pressure-n40-desat-2026-06-16",
+    "commit": "2a7f3853",
+    "aggregate": false,
+    "scaling": {
+      "countAdd": 3,
+      "modAdd": 3
+    },
+    "roster": "weak"
+  },
+  "fire": {
+    "sistema_tier": "Calm",
+    "sistema_pressure": 0,
+    "floor": 4,
+    "expected_min": 75
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 1,
+    "win_ci95": [
+      0.9123754607496077,
+      1
+    ],
+    "defeat_rate": 0,
+    "defeat_ci95": [
+      0,
+      0.08762453925039232
+    ],
+    "timeout_rate": 0,
+    "wins": 40,
+    "defeats": 0,
+    "timeouts": 0,
+    "rounds": {
+      "mean": 33.975,
+      "sd": 0.15811388300841886,
+      "ci95": [
+        33.926,
+        34.024
+      ],
+      "n": 40
+    },
+    "survivors": {
+      "mean": 1.95,
+      "sd": 0.22072142786315224,
+      "ci95": [
+        1.8815977208356929,
+        2.018402279164307
+      ],
+      "n": 40
+    },
+    "spawns": {
+      "mean": 0,
+      "sd": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "n": 40
+    }
+  }
+}

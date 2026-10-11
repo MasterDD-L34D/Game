@@ -1,0 +1,68 @@
+name: Skiv Monitor
+
+on:
+  schedule:
+    # Ogni 4 ore — bilancia rate-limit GitHub vs reattività Skiv
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      reset:
+        description: 'Reset Skiv state to defaults before run'
+        required: false
+        default: 'false'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r tools/py/requirements.txt
+
+      - name: Reset Skiv state (if requested)
+        if: ${{ github.event.inputs.reset == 'true' }}
+        run: python tools/py/skiv_monitor.py --reset-state
+
+      - name: Run Skiv monitor poll
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python tools/py/skiv_monitor.py \
+            --repo "${{ github.repository }}"
+
+      - name: Push Skiv state to dedicated branch (OD-042-A, no PR)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet; then
+            echo "[skiv-monitor] no state change, skipping commit"
+            exit 0
+          fi
+          # OD-042-A (master-dd 2026-05-16): NO PR-to-main. Stato Skiv =
+          # dato derived/rigenerabile di distribuzione → branch dedicato
+          # non-protetto `skiv-monitor/state`, orphan ogni run (history
+          # shallow = zero bloat: feed.jsonl NON accumula in git-history).
+          # Risolve insieme: (1) PR BLOCKED ricorrente #2257, (2) bloat
+          # 8MB/4h. Backend fetcha questo branch. Vedi vault OD-042.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="skiv-monitor/state"
+          git checkout --orphan "$BRANCH"
+          git rm -rq --cached . >/dev/null 2>&1 || true
+          git add data/derived/skiv_monitor/ docs/skiv/MONITOR.md
+          git commit -m "chore(skiv): state @${{ github.run_id }} (OD-042-A)"
+          git push --force origin "$BRANCH"
+          echo "[skiv-monitor] stato → branch skiv-monitor/state (no PR, OD-042-A)"

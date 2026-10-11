@@ -1,0 +1,205 @@
+---
+title: REF_PACKS_AND_DERIVED – Pack, snapshot e fixture
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+
+# REF_PACKS_AND_DERIVED – Pack, snapshot e fixture
+
+Versione: 0.6
+Data: 2025-12-07
+Owner: agente **archivist** (supporto: dev-tooling, coordinator)
+Stato: GATE 01A→03B in corso – pianificazione go-live derivazioni/pack
+Delta vs 2025-12-30: milestone anticipata al 07/12, stato aggiornato sui gate effettivi, aggiunta timeline compressed con owner e rigenerazioni + mappatura checkpoint per blocchi aperti (sync core→pack, generatori/fixture mancanti).
+
+---
+
+## Obiettivi
+
+- Mappare pack ufficiali, snapshot e fixture (`packs/**`, `data/derived/**`, `examples/`, eventuali layout legacy) e definirne lo stato di derivazione dai core.
+- Stabilire regole per la rigenerazione dei pack a partire dai core, compresi i requisiti di tooling e validazione.
+- Identificare duplicati o asset legacy da archiviare per ridurre il rischio di regressioni.
+
+## Stato attuale
+
+- `packs/evo_tactics_pack` è considerato pack ufficiale ma non è documentato se e come venga rigenerato automaticamente dai core.
+- `data/derived/**` contiene snapshot/mock/fixture senza un catalogo unico che ne spieghi scopo, data di origine e rischio di divergenza.
+- Alcuni esempi o report potrebbero contenere layout pack legacy non tracciati.
+- Non esiste una policy documentata per collegare i derived ai test/CI o per marcarli come deprecati.
+
+## Rischi
+
+- Derived non allineati ai core possono introdurre incoerenze nei test o nei pack distribuiti.
+- Rigenerazioni manuali senza checklist possono rompere compatibilità con CI o con gli schemi ALIENA/UCUM.
+- Pack legacy non etichettati possono essere riutilizzati erroneamente come sorgente di verità.
+
+## Dipendenze
+
+- `REF_REPO_SOURCES_OF_TRUTH` per i percorsi canonici dei core da cui rigenerare (cross-link reciproco attivo).
+- `REF_TOOLING_AND_CI` per definire script e workflow che producono/validano pack e derived.
+- `REF_REPO_MIGRATION_PLAN` per decidere quando archiviare o rigenerare specifici derived.
+- Supporto di dev-tooling per standardizzare i comandi di rigenerazione e di coordinator per le priorità.
+
+## Prerequisiti (patchset)
+
+- **PATCHSET-01A – Catalogo incoming**: fornisce l'inventario dei sorgenti core da usare come input per rigenerare pack e fixture.
+- **PATCHSET-02A – Tooling di validazione**: abilita la modalità report/gate dei validator (pack e core) da eseguire prima e dopo la derivazione.
+
+## Mappa sintetica core → derived/pack (gap noti)
+
+### Core → consumer focali (biomi/foodweb, mating/telemetry/game_functions, progression, HUD)
+
+| Core canonico                                                                        | Consumer dichiarati (pack/derived/test/CI)                                                                                                                                                                                                               | Note operative                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`                              | Pack biomi/ecosistemi/foodweb (`packs/evo_tactics_pack/data/ecosystems/*.yaml`, `packs/evo_tactics_pack/data/foodwebs/*.yaml`), validator pack (`packs/evo_tactics_pack/tools/py/run_all_validators.py`), derived ecosistemi (`data/ecosystems/*.yaml`). | Ogni modifica ai biomi o alias richiede rigenerazione dei file pack/derived tramite pipeline `scripts/evo_pack_pipeline.py --targets ecosystems,foodwebs` (o step equivalente), con sha256 e comando in README locale delle directory pack/derived. CI da toccare: `data-quality.yml` per validazione dataset, `qa-reports.yml` per report pack.                                    |
+| `data/core/mating.yaml`, `data/core/telemetry.yaml`, `data/core/game_functions.yaml` | Pack dati speculari (`packs/evo_tactics_pack/data/mating.yaml`, `.../telemetry.yaml`, `.../game_functions.yaml`), snapshot mock (`data/derived/mock/prod_snapshot/*`), fixture minimal (`data/derived/test-fixtures/minimal/**`), test API/telemetria.   | Le variazioni vanno propagate con `scripts/evo_pack_pipeline.py --targets mating,telemetry,game_functions` + rigenerazione fixture/snapshot; aggiornare README e checksum in `packs/evo_tactics_pack/data/` e nelle directory `data/derived/mock/**` / `data/derived/test-fixtures/minimal/**`. CI coinvolta: `data-quality.yml`, `qa-reports.yml`, `hud.yml` (per telemetria/HUD). |
+| `data/core/missions/*.yaml` (es. `skydock_siege.yaml`)                               | Report progression (`data/derived/analysis/progression/\*.json                                                                                                                                                                                           | \*.csv`), eventuali badge QA (`reports/qa_badges.json`) e regressione gameplay nei test di simulazione.                                                                                                                                                                                                                                                                             | Rigenerare i report con `python scripts/generate_derived_analysis.py --progression` e aggiornare README + manifest sha256 in `data/derived/analysis/` e sottocartelle. Se i badge QA dipendono dai dati, rieseguire `node scripts/export-qa-report.js`. CI: `qa-reports.yml` (badge/report), `data-quality.yml` (derivati inclusi nei check). |
+| `data/core/hud/layout.yaml`                                                          | Overlay HUD (`public/hud/**`), CLI HUD (`config/cli/hud.yaml`), canary HUD CI, eventuali snapshot pack/fixture che incorporano layout.                                                                                                                   | Dopo modifiche al layout rigenerare asset/overlay HUD e aggiornare checksum/README in `data/core/hud/` o cartelle consumer. CI canary `hud.yml` deve essere riallineata (triggera su `data/core/hud/**`).                                                                                                                                                                           |
+
+| Ambito                      | Input core canonico                                                                                                        | Output/derivati mirati                                                                                                                                | Script/tool dichiarati                                                                                                                                         | Gap da chiudere                                                                                 |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `data/core/**`              | Specie (`data/core/species.yaml`), biomi (`data/core/biomes.yaml`), trait (`data/core/traits/*.json`), missioni/telemetria | Pack dataset (`packs/evo_tactics_pack/data/**`), cataloghi pack (`packs/evo_tactics_pack/docs/catalog/*.json`), fixture/mock (`data/derived/mock/**`) | `scripts/update_evo_pack_catalog.js`, `scripts/sync_evo_pack_assets.js`, `packs/evo_tactics_pack/tools/py/derive_*`, `scripts/build_evo_tactics_pack_dist.mjs` | Manca sync automatica core→pack; fixture `data/derived/test-fixtures/minimal` senza generatore. |
+| `data/derived/**`           | Core + parametri QA                                                                                                        | Report analitici (`data/derived/analysis/**`), snapshot (`data/derived/mock/**`), export (`data/derived/exports/**`)                                  | `rsync` per `mock/prod_snapshot`; nessun tool consolidato per `analysis/**`                                                                                    | Script assenti per coverage/progression; export QA non tracciati da workflow.                   |
+| `packs/evo_tactics_pack/**` | Core + configurazioni pack                                                                                                 | Dataset pack, cataloghi, validator output (`out/validation/*`)                                                                                        | `packs/evo_tactics_pack/tools/py/run_all_validators.py`, tool Python `derive_*`, build/preview script `.mjs`                                                   | Pipeline ufficiale non orchestraita; validator non legati a gating CI (dip. 02A).               |
+
+## Generatori e checksum attesi (core → derived/pack)
+
+| Ambito                                    | Input canonico (vedi `REF_REPO_SOURCES_OF_TRUTH`)                                                                                 | Tool/script dichiarati                                                                                                                                         | Output/dir interessati                                                                  | Tracciabilità e checksum attesi                                                           |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Allineamento dataset pack                 | `data/core/species.yaml`, `data/core/biomes.yaml`, `data/core/traits/*.json`, `data/core/telemetry.yaml`, `data/core/mating.yaml` | (gap) Script di sync core→pack da definire; validazione con `packs/evo_tactics_pack/tools/py/run_all_validators.py`                                            | `packs/evo_tactics_pack/data/**`, `packs/evo_tactics_pack/out/validation/last_report.*` | Log comando + sha256 degli output validator in README pack; note su commit sorgente core. |
+| Cataloghi e asset pack                    | Pack già allineato al core + ecosistemi/foodweb derivati                                                                          | `scripts/update_evo_pack_catalog.js`, `scripts/sync_evo_pack_assets.js`, `scripts/build_evo_tactics_pack_dist.mjs`/`scripts/preview_evo_tactics_pack_dist.mjs` | `packs/evo_tactics_pack/docs/catalog/*.json`, distribuzione pack                        | README `docs/catalog` con checksum JSON/asset generati e timestamp script/commit usato.   |
+| Derived analitici (coverage/progressione) | Trait/specie/missioni core (`data/core/traits/**`, `data/core/species.yaml`, `data/core/missions/*.yaml`)                         | (gap) generatori dedicati da aggiungere (`scripts/analysis/trait_coverage_*`, `scripts/analysis/progression_skydock_*`)                                        | `data/derived/analysis/**`                                                              | README locale con comando, commit core e sha256 dei file `{csv,json,yaml}` prodotti.      |
+| Snapshot/mock                             | `data/core/**` + pack per fallback deploy                                                                                         | `rsync -a --exclude 'mock' data/ data/derived/mock/prod_snapshot/`                                                                                             | `data/derived/mock/prod_snapshot/**`                                                    | Manifest/sha256 aggiornato in README della directory snapshot dopo ogni copia.            |
+
+**Esito verifica percorsi**: i path canonici indicati sopra e in `REF_REPO_SOURCES_OF_TRUTH` risultano univoci (`data/core/**`, `packs/evo_tactics_pack/**`, `data/derived/**`); nessuna ambiguità o duplicato rilevato nelle directory attuali.
+
+## Prerequisiti di governance
+
+- Owner umano assegnato per il mantenimento di PATCHSET-00 e responsabile dell’allineamento pack/core.
+- Branch dedicati per testare rigenerazioni e validazioni dei pack prima di ogni merge su `main`.
+- Tracciamento in `logs/agent_activity.md` di esecuzioni, approvazioni e changelog pack/derived.
+
+---
+
+## Changelog
+
+- 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermata la separazione core/derived e la numerazione 01A–03B senza modifiche al perimetro.
+- 2025-12-17: versione 0.3 – design completato per PATCHSET-00, perimetro documentazione confermato, numerazione 01A–03B bloccata con richiamo fasi GOLDEN_PATH e prerequisiti di governance (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
+- 2025-11-23: versione 0.1 – struttura iniziale separazione core vs derived (archivist).
+- 2025-11-23: versione 0.2 – prime tabelle di inventario e regola base di rigenerazione (archivist).
+- 2025-11-24: versione 0.3 – inventario ampliato con file/dir chiave, mappa tooling per ogni step e collegamento ai prerequisiti 01A/02A (archivist).
+
+---
+
+## Inventario per area
+
+### `data/core/**`
+
+| Percorso / file chiave                                                               | Relazione di derivazione                                                                                     | Lacune note                                                                                                                                        |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/core/species.yaml` + `data/core/species/aliases.json`                          | Fonte primaria del catalogo specie e mapping alias; atteso come sorgente per pack e fixture.                 | Mancano note su release/tag a cui allineare derived/pack; nessuna checklist di validazione pre-rigenerazione.                                      |
+| `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`                | Glossari e pool biomi da cui derivare cataloghi (pack docs/catalog) e coperture env-trait.                   | Non è documentato come generare output di copertura (es. `docs/catalog/env_traits.json` del pack) né quali script usare.                           |
+| `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`                              | Sorgente canonica per biomi e alias; dovrebbe alimentare ecosistemi/foodweb nel pack.                        | Assenza di nota sul mapping verso `packs/evo_tactics_pack/data/ecosystems/*.yaml` e `data/foodwebs/*.yaml`; pipeline di sincronizzazione mancante. |
+| `data/core/mating.yaml`, `data/core/telemetry.yaml`, `data/core/game_functions.yaml` | Tabelle core per compatibilità, telemetria e funzioni di gioco; servono per snapshot/mock e validatori pack. | Non esiste mappa utilizzi nei derived; necessario dichiarare consumer (CI, pack, report).                                                          |
+| `data/core/missions/skydock_siege.yaml`                                              | Missione core che dovrebbe alimentare i report `data/derived/analysis/progression/*`.                        | Manca script riproducibile per rigenerare i report progression da questa fonte.                                                                    |
+| `data/core/hud/layout.yaml`                                                          | Layout HUD core.                                                                                             | Non è chiaro se sia utilizzato in pack o fixture; assente nota di derivazione.                                                                     |
+
+### `data/derived/**`
+
+| Percorso / file chiave                                                                                                                                    | Relazione di derivazione                                                                                               | Lacune note                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `data/derived/analysis/trait_coverage_matrix.csv`, `trait_env_mapping.json`, `trait_coverage_report.json`, `trait_gap_report.json`, `trait_baseline.yaml` | Dovrebbero essere calcolati da `data/core/traits/**` (più specie core) per analisi QA di copertura/gap.                | Generatore tracciato in `scripts/generate_derived_analysis.py` con README e checksum.         |
+| `data/derived/analysis/progression/skydock_siege_xp*.{csv,json}`                                                                                          | Snapshot analitico derivato da `data/core/missions/skydock_siege.yaml`.                                                | Rigenerazione codificata in `scripts/generate_derived_analysis.py` + checksum in README.      |
+| `data/derived/exports/qa-telemetry-export.json`, `data/derived/exports/*conversation.json`                                                                | Export conversazioni/telemetria da sessioni QA, probabilmente generate da strumenti esterni.                           | Origine e formato non documentati; non chiaro se rigenerabili o solo archivi.                 |
+| `data/derived/mock/prod_snapshot/*` (biomes, species, telemetry, mating, packs)                                                                           | Snapshot manuale della directory `data/` tramite rsync come fallback deploy.                                           | Rigenerazione descritta solo in README con comando rsync; manca versione/controllo integrità. |
+| `data/derived/test-fixtures/minimal/*`                                                                                                                    | Dataset sintetico per test frontend (`docs/test-interface`); dovrebbe essere estratto in modo deterministico dai core. | Generatore `scripts/generate_minimal_fixture.py` + README con checksum e commit di origine.   |
+
+### `packs/evo_tactics_pack/**`
+
+| Percorso / file chiave                                                                                                                    | Relazione di derivazione                                                                                                 | Lacune note                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `packs/evo_tactics_pack/data/species.yaml`, `data/ecosystems/*.yaml`, `data/foodwebs/*.yaml`, `data/ecosistemi/*.yaml`, `data/npg/*.json` | Dataset pack ufficiale, dovrebbe riflettere core specie/biomi e reti trofiche derivate.                                  | Assente regola esplicita di sincronizzazione con `data/core/**`; non chiaro se dati vengono generati da script o curati manualmente. |
+| `packs/evo_tactics_pack/docs/catalog/*.json` (catalogo, glossary, env_traits)                                                             | Cataloghi per generatori web; `scripts/update_evo_pack_catalog.js` arricchisce dati partendo dal pack e meta ecosistema. | Manca dipendenza dichiarata verso i core; non è specificato quando rigenerare rispetto a cambiamenti di traits/biomi core.           |
+| `packs/evo_tactics_pack/tools/py/derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`                                           | Script Python per derivare set di trait ambientali/cross-biome a partire dal pack/core.                                  | Assenza di pipeline ufficiale che li esegua prima di build/catalog; log di esecuzione non tracciati.                                 |
+| `packs/evo_tactics_pack/validators/rules/*.py`, `packs/evo_tactics_pack/tools/py/run_all_validators.py`                                   | Validator specie/ecosistemi/foodweb; `run_all_validators.py` esegue bundle di check con output in `out/validation/`.     | Non esiste pipeline documentata che li esegua su build pack; outcome solo in `out/validation/last_report.*` senza contesto.          |
+| `packs/evo_tactics_pack/out/validation/last_report.{html,json}`                                                                           | Ultima esecuzione validator sul pack.                                                                                    | Non è noto quale comando l'abbia prodotta né la data; serve procedura ripetibile.                                                    |
+| `packs/evo_tactics_pack/tools/config/*.yaml`                                                                                              | Configurazioni per validator/generatori (es. preferenze specie).                                                         | Non legate a versioni core; rischio disallineamento se cambia schema core.                                                           |
+
+---
+
+## Derived rigenerabili e tooling
+
+- Pipeline unica `scripts/evo_pack_pipeline.py --core-root data/core --pack-root packs/evo_tactics_pack` che orchestra sync core→pack, derivazione env_traits, aggiornamento catalogo, build dist e validator.
+- `packs/evo_tactics_pack/docs/catalog/*.json` → rigenerabili tramite pipeline o direttamente con `scripts/update_evo_pack_catalog.js` + `scripts/sync_evo_pack_assets.js` e build (`scripts/build_evo_tactics_pack_dist.mjs` / `scripts/preview_evo_tactics_pack_dist.mjs`).
+- Validator pack (specie/ecosistemi/foodweb) eseguibili con `packs/evo_tactics_pack/tools/py/run_all_validators.py`; risultato atteso in `packs/evo_tactics_pack/out/validation/` (richiamato dalla pipeline).
+- Checklist pre/post-run cataloghi/asset e manifest sha256: vedi `packs/evo_tactics_pack/docs/catalog/README.md`.
+- Snapshot mock `data/derived/mock/prod_snapshot/*` → rigenerabili manualmente via `rsync -a --exclude 'mock' data/ data/derived/mock/prod_snapshot/` come da README.
+- Dataset `data/derived/test-fixtures/minimal` → rigenerazione documentata tramite `scripts/generate_minimal_fixture.py` con checksum in README locale.
+- Report `data/derived/analysis/**` (trait coverage/gap, progression) → rigenerabili con `scripts/generate_derived_analysis.py` (output e checksum documentati in `data/derived/analysis/README.md`).
+
+### Step mirati per i nuovi percorsi richiesti
+
+- **Ecosistemi/foodweb**: eseguire `scripts/evo_pack_pipeline.py --targets ecosystems,foodwebs --core-root data/core --pack-root packs/evo_tactics_pack`; al termine aggiornare/creare README in `packs/evo_tactics_pack/data/ecosystems/` e `packs/evo_tactics_pack/data/foodwebs/` con comando usato, commit core di riferimento e sha256 principale.
+- **Mating/telemetry/game_functions**: usare la stessa pipeline con `--targets mating,telemetry,game_functions` e successivamente rigenerare snapshot/fixture (`rsync` + `scripts/generate_minimal_fixture.py`) aggiornando i README corrispondenti (`data/derived/mock/**`, `data/derived/test-fixtures/minimal/`).
+- **Progression missioni**: `python scripts/generate_derived_analysis.py --progression` + eventuale `node scripts/export-qa-report.js` se i badge QA dipendono dai report; registrare nel README di `data/derived/analysis/` i nuovi checksum e timestamp.
+- **HUD layout**: dopo modifiche a `data/core/hud/layout.yaml` eseguire la pipeline HUD/tooling interno (build overlay in `tools/ts` se presente) e annotare in README locale i checksum dei bundle generati e del layout sorgente.
+
+---
+
+## Log operativo – impatti CI quando cambiano i file core/pack indicati
+
+- Aggiornare/girare i workflow **`data-quality.yml`** (validazione dataset, include pack e derived) e **`qa-reports.yml`** (badge/report pack) dopo modifiche a biomi/foodweb, mating/telemetry/game_functions o missioni progression.
+- Per modifiche a `data/core/hud/layout.yaml` o ai consumer HUD ricordare il canary **`hud.yml`**; verificare build overlay e flag smart alerts.
+- Dopo rigenerazioni pack (ecosistemi, foodweb, tabelle core) ri-eseguire i validator pack (`packs/evo_tactics_pack/tools/py/run_all_validators.py`) e includere gli output nei log CI correlati.
+
+## Timeline compressed (owner, rigenerazioni, pipeline CI pre go-live 07/12)
+
+| Ambito / Output                                                  | Owner                   | Rigenerazione prevista (T- rispetto go-live) | Pipeline da lanciare                                        |
+| ---------------------------------------------------------------- | ----------------------- | -------------------------------------------- | ----------------------------------------------------------- |
+| Pack ecosistemi/foodweb (`packs/.../ecosystems`, `.../foodwebs`) | archivist → dev-tooling | T-7 (2025-11-30)                             | `data-quality.yml`, `qa-reports.yml`                        |
+| Pack mating/telemetry/game_functions (`packs/.../data/*.yaml`)   | archivist → dev-tooling | T-6 (2025-12-01)                             | `data-quality.yml`, `qa-reports.yml`, `hud.yml` (telemetry) |
+| Cataloghi pack (`packs/evo_tactics_pack/docs/catalog/*.json`)    | archivist → coordinator | T-5 (2025-12-02)                             | `data-quality.yml`, `qa-reports.yml`                        |
+| Fixture minimal (`data/derived/test-fixtures/minimal/**`)        | dev-tooling             | T-4 (2025-12-03)                             | `data-quality.yml`, `qa-reports.yml`, `hud.yml` (front QA)  |
+| Snapshot mock prod (`data/derived/mock/prod_snapshot/**`)        | coordinator             | T-3 (2025-12-04)                             | `data-quality.yml`                                          |
+| Report derived analysis (coverage/progression)                   | archivist               | T-2 (2025-12-05)                             | `data-quality.yml`, `qa-reports.yml`                        |
+| HUD overlay/layout consumer                                      | dev-tooling             | T-2 (2025-12-05)                             | `hud.yml`, `data-quality.yml` (asset refs)                  |
+
+---
+
+## Regola standard di rigenerazione (proposta)
+
+1. **Input canonici**: `data/core/**` (specie, traits, biomi, telemetry, missions) + configurazioni `tools/config`/`packs/evo_tactics_pack/tools/config` quando applicabile (dipendenza PATCHSET-01A per catalogo completo).
+2. **Pre-check**: validare gli input core con validator/schema esistenti (`scripts/validate.sh`, `scripts/validate-dataset.cjs`, validator Python del pack in modalità report-only – PATCHSET-02A) e bloccare rigenerazione in caso di errori.
+3. **Pipeline di derivazione** (input core → output pack/fixture), con script/tool esistenti:
+   - a) **Allineare dataset pack** da core → `packs/evo_tactics_pack/data/**`: eseguire `scripts/evo_pack_pipeline.py` (step sync) con parametri `--core-root`/`--pack-root`.
+   - b) **Derivare trait/env cross-biome** → parte della pipeline (`derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`); output in `packs/evo_tactics_pack/out/env_traits/`.
+   - c) **Arricchire catalogo pack** → `scripts/evo_pack_pipeline.py` richiama `scripts/update_evo_pack_catalog.js` e `scripts/sync_evo_pack_assets.js`.
+   - d) **Build/anteprima distributivo** → `scripts/evo_pack_pipeline.py` include `scripts/build_evo_tactics_pack_dist.mjs` (anteprima via `scripts/preview_evo_tactics_pack_dist.mjs`).
+   - e) **Validator pack** → `packs/evo_tactics_pack/tools/py/run_all_validators.py` (esegue regole in `validators/rules/`); output in `out/validation/` (Prereq PATCHSET-02A per gating CI).
+   - f) **Fixture/snapshot** → `rsync` per `data/derived/mock/prod_snapshot/` (fallback deploy); dataset sintetici `data/derived/test-fixtures/minimal/` rigenerabili con `scripts/generate_minimal_fixture.py`.
+   - g) **Report analitici** (`data/derived/analysis/**`) → generatori `scripts/generate_derived_analysis.py` (coverage + progression) con checksum in README.
+4. **Output**: pack aggiornato (`packs/evo_tactics_pack/data/**` + `docs/catalog/**`), fixture (`data/derived/test-fixtures/**`), snapshot (`data/derived/mock/**`), report (`data/derived/analysis/**`). Ogni output deve includere log di comando e timestamp nel README locale.
+5. **Tracciabilità**: registrare comando, versione git e checksum principali nel README di ciascuna cartella derived/pack; allegare report validator in `out/validation/` e linkarlo nella documentazione.
+6. **Gate CI**: integrare la pipeline in CI dopo validazione manuale del flusso, facendo fallire build se gli output non sono aggiornati rispetto ai core o se i validator del pack falliscono (allineato con PATCHSET-02A).
+
+---
+
+## Gate 01A–03B e checkpoint per blocchi aperti
+
+- **01A – Catalogo core e input di verità**
+  - Blocco: sync core→pack non automatizzato.
+  - Checkpoint da eseguire: catalogare commit sorgente in `REF_REPO_SOURCES_OF_TRUTH`, fissare mapping core→pack nella pipeline `scripts/evo_pack_pipeline.py` (flag sync attivo), loggare esito in README pack.
+  - Checkpoint da archiviare: snapshot degli input core usati (hash `data/core/**`).
+- **02A – Validator/report in modalità gate**
+  - Blocco: validator pack non legati a CI + generatori mancanti per fixture minimal.
+  - Checkpoint da eseguire: abilitare `packs/evo_tactics_pack/tools/py/run_all_validators.py` in `data-quality.yml`/`qa-reports.yml`; ripristinare generatori `scripts/generate_minimal_fixture.py` e `scripts/generate_derived_analysis.py` con log e checksum aggiornati.
+  - Checkpoint da archiviare: ultimo `out/validation/last_report.json` e README fixture/minimal con timestamp rigenerazione.
+- **03B – Go-live pack/derived**
+  - Blocco: coverage rigenerazioni (ecosistemi/foodweb, telemetry/game_functions, snapshot mock) da chiudere prima del 07/12.
+  - Checkpoint da eseguire: eseguire timeline compressed (righe sopra) con conferma pipeline CI verdi e note di comando; pubblicare matrice delle rigenerazioni in `reports/` o appendice al README pack.
+  - Checkpoint da archiviare: log CI `data-quality`, `qa-reports`, `hud` relativi alle esecuzioni T-7→T-2, più manifest sha256 per pack e derived.

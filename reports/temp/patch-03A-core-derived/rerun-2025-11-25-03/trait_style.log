@@ -1,0 +1,7 @@
+Trait style: 242 suggerimenti (error=0, warning=176, info=66) su 225 file
+  - [WARNING] ali_fono_risonanti /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.ali_fono_risonanti.debolezza).
+  - [WARNING] ali_fono_risonanti /fattore_mantenimento_energetico :: `fattore_mantenimento_energetico` è nella whitelist NON_LOCALISED_FIELDS: usa il testo inline invece di una chiave i18n.
+  - [WARNING] antenne_plasmatiche_tempesta /requisiti_ambientali/0/meta/tier :: Allinea meta.tier (—) al tier del tratto (T3).
+  - [WARNING] articolazioni_a_leva_idraulica /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.articolazioni_a_leva_idraulica.debolezza).
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/complementare :: Compila il campo `complementare` in slot_profile (es. "metabolico").
+  … altri 237 suggerimenti

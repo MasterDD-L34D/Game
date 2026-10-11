@@ -1,0 +1,75 @@
+# Drift briefings — Citizen Sleeper-inspired condizionale su VC axes
+#
+# Pattern source: Citizen Sleeper drift dialogue (Disco Elysium-lite),
+# briefing_pre tutorial gated su MBTI T_F asse del player aggregate.
+#
+# Threshold canonici (gating logic in narrativeEngine.driftBriefing):
+#   - mbti_axes.T_F.value > 0.65  → variant `tech`     (efficienza, sistema)
+#   - mbti_axes.T_F.value < 0.35  → variant `empatic`  (team, persone)
+#   - else                        → variant `neutral`  (sopravvivenza)
+#
+# Threshold simmetrici 0.65/0.35 sono coerenti con dead-band MBTI iter1
+# (vedi services/vcScoring.js deriveMbtiType §events_count<30 → 0.35/0.65).
+#
+# Anti-pattern guard: max 3 varianti per scenario (no combinatorial blowup).
+#
+# Extension scope:
+#   - 3 scenari tutorial (01, 02, 03) → 9 stitches totali
+#   - Solo phase `pre` (drift gating sufficient for onboarding briefing)
+#   - Solo asse T_F (B.1 minimal scope; ennea/altri axes deferred)
+#
+# Companion docs:
+#   - docs/research/2026-04-27-indie-narrative-gameplay.md §1
+#   - docs/reports/2026-04-27-indie-research-classification.md §B.1
+
+schema_version: '1.0'
+
+scenarios:
+  enc_tutorial_01:
+    pre:
+      tech: |
+        Rapporto sintetico — ostili: 2 nomadi predoni. Posizione: savana
+        aperta, copertura assente. Range medio. Vettore d'ingaggio
+        ottimale: lato sopravento, eliminazione sequenziale dal fianco
+        di minore rateo di reazione.
+      empatic: |
+        Due nomadi spaesati nella savana. Hanno paura quanto te. Stanno
+        cercando di sopravvivere — e adesso anche tu. Risolvi rapidamente,
+        nessuno di voi merita di trascinare la cosa per le lunghe.
+      neutral: |
+        Due predoni hanno preso posizione nella savana. Avvicinati con
+        cautela e neutralizza la minaccia. La via deve restare libera.
+
+  enc_tutorial_02:
+    pre:
+      tech: |
+        Rilevata pattuglia mista — 2 unità leggere + 1 cacciatore corazzato.
+        Stima resistenza fisica del cacciatore: +40%. Concentrazione di
+        fuoco sul bersaglio prioritario causa collasso del coordinamento
+        della pattuglia. Procedere con priorità sequenziale.
+      empatic: |
+        Hanno mandato anche il loro più anziano — un cacciatore corazzato.
+        Spera di non doverlo colpire per primo. Forse, se i due leggeri
+        cadono prima, lui si arrenderà. Forse no. Decidi tu come finire la
+        scena.
+      neutral: |
+        Pattuglia nomade: 2 leggeri + 1 cacciatore corazzato. Coordina
+        scout e tank. Il danno asimmetrico premia chi sceglie il bersaglio
+        giusto al momento giusto.
+
+  enc_tutorial_03:
+    pre:
+      tech: |
+        Caverna risonante: 2 hazard tile attivi (fumarole tossiche, danno
+        1/turno se occupate). Guardiani locali: immuni. Path-planning
+        critico — ogni casella di esposizione è un costo opportunità.
+        Ottimizza la rotta.
+      empatic: |
+        La caverna respira veleno. Le creature ci sono nate dentro —
+        è la loro casa, non la tua. Non sei l'invasore di nessuno per
+        scelta, ma lo sei diventato per necessità. Muoviti veloce, esci
+        viva, lascia loro il silenzio.
+      neutral: |
+        Caverna risonante con due fumarole attive. Le creature locali
+        resistono al gas; voi no. Posizionate con cura e usate combo per
+        finire in fretta.

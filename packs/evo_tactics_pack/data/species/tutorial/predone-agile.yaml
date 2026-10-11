@@ -1,0 +1,49 @@
+id: predone_agile
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Predone Agile
+display_name_en: Agile Raider
+biomes:
+  - rovine_planari
+  - savana
+role_trofico: predatore_tutorial_secondario
+functional_tags:
+  - nemico_tutorial
+  - predone_umanoide
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+  tutorial_phantom: true
+path: ../../packs/evo_tactics_pack/data/species/tutorial/predone-agile.yaml
+balance:
+  rarity: R1
+  threat_tier: T1
+  encounter_role: threat
+playable_unit: false
+morphotype: bipede_agile
+jobs_bias:
+  - skirmisher
+combat_baseline:
+  hp: 6
+  ap: 2
+  mod: 2
+  dc: 11
+  attack_range: 1
+  guardia: 0
+used_in_encounters:
+  - enc_tutorial_07_hardcore_pod_rush
+description: |
+  Predone agile minore. Variante veloce dei Predoni Nomadi; hp leggermente più
+  alto ma defense più bassa. Unità tutorial hardcore (scenario 07 "Assalto
+  Spietato" pod activation reinforcement).
+  Stub M13-P6 (2026-04-24): species phantom registered per tutorialSpeciesExistence
+  regression guard.
+receipt:
+  source: M13-P6.stub
+  author: claude-agent
+  date: '2026-04-24'
+  note: phantom species stub per scenario 07 pod-rush reinforcement_pool

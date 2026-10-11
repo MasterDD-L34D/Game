@@ -1,0 +1,14 @@
+# Cloudflare Pages headers — Evo-Tactics play frontend
+# Forza HTTPS + cache assets + CORS su runtime-config.
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/runtime-config.js
+  Cache-Control: no-store
+  Access-Control-Allow-Origin: *
