@@ -1,0 +1,176 @@
+# Default campaign MVP — "Sopravvivi all'Apex"
+#
+# M10 Phase A content seed (ADR-2026-04-21 + P0 Q1/Q2/Q3/Q9 default A).
+#
+# Scope MVP lock (2026-04-20):
+# - 2 atti total: Act 0 onboarding (tutorial 01-05) + Act 1 main campaign 5 mission
+# - Level cap MVP = elite (mythic deferred)
+# - Narrative hook: Apex predator inter-bioma braccato dai player
+# - Branching: 1 binary choice Atto 1 (Descent pattern), 2 encounter alternatives
+# - Reuse 4 YAML encounter esistenti + 1 nuovo (hardcore boss)
+#
+# Vedi docs/adr/ADR-2026-04-21-campaign-save-persistence.md
+
+schema_version: '1.0'
+campaign_id: default_campaign_mvp
+name: "Sopravvivi all'Apex"
+language: it
+target_level_cap: elite
+
+narrative_hook: |
+  Un Apex predatore inter-bioma ha marcato il tuo branco. Si muove tra biomi
+  lasciando scie di distruzione. Fuggire? Impossibile — ogni bioma ha un
+  ecosistema tuo, e l'Apex ti trova ovunque. Resta una sola opzione:
+  capire, braccare, e infine confrontare la bestia prima che ti scoperbra.
+
+total_acts: 2
+
+# ─── Onboarding 60s (pre-Act 0) ───────────────────────────────────────
+# Choice identitaria, NON tutorial. Vedi docs/core/51-ONBOARDING-60S.md.
+# Phase A (2026-04-21): spec canonical. Phase B (M11+): frontend choice picker.
+
+onboarding:
+  schema_version: '1.0'
+  timing_seconds: 60
+  deliberation_timeout_seconds: 30
+  default_choice_on_timeout: option_a
+
+  briefing:
+    duration_seconds: 10
+    lines:
+      - 'Il tuo branco è stato marcato.'
+      - "L'Apex ti troverà, ovunque andrai."
+      - 'Come vuoi che ti ricordino?'
+
+  choices:
+    - option_key: option_a
+      label: 'Come veloce e sfuggente'
+      trait_id: zampe_a_molla
+      narrative: 'Non saremo mai abbastanza forti. Dobbiamo essere altrove quando l''Apex arriva.'
+    - option_key: option_b
+      label: 'Come duro e inamovibile'
+      trait_id: pelle_elastomera
+      narrative: 'Ci guarderà in faccia, e noi resteremo. Questo è il branco che sopravvive.'
+    - option_key: option_c
+      label: 'Come letale e preciso'
+      trait_id: denti_seghettati
+      narrative: 'Non scappiamo e non ci nascondiamo. Mordiamo prima, e mordiamo profondo.'
+
+  transition:
+    duration_seconds: 10
+    line: 'Così sarà.'
+
+  next_encounter: enc_tutorial_01 # Act 0 chapter 1 inception
+
+acts:
+  # ─── Act 0: Onboarding (tutorial 01-05) ──────────────────────────────
+  - act_idx: 0
+    name: 'Primi Passi'
+    description: 'Impara le basi prima che arrivi l''Apex.'
+    encounters:
+      - encounter_id: enc_tutorial_01
+        chapter_idx: 1
+        narrative_pre: 'Due predoni nomadi hanno preso posizione nella savana. Avvicinati con cautela.'
+        narrative_post: 'Le sentinelle sono cadute. Hai imparato movimento e attacco base.'
+      - encounter_id: enc_tutorial_02
+        chapter_idx: 2
+        narrative_pre: 'Una pattuglia più organizzata ti aspetta. Cacciatore corazzato in formazione.'
+        narrative_post: 'Focus-fire coordinato funziona. Prossimo livello.'
+      - encounter_id: enc_tutorial_03
+        chapter_idx: 3
+        narrative_pre: 'Caverna risonante con hazard attivi. Evita le fumarole tossiche.'
+        narrative_post: 'Hazard gestito. La caverna custodisce un segreto: tracce grandi. Troppo grandi.'
+      - encounter_id: enc_tutorial_04
+        chapter_idx: 4
+        narrative_pre: 'La pozza acida rivela guardiani con bleeding. Priorità target.'
+        narrative_post: 'Bleeding tamponato. Le tracce portano alle rovine planari.'
+      - encounter_id: enc_tutorial_05
+        chapter_idx: 5
+        narrative_pre: 'Rovine planari. Un Apex più giovane ti sfida. Tempo di vedere quanto ancora sei pronto.'
+        narrative_post: |
+          L'Apex giovane è caduto. Ma era solo un segnale. L'Apex alpha è là fuori,
+          e ora sa di te. Atto 1 inizia.
+    choice_node: null # No branching end Act 0
+    exit_condition:
+      type: chain_victory
+      required_outcomes: [victory, victory, victory, victory, victory]
+
+  # ─── Act 1: La Caccia ────────────────────────────────────────────────
+  - act_idx: 1
+    name: 'La Caccia'
+    description: "Braccare l'Apex inter-bioma prima che ti colpisca."
+    encounters:
+      - encounter_id: enc_savana_01
+        chapter_idx: 6
+        narrative_pre: 'Pattuglia di savana. L''Apex è passato di qui ieri — le tracce sono fresche.'
+        narrative_post: 'Scontro chiuso. Bivio all''orizzonte: caverna o rovine?'
+      # Choice node post savana_01
+      - encounter_id: null # placeholder, will be replaced by branch logic
+        chapter_idx: 7
+        is_choice_node: true
+        choice:
+          description: 'Le tracce si sdoppiano. Due percorsi.'
+          option_a:
+            label: 'Segui tracce verso la caverna di Eco'
+            branch_key: cave_path
+            next_encounter: enc_caverna_02
+            narrative: 'La caverna nasconde l''Apex più giovane. Pericoloso, ma vulnerabile mid-encounter.'
+          option_b:
+            label: 'Investiga le rovine della Forgia'
+            branch_key: ruins_path
+            next_encounter: enc_capture_01
+            narrative: 'Le rovine custodiscono qualcosa che spaventa anche l''Apex. Alleato potenziale o trappola.'
+      # Post-choice encounter (determined by branch)
+      - encounter_id: enc_caverna_02
+        chapter_idx: 8
+        branch_key: cave_path
+        narrative_pre: 'L''Apex giovane nella caverna. Catturalo o uccidi — la scelta decide cosa offri al padre.'
+        narrative_post: 'Caverna dominata. L''Apex alpha si è fatto sentire — ruggito inter-bioma. È vicino.'
+      - encounter_id: enc_capture_01
+        chapter_idx: 8
+        branch_key: ruins_path
+        narrative_pre: 'Presidio della Forgia. Tieni la zona mentre l''Apex testa le tue difese.'
+        narrative_post: 'Hai tenuto. Qualcosa nelle rovine si è svegliato — ha riconosciuto l''Apex, e tu ne conosci il nome ora.'
+      # Boss final — reuse enc_tutorial_06_hardcore (nuovo asset, canonicalizza)
+      - encounter_id: enc_tutorial_06_hardcore
+        chapter_idx: 9
+        narrative_pre: |
+          Cattedrale dell'Apex. Alpha inter-bioma ti aspetta, 8 difensori al fianco.
+          Sei pronto — hanno dovuto fare i conti con te per primi. Ora tocca a lui.
+        narrative_post: |
+          L'Apex alpha è caduto. Il tuo branco è sopravvissuto. La Cattedrale si quieta.
+          Hai dimostrato che 8 mani battono una mandibola. Act 1 complete.
+    choice_node:
+      after_chapter_idx: 7
+      description: 'Le tracce si sdoppiano'
+      # Metadata duplicato per rapid access (also embedded in encounter chapter_idx=7)
+      options:
+        - label: 'Caverna di Eco'
+          branch_key: cave_path
+        - label: 'Rovine della Forgia'
+          branch_key: ruins_path
+    exit_condition:
+      type: chapter_victory
+      chapter_idx: 9
+
+# ─── Completion ───────────────────────────────────────────────────────
+completion:
+  ending_variants:
+    - branch_path: [cave_path]
+      ending_id: ending_apex_hunter
+      title: 'Cacciatore di Apex'
+      narrative: 'Hai ucciso giovane e padre. Nome che risuonerà nei biomi.'
+    - branch_path: [ruins_path]
+      ending_id: ending_apex_mystic
+      title: 'Mistico delle Rovine'
+      narrative: "Le rovine ti hanno rivelato un segreto più grande dell'Apex. La caccia continua."
+
+# ─── Validation rules ────────────────────────────────────────────────
+
+validation:
+  all_encounter_ids_exist: true
+  branching_bounded: true # max 1 choice Act 1 MVP
+  total_mission_count:
+    min: 9 # 5 tutorial + 4 Act 1 (linear path)
+    max: 10 # if player sees both branch sides replay
+  level_cap_respected: elite

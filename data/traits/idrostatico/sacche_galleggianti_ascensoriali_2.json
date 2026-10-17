@@ -1,0 +1,23 @@
+{
+  "schema_version": "2.0",
+  "id": "sacche_galleggianti_ascensoriali_2",
+  "label": "i18n:traits.sacche_galleggianti_ascensoriali_2.label",
+  "famiglia_tipologia": "Idrostatico/Locomotorio",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "tier": "T1",
+  "slot_profile": {
+    "core": "idrostatico",
+    "complementare": "locomotorio"
+  },
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.sacche_galleggianti_ascensoriali_2.mutazione_indotta",
+  "uso_funzione": "i18n:traits.sacche_galleggianti_ascensoriali_2.uso_funzione",
+  "spinta_selettiva": "i18n:traits.sacche_galleggianti_ascensoriali_2.spinta_selettiva",
+  "debolezza": "i18n:traits.sacche_galleggianti_ascensoriali_2.debolezza",
+  "data_origin": "appendix_a_variant_deep_research_grounded",
+  "completion_flags": {
+    "design_stub": false
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "method": "tutorial-sweep",
+  "n_per_scenario": 10,
+  "generated_at": "2026-05-21T19:42:49Z",
+  "elapsed_sec": 7.1,
+  "caveat": "Player side uses a SCRIPTED greedy planner (focus-fire + channel exploit), not the real ai_profiles (aggressive/balanced/cautious) nor human play, so win_rate is upward-biased. The verdict maps difficulty_rating->class bands, but tutorials are a learning ladder (designed-winnable), not hardcore/boss combat classes -- so RED for diff 4-5 is a mapping artifact, not a balance bug. Read this sweep as a HEALTH/completability check (all scenarios run + winnable), NOT a balance oracle. For true balance use real ai_profiles or master-dd playtest.",
+  "results": [
+    {
+      "scenario": "enc_tutorial_01",
+      "n": 10,
+      "errors": 0,
+      "difficulty": 1,
+      "class": "tutorial",
+      "win_rate": 1.0,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.0,
+      "rounds_avg": 6.0,
+      "verdict": "RED",
+      "reasons": [
+        "win_rate=1.00 out of band [0.6,0.8] (red)",
+        "defeat_rate=0.00 out of band [0.1,0.2] (red)",
+        "timeout_rate=0.00 near band [0.05,0.1] (amber)"
+      ],
+      "bands": {
+        "win_rate": [0.6, 0.8],
+        "defeat_rate": [0.1, 0.2],
+        "timeout_rate": [0.05, 0.1]
+      }
+    },
+    {
+      "scenario": "enc_tutorial_02",
+      "n": 10,
+      "errors": 0,
+      "difficulty": 2,
+      "class": "tutorial_advanced",
+      "win_rate": 1.0,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.0,
+      "rounds_avg": 12.9,
+      "verdict": "RED",
+      "reasons": [
+        "win_rate=1.00 out of band [0.4,0.6] (red)",
+        "defeat_rate=0.00 out of band [0.2,0.35] (red)",
+        "timeout_rate=0.00 near band [0.05,0.15] (amber)"
+      ],
+      "bands": {
+        "win_rate": [0.4, 0.6],
+        "defeat_rate": [0.2, 0.35],
+        "timeout_rate": [0.05, 0.15]
+      }
+    },
+    {
+      "scenario": "enc_tutorial_03",
+      "n": 10,
+      "errors": 0,
+      "difficulty": 3,
+      "class": "standard",
+      "win_rate": 1.0,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.0,
+      "rounds_avg": 8.9,
+      "verdict": "RED",
+      "reasons": [
+        "win_rate=1.00 out of band [0.35,0.55] (red)",
+        "defeat_rate=0.00 out of band [0.25,0.4] (red)",
+        "timeout_rate=0.00 out of band [0.1,0.2] (red)"
+      ],
+      "bands": {
+        "win_rate": [0.35, 0.55],
+        "defeat_rate": [0.25, 0.4],
+        "timeout_rate": [0.1, 0.2]
+      }
+    },
+    {
+      "scenario": "enc_tutorial_04",
+      "n": 10,
+      "errors": 0,
+      "difficulty": 4,
+      "class": "hardcore",
+      "win_rate": 1.0,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.0,
+      "rounds_avg": 8.7,
+      "verdict": "RED",
+      "reasons": [
+        "win_rate=1.00 out of band [0.15,0.25] (red)",
+        "defeat_rate=0.00 out of band [0.75,0.85] (red)"
+      ],
+      "bands": {
+        "win_rate": [0.15, 0.25],
+        "defeat_rate": [0.75, 0.85],
+        "timeout_rate": [0.0, 0.05]
+      }
+    },
+    {
+      "scenario": "enc_tutorial_05",
+      "n": 10,
+      "errors": 0,
+      "difficulty": 5,
+      "class": "boss",
+      "win_rate": 1.0,
+      "defeat_rate": 0.0,
+      "timeout_rate": 0.0,
+      "rounds_avg": 6.4,
+      "verdict": "RED",
+      "reasons": [
+        "win_rate=1.00 out of band [0.05,0.15] (red)",
+        "defeat_rate=0.00 out of band [0.55,0.7] (red)",
+        "timeout_rate=0.00 out of band [0.1,0.25] (red)"
+      ],
+      "bands": {
+        "win_rate": [0.05, 0.15],
+        "defeat_rate": [0.55, 0.7],
+        "timeout_rate": [0.1, 0.25]
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "id": "pelli_anti_ustione",
+  "label": "i18n:traits.pelli_anti_ustione.label",
+  "famiglia_tipologia": "Fisiologico/Morfologia",
+  "fattore_mantenimento_energetico": "Basso (passivo)",
+  "tier": "T1",
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "morfologia"
+  },
+  "slot": [],
+  "sinergie": [
+    "pelle_elastomera",
+    "pelli_fitte"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.pelli_anti_ustione.mutazione_indotta",
+  "uso_funzione": "i18n:traits.pelli_anti_ustione.uso_funzione",
+  "spinta_selettiva": "i18n:traits.pelli_anti_ustione.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.pelli_anti_ustione.debolezza"
+}

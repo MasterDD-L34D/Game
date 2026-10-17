@@ -1,0 +1,429 @@
+{
+  "golden_set": {
+    "total_accuracy": 0.42857142857142855,
+    "total_correct": 9,
+    "total": 21,
+    "predictable_accuracy": 0.4666666666666667,
+    "predictable_correct": 7,
+    "predictable_total": 15,
+    "singleton_biomes": [
+      "atollo_obsidiana",
+      "canyons_risonanti",
+      "caverna",
+      "foresta_acida",
+      "pianura_salina_iperarida",
+      "steppe_algoritmiche"
+    ],
+    "gate": 0.45
+  },
+  "draft": [
+    {
+      "species_id": "sp_arenavolux_sagittalis",
+      "suggested_biome": "savana",
+      "confidence": 0.5,
+      "reasoning": "top biome savana (score 2.00) from traits [coda_contrappeso, midollo_iperattivo, pungiglione_paralizzante] + clade Apex",
+      "alternatives": [
+        "savana"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "name arena/dune = sand -> savana (heuristic correct)"
+    },
+    {
+      "species_id": "sp_ferriscroba_detrita",
+      "suggested_biome": "badlands",
+      "confidence": 0.5,
+      "reasoning": "top biome badlands (score 2.00) from traits [none] + clade Keystone",
+      "alternatives": [
+        "badlands"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "ferr- = iron/rust -> badlands (heuristic correct)"
+    },
+    {
+      "species_id": "sp_sonapteryx_resonans",
+      "suggested_biome": "frattura_abissale_sinaptica",
+      "confidence": 0.5,
+      "reasoning": "top biome frattura_abissale_sinaptica (score 3.00) from traits [ali_membrana_sonica, canto_di_richiamo] + clade Bridge",
+      "alternatives": [
+        "frattura_abissale_sinaptica"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "resonans + synaptic trait votes -> frattura (heuristic correct)"
+    },
+    {
+      "species_id": "sp_lithoraptor_acutornis",
+      "suggested_biome": "canyons_risonanti",
+      "confidence": 0.5,
+      "reasoning": "top biome canyons_risonanti (score 2.00) from traits [intimidatore, lamelle_shear] + clade Threat",
+      "alternatives": [
+        "canyons_risonanti"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "litho- = rock -> canyons_risonanti (heuristic correct)"
+    },
+    {
+      "species_id": "sp_salifossa_tenebris",
+      "suggested_biome": "pianura_salina_iperarida",
+      "confidence": 0.5,
+      "reasoning": "top biome pianura_salina_iperarida (score 2.00) from traits [none] + clade Keystone",
+      "alternatives": [
+        "pianura_salina_iperarida"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "sali- = salt -> salina (heuristic correct)"
+    },
+    {
+      "species_id": "sp_ventornis_longiala",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "low",
+      "claude_note": "UNSURE: Aliante della Mesa(habitat=mesa) -> canyons; BUT vent(wind)+ali_fulminee(lightning) -> stratosfera_tempestosa",
+      "approved_biome": "canyons_risonanti"
+    },
+    {
+      "species_id": "sp_ferrimordax_rutilus",
+      "suggested_biome": "badlands",
+      "confidence": 0.5,
+      "reasoning": "top biome badlands (score 2.00) from traits [denti_ossidoferro, carapaci_ferruginosi] + clade Apex",
+      "alternatives": [
+        "badlands"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "ferr- + rutilus(red) = iron/rust -> badlands (heuristic correct)"
+    },
+    {
+      "species_id": "sp_pyrosaltus_celeris",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "high",
+      "claude_note": "pyro + denti_silice_termici + Saltatore di Cenere(ash) = volcanic",
+      "approved_biome": "abisso_vulcanico"
+    },
+    {
+      "species_id": "sp_basaltocara_scutata",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "medium",
+      "claude_note": "basalt(volcanic rock) + artigli_vetrificati; alt dorsale_termale_tropicale(warm mud)",
+      "approved_biome": "abisso_vulcanico"
+    },
+    {
+      "species_id": "sp_arenaceros_placidus",
+      "suggested_biome": "foresta_acida",
+      "confidence": 0.0,
+      "reasoning": "top biome foresta_acida (score 2.00) from traits [artigli_radice, membrane_eliofiltranti] + clade Keystone",
+      "alternatives": [
+        "foresta_acida",
+        "savana"
+      ],
+      "approved": true,
+      "source": "B-reassign",
+      "confidence_label": "high",
+      "claude_note": "name arena = sand + membrane_eliofiltranti(sun) = savana; heuristic said foresta_acida",
+      "approved_biome": "savana"
+    },
+    {
+      "species_id": "sp_lucinerva_filata",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "low",
+      "claude_note": "UNSURE 3-way: luci+Tessitore di Luce(light) -> reef_luminescente; alt steppe_algoritmiche(carapace_segmenti_logici) / frattura_abissale_sinaptica(nerva)",
+      "approved_biome": "reef_luminescente"
+    },
+    {
+      "species_id": "sp_radiluma_pendula",
+      "suggested_biome": "frattura_abissale_sinaptica",
+      "confidence": 0.5,
+      "reasoning": "top biome frattura_abissale_sinaptica (score 5.00) from traits [biofilm_glow, carapace_luminiscente_abissale] + clade Support",
+      "alternatives": [
+        "frattura_abissale_sinaptica"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "synaptic/abyssal trait votes -> frattura (heuristic correct)"
+    },
+    {
+      "species_id": "sp_limnofalcis_serrata",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "high",
+      "claude_note": "limno = marsh + common Trebbiatore di Palude(marsh)",
+      "approved_biome": "palude"
+    },
+    {
+      "species_id": "sp_cavatympa_sonans",
+      "suggested_biome": "frattura_abissale_sinaptica",
+      "confidence": 0.333,
+      "reasoning": "top biome frattura_abissale_sinaptica (score 3.00) from traits [antenne_microonde_cavernose, tentacoli_uncinati] + clade Bridge",
+      "alternatives": [
+        "frattura_abissale_sinaptica",
+        "caverna"
+      ],
+      "approved": true,
+      "source": "B-reassign",
+      "confidence_label": "high",
+      "claude_note": "name cava + antenne_microonde_cavernose = cave; heuristic said frattura (caverna was its 2nd alt)",
+      "approved_biome": "caverna"
+    },
+    {
+      "species_id": "sp_calamipes_gracilis",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "medium",
+      "claude_note": "calami = reed + Camminatore di Canne(reeds) = marsh wetland",
+      "approved_biome": "palude"
+    },
+    {
+      "species_id": "sp_salisucta_alveata",
+      "suggested_biome": "pianura_salina_iperarida",
+      "confidence": 0.5,
+      "reasoning": "top biome pianura_salina_iperarida (score 2.00) from traits [none] + clade Keystone",
+      "alternatives": [
+        "pianura_salina_iperarida"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "sali- = salt -> salina (heuristic correct)"
+    },
+    {
+      "species_id": "sp_nebulocornis_mollis",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "low",
+      "claude_note": "UNSURE: Cervo di Nebbia(mist deer grazer) -> misty temperate forest; alt stratosfera_tempestosa(nebula=cloud)",
+      "approved_biome": "foresta_temperata"
+    },
+    {
+      "species_id": "sp_cryptolorca_medicata",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "medium",
+      "claude_note": "Riparatore Carsico(karst) + crypto(hidden) + camere_mirage = cave",
+      "approved_biome": "caverna"
+    },
+    {
+      "species_id": "sp_glaciolabis_nitida",
+      "suggested_biome": "caldera_glaciale",
+      "confidence": 0.5,
+      "reasoning": "top biome caldera_glaciale (score 2.00) from traits [none] + clade Bridge",
+      "alternatives": [
+        "caldera_glaciale"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "glaci- = ice -> caldera_glaciale (heuristic correct)"
+    },
+    {
+      "species_id": "sp_tonitrudens_ferox",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "high",
+      "claude_note": "tonitru = thunder + Rosicchiatore di Tuono = storm",
+      "approved_biome": "stratosfera_tempestosa"
+    },
+    {
+      "species_id": "sp_rubrospina_velox",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "low",
+      "claude_note": "UNSURE: rubro=red(iron-oxide rock) -> badlands; alt foresta_acida(spina=thorn)",
+      "approved_biome": "badlands"
+    },
+    {
+      "species_id": "sp_paludogromus_magnus",
+      "suggested_biome": "palude",
+      "confidence": 0.5,
+      "reasoning": "top biome palude (score 2.00) from traits [none] + clade Keystone",
+      "alternatives": [
+        "palude"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "palud- = marsh -> palude (heuristic correct)"
+    },
+    {
+      "species_id": "sp_cinerastra_nodosa",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "high",
+      "claude_note": "ciner = ash + Spirale di Cenere = volcanic ash",
+      "approved_biome": "abisso_vulcanico"
+    },
+    {
+      "species_id": "sp_zephyrovum_fidelis",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "high",
+      "claude_note": "zephyr(wind) + Nidificatore del Maestrale(Mistral wind) = aerial storm",
+      "approved_biome": "stratosfera_tempestosa"
+    },
+    {
+      "species_id": "sp_vitricyba_punctata",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "medium",
+      "claude_note": "vitri = glass + Beccatore di Vetro = obsidian(volcanic glass) atoll",
+      "approved_biome": "atollo_obsidiana"
+    },
+    {
+      "species_id": "sp_fumarisorba_sulfurea",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "high",
+      "claude_note": "fumarole + sulfurea = sulfurous volcanic vents",
+      "approved_biome": "abisso_vulcanico"
+    },
+    {
+      "species_id": "sp_arboryxis_lenis",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "low",
+      "claude_note": "UNSURE: arbor=tree + Vagabondo della Volta(canopy) gentle grazer -> temperate forest; alt canopia_ionica",
+      "approved_biome": "foresta_temperata"
+    },
+    {
+      "species_id": "sp_noctipedis_umbrata",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "medium",
+      "claude_note": "nocti + umbra(shadow) + Notturno + ghiandole_condensa_ozono(high-alt) = orbital midnight",
+      "approved_biome": "mezzanotte_orbitale"
+    },
+    {
+      "species_id": "sp_magnetocola_pastoris",
+      "suggested_biome": "atollo_obsidiana",
+      "confidence": 0.5,
+      "reasoning": "top biome atollo_obsidiana (score 2.00) from traits [circolazione_bifasica] + clade Support",
+      "alternatives": [
+        "atollo_obsidiana"
+      ],
+      "approved": true,
+      "source": "A-sound",
+      "confidence_label": "high",
+      "claude_note": "magnet- -> atollo_obsidiana (heuristic correct)"
+    },
+    {
+      "species_id": "sp_siltovena_bifida",
+      "suggested_biome": null,
+      "confidence": 0.0,
+      "reasoning": "no signal (no trait votes, no keyword match) -- needs manual assignment",
+      "alternatives": [],
+      "approved": true,
+      "source": "C-name-proposal",
+      "confidence_label": "medium",
+      "claude_note": "silt + Divisore del Delta(river delta) = silty wetland",
+      "approved_biome": "palude"
+    },
+    {
+      "species_id": "sp_tempestarius_psionicus",
+      "suggested_biome": "savana",
+      "confidence": 0.667,
+      "reasoning": "top biome savana (score 9.00) from traits [antenne_plasmatiche_tempesta, sensori_geomagnetici, carapace_luminiscente_abissale, focus_frazionato, risonanza_di_branco, sinapsi_coraline_polifoniche, tattiche_di_branco] + clade Apex",
+      "alternatives": [
+        "savana",
+        "frattura_abissale_sinaptica",
+        "atollo_obsidiana"
+      ],
+      "approved": true,
+      "source": "B-reassign",
+      "confidence_label": "medium",
+      "claude_note": "carapace_luminiscente_abissale + sinapsi_coraline_polifoniche = abyssal/coral-synaptic; heuristic said savana",
+      "approved_biome": "frattura_abissale_sinaptica"
+    },
+    {
+      "species_id": "sp_magmocardium_furens",
+      "suggested_biome": "savana",
+      "confidence": 0.8,
+      "reasoning": "top biome savana (score 7.50) from traits [circolazione_supercritica, sangue_piroforico, coda_frusta_cinetica, ferocia, lamelle_shear, midollo_iperattivo, focus_frazionato] + clade Threat",
+      "alternatives": [
+        "savana",
+        "caldera_glaciale"
+      ],
+      "approved": true,
+      "source": "B-reassign",
+      "confidence_label": "high",
+      "claude_note": "magma + sangue_piroforico + circolazione_supercritica = volcanic; heuristic said savana@0.8 (MOST-WRONG output)",
+      "approved_biome": "abisso_vulcanico"
+    }
+  ]
+}

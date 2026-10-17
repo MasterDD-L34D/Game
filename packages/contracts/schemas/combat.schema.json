@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/combat.schema.json",
+  "title": "CombatState",
+  "type": "object",
+  "required": ["session_id", "seed", "turn", "initiative_order", "active_unit_id", "units", "log"],
+  "properties": {
+    "session_id": { "$ref": "#/$defs/slug" },
+    "seed": { "type": "string", "minLength": 1 },
+    "encounter_id": { "type": ["string", "null"] },
+    "turn": { "type": "integer", "minimum": 1 },
+    "initiative_order": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/slug" },
+      "uniqueItems": true
+    },
+    "active_unit_id": { "$ref": "#/$defs/slug" },
+    "units": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/combat_unit" }
+    },
+    "vc": {
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/party_vc" }]
+    },
+    "log": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/turn_log" }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "minLength": 1
+    },
+    "damage_channel": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1,
+      "description": "Slug del canale di danno. Canali canonici dal Frattura draft (docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md): elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico. Nuovi canali sono ammessi senza schema bump."
+    },
+    "resistance_entry": {
+      "type": "object",
+      "required": ["channel", "modifier_pct"],
+      "properties": {
+        "channel": { "$ref": "#/$defs/damage_channel" },
+        "modifier_pct": {
+          "type": "integer",
+          "minimum": -100,
+          "maximum": 100,
+          "description": "Modificatore percentuale del canale: positivo riduce il danno subito, negativo amplifica (es. fuoco -15% = vulnerabilita)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "damage_dice": {
+      "type": "object",
+      "required": ["count", "sides", "modifier"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "sides": {
+          "type": "integer",
+          "enum": [4, 6, 8, 10, 12, 20],
+          "description": "Facce del dado. I balance doc del repo usano d6, d8, d10, d12. d4 e d20 sono ammessi per estensioni future."
+        },
+        "modifier": { "type": "integer" }
+      },
+      "additionalProperties": false,
+      "description": "Notazione dadi XdY+Z (es. 1d8+3, 2d12+6) per il danno base di un'azione."
+    },
+    "pt_spend": {
+      "type": "object",
+      "required": ["type", "amount"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["perforazione", "spinta"],
+          "description": "Categoria di spesa PT dal docs/10-SISTEMA_TATTICO.md. 'perforazione' riduce armor target di 2 per questo attacco; 'spinta' applica status 'sbilanciato' (-1 defense_mod, 1 turno) su hit. Le categorie 'condizioni' e 'combo' sono rimandate."
+        },
+        "amount": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false,
+      "description": "Spesa PT dichiarata da un'action. Il costo e' consumato PRIMA del roll: anche un attacco mancato perde i PT caricati."
+    },
+    "parry_response": {
+      "type": "object",
+      "required": ["attempt"],
+      "properties": {
+        "attempt": { "type": "boolean" },
+        "parry_bonus": {
+          "type": "integer",
+          "description": "Bonus fisso sommato al d20 della parata. Default 0. Placeholder per future abilita' che aumentano la parry skill."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Risposta di parata opt-in inclusa nell'action dell'attaccante dal client (il client conosce l'intenzione del difensore e la inoltra). Consuma una reazione del target se risolta."
+    },
+    "parry_result": {
+      "type": "object",
+      "required": [
+        "attempted",
+        "executed",
+        "natural",
+        "total",
+        "success",
+        "step_reduced",
+        "pt_defensive_gained"
+      ],
+      "properties": {
+        "attempted": { "type": "boolean" },
+        "executed": {
+          "type": "boolean",
+          "description": "True se la parata e' stata effettivamente tirata (target aveva reazioni disponibili e attack success)."
+        },
+        "natural": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "total": { "type": "integer" },
+        "success": { "type": "boolean" },
+        "step_reduced": { "type": "integer", "minimum": 0 },
+        "pt_defensive_gained": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false,
+      "description": "Esito del tentativo di parata loggato nel roll_result dell'attack. 'executed: false' significa che la parry e' stata richiesta ma il target non aveva reazioni o l'attack era gia' fallito."
+    },
+    "status_id": {
+      "type": "string",
+      "enum": ["bleeding", "fracture", "disorient", "rage", "panic"]
+    },
+    "party_vc_level": {
+      "type": "string",
+      "enum": ["low", "mid", "high"]
+    },
+    "party_vc": {
+      "type": "object",
+      "required": ["aggro", "cohesion", "setup", "explore", "risk"],
+      "properties": {
+        "aggro": { "$ref": "#/$defs/party_vc_level" },
+        "cohesion": { "$ref": "#/$defs/party_vc_level" },
+        "setup": { "$ref": "#/$defs/party_vc_level" },
+        "explore": { "$ref": "#/$defs/party_vc_level" },
+        "risk": { "$ref": "#/$defs/party_vc_level" }
+      },
+      "additionalProperties": false
+    },
+    "status_effect": {
+      "type": "object",
+      "required": ["id", "intensity", "remaining_turns"],
+      "properties": {
+        "id": { "$ref": "#/$defs/status_id" },
+        "intensity": { "type": "integer", "minimum": 1 },
+        "remaining_turns": { "type": "integer", "minimum": 0 },
+        "source_unit_id": { "type": ["string", "null"] },
+        "source_action_id": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "combat_unit": {
+      "type": "object",
+      "required": [
+        "id",
+        "species_id",
+        "side",
+        "tier",
+        "hp",
+        "ap",
+        "armor",
+        "initiative",
+        "stress",
+        "statuses",
+        "resistances",
+        "trait_ids",
+        "pt",
+        "reactions"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "species_id": { "$ref": "#/$defs/slug" },
+        "side": {
+          "type": "string",
+          "enum": ["party", "hostile", "neutral"]
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Tier progressivo dell'unita (1-6). Coerente con l'enum sentience_tier di schemas/evo/enums.json (T1-T6; T0 escluso perche subsensiente). Usato dal resolver per calcolare la CD di un attacco: CD = 10 + target.tier + defense_mod."
+        },
+        "hp": {
+          "type": "object",
+          "required": ["current", "max"],
+          "properties": {
+            "current": { "type": "integer" },
+            "max": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "ap": {
+          "type": "object",
+          "required": ["current", "max"],
+          "properties": {
+            "current": { "type": "integer", "minimum": 0 },
+            "max": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "armor": {
+          "type": "integer",
+          "description": "Stat di riduzione danno (range osservato nel Frattura draft: 2-12 base, con bonus temporanei +/-)."
+        },
+        "initiative": { "type": "integer" },
+        "stress": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Stress corrente come float 0-1. Breakpoints dal Frattura draft: 0.25, 0.5, 0.75. Tick per turno tipico 0.04-0.08."
+        },
+        "statuses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/status_effect" }
+        },
+        "resistances": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/resistance_entry" },
+          "description": "Resistenze risolte per il combat, derivate dai trait_mechanics all'hydration. Un canale puo apparire una sola volta."
+        },
+        "trait_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true
+        },
+        "pt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pool di Punti Tecnica (PT) accumulati dall'unita'. Fonte: docs/10-SISTEMA_TATTICO.md. Spesi via action.pt_spend. Parata genera PT difensivi sommati a questo pool. Cap: PT_POOL_CAP (12)."
+        },
+        "pp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pool di Power Points (PP) combo meter. Fonte: docs/combat/combat-canon.md §3b. Inizializzato a 0, accumulato via hit (+1) e kill (+2). Soglie: 3 (Tier 1), 6 (Tier 2), 10 (Ultimate). Nessun cap di pool."
+        },
+        "reactions": {
+          "type": "object",
+          "required": ["current", "max"],
+          "properties": {
+            "current": { "type": "integer", "minimum": 0 },
+            "max": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false,
+          "description": "Economia di reazioni per turno (parry/counter/overwatch). docs/10-SISTEMA_TATTICO.md dichiara reazioni separate dagli AP; il reset a max e' responsabilita' del caller via begin_turn()."
+        }
+      },
+      "additionalProperties": true
+    },
+    "action": {
+      "type": "object",
+      "required": ["id", "type", "actor_id", "ap_cost"],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "type": {
+          "type": "string",
+          "enum": ["attack", "defend", "parry", "ability", "move"]
+        },
+        "actor_id": { "$ref": "#/$defs/slug" },
+        "target_id": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/slug" }]
+        },
+        "ability_id": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/slug" }]
+        },
+        "ap_cost": { "type": "integer", "minimum": 0 },
+        "channel": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/damage_channel" }]
+        },
+        "damage_dice": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/damage_dice" }],
+          "description": "Dadi di danno base dell'azione (opzionale). Presente tipicamente per attack/ability."
+        },
+        "pt_spend": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/pt_spend" }],
+          "description": "Spesa PT opzionale dichiarata dall'attore per caricare l'action. Consumata prima del roll."
+        },
+        "parry_response": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/parry_response" }],
+          "description": "Intento di parata del target inoltrato dal client (opt-in). Il resolver verifica reazioni disponibili e risolve la parata mid-pipeline."
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "ability" } } },
+          "then": {
+            "required": ["ability_id"],
+            "properties": {
+              "ability_id": { "$ref": "#/$defs/slug" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "enum": ["attack", "parry"] } }
+          },
+          "then": {
+            "required": ["target_id"],
+            "properties": {
+              "target_id": { "$ref": "#/$defs/slug" }
+            }
+          }
+        }
+      ]
+    },
+    "roll_result": {
+      "type": "object",
+      "required": [
+        "natural",
+        "modifier",
+        "total",
+        "dc",
+        "success",
+        "mos",
+        "damage_step",
+        "pt_gained",
+        "pp_gained",
+        "is_crit",
+        "is_fumble"
+      ],
+      "properties": {
+        "natural": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "modifier": { "type": "integer" },
+        "total": { "type": "integer" },
+        "dc": { "type": "integer", "minimum": 0 },
+        "success": { "type": "boolean" },
+        "mos": { "type": "integer", "minimum": 0 },
+        "damage_step": { "type": "integer", "minimum": 0 },
+        "pt_gained": { "type": "integer", "minimum": 0 },
+        "pp_gained": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "PP guadagnati da questo roll (0-3: +1 hit, +2 kill)."
+        },
+        "is_crit": { "type": "boolean" },
+        "is_fumble": { "type": "boolean" },
+        "parry": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/parry_result" }],
+          "description": "Esito della parata se action.parry_response era presente, altrimenti null."
+        },
+        "pt_spent": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Quantita' di PT effettivamente consumati dall'action (inclusi pt_spend caricati anche su miss)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "turn_log": {
+      "type": "object",
+      "required": ["turn", "action"],
+      "properties": {
+        "turn": { "type": "integer", "minimum": 1 },
+        "action": { "$ref": "#/$defs/action" },
+        "roll": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/roll_result" }]
+        },
+        "damage_applied": { "type": "integer", "minimum": 0 },
+        "statuses_applied": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/status_effect" }
+        },
+        "statuses_expired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["unit_id", "status_id"],
+            "properties": {
+              "unit_id": { "$ref": "#/$defs/slug" },
+              "status_id": { "$ref": "#/$defs/status_id" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

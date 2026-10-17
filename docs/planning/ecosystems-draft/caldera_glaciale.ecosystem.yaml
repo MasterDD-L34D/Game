@@ -1,0 +1,20 @@
+schema_version: 1.0
+ecosistema:
+  id: CALDERA_GLACIALE
+  label: Caldera Glaciale
+  biome_id: caldera_glaciale
+  trofico:
+    produttori:
+    - alghe_cryofile
+    - muschi_permafrost
+    consumatori:
+      primari:
+      - rupicapra-sensoria
+      secondari:
+      - psionerva-montis
+      - glaciolabis-nitida
+      terziari: []
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

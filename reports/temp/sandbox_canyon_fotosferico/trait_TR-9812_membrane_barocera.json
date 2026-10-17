@@ -1,0 +1,48 @@
+{
+  "trait_code": "TR-9812",
+  "id": "membrane_barocera",
+  "label": "Membrane Barocera",
+  "tier": "T2",
+  "slot": ["D"],
+  "sinergie": ["TR-9810"],
+  "conflitti": ["TR-0113"],
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "canyon_fotosferico"
+      },
+      "capacita_richieste": ["adattamento_pressorio"],
+      "fonte": "sandbox_canyon_fotosferico",
+      "meta": {
+        "tier": "T2",
+        "notes": "Necessita corridoi di vento per mantenere la tensione strutturale e dissipare calore."
+      }
+    }
+  ],
+  "uso_funzione": "Membrane flessibili che si irrigidiscono con le sovrapressioni, schermando da vortici fotonici e microdetriti.",
+  "spinta_selettiva": "Proteggere organi fotosensibili e canali respiratori durante le tempeste di plasma superficiale.",
+  "metrics": [
+    {
+      "name": "assorbimento_impatti",
+      "value": 0.42,
+      "unit": "J",
+      "conditions": "microdetriti a 30 m/s"
+    },
+    {
+      "name": "tempo_rigetto_calore",
+      "value": 4.8,
+      "unit": "s",
+      "conditions": "dopo contrazione massima"
+    }
+  ],
+  "applicability": {
+    "clades": ["reptilia"],
+    "notes": "Compatibili con scheletri flessibili e dorso a camera d'aria."
+  },
+  "version": "0.1.0",
+  "versioning": {
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "author": "sandbox-trait-curator"
+  }
+}

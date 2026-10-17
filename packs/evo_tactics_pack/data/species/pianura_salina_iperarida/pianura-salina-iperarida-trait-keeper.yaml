@@ -1,0 +1,17 @@
+resistance_archetype: adattivo
+id: pianura-salina-iperarida-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- pianura_salina_iperarida
+derived_from_environment:
+  suggested_traits:
+  - antenne_dustsense
+  - biofilm_iperarido
+  - camere_mirage
+  - cartilagini_desertiche
+  - chemiorecettori_bromuro
+  - ciste_salmastre
+  - cuscinetti_elettrostatici
+  - ghiandole_iodoattive
+  - lingua_cristallina
+  - membrane_captura_rugiada

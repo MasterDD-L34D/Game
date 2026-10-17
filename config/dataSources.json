@@ -1,0 +1,7 @@
+{
+  "flowSnapshot": {
+    "local": "flow-shell/atlas-snapshot.json",
+    "shared": "s3://game-shared-flow-shell/snapshots/atlas-snapshot.json",
+    "description": "Snapshot atlas iniziale per il servizio generation. Il file vive gia' in data/flow-shell/atlas-snapshot.json ed e' usato da tools/deploy/syncSnapshot.js per il deploy check (skippa se il target esiste gia')."
+  }
+}

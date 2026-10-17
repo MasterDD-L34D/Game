@@ -1,0 +1,18 @@
+{
+  "id": "TKT-ECONOMY-HADES-MULTI-CURRENCY",
+  "title": "Hades multi-currency split (PE-run + Shards-meta + PI)",
+  "pillar": "P2",
+  "effort_hours": 6,
+  "donor_game": {
+    "name": "Hades",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#2-hades-supergiant--2020"
+  },
+  "agent_owner": "economy-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Split PE singolo in 3 currency. Tight-loop run + long-loop meta. Codex schema spec'd già."
+}

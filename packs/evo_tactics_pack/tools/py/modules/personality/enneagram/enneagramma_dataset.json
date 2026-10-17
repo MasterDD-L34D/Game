@@ -1,0 +1,944 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2025-10-24T12:54:30.265570",
+  "types": [
+    {
+      "id": 1,
+      "name_it": "Il Perfezionista / Riformatore",
+      "center": "Centro Istintivo (Gut)",
+      "core_emotion": "Rabbia",
+      "basic_fear": "Essere corrotti/cattivi, difettosi",
+      "basic_desire": "Essere buoni, integri, equilibrati",
+      "passion": "Ira",
+      "fixation": "Risentimento",
+      "virtue": "Serenità",
+      "stress_to": 4,
+      "growth_to": 7,
+      "wings": [
+        "1w9",
+        "1w2"
+      ],
+      "wings_names_ei": [
+        "1w9 – The Idealist",
+        "1w2 – The Advocate"
+      ],
+      "wings_detail": {
+        "1w2": {
+          "name_ei": "The Advocate",
+          "summary": "più caloroso e sociale; orientato al servizio e al contatto"
+        },
+        "1w9": {
+          "name_ei": "The Idealist",
+          "summary": "più riflessivo, stoico, idealista; più calmo e distaccato"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name_it": "Il Donatore / Aiutante",
+      "center": "Centro Emotivo (Heart)",
+      "core_emotion": "Vergogna",
+      "basic_fear": "Essere indesiderati, indegni di amore",
+      "basic_desire": "Sentirsi amati",
+      "passion": "Superbia",
+      "fixation": "Adulazione (lusinga)",
+      "virtue": "Umiltà",
+      "stress_to": 8,
+      "growth_to": 4,
+      "wings": [
+        "2w1",
+        "2w3"
+      ],
+      "wings_names_ei": [
+        "2w1 – The Servant",
+        "2w3 – The Host/Hostess"
+      ],
+      "wings_detail": {
+        "2w1": {
+          "name_ei": "The Servant",
+          "summary": "più contenuto, doveroso; tono più sobrio e ‘di servizio’"
+        },
+        "2w3": {
+          "name_ei": "The Host/Hostess",
+          "summary": "più ambizioso e orientato all’immagine; ospitale e assertivo"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name_it": "L’Esecutore / Realizzatore",
+      "center": "Centro Emotivo (Heart)",
+      "core_emotion": "Vergogna",
+      "basic_fear": "Essere senza valore",
+      "basic_desire": "Sentirsi di valore e meritevoli",
+      "passion": "Inganno (autoinganno)",
+      "fixation": "Vanità",
+      "virtue": "Veridicità (autenticità)",
+      "stress_to": 9,
+      "growth_to": 6,
+      "wings": [
+        "3w2",
+        "3w4"
+      ],
+      "wings_names_ei": [
+        "3w2 – The Charmer",
+        "3w4 – The Professional"
+      ],
+      "wings_detail": {
+        "3w2": {
+          "name_ei": "The Charmer",
+          "summary": "più relazionale e carismatico; cerca popolarità"
+        },
+        "3w4": {
+          "name_ei": "The Professional",
+          "summary": "più riservato e professionale; attenzione alla qualità/autenticità"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name_it": "Il Romantico / Individualista",
+      "center": "Centro Emotivo (Heart)",
+      "core_emotion": "Vergogna",
+      "basic_fear": "Non avere identità o significato personale",
+      "basic_desire": "Essere se stessi in modo unico",
+      "passion": "Invidia",
+      "fixation": "Malinconia",
+      "virtue": "Equanimità",
+      "stress_to": 2,
+      "growth_to": 1,
+      "wings": [
+        "4w3",
+        "4w5"
+      ],
+      "wings_names_ei": [
+        "4w3 – The Aristocrat",
+        "4w5 – The Bohemian"
+      ],
+      "wings_detail": {
+        "4w3": {
+          "name_ei": "The Aristocrat",
+          "summary": "più estroverso e performativo; spinta a emergere"
+        },
+        "4w5": {
+          "name_ei": "The Bohemian",
+          "summary": "più introspettivo e intellettuale; gusto per il ritiro"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name_it": "L’Osservatore / Investigatore",
+      "center": "Centro Mentale (Head)",
+      "core_emotion": "Paura",
+      "basic_fear": "Essere impotenti, incapaci, incompetenti",
+      "basic_desire": "Competenza e comprensione",
+      "passion": "Avarizia",
+      "fixation": "Ritenzione (stinginess)",
+      "virtue": "Distacco",
+      "stress_to": 7,
+      "growth_to": 8,
+      "wings": [
+        "5w4",
+        "5w6"
+      ],
+      "wings_names_ei": [
+        "5w4 – The Iconoclast",
+        "5w6 – The Problem Solver"
+      ],
+      "wings_detail": {
+        "5w4": {
+          "name_ei": "The Iconoclast",
+          "summary": "più originale/artistico; sensibilità estetica marcata"
+        },
+        "5w6": {
+          "name_ei": "The Problem Solver",
+          "summary": "più tecnico/pragmatico; cautela e problem-solving"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "name_it": "Lo Scettico Leale / Lealista",
+      "center": "Centro Mentale (Head)",
+      "core_emotion": "Paura",
+      "basic_fear": "Essere senza supporto o guida",
+      "basic_desire": "Avere sicurezza e supporto",
+      "passion": "Paura",
+      "fixation": "Vigliaccheria",
+      "virtue": "Coraggio",
+      "stress_to": 3,
+      "growth_to": 9,
+      "wings": [
+        "6w5",
+        "6w7"
+      ],
+      "wings_names_ei": [
+        "6w5 – The Defender",
+        "6w7 – The Buddy"
+      ],
+      "wings_detail": {
+        "6w5": {
+          "name_ei": "The Defender",
+          "summary": "più analitico e riservato; orientato a sistemi/regole"
+        },
+        "6w7": {
+          "name_ei": "The Buddy",
+          "summary": "più socievole e reattivo; cerca incoraggiamento/opzioni"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name_it": "L’Ottimista / Entusiasta",
+      "center": "Centro Mentale (Head)",
+      "core_emotion": "Paura",
+      "basic_fear": "Essere privati, intrappolati nel dolore",
+      "basic_desire": "Essere soddisfatti e appagati",
+      "passion": "Gola (gluttonia)",
+      "fixation": "Pianificazione",
+      "virtue": "Sobrietà",
+      "stress_to": 1,
+      "growth_to": 5,
+      "wings": [
+        "7w6",
+        "7w8"
+      ],
+      "wings_names_ei": [
+        "7w6 – The Entertainer",
+        "7w8 – The Realist"
+      ],
+      "wings_detail": {
+        "7w6": {
+          "name_ei": "The Entertainer",
+          "summary": "più cooperativo e pianificatore; pensa al team"
+        },
+        "7w8": {
+          "name_ei": "The Realist",
+          "summary": "più assertivo e deciso; cerca impatto immediato"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "name_it": "Il Capo / Sfidante",
+      "center": "Centro Istintivo (Gut)",
+      "core_emotion": "Rabbia",
+      "basic_fear": "Essere controllati, feriti o violati",
+      "basic_desire": "Proteggersi ed essere autosufficienti",
+      "passion": "Lussuria",
+      "fixation": "Vendetta",
+      "virtue": "Innocenza",
+      "stress_to": 5,
+      "growth_to": 2,
+      "wings": [
+        "8w7",
+        "8w9"
+      ],
+      "wings_names_ei": [
+        "8w7 – The Maverick",
+        "8w9 – The Bear"
+      ],
+      "wings_detail": {
+        "8w7": {
+          "name_ei": "The Maverick",
+          "summary": "più energico e imprenditoriale; orientato al rischio"
+        },
+        "8w9": {
+          "name_ei": "The Bear",
+          "summary": "più stabile e protettivo; presenza calma e contenuta"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "name_it": "Il Mediatore / Pacificatore",
+      "center": "Centro Istintivo (Gut)",
+      "core_emotion": "Rabbia",
+      "basic_fear": "Perdita, frammentazione, separazione",
+      "basic_desire": "Pace della mente, interezza",
+      "passion": "Accidia (pigrizia)",
+      "fixation": "Indolenza",
+      "virtue": "Azione",
+      "stress_to": 6,
+      "growth_to": 3,
+      "wings": [
+        "9w8",
+        "9w1"
+      ],
+      "wings_names_ei": [
+        "9w8 – The Referee",
+        "9w1 – The Dreamer"
+      ],
+      "wings_detail": {
+        "9w1": {
+          "name_ei": "The Dreamer",
+          "summary": "più idealista e ordinato; coscienzioso e corretto"
+        },
+        "9w8": {
+          "name_ei": "The Referee",
+          "summary": "più deciso, pratico; tende a proteggere i confini"
+        }
+      }
+    }
+  ],
+  "triads": {
+    "Centri (emozione di base)": [
+      {
+        "group": "Istintivo (8-9-1) – Rabbia",
+        "types": [
+          8,
+          9,
+          1
+        ]
+      },
+      {
+        "group": "Emotivo (2-3-4) – Vergogna",
+        "types": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "group": "Mentale (5-6-7) – Paura",
+        "types": [
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "Harmonic (gestione del conflitto)": [
+      {
+        "group": "Positive Outlook/Ottimisti",
+        "types": [
+          2,
+          7,
+          9
+        ]
+      },
+      {
+        "group": "Competency/Competenti",
+        "types": [
+          1,
+          3,
+          5
+        ]
+      },
+      {
+        "group": "Reactive/Reattivi",
+        "types": [
+          4,
+          6,
+          8
+        ]
+      }
+    ],
+    "Hornevian (stile sociale)": [
+      {
+        "group": "Compliant/Obbediente",
+        "types": [
+          1,
+          2,
+          6
+        ]
+      },
+      {
+        "group": "Withdrawn/Ritirato",
+        "types": [
+          4,
+          5,
+          9
+        ]
+      },
+      {
+        "group": "Assertive/Affermativo",
+        "types": [
+          3,
+          7,
+          8
+        ]
+      }
+    ],
+    "Object Relations": [
+      {
+        "group": "Attachment/Attaccamento",
+        "types": [
+          3,
+          6,
+          9
+        ]
+      },
+      {
+        "group": "Frustration/Frustrazione",
+        "types": [
+          1,
+          4,
+          7
+        ]
+      },
+      {
+        "group": "Rejection/Rifiuto",
+        "types": [
+          2,
+          5,
+          8
+        ]
+      }
+    ]
+  },
+  "variants": [
+    {
+      "variant": "SP (Self-preservation)",
+      "focus": "Sicurezza fisica, risorse, salute/comfort",
+      "keywords": "praticità, conservazione, routine, protezione"
+    },
+    {
+      "variant": "SO (Social)",
+      "focus": "Appartenenza, reti, ruolo nel gruppo/status",
+      "keywords": "connessione, cooperazione, contributo, immagine sociale"
+    },
+    {
+      "variant": "SX (Sessuale/One-to-one)",
+      "focus": "Intensità relazionale, attrazione, fusione/creatività",
+      "keywords": "magnetismo, focus, passione, rischio"
+    }
+  ],
+  "stackings": [
+    {
+      "stacking": "sp/so",
+      "summary": "pratico e orientato alla stabilità; poi rete/ruolo"
+    },
+    {
+      "stacking": "sp/sx",
+      "summary": "conservazione con slanci intensi selettivi"
+    },
+    {
+      "stacking": "so/sp",
+      "summary": "sociale/comunitario con base pratica solida"
+    },
+    {
+      "stacking": "so/sx",
+      "summary": "visibilità e legami; ricerca di impatto relazionale"
+    },
+    {
+      "stacking": "sx/sp",
+      "summary": "intensità e legame; base pragmatica a supporto"
+    },
+    {
+      "stacking": "sx/so",
+      "summary": "intensità diretta verso visibilità e appartenenza"
+    }
+  ],
+  "sources": [
+    {
+      "label": "Wikipedia — Enneagram of Personality",
+      "url": "https://en.wikipedia.org/wiki/Enneagram_of_Personality"
+    },
+    {
+      "label": "Enneagram Institute — Types 1–9 + System",
+      "url": "https://www.enneagraminstitute.com/"
+    },
+    {
+      "label": "Narrative Enneagram — Instinctual Subtypes",
+      "url": "https://www.narrativeenneagram.org/instinctual-subtypes/"
+    },
+    {
+      "label": "Enneagram Explained — Hornevian & Harmonic",
+      "url": "https://enneagramexplained.com/"
+    },
+    {
+      "label": "Object Relations (overview)",
+      "url": "https://heathdavishavlick.com/the-enneagram-and-object-relations-theory/"
+    }
+  ],
+  "notes": [
+    "Traduzioni italiane d’uso comune; i nickname EI restano in inglese.",
+    "Modello descrittivo non clinico: usare per scopi ludici/profilazione narrativa."
+  ],
+  "themes": [
+    {
+      "id": "reformer_1",
+      "type_id": 1,
+      "name": "Biome Coherence (Reformer)",
+      "summary": "Mantiene coerenza tra biomi, affissi e mutazioni riducendo l'entropia ambientale degli encounter.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "cohesion",
+            "threshold": 0.62,
+            "window": "rolling_two_encounters"
+          },
+          {
+            "metric": "setup",
+            "threshold": 0.55,
+            "window": "rolling_two_encounters"
+          }
+        ],
+        "biome_tags": {
+          "include": [
+            "vc_adapt",
+            "mutations_control",
+            "low_entropy"
+          ]
+        },
+        "mating_preferences": {
+          "include": [
+            "cohesion",
+            "preparation"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.reformer_1",
+        "triads": [
+          "triad.core_emotion.rabbia"
+        ],
+        "hornevian": [
+          "hornevian.obbediente"
+        ],
+        "harmonics": [
+          "harmonic.competenti"
+        ]
+      },
+      "linked_stats": [
+        "skill_success",
+        "teamwork_bonus",
+        "melee_damage"
+      ],
+      "linked_events": [
+        "on_setback",
+        "on_coordinate_action"
+      ],
+      "notes": [
+        "Baseline per i generatori Ennea e per audit di coerenza tra dati bioma e adattamenti VC.",
+        "Applicare quando la telemetria segnala coesione e preparazione elevate nelle ultime due missioni."
+      ]
+    },
+    {
+      "id": "helper_2",
+      "type_id": 2,
+      "name": "Coordinatore (Helper)",
+      "summary": "Potenzia il supporto continuo e la gestione degli scudi per squadre ad alta coesione.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "cohesion",
+            "threshold": 0.7,
+            "window": "mission_average"
+          },
+          {
+            "metric": "assist_density",
+            "threshold": 0.4,
+            "window": "mission_average"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "assist",
+            "shield_share",
+            "revive"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.helper_2",
+        "triads": [
+          "triad.core_emotion.vergogna"
+        ],
+        "hornevian": [
+          "hornevian.obbediente"
+        ],
+        "harmonics": [
+          "harmonic.ottimisti"
+        ]
+      },
+      "linked_stats": [
+        "support_power",
+        "bond_aura",
+        "hp_max"
+      ],
+      "linked_events": [
+        "on_ally_downed",
+        "on_coordinate_action"
+      ],
+      "notes": [
+        "Consigliato per sessioni tutorial e per stress test degli adattamenti cohesion_high.",
+        "Genera carte reazione gratuite dopo azioni di supporto coordinate."
+      ]
+    },
+    {
+      "id": "achiever_3",
+      "type_id": 3,
+      "name": "Conquistatore (Achiever)",
+      "summary": "Premia squadre aggressive che mantengono pressione elevata e finisher coordinati.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "aggro",
+            "threshold": 0.65,
+            "window": "rolling_two_encounters"
+          },
+          {
+            "metric": "risk",
+            "threshold": 0.55,
+            "window": "rolling_two_encounters"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "first_strike",
+            "finisher",
+            "image_management"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.achiever_3",
+        "triads": [
+          "triad.core_emotion.vergogna"
+        ],
+        "hornevian": [
+          "hornevian.assertivo"
+        ],
+        "harmonics": [
+          "harmonic.competenti"
+        ]
+      },
+      "linked_stats": [
+        "pp",
+        "initiative_adv",
+        "burst_damage"
+      ],
+      "linked_events": [
+        "on_finisher_hit",
+        "on_initiative_win"
+      ],
+      "notes": [
+        "Monitorare overcap_guard per evitare picchi di tilt durante i playtest.",
+        "Recupera stamina dopo first_strike riusciti se la pressione rimane alta."
+      ]
+    },
+    {
+      "id": "individual_4",
+      "type_id": 4,
+      "name": "Sintonizzatore (Individualist)",
+      "summary": "Orchestra pattern estetici e tattici alternando rigore e improvvisazione controllata.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "pattern_entropy",
+            "threshold": 0.58,
+            "window": "mission_average"
+          },
+          {
+            "metric": "cover_discipline",
+            "threshold": 0.52,
+            "window": "mission_average"
+          },
+          {
+            "metric": "time_to_commit",
+            "threshold": 4.5,
+            "window": "seconds"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "signature_pattern",
+            "style_variation"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.individual_4",
+        "triads": [
+          "triad.core_emotion.vergogna"
+        ],
+        "hornevian": [
+          "hornevian.ritirato"
+        ],
+        "harmonics": [
+          "harmonic.reattivi"
+        ]
+      },
+      "linked_stats": [
+        "burst_damage",
+        "charisma_checks",
+        "stealth"
+      ],
+      "linked_events": [
+        "on_isolation",
+        "on_goal_blocked"
+      ],
+      "notes": [
+        "Accesso a mod estetici e swap istantanei di carte abilità quando i pattern superano le soglie di entropia.",
+        "Utilizzato per generare seed signature e documentare varianti visive dei biomi sintetici."
+      ]
+    },
+    {
+      "id": "investigator_5",
+      "type_id": 5,
+      "name": "Architetto (Investigator)",
+      "summary": "Valorizza la pianificazione pre-battaglia e il controllo di trappole e overwatch.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "setup",
+            "threshold": 0.7,
+            "window": "mission_average"
+          },
+          {
+            "metric": "trap_conversion",
+            "threshold": 0.45,
+            "window": "mission_average"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "overwatch",
+            "trap_layer",
+            "resource_bank"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.investigator_5",
+        "triads": [
+          "triad.core_emotion.paura"
+        ],
+        "hornevian": [
+          "hornevian.ritirato"
+        ],
+        "harmonics": [
+          "harmonic.competenti"
+        ]
+      },
+      "linked_stats": [
+        "stealth",
+        "skill_success",
+        "stamina_regen"
+      ],
+      "linked_events": [
+        "on_stealth_start",
+        "on_skill_check_under_pressure"
+      ],
+      "notes": [
+        "Concede vantaggio ai tiri di trappola e recupero punti abilità dopo trigger riusciti.",
+        "Integra blueprint pre-missione e alimenta seed difensivi nelle simulazioni."
+      ]
+    },
+    {
+      "id": "loyalist_6",
+      "type_id": 6,
+      "name": "Telemetry Sync (Loyalist)",
+      "summary": "Garantisce la sincronizzazione dell'infrastruttura telemetrica e la resilienza degli alert VC.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "ema_alpha",
+            "threshold": 0.25,
+            "window": "config"
+          },
+          {
+            "metric": "debounce_ms",
+            "threshold": 180,
+            "window": "config"
+          },
+          {
+            "metric": "idle_threshold_s",
+            "threshold": 12,
+            "window": "config"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "safety_net",
+            "logistics",
+            "diagnostics"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.loyalist_6",
+        "triads": [
+          "triad.core_emotion.paura"
+        ],
+        "hornevian": [
+          "hornevian.obbediente"
+        ],
+        "harmonics": [
+          "harmonic.reattivi"
+        ]
+      },
+      "linked_stats": [
+        "ac",
+        "bond_aura",
+        "self_reliance"
+      ],
+      "linked_events": [
+        "on_adjacent_ally",
+        "on_setback"
+      ],
+      "notes": [
+        "Richiede tre missioni senza perdita di eventi VC e calibrazione confermata degli strumenti.",
+        "Attiva smoothing virtuale dei segnali EMA e report live sul monitor TV durante la missione."
+      ]
+    },
+    {
+      "id": "enthusiast_7",
+      "type_id": 7,
+      "name": "Esploratore (Enthusiast)",
+      "summary": "Incentiva rotte opzionali e la scoperta di nuovi tile attraverso bonus di movimento e mutazioni.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "explore",
+            "threshold": 0.7,
+            "window": "mission_average"
+          },
+          {
+            "metric": "optional_objectives",
+            "threshold": 2,
+            "window": "per_mission"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "optional_discovery",
+            "scouting",
+            "novelty_seek"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.enthusiast_7",
+        "triads": [
+          "triad.core_emotion.paura"
+        ],
+        "hornevian": [
+          "hornevian.assertivo"
+        ],
+        "harmonics": [
+          "harmonic.ottimisti"
+        ]
+      },
+      "linked_stats": [
+        "pe",
+        "initiative",
+        "stamina_regen"
+      ],
+      "linked_events": [
+        "on_new_area_discovered",
+        "on_initiative_win"
+      ],
+      "notes": [
+        "Concede tiri bonus sulle tabelle mutazione T0 e movimento gratuito su tile consecutivi.",
+        "Raccoglie log per bilanciare gli affissi esplorativi nei biomi adattivi."
+      ]
+    },
+    {
+      "id": "challenger_8",
+      "type_id": 8,
+      "name": "Baluardo (Challenger)",
+      "summary": "Trasforma il rischio controllato in dominanza difensiva e contrattacchi potenziati.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "risk",
+            "threshold": 0.68,
+            "window": "rolling_two_encounters"
+          },
+          {
+            "metric": "damage_taken_window",
+            "threshold": 0.35,
+            "window": "rolling_two_encounters"
+          }
+        ],
+        "biome_tags": {
+          "include": [
+            "risk_high",
+            "impact_knockback"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.challenger_8",
+        "triads": [
+          "triad.core_emotion.rabbia"
+        ],
+        "hornevian": [
+          "hornevian.assertivo"
+        ],
+        "harmonics": [
+          "harmonic.reattivi"
+        ]
+      },
+      "linked_stats": [
+        "burst_damage",
+        "melee_damage",
+        "counter_chance"
+      ],
+      "linked_events": [
+        "on_damage_taken_then_counter",
+        "on_first_blood_received"
+      ],
+      "notes": [
+        "Riduce i danni dopo overcap_guard e aumenta l'impatto durante knockback gestiti.",
+        "Ideale per missioni difesa/ondata con affissi ad alta pressione."
+      ]
+    },
+    {
+      "id": "peacemaker_9",
+      "type_id": 9,
+      "name": "Stoico (Peacemaker)",
+      "summary": "Mitiga tilt e mantiene equilibrio mentale della squadra durante campagne lunghe.",
+      "requirements": {
+        "telemetry": [
+          {
+            "metric": "tilt",
+            "threshold": 0.65,
+            "window": "rolling_three_checks"
+          },
+          {
+            "metric": "recovery_time",
+            "threshold": 18,
+            "window": "seconds"
+          }
+        ],
+        "mating_preferences": {
+          "include": [
+            "calming_protocol",
+            "mediation",
+            "stability_anchor"
+          ]
+        }
+      },
+      "hooks": {
+        "theme": "theme.peacemaker_9",
+        "triads": [
+          "triad.core_emotion.rabbia"
+        ],
+        "hornevian": [
+          "hornevian.ritirato"
+        ],
+        "harmonics": [
+          "harmonic.ottimisti"
+        ]
+      },
+      "linked_stats": [
+        "support_power",
+        "bond_aura",
+        "stamina_regen"
+      ],
+      "linked_events": [
+        "on_coordinate_action",
+        "on_setback"
+      ],
+      "notes": [
+        "Recupero morale a fine fase e vantaggio ai tiri di resistenza se il tilt rientra rapidamente.",
+        "Suggerisce pause tattiche programmate e segnali calmanti nei playtest prolungati."
+      ]
+    }
+  ]
+}

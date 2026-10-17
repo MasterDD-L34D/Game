@@ -1,0 +1,123 @@
+// M17 — coopStore: Map roomCode → CoopOrchestrator.
+// In-memory per MVP. Prisma adapter opzionale M20.
+
+'use strict';
+
+const { CoopOrchestrator } = require('./coopOrchestrator');
+
+function createCoopStore({ lobby, orchestratorOptions = {} } = {}) {
+  const orchestrators = new Map();
+
+  function getOrCreate(roomCode) {
+    if (!roomCode) throw new Error('room_code_required');
+    const code = String(roomCode).toUpperCase();
+    if (!orchestrators.has(code)) {
+      const room = lobby?.getRoom?.(code);
+      orchestrators.set(
+        code,
+        // orchestratorOptions = DI seam (e.g. setTimeoutFn for the SPEC-J
+        // auto-timeout in tests); roomCode/hostId always win.
+        new CoopOrchestrator({
+          ...orchestratorOptions,
+          roomCode: code,
+          hostId: room?.hostId || null,
+        }),
+      );
+    }
+    return orchestrators.get(code);
+  }
+
+  function get(roomCode) {
+    if (!roomCode) return null;
+    return orchestrators.get(String(roomCode).toUpperCase()) || null;
+  }
+
+  function remove(roomCode) {
+    if (!roomCode) return false;
+    const code = String(roomCode).toUpperCase();
+    // SPEC-J: drain any armed lethal-consent auto-timeout before evicting the
+    // orchestrator, else the timer closure pins the (now orphaned) orchestrator
+    // + room for up to timeout_ms and fires a broadcast into a dead room.
+    const orch = orchestrators.get(code);
+    if (orch && typeof orch._clearLethalConsentTimer === 'function') {
+      orch._clearLethalConsentTimer();
+    }
+    // Form-Pulse trait v2 (harsh-review P3 #2992): same drain for the 2-stage form-pulse
+    // timeout timer, else its closure fires autoFill/broadcast into the orphaned orchestrator.
+    if (orch && typeof orch._clearFormPulseTimer === 'function') {
+      orch._clearFormPulseTimer();
+    }
+    return orchestrators.delete(code);
+  }
+
+  function list() {
+    return Array.from(orchestrators.keys());
+  }
+
+  function clear() {
+    orchestrators.clear();
+  }
+
+  // PR-1 §22 coop-WS surface — link a combat session id (POST
+  // /api/session/start) to the orchestrator whose run.id equals the
+  // campaign_id the host passed (run.id == campaign_id in the coop flow).
+  // Returns true if a matching orch was found and updated.
+  function linkSession(campaignId, sessionId) {
+    if (!campaignId || !sessionId) return false;
+    for (const orch of orchestrators.values()) {
+      if (orch?.run?.id === campaignId) {
+        orch.setSessionId(sessionId);
+        // Mirror onto the lobby room so the VERSIONED publishPhaseChange
+        // (the channel the phone composer consumes) carries session_id +
+        // campaign_id. G2 #2746 — room.campaignId was never set, so every
+        // versioned phase_change shipped campaign_id: null and the Godot
+        // phone lost the CampaignState link (run.id == campaign_id).
+        const room = lobby?.getRoom?.(orch.roomCode);
+        if (room) {
+          room.sessionId = sessionId;
+          room.campaignId = campaignId;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // SPEC-M FP->VC plumb -- resolve the branco Form Pulse map by campaign_id
+  // (run.id == campaign_id). Lets the combat session feed formPulses to vcScoring.
+  function getFormPulses(campaignId) {
+    if (!campaignId) return null;
+    for (const orch of orchestrators.values()) {
+      if (orch?.run?.id === campaignId) return orch.formPulses || null;
+    }
+    return null;
+  }
+
+  // SPEC-J PR2b bridge -- resolve a coop run's lethal-consent outcome by
+  // campaign_id (run.id == campaign_id), mirror of getFormPulses. The combat
+  // session (PR1 death gate) PULLs this on a KO: 'granted' only when every
+  // at-risk player confirmed, 'soft' while pending/timed-out, null when no
+  // round is open (no lethal-consent context for this run).
+  function getLethalConsentOutcome(campaignId) {
+    if (!campaignId) return null;
+    for (const orch of orchestrators.values()) {
+      if (orch?.run?.id === campaignId) {
+        return orch.lethalConsentSnapshot() ? orch.lethalConsentOutcome() : null;
+      }
+    }
+    return null;
+  }
+
+  return {
+    getOrCreate,
+    get,
+    remove,
+    list,
+    clear,
+    linkSession,
+    getFormPulses,
+    getLethalConsentOutcome,
+  };
+}
+
+module.exports = { createCoopStore };

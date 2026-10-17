@@ -1,0 +1,13 @@
+{
+  "status": "applied",
+  "logs": [
+    {
+      "level": "info",
+      "message": "Suggerimento applicato tramite fallback locale"
+    }
+  ],
+  "meta": {
+    "endpoint_source": "fallback",
+    "applied_at": "2024-01-01T00:00:00.000Z"
+  }
+}

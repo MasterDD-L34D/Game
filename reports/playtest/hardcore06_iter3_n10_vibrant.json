@@ -1,0 +1,222 @@
+{
+  "aggregate": {
+    "N": 10,
+    "win_rate": 0.7,
+    "win_count": 7,
+    "loss_count": 0,
+    "timeout_count": 3,
+    "turns_avg": 30.6,
+    "turns_median": 26.0,
+    "turns_stdev": 7.391887445030531,
+    "turns_min": 23,
+    "turns_max": 41,
+    "turns_hist": {
+      "1-5": 0,
+      "6-10": 0,
+      "11-15": 0,
+      "16-20": 0,
+      "21-30": 6,
+      "31-40": 1
+    },
+    "kd_avg": 2.4916666666666667,
+    "kd_median": 2.0,
+    "dmg_dealt_avg": 79.4,
+    "dmg_taken_avg": 29.4,
+    "boss_hp_remaining_avg_on_loss": null,
+    "players_alive_avg_on_win": 5.428571428571429,
+    "ai_intent_distribution": {},
+    "elapsed_sec": 689.5
+  },
+  "runs": [
+    {
+      "run": 0,
+      "outcome": "victory",
+      "rounds": 34,
+      "players_alive": 7,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 18,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 1,
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 4,
+      "players_dead": 4,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 40,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 2,
+      "outcome": "victory",
+      "rounds": 23,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 30,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 3,
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 30,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 4,
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 28,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 5,
+      "outcome": "timeout",
+      "rounds": 41,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 65,
+      "dmg_taken_player": 30,
+      "boss_hp_remaining": 17,
+      "pressure_final": 80,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 6,
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 5,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 7,
+      "outcome": "victory",
+      "rounds": 23,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 82,
+      "dmg_taken_player": 24,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 8,
+      "outcome": "timeout",
+      "rounds": 41,
+      "players_alive": 6,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 74,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 8,
+      "pressure_final": 100,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 9,
+      "outcome": "timeout",
+      "rounds": 41,
+      "players_alive": 4,
+      "players_dead": 4,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 81,
+      "dmg_taken_player": 40,
+      "boss_hp_remaining": 1,
+      "pressure_final": 80,
+      "ai_intent_tally": {},
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    }
+  ]
+}
