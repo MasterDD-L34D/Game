@@ -1,0 +1,80 @@
+# Action 6 (ADR-2026-04-28 §Action 6) — Ambition seed Skiv-Pulverator alleanza.
+#
+# Long-arc campaign goal MVP minimal. Risolve research warn:
+#   "se troppo poco del gioco sta nel meta-loop, il combat diventa isolato"
+# (F2 §"Questioni aperte").
+#
+# Verdict user Q3 2026-04-28: opzione C "Skiv unisce Pulverator pack fatto bene"
+# + bond/conflict path. Choice ritual POST-defeat alpha (NOT pre-combat).
+#
+# Reuse:
+#   - encounter `enc_savana_skiv_solo_vs_pack` (PR #1982 Pulverator pack)
+#   - `bond_hearts` gate (PR #1984)
+#   - `propagateLineage` con `merge_lineage_on_bond` opt-in (PR #1918 pattern)
+#   - QBN engine narrative beat trigger (PR #1979)
+
+ambition_id: skiv_pulverator_alliance
+title_it: "Branco Skiv unisce Pulverator pack"
+title_en: "Skiv pack unites with Pulverator pack"
+description_it: |
+  Skiv vagans solitario. Pulverator pack rivale aggressivo.
+  L'alleanza emerge attraverso conflict + bond, NON pacifismo facile.
+  Defeat alpha → choice ritual: fame (kill) o bond (alliance).
+campaign_goal: alliance_emergent
+cadence: 4-5 encounter sequenziali
+
+# Encounter sequence che fa progredire l'ambition.
+# Ogni `encounter_pulverator_pack_defeat` outcome=victory → progress +1.
+encounters_sequence:
+  - encounter_id: enc_savana_skiv_solo_vs_pack
+    chapter_idx: 1
+    weight: 1
+  - encounter_id: enc_savana_skiv_solo_vs_pack
+    chapter_idx: 2
+    weight: 1
+  - encounter_id: enc_savana_skiv_solo_vs_pack
+    chapter_idx: 3
+    weight: 1
+  - encounter_id: enc_savana_skiv_solo_vs_pack
+    chapter_idx: 4
+    weight: 1
+  - encounter_id: enc_savana_skiv_solo_vs_pack
+    chapter_idx: 5
+    weight: 1
+
+trigger_events:
+  encounter_completion: "encounter outcome victory → progress increment"
+  bond_hearts_threshold: 3      # gate per choice ritual enable
+  choice_ritual_invoke: "fame_dominance | bond_proposal"
+
+progress_target: 5             # 5 encounter sequence → defeat alpha possibile
+
+# Choice ritual: fired solo quando progress >= progress_target AND bond_hearts >= threshold.
+# Pre-condition (gate): bond_hearts < 3 → choice_ritual_locked, ambition stays in_progress.
+choice_ritual:
+  enabled: true
+  bond_hearts_threshold: 3     # tunable post-playtest (default conservative)
+  paths:
+    fame_path:
+      key: fame_dominance
+      label_it: "Fame — Domina e disperdi"
+      narrative_beat_id: skiv_pulverator_kill_outcome
+      next_ambition_seed: territorial_reclaim_solo
+      outcome: standard_kill
+      lineage_merge: false
+    bond_path:
+      key: bond_proposal
+      label_it: "Bond — Proponi alleanza"
+      narrative_beat_id: skiv_pulverator_reconciliation
+      next_ambition_seed: null
+      outcome: alliance_emergent
+      lineage_merge: true
+      merge_lineage_on_bond: true
+
+ui_overlay:
+  position: top-hud
+  format: "🤝 Alleanza Pulverator: {progress}/{progress_target} incontri"
+  pulse_on_progress: true
+
+status: draft
+last_verified: 2026-04-29

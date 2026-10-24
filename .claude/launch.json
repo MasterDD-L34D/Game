@@ -1,0 +1,36 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:api"],
+      "port": 3334
+    },
+    {
+      "name": "dashboard",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "dev-stack",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:stack"],
+      "port": 3334
+    },
+    {
+      "name": "backend-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:api"],
+      "port": 3335,
+      "env": { "PORT": "3335" }
+    },
+    {
+      "name": "play",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "play:dev"],
+      "port": 5180
+    }
+  ]
+}

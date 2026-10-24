@@ -1,0 +1,75 @@
+LPC (Liberated Pixel Cup) Lizard sprites — attribution required
+=================================================================
+
+Source: OpenGameArt.org "Drakes and lizardfolk"
+URL: https://opengameart.org/content/drakes-and-lizardfolk
+Direct download: https://opengameart.org/sites/default/files/Reptile.zip
+
+Adopted: 2026-04-26 (Master DD verdict 4-A LPC adopt).
+
+----------------------------------------------------------------------
+
+ATTRIBUTION REQUIRED (per CC-BY-SA 3.0 + GPL 3.0):
+
+Authors:
+- Nila122
+- Stephen Challener (AKA Redshrike)
+- Makrohn
+- Johannes Sjölund
+
+Display attribution in any UI/build that ships these assets:
+"LPC Drakes and lizardfolk by Nila122, Stephen Challener (Redshrike),
+Makrohn, Johannes Sjölund (CC-BY-SA 3.0 + GPL 3.0)"
+
+----------------------------------------------------------------------
+
+LICENSES:
+- CC-BY-SA 3.0 (Creative Commons Attribution-ShareAlike 3.0)
+- GPL 3.0
+- GPL 2.0
+- OGA-BY 3.0
+
+License URLs:
+- https://creativecommons.org/licenses/by-sa/3.0/
+- https://www.gnu.org/licenses/gpl-3.0.html
+
+DERIVATIVE WORKS: any modification (recolor, crop, animation extension)
+must be released under the same dual-license CC-BY-SA + GPL.
+
+----------------------------------------------------------------------
+
+FILES INCLUDED:
+- lizard_male.png      — green lizard humanoid, default
+- lizard_male_dark.png — dark variant
+- lizard_male_blue.png — blue variant
+- lizard_fem.png       — female green lizard humanoid
+
+LPC Universal Sprite Sheet format: 64×64 tiles, multi-row animations
+(walk N/E/S/W, attack, cast, hurt). Compatible with LPC Universal
+Sprite Generator https://lpc.opengameart.org/
+
+----------------------------------------------------------------------
+
+USAGE in Skiv-as-Monitor:
+
+Currently reference-only. Future integration paths:
+1. Pixel-art preferred sprite per fase lifecycle (replace TL_Creatures crop)
+2. LPC Sprite Generator runtime composition (skin + headgear + tail)
+3. Animated walk-cycle for skivPanel idle animation
+
+Anti-pattern: NON usare senza attribution displayed in UI/about/credits.
+
+----------------------------------------------------------------------
+
+COMPARISON con TL_Creatures.png (CC0 GrafxKid):
+
+| Aspect | TL_Creatures (CC0) | LPC (CC-BY-SA + GPL) |
+|--------|--------------------|-----------------------|
+| Attribution | Optional | REQUIRED |
+| Derivative | Free | Same license |
+| Style | Cute platformer | Medieval RPG |
+| Size | 32x32 | 64x64 |
+| Animation | Static | Walk + attack frames |
+| Reptile fit | Generic creatures | Direct lizard humanoid |
+
+Sabbia segue.

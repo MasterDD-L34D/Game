@@ -1,0 +1,46 @@
+{
+  "species": "Anguis magnetica",
+  "ecotypes": [
+    {
+      "id": "AGM-ECO1",
+      "label": "Estuario Torbido",
+      "biome_class": "acquatico_costiero",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000013"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "corrente_picco",
+          "delta": -3,
+          "unit": "A",
+          "notes": "Salinità alta riduce efficacia scarica",
+          "trait_id": "elettromagnete_biologico"
+        }
+      ]
+    },
+    {
+      "id": "AGM-ECO2",
+      "label": "Laguna Quieta",
+      "biome_class": "acquatico_costiero",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000039"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "velocita_max",
+          "delta": 0.5,
+          "unit": "m/s",
+          "notes": "Fondo limo favorisce scivolamento",
+          "trait_id": "scivolamento_magnetico"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "anguis_magnetica"
+}

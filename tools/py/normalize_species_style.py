@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+"""Normalize species identifiers, filenames and references to kebab-case slugs."""
+# DEPRECATED 2026-05-15 (ADR-2026-05-15 Phase 4c.5 partial migration):
+# Reads legacy data/core/species.yaml + species_expansion.yaml. Canonical SOT
+# moved to data/core/species/species_catalog.json (catalog v0.4.x). Full
+# migration via tools/py/lib/species_loader.py pending master-dd Phase 4c.6
+# sprint dedicato (file removal). Tool may break post Phase 4c.6 git rm —
+# refactor required to consume catalog.
+# See: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Iterable, Tuple
+
+import yaml
+
+from styleguide_utils import PROJECT_ROOT, normalize_slug
+
+
+class _IndentedDumper(yaml.SafeDumper):
+    """YAML dumper that keeps sequence indentation under mappings."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False):  # type: ignore[override]
+        return super().increase_indent(flow, False)
+
+
+SPECIES_ROOT = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "data" / "species"
+PACK_SPECIES_CATALOG = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "data" / "species.yaml"
+ECOSYSTEMS_ROOT = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "data" / "ecosystems"
+FOODWEBS_ROOT = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "data" / "foodwebs"
+PACK_DOCS_ROOT = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog"
+GLOBAL_DOCS_ROOT = PROJECT_ROOT / "docs" / "catalog"
+IDEA_TAXONOMY = PROJECT_ROOT / "docs" / "public" / "idea-taxonomy.json"
+PACK_NPG = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "data" / "npg"
+
+
+def _read_yaml(path: Path) -> dict:
+    return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+
+def normalise_species_files(root: Path) -> Tuple[dict[str, str], int]:
+    mapping: dict[str, str] = {}
+    updated = 0
+    for path in sorted(root.rglob("*.yaml")):
+        if not path.is_file():
+            continue
+        data = _read_yaml(path)
+        if not isinstance(data, dict):
+            continue
+        species_id = data.get("id")
+        if not isinstance(species_id, str):
+            continue
+        target_id = normalize_slug(species_id)
+        target_stem = normalize_slug(path.stem)
+        changed = False
+        current_path = path
+        if target_id and target_id != species_id:
+            data["id"] = target_id
+            changed = True
+        final_id = data.get("id") if isinstance(data.get("id"), str) else species_id
+        if target_stem and target_stem != path.stem:
+            current_path = path.with_name(f"{target_stem}{path.suffix}")
+            path.rename(current_path)
+            changed = True
+        display_name = data.get("display_name")
+        if isinstance(display_name, str):
+            normalised_display = " ".join(display_name.split())
+            if normalised_display != display_name:
+                data["display_name"] = normalised_display
+                changed = True
+        if isinstance(final_id, str) and final_id:
+            expected_description = f"i18n:species.{final_id}.description"
+            description = data.get("description")
+            if description != expected_description:
+                data["description"] = expected_description
+                changed = True
+        if changed:
+            with current_path.open("w", encoding="utf-8") as handle:
+                yaml.dump(
+                    data,
+                    handle,
+                    allow_unicode=True,
+                    sort_keys=False,
+                    default_flow_style=False,
+                    Dumper=_IndentedDumper,
+                    indent=2,
+                )
+            updated += 1
+        if changed and species_id and isinstance(final_id, str) and final_id:
+            mapping[species_id] = final_id
+    return mapping, updated
+
+
+def replace_in_text(path: Path, mapping: dict[str, str]) -> bool:
+    text = path.read_text(encoding="utf-8")
+    updated = text
+    for old, new in mapping.items():
+        updated = updated.replace(old, new)
+    if updated != text:
+        path.write_text(updated, encoding="utf-8")
+        return True
+    return False
+
+
+def replace_in_json(path: Path, mapping: dict[str, str]) -> bool:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
+    def transform(value):
+        if isinstance(value, dict):
+            return {mapping.get(k, k): transform(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [transform(item) for item in value]
+        if isinstance(value, str):
+            new_value = mapping.get(value, value)
+            if new_value == value:
+                for old, new in mapping.items():
+                    if old in new_value:
+                        new_value = new_value.replace(old, new)
+            return new_value
+        return value
+
+    transformed = transform(payload)
+    if transformed != payload:
+        path.write_text(
+            json.dumps(transformed, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        return True
+    return False
+
+
+def replace_in_csv(path: Path, mapping: dict[str, str]) -> bool:
+    import csv
+
+    changed = False
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        rows = list(reader)
+        fieldnames = reader.fieldnames or []
+    for row in rows:
+        slug = row.get("id_specie")
+        if isinstance(slug, str) and slug in mapping:
+            row["id_specie"] = mapping[slug]
+            changed = True
+    if changed:
+        with path.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+    return changed
+
+
+def update_html_files(files: Iterable[Path], mapping: dict[str, str]) -> None:
+    for path in files:
+        replace_in_text(path, mapping)
+
+
+def update_yaml_directories(directories: Iterable[Path], mapping: dict[str, str]) -> None:
+    for directory in directories:
+        if not directory.exists():
+            continue
+        for path in directory.rglob("*.yaml"):
+            replace_in_text(path, mapping)
+
+
+def update_pack_docs(mapping: dict[str, str]) -> None:
+    html_files = [PACK_DOCS_ROOT / "index.html", PACK_DOCS_ROOT / "species_index.html"]
+    html_files.extend((PACK_DOCS_ROOT / "biomes").glob("*.html"))
+    update_html_files(html_files, mapping)
+
+    json_targets = [
+        PACK_DOCS_ROOT / "catalog_data.json",
+        GLOBAL_DOCS_ROOT / "catalog_data.json",
+        GLOBAL_DOCS_ROOT / "species_trait_matrix.json",
+    ]
+    for target in json_targets:
+        replace_in_json(target, mapping)
+
+    replace_in_csv(GLOBAL_DOCS_ROOT / "species_trait_quicklook.csv", mapping)
+    replace_in_json(IDEA_TAXONOMY, mapping)
+
+
+def update_pack_data(mapping: dict[str, str]) -> None:
+    replace_in_text(PACK_SPECIES_CATALOG, mapping)
+    update_yaml_directories([ECOSYSTEMS_ROOT, FOODWEBS_ROOT], mapping)
+    if PACK_NPG.exists():
+        for path in PACK_NPG.glob("*.json"):
+            replace_in_json(path, mapping)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--species-root",
+        type=Path,
+        default=SPECIES_ROOT,
+        help="Directory radice delle specie da normalizzare",
+    )
+    args = parser.parse_args()
+    species_root = args.species_root.resolve()
+    mapping, updated = normalise_species_files(species_root)
+    if not mapping and updated == 0:
+        print("Nessuna specie da aggiornare")
+        return
+    if mapping:
+        update_pack_data(mapping)
+        update_pack_docs(mapping)
+    print(f"Specie normalizzate: {updated}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,879 @@
+{
+  "scenario": "hardcore_06",
+  "iterations": 50,
+  "mode": "real",
+  "knob_space": {
+    "boss_hp_multiplier": ["float", 0.5, 1.3],
+    "turn_limit_defeat_override": ["int", 25, 35],
+    "enemy_damage_multiplier_override": ["float", 1.0, 2.5]
+  },
+  "wr_buckets": [
+    [0, 0.1],
+    [0.1, 0.2],
+    [0.2, 0.3],
+    [0.3, 0.4],
+    [0.4, 1.0]
+  ],
+  "turns_buckets": [
+    [0, 22],
+    [22, 24],
+    [24, 26],
+    [26, 30],
+    [30, 36]
+  ],
+  "feature_map": {
+    "1,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 1.163,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.725
+      },
+      "features": [0.15, 25.525],
+      "fitness": 0.2624999999999993,
+      "iter_first": 0,
+      "iter_last": 29,
+      "origin": "mutate",
+      "n_eff": 40
+    },
+    "4,1": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.525,
+        "turn_limit_defeat_override": 30,
+        "enemy_damage_multiplier_override": 1.106
+      },
+      "features": [0.8, 23.8],
+      "fitness": 0.43333333333333374,
+      "iter_first": 3,
+      "iter_last": 40,
+      "origin": "random",
+      "n_eff": 10
+    },
+    "4,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.752,
+        "turn_limit_defeat_override": 29,
+        "enemy_damage_multiplier_override": 1.099
+      },
+      "features": [0.75, 24.725],
+      "fitness": 0.16078151151312225,
+      "iter_first": 1,
+      "iter_last": 18,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "4,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 1.087,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 1.28
+      },
+      "features": [0.7272727272727273, 27.454545454545453],
+      "fitness": 0.1437398936440176,
+      "iter_first": 2,
+      "iter_last": 49,
+      "origin": "mutate",
+      "n_eff": 11
+    },
+    "2,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 1.111,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.875
+      },
+      "features": [0.25, 25.375],
+      "fitness": 0.1875,
+      "iter_first": 7,
+      "iter_last": 12,
+      "origin": "mutate",
+      "n_eff": 40
+    },
+    "3,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.87,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.665
+      },
+      "features": [0.325, 24.6],
+      "fitness": 0.32015621187164167,
+      "iter_first": 11,
+      "iter_last": 47,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "4,4": {
+      "knob_values": {
+        "boss_hp_multiplier": 1.292,
+        "turn_limit_defeat_override": 35,
+        "enemy_damage_multiplier_override": 2.032
+      },
+      "features": [0.625, 31.275],
+      "fitness": 0.3134984050996115,
+      "iter_first": 8,
+      "iter_last": 16,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "4,0": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.759,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.344
+      },
+      "features": [0.625, 21.45],
+      "fitness": 0.4911720676097125,
+      "iter_first": 17,
+      "iter_last": 17,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "2,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 1.161,
+        "turn_limit_defeat_override": 28,
+        "enemy_damage_multiplier_override": 1.784
+      },
+      "features": [0.2, 27.625],
+      "fitness": 0.5087131436281158,
+      "iter_first": 19,
+      "iter_last": 19,
+      "origin": "mutate",
+      "n_eff": 40
+    },
+    "3,1": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.874,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 2.01
+      },
+      "features": [0.325, 23.475],
+      "fitness": 0.3448278556033432,
+      "iter_first": 23,
+      "iter_last": 44,
+      "origin": "random",
+      "n_eff": 40
+    }
+  },
+  "n_per_trial": 40,
+  "shards": 4,
+  "sprt": true,
+  "resumed_from_iter": null,
+  "stats": {
+    "cells_populated": 10,
+    "cells_replaced": 10,
+    "cells_skipped": 0,
+    "eval_failures": 0,
+    "n_shortfall": 0,
+    "sprt_truncated": 14,
+    "cells_active": 10,
+    "max_cells": 25,
+    "coverage_pct": 40.0
+  },
+  "history": [
+    {
+      "iter": 0,
+      "knobs": {
+        "boss_hp_multiplier": 1.012,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 2.112
+      },
+      "wr": 0.15,
+      "turns": 24.4,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [1, 2],
+      "placement": "populated"
+    },
+    {
+      "iter": 3,
+      "knobs": {
+        "boss_hp_multiplier": 0.838,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.141
+      },
+      "wr": 0.425,
+      "turns": 23.425,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": "populated"
+    },
+    {
+      "iter": 1,
+      "knobs": {
+        "boss_hp_multiplier": 0.696,
+        "turn_limit_defeat_override": 27,
+        "enemy_damage_multiplier_override": 2.105
+      },
+      "wr": 0.525,
+      "turns": 25.1,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": "populated"
+    },
+    {
+      "iter": 2,
+      "knobs": {
+        "boss_hp_multiplier": 1.041,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 1.13
+      },
+      "wr": 0.675,
+      "turns": 28.625,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": "populated"
+    },
+    {
+      "iter": 6,
+      "knobs": {
+        "boss_hp_multiplier": 0.815,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.011
+      },
+      "wr": 0.475,
+      "turns": 23.45,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": "replaced"
+    },
+    {
+      "iter": 5,
+      "knobs": {
+        "boss_hp_multiplier": 1.061,
+        "turn_limit_defeat_override": 31,
+        "enemy_damage_multiplier_override": 1.327
+      },
+      "wr": 0.55,
+      "turns": 27.55,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 7,
+      "knobs": {
+        "boss_hp_multiplier": 1.111,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.139
+      },
+      "wr": 0.2,
+      "turns": 25.55,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [2, 2],
+      "placement": "populated"
+    },
+    {
+      "iter": 4,
+      "knobs": {
+        "boss_hp_multiplier": 0.982,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 1.298
+      },
+      "wr": 0.55,
+      "turns": 29.425,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 9,
+      "knobs": {
+        "boss_hp_multiplier": 0.868,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 2.46
+      },
+      "wr": 0.425,
+      "turns": 25.075,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 11,
+      "knobs": {
+        "boss_hp_multiplier": 1.122,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.192
+      },
+      "wr": 0.3,
+      "turns": 24.85,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [3, 2],
+      "placement": "populated"
+    },
+    {
+      "iter": 10,
+      "knobs": {
+        "boss_hp_multiplier": 0.942,
+        "turn_limit_defeat_override": 35,
+        "enemy_damage_multiplier_override": 1.928
+      },
+      "wr": 0.6,
+      "turns": 29.075,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 8,
+      "knobs": {
+        "boss_hp_multiplier": 1.178,
+        "turn_limit_defeat_override": 34,
+        "enemy_damage_multiplier_override": 1.397
+      },
+      "wr": 0.5,
+      "turns": 31.475,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 4],
+      "placement": "populated"
+    },
+    {
+      "iter": 15,
+      "knobs": {
+        "boss_hp_multiplier": 0.756,
+        "turn_limit_defeat_override": 27,
+        "enemy_damage_multiplier_override": 1.0
+      },
+      "wr": 0.65,
+      "turns": 24.425,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 12,
+      "knobs": {
+        "boss_hp_multiplier": 1.111,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.875
+      },
+      "wr": 0.25,
+      "turns": 25.375,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [2, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 13,
+      "knobs": {
+        "boss_hp_multiplier": 1.009,
+        "turn_limit_defeat_override": 30,
+        "enemy_damage_multiplier_override": 1.244
+      },
+      "wr": 0.425,
+      "turns": 27.9,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 14,
+      "knobs": {
+        "boss_hp_multiplier": 1.036,
+        "turn_limit_defeat_override": 35,
+        "enemy_damage_multiplier_override": 1.972
+      },
+      "wr": 0.775,
+      "turns": 29.175,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 17,
+      "knobs": {
+        "boss_hp_multiplier": 0.759,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.344
+      },
+      "wr": 0.625,
+      "turns": 21.45,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": "populated"
+    },
+    {
+      "iter": 18,
+      "knobs": {
+        "boss_hp_multiplier": 0.752,
+        "turn_limit_defeat_override": 29,
+        "enemy_damage_multiplier_override": 1.099
+      },
+      "wr": 0.75,
+      "turns": 24.725,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 19,
+      "knobs": {
+        "boss_hp_multiplier": 1.161,
+        "turn_limit_defeat_override": 28,
+        "enemy_damage_multiplier_override": 1.784
+      },
+      "wr": 0.2,
+      "turns": 27.625,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [2, 3],
+      "placement": "populated"
+    },
+    {
+      "iter": 16,
+      "knobs": {
+        "boss_hp_multiplier": 1.292,
+        "turn_limit_defeat_override": 35,
+        "enemy_damage_multiplier_override": 2.032
+      },
+      "wr": 0.625,
+      "turns": 31.275,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 4],
+      "placement": "replaced"
+    },
+    {
+      "iter": 20,
+      "knobs": {
+        "boss_hp_multiplier": 1.232,
+        "turn_limit_defeat_override": 32,
+        "enemy_damage_multiplier_override": 1.214
+      },
+      "wr": 0.9,
+      "turns": 28.4,
+      "origin": "random",
+      "n_eff": 10,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 21,
+      "knobs": {
+        "boss_hp_multiplier": 1.096,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 1.394
+      },
+      "wr": 0.6666666666666666,
+      "turns": 29.666666666666668,
+      "origin": "random",
+      "n_eff": 15,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 23,
+      "knobs": {
+        "boss_hp_multiplier": 0.821,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.0
+      },
+      "wr": 0.325,
+      "turns": 23.825,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [3, 1],
+      "placement": "populated"
+    },
+    {
+      "iter": 22,
+      "knobs": {
+        "boss_hp_multiplier": 1.114,
+        "turn_limit_defeat_override": 34,
+        "enemy_damage_multiplier_override": 2.426
+      },
+      "wr": 0.5,
+      "turns": 30.375,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 4],
+      "placement": null
+    },
+    {
+      "iter": 27,
+      "knobs": {
+        "boss_hp_multiplier": 0.848,
+        "turn_limit_defeat_override": 32,
+        "enemy_damage_multiplier_override": 1.005
+      },
+      "wr": 0.8,
+      "turns": 26.8,
+      "origin": "random",
+      "n_eff": 10,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 24,
+      "knobs": {
+        "boss_hp_multiplier": 1.227,
+        "turn_limit_defeat_override": 35,
+        "enemy_damage_multiplier_override": 1.948
+      },
+      "wr": 0.7272727272727273,
+      "turns": 29.0,
+      "origin": "mutate",
+      "n_eff": 11,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 26,
+      "knobs": {
+        "boss_hp_multiplier": 1.162,
+        "turn_limit_defeat_override": 29,
+        "enemy_damage_multiplier_override": 1.527
+      },
+      "wr": 0.5806451612903226,
+      "turns": 26.838709677419356,
+      "origin": "mutate",
+      "n_eff": 31,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 25,
+      "knobs": {
+        "boss_hp_multiplier": 1.169,
+        "turn_limit_defeat_override": 27,
+        "enemy_damage_multiplier_override": 1.767
+      },
+      "wr": 0.2,
+      "turns": 26.55,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [2, 3],
+      "placement": null
+    },
+    {
+      "iter": 31,
+      "knobs": {
+        "boss_hp_multiplier": 0.937,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 2.011
+      },
+      "wr": 0.3,
+      "turns": 24.35,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [3, 2],
+      "placement": null
+    },
+    {
+      "iter": 29,
+      "knobs": {
+        "boss_hp_multiplier": 1.163,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.725
+      },
+      "wr": 0.15,
+      "turns": 25.525,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [1, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 28,
+      "knobs": {
+        "boss_hp_multiplier": 1.244,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.83
+      },
+      "wr": 0.225,
+      "turns": 24.625,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [2, 2],
+      "placement": null
+    },
+    {
+      "iter": 30,
+      "knobs": {
+        "boss_hp_multiplier": 1.11,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 2.43
+      },
+      "wr": 0.5,
+      "turns": 30.3,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 4],
+      "placement": null
+    },
+    {
+      "iter": 34,
+      "knobs": {
+        "boss_hp_multiplier": 0.815,
+        "turn_limit_defeat_override": 28,
+        "enemy_damage_multiplier_override": 1.222
+      },
+      "wr": 0.6,
+      "turns": 24.633333333333333,
+      "origin": "mutate",
+      "n_eff": 30,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 33,
+      "knobs": {
+        "boss_hp_multiplier": 0.889,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 2.467
+      },
+      "wr": 0.4,
+      "turns": 24.225,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 32,
+      "knobs": {
+        "boss_hp_multiplier": 1.115,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 1.986
+      },
+      "wr": 0.2,
+      "turns": 24.175,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [2, 2],
+      "placement": null
+    },
+    {
+      "iter": 35,
+      "knobs": {
+        "boss_hp_multiplier": 1.198,
+        "turn_limit_defeat_override": 31,
+        "enemy_damage_multiplier_override": 2.447
+      },
+      "wr": 0.425,
+      "turns": 29.45,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 38,
+      "knobs": {
+        "boss_hp_multiplier": 0.517,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 1.345
+      },
+      "wr": 0.8181818181818182,
+      "turns": 24.0,
+      "origin": "random",
+      "n_eff": 11,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 36,
+      "knobs": {
+        "boss_hp_multiplier": 1.022,
+        "turn_limit_defeat_override": 34,
+        "enemy_damage_multiplier_override": 1.0
+      },
+      "wr": 0.8,
+      "turns": 27.7,
+      "origin": "mutate",
+      "n_eff": 10,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 39,
+      "knobs": {
+        "boss_hp_multiplier": 0.557,
+        "turn_limit_defeat_override": 35,
+        "enemy_damage_multiplier_override": 1.088
+      },
+      "wr": 1.0,
+      "turns": 23.583333333333332,
+      "origin": "random",
+      "n_eff": 12,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 37,
+      "knobs": {
+        "boss_hp_multiplier": 0.914,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.372
+      },
+      "wr": 0.375,
+      "turns": 24.525,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [3, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 40,
+      "knobs": {
+        "boss_hp_multiplier": 0.525,
+        "turn_limit_defeat_override": 30,
+        "enemy_damage_multiplier_override": 1.106
+      },
+      "wr": 0.8,
+      "turns": 23.8,
+      "origin": "random",
+      "n_eff": 10,
+      "cell": [4, 1],
+      "placement": "replaced"
+    },
+    {
+      "iter": 42,
+      "knobs": {
+        "boss_hp_multiplier": 0.768,
+        "turn_limit_defeat_override": 27,
+        "enemy_damage_multiplier_override": 1.0
+      },
+      "wr": 0.6666666666666666,
+      "turns": 24.0,
+      "origin": "mutate",
+      "n_eff": 18,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 41,
+      "knobs": {
+        "boss_hp_multiplier": 1.035,
+        "turn_limit_defeat_override": 28,
+        "enemy_damage_multiplier_override": 1.809
+      },
+      "wr": 0.5,
+      "turns": 26.35,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 43,
+      "knobs": {
+        "boss_hp_multiplier": 1.138,
+        "turn_limit_defeat_override": 34,
+        "enemy_damage_multiplier_override": 1.253
+      },
+      "wr": 0.475,
+      "turns": 30.475,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 4],
+      "placement": null
+    },
+    {
+      "iter": 45,
+      "knobs": {
+        "boss_hp_multiplier": 0.645,
+        "turn_limit_defeat_override": 29,
+        "enemy_damage_multiplier_override": 1.196
+      },
+      "wr": 0.8,
+      "turns": 23.8,
+      "origin": "mutate",
+      "n_eff": 10,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 46,
+      "knobs": {
+        "boss_hp_multiplier": 0.652,
+        "turn_limit_defeat_override": 32,
+        "enemy_damage_multiplier_override": 1.21
+      },
+      "wr": 0.631578947368421,
+      "turns": 26.36842105263158,
+      "origin": "random",
+      "n_eff": 19,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 44,
+      "knobs": {
+        "boss_hp_multiplier": 0.874,
+        "turn_limit_defeat_override": 25,
+        "enemy_damage_multiplier_override": 2.01
+      },
+      "wr": 0.325,
+      "turns": 23.475,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [3, 1],
+      "placement": "replaced"
+    },
+    {
+      "iter": 47,
+      "knobs": {
+        "boss_hp_multiplier": 0.87,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.665
+      },
+      "wr": 0.325,
+      "turns": 24.6,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [3, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 49,
+      "knobs": {
+        "boss_hp_multiplier": 1.087,
+        "turn_limit_defeat_override": 33,
+        "enemy_damage_multiplier_override": 1.28
+      },
+      "wr": 0.7272727272727273,
+      "turns": 27.454545454545453,
+      "origin": "mutate",
+      "n_eff": 11,
+      "cell": [4, 3],
+      "placement": "replaced"
+    },
+    {
+      "iter": 48,
+      "knobs": {
+        "boss_hp_multiplier": 1.256,
+        "turn_limit_defeat_override": 26,
+        "enemy_damage_multiplier_override": 1.91
+      },
+      "wr": 0.15,
+      "turns": 25.725,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [1, 2],
+      "placement": null
+    }
+  ],
+  "checkpoint": "C:\\dev\\Game\\docs\\playtest\\map-elites-hardcore_06-v2-edm-run\\checkpoint.jsonl",
+  "elapsed_sec": 894.4610612392426,
+  "method": "D-map-elites-qd-v2",
+  "method_ref": "docs/research/2026-07-02-map-elites-hc06-overnight-negative-result.md",
+  "seed": 42,
+  "status": "real-eval"
+}

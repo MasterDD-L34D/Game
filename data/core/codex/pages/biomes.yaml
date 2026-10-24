@@ -1,0 +1,87 @@
+# Bundle B.3 — Tunic decipher Codex pages (biomes domain).
+# Schema: { id, title, category, content_clear, content_blurred,
+#           decipher_trigger: { type, condition: {...}, description } }
+# Trigger types: kill_species, enter_biome, apply_trait, mating_attempt
+# Tutorial pages (always_deciphered: true) sempre visible.
+
+pages:
+  - id: codex_biome_savana
+    title: Savana
+    category: biome
+    content_clear: |
+      Savana — pianura erbosa con visibilità ampia. Hazard: insolazione (stress modifier +0.05 turn 4+).
+      Specie endemiche: lupo_pianura, carapax. Tile dominante: erba secca (cover -1).
+      Strategia: melee veloce favorita, ranged limitato da ostacoli rari.
+    content_blurred: |
+      ███████ — █████████ ███████ con visibilità █████. Hazard: ███████████ (stress modifier ████ turn █+).
+      Specie endemiche: ████████, ████████. Tile dominante: ████ ████ (cover ██).
+      Strategia: █████ ██████ favorita, ██████ █████████ da ostacoli ████.
+    decipher_trigger:
+      type: enter_biome
+      condition:
+        biome_id: savana
+      description: Entra nel bioma Savana
+
+  - id: codex_biome_caverna
+    title: Caverna
+    category: biome
+    content_clear: |
+      Caverna — ambiente chiuso, bassa luce. Hazard: stalattiti (random 5% damage 2 a fine turno).
+      Specie endemiche: pipistrello_eco, ragno_velenoso. Tile: pietra (cover +1, blocks LOS).
+      Strategia: ranged sfavorito da LOS bloccato, ability area-of-effect favorite.
+    content_blurred: |
+      ████████ — ███████ chiuso, █████ ████. Hazard: ███████████ (random ██% damage █ a fine turno).
+      Specie endemiche: ████████████, ███████████. Tile: ██████ (cover ██, █████ ███).
+      Strategia: ██████ sfavorito da ███ ████████, █████ █████-██-██████ favorite.
+    decipher_trigger:
+      type: enter_biome
+      condition:
+        biome_id: caverna
+      description: Entra nel bioma Caverna
+
+  - id: codex_biome_foresta
+    title: Foresta
+    category: biome
+    content_clear: |
+      Foresta — copertura densa, multipath. Hazard: rampicanti tossici (bleeding 1 turn su trigger).
+      Specie endemiche: lince_silente, vipera_arborea. Tile: foglie (cover +1, no blocks).
+      Strategia: stealth ambush ottimale, melee burst su corridoi naturali.
+    content_blurred: |
+      ███████ — ████████ █████, ████████. Hazard: ████████████ ████████ (████████ █ ████ su trigger).
+      Specie endemiche: ████████████, ███████████. Tile: ██████ (cover ██, ██ ██████).
+      Strategia: ███████ ██████ ottimale, █████ █████ su corridoi naturali.
+    decipher_trigger:
+      type: enter_biome
+      condition:
+        biome_id: foresta
+      description: Entra nel bioma Foresta
+
+  - id: codex_tutorial_intro
+    title: A.L.I.E.N.A. — Introduzione
+    category: tutorial
+    always_deciphered: true
+    content_clear: |
+      Codex A.L.I.E.N.A. — archivio enciclopedico in-game. Le pagine vengono decifrate
+      attraverso l'esperienza di gioco: uccidi una specie, entra in un bioma, applica un trait.
+      Ogni pagina blurred mostra il "trigger" richiesto. Esplora per scoprire.
+    content_blurred: ""
+    decipher_trigger:
+      type: always
+      description: Sempre disponibile (tutorial)
+
+  - id: codex_species_lupo_pianura
+    title: Lupo della Pianura
+    category: species
+    content_clear: |
+      Lupo della Pianura (Canis vaganensis) — predatore agile, pack hunter.
+      HP base 8, AP 2, attack range 1. Trait: scatto_predatorio (+1 dmg charge).
+      Debolezza: panico se isolato dal branco (status panic se ally count < 2).
+    content_blurred: |
+      █████ ████ ██████ (██████ █████████████) — ██████ ████, █████ █████.
+      ██ ████ █, ██ █, ██████ █████ █. Trait: ████████████████ (██ █████).
+      Debolezza: ██████ se █████████ ███ ███████ (████ ███ se ally █████ █ █).
+    decipher_trigger:
+      type: kill_species
+      condition:
+        species_id: lupo_pianura
+      description: Uccidi 1 Lupo della Pianura

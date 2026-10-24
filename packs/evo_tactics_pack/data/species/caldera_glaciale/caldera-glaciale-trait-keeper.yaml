@@ -1,0 +1,19 @@
+resistance_archetype: termico
+id: caldera-glaciale-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- caldera_glaciale
+derived_from_environment:
+  suggested_traits:
+  - artigli_vetrificati
+  - barriere_miasma_glaciale
+  - branchie_solfatiche
+  - capillari_criogenici
+  - circolazione_bifasica
+  - enzimi_antifase_termica
+  - filamenti_superconduttivi
+  - ghiaccio_piezoelettrico
+  - ghiandole_ventosa
+  - gusci_criovetro
+  - luminescenza_aurorale
+  - mantelli_geotermici

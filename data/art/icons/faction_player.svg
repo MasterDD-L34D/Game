@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" aria-label="Faction player (blue triangle)">
+  <!-- Player faction marker: triangle pointing up, blue #4a8ad4 (42-SG color-faction-player) -->
+  <path d="M8 2 L14 13 L2 13 Z" fill="#4a8ad4" stroke="#f0f0f4" stroke-width="0.5"/>
+</svg>

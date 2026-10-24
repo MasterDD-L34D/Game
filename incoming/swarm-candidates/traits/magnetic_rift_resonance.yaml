@@ -1,0 +1,124 @@
+# magnetic_rift_resonance — staging trait da Dafne swarm
+# Proposto automaticamente dal ciclo lore-designer → trait-curator (2026-04-24 01:08 UTC).
+#
+# ━━━ PROMOTED 2026-04-25 (OD-012 swarm batch) ━━━
+# Trait + 2 prereq stub (magnetic_sensitivity, rift_attunement) promossi a
+# data/core/traits/active_effects.yaml. Biome alias atollo_ossidiana →
+# atollo_obsidiana aggiunto a data/core/biome_aliases.yaml. Flag
+# magnetic_field_strength=1.0 aggiunto su atollo_obsidiana in
+# data/core/biomes.yaml. atollo_obsidiana wired in apps/backend/services/
+# combat/biomeResonance.js (BIOME_FAMILIES.aquatic + archetype skirmisher).
+# File staging conservato come reference provenance.
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+version: 1.0
+staging: true # flag: rimuovere quando promosso in data/core/*
+
+# ─── Metadata trait ─────────────────────────────────────────────────
+
+id: magnetic_rift_resonance
+label: Risonanza Magnetica Rift
+
+# Tier coerente con incoming/sentience_traits_v1.0.yaml (T2 = Pre-Sociale)
+# Razionale: il trait assume comunicazione rudimentale tra creature vicine
+# (band-level social), non richiede language/institutions complesse.
+tier: T2
+
+# Category inferita dal artifact (environmental) → mappata su vocabolario Game.
+# "neurologico-ambientale" non esiste ancora: propongo neurologico con biome_affinity.
+category: neurologico
+
+applies_to: actor # l'agente attiva coscientemente
+
+# ─── Trigger + effetto (formato coerente con data/core/traits/active_effects.yaml) ─
+
+trigger:
+  action_type: support # non attack: è ability di coordinamento mentale
+  requires: magnetic_sensitivity # prerequisito implicito (da catalogare)
+  condizione_ambientale:
+    biome_class: atollo_ossidiana # o biomi con campi magnetici forti
+    biome_affinity_min: 0.7
+
+effect:
+  kind: apply_status
+  target: allies_in_range
+  stato: telepatic_link
+  turns: 5
+  log_tag: magnetic_resonance_active
+  # In runtime dovrebbe permettere: share informazioni tra creature vicine,
+  # amplificare sinergia di squadra in biomi magnetici.
+  secondary_effects:
+    - type: communication_range_boost
+      magnitude: 30 # percentage
+      duration_turns: 5
+    - type: sensory_perception
+      magnitude: 20
+      duration_turns: 5
+    - type: resonance_duration
+      magnitude: 100 # intero: turni extra prima fade
+      duration_turns: 8
+
+# ─── Costi + vincoli ───────────────────────────────────────────────
+
+cost:
+  morph_budget: 10 # slot costo allocazione (scala 0-30)
+
+requires_traits:
+  - magnetic_sensitivity # trait base del bioma magnetico
+  - rift_attunement # trait emergente biomi ossidiana
+
+conflicts_traits:
+  - electromagnetic_disruption # opposto: disturba comunicazione
+  - telepathy_suppression # antitetico
+
+biome_affinity:
+  atollo_ossidiana: 0.9 # forte
+  # altri biomi: score basso o zero (da definire post-review)
+
+# ─── Narrativa (da lore-designer ciclo 0) ───────────────────────────
+
+description_it: |
+  I campi magnetici dell'atollo oscillano in sincronia con le frequenze mentali
+  degli abitanti. Questa connessione crea onde di risonanza che influenzano
+  la comunicazione e la percezione.
+
+narrative_hook: >-
+  Nell'atollo di ossidiana, il magnetismo non è solo una forza fisica ma un
+  linguaggio segreto che lega le menti in una danza eterea.
+
+proposed_mechanic: >-
+  I giocatori possono attivare 'Risonanza Magnetica' per legare mentalmente a
+  creature vicine, condividendo informazioni o amplificando abilità tramite
+  l'interazione dei campi magnetici.
+
+# ─── Provenance (CO-02 schema metadata) ─────────────────────────────
+
+provenance:
+  source: dafne_swarm
+  swarm_repo: https://github.com/MasterDD-L34D/evo-swarm
+  created_by_agents:
+    - lore-designer # ciclo 0 (01:07): name, description, narrative_hook, proposed_mechanic
+    - trait-curator # ciclo 4 (01:08): schema completo (tier, effects, requires, conflicts, biome_affinity)
+  created_at: 2026-04-24T01:08:27Z
+  swarm_artifact_id: trait-curator_2026-04-24T01-08-27.414378.json
+  confidence: 0.7 # heuristic CO-02 (JSON parseable)
+  integration_curator: eduardo+claude-code
+  integration_at: 2026-04-24T03:15:00Z
+
+# ─── Testability (CO-02 placeholder) ────────────────────────────────
+
+testability:
+  observable: >-
+    Quando attivato, actor mostra status "telepatic_link" per 5 turni.
+    Allies in range entro 2 esagoni condividono informazioni tattiche.
+  scene_prompt: >-
+    Bioma atollo_ossidiana, 3 unit PG vicine. PG1 attiva trait,
+    verifica buff applicato a PG2 + PG3, misura +30% communication range.
+
+# ─── Versioning ──────────────────────────────────────────────────────
+
+versioning:
+  created: '2026-04-24'
+  updated: '2026-04-24'
+  author: dafne_swarm+eduardo
+  status: staging # non canonical finché review Eduardo + promozione

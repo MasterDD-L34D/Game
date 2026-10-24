@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="120" height="80" aria-label="Skiv mature — Predatore Maturo (canonical Skiv adesso)">
+  <defs>
+    <radialGradient id="sandBgM" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#e8c878"/>
+      <stop offset="100%" stop-color="#a8843c"/>
+    </radialGradient>
+    <linearGradient id="bodyMat" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7a5d3a"/>
+      <stop offset="60%" stop-color="#5a4222"/>
+      <stop offset="100%" stop-color="#3a2818"/>
+    </linearGradient>
+    <radialGradient id="claw" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8e8ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#a8a8c8" stop-opacity="0.5"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="80" fill="url(#sandBgM)"/>
+  <ellipse cx="60" cy="71" rx="40" ry="3" fill="#000" opacity="0.28"/>
+  <!-- iridescent track behind (mutation visual_swap_it: tracce iridescenti) -->
+  <ellipse cx="14" cy="71" rx="3" ry="1" fill="#a8d8ff" opacity="0.4"/>
+  <ellipse cx="30" cy="71" rx="3" ry="1" fill="#a8d8ff" opacity="0.5"/>
+  <!-- long muscular tail -->
+  <path d="M 22 56 Q 4 48 0 58 Q 2 46 12 44 Q 28 44 36 50 Z" fill="url(#bodyMat)" stroke="#1a1208" stroke-width="1"/>
+  <!-- body strong -->
+  <ellipse cx="60" cy="56" rx="30" ry="13" fill="url(#bodyMat)" stroke="#1a1208" stroke-width="1"/>
+  <!-- dorsal ridge consolidata (cresta scura) -->
+  <path d="M 35 46 Q 50 42 60 42 Q 70 42 85 46" stroke="#0a0604" stroke-width="2" fill="none"/>
+  <!-- spotted pattern along flank -->
+  <circle cx="50" cy="58" r="1.3" fill="#1a1208" opacity="0.6"/>
+  <circle cx="58" cy="60" r="1.5" fill="#1a1208" opacity="0.6"/>
+  <circle cx="68" cy="59" r="1.3" fill="#1a1208" opacity="0.6"/>
+  <circle cx="76" cy="60" r="1.2" fill="#1a1208" opacity="0.6"/>
+  <!-- legs muscular -->
+  <path d="M 44 67 L 41 73 L 39 75" stroke="#1a1208" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M 52 67 L 55 73 L 57 75" stroke="#1a1208" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M 68 67 L 65 73 L 63 75" stroke="#1a1208" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M 76 67 L 79 73 L 81 75" stroke="#1a1208" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <!-- VITRIFIED CLAWS (mutation artigli_grip_to_glass) -->
+  <path d="M 39 75 L 37 78 M 39 75 L 39 78 M 39 75 L 41 78" stroke="url(#claw)" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M 57 75 L 55 78 M 57 75 L 57 78 M 57 75 L 59 78" stroke="url(#claw)" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M 63 75 L 61 78 M 63 75 L 63 78 M 63 75 L 65 78" stroke="url(#claw)" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M 81 75 L 79 78 M 81 75 L 81 78 M 81 75 L 83 78" stroke="url(#claw)" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- head with echo conches (orecchie sculpted) -->
+  <ellipse cx="92" cy="52" rx="13" ry="10" fill="url(#bodyMat)" stroke="#1a1208" stroke-width="1"/>
+  <!-- echo conches (solchi visible) -->
+  <path d="M 86 44 Q 88 40 92 41 Q 90 44 88 46" fill="#3a2818" stroke="#0a0604" stroke-width="0.5"/>
+  <path d="M 96 43 Q 100 40 102 44 Q 100 45 98 46" fill="#3a2818" stroke="#0a0604" stroke-width="0.5"/>
+  <!-- focused eye (socchiuso, voce interna emergente) -->
+  <path d="M 96 50 Q 99 48.5 102 50 Q 99 51.5 96 50 Z" fill="#1a1208"/>
+  <circle cx="99" cy="49.8" r="0.8" fill="#ffd864"/>
+  <!-- mouth firm -->
+  <path d="M 100 55 Q 103 56 106 55" stroke="#0a0604" stroke-width="0.9" fill="none"/>
+  <!-- glow current phase -->
+  <circle cx="60" cy="40" r="0" stroke="#ffd864" stroke-width="0.5" fill="none">
+    <animate attributeName="r" values="0;25;0" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <text x="60" y="14" text-anchor="middle" fill="#1a1208" font-family="monospace" font-size="9" font-weight="bold">▶ PRED. MATURO ◀</text>
+  <text x="60" y="76" text-anchor="middle" fill="#3a2818" font-family="monospace" font-size="6" font-style="italic">"Branco mi evita. Differenza conta."</text>
+</svg>

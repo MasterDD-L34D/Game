@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://evo-tactics.dev/schemas/lineage_ritual.json",
+  "title": "Lineage Ritual",
+  "description": "Cross-encounter offspring legacy ritual contract. Game/ + Godot v2 + evo-swarm CO-02 v0.3 compliant. Sprint Q+ Q-1 (forbidden path master-dd grant 2026-05-10 sera Phase B Path γ accepted).",
+  "type": "object",
+  "required": ["session_id", "lineage_id", "parent_a_id", "parent_b_id", "mutations", "born_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Offspring unique ID (UUID v4 generated server-side)."
+    },
+    "session_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Session origin del mating event."
+    },
+    "lineage_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Chain identifier cross-encounter (parent_a.lineage_id || parent_b.lineage_id || NEW UUID)."
+    },
+    "parent_a_id": {
+      "type": "string",
+      "description": "UnitProgression.id parent A (composite FK)."
+    },
+    "parent_b_id": {
+      "type": "string",
+      "description": "UnitProgression.id parent B (composite FK)."
+    },
+    "mutations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "enum": [
+          "armatura_residua",
+          "tendine_rapide",
+          "cuore_doppio",
+          "vista_predatore",
+          "lingua_chimica",
+          "memoria_ferita"
+        ]
+      },
+      "description": "Subset 3-of-6 canonical mutations. LegacyRitualPanel.gd surface user choice. Master-dd verdict 2026-05-08 6-canonical."
+    },
+    "born_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Birth timestamp ISO 8601 UTC."
+    },
+    "trait_inherited": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 6,
+      "description": "Trait IDs inherited dal parent dominante (Q-3 propagateLineage logic). Default empty array. Cap 6 per anti-bloat."
+    },
+    "biome_origin": {
+      "type": ["string", "null"],
+      "description": "Biome ID encounter origin (e.g. dorsale_termale_tropicale). Nullable se encounter biome unknown."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Persistence timestamp (Prisma @default(now()))."
+    }
+  },
+  "additionalProperties": false
+}

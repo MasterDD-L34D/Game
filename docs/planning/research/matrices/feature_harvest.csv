@@ -1,0 +1,5 @@
+game_slug,feature_id,feature_title,category,adopt_adapt_avoid,coerenza,innovazione,compat_telemetria,drift_risk,elasticita,costo,rischio_tecnico,score_weighted,catalog_impacts,notes
+spore,spore__complexity_budget,"Budget di complessità per build","Progression|Buildcraft|UX",Adopt,5,4,5,4,5,3,3,55,"rules/build_budget.yaml","RGD §SPEC"
+spore,spore__part_based_scaling,"Scaling statistico basato su parti","Combat|Buildcraft|Status",Adopt,5,4,5,4,4,3,3,52,"traits/parts_scaling.yaml","RGD §SPEC"
+spore,spore__terraforming_bands,"Terraforming a bande con slot","Map|Economy|World",Adopt,5,4,5,4,4,3,3,53,"biomes/terraforming_bands.yaml","RGD §SPEC"
+spore,spore__stage_gated_progression,"Progressione ad archi con carry-over","Progression|Structure|Meta",Adapt,4,4,5,3,3,2,3,41,"rules/stages.yaml","RGD §SPEC"

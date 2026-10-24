@@ -1,0 +1,53 @@
+name: 'Evo Import Gate'
+
+on:
+  pull_request:
+    paths:
+      - 'packs/evo_tactics_pack/docs/catalog/**'
+      - 'packs/evo_tactics_pack/data/ecosystems/**'
+
+jobs:
+  import-dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Game
+        uses: actions/checkout@v4
+
+      - name: Checkout Game-Database
+        uses: actions/checkout@v4
+        with:
+          repository: MasterDD-L34D/Game-Database
+          path: _game-database
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Game-Database dependencies
+        run: cd _game-database/server && npm ci
+
+      - name: Run import dry-run
+        id: import
+        run: |
+          cd _game-database/server
+          # Game-Database import-taxonomy.js stampa una riga progress "Repo: ..."
+          # su stdout PRIMA del JSON report. Latent bug esposto da M5-#2
+          # (prima PR con catalog non-empty post species-reviewer fix):
+          # il JSON.parse downstream falisce con "Unexpected token 'R'".
+          # Fix: (a) stderr separato dallo stdout (no 2>&1), (b) sed filter
+          # estrae da prima riga `{` fino a fine stdout per JSON puro.
+          # Upstream fix auspicabile: emit JSON-only a stdout, progress a stderr.
+          node scripts/ingest/import-taxonomy.js --dry-run --repo ${{ github.workspace }} \
+            | sed -n '/^{/,$p' > /tmp/import-report.json
+          cat /tmp/import-report.json
+
+      - name: Check for errors
+        run: |
+          ERRORS=$(node -e "const r=require('/tmp/import-report.json'); console.log(r.errori || 0)")
+          echo "Import errors: $ERRORS"
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::evo:import dry-run detected $ERRORS errors. Check catalog files."
+            exit 1
+          fi
+          echo "Import dry-run passed with zero errors."
