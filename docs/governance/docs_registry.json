@@ -14044,7 +14044,8 @@
       "workstream": "ops-qa",
       "source_of_truth": false,
       "language": "it",
-      "last_verified": "2026-10-26"
+      "last_verified": "2026-10-26",
+      "review_cycle_days": 90
     }
   ]
 }

@@ -23,7 +23,7 @@ language: it
 | **P0 critici** | 2 |
 | **P1 should-fix** | 5 |
 | **P2 nice-to-fix** | 7 |
-| Auto-fix eseguiti | 1 (git mv 89 handoff → archive) |
+| Auto-fix eseguiti | 0 (git mv tentato e revertito — breaking 71 doc-pin) |
 | CI main | 🟢 verde (ultimo push 2026-07-14, run #14201) |
 | Governance errors | 0 |
 | Governance warnings | 657 (+17 vs settimana scorsa) |
@@ -63,14 +63,16 @@ ma perché il lavoro si è interrotto.
 | P1-1 | `STALE_ADR` | `docs/adr/ADR-2026-07-10-sistema-action-symmetry.md` — Status: proposed | 108 gg |
 | P1-2 | `STALE_ADR` | `docs/adr/ADR-2026-07-14-worldgen-data-model.md` — Status: proposed | 104 gg |
 | P1-3 | `REPO_DORMANT` | Nessun push a main dal 2026-07-14. CI verde su quel commit ma nessuna attività da allora. | 104 gg |
-| P1-4 | `HANDOFF_STALE` | 89 handoff docs in `docs/planning/` tutti >45 gg (range 2026-04-24 → 2026-07-04). **Auto-fix eseguito**: git mv → `docs/archive/historical-snapshots/`. | 114–185 gg |
+| P1-4 | `HANDOFF_STALE` | 89 handoff docs in `docs/planning/` tutti >45 gg (range 2026-04-24 → 2026-07-04). Auto-fix tentato (git mv → archive) poi **revertito**: CLAUDE.md sprint context e BACKLOG.md contengono 71 doc-pin a questi file; il mv avrebbe rotto la governance CI. Owner-gated: smaltire a mano o aggiornare i pin prima del mv. | 114–185 gg |
 | P1-5 | `BACKLOG_DORMANT` | 6 ticket BACKLOG con [ ] aperti, nessun commit recente (>30 gg): TKT-SIM-COOP-SEED · D6-graded-reratify · N3-ER7-flag-ON · TKT-P6-orphans · zone-defense · XP_BUDGET_GEOMETRY flip. | >100 gg |
 
 **P1-1/P1-2 note**: Entrambi gli ADR hanno `doc_owner: master-dd`. Status proposed >14 giorni
 → decisione pending. Non auto-fixabili (ADR status = owner-gated).
 
-**P1-4 note**: Auto-fix eseguito. 89 file spostati in `docs/archive/historical-snapshots/`.
-Il più recente è `2026-07-04-tkt-p6-ap3-closure-handoff.md` (114 gg).
+**P1-4 note**: Auto-fix tentato poi revertito. Il mv avrebbe rotto 71 doc-pin in CLAUDE.md
+(sprint context) e BACKLOG.md, causando `path_missing` governance errors in CI.
+Il più recente handoff è `2026-07-04-tkt-p6-ap3-closure-handoff.md` (114 gg).
+Azione richiesta a master-dd: aggiornare i pin prima di archiviare.
 
 ---
 
@@ -103,18 +105,15 @@ Il più recente è `2026-07-04-tkt-p6-ap3-closure-handoff.md` (114 gg).
 
 ## Auto-fix changelog
 
-### AF-1: git mv handoff docs → archive (1 commit)
+Nessun auto-fix eseguito in questa run.
 
-89 file spostati da `docs/planning/` a `docs/archive/historical-snapshots/`.
-Range: `2026-04-24-session-handoff-compact.md` → `2026-07-04-tkt-p6-ap3-closure-handoff.md`.
+**AF-1 tentato e revertito**: git mv 89 handoff docs `docs/planning/` → archive.
+Revertito perché avrebbe rotto 71 doc-pin governance (`path_missing` errors in CI)
+in CLAUDE.md sprint context e BACKLOG.md. Il finding P1-4 resta aperto, owner-gated.
 
-```
-git mv docs/planning/*handoff*.md docs/archive/historical-snapshots/
-```
-
-Nessun altro auto-fix eseguito. Bump `last_verified` non eseguito (richiederebbe
-lettura di ~650 file per identificare i candidati >90 gg — operazione fuori budget
-per questa routine settimanale; delegato alla governance tool).
+Bump `last_verified` non eseguito (richiederebbe lettura di ~650 file per identificare
+i candidati >90 gg — operazione fuori budget per questa routine settimanale; delegato
+alla governance tool).
 
 ---
 
