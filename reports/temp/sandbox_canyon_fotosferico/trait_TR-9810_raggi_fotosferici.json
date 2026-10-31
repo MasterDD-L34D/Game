@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-9810",
+  "id": "raggi_fotosferici",
+  "label": "Raggi Fotosferici",
+  "tier": "T3",
+  "slot": ["O"],
+  "sinergie": ["TR-9811", "TR-9812"],
+  "conflitti": ["TR-0007"],
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "canyon_fotosferico"
+      },
+      "capacita_richieste": ["tolleranza_radiazione", "navigazione_notturna"],
+      "fonte": "sandbox_canyon_fotosferico",
+      "meta": {
+        "tier": "T2",
+        "notes": "Richiede creste con emissione aurorale stabile e protezione dai vortici fotonici."
+      }
+    }
+  ],
+  "uso_funzione": "Emette coni di luce coerente per orientamento e accecamento tattico in canyon oscuri.",
+  "spinta_selettiva": "Sfruttare le sacche di plasma fotosferico per difesa e comunicazione a lungo raggio.",
+  "metrics": [
+    {
+      "name": "densita_luminosa",
+      "value": 18.5,
+      "unit": "W/kg",
+      "conditions": "picco aurorale"
+    },
+    {
+      "name": "tempo_ripristino",
+      "value": 12.0,
+      "unit": "s",
+      "conditions": "dopo impulso di piena potenza"
+    }
+  ],
+  "cost_profile": {
+    "rest": "basso",
+    "burst": "medio",
+    "sustained": "alto"
+  },
+  "testability": {
+    "observable": "Emissione di colonne fotoniche che lasciano tracce ioniche sulle pareti del canyon.",
+    "scene_prompt": "Un branco accende fari di luce ambrata a cascata durante una fuga notturna."
+  },
+  "applicability": {
+    "clades": ["chiropteroide", "anuroide"],
+    "notes": "Preferito da specie con retine filtranti e sonar passivo."
+  },
+  "version": "0.1.0",
+  "versioning": {
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "author": "sandbox-trait-curator"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "TKT-CREATURE-WARGROOVE-COMMANDER",
+  "title": "Wargroove commander unit groove ability + aura",
+  "pillar": "P3",
+  "effort_hours": 22,
+  "donor_game": {
+    "name": "Wargroove",
+    "tier": "B",
+    "matrix_anchor": "docs/research/2026-04-26-tier-b-extraction-matrix.md#14-wargroove-2019"
+  },
+  "agent_owner": "creature-aspect-illuminator",
+  "status": "proposed",
+  "reuse_level": "full",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Commander unit (1 per squad): unique ability cooldown 5-8 round + aura passive +1 ATK adjacent. Capstone P3."
+}

@@ -1,0 +1,327 @@
+incoming/Ancestors_Neurons_Attack_Dodge_SelfControl_Ambulation_Partial_v0_6.csv
+incoming/Ennagramma/enneagramma_dataset.json
+incoming/Ennagramma/enneagramma_master.csv
+incoming/Ennagramma/enneagramma_stackings.csv
+incoming/Ennagramma/enneagramma_triadi_complete.csv
+incoming/Ennagramma/enneagramma_varianti_istintive.csv
+incoming/Ennagramma/enneagramma_wings.csv
+incoming/IDEA-001_ecosistema_template.yaml
+incoming/Img/ENFJ Eroe.svg
+incoming/Img/ENFP Crociato.svg
+incoming/Img/ENTJ Comandante.svg
+incoming/Img/ENTP Visionario.svg
+incoming/Img/ESFJ Ambasciatore.svg
+incoming/Img/ESFP Intrattenitore.svg
+incoming/Img/ESTJ Esecutivo.svg
+incoming/Img/ESTP Ribelle.svg
+incoming/Img/Enneagrammi/Tipo 1 Perfezionista.svg
+incoming/Img/Enneagrammi/Tipo 2 Aiutante.svg
+incoming/Img/Enneagrammi/Tipo 3 Vincete.svg
+incoming/Img/Enneagrammi/Tipo 4 Individualista.svg
+incoming/Img/Enneagrammi/Tipo 5 Investigatore.svg
+incoming/Img/Enneagrammi/Tipo 6 Lealista.svg
+incoming/Img/Enneagrammi/Tipo 6 Visionario.svg
+incoming/Img/Enneagrammi/Tipo 7 Entusista.svg
+incoming/Img/Enneagrammi/Tipo 9 Mediatore.svg
+incoming/Img/INFJ Guardiano.svg
+incoming/Img/INFP Mediatore.svg
+incoming/Img/INTJ Stratega.svg
+incoming/Inserisci questi parametri nella tabella e dammi i....docx
+incoming/README.md
+incoming/REDIRECTS.md
+incoming/ancestors_branches_totals_v0.3.csv
+incoming/ancestors_evo_pack_v1_3.zip
+incoming/ancestors_integration_pack_v0_1.zip
+incoming/ancestors_integration_pack_v0_2.zip
+incoming/ancestors_integration_pack_v0_3.zip
+incoming/ancestors_integration_pack_v0_4.zip
+incoming/ancestors_integration_pack_v0_5.zip
+incoming/ancestors_neuronal_v0_3.zip
+incoming/ancestors_neurons_dump_v0.3__DEXTERITY.csv
+incoming/ancestors_neurons_dump_v0_6.zip
+incoming/ancestors_neurons_pack_v1_2.zip
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1101.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1102.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1103.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1104.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1105.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1201.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1202.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1203.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1204.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1205.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1301.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1302.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1303.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1304.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1305.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1401.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1402.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1403.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1404.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1405.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1501.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1502.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1503.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1504.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1505.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1601.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1602.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1603.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1604.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1605.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1701.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1702.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1703.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1704.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1705.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1801.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1802.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1803.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1804.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1805.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1901.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1902.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1903.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1904.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1905.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2001.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2002.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2003.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2004.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2005.json
+incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/traits_aggregate.json
+incoming/archive/2025-11-15_evo_cleanup/species/anguis_magnetica.json
+incoming/archive/2025-11-15_evo_cleanup/species/chemnotela_toxica.json
+incoming/archive/2025-11-15_evo_cleanup/species/elastovaranus_hydrus.json
+incoming/archive/2025-11-15_evo_cleanup/species/gulogluteus_scutiger.json
+incoming/archive/2025-11-15_evo_cleanup/species/perfusuas_pedes.json
+incoming/archive/2025-11-15_evo_cleanup/species/proteus_plasma.json
+incoming/archive/2025-11-15_evo_cleanup/species/rupicapra_sensoria.json
+incoming/archive/2025-11-15_evo_cleanup/species/soniptera_resonans.json
+incoming/archive/2025-11-15_evo_cleanup/species/species_catalog.json
+incoming/archive/2025-11-15_evo_cleanup/species/terracetus_ambulator.json
+incoming/archive/2025-11-15_evo_cleanup/species/umbra_alaris.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_1.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_2.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_3.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_4.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_5.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_6.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_7.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Revisiona_automati_tratti.pdf
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog/backlog_tasks_example.yaml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog_tasks_example.yaml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/ecotypes_index.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/master.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config/tracker_registry_update_example.yaml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases/species_aliases.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_anomalies.csv
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/new_traits_proposals.yaml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_redirects.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_sitemap.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/check_links.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/common.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_search_index.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_structured_data.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.yaml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/report_links.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/requirements.txt
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/route_mapping.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/proposed_routes.csv
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/init_security_checks.sh
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_summary_example.csv
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/species.schema.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/trait.schema.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/generator.spec.ts
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/nav.spec.ts
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/package.json
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/playwright.config.ts
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/e2e.yml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/gh-pages.yml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/lighthouse.yml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/schema-validate.yml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/search-index.yml
+incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/security.yml
+incoming/archive/documents/.gitkeep
+incoming/archive/documents/Guida Ai tratti 1.docx
+incoming/archive/documents/Guida Ai tratti 2.docx
+incoming/archive/documents/Guida Ai tratti 3 Evo tact.docx
+incoming/archive/documents/Guida Ai tratti 3 database.docx
+incoming/archive/documents/Integrazioni V2.docx
+incoming/archive_cold/README.md
+incoming/archive_cold/backups/2025-11-25/EvoTactics_DevKit.zip
+incoming/archive_cold/backups/2025-11-25/EvoTactics_FullRepo_v1.0.zip
+incoming/archive_cold/backups/2025-11-25/README.md
+incoming/archive_cold/backups/2025-11-25/evo-tactics-final (1).zip
+incoming/archive_cold/backups/2025-11-25/evo-tactics-final.zip
+incoming/archive_cold/backups/2025-11-25/evo-tactics-merged.zip
+incoming/archive_cold/backups/2025-11-25/evo-tactics.zip
+incoming/archive_cold/backups/2025-11-25/evo_tactics_merged_final.zip
+incoming/archive_cold/backups/2025-11-25/manifest.sha256
+incoming/archive_cold/devkit_scripts/2025-11-25/README.md
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/.gitkeep
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/ascii_matrix_methods.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/auto_eval_from_yaml.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/bioma_encounters.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/drift_check.js
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/yaml_validator.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/.gitattributes
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/.gitignore
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/AAA_ECHO_STARTER_v2.0.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/Custom Imagegenerator v5.3.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/ECHO PERSONA.v1.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/EchoWake 2.0 — Minimal Extract.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/EchoWake_Modules_Expanded_v2_2.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/EyeCheck_Core_Manifest_v1.0.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/LYRA+IMAGEGEN_V5.4_ECHO_PATCH.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/LYRA_MANIFEST.v1.0.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/PTPF_ONEBLOCK_AntiDriftCore_v6.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/PrimeSearch v6.1 — Enhanced Edition (GPT-5 Calibrated).txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/PrimeTalk Patch Custom-GPT v3.5.5.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/PrimeTalk_PTPF_Bridge_v3.7_Seed.md.text
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/Readme ( v3.5.3 Echo FireBreak ).txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/SYNTAX_ERROR_ID10T_DETECTED.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/The Story of PrimeTalk and Lyra the Prompt Optimizer.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/USAGE_POLICY.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/What is PrimeTalk. ( faq for customs ).txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/installer.sh
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/scripts/auto_eval_from_yaml.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/scripts/drift_check.js
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/scripts/yaml_validator.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/telemetry/bioma_encounters.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/tools/devkit/ascii_matrix_methods.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/appendici/A-CANVAS_ORIGINALE.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/appendici/C-CANVAS_NPG_BIOMI.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/appendici/D-CANVAS_ACCOPPIAMENTO.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/data/forms.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/data/species.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/py/validate_forms.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/py/validate_species.py
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/ts/package.json
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/ts/validate_forms.ts
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/ts/validate_species.ts
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/compat_map.json
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/enneagramma_dataset.json
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/enneagramma_schema.json
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/hook_bindings.ts
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/personality_module.v1.json
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/pg_enneagram_template.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_sentience_rfc_pack_v0_1/data/neurons_bridge.csv
+incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_sentience_rfc_pack_v0_1/data/traits_sensienza.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/ascii_matrix_methods.py
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/auto_eval_from_yaml.py
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/bioma_encounters.yaml
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/drift_check.js
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/installer.sh
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/readme_devkit.txt
+incoming/archive_cold/devkit_scripts/2025-11-25/docs/yaml_validator.py
+incoming/archive_cold/inventory/2025-11-25/README.md
+incoming/archive_cold/inventory/2025-11-25/compat_map (1).json
+incoming/archive_cold/inventory/2025-11-25/compat_map.json
+incoming/archive_cold/inventory/2025-11-25/game_repo_map.json
+incoming/archive_cold/inventory/2025-11-25/incoming_inventory.json
+incoming/archive_cold/inventory/2025-11-25/pack_biome_jobs_v8_alt.json
+incoming/archive_cold/reports/2025-11-25_site/README.md
+incoming/archive_cold/reports/2025-11-25_site/generator.html
+incoming/archive_cold/reports/2025-11-25_site/idea_intake_site_package.zip
+incoming/archive_cold/reports/2025-11-25_site/index (1).html
+incoming/archive_cold/reports/2025-11-25_site/index.html
+incoming/archive_cold/reports/2025-11-25_site/last_report.html
+incoming/archive_cold/reports/2025-11-25_site/last_report.json
+incoming/archive_cold/reports/2025-11-25_site/logs_48354746845.zip
+incoming/archive_cold/reports/2025-11-25_site/manifest.sha256
+incoming/archive_cold/reports/2025-11-25_site/species_index.html
+incoming/engine_events.schema.json
+incoming/enneagramma_mechanics_registry.template.json
+incoming/et_alignment_scanner.zip
+incoming/evo-tactics-badlands-addon-v1.7.zip
+incoming/evo-tactics-badlands-ecosystem-it-v1.zip
+incoming/evo-tactics-interconnect-addon-v1.7.1.zip
+incoming/evo-tactics-normalized.zip
+incoming/evo-tactics-starter.zip
+incoming/evo-tactics-unified-pack-v1.9.zip
+incoming/evo-tactics-unified-plus-validators-v1.9.6.zip
+incoming/evo-tactics-unified-v1.9.7-ecosistema.zip
+incoming/evo-tactics-unified-v1.9.8-ecosistema-catalog.zip
+incoming/evo-tactics-unified-v2.0.0-site-tools.zip
+incoming/evo-tactics-unified-v2.0.1-site-tools.zip
+incoming/evo-tactics-validator-pack-v1.5.zip
+incoming/evo_enneagram_addon_v1.zip
+incoming/evo_pacchetto_minimo.zip
+incoming/evo_pacchetto_minimo_v2.zip
+incoming/evo_pacchetto_minimo_v3.zip
+incoming/evo_pacchetto_minimo_v4.zip
+incoming/evo_pacchetto_minimo_v5.zip
+incoming/evo_pacchetto_minimo_v6.zip
+incoming/evo_pacchetto_minimo_v7.zip
+incoming/evo_pacchetto_minimo_v8.zip
+incoming/evo_sentience_branch_layout_v0_1.zip
+incoming/evo_sentience_rfc_pack_v0_1.zip
+incoming/evo_tactics_ancestors_repo_pack_v1.0 (1).zip
+incoming/evo_tactics_ancestors_repo_pack_v1.0.zip
+incoming/evo_tactics_badlands_IT.zip
+incoming/evo_tactics_badlands_PTPF_IT.zip
+incoming/evo_tactics_deduped_v8_1.zip
+incoming/evo_tactics_ecosystem_badlands.zip
+incoming/evo_tactics_ecosystems_pack.zip
+incoming/evo_tactics_param_synergy_v8_3.zip
+incoming/evo_tactics_tables_v8_3.xlsx
+incoming/hook_bindings.ts
+incoming/idea_catalog.csv
+incoming/lavoro_da_classificare/Makefile
+incoming/lavoro_da_classificare/README.md
+incoming/lavoro_da_classificare/backlog_tasks_example.yaml
+incoming/lavoro_da_classificare/integration_batches.yml
+incoming/lavoro_da_classificare/inventario.yml
+incoming/lavoro_da_classificare/lighthouserc.json
+incoming/lavoro_da_classificare/proposed_sitemap.xml
+incoming/lavoro_da_classificare/robots.txt
+incoming/lavoro_da_classificare/tasks.yml
+incoming/ops/site-audit/build_redirects.py
+incoming/ops/site-audit/build_sitemap.py
+incoming/ops/site-audit/check_links.py
+incoming/ops/site-audit/common.py
+incoming/ops/site-audit/generate_search_index.py
+incoming/ops/site-audit/generate_structured_data.py
+incoming/ops/site-audit/redirects_map.json
+incoming/ops/site-audit/redirects_map.yaml
+incoming/ops/site-audit/report_links.py
+incoming/ops/site-audit/requirements.txt
+incoming/ops/site-audit/route_mapping.json
+incoming/pathfinder/bestiary1e_index.csv
+incoming/personality_module.v1.json
+incoming/recon_meccaniche.json
+incoming/scan_engine_idents.py
+incoming/scripts/init_security_checks.sh
+incoming/scripts/setup_backlog.py
+incoming/scripts/species_summary_script.py
+incoming/scripts/trait_review.py
+incoming/scripts/update_tracker_registry.py
+incoming/scripts/validate.sh
+incoming/scripts/validate_evo_pack.sh
+incoming/sensienti_traits_v0.1.yaml
+incoming/sentience_traits_v1.0.yaml
+incoming/species/anguis_magnetica.json
+incoming/species/chemnotela_toxica.json
+incoming/species/elastovaranus_hydrus.json
+incoming/species/gulogluteus_scutiger.json
+incoming/species/perfusuas_pedes.json
+incoming/species/proteus_plasma.json
+incoming/species/rupicapra_sensoria.json
+incoming/species/soniptera_resonans.json
+incoming/species/terracetus_ambulator.json
+incoming/species/umbra_alaris.json
+incoming/templates/species.schema.json
+incoming/templates/trait.schema.json
+incoming/tests/playwright/generator.spec.ts
+incoming/tests/playwright/nav.spec.ts
+incoming/tests/playwright/package.json
+incoming/tests/playwright/playwright.config.ts

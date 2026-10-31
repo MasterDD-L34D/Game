@@ -1,0 +1,5 @@
+{
+  "name": "ermes_eco_pressure_report",
+  "version": "0.1.0",
+  "runtime_note": "Prototype-only. Do not consume in combat runtime without ADR and tests."
+}

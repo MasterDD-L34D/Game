@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-labelledby="title desc">
+  <title id="title">Dashboard & Showcase — Percorso express</title>
+  <desc id="desc">Mappa a tre step per avviare l'ambiente Vite, ispezionare widget e condividere feedback multimediali.</desc>
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', sans-serif; fill: #0f172a; }
+    .label { font-size: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; fill: #475569; }
+    .headline { font-size: 26px; font-weight: 700; }
+    .title-sm { font-size: 22px; font-weight: 700; }
+    .body { font-size: 17px; line-height: 1.45; }
+    .code { font-family: 'Fira Code', 'Menlo', monospace; font-size: 15px; fill: #0f766e; }
+    .card { fill: #ecfeff; stroke: #5eead4; stroke-width: 2; rx: 18; }
+    .badge { fill: #ccfbf1; stroke: none; rx: 10; }
+    .badge text { font-size: 16px; font-weight: 600; fill: #0f766e; }
+    .divider { stroke: #99f6e4; stroke-width: 2; stroke-dasharray: 6 8; }
+  </style>
+  <rect width="900" height="420" fill="#f0fdfa" rx="28"/>
+  <text x="60" y="70" class="label">DASHBOARD TOUR</text>
+  <text x="60" y="110" class="headline">Start dev server → Esplora HUD → Condividi insight</text>
+  <line x1="60" y1="140" x2="840" y2="140" class="divider"/>
+
+  <g transform="translate(60,160)">
+    <rect class="card" width="240" height="220"/>
+    <rect class="badge" x="16" y="18" width="96" height="34"/>
+    <text x="32" y="40">STEP 1</text>
+    <text x="32" y="90" class="title-sm">Avvio ambiente</text>
+    <text x="32" y="124" class="body">
+      <tspan x="32" dy="0">Installa dipendenze (npm --prefix webapp install)</tspan>
+      <tspan x="32" dy="22">e lancia il dev server.</tspan>
+    </text>
+    <text x="32" y="198" class="code">npm --prefix webapp run dev</text>
+  </g>
+
+  <g transform="translate(330,160)">
+    <rect class="card" width="240" height="220"/>
+    <rect class="badge" x="16" y="18" width="96" height="34"/>
+    <text x="32" y="40">STEP 2</text>
+    <text x="32" y="90" class="title-sm">Navigazione rapida</text>
+    <text x="32" y="124" class="body">
+      <tspan x="32" dy="0">Apri http://localhost:5173 e verifica HUD, alert</tspan>
+      <tspan x="32" dy="22">timeline e widget showcase.</tspan>
+    </text>
+    <text x="32" y="198" class="code">Apri → docs/test-interface/</text>
+  </g>
+
+  <g transform="translate(600,160)">
+    <rect class="card" width="240" height="220"/>
+    <rect class="badge" x="16" y="18" width="96" height="34"/>
+    <text x="32" y="40">STEP 3</text>
+    <text x="32" y="90" class="title-sm">Feedback condiviso</text>
+    <text x="32" y="124" class="body">
+      <tspan x="32" dy="0">Cattura screenshot o clip e allegali al canale</tspan>
+      <tspan x="32" dy="22">Slack #feedback-enhancements con seed e branch.</tspan>
+    </text>
+    <text x="32" y="198" class="code">Checklist QA → reports/dashboard.md</text>
+  </g>
+</svg>

@@ -1,0 +1,3889 @@
+{
+  "scenario": "badlands_elite_01",
+  "scenario_id": "enc_badlands_elite_01",
+  "policy_mode": "greedy-only",
+  "oracle_status": "diagnostic -- single-policy (greedy); NOT a multi-policy canonical oracle. Scenario intentionally outside the gated oracle manifest (canonical-suite.yaml); mirrors enc_badlands_pilot_01. Multi-policy band (SoT 1.1/rule 6) applies to gated oracles only.",
+  "target_band": [0.15, 0.3],
+  "total_n": 100,
+  "seed": 424242,
+  "shards": 4,
+  "n_per_shard": [25, 25, 25, 25],
+  "hosts": [
+    "http://127.0.0.1:3410",
+    "http://127.0.0.1:3411",
+    "http://127.0.0.1:3412",
+    "http://127.0.0.1:3413"
+  ],
+  "parallel_elapsed_sec": 37.299067974090576,
+  "serial_estimated_sec": 149.1962718963623,
+  "speedup_x": 4,
+  "method": "C-parallel-shards",
+  "method_ref": "docs/research/2026-05-20-calibration-knob-patterns-industry.md",
+  "aggregate": {
+    "N": 100,
+    "encounter_class": "badlands_elite",
+    "target_bands": {
+      "win_rate": [0.15, 0.3],
+      "defeat_rate": [0.55, 0.85],
+      "timeout_rate": [0.0, 0.15]
+    },
+    "verdict": "GREEN",
+    "verdict_reasons": ["all rates in band"],
+    "win_rate": 0.16,
+    "defeat_rate": 0.84,
+    "timeout_rate": 0.0,
+    "win_count": 16,
+    "loss_count": 84,
+    "timeout_count": 0,
+    "turns_avg": 28.39,
+    "turns_median": 30.0,
+    "turns_stdev": 3.1840069095402415,
+    "turns_min": 17,
+    "turns_max": 30,
+    "turns_hist": {
+      "1-5": 0,
+      "6-10": 0,
+      "11-15": 0,
+      "16-20": 5,
+      "21-30": 95,
+      "31-40": 0,
+      "41+": 0
+    },
+    "kd_avg": 1.0433333333333332,
+    "kd_median": 0.6666666666666666,
+    "dmg_dealt_avg": 24.05,
+    "dmg_taken_avg": 28.34,
+    "boss_hp_remaining_avg_on_loss": 0,
+    "players_alive_avg_on_win": 2.25,
+    "ai_intent_distribution": {
+      "Critical|move": 1423,
+      "Critical|unknown": 251,
+      "Critical|attack": 678,
+      "Apex|attack": 386,
+      "Apex|move": 528,
+      "Apex|unknown": 187,
+      "High|attack": 144,
+      "High|move": 959,
+      "Medium|attack": 2,
+      "Medium|unknown": 1,
+      "Medium|move": 2,
+      "High|unknown": 12
+    },
+    "player_action_distribution": {
+      "move": 2090,
+      "unknown": 1822,
+      "attack": 4542
+    },
+    "trait_used_distribution": {
+      "carapaci_ferruginosi": 1387,
+      "scheletro_idro_regolante": 403,
+      "status:slow_down": 106,
+      "status:wound": 81
+    }
+  },
+  "runs": [
+    {
+      "run": 0,
+      "seed": 424242,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 31,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 3,
+        "Critical|attack": 2,
+        "Apex|attack": 12,
+        "Apex|move": 10,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 16,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 14,
+        "scheletro_idro_regolante": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 1,
+      "seed": 424243,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 27,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 17,
+        "Critical|unknown": 2,
+        "Critical|attack": 8,
+        "High|attack": 6,
+        "High|move": 35
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 25,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 2,
+        "carapaci_ferruginosi": 11,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 2,
+      "seed": 424244,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 17,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 3,
+        "Apex|unknown": 2,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 7,
+        "attack": 60
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 27,
+        "scheletro_idro_regolante": 2,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 3,
+      "seed": 424245,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 34,
+        "Critical|unknown": 3,
+        "Critical|attack": 8,
+        "High|attack": 5,
+        "High|move": 17
+      },
+      "player_action_tally": {
+        "move": 17,
+        "unknown": 19,
+        "attack": 37
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 15,
+        "status:slow_down": 2,
+        "scheletro_idro_regolante": 2,
+        "status:wound": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 4,
+      "seed": 424246,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 20,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 11,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|move": 7,
+        "Apex|unknown": 2,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 15,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 7,
+        "carapaci_ferruginosi": 14,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 5,
+      "seed": 424247,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 19,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|unknown": 2,
+        "Apex|move": 1,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 15,
+        "attack": 71
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 26,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 6,
+      "seed": 424248,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 19,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 6,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 45,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "High|attack": 17,
+        "High|move": 14,
+        "Medium|attack": 1,
+        "Medium|unknown": 1,
+        "Medium|move": 1
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 9,
+        "attack": 28
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 1,
+        "carapaci_ferruginosi": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 7,
+      "seed": 424249,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 4,
+        "Critical|unknown": 2,
+        "Critical|attack": 2,
+        "Apex|attack": 5,
+        "Apex|unknown": 2,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 14,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 23,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 8,
+      "seed": 424250,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 30,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 13,
+        "Critical|unknown": 2,
+        "Critical|attack": 5,
+        "Apex|move": 12,
+        "Apex|unknown": 2,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 38,
+        "unknown": 30,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 9,
+        "carapaci_ferruginosi": 17,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 9,
+      "seed": 424251,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 10,
+        "Apex|unknown": 2,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 10,
+        "attack": 77
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 31
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 10,
+      "seed": 424252,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 25,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 3,
+        "Critical|attack": 5,
+        "High|attack": 1,
+        "High|move": 24,
+        "Apex|move": 5
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 23,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "scheletro_idro_regolante": 3,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 11,
+      "seed": 424253,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 17,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 15,
+        "Critical|unknown": 4,
+        "Critical|attack": 6,
+        "High|attack": 1,
+        "High|move": 22
+      },
+      "player_action_tally": {
+        "move": 11,
+        "unknown": 14,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 1,
+        "carapaci_ferruginosi": 22
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 12,
+      "seed": 424254,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 4,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|attack": 10,
+        "Apex|unknown": 3,
+        "Apex|move": 3
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 13,
+        "attack": 63
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 11,
+        "carapaci_ferruginosi": 20,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 13,
+      "seed": 424255,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 28,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 19,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 32,
+        "Critical|unknown": 2,
+        "Critical|attack": 18,
+        "High|attack": 4,
+        "High|move": 10,
+        "High|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 13,
+        "attack": 39
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 9,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 14,
+      "seed": 424256,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 12,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 39,
+        "Critical|unknown": 10,
+        "Critical|attack": 7,
+        "Apex|attack": 3,
+        "Apex|move": 1,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 25,
+        "unknown": 23,
+        "attack": 27
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 2,
+        "carapaci_ferruginosi": 7,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 15,
+      "seed": 424257,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 17,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 16,
+        "Critical|unknown": 3,
+        "Critical|attack": 3,
+        "Apex|unknown": 3,
+        "Apex|move": 1,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 24,
+        "unknown": 19,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 17,
+        "scheletro_idro_regolante": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 16,
+      "seed": 424258,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 13,
+        "Critical|unknown": 2,
+        "Critical|attack": 8,
+        "Apex|attack": 5,
+        "Apex|unknown": 1,
+        "Apex|move": 26
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 15,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 9,
+        "scheletro_idro_regolante": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 17,
+      "seed": 424259,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 28,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 30,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Critical|move": 11,
+        "Critical|unknown": 2,
+        "Critical|attack": 12,
+        "Apex|move": 13,
+        "Apex|attack": 10
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 11,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 10,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 18,
+      "seed": 424260,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 19,
+      "dmg_taken_player": 42,
+      "boss_hp_remaining": 0,
+      "pressure_final": 95,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 19,
+        "Apex|attack": 5,
+        "Apex|unknown": 4,
+        "Apex|move": 5
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 13,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 13,
+        "scheletro_idro_regolante": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 19,
+      "seed": 424261,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 31,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 1,
+        "High|move": 11,
+        "Apex|unknown": 2,
+        "Apex|move": 8
+      },
+      "player_action_tally": {
+        "move": 37,
+        "unknown": 23,
+        "attack": 36
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 8,
+        "scheletro_idro_regolante": 4,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 20,
+      "seed": 424262,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 25,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 23,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 28,
+        "Critical|unknown": 4,
+        "Critical|attack": 15,
+        "High|attack": 4,
+        "High|move": 2
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 11,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 13,
+        "scheletro_idro_regolante": 7,
+        "status:wound": 1,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 21,
+      "seed": 424263,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 29,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 16,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|unknown": 3,
+        "Apex|move": 2,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 24,
+        "unknown": 18,
+        "attack": 64
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 22,
+        "scheletro_idro_regolante": 6,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 22,
+      "seed": 424264,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|unknown": 3,
+        "Apex|move": 8,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 16,
+        "attack": 52
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 17,
+        "scheletro_idro_regolante": 7,
+        "status:wound": 2,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 23,
+      "seed": 424265,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 18,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 55,
+      "ai_intent_tally": {
+        "Critical|move": 13,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 5,
+        "High|move": 45
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 23,
+        "attack": 43
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 2,
+        "carapaci_ferruginosi": 16,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 24,
+      "seed": 424266,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 17,
+      "dmg_taken_player": 36,
+      "boss_hp_remaining": 0,
+      "pressure_final": 95,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 2,
+        "Critical|attack": 13,
+        "Apex|attack": 1,
+        "Apex|unknown": 9,
+        "Apex|move": 13
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 22,
+        "attack": 28
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 1,
+        "carapaci_ferruginosi": 11,
+        "status:slow_down": 2,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 25,
+      "seed": 424267,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 5,
+        "Apex|move": 11,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 14,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 18,
+        "status:slow_down": 2,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 26,
+      "seed": 424268,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 55,
+      "ai_intent_tally": {
+        "Critical|move": 12,
+        "Critical|unknown": 2,
+        "Critical|attack": 8,
+        "High|attack": 3,
+        "High|move": 39
+      },
+      "player_action_tally": {
+        "move": 29,
+        "unknown": 24,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 27,
+      "seed": 424269,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 31,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 22,
+        "Critical|unknown": 3,
+        "Critical|attack": 6,
+        "Apex|move": 13,
+        "Apex|unknown": 2,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 25,
+        "unknown": 19,
+        "attack": 53
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 7,
+        "carapaci_ferruginosi": 9,
+        "status:wound": 3,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 28,
+      "seed": 424270,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 44,
+        "Critical|unknown": 3,
+        "Critical|attack": 5,
+        "High|attack": 1,
+        "High|move": 15
+      },
+      "player_action_tally": {
+        "move": 35,
+        "unknown": 24,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 1,
+        "carapaci_ferruginosi": 10,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 29,
+      "seed": 424271,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 13,
+      "dmg_taken_player": 32,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 36,
+        "Critical|unknown": 9,
+        "Critical|attack": 11,
+        "Apex|attack": 2,
+        "Apex|move": 1,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 24,
+        "unknown": 22,
+        "attack": 34
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 7,
+        "scheletro_idro_regolante": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 30,
+      "seed": 424272,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 23,
+      "dmg_taken_player": 35,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 30,
+        "Critical|unknown": 2,
+        "Critical|attack": 8,
+        "High|attack": 1,
+        "High|move": 11,
+        "Apex|attack": 8,
+        "Apex|unknown": 1,
+        "Apex|move": 3
+      },
+      "player_action_tally": {
+        "move": 27,
+        "unknown": 20,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 9,
+        "scheletro_idro_regolante": 5,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 31,
+      "seed": 424273,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 15,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "High|attack": 1,
+        "High|move": 36
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 23,
+        "attack": 43
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 11
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 32,
+      "seed": 424274,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 30,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|unknown": 2,
+        "Apex|move": 1,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 18,
+        "attack": 70
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 7,
+        "carapaci_ferruginosi": 22,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 33,
+      "seed": 424275,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 13,
+      "dmg_taken_player": 32,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 32,
+        "Critical|unknown": 8,
+        "Critical|attack": 11,
+        "Apex|attack": 4,
+        "Apex|move": 1,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 20,
+        "attack": 34
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 34,
+      "seed": 424276,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 23,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 6,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|unknown": 2,
+        "Apex|move": 3,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 16,
+        "attack": 52
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 18,
+        "scheletro_idro_regolante": 9,
+        "status:slow_down": 2,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 35,
+      "seed": 424277,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 16,
+      "dmg_taken_player": 36,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 7,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|attack": 2,
+        "Apex|unknown": 11,
+        "Apex|move": 18,
+        "High|attack": 2
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 24,
+        "attack": 26
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 12,
+        "status:wound": 2,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 36,
+      "seed": 424278,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 21,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 7,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "High|attack": 1,
+        "High|move": 43
+      },
+      "player_action_tally": {
+        "move": 18,
+        "unknown": 25,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 12,
+        "status:wound": 1,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 37,
+      "seed": 424279,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 10,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 45,
+      "ai_intent_tally": {
+        "Critical|move": 15,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 11,
+        "High|move": 39,
+        "Medium|attack": 1,
+        "Medium|move": 1
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 22,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 12,
+        "status:wound": 1,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 38,
+      "seed": 424280,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 23,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 55,
+      "ai_intent_tally": {
+        "Critical|move": 9,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "High|attack": 6,
+        "High|move": 50
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 25,
+        "attack": 33
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 13,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 39,
+      "seed": 424281,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 30,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 23,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "High|attack": 1,
+        "High|move": 37
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 26,
+        "attack": 37
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 10,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 40,
+      "seed": 424282,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 22,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|move": 17,
+        "Apex|unknown": 2,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 34,
+        "unknown": 23,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 14,
+        "status:wound": 3,
+        "scheletro_idro_regolante": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 41,
+      "seed": 424283,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 24,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 10,
+        "Apex|attack": 9,
+        "Apex|unknown": 3,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 11,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "scheletro_idro_regolante": 7,
+        "status:wound": 3,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 42,
+      "seed": 424284,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 44,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 12,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|move": 12,
+        "Apex|attack": 11,
+        "Apex|unknown": 4
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 12,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 9,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 43,
+      "seed": 424285,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 20,
+      "dmg_taken_player": 27,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "High|attack": 8,
+        "High|move": 41
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 23,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 14,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 44,
+      "seed": 424286,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 20,
+        "Critical|unknown": 2,
+        "Critical|attack": 10,
+        "High|attack": 4,
+        "High|move": 33
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 25,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 2,
+        "carapaci_ferruginosi": 17,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 45,
+      "seed": 424287,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 20,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 16,
+        "Apex|move": 2,
+        "Apex|unknown": 2,
+        "Apex|attack": 1,
+        "High|attack": 1,
+        "High|move": 1
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 11,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 2,
+        "status:wound": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 46,
+      "seed": 424288,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 17,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 1,
+        "Apex|attack": 6,
+        "Apex|unknown": 5,
+        "Apex|move": 4
+      },
+      "player_action_tally": {
+        "move": 16,
+        "unknown": 16,
+        "attack": 57
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 16,
+        "scheletro_idro_regolante": 3,
+        "status:wound": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 47,
+      "seed": 424289,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 26,
+      "dmg_taken_player": 29,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 15,
+        "Critical|unknown": 2,
+        "Critical|attack": 9,
+        "Apex|move": 17,
+        "Apex|unknown": 3,
+        "Apex|attack": 7
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 26,
+        "attack": 53
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 16,
+        "scheletro_idro_regolante": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 48,
+      "seed": 424290,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 21,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 23,
+        "Critical|unknown": 2,
+        "Critical|attack": 11,
+        "High|attack": 1,
+        "High|move": 29
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 26,
+        "attack": 41
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 14,
+        "scheletro_idro_regolante": 5,
+        "status:slow_down": 2,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 49,
+      "seed": 424291,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 30,
+      "dmg_taken_player": 26,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 22,
+        "Critical|unknown": 4,
+        "Critical|attack": 9,
+        "High|attack": 1,
+        "High|move": 11,
+        "Apex|unknown": 2,
+        "Apex|move": 13
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 22,
+        "attack": 41
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 50,
+      "seed": 424292,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 17,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 27,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|move": 4,
+        "Apex|unknown": 4,
+        "Apex|attack": 7
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 13,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 9,
+        "status:slow_down": 1,
+        "scheletro_idro_regolante": 3,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 51,
+      "seed": 424293,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 26,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 19,
+        "Critical|unknown": 4,
+        "Critical|attack": 7,
+        "High|attack": 1,
+        "High|move": 21
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 16,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 12,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 52,
+      "seed": 424294,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 29,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 35,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 6,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|attack": 11,
+        "Apex|unknown": 3,
+        "Apex|move": 5
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 14,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 15,
+        "status:wound": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 53,
+      "seed": 424295,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 25,
+      "dmg_taken_player": 35,
+      "boss_hp_remaining": 0,
+      "pressure_final": 95,
+      "ai_intent_tally": {
+        "Critical|move": 35,
+        "Critical|unknown": 5,
+        "Critical|attack": 12,
+        "High|attack": 1,
+        "High|move": 9,
+        "Apex|move": 3
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 19,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 7,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 54,
+      "seed": 424296,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "Apex|unknown": 2,
+        "Apex|move": 9,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 34,
+        "unknown": 15,
+        "attack": 52
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 19
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 55,
+      "seed": 424297,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 28,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 38,
+        "Critical|unknown": 3,
+        "Critical|attack": 15,
+        "High|attack": 1,
+        "High|move": 9
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 18,
+        "attack": 55
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 13,
+        "status:slow_down": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 56,
+      "seed": 424298,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 32,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 5,
+        "Apex|unknown": 1,
+        "Apex|move": 12
+      },
+      "player_action_tally": {
+        "move": 36,
+        "unknown": 31,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 6,
+        "status:slow_down": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 57,
+      "seed": 424299,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 19,
+        "Critical|unknown": 3,
+        "Critical|attack": 7,
+        "High|attack": 1,
+        "High|move": 1,
+        "Apex|move": 24
+      },
+      "player_action_tally": {
+        "move": 39,
+        "unknown": 27,
+        "attack": 33
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 15,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 58,
+      "seed": 424300,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 18,
+      "dmg_taken_player": 40,
+      "boss_hp_remaining": 0,
+      "pressure_final": 95,
+      "ai_intent_tally": {
+        "Critical|move": 7,
+        "Critical|unknown": 2,
+        "Critical|attack": 9,
+        "Apex|move": 18,
+        "Apex|unknown": 10,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 24,
+        "attack": 27
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 6,
+        "scheletro_idro_regolante": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 59,
+      "seed": 424301,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 19,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 7,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 3,
+        "Critical|attack": 20,
+        "High|attack": 2
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 8,
+        "attack": 33
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 60,
+      "seed": 424302,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 23,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|move": 11,
+        "Apex|unknown": 4,
+        "Apex|attack": 7
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 14,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 13,
+        "scheletro_idro_regolante": 5,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 61,
+      "seed": 424303,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 27,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 32,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 4,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|attack": 9,
+        "Apex|move": 6,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 13,
+        "attack": 49
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "status:wound": 2,
+        "scheletro_idro_regolante": 6,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 62,
+      "seed": 424304,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 21,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 26,
+        "Critical|unknown": 3,
+        "Critical|attack": 6,
+        "High|attack": 1,
+        "High|move": 15,
+        "Apex|move": 6,
+        "Apex|attack": 1
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 27,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 9,
+        "status:wound": 1,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 63,
+      "seed": 424305,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 16,
+      "dmg_taken_player": 40,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 5,
+        "Apex|move": 14,
+        "Apex|unknown": 7,
+        "High|attack": 6,
+        "High|move": 1
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 20,
+        "attack": 30
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 11,
+        "scheletro_idro_regolante": 1,
+        "status:wound": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 64,
+      "seed": 424306,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 20,
+      "dmg_taken_player": 27,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 6,
+        "High|move": 38
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 23,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 17,
+        "scheletro_idro_regolante": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 65,
+      "seed": 424307,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 21,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 13,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|move": 6,
+        "Apex|attack": 7,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 21,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 7,
+        "carapaci_ferruginosi": 15,
+        "status:wound": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 66,
+      "seed": 424308,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 21,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 20,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 4,
+        "High|move": 35
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 23,
+        "attack": 37
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "scheletro_idro_regolante": 2,
+        "status:slow_down": 1,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 67,
+      "seed": 424309,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 30,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 19,
+        "Critical|unknown": 4,
+        "Critical|attack": 9,
+        "Apex|attack": 1,
+        "Apex|move": 1,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 16,
+        "unknown": 13,
+        "attack": 52
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 16,
+        "scheletro_idro_regolante": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 68,
+      "seed": 424310,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|attack": 7,
+        "Apex|unknown": 2,
+        "Apex|move": 4
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 18,
+        "attack": 67
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 20,
+        "scheletro_idro_regolante": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 69,
+      "seed": 424311,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 22,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Critical|move": 6,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "Apex|attack": 14,
+        "Apex|move": 3,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 11,
+        "attack": 34
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 8,
+        "status:slow_down": 2,
+        "status:wound": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 70,
+      "seed": 424312,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 18,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|move": 6,
+        "Apex|unknown": 2,
+        "Apex|attack": 8
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 12,
+        "attack": 59
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 24,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 71,
+      "seed": 424313,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 19,
+      "dmg_taken_player": 26,
+      "boss_hp_remaining": 0,
+      "pressure_final": 65,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 9,
+        "High|attack": 5,
+        "High|move": 35
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 23,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 16,
+        "scheletro_idro_regolante": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 72,
+      "seed": 424314,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 31,
+      "dmg_taken_player": 34,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|move": 9,
+        "Apex|unknown": 2,
+        "Apex|attack": 13
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 16,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 16,
+        "scheletro_idro_regolante": 5,
+        "status:wound": 3,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 73,
+      "seed": 424315,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 40,
+        "Critical|unknown": 3,
+        "Critical|attack": 5,
+        "High|attack": 1,
+        "High|move": 19
+      },
+      "player_action_tally": {
+        "move": 35,
+        "unknown": 25,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 2,
+        "carapaci_ferruginosi": 7,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 74,
+      "seed": 424316,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 16,
+        "Critical|unknown": 3,
+        "Critical|attack": 5,
+        "Apex|unknown": 2,
+        "Apex|move": 16,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 23,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 20,
+        "scheletro_idro_regolante": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 75,
+      "seed": 424317,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 25,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 12,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 1,
+        "High|move": 40
+      },
+      "player_action_tally": {
+        "move": 18,
+        "unknown": 26,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "scheletro_idro_regolante": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 76,
+      "seed": 424318,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 39,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 17,
+        "Apex|move": 6,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 14,
+        "attack": 43
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 10,
+        "status:slow_down": 1,
+        "status:wound": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 77,
+      "seed": 424319,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 15,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|attack": 4,
+        "Apex|unknown": 9,
+        "Apex|move": 14,
+        "High|attack": 5,
+        "High|move": 1
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 21,
+        "attack": 32
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "scheletro_idro_regolante": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 78,
+      "seed": 424320,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 7,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 55,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 6,
+        "High|attack": 3,
+        "High|move": 41,
+        "High|unknown": 10
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 25,
+        "attack": 21
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 4,
+        "scheletro_idro_regolante": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 79,
+      "seed": 424321,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 19,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 32,
+        "Critical|unknown": 2,
+        "Critical|attack": 7,
+        "High|attack": 1,
+        "High|move": 18
+      },
+      "player_action_tally": {
+        "move": 29,
+        "unknown": 22,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 80,
+      "seed": 424322,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 41,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 19,
+        "Critical|unknown": 2,
+        "Critical|attack": 20,
+        "Apex|move": 2,
+        "Apex|attack": 5,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 10,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 5,
+        "carapaci_ferruginosi": 12,
+        "status:wound": 1,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 81,
+      "seed": 424323,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 20,
+      "dmg_taken_player": 24,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 5,
+        "Apex|attack": 9,
+        "Apex|unknown": 2,
+        "Apex|move": 6
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 12,
+        "attack": 64
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 25,
+        "scheletro_idro_regolante": 2,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 82,
+      "seed": 424324,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 34,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|move": 10,
+        "Apex|unknown": 2,
+        "Apex|attack": 10
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 17,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 10,
+        "scheletro_idro_regolante": 3,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 83,
+      "seed": 424325,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 26,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Critical|move": 10,
+        "Critical|unknown": 2,
+        "Critical|attack": 9,
+        "Apex|attack": 13,
+        "Apex|unknown": 1,
+        "Apex|move": 6
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 14,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 11,
+        "scheletro_idro_regolante": 4,
+        "status:wound": 3,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 84,
+      "seed": 424326,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 25,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 6,
+        "Critical|unknown": 2,
+        "Critical|attack": 5,
+        "Apex|attack": 5,
+        "Apex|unknown": 3,
+        "Apex|move": 6
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 14,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 17
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 85,
+      "seed": 424327,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 1,
+      "dmg_dealt_player": 21,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 75,
+      "ai_intent_tally": {
+        "Critical|move": 21,
+        "Critical|unknown": 3,
+        "Critical|attack": 8,
+        "High|attack": 1,
+        "High|move": 32
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 26,
+        "attack": 36
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 10,
+        "status:slow_down": 2,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 86,
+      "seed": 424328,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 27,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 22,
+        "Critical|unknown": 4,
+        "Critical|attack": 8,
+        "High|attack": 1,
+        "High|move": 18,
+        "Apex|move": 2,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 18,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 12,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 87,
+      "seed": 424329,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 28,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 14,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|unknown": 3,
+        "Apex|move": 1,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 21,
+        "unknown": 14,
+        "attack": 65
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 24,
+        "scheletro_idro_regolante": 6,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 88,
+      "seed": 424330,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 22,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 22,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 85,
+      "ai_intent_tally": {
+        "Critical|move": 15,
+        "Critical|unknown": 3,
+        "Critical|attack": 13,
+        "High|attack": 4,
+        "High|move": 3,
+        "Apex|move": 3,
+        "Apex|unknown": 1,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 11,
+        "attack": 34
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 9,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 89,
+      "seed": 424331,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 25,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 4,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|attack": 8,
+        "Apex|unknown": 2,
+        "Apex|move": 10
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 13,
+        "attack": 59
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 4,
+        "carapaci_ferruginosi": 22,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 90,
+      "seed": 424332,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 4,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 16,
+      "dmg_taken_player": 36,
+      "boss_hp_remaining": 0,
+      "pressure_final": 55,
+      "ai_intent_tally": {
+        "Critical|move": 16,
+        "Critical|unknown": 2,
+        "Critical|attack": 9,
+        "High|attack": 8,
+        "High|move": 39,
+        "High|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 20,
+        "attack": 39
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 12,
+        "scheletro_idro_regolante": 2,
+        "status:wound": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 91,
+      "seed": 424333,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 21,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 23,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "Critical|move": 6,
+        "Critical|unknown": 2,
+        "Critical|attack": 8,
+        "Apex|attack": 9,
+        "Apex|unknown": 3,
+        "Apex|move": 5
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 11,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 11,
+        "scheletro_idro_regolante": 5,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 92,
+      "seed": 424334,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 19,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 4,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|attack": 7,
+        "Apex|move": 5,
+        "Apex|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 13,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 20,
+        "scheletro_idro_regolante": 3,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 93,
+      "seed": 424335,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 18,
+        "Critical|unknown": 3,
+        "Critical|attack": 5,
+        "Apex|move": 6,
+        "Apex|attack": 5,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 29,
+        "unknown": 23,
+        "attack": 62
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 15,
+        "scheletro_idro_regolante": 4,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 94,
+      "seed": 424336,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 26,
+      "dmg_taken_player": 25,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|move": 11,
+        "Apex|unknown": 2,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 13,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 27,
+        "status:wound": 1,
+        "scheletro_idro_regolante": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 95,
+      "seed": 424337,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 22,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 17,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 1,
+        "Apex|attack": 6,
+        "Apex|unknown": 4,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 13,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 17,
+        "scheletro_idro_regolante": 3,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 96,
+      "seed": 424338,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 21,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 19,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 3,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 8,
+        "Apex|unknown": 4,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 13,
+        "attack": 49
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 13,
+        "scheletro_idro_regolante": 7,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 97,
+      "seed": 424339,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 24,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 4,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "Apex|move": 6,
+        "Apex|unknown": 2,
+        "Apex|attack": 18
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 12,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "carapaci_ferruginosi": 19,
+        "scheletro_idro_regolante": 6,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 98,
+      "seed": 424340,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 26,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "Critical|move": 21,
+        "Critical|unknown": 2,
+        "Critical|attack": 4,
+        "High|attack": 1,
+        "High|move": 18,
+        "Apex|move": 13,
+        "Apex|unknown": 1,
+        "Apex|attack": 1
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 23,
+        "attack": 37
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 6,
+        "carapaci_ferruginosi": 8,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 99,
+      "seed": 424341,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 2,
+      "dmg_dealt_player": 15,
+      "dmg_taken_player": 35,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "Critical|move": 5,
+        "Critical|unknown": 2,
+        "Critical|attack": 3,
+        "Apex|attack": 5,
+        "Apex|move": 16,
+        "Apex|unknown": 8,
+        "High|attack": 4,
+        "High|move": 1
+      },
+      "player_action_tally": {
+        "move": 24,
+        "unknown": 23,
+        "attack": 27
+      },
+      "trait_used_tally": {
+        "scheletro_idro_regolante": 3,
+        "carapaci_ferruginosi": 8,
+        "status:wound": 1,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    }
+  ]
+}

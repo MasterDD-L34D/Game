@@ -1,0 +1,786 @@
+{
+  "spec": "SPEC-Q M-6",
+  "catalog_schema_version": "0.1.0",
+  "mechanical_trait_count": 503,
+  "summary": {
+    "total": 36,
+    "derived_present": 12,
+    "derived_null": 24,
+    "null_trait_runtime": 22,
+    "null_visual_only": 2,
+    "null_inert": 0,
+    "spec_k_candidates": 2
+  },
+  "rows": [
+    {
+      "id": "artigli_freeze_to_glacier",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "appendage",
+      "derived_ability_id": "artigli_sghiaccio_glaciale",
+      "derived_is_null": false,
+      "added_traits": [
+        "artigli_sghiaccio_glaciale"
+      ],
+      "removed_traits": [
+        "artigli_ipo_termici"
+      ],
+      "mechanical_added": [
+        "artigli_sghiaccio_glaciale"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "claws_glacial",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "ali_panic_to_resonance",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "back",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "ali_fono_risonanti"
+      ],
+      "removed_traits": [
+        "ali_membrana_sonica"
+      ],
+      "mechanical_added": [
+        "ali_fono_risonanti"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "wings_resonant",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "denti_bleed_to_chelate",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "mouth",
+      "derived_ability_id": "denti_chelatanti",
+      "derived_is_null": false,
+      "added_traits": [
+        "denti_chelatanti"
+      ],
+      "removed_traits": [
+        "denti_seghettati"
+      ],
+      "mechanical_added": [
+        "denti_chelatanti"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "teeth_chelating",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "scheletro_buffer_upgrade",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "scheletro_idro_regolante"
+      ],
+      "removed_traits": [
+        "scheletro_pneumatico_a_maglie"
+      ],
+      "mechanical_added": [
+        "scheletro_idro_regolante"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "skeleton_buffered",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "carapace_segments_to_phase",
+      "tier": 3,
+      "category": "physiological",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "carapace_fase_variabile"
+      ],
+      "removed_traits": [
+        "carapace_segmenti_logici"
+      ],
+      "mechanical_added": [
+        "carapace_fase_variabile"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "carapace_phasing",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "rage_simple_to_super",
+      "tier": 3,
+      "category": "behavioral",
+      "body_slot": "mouth",
+      "derived_ability_id": "circolazione_supercritica",
+      "derived_is_null": false,
+      "added_traits": [
+        "circolazione_supercritica"
+      ],
+      "removed_traits": [
+        "circolazione_doppia"
+      ],
+      "mechanical_added": [
+        "circolazione_supercritica"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "core_supercritical",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "voice_panic_to_summon",
+      "tier": 2,
+      "category": "behavioral",
+      "body_slot": "mouth",
+      "derived_ability_id": "canto_di_richiamo",
+      "derived_is_null": false,
+      "added_traits": [
+        "canto_di_richiamo"
+      ],
+      "removed_traits": [
+        "voce_imperiosa"
+      ],
+      "mechanical_added": [
+        "canto_di_richiamo"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "voice_summon",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "intimidator_to_dispersal",
+      "tier": 2,
+      "category": "behavioral",
+      "body_slot": "mouth",
+      "derived_ability_id": "aura_di_dispersione_mentale",
+      "derived_is_null": false,
+      "added_traits": [
+        "aura_di_dispersione_mentale"
+      ],
+      "removed_traits": [
+        "intimidatore"
+      ],
+      "mechanical_added": [
+        "aura_di_dispersione_mentale"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "aura_disperse",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "eyes_kinetic_to_crystal",
+      "tier": 2,
+      "category": "sensorial",
+      "body_slot": "sense",
+      "derived_ability_id": "occhi_cristallo_modulare",
+      "derived_is_null": false,
+      "added_traits": [
+        "occhi_cristallo_modulare"
+      ],
+      "removed_traits": [
+        "occhi_cinetici"
+      ],
+      "mechanical_added": [
+        "occhi_cristallo_modulare"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "eyes_crystal",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "antenne_track_to_storm",
+      "tier": 3,
+      "category": "sensorial",
+      "body_slot": "sense",
+      "derived_ability_id": "antenne_plasmatiche_tempesta",
+      "derived_is_null": false,
+      "added_traits": [
+        "antenne_plasmatiche_tempesta"
+      ],
+      "removed_traits": [
+        "antenne_tesla"
+      ],
+      "mechanical_added": [
+        "antenne_plasmatiche_tempesta"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "antennae_storm",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "wings_ion_to_solar",
+      "tier": 2,
+      "category": "sensorial",
+      "body_slot": "back",
+      "derived_ability_id": "ali_solari_fotoni",
+      "derived_is_null": false,
+      "added_traits": [
+        "ali_solari_fotoni"
+      ],
+      "removed_traits": [
+        "ali_ioniche"
+      ],
+      "mechanical_added": [
+        "ali_solari_fotoni"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "wings_solar",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "wings_dive_to_phono",
+      "tier": 2,
+      "category": "sensorial",
+      "body_slot": "back",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "ali_fono_risonanti"
+      ],
+      "removed_traits": [
+        "ali_fulminee"
+      ],
+      "mechanical_added": [
+        "ali_fono_risonanti"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "wings_phono",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "symbiosis_chemio_endosymbiont",
+      "tier": 2,
+      "category": "symbiotic",
+      "body_slot": null,
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "batteri_termofili_endosimbiosi"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "batteri_termofili_endosimbiosi"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "endosymbiont_chemio",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "pelle_burn_to_dielectric",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": "epidermide_dielettrica",
+      "derived_is_null": false,
+      "added_traits": [
+        "epidermide_dielettrica"
+      ],
+      "removed_traits": [
+        "pelli_anti_ustione"
+      ],
+      "mechanical_added": [
+        "epidermide_dielettrica"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "skin_dielectric",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "branchie_metalloid_upgrade",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": "branchie_metalloidi",
+      "derived_is_null": false,
+      "added_traits": [
+        "branchie_metalloidi"
+      ],
+      "removed_traits": [
+        "branchie_microfiltri"
+      ],
+      "mechanical_added": [
+        "branchie_metalloidi"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "gills_metalloid",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "capillari_to_photovoltaic",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": "capillari_fotovoltaici",
+      "derived_is_null": false,
+      "added_traits": [
+        "capillari_fotovoltaici"
+      ],
+      "removed_traits": [
+        "capillari_fluoridici"
+      ],
+      "mechanical_added": [
+        "capillari_fotovoltaici"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "capillaries_photovoltaic",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "cuticole_wax_to_neutralize",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "cuticole_neutralizzanti"
+      ],
+      "removed_traits": [
+        "cuticole_cerose"
+      ],
+      "mechanical_added": [
+        "cuticole_neutralizzanti"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "cuticle_neutralize",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "carapace_to_luminescent",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "carapace_luminiscente_abissale"
+      ],
+      "removed_traits": [
+        "carapaci_ferruginosi"
+      ],
+      "mechanical_added": [
+        "carapace_luminiscente_abissale"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "carapace_luminescent",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "artigli_grip_to_glass",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "appendage",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "artigli_vetrificati"
+      ],
+      "removed_traits": [
+        "artigli_sette_vie"
+      ],
+      "mechanical_added": [
+        "artigli_vetrificati"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "claws_glass",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "coda_balanced_to_counter",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "appendage",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "coda_contrappeso"
+      ],
+      "removed_traits": [
+        "coda_balanciere"
+      ],
+      "mechanical_added": [
+        "coda_contrappeso"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "tail_counter",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "coda_kinetic_chain",
+      "tier": 3,
+      "category": "physiological",
+      "body_slot": "appendage",
+      "derived_ability_id": "coda_frusta_cinetica",
+      "derived_is_null": false,
+      "added_traits": [
+        "coda_frusta_cinetica"
+      ],
+      "removed_traits": [
+        "coda_contrappeso"
+      ],
+      "mechanical_added": [
+        "coda_frusta_cinetica"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "tail_kinetic",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "ghiandole_ink_to_acid",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "ghiandole_nebbia_acida"
+      ],
+      "removed_traits": [
+        "ghiandole_inchiostro_luce"
+      ],
+      "mechanical_added": [
+        "ghiandole_nebbia_acida"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "glands_acid",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "enzimi_chelanti_to_rapid",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "mouth",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "enzimi_chelatori_rapidi"
+      ],
+      "removed_traits": [
+        "enzimi_chelanti"
+      ],
+      "mechanical_added": [
+        "enzimi_chelatori_rapidi"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "enzymes_rapid",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "martello_simple_to_osseo",
+      "tier": 2,
+      "category": "physiological",
+      "body_slot": "appendage",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "martello_osseo"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "martello_osseo"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "hammer_osseo",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "occhi_tension_to_kinetic",
+      "tier": 2,
+      "category": "sensorial",
+      "body_slot": "sense",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "occhi_cinetici"
+      ],
+      "removed_traits": [
+        "occhi_analizzatori_di_tensione"
+      ],
+      "mechanical_added": [
+        "occhi_cinetici"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "eyes_kinetic",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "cartilagini_to_metallic",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "cartilagini_pseudometalliche"
+      ],
+      "removed_traits": [
+        "cartilagini_biofibre"
+      ],
+      "mechanical_added": [
+        "cartilagini_pseudometalliche"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "cartilage_metallic",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "membrane_pneumatic_to_photonic",
+      "tier": 2,
+      "category": "environmental",
+      "body_slot": "tegument",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "membrane_fotoconvoglianti"
+      ],
+      "removed_traits": [
+        "membrane_pneumatofori"
+      ],
+      "mechanical_added": [
+        "membrane_fotoconvoglianti"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "membrane_photonic",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "filamenti_super_to_echo",
+      "tier": 2,
+      "category": "symbiotic",
+      "body_slot": null,
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "filamenti_echo"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "filamenti_echo"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "filaments_echo",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "zampe_spring_to_radiant",
+      "tier": 3,
+      "category": "physiological",
+      "body_slot": "appendage",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "zampe_radianti"
+      ],
+      "removed_traits": [
+        "zampe_a_molla"
+      ],
+      "mechanical_added": [
+        "zampe_radianti"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "legs_radiant",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "ferocia_to_supercritical",
+      "tier": 3,
+      "category": "behavioral",
+      "body_slot": "mouth",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "midollo_iperattivo"
+      ],
+      "removed_traits": [
+        "ferocia"
+      ],
+      "mechanical_added": [
+        "midollo_iperattivo"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "ferocity_supercritical",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "simbionte_micorriza_radici",
+      "tier": 2,
+      "category": "symbiotic",
+      "body_slot": null,
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [],
+      "non_mechanical_added": [
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "aspect_token": "symbiote_mycorrhiza",
+      "has_visual_swap": true,
+      "verdict": "visual-only",
+      "spec_k_candidate": true
+    },
+    {
+      "id": "simbionte_lichene_solare",
+      "tier": 2,
+      "category": "symbiotic",
+      "body_slot": null,
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "symbiote_lichen",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "simbionte_batteri_termofili",
+      "tier": 3,
+      "category": "symbiotic",
+      "body_slot": null,
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [],
+      "removed_traits": [],
+      "mechanical_added": [],
+      "non_mechanical_added": [],
+      "aspect_token": "symbiote_thermofile",
+      "has_visual_swap": true,
+      "verdict": "visual-only",
+      "spec_k_candidate": true
+    },
+    {
+      "id": "branco_cooperazione_segnalata",
+      "tier": 2,
+      "category": "behavioral",
+      "body_slot": "mouth",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "risonanza_di_branco"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "risonanza_di_branco"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "pack_signaling",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "gerarchia_dominanza_ritualizzata",
+      "tier": 2,
+      "category": "behavioral",
+      "body_slot": "mouth",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "aura_di_dispersione_mentale"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "aura_di_dispersione_mentale"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "hierarchy_ritual",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    },
+    {
+      "id": "recettori_chimici_seed_tracking",
+      "tier": 2,
+      "category": "sensorial",
+      "body_slot": "sense",
+      "derived_ability_id": null,
+      "derived_is_null": true,
+      "added_traits": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "removed_traits": [],
+      "mechanical_added": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "non_mechanical_added": [],
+      "aspect_token": "receptors_seed",
+      "has_visual_swap": true,
+      "verdict": "trait-runtime",
+      "spec_k_candidate": false
+    }
+  ]
+}

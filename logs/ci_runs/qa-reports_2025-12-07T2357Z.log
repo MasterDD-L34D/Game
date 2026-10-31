@@ -1,0 +1,3 @@
+[2025-12-07T23:57:10Z] Attempted to dispatch qa-reports.yml via `gh workflow run qa-reports.yml -b main`.
+Outcome: NOT EXECUTED – GitHub CLI (`gh`) is not available and no GH_TOKEN/PAT is configured, preventing workflow dispatch and artifact retrieval.
+Follow-up: install GitHub CLI, log in with a PAT granting actions:read/workflow and contents permissions, rerun from main, and upload QA report artifacts.

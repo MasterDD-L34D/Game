@@ -1,0 +1,18 @@
+{
+  "id": "TKT-CREATURE-COQ-MORPHOTYPE",
+  "title": "Caves of Qud morphotype gating mutation pool",
+  "pillar": "P2",
+  "effort_hours": 6,
+  "donor_game": {
+    "name": "Caves of Qud",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#6-caves-of-qud-freehold--2015"
+  },
+  "agent_owner": "creature-aspect-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "`morphotype_pool` field a mutation YAML. Char creation single critical choice. Decision: hard gate vs soft bias."
+}

@@ -1,0 +1,194 @@
+validate	Set up job	﻿2025-12-08T17:39:30.1989437Z Current runner version: '2.329.0'
+validate	Set up job	2025-12-08T17:39:30.2021561Z ##[group]Runner Image Provisioner
+validate	Set up job	2025-12-08T17:39:30.2022746Z Hosted Compute Agent
+validate	Set up job	2025-12-08T17:39:30.2023498Z Version: 20251124.448
+validate	Set up job	2025-12-08T17:39:30.2024369Z Commit: fda5086b43ec66ade217e5fcd18146c879571177
+validate	Set up job	2025-12-08T17:39:30.2025396Z Build Date: 2025-11-24T21:16:26Z
+validate	Set up job	2025-12-08T17:39:30.2026293Z ##[endgroup]
+validate	Set up job	2025-12-08T17:39:30.2027094Z ##[group]Operating System
+validate	Set up job	2025-12-08T17:39:30.2027869Z Ubuntu
+validate	Set up job	2025-12-08T17:39:30.2028586Z 24.04.3
+validate	Set up job	2025-12-08T17:39:30.2029182Z LTS
+validate	Set up job	2025-12-08T17:39:30.2029804Z ##[endgroup]
+validate	Set up job	2025-12-08T17:39:30.2030433Z ##[group]Runner Image
+validate	Set up job	2025-12-08T17:39:30.2031506Z Image: ubuntu-24.04
+validate	Set up job	2025-12-08T17:39:30.2032250Z Version: 20251126.144.1
+validate	Set up job	2025-12-08T17:39:30.2033779Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251126.144/images/ubuntu/Ubuntu2404-Readme.md
+validate	Set up job	2025-12-08T17:39:30.2036084Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251126.144
+validate	Set up job	2025-12-08T17:39:30.2037917Z ##[endgroup]
+validate	Set up job	2025-12-08T17:39:30.2039537Z ##[group]GITHUB_TOKEN Permissions
+validate	Set up job	2025-12-08T17:39:30.2042264Z Contents: read
+validate	Set up job	2025-12-08T17:39:30.2043132Z Metadata: read
+validate	Set up job	2025-12-08T17:39:30.2043972Z Packages: read
+validate	Set up job	2025-12-08T17:39:30.2044646Z ##[endgroup]
+validate	Set up job	2025-12-08T17:39:30.2047549Z Secret source: Actions
+validate	Set up job	2025-12-08T17:39:30.2048494Z Prepare workflow directory
+validate	Set up job	2025-12-08T17:39:30.2494950Z Prepare all required actions
+validate	Set up job	2025-12-08T17:39:30.2551626Z Getting action download info
+validate	Set up job	2025-12-08T17:39:30.5093400Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+validate	Set up job	2025-12-08T17:39:30.8814366Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+validate	Set up job	2025-12-08T17:39:31.0410744Z Complete job name: validate
+validate	Run actions/checkout@v4	﻿2025-12-08T17:39:31.0998519Z ##[group]Run actions/checkout@v4
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.0999390Z with:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.0999874Z   repository: MasterDD-L34D/Game
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1000540Z   token: ***
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1001028Z   ssh-strict: true
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1001702Z   ssh-user: git
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1002116Z   persist-credentials: true
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1002612Z   clean: true
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1003023Z   sparse-checkout-cone-mode: true
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1003520Z   fetch-depth: 1
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1003896Z   fetch-tags: false
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1004385Z   show-progress: true
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1004822Z   lfs: false
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1005198Z   submodules: false
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1006008Z   set-safe-directory: true
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.1006822Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2053355Z Syncing repository: MasterDD-L34D/Game
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2056280Z ##[group]Getting Git version info
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2057435Z Working directory is '/home/runner/work/Game/Game'
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2059294Z [command]/usr/bin/git version
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2090551Z git version 2.52.0
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2113767Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2127254Z Temporarily overriding HOME='/home/runner/work/_temp/1e5ecc15-af06-403d-b4a5-57d6885229bd' before making global git config changes
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2129799Z Adding repository directory to the temporary git global config as a safe directory
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2143323Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2179067Z Deleting the contents of '/home/runner/work/Game/Game'
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2182395Z ##[group]Initializing the repository
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2185900Z [command]/usr/bin/git init /home/runner/work/Game/Game
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2294326Z hint: Using 'master' as the name for the initial branch. This default branch name
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2296033Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2297438Z hint: to use in all of your new repositories, which will suppress this warning,
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2298479Z hint: call:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2298861Z hint:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2299359Z hint: 	git config --global init.defaultBranch <name>
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2300214Z hint:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2300777Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2301870Z hint: 'development'. The just-created branch can be renamed via this command:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2302549Z hint:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2302976Z hint: 	git branch -m <name>
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2303447Z hint:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2304238Z hint: Disable this message with "git config set advice.defaultBranchName false"
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2305195Z Initialized empty Git repository in /home/runner/work/Game/Game/.git/
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2311867Z [command]/usr/bin/git remote add origin https://github.com/MasterDD-L34D/Game
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2343544Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2344368Z ##[group]Disabling automatic garbage collection
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2349523Z [command]/usr/bin/git config --local gc.auto 0
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2376407Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2377139Z ##[group]Setting up auth
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2386466Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2414763Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2705290Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2730225Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2902421Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.2926822Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.3109571Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.3137686Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.3138910Z ##[group]Fetching the repository
+validate	Run actions/checkout@v4	2025-12-08T17:39:31.3145602Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +58c4dda41f53131885e8751e41f9079ab8f87a29:refs/remotes/origin/main
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1682690Z From https://github.com/MasterDD-L34D/Game
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1683885Z  * [new ref]         58c4dda41f53131885e8751e41f9079ab8f87a29 -> origin/main
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1715671Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1717148Z ##[group]Determining the checkout info
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1718600Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1722860Z [command]/usr/bin/git sparse-checkout disable
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1757986Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1780223Z ##[group]Checking out the ref
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.1784066Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.3459266Z Switched to a new branch 'main'
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.3461834Z branch 'main' set up to track 'origin/main'.
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.3472165Z ##[endgroup]
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.3501759Z [command]/usr/bin/git log -1 --format=%H
+validate	Run actions/checkout@v4	2025-12-08T17:39:32.3519756Z 58c4dda41f53131885e8751e41f9079ab8f87a29
+validate	Setup Python	﻿2025-12-08T17:39:32.3888060Z ##[group]Run actions/setup-python@v5
+validate	Setup Python	2025-12-08T17:39:32.3889141Z with:
+validate	Setup Python	2025-12-08T17:39:32.3889923Z   python-version: 3.11
+validate	Setup Python	2025-12-08T17:39:32.3890808Z   check-latest: false
+validate	Setup Python	2025-12-08T17:39:32.3892075Z   token: ***
+validate	Setup Python	2025-12-08T17:39:32.3892908Z   update-environment: true
+validate	Setup Python	2025-12-08T17:39:32.3893849Z   allow-prereleases: false
+validate	Setup Python	2025-12-08T17:39:32.3894777Z   freethreaded: false
+validate	Setup Python	2025-12-08T17:39:32.3895626Z ##[endgroup]
+validate	Setup Python	2025-12-08T17:39:32.5473731Z ##[group]Installed versions
+validate	Setup Python	2025-12-08T17:39:32.5580433Z Successfully set up CPython (3.11.14)
+validate	Setup Python	2025-12-08T17:39:32.5583160Z ##[endgroup]
+validate	Install jsonschema	﻿2025-12-08T17:39:32.5705871Z ##[group]Run pip install jsonschema==4.*
+validate	Install jsonschema	2025-12-08T17:39:32.5707118Z [36;1mpip install jsonschema==4.*[0m
+validate	Install jsonschema	2025-12-08T17:39:32.5740020Z shell: /usr/bin/bash -e {0}
+validate	Install jsonschema	2025-12-08T17:39:32.5740962Z env:
+validate	Install jsonschema	2025-12-08T17:39:32.5742097Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Install jsonschema	2025-12-08T17:39:32.5743514Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate	Install jsonschema	2025-12-08T17:39:32.5744921Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Install jsonschema	2025-12-08T17:39:32.5746233Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Install jsonschema	2025-12-08T17:39:32.5747491Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Install jsonschema	2025-12-08T17:39:32.5748770Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate	Install jsonschema	2025-12-08T17:39:32.5749849Z ##[endgroup]
+validate	Install jsonschema	2025-12-08T17:39:36.2016584Z Collecting jsonschema==4.*
+validate	Install jsonschema	2025-12-08T17:39:36.3136316Z   Downloading jsonschema-4.25.1-py3-none-any.whl.metadata (7.6 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.3315225Z Collecting attrs>=22.2.0 (from jsonschema==4.*)
+validate	Install jsonschema	2025-12-08T17:39:36.3562903Z   Downloading attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.3713124Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema==4.*)
+validate	Install jsonschema	2025-12-08T17:39:36.3911314Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.4157378Z Collecting referencing>=0.28.4 (from jsonschema==4.*)
+validate	Install jsonschema	2025-12-08T17:39:36.4439858Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.6859378Z Collecting rpds-py>=0.7.1 (from jsonschema==4.*)
+validate	Install jsonschema	2025-12-08T17:39:36.7075711Z   Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.7396430Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema==4.*)
+validate	Install jsonschema	2025-12-08T17:39:36.7638036Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.7894950Z Downloading jsonschema-4.25.1-py3-none-any.whl (90 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.8404942Z Downloading attrs-25.4.0-py3-none-any.whl (67 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.8658507Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.8884552Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.9114008Z Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (390 kB)
+validate	Install jsonschema	2025-12-08T17:39:36.9745780Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+validate	Install jsonschema	2025-12-08T17:39:37.0172590Z Installing collected packages: typing-extensions, rpds-py, attrs, referencing, jsonschema-specifications, jsonschema
+validate	Install jsonschema	2025-12-08T17:39:37.1642134Z 
+validate	Install jsonschema	2025-12-08T17:39:37.1653796Z Successfully installed attrs-25.4.0 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 referencing-0.37.0 rpds-py-0.30.0 typing-extensions-4.15.0
+validate	Validate all schemas/*.json	﻿2025-12-08T17:39:37.3260060Z ##[group]Run python - <<'PY'
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3260361Z [36;1mpython - <<'PY'[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3260606Z [36;1m  import json, sys, glob[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3260887Z [36;1m  from jsonschema import Draft202012Validator[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3261312Z [36;1m[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3261511Z [36;1m  errors = [][0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3261746Z [36;1m  for path in glob.glob('schemas/*.json'):[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3262046Z [36;1m      with open(path, 'r', encoding='utf-8') as f:[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3262336Z [36;1m          data = json.load(f)[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3262570Z [36;1m      try:[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3262813Z [36;1m          Draft202012Validator.check_schema(data)[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3263093Z [36;1m      except Exception as e:[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3263336Z [36;1m          errors.append(f"{path}: {e}")[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3263572Z [36;1m[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3263738Z [36;1m  if errors:[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3263932Z [36;1m      print("\n".join(errors))[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3264202Z [36;1m      sys.exit(1)[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3264396Z [36;1m  else:[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3264577Z [36;1m      print("All schemas OK")[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3264795Z [36;1mPY[0m
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3285857Z shell: /usr/bin/bash -e {0}
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3286269Z env:
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3286510Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3286898Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3287261Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3287597Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3287926Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3288259Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3288540Z ##[endgroup]
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3411393Z   File "<stdin>", line 1
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3411991Z     import json, sys, glob
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3412314Z IndentationError: unexpected indent
+validate	Validate all schemas/*.json	2025-12-08T17:39:37.3443494Z ##[error]Process completed with exit code 1.
+validate	Post Run actions/checkout@v4	﻿2025-12-08T17:39:37.3541703Z Post job cleanup.
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4402113Z [command]/usr/bin/git version
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4433545Z git version 2.52.0
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4470793Z Temporarily overriding HOME='/home/runner/work/_temp/177ba5c5-4f1b-42ae-a5a1-7a2ea21f7c0b' before making global git config changes
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4471917Z Adding repository directory to the temporary git global config as a safe directory
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4476033Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4507377Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4535151Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4717913Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4734434Z http.https://github.com/.extraheader
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4744682Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4768146Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4943456Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate	Post Run actions/checkout@v4	2025-12-08T17:39:37.4969288Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate	Complete job	﻿2025-12-08T17:39:37.5227084Z Cleaning up orphan processes

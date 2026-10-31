@@ -1,0 +1,22 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "tegumentario"
+      ]
+    }
+  },
+  "traits": [
+    "mimetismo_cromatico_passivo",
+    "piume_solari_fotovoltaiche",
+    "secrezione_rallentante_palmi",
+    "squame_rifrangenti_deserto",
+    "vello_condensatore_nebbie"
+  ],
+  "type": "tegumentario"
+}

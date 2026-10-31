@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)file:///C:/Users/VGit/Downloads/game.html -->
+<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evo-Tactics — Playtest</title>
+<style>
+  :root {
+    --bg:       #0f1117;
+    --surface:  #1a1d27;
+    --border:   #2a2d3a;
+    --text:     #d4d2c8;
+    --muted:    #6b6a62;
+    --p1:       #3b8bd4;   /* giocatore 1 — blu */
+    --p1-light: #b5d4f4;
+    --p2:       #e24b4a;   /* sistema — rosso */
+    --p2-light: #f7c1c1;
+    --hit:      #1d9e75;
+    --miss:     #ba7517;
+    --cell:     56px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header h1 { font-size: 14px; font-weight: 600; letter-spacing: .08em; color: var(--p1-light); }
+
+  #turn-badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  #turn-badge.player { border-color: var(--p1); color: var(--p1-light); }
+  #turn-badge.sistema { border-color: var(--p2); color: var(--p2-light); }
+
+  main {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex: 1;
+  }
+
+  /* ── GRIGLIA ── */
+  #grid-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .grid-frame {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    grid-template-rows:    16px 1fr;
+    gap: 4px;
+  }
+
+  .col-labels {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: repeat(6, var(--cell));
+    gap: 2px;
+  }
+  .col-labels span {
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+
+  .row-labels {
+    grid-row: 2;
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: repeat(6, var(--cell));
+    gap: 2px;
+  }
+  .row-labels span {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+
+  #grid {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(6, var(--cell));
+    grid-template-rows:    repeat(6, var(--cell));
+    gap: 2px;
+  }
+
+  .cell {
+    width: var(--cell);
+    height: var(--cell);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background .12s, border-color .12s;
+  }
+
+  .cell:hover { background: #222535; border-color: #3a3d50; }
+
+  /* Reachable cell a costo 1 AP (blu standard) */
+  .cell.reachable {
+    border-color: var(--p1);
+    background: rgba(59,139,212,.12);
+  }
+  .cell.reachable:hover { background: rgba(59,139,212,.22); }
+
+  /* Reachable cell a costo 2 AP (arancio-warning). Visivamente
+     distinta per evitare mis-click che consumano tutto il turno. */
+  .cell.reachable.reachable-costly {
+    border-color: var(--miss);
+    background: rgba(186,117,23,.18);
+  }
+  .cell.reachable.reachable-costly:hover { background: rgba(186,117,23,.30); }
+
+  /* Badge del costo AP in alto a sinistra nella cella reachable */
+  .cell-cost {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--p1-light);
+    pointer-events: none;
+    opacity: .85;
+  }
+  .cell.reachable-costly .cell-cost {
+    color: #fac775;
+  }
+
+  .cell.targetable {
+    border-color: var(--p2);
+    background: rgba(226,75,74,.1);
+  }
+  .cell.targetable:hover { background: rgba(226,75,74,.2); }
+
+  /* Preview intent (planning phase): marker su target/dest scelto. */
+  .cell.attack-target {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239,68,68,.5), inset 0 0 10px rgba(239,68,68,.25);
+    animation: pulse-intent 1.4s ease-in-out infinite;
+  }
+  .cell.move-dest {
+    border-color: var(--p1-light);
+    background: rgba(59,139,212,.25);
+    box-shadow: inset 0 0 10px rgba(59,139,212,.40);
+    animation: pulse-intent 1.4s ease-in-out infinite;
+  }
+  .intent-marker {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 14px;
+    line-height: 1;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,.9));
+    pointer-events: none;
+    z-index: 3;
+  }
+  @keyframes pulse-intent {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .65; }
+  }
+
+  /* Cell highlight durante animazione resolve: cella attore pulsa arancione
+     mentre la sua azione viene processata. */
+  .cell.resolving {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,.7), inset 0 0 14px rgba(245,158,11,.35);
+    animation: pulse-resolving 0.4s ease-in-out;
+    z-index: 4;
+  }
+  @keyframes pulse-resolving {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  /* Pannello ordini pendenti */
+  .orders-list { display: flex; flex-direction: column; gap: 4px; }
+  .orders-empty { color: var(--muted); font-size: 11px; font-style: italic; padding: 4px 0; }
+  .order-row {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; padding: 4px 6px;
+    background: rgba(59,139,212,.08);
+    border: 1px solid rgba(59,139,212,.25);
+    border-radius: 4px;
+  }
+  .order-row .order-label { color: var(--p1-light); font-weight: 700; min-width: 22px; }
+  .order-row .order-text { flex: 1; color: var(--text); }
+  .order-row .order-clear {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--miss); font-size: 10px; line-height: 1;
+    padding: 2px 5px; border-radius: 3px; cursor: pointer;
+  }
+  .order-row .order-clear:hover { background: rgba(186,117,23,.2); border-color: var(--miss); }
+
+  /* token unità */
+  .token {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    line-height: 1.2;
+    border: 2px solid transparent;
+    transition: transform .1s;
+    pointer-events: none;
+  }
+
+  .token.p1 { background: var(--p1); color: #fff; border-color: var(--p1-light); }
+  .token.sistema { background: var(--p2); color: #fff; border-color: var(--p2-light); }
+  .token.selected { transform: scale(1.1); box-shadow: 0 0 0 3px #fff3; }
+  .token.dead { opacity: .25; filter: grayscale(1); }
+
+  .token-job { font-size: 8px; opacity: .8; }
+
+  /* SPRINT_014: badge stato emotivo sovrapposto al token.
+     Si posiziona in basso a destra. Emoji + durata in turns. */
+  .status-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    font-size: 14px;
+    line-height: 1;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,.8));
+    pointer-events: none;
+    animation: pulse-status 1.2s ease-in-out infinite;
+  }
+
+  /* SPRINT_022: indicatore di facing — piccolo triangolo al bordo della
+     cella sul lato verso cui guarda l'unita'. */
+  .facing-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    opacity: .85;
+  }
+  .facing-arrow.N {
+    top: 2px; left: 50%; transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 6px solid currentColor;
+  }
+  .facing-arrow.S {
+    bottom: 2px; left: 50%; transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid currentColor;
+  }
+  .facing-arrow.E {
+    right: 2px; top: 50%; transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid currentColor;
+  }
+  .facing-arrow.W {
+    left: 2px; top: 50%; transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 6px solid currentColor;
+  }
+  .cell .facing-arrow.p1-color { color: var(--p1-light); }
+  .cell .facing-arrow.sistema-color { color: var(--p2-light); }
+  @keyframes pulse-status {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
+  /* Glow intorno al token quando c'e' uno stato attivo */
+  .cell.has-status-panic    { box-shadow: inset 0 0 12px rgba(255, 204,  79, .35); }
+  .cell.has-status-rage     { box-shadow: inset 0 0 12px rgba(226,  75,  74, .50); }
+  .cell.has-status-stunned  { box-shadow: inset 0 0 12px rgba(192, 132, 252, .40); }
+  /* SPRINT_019: status fisici */
+  .cell.has-status-bleeding { box-shadow: inset 0 0 12px rgba(220,  38,  38, .55); }
+  .cell.has-status-fracture { box-shadow: inset 0 0 12px rgba(250, 204,  21, .40); }
+
+  /* Riga stati attivi nel pannello unit-card */
+  .status-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,.2);
+  }
+  .status-chip.panic    { border-color: #ffcc4f; color: #ffcc4f; }
+  .status-chip.rage     { border-color: var(--p2); color: var(--p2-light); }
+  .status-chip.stunned  { border-color: #c084fc; color: #c084fc; }
+  /* SPRINT_019: chip status fisici */
+  .status-chip.bleeding { border-color: #dc2626; color: #f87171; }
+  .status-chip.fracture { border-color: #facc15; color: #fde047; }
+  .status-chip-dur { opacity: .75; font-weight: 700; }
+
+  /* SPRINT_017: scenario picker grid di bottoni */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .scenario-btn {
+    font-size: 10px;
+    padding: 6px 4px;
+  }
+  .scenario-btn.active {
+    border-color: var(--p1);
+    color: var(--p1-light);
+    background: rgba(59,139,212,.18);
+  }
+
+  /* ── PANNELLO LATERALE ── */
+  aside {
+    flex: 1;
+    min-width: 260px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+
+  .panel-title {
+    font-size: 10px;
+    letter-spacing: .1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* stat unità */
+  .unit-card { display: flex; flex-direction: column; gap: 6px; }
+
+  .unit-header {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600;
+  }
+
+  .unit-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .unit-dot.p1 { background: var(--p1); }
+  .unit-dot.sistema { background: var(--p2); }
+
+  .stat-row {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+  }
+  .stat-row span:last-child { color: var(--text); }
+
+  .hp-bar {
+    height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .hp-fill {
+    height: 100%; border-radius: 2px;
+    transition: width .3s;
+  }
+  .hp-fill.p1 { background: var(--p1); }
+  .hp-fill.sistema { background: var(--p2); }
+
+  /* pulsanti */
+  .btn {
+    width: 100%; padding: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+  }
+
+  .btn:hover { background: #222535; border-color: #3a3d50; }
+
+  .btn.primary {
+    border-color: var(--p1);
+    color: var(--p1-light);
+  }
+  .btn.primary:hover { background: rgba(59,139,212,.12); }
+
+  .btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+  }
+
+  /* log combattimento */
+  #log {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 260px;
+  }
+
+  .log-entry {
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 4px 6px;
+    border-radius: 3px;
+    border-left: 2px solid var(--border);
+    color: var(--muted);
+  }
+
+  .log-entry.hit  { border-color: var(--hit);  color: #9fe1cb; }
+  .log-entry.miss { border-color: var(--miss); color: #fac775; }
+  .log-entry.move { border-color: var(--border); color: var(--text); }
+  .log-entry.sistema { border-color: var(--p2); color: var(--p2-light); }
+  .log-entry.info { border-color: var(--p1); color: var(--p1-light); }
+  .log-entry.gameover { border-color: #ffffff55; color: #fff; font-weight:600; }
+
+  /* hint */
+  #hint {
+    font-size: 11px; color: var(--muted);
+    text-align: center; padding: 4px;
+    min-height: 20px;
+  }
+
+  /* overlay game over */
+  #overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+    z-index: 10;
+  }
+  #overlay.show { display: flex; }
+  #overlay h2 { font-size: 24px; }
+  #overlay p  { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EVO-TACTICS · Playtest v0.1</h1>
+  <div id="turn-badge">caricamento…</div>
+</header>
+
+<main>
+  <div id="grid-wrap">
+    <div class="grid-frame">
+      <div class="col-labels">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div class="row-labels">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div id="grid"></div>
+    </div>
+    <div id="hint">Errore: Failed to fetch — backend attivo?</div>
+  </div>
+
+  <aside>
+
+    <!-- Unità giocatore -->
+    <div class="panel">
+      <div class="panel-title">Unità Giocatore</div>
+      <div class="unit-card" id="card-p1">
+        <div class="unit-header">
+          <div class="unit-dot p1"></div>
+          <span id="p1-name">—</span>
+        </div>
+        <div class="hp-bar"><div class="hp-fill p1" id="p1-hp-bar" style="width:100%"></div></div>
+        <div class="stat-row"><span>HP</span><span id="p1-hp">—</span></div>
+        <div class="stat-row"><span>AP</span><span id="p1-ap">—</span></div>
+        <div class="stat-row"><span>Mod</span><span id="p1-mod">—</span></div>
+        <div class="stat-row"><span>Trait</span><span id="p1-traits">—</span></div>
+        <div class="status-row" id="p1-status"></div>
+      </div>
+    </div>
+
+    <!-- Unità sistema -->
+    <div class="panel">
+      <div class="panel-title">Sistema</div>
+      <div class="unit-card" id="card-sistema">
+        <div class="unit-header">
+          <div class="unit-dot sistema"></div>
+          <span id="s-name">—</span>
+        </div>
+        <div class="hp-bar"><div class="hp-fill sistema" id="s-hp-bar" style="width:100%"></div></div>
+        <div class="stat-row"><span>HP</span><span id="s-hp">—</span></div>
+        <div class="stat-row"><span>Mod</span><span id="s-mod">—</span></div>
+        <div class="stat-row"><span>Trait</span><span id="s-traits">—</span></div>
+        <div class="status-row" id="s-status"></div>
+      </div>
+    </div>
+
+    <!-- Azioni -->
+    <div class="panel">
+      <div class="panel-title">Azioni</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn primary" id="btn-end-turn" onclick="resolveRound()" disabled="">
+          🎯 Risolvi Round
+        </button>
+        <button class="btn" id="btn-new-game" onclick="startSession()">
+          Nuova Partita
+        </button>
+      </div>
+    </div>
+
+    <!-- Ordini pendenti (planning phase) -->
+    <div class="panel" id="panel-orders">
+      <div class="panel-title">Ordini pendenti</div>
+      <div id="orders-list" class="orders-list">
+        <div class="orders-empty">Pianifica per vedere gli ordini</div>
+      </div>
+    </div>
+
+    <!-- SPRINT_017: Scenari -->
+    <div class="panel">
+      <div class="panel-title">Scenario</div>
+      <div class="scenario-grid">
+        <button class="btn scenario-btn active" data-scenario="classic"        onclick="startSession('classic')">Classico</button>
+        <button class="btn scenario-btn"        data-scenario="ranger_duel"    onclick="startSession('ranger_duel')">Duello Ranger</button>
+        <button class="btn scenario-btn"        data-scenario="caster_vs_tank" onclick="startSession('caster_vs_tank')">Caster vs Tank</button>
+        <button class="btn scenario-btn"        data-scenario="mirror_ranger"  onclick="startSession('mirror_ranger')">Mirror Ranger</button>
+        <button class="btn scenario-btn"        data-scenario="berserker"     onclick="startSession('berserker')">Berserker</button>
+        <button class="btn scenario-btn"        data-scenario="shock_troops"  onclick="startSession('shock_troops')">Shock Troops</button>
+        <button class="btn scenario-btn"        data-scenario="bloody_mess"   onclick="startSession('bloody_mess')">Bloody Mess</button>
+        <button class="btn scenario-btn"        data-scenario="coop_2v2"      onclick="startSession('coop_2v2')">2v2 Co-op</button>
+        <button class="btn scenario-btn"        data-scenario="coop_3v3"      onclick="startSession('coop_3v3')">3v3 Squad</button>
+        <button class="btn scenario-btn"        data-scenario="coop_4v4"      onclick="startSession('coop_4v4')">4v4 Full Party</button>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="panel" style="flex:1;display:flex;flex-direction:column;min-height:0">
+      <div class="panel-title">Log Combattimento</div>
+      <div id="log"></div>
+    </div>
+
+  </aside>
+</main>
+
+<div id="overlay">
+  <h2 id="overlay-title">—</h2>
+  <p id="overlay-sub">—</p>
+  <button class="btn primary" onclick="startSession()" style="width:180px">Nuova Partita</button>
+</div>
+
+<script>
+const API = (typeof window !== 'undefined' && window.location && window.location.origin.startsWith('http'))
+  ? window.location.origin
+  : 'http://127.0.0.1:3334';
+
+let state       = null;   // stato sessione corrente
+let selected    = null;   // id unità player corrente per pianificare
+let planningActive = false; // true quando /round/begin-planning aperto
+let pendingIntents = {};    // { unit_id: action } — ordini player dichiarati
+// Helper: check se unità è player-controlled
+function isPlayerUnit(u) { return u && u.controlled_by === 'player' && Number(u.hp || 0) > 0; }
+function playerUnits() { return (state?.units || []).filter(isPlayerUnit); }
+let maxHp       = {};     // hp iniziali per le barre
+
+/* ── FETCH HELPERS ── */
+async function api(path, body) {
+  const opts = { method: body ? 'POST' : 'GET', headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(API + path, opts);
+  if (!r.ok) {
+    // Parse error body: prefer JSON {error} shape over raw text
+    const text = await r.text();
+    let msg = text;
+    try {
+      const parsed = JSON.parse(text);
+      msg = parsed.error || text;
+    } catch { /* not JSON, use raw */ }
+    const err = new Error(msg);
+    err.status = r.status;
+    throw err;
+  }
+  return r.json();
+}
+
+/* SPRINT_017: scenari predefiniti per variare i matchup.
+   Ogni scenario configura le unita' con job/range/posizione differenti.
+   La chiave `label` appare sul bottone, `desc` nel hint. */
+const SCENARIOS = {
+  classic: {
+    label: 'Classico',
+    desc: 'Velox skirmisher r2 vs Carapax vanguard r1',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player', position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  ranger_duel: {
+    label: 'Duello Ranger',
+    desc: 'Tu velox r2, SIS falco ranger r3 — kite nemico',
+    units: [
+      { id:'unit_1', species:'velox',  job:'skirmisher', traits:['zampe_a_molla'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'falco',  job:'ranger',                                controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  caster_vs_tank: {
+    label: 'Caster vs Tank',
+    desc: 'Tu carapax r1, SIS volpina invoker r3 — sopravvivi al bombardamento',
+    units: [
+      { id:'unit_1', species:'carapax', job:'vanguard', traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'volpina', job:'invoker',                                controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  mirror_ranger: {
+    label: 'Mirror Ranger',
+    desc: 'Entrambi falco ranger r3 — duello di range uguali',
+    units: [
+      { id:'unit_1', species:'falco', job:'ranger', controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'falco', job:'ranger', controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  // SPRINT_018: scenari che mostrano i nuovi trait status-applying
+  berserker: {
+    label: 'Berserker',
+    desc: 'Tu velox + ferocia (rage on kill), SIS lupo intimidatore (panic on melee)',
+    units: [
+      { id:'unit_1', species:'velox',  job:'skirmisher', traits:['zampe_a_molla','ferocia'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'lupo',   job:'vanguard',   traits:['intimidatore'],             controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  shock_troops: {
+    label: 'Shock Troops',
+    desc: 'SIS carapax con stordimento — ogni critico ti storna',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera','stordimento'], controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  // SPRINT_019: scenario per testare gli status fisici
+  bloody_mess: {
+    label: 'Bloody Mess',
+    desc: 'Tu velox + denti seghettati (bleeding), SIS carapax + martello osseo (frattura)',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla','denti_seghettati'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera','martello_osseo'], controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  // Round simultaneo 2v2 — test planning-first multi-player
+  coop_2v2: {
+    label: '2v2 Co-op',
+    desc: 'P1 velox + P2 carapax vs 2 SIS — pianifica per entrambi prima di risolvere',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:5} },
+      { id:'unit_3', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
+      { id:'unit_4', species:'falco',   job:'ranger',                                   controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  // Round simultaneo 3v3 — stress test intent cap + pressure tier SIS
+  coop_3v3: {
+    label: '3v3 Squad',
+    desc: '3 player vs 3 SIS — pianifica 3 ordini, SIS dichiara 1-3 intent per pressure tier',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:2} },
+      { id:'unit_3', species:'falco',   job:'ranger',                                   controlled_by:'player',  position:{x:0,y:4} },
+      { id:'unit_4', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
+      { id:'unit_5', species:'volpina', job:'invoker',                                   controlled_by:'sistema', position:{x:5,y:2} },
+      { id:'unit_6', species:'carapax', job:'vanguard',   traits:['stordimento'],      controlled_by:'sistema', position:{x:5,y:4} },
+    ],
+  },
+  // Round simultaneo 4v4 — massimo stress: 8 unit su 6x6 grid
+  coop_4v4: {
+    label: '4v4 Full Party',
+    desc: '4 player vs 4 SIS — massimo co-op, grid 6x6 piena al 22%',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:2} },
+      { id:'unit_3', species:'falco',   job:'ranger',                                   controlled_by:'player',  position:{x:0,y:3} },
+      { id:'unit_4', species:'volpina', job:'invoker',                                   controlled_by:'player',  position:{x:0,y:5} },
+      { id:'unit_5', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
+      { id:'unit_6', species:'carapax', job:'vanguard',   traits:['stordimento'],      controlled_by:'sistema', position:{x:5,y:2} },
+      { id:'unit_7', species:'falco',   job:'ranger',                                   controlled_by:'sistema', position:{x:5,y:3} },
+      { id:'unit_8', species:'velox',   job:'skirmisher', traits:['denti_seghettati'], controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+};
+
+let currentScenarioId = 'classic';
+
+/* ── AVVIO SESSIONE ── */
+async function startSession(scenarioId) {
+  document.getElementById('overlay').classList.remove('show');
+  selected = null;
+  planningActive = false;
+  pendingIntents = {};
+  const id = scenarioId && SCENARIOS[scenarioId] ? scenarioId : currentScenarioId;
+  currentScenarioId = id;
+  const scenario = SCENARIOS[id];
+  setHint(`Avvio ${scenario.label}…`);
+  clearLog();
+  // Evidenzia il bottone scenario attivo
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.scenario === id);
+  });
+  try {
+    const res = await api('/api/session/start', { units: scenario.units });
+    state = res.state ?? res;
+    // salva HP iniziali per le barre
+    maxHp = {};
+    (state.units || []).forEach(u => { maxHp[u.id] = u.hp; });
+    addLog('info', `Scenario: ${scenario.label}`);
+    addLog('info', scenario.desc);
+    render();
+  } catch(e) {
+    // fallback: prova a leggere lo stato se la sessione era già aperta
+    try {
+      state = await api('/api/session/state');
+      (state.units || []).forEach(u => { maxHp[u.id] = maxHp[u.id] ?? u.hp; });
+      render();
+    } catch(e2) {
+      setHint(`Errore: ${e.message} — backend attivo?`);
+    }
+  }
+}
+
+/* ── RENDER ── */
+function render() {
+  if (!state) return;
+  renderGrid();
+  renderStats();
+  renderOrdersPanel();
+  const isPlayerTurn = isMyTurn();
+  document.getElementById('btn-end-turn').disabled = !isPlayerTurn;
+  const badge = document.getElementById('turn-badge');
+  badge.textContent = isPlayerTurn
+    ? (planningActive ? `Round ${state.turn} — PIANIFICA` : `Round ${state.turn} — TUO`)
+    : `Round ${state.turn} — SISTEMA`;
+  badge.className   = isPlayerTurn ? 'player' : 'sistema';
+  if (!isPlayerTurn) setHint('Il Sistema sta agendo…');
+  else if (selected && pendingIntents[selected]) setHint(formatIntentHint(selected, pendingIntents[selected]));
+  else if (Object.keys(pendingIntents).length > 0) setHint(`${Object.keys(pendingIntents).length}/${playerUnits().length} pianificate — seleziona altra unità o "Risolvi Round"`);
+  else if (!selected) setHint('Clicca la tua unità per pianificare');
+  else setHint('Pianifica: clicca nemico per attaccare o cella per muoverti');
+}
+
+// SPRINT_014 + SPRINT_019: stato → emoji. Priorita' visiva:
+// stunned > rage > bleeding > fracture > panic.
+// stati fisici (bleeding/fracture) dominano su panic perche' sono piu'
+// pericolosi meccanicamente (DoT + movement penalty).
+const STATUS_EMOJI = {
+  stunned: '💫',
+  rage: '😡',
+  bleeding: '🩸',
+  fracture: '🦴',
+  panic: '😱',
+};
+const STATUS_PRIORITY = ['stunned', 'rage', 'bleeding', 'fracture', 'panic'];
+
+function activeStatuses(unit) {
+  if (!unit || !unit.status) return [];
+  const out = [];
+  for (const key of STATUS_PRIORITY) {
+    const turns = Number(unit.status[key]) || 0;
+    if (turns > 0) out.push({ key, turns });
+  }
+  return out;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const units = (state.units || []);
+  const unitMap = {};
+  units.forEach(u => { unitMap[`${u.position.x},${u.position.y}`] = u; });
+
+  // Build preview map da pendingIntents: attack target + move dest → celle evidenziate
+  const previewMap = {}; // `${x},${y}` → { type, actor }
+  for (const [actorId, act] of Object.entries(pendingIntents)) {
+    if (act.type === 'attack' && act.target_id) {
+      const t = units.find(v => v.id === act.target_id);
+      if (t) previewMap[`${t.position.x},${t.position.y}`] = { type: 'attack-target', actor: actorId };
+    } else if (act.type === 'move' && act.move_to) {
+      previewMap[`${act.move_to.x},${act.move_to.y}`] = { type: 'move-dest', actor: actorId };
+    }
+  }
+
+  for (let y = 0; y < 6; y++) {
+    for (let x = 0; x < 6; x++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.x = x; cell.dataset.y = y;
+
+      const u = unitMap[`${x},${y}`];
+      if (u) {
+        const isPlayer = u.controlled_by === 'player';
+        const cls  = isPlayer ? 'p1' : 'sistema';
+        const hp   = u.hp ?? 0;
+        const dead = hp <= 0;
+        const statuses = activeStatuses(u);
+        if (!dead && statuses.length) {
+          cell.classList.add(`has-status-${statuses[0].key}`);
+        }
+        const badgeHtml = (!dead && statuses.length)
+          ? `<span class="status-badge" title="${statuses.map(s=>s.key+' '+s.turns).join(', ')}">${STATUS_EMOJI[statuses[0].key]}</span>`
+          : '';
+        const facing = u.facing || 'S';
+        const facingHtml = !dead
+          ? `<span class="facing-arrow ${facing} ${isPlayer ? 'p1-color' : 'sistema-color'}" title="facing ${facing}"></span>`
+          : '';
+        const label = isPlayer ? unitLabel(u.id) : 'SIS';
+        cell.innerHTML = `
+          <div class="token ${cls} ${selected === u.id ? 'selected' : ''} ${dead ? 'dead' : ''}">
+            <span>${label}</span>
+            <span class="token-job">${u.job?.slice(0,4) ?? ''}</span>
+          </div>${facingHtml}${badgeHtml}`;
+      }
+
+      // Highlight reachable / targetable per unità selezionata
+      if (selected) {
+        const sel = units.find(v => v.id === selected);
+        const apLeft = sel?.ap_remaining ?? sel?.ap ?? 0;
+        const range  = sel?.attack_range ?? 2;
+        if (sel && !u && apLeft > 0) {
+          const dist = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
+          if (dist > 0 && dist <= apLeft) {
+            cell.classList.add('reachable');
+            if (dist > 1) cell.classList.add('reachable-costly');
+            const costBadge = document.createElement('span');
+            costBadge.className = 'cell-cost';
+            costBadge.textContent = dist;
+            cell.appendChild(costBadge);
+          }
+        }
+        if (u && u.id !== selected && u.controlled_by !== 'player' && apLeft > 0) {
+          const distT = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
+          if (distT <= range) cell.classList.add('targetable');
+        }
+      }
+
+      // Preview intent: sovrappone marker planning sulla cella target/dest
+      const preview = previewMap[`${x},${y}`];
+      if (preview) {
+        cell.classList.add(preview.type);
+        const marker = document.createElement('span');
+        marker.className = 'intent-marker';
+        marker.textContent = preview.type === 'attack-target' ? '⚔' : '🚶';
+        marker.title = `${unitLabel(preview.actor)} ${preview.type === 'attack-target' ? 'attacca qui' : 'muove qui'}`;
+        cell.appendChild(marker);
+      }
+
+      cell.addEventListener('click', (ev) => onCellClick(x, y, u, ev));
+      grid.appendChild(cell);
+    }
+  }
+}
+
+// SPRINT_014: renderizza la riga di chip stati emotivi attivi nel pannello.
+function renderStatusRow(targetId, unit) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const statuses = activeStatuses(unit);
+  if (!statuses.length) { el.innerHTML = ''; return; }
+  el.innerHTML = statuses.map(s =>
+    `<span class="status-chip ${s.key}">${STATUS_EMOJI[s.key]} ${s.key} <span class="status-chip-dur">${s.turns}t</span></span>`
+  ).join('');
+}
+
+function renderOrdersPanel() {
+  const el = document.getElementById('orders-list');
+  if (!el) return;
+  const players = playerUnits();
+  const total = players.length;
+  if (!planningActive || total === 0) {
+    el.innerHTML = '<div class="orders-empty">Pianifica per vedere gli ordini</div>';
+    return;
+  }
+  const rows = players.map((u) => {
+    const intent = pendingIntents[u.id];
+    const label = unitLabel(u.id);
+    if (!intent) {
+      return `<div class="order-row" style="opacity:.55">
+        <span class="order-label">${label}</span>
+        <span class="order-text">— in attesa</span>
+      </div>`;
+    }
+    let desc = '';
+    if (intent.type === 'attack') desc = `⚔ attacca ${targetDescription(intent.target_id)}`;
+    else if (intent.type === 'move') desc = `🚶 (${intent.move_to.x},${intent.move_to.y})`;
+    else desc = intent.type;
+    return `<div class="order-row">
+      <span class="order-label">${label}</span>
+      <span class="order-text">${desc}</span>
+      <button class="order-clear" title="Cancella ordine" onclick="clearPlayerIntent('${u.id}')">✕</button>
+    </div>`;
+  });
+  el.innerHTML = rows.join('');
+}
+
+function renderStats() {
+  const units  = state.units || [];
+  const p1     = units.find(u => u.id === 'unit_1') ?? {};
+  const sis    = units.find(u => u.id !== 'unit_1') ?? {};
+
+  setText('p1-name',   `${p1.species ?? '?'} · ${p1.job ?? '?'}`);
+  setText('p1-hp',     `${p1.hp ?? 0} / ${maxHp[p1.id] ?? p1.hp ?? 10}`);
+  setText('p1-ap',     `${p1.ap_remaining ?? p1.ap ?? '?'} / ${p1.ap ?? '?'}`);
+  setText('p1-mod',    `+${p1.mod ?? 0}`);
+  setText('p1-traits', (p1.traits ?? []).join(', ') || '—');
+  setBar('p1-hp-bar',  p1.hp, maxHp[p1.id] ?? p1.hp);
+  renderStatusRow('p1-status', p1);
+
+  setText('s-name',    `${sis.species ?? '?'} · ${sis.job ?? '?'}`);
+  setText('s-hp',      `${sis.hp ?? 0} / ${maxHp[sis.id] ?? sis.hp ?? 10}`);
+  setText('s-mod',     `+${sis.mod ?? 0}`);
+  setText('s-traits',  (sis.traits ?? []).join(', ') || '—');
+  setBar('s-hp-bar',   sis.hp, maxHp[sis.id] ?? sis.hp);
+  renderStatusRow('s-status', sis);
+}
+
+/* ── CLICK CELLA (planning-first multi-player, SoT §13.1) ──
+   Click propria unità = seleziona quella unità per pianificare.
+   Click nemico/cella = dichiara intent per l'unità selezionata.
+   "Risolvi Round" = commit + auto_resolve di TUTTI gli intent (player + SIS). */
+async function onCellClick(x, y, unit, ev) {
+  if (!state || !isMyTurn()) return;
+
+  // Shift-click su propria unità con intent pendente → cancella intent
+  if (ev && ev.shiftKey && unit && isPlayerUnit(unit) && pendingIntents[unit.id]) {
+    await clearPlayerIntent(unit.id);
+    return;
+  }
+
+  // click su propria unità → seleziona quella (per pianificarla)
+  if (unit && isPlayerUnit(unit)) {
+    selected = (selected === unit.id) ? null : unit.id;
+    if (selected) {
+      await ensurePlanningStarted();
+      const intent = pendingIntents[selected];
+      setHint(intent
+        ? formatIntentHint(selected, intent) + ' (shift-click unit per cancellare)'
+        : `Pianifica ${unitLabel(selected)}: clicca nemico per attaccare o cella per muoverti`);
+    } else {
+      setHint('Clicca la tua unità per pianificare');
+    }
+    renderGrid(); return;
+  }
+
+  if (!selected) { setHint('Prima seleziona una tua unità'); return; }
+
+  // click su nemico → intent attack per unità selezionata
+  if (unit && unit.controlled_by !== 'player') {
+    await declarePlayerIntent(selected, {
+      id: `${selected}-atk-${Date.now()}`,
+      type: 'attack',
+      actor_id: selected,
+      target_id: unit.id,
+      ap_cost: 1,
+      damage_dice: { count: 1, sides: 6, modifier: 2 },
+    });
+    return;
+  }
+
+  // click su cella vuota → intent move
+  if (!unit) {
+    await declarePlayerIntent(selected, {
+      id: `${selected}-mv-${Date.now()}`,
+      type: 'move',
+      actor_id: selected,
+      ap_cost: 1,
+      move_to: { x, y },
+    });
+    return;
+  }
+}
+
+/* ── Planning-first helpers ── */
+function unitLabel(unitId) {
+  const units = playerUnits();
+  const idx = units.findIndex(u => u.id === unitId);
+  return idx >= 0 ? `P${idx + 1}` : unitId;
+}
+
+async function ensurePlanningStarted() {
+  if (planningActive) return;
+  try {
+    const res = await api('/api/session/round/begin-planning', {});
+    state = res.state ?? state;
+    const sideEffects = res.side_effects || [];
+    for (const se of sideEffects) {
+      const who = unitLabel(se.unit_id);
+      const kill = se.killed ? ' → KO' : '';
+      addLog('miss', `🩸 ${who} sanguina (−${se.damage} HP, hp ${se.hp_after})${kill}`);
+    }
+    const hazardEvents = res.hazard_events || [];
+    for (const hz of hazardEvents) {
+      const who = unitLabel(hz.unit_id);
+      const kill = hz.killed ? ' → KO' : '';
+      addLog('miss', `☠ ${who} su hazard ${hz.hazard_type} (−${hz.damage}, hp ${hz.hp_after})${kill}`);
+    }
+    planningActive = true;
+    const sisCount = res.sistema_intents_count || 0;
+    addLog('info', `⚡ Planning — SIS pianifica ${sisCount} intent${sisCount !== 1 ? 's' : ''} (nascosti)`);
+    render();
+  } catch(e) { setHint(`Errore planning: ${e.message}`); }
+}
+
+async function clearPlayerIntent(unitId) {
+  try {
+    await api(`/api/session/clear-intent/${encodeURIComponent(unitId)}`, {});
+    delete pendingIntents[unitId];
+    const who = unitLabel(unitId);
+    addLog('info', `❌ Ordine ${who} cancellato`);
+    const remaining = Object.keys(pendingIntents).length;
+    const total = playerUnits().length;
+    setHint(`Ordine ${who} cancellato — ${remaining}/${total} pianificate`);
+    render();
+  } catch(e) { setHint(`Errore clear: ${e.message}`); }
+}
+
+async function declarePlayerIntent(unitId, action) {
+  try {
+    await ensurePlanningStarted();
+    await api('/api/session/declare-intent', { actor_id: unitId, action });
+    pendingIntents[unitId] = action;
+    setHint(formatIntentHint(unitId, action));
+    render();
+  } catch(e) { setHint(`Errore intent: ${e.message}`); }
+}
+
+function targetDescription(targetId) {
+  const u = (state?.units || []).find(x => x.id === targetId);
+  if (!u) return targetId;
+  return u.controlled_by === 'player' ? unitLabel(targetId) : `SIS ${targetId}`;
+}
+
+function formatIntentHint(unitId, action) {
+  const who = unitLabel(unitId);
+  const players = playerUnits();
+  const declared = Object.keys(pendingIntents).length;
+  const remaining = players.length - declared;
+  const tail = remaining > 0
+    ? ` — ${remaining} unit${remaining === 1 ? 'à' : 'à'} da pianificare.`
+    : ' — tutti pronti, clicca "Risolvi Round".';
+  if (action.type === 'attack') return `🗡 ${who} attacca ${targetDescription(action.target_id)}.${tail}`;
+  if (action.type === 'move')   return `🚶 ${who} muove a (${action.move_to.x},${action.move_to.y}).${tail}`;
+  return `Intent ${who} dichiarato.${tail}`;
+}
+
+/* SPRINT_014: snapshot stati attivi pre-azione per diff e log "entered/exited" */
+function snapshotStatuses(s) {
+  const out = {};
+  for (const u of (s?.units || [])) {
+    out[u.id] = {};
+    if (u.status) {
+      for (const k of ['panic','rage','stunned','focused','confused']) {
+        out[u.id][k] = Number(u.status[k]) || 0;
+      }
+    }
+  }
+  return out;
+}
+const STATUS_LABEL = {
+  panic:    'panico',
+  rage:     'rabbia',
+  stunned:  'stordimento',
+  focused:  'concentrazione',
+  confused: 'confusione',
+  bleeding: 'sanguinamento',
+  fracture: 'frattura',
+};
+function logStatusDiff(pre, post) {
+  for (const [unitId, cur] of Object.entries(post)) {
+    const prev = pre[unitId] || {};
+    for (const [k, v] of Object.entries(cur)) {
+      const before = prev[k] || 0;
+      const after  = v || 0;
+      if (before === 0 && after > 0) {
+        // stato appena attivato (sia su P1 che SIS)
+        const who = unitId === 'unit_1' ? 'P1' : 'SIS';
+        addLog('info', `${STATUS_EMOJI[k] || '✦'} ${who} entra in ${STATUS_LABEL[k] || k} (${after}t)`);
+      } else if (before > 0 && after === 0) {
+        const who = unitId === 'unit_1' ? 'P1' : 'SIS';
+        addLog('info', `${who} esce dallo ${STATUS_LABEL[k] || k}`);
+      }
+    }
+  }
+}
+
+/* ── AZIONI ── */
+async function doAction(body) {
+  setHint('…');
+  const preStatus = snapshotStatuses(state);
+  try {
+    const res = await api('/api/session/action', body);
+    state = res.state ?? state;
+    logAction(body.action_type, res, body);
+    logStatusDiff(preStatus, snapshotStatuses(state));
+    checkGameOver();
+    selected = null;
+    render();
+  } catch(e) { setHint(`Errore: ${e.message}`); }
+}
+
+/* ── Risolvi Round (planning-first, sostituisce endTurn) ──
+   Commit + auto_resolve: risolve player intent + SIS intents insieme,
+   ordinato per reaction_speed. */
+// Delay tra azioni in fase di animazione resolve (ms).
+// Sblocca "feeling" round simultaneo: azioni escono una per volta ordinate
+// per reaction_speed invece che tutte in blocco.
+const RESOLVE_STEP_MS = 450;
+
+async function resolveRound() {
+  const btn = document.getElementById('btn-end-turn');
+  btn.disabled = true;
+  const preStatus = snapshotStatuses(state);
+  try {
+    if (!planningActive) {
+      // Nessun intent dichiarato → pass turn (equivalente skip)
+      await ensurePlanningStarted();
+    }
+    setHint('🎯 Risolvo round…');
+    const commit = await api('/api/session/commit-round', { auto_resolve: true });
+    state = commit.state ?? state;
+
+    const queue = commit.resolution_queue || [];
+    addLog('info', `🎯 Queue risolta (${queue.length} azion${queue.length === 1 ? 'e' : 'i'})`);
+
+    // Unifica player_actions + ia_actions in lookup by unit_id.
+    // Poi itera resolution_queue (ordinata per reaction_speed server-side)
+    // per log sequenziale con pause.
+    const actByUnit = new Map();
+    for (const pa of commit.player_actions || []) actByUnit.set(String(pa.unit_id), pa);
+    for (const ia of commit.ia_actions || []) actByUnit.set(String(ia.unit_id), ia);
+
+    for (const qItem of queue) {
+      const act = actByUnit.get(String(qItem.unit_id));
+      if (!act) continue;
+
+      // Cell highlight: evidenzia cella attore su posizione iniziale (pre-move)
+      const actor = (state.units || []).find((u) => u.id === String(qItem.unit_id));
+      const pos = act.position_from || actor?.position;
+      let highlightedCell = null;
+      if (pos) {
+        highlightedCell = document.querySelector(`.cell[data-x='${pos.x}'][data-y='${pos.y}']`);
+        if (highlightedCell) highlightedCell.classList.add('resolving');
+      }
+
+      if (act.actor === 'sistema') {
+        logIaAction(act);
+      } else {
+        const who = unitLabel(act.unit_id);
+        if (act.type === 'attack') {
+          addLog(
+            act.result === 'hit' ? 'hit' : 'miss',
+            `⚔ ${who} → ${targetDescription(act.target)}: d20=${act.die}+${act.roll - act.die}=${act.roll} MoS=${act.mos} dmg=${act.damage_dealt}`,
+          );
+        } else if (act.type === 'move') {
+          addLog(
+            'info',
+            `🚶 ${who} (${act.position_from.x},${act.position_from.y}) → (${act.position_to.x},${act.position_to.y})`,
+          );
+        } else if (act.type === 'skip') {
+          addLog('miss', `⏭ ${who} skip: ${act.reason}`);
+        }
+      }
+
+      await new Promise((r) => setTimeout(r, RESOLVE_STEP_MS));
+      if (highlightedCell) highlightedCell.classList.remove('resolving');
+    }
+
+    logStatusDiff(preStatus, snapshotStatuses(state));
+    checkGameOver();
+    planningActive = false;
+    pendingIntents = {};
+    selected       = null;
+    render();
+  } catch(e) { setHint(`Errore: ${e.message}`); }
+}
+
+/* ── GAME OVER ── */
+function checkGameOver() {
+  const units = state.units || [];
+  const playersAlive = units.filter(u => u.controlled_by === 'player' && Number(u.hp||0) > 0);
+  const sisAlive     = units.filter(u => u.controlled_by === 'sistema' && Number(u.hp||0) > 0);
+  if (playersAlive.length === 0) showGameOver('SCONFITTA', 'Il Sistema ha vinto.');
+  else if (sisAlive.length === 0) showGameOver('VITTORIA', 'Hai eliminato il Sistema.');
+}
+
+function showGameOver(title, sub) {
+  addLog('gameover', `— ${title} —`);
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-sub').textContent   = sub;
+  document.getElementById('overlay').classList.add('show');
+}
+
+/* ── LOG ── */
+function fmtPos(p) { return p ? `(${p.x},${p.y})` : '(?,?)'; }
+
+function fmtParry(parry) {
+  if (!parry) return '';
+  if (parry.success) {
+    return ` 🛡 parry ${parry.die}+${parry.guardia_used}=${parry.total}≥${parry.dc}`;
+  }
+  return ` ✗ parry ${parry.die}+${parry.guardia_used}=${parry.total}<${parry.dc}`;
+}
+
+function logAction(type, res, body) {
+  if (type === 'attack') {
+    const hit = res.result === 'hit';
+    const effects = (res.trait_effects ?? []).filter(t => t.triggered).map(t => t.effect).join(', ');
+    const extra = effects ? ` [${effects}]` : '';
+    const from = fmtPos(res.actor_position);
+    const to   = fmtPos(res.target_position);
+    const parry = fmtParry(res.parry);
+    addLog(hit ? 'hit' : 'miss',
+      `Attacco ${from}→${to} d20=${res.roll} MoS=${res.mos} PT=${res.pt} — ${hit ? 'COLPITO' : 'MANCATO'}${extra}${parry}`
+      + (res.target_hp !== undefined ? ` · HP nemico: ${res.target_hp}` : ''));
+  } else {
+    const from = fmtPos(res.position_from);
+    const to   = fmtPos(body.position);
+    addLog('move', `Mosso ${from}→${to}`);
+  }
+}
+
+function logIaAction(ia) {
+  // Il backend emette runSistemaTurn actions con `type`, non `action_type`.
+  const kind = ia.type || ia.action_type;
+  const rule = ia.ia_rule ?? 'REGOLA_001';
+  if (kind === 'attack') {
+    const hit = ia.result === 'hit';
+    const from = fmtPos(ia.actor_position);
+    const to   = fmtPos(ia.target_position);
+    const dmg = ia.damage_dealt ? ` d=${ia.damage_dealt}` : '';
+    const parry = fmtParry(ia.parry);
+    addLog('sistema',
+      `SISTEMA (${rule}) ${from}→${to} d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}${dmg}${parry}`);
+  } else if (kind === 'skip') {
+    addLog('sistema', `SISTEMA (${rule}) fermo — ${ia.reason ?? 'bloccato'}`);
+  } else if (kind === 'retreat') {
+    const from = fmtPos(ia.position_from);
+    const to   = fmtPos(ia.position_to);
+    addLog('sistema', `SISTEMA (${rule}) si ritira ${from}→${to}`);
+  } else {
+    const from = fmtPos(ia.position_from);
+    const to   = fmtPos(ia.position_to);
+    addLog('sistema', `SISTEMA (${rule}) si muove ${from}→${to}`);
+  }
+}
+
+function addLog(cls, msg) {
+  const log = document.getElementById('log');
+  const e = document.createElement('div');
+  e.className = `log-entry ${cls}`;
+  e.textContent = msg;
+  log.appendChild(e);
+  log.scrollTop = log.scrollHeight;
+}
+
+function clearLog() { document.getElementById('log').innerHTML = ''; }
+
+/* ── UTILS ── */
+function isMyTurn() {
+  return state && (state.active_unit === 'unit_1' || state.turn % 2 === 1);
+}
+
+function setHint(t) { document.getElementById('hint').textContent = t; }
+function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function setBar(id, v, max) {
+  const el = document.getElementById(id);
+  if (el) el.style.width = `${Math.max(0, Math.round((v / (max||10)) * 100))}%`;
+}
+
+/* ── KEYBOARD SHORTCUTS (D) ──
+   1-9: seleziona player unit N (se esiste + viva + è turno player)
+   Enter: Risolvi Round
+   Esc: deseleziona, oppure cancella intent se c'è */
+document.addEventListener('keydown', async (ev) => {
+  if (!state || !isMyTurn()) return;
+  if (ev.target && ['INPUT', 'TEXTAREA'].includes(ev.target.tagName)) return;
+
+  // Digit 1-9 → select player N
+  if (/^[1-9]$/.test(ev.key)) {
+    const idx = parseInt(ev.key, 10) - 1;
+    const players = playerUnits();
+    if (idx < players.length) {
+      ev.preventDefault();
+      const target = players[idx];
+      selected = (selected === target.id) ? null : target.id;
+      if (selected) {
+        await ensurePlanningStarted();
+        const intent = pendingIntents[selected];
+        setHint(intent
+          ? formatIntentHint(selected, intent) + ' (shift-click unit per cancellare)'
+          : `Pianifica ${unitLabel(selected)}: clicca nemico per attaccare o cella per muoverti`);
+      }
+      render();
+    }
+    return;
+  }
+
+  if (ev.key === 'Enter') {
+    ev.preventDefault();
+    const btn = document.getElementById('btn-end-turn');
+    if (btn && !btn.disabled) resolveRound();
+    return;
+  }
+
+  if (ev.key === 'Escape') {
+    ev.preventDefault();
+    // Priorità: se selected ha intent → clear intent; altrimenti deseleziona
+    if (selected && pendingIntents[selected]) {
+      await clearPlayerIntent(selected);
+    } else if (selected) {
+      selected = null;
+      render();
+      setHint('Clicca la tua unità per pianificare');
+    }
+    return;
+  }
+});
+
+/* ── AVVIO ── */
+startSession();
+</script>
+
+
+</body></html>

@@ -1,0 +1,2116 @@
+{
+  "scenario": "hardcore_07",
+  "scenario_id": "enc_tutorial_07_hardcore_pod_rush",
+  "target_band": [0.3, 0.5],
+  "total_n": 100,
+  "seed": 424242,
+  "shards": 4,
+  "n_per_shard": [25, 25, 25, 25],
+  "hosts": [
+    "http://127.0.0.1:3341",
+    "http://127.0.0.1:3342",
+    "http://127.0.0.1:3343",
+    "http://127.0.0.1:3344"
+  ],
+  "parallel_elapsed_sec": 20.50495481491089,
+  "serial_estimated_sec": 82.01981925964355,
+  "speedup_x": 4,
+  "method": "C-parallel-shards",
+  "method_ref": "docs/research/2026-05-20-calibration-knob-patterns-industry.md",
+  "aggregate": {
+    "n": 100,
+    "win_rate": 52.0,
+    "win_rate_ci95": [42.0, 62.0],
+    "defeat_rate": 0.0,
+    "defeat_rate_ci95": [0, 0],
+    "timeout_rate": 48.0,
+    "timeout_rate_ci95": [38.0, 58.0],
+    "timer_expire_rate": 0.0,
+    "rounds_avg": 13.1,
+    "rounds_ci95": [12.67, 13.53],
+    "rounds_median": 15.0,
+    "kd_avg": 3.12,
+    "kd_ci95": [2.92, 3.31],
+    "target_band": "win 30-50%",
+    "in_band": false,
+    "player_action_distribution": {
+      "move": 500,
+      "attack": 3903,
+      "unknown": 122
+    },
+    "trait_used_distribution": {
+      "zampe_a_molla": 44,
+      "status:wound": 19,
+      "status:slow_down": 116
+    }
+  },
+  "runs": [
+    {
+      "run": 0,
+      "seed": 424242,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 41,
+        "unknown": 3
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 1,
+      "seed": 424243,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 2,
+      "seed": 424244,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:wound": 1,
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 3,
+      "seed": 424245,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 4,
+      "seed": 424246,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 31,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:wound": 2,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 5,
+      "seed": 424247,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 6,
+      "seed": 424248,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 36,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 7,
+      "seed": 424249,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 31,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 8,
+      "seed": 424250,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 35,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 9,
+      "seed": 424251,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 10,
+      "seed": 424252,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 11,
+      "seed": 424253,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 12,
+      "seed": 424254,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 13,
+      "seed": 424255,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 14,
+      "seed": 424256,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 43,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 15,
+      "seed": 424257,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 36,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 16,
+      "seed": 424258,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 38,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 17,
+      "seed": 424259,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 18,
+      "seed": 424260,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 19,
+      "seed": 424261,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 41,
+        "unknown": 3
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 20,
+      "seed": 424262,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 33,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 21,
+      "seed": 424263,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 5
+      }
+    },
+    {
+      "run": 22,
+      "seed": 424264,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 23,
+      "seed": 424265,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 10,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 29,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 24,
+      "seed": 424266,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 25,
+      "seed": 424267,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 10,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 30,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 26,
+      "seed": 424268,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 27,
+      "seed": 424269,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 28,
+      "seed": 424270,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 36,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:wound": 2
+      }
+    },
+    {
+      "run": 29,
+      "seed": 424271,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 30,
+      "seed": 424272,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 33,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 31,
+      "seed": 424273,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 32,
+      "seed": 424274,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 33,
+      "seed": 424275,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 2,
+      "enemies_alive": 3,
+      "kills": 1,
+      "losses": 2,
+      "kd": 0.5,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "status:wound": 1
+      }
+    },
+    {
+      "run": 34,
+      "seed": 424276,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 39,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1,
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 35,
+      "seed": 424277,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:wound": 1
+      }
+    },
+    {
+      "run": 36,
+      "seed": 424278,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 27,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 37,
+      "seed": 424279,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 38,
+      "seed": 424280,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 36,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:wound": 2
+      }
+    },
+    {
+      "run": 39,
+      "seed": 424281,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 31,
+        "unknown": 4
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 40,
+      "seed": 424282,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 41,
+      "seed": 424283,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 26,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 42,
+      "seed": 424284,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 35,
+        "unknown": 4
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 43,
+      "seed": 424285,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 34,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 44,
+      "seed": 424286,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 45,
+      "seed": 424287,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 33,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 46,
+      "seed": 424288,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:wound": 1
+      }
+    },
+    {
+      "run": 47,
+      "seed": 424289,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 47
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 48,
+      "seed": 424290,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 35,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3,
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 49,
+      "seed": 424291,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 39,
+        "unknown": 4
+      },
+      "trait_used_tally": {
+        "status:wound": 2,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 50,
+      "seed": 424292,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 10,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 28,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "zampe_a_molla": 1,
+        "status:wound": 1
+      }
+    },
+    {
+      "run": 51,
+      "seed": 424293,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 52,
+      "seed": 424294,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 31,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 53,
+      "seed": 424295,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 42,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 54,
+      "seed": 424296,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 34,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 55,
+      "seed": 424297,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 2
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 56,
+      "seed": 424298,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 26,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 57,
+      "seed": 424299,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 10,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 30,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 58,
+      "seed": 424300,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 34
+      },
+      "trait_used_tally": {
+        "status:slow_down": 4
+      }
+    },
+    {
+      "run": 59,
+      "seed": 424301,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 60,
+      "seed": 424302,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 61,
+      "seed": 424303,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 35,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 62,
+      "seed": 424304,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:wound": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 63,
+      "seed": 424305,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 35,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 64,
+      "seed": 424306,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 65,
+      "seed": 424307,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 66,
+      "seed": 424308,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:wound": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 67,
+      "seed": 424309,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 68,
+      "seed": 424310,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 69,
+      "seed": 424311,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 8,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 26
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 70,
+      "seed": 424312,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 71,
+      "seed": 424313,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "status:wound": 1
+      }
+    },
+    {
+      "run": 72,
+      "seed": 424314,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 73,
+      "seed": 424315,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 38,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:wound": 2,
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 74,
+      "seed": 424316,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 75,
+      "seed": 424317,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 42,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 76,
+      "seed": 424318,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 8,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 23,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 77,
+      "seed": 424319,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:wound": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 78,
+      "seed": 424320,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 8,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 23,
+        "unknown": 3
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 79,
+      "seed": 424321,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 80,
+      "seed": 424322,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 81,
+      "seed": 424323,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 2
+      }
+    },
+    {
+      "run": 82,
+      "seed": 424324,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 36,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 83,
+      "seed": 424325,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 40,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 84,
+      "seed": 424326,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 27,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 85,
+      "seed": 424327,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 7,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 21,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 86,
+      "seed": 424328,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 43,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 87,
+      "seed": 424329,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 26,
+        "unknown": 2
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 88,
+      "seed": 424330,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 35,
+        "unknown": 2
+      },
+      "trait_used_tally": {
+        "status:slow_down": 4
+      }
+    },
+    {
+      "run": 89,
+      "seed": 424331,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 90,
+      "seed": 424332,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 44
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 91,
+      "seed": 424333,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 42,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1,
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 92,
+      "seed": 424334,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 93,
+      "seed": 424335,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 94,
+      "seed": 424336,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 8,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 25,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 95,
+      "seed": 424337,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 29
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    },
+    {
+      "run": 96,
+      "seed": 424338,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 2,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 97,
+      "seed": 424339,
+      "policy": "greedy",
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3
+      }
+    },
+    {
+      "run": 98,
+      "seed": 424340,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 28,
+        "unknown": 1
+      },
+      "trait_used_tally": {
+        "zampe_a_molla": 1
+      }
+    },
+    {
+      "run": 99,
+      "seed": 424341,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 4,
+      "losses": 1,
+      "kd": 4.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 31,
+        "unknown": 4
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1
+      }
+    }
+  ]
+}

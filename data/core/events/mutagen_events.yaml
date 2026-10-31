@@ -1,0 +1,327 @@
+# Mutagen Events — canonical dataset
+# Estende schema packs/evo_tactics_pack/data/ecosystems/network/cross_events.yaml
+#
+# STATUS: design-draft (NOT wired runtime, M-future)
+# Source:
+#   - Vertical Slice "Minute 2 Combat.html" (promozione, SHA de321c95)
+#   - Vertical Slice "Risveglio del Leviatano.html" (lore cross-bioma)
+#   - docs/reports/2026-04-26-lore-alien-event-research.md
+#   - Museum card M-2026-04-26-014 (cross-bioma propagation pattern)
+#
+# Anti-pattern: NON simulation runtime. Ogni evento = modifier flat su
+#   session.stresswave.baseline e/o pressure_tier. Zero new physics engine.
+# Wire target: apps/backend/services/combat/reinforcementSpawner.js
+#   e sessionHelpers.js (pattern da museum card M-014 reuse_path)
+#
+# Encoding: UTF-8. yaml.safe_load compatibile.
+# Schema version: 0.2 (adds trigger/counterplay/narrative vs v0.1 cross_events)
+
+schema_version: "0.2"
+generated_at: "2026-04-27"
+
+# ── Formato campo ────────────────────────────────────────────────────────────
+#
+# event_id:           slug univoco (kebab-case)
+# type:               mutagen | cross_biome | ecological (per discriminare)
+# origin:             promoted_from_vertical_slice | new_design
+# biome_scope:        lista biomi dove l'evento può attivarsi
+# trigger:
+#   type:             pressure_threshold | round_count | player_action | kill_event | combo_action
+#   value:            soglia numerica (float o int)
+#   condition:        condizione opzionale testuale
+# duration:
+#   type:             rest_of_encounter | N_rounds | permanent_encounter
+#   rounds:           (solo se N_rounds)
+# effects:
+#   stresswave_add:   float aggiunto a session.stresswave.baseline
+#   pressure_add:     float aggiunto a session.pressure (0.0-1.0 scale)
+#   enemy_modifiers:  lista modificatori su sottinsieme nemici
+#   player_modifiers: lista modificatori su sottinsieme player
+# counterplay:
+#   - action:         nome azione / condizione (testuale)
+#     effect:         cosa cancella o riduce
+# frequency:
+#   max_per_encounter: int (default 1)
+#   cooldown_rounds:   int (rounds di cooldown dopo trigger)
+# narrative:
+#   pre:   testo voce pre-trigger (FLINT/narrator)
+#   mid:   testo mid-evento (opzionale)
+#   post:  testo post-evento (chiusura)
+# wire_hint:         note su come wired a runtime (non normative)
+
+events:
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # EVENTO 1 — Promozione vertical-slice
+  # "Evento Mutageno" mid-match T2/T3
+  # Fonte: Vertical Slice - Minute 2 Combat.html (SHA de321c95, linee ~354-1328)
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - event_id: nodo_neurale_rilascio
+    type: mutagen
+    origin: promoted_from_vertical_slice
+    # E3 master-dd 2026-04-26 sera: scope ampliato a tutti biomi diff_base >= 4
+    # (era solo frattura+rovine_planari+caldera). Più flessibile, evento può
+    # trigger in qualsiasi bioma "duro". Lista esplicita per validazione static.
+    biome_scope_filter:
+      rule: diff_base_gte
+      value: 4
+    biome_scope:
+      - abisso_vulcanico
+      - atollo_obsidiana
+      - badlands
+      - caldera_glaciale
+      - canyons_risonanti
+      - dorsale_termale_tropicale
+      - foresta_acida
+      - frattura_abissale_sinaptica
+      - mezzanotte_orbitale
+      - pianura_salina_iperarida
+      - rovine_planari
+      - stratosfera_tempestosa
+    trigger:
+      type: pressure_threshold
+      value: 0.50
+      condition: "session.pressure >= 0.50 (equivale al T2 della vertical slice: +0.25/turno per 2 turni)"
+    duration:
+      type: N_rounds
+      rounds: 3
+    effects:
+      stresswave_add: 0.05
+      pressure_add: 0.0
+      enemy_modifiers:
+        - subset: random_30pct
+          apply_status: frenesia
+          stat_delta: { attack: +1 }
+          note: "Replica il trait 'frenesia' attivato su Sciame Mn. nella vertical slice T2"
+      player_modifiers:
+        # Player non riceve effetto automatico — il guadagno arriva dal counterplay
+        - subset: none
+    counterplay:
+      - action: "Sopravvivi 3 turni (Path A): nessun gain, nessun costo aggiuntivo"
+        effect: "Evento termina senza debuff permanenti. stresswave_add reverted."
+      - action: "Raggiungi il nodo neurale con coordinazione alta (Path B): richiede 2+ player adiacenti al nodo entro round 2"
+        effect: "Form della squadra shift verso 'esploratore'. stresswave_add halved."
+      - action: "Proteggi il keystone (Path D): 1 player in zona difesa per tutti e 3 i round"
+        effect: "Bioma stable: nessun affix perso. stresswave_add reverted. Form shift verso 'simbionte'."
+      - action: "Acquisisci la mutazione (Path C): DC 14 su Forza/Intelligenza"
+        effect: "Player ottiene trait neurale (nota: strappo_planare non in active_effects.yaml — design pending). Bioma perde 1 affix."
+    frequency:
+      max_per_encounter: 1
+      cooldown_rounds: 0
+    narrative:
+      pre: "Il nodo respira. Li sentite arrivare. Non c'è via pulita: scegliete che prezzo."
+      mid: "Il Polpo vi canta il suo canto finale. Voi decidete se ascoltarlo o prendere ciò che rilascia."
+      post: "Il mondo è diverso. Voi siete diversi."
+    wire_hint: |
+      trigger: sessionRoundBridge.js onRoundEnd — controlla session.pressure >= 0.50
+      effect: policy.js applica status frenesia su random 30% nemici HP > 0
+      counterplay: valutato da objectiveEvaluator.js come sub-objective opzionale
+      cross-bioma: se evento in frattura_abissale_sinaptica → propaga stresswave_add
+        a biomi adiacenti (foresta_temperata, rovine_planari) via cross_events propagation logic
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # EVENTO 2 — NUOVO: Spillover Genetico
+  # Trigger: kill apex unit → trait dell'apex passa al primo player adiacente
+  # Bioma primario: rovine_planari (affix planar_rift), secundario: frattura_abissale_sinaptica
+  # Pattern: Rimworld random event + Disco Elysium white check (retryable per bioma)
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - event_id: spillover_genetico_apex
+    type: mutagen
+    origin: new_design
+    biome_scope:
+      - rovine_planari
+      - frattura_abissale_sinaptica
+    trigger:
+      type: kill_event
+      value: 1
+      condition: "unit killed ha tag apex_unit=true (boss o elite con sentience_tier >= 2)"
+    duration:
+      type: rest_of_encounter
+      rounds: null
+    effects:
+      stresswave_add: 0.02
+      pressure_add: 0.10
+      enemy_modifiers:
+        - subset: none
+      player_modifiers:
+        - subset: first_player_adjacent_to_kill
+          apply_trait_borrow: true
+          trait_source: killed_unit.traits[0]
+          note: |
+            Il player più vicino all'apex KO 'eredita' il primo trait offensivo della
+            creatura per il resto dell'encounter. Non è permanente — finisce con la sessione.
+            Implementation: session.units[player].temp_traits.push(apex.traits[0])
+            Richiede: temp_traits non esistono ancora in session schema → wire M-future.
+    counterplay:
+      - action: "Nessun player adiacente al kill (distanza > 2 tile): spillover non si propaga"
+        effect: "Evento non avviene. pressure_add applicato comunque (il campo muta anche senza vettore)."
+      - action: "Player rifiuta attivamente (se UI disponibile): costo 1 AP"
+        effect: "Trait non ereditato. pressure_add ridotto a 0.05."
+    frequency:
+      max_per_encounter: 2
+      cooldown_rounds: 4
+    narrative:
+      pre: "Qualcosa si allenta. L'aria vicino al cadavere ha un sapore diverso."
+      mid: null
+      post: "Qualcosa si è trasferito. Ti senti più antico."
+    wire_hint: |
+      trigger: policy.js onKill — controlla unit.apex_unit === true
+      effect: session.units[closest_player].temp_traits.push(apex_unit.traits[0])
+      pressure_add: session.pressure += 0.10 (capped a session.stresswave.overrun threshold)
+      nota design: temp_traits = array non persistente, cleared su session end
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # EVENTO 3 — NUOVO: Surge Mnemonico
+  # Trigger: player KO durante round → rivela 1 intent SIS visibile per 2 round
+  # Bioma primario: steppe_algoritmiche, foresta_temperata
+  # Pattern: Slay the Spire elite mid-game (info gain come compensazione
+  #   della perdita) + XCOM overwatch reveal (intel da sacrificio)
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - event_id: surge_mnemonico_ko
+    type: mutagen
+    origin: new_design
+    biome_scope:
+      - steppe_algoritmiche
+      - foresta_temperata
+      - canopia_ionica
+    trigger:
+      type: player_action
+      value: 1
+      condition: "player unit va a 0 HP durante il round corrente"
+    duration:
+      type: N_rounds
+      rounds: 2
+    effects:
+      stresswave_add: 0.0
+      pressure_add: 0.0
+      enemy_modifiers:
+        - subset: none
+      player_modifiers:
+        - subset: all_players
+          apply_info: true
+          info_type: reveal_sis_intent
+          note: |
+            Per 2 round, i prossimi intents dichiarati dal Sistema sono visibili
+            nella risposta /api/session/state come campo intent_preview.
+            Sistema non cambia comportamento — solo info è svelata.
+            Implementation: session.meta.reveal_sis_intent_rounds = 2
+            Decrementato in sessionRoundBridge.js onRoundEnd.
+    counterplay:
+      - action: "Revivi il player KO entro lo stesso round (se heal disponibile)"
+        effect: "Evento non si attiva. La visione si dissolve prima di cristallizzarsi."
+      - action: "Nessun counterplay per extend la visione oltre 2 round"
+        effect: "Meccanica intenzionalmente time-limited. Info scarsa = urgency."
+    frequency:
+      max_per_encounter: 3
+      cooldown_rounds: 2
+    narrative:
+      pre: null
+      mid: "Quando cadi, vedi. È un dono o un debito."
+      post: "Gli occhi si riaprono. Il Sistema non sa che sapete."
+    wire_hint: |
+      trigger: session.js damage step — se unit.hp <= 0 && unit.controlled_by === 'player'
+      effect: session.meta.reveal_sis_intent_rounds = Math.min(2, prev + 2)
+      consume: sessionRoundBridge.js onRoundEnd — if meta.reveal_sis_intent_rounds > 0:
+               session.meta.reveal_sis_intent_rounds -= 1
+               includi declareSistemaIntents output in response.intent_preview
+      pressure_cost: zero — il KO è già penalità sufficiente. Non punire doppio.
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # EVENTO 4 — NUOVO: Corruzione Ferrosa
+  # Trigger: round 3+ E pressure > 0.50 in bioma badlands/atollo_obsidiana
+  # Effetto: gear metallico player perde -1 dmg melee, ma +2 dmg ranged
+  # Pattern: Rimworld DLC anomaly modifier (flat stat swap, no sim) +
+  #   Project Zomboid sprinter event (discrete spike, no gradual)
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - event_id: corruzione_ferrosa_gear
+    type: mutagen
+    origin: new_design
+    biome_scope:
+      - badlands
+      - atollo_obsidiana
+    trigger:
+      type: round_count
+      value: 3
+      condition: "session.turn >= 3 AND session.pressure > 0.50"
+    duration:
+      type: rest_of_encounter
+      rounds: null
+    effects:
+      stresswave_add: 0.03
+      pressure_add: 0.0
+      enemy_modifiers:
+        - subset: none
+      player_modifiers:
+        - subset: all_players
+          stat_delta:
+            melee_dmg: -1
+            ranged_dmg: +2
+          note: |
+            La polvere ferrosa polarizza le componenti metalliche: danno melee ridotto
+            (attrito su lame/pugni), danno ranged aumentato (risonanza magnetica proiettili).
+            Implementation: session.units[player].active_modifiers.push({
+              id: 'corruzione_ferrosa', melee_dmg_mod: -1, ranged_dmg_mod: +2,
+              expires: 'session_end' })
+            resolveAttack deve consumare active_modifiers (già in M14-A pattern).
+    counterplay:
+      - action: "Kill 2+ nemici con attacchi ranged entro 2 round: la corruzione si stabilizza"
+        effect: "stresswave_add reverted. Effetto stat rimane ma viene accettato (bioma riconosce l'adattamento)."
+      - action: "Retreat da tile badlands verso tile neutro (se mappa mista)"
+        effect: "Effetto sospeso per quel player finché rimane fuori dal bioma core."
+    frequency:
+      max_per_encounter: 1
+      cooldown_rounds: 0
+    narrative:
+      pre: "La polvere ti entra dentro. Non è cattiva. È solo nuova."
+      mid: null
+      post: "I tuoi colpi da vicino perdono precisione. Ma da lontano senti la risonanza."
+    wire_hint: |
+      trigger: sessionRoundBridge.js onRoundEnd — controlla session.turn >= 3 &&
+               session.pressure > 0.50 && session.biome_id in ['badlands','atollo_obsidiana']
+      effect: forEach player unit: unit.active_modifiers.push(corruzione_ferrosa_modifier)
+      consume: resolveAttack — applica melee_dmg_mod e ranged_dmg_mod dal modifier
+      note: active_modifiers è già usato da M14-A per stat_buff/stat_debuff status
+
+# ── Bilanciamento aggregato ────────────────────────────────────────────────
+
+balance:
+  max_simultaneous_events: 1
+  note: |
+    Un solo evento mutageno attivo per sessione alla volta.
+    Se più trigger si soddisfano nello stesso round, priorità:
+    1. nodo_neurale_rilascio (promozione canonical, massima priorità)
+    2. spillover_genetico_apex
+    3. surge_mnemonico_ko
+    4. corruzione_ferrosa_gear
+  biome_exclusivity:
+    # Ogni bioma triggera al massimo 1-2 tipi di evento mutageno
+    # E3 update 2026-04-26 sera: nodo_neurale ora applicabile a tutti biomi diff_base >= 4
+    abisso_vulcanico: [nodo_neurale_rilascio]
+    atollo_obsidiana: [nodo_neurale_rilascio, corruzione_ferrosa_gear]
+    badlands: [nodo_neurale_rilascio, corruzione_ferrosa_gear]
+    caldera_glaciale: [nodo_neurale_rilascio]
+    canyons_risonanti: [nodo_neurale_rilascio]
+    dorsale_termale_tropicale: [nodo_neurale_rilascio]
+    foresta_acida: [nodo_neurale_rilascio]
+    frattura_abissale_sinaptica: [nodo_neurale_rilascio, spillover_genetico_apex]
+    mezzanotte_orbitale: [nodo_neurale_rilascio]
+    pianura_salina_iperarida: [nodo_neurale_rilascio]
+    rovine_planari: [nodo_neurale_rilascio, spillover_genetico_apex]
+    stratosfera_tempestosa: [nodo_neurale_rilascio]
+    steppe_algoritmiche: [surge_mnemonico_ko]
+    foresta_temperata: [surge_mnemonico_ko]
+    canopia_ionica: [surge_mnemonico_ko]
+
+# ── Validation rules ──────────────────────────────────────────────────────
+
+validation:
+  required_fields: [event_id, type, biome_scope, trigger, duration, effects, counterplay, narrative]
+  biome_ids_must_exist_in: data/core/biomes.yaml
+  stresswave_add_max: 0.10
+  note: |
+    stresswave_add >= 0.10 richiede ADR separato (P1 tattica impact).
+    Tutti e 4 gli eventi sotto soglia.

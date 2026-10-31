@@ -1,0 +1,4 @@
+[2025-12-08T19:40:45Z] Dispatched qa-export.yml on main via `GH_REPO=MasterDD-L34D/Game gh workflow run qa-export.yml -r main`.
+Run ID: 20040610762. Status: STILL RUNNING as of 2025-12-08T20:12:30Z.
+Blocking step: job `Run QA export` → step `Generate QA reports` (node scripts/export-qa-report.js) stuck >20m; later steps pending.
+Artifacts/logs not yet downloadable; rerun/cleanup may be required once the job completes or is cancelled.
