@@ -1,0 +1,97 @@
+# Ennea Voice Palette — Type 5 Architetto (vc archetype id "Architetto(5)")
+#
+# Skiv-style first-person narrative palette per archetipo Architetto.
+# Tono canonical (museum card M-2026-04-25-006 + dataset enneagramma_master.yaml):
+# clinico, distaccato, ricerca-orientato, registrazione meticolosa, riserva.
+# Voice persona: osservatore competente che misura prima di muoversi.
+#
+# Selector logic:
+#   ennea_voices.type_5.beats[<beat_id>].lines[] — pool random per beat type.
+#   Telemetria emette `ennea_voice_type_used` con archetype_id + line_id quando
+#   la linea fires (solo se Architetto(5) in ennea_archetypes.triggered).
+#
+# Cross-ref:
+#   - Trigger condition (telemetry.yaml line 75): setup_ratio>0.4 && damage_taken_ratio<0.2
+#   - Museum card: docs/museum/cards/enneagramma-mechanics-registry.md
+#   - Pattern donor: Disco Elysium thought cabinet diegetic voice
+schema_version: "0.1.0"
+archetype_id: "Architetto(5)"
+ennea_type: 5
+canonical_name_it: "Architetto"
+canonical_name_en: "Investigator"
+voice_persona: |
+  Osservatore competente. Pensa prima di muoversi. Distanza come strategia,
+  conoscenza come arma. Linguaggio preciso, frasi corte, riferimenti dati.
+
+beats:
+  combat_attack_committed:
+    description: "Linea narrativa quando l'attore lancia un attacco con setup completo."
+    lines:
+      - id: "v5_atk_pattern"
+        text: "Pattern identificato. Margine d'errore: minimo."
+      - id: "v5_atk_calculated"
+        text: "Calcolato. Tre angoli, una traiettoria."
+      - id: "v5_atk_observed"
+        text: "Osservato abbastanza. Ora si applica."
+      - id: "v5_atk_distance"
+        text: "Distanza ottimale. Esecuzione."
+
+  combat_defense_braced:
+    description: "Linea quando l'attore subisce attacco e si difende."
+    lines:
+      - id: "v5_def_anticipated"
+        text: "Anticipato. La sequenza era prevedibile."
+      - id: "v5_def_distance"
+        text: "Distanza è difesa. Sempre."
+      - id: "v5_def_record"
+        text: "Registrato. Non funzionerà di nuovo."
+
+  exploration_new_tile:
+    description: "Linea quando l'attore esplora una nuova tile / scopre area."
+    lines:
+      - id: "v5_exp_mapping"
+        text: "Mappa mentale aggiornata. Coordinate registrate."
+      - id: "v5_exp_corner"
+        text: "Ogni angolo dice qualcosa. Ascolto."
+      - id: "v5_exp_pattern"
+        text: "Pattern del terreno. Logica del biome."
+
+  low_hp_warning:
+    description: "Linea quando l'attore scende sotto soglia HP critica (<35%)."
+    lines:
+      - id: "v5_lhp_recalculate"
+        text: "Variabile non considerata. Ricalcolo."
+      - id: "v5_lhp_distance"
+        text: "Ridurre esposizione. Distanza ottimale ora."
+      - id: "v5_lhp_cold"
+        text: "Freddo. Contare i battiti. Pensare."
+
+  victory_solo:
+    description: "Linea quando l'attore stesso assesta il colpo finale (solo kill)."
+    lines:
+      - id: "v5_vct_confirmed"
+        text: "Ipotesi confermata."
+      - id: "v5_vct_clean"
+        text: "Esecuzione pulita. Modello validato."
+      - id: "v5_vct_archive"
+        text: "Caso chiuso. Archivio."
+
+  defeat_critical:
+    description: "Linea quando l'attore va KO o il party perde lo scenario."
+    lines:
+      - id: "v5_dft_variable"
+        text: "Variabile mancante. Aggiornamento del modello."
+      - id: "v5_dft_recalibrate"
+        text: "Errore sistemico. Ricalibrare."
+      - id: "v5_dft_record"
+        text: "Lezione registrata. Nessuno spreco."
+
+  idle_round_start:
+    description: "Linea opzionale a inizio round se nessun altro beat trigger."
+    lines:
+      - id: "v5_idl_observe"
+        text: "Osservo. Aspetto. Registro."
+      - id: "v5_idl_analyze"
+        text: "Tre opzioni. Calcolo costi."
+      - id: "v5_idl_distance"
+        text: "Distanza giusta. Tempo giusto."

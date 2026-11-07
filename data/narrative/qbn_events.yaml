@@ -1,0 +1,262 @@
+# QBN (Quality-Based Narrative) event pack — narrative-design-illuminator P0.
+#
+# Pattern: Failbetter Games / StoryNexus / Fallen London. Events triggered
+# by player "qualities" (here: MBTI axes + Ennea archetypes + run state).
+#
+# Each event is drawn at debrief or campaign milestones via the QBN engine
+# (apps/backend/services/narrative/qbnEngine.js).
+#
+# Event shape:
+#   id:          unique string
+#   title:       short headline
+#   text:        narrative body (multi-line OK)
+#   weight:      relative pick weight (default 1)
+#   cooldown:    min sessions before repeat (default 0 = unlimited)
+#   max_repeats: hard cap (default null = unlimited; 1 = one-shot)
+#   conditions:  optional gates (see below)
+#   choices:     list of player choice objects (optional; event auto-resolves
+#                if absent)
+#
+# Condition keys (all optional; ALL listed must pass):
+#   mbti_t_min, mbti_f_min, mbti_n_min, mbti_s_min,
+#   mbti_e_min, mbti_i_min, mbti_j_min, mbti_p_min: float 0..1
+#   ennea_any:        list of archetype ids (e.g. [3, 5]) — at least one must trigger
+#   ennea_all:        list — all must trigger
+#   min_turns_played: int — total turns in run
+#   min_victories:    int — total victorious encounters
+#   requires_seen:    list of event ids previously chosen
+#   excludes_seen:    list of event ids that block this one
+#
+# Choice shape:
+#   id:      unique within event
+#   text:    label shown to player
+#   effects: optional dict (currently { mark_seen: <event_id> })
+#
+# References:
+#   Emily Short — Beyond Branching QBN: https://emshort.blog/2016/04/12/beyond-branching-quality-based-and-salience-based-narrative-structures/
+#   Failbetter — StoryNexus tricks: https://www.failbettergames.com/news/narrative-snippets-storynexus-tricks
+#   .claude/agents/narrative-design-illuminator.md
+
+schema_version: '1.0'
+
+events:
+  # ── Universal fallback (always eligible) ──
+  - id: ev_neutral_breath
+    title: 'Respiro tra le missioni'
+    text: >
+      Per un momento, niente preme. Lo zaino a terra, le mani aperte,
+      la respirazione che torna lenta. Non risolverà nulla, ma è quello
+      che serve adesso.
+    weight: 1
+    cooldown: 1
+
+  - id: ev_route_choice
+    title: 'Bivio'
+    text: >
+      Due sentieri si aprono. Uno più breve, esposto. L'altro più lungo,
+      coperto. Ogni squadra di sopravvissuti ha imparato a sue spese cosa
+      significa scegliere male.
+    weight: 1
+    cooldown: 2
+    choices:
+      - id: short
+        text: 'Sentiero breve: rischio aperto.'
+      - id: long
+        text: 'Sentiero coperto: tempo perso.'
+
+  # ── T-leaning (analytical) ──
+  - id: ev_diagnostic_log
+    title: 'Diagnostic Log'
+    text: >
+      Hai compilato un rapporto post-missione: cause-effetto delle perdite,
+      pattern del Sistema, target prioritari falliti. Le pagine si riempiono
+      di geometrie. La squadra ti guarda — qualcuno annuisce, altri si chiedono
+      se vedere il combattimento come un grafico ti separi dall'urgenza viva.
+    weight: 2
+    cooldown: 2
+    conditions:
+      mbti_t_min: 0.65
+      min_turns_played: 6
+    choices:
+      - id: archive
+        text: 'Archivia il log per pattern futuri.'
+      - id: discuss
+        text: 'Discuti i pattern con il team — divulga la lettura.'
+
+  - id: ev_efficiency_audit
+    title: 'Audit di efficienza'
+    text: >
+      Una unità ha sprecato due AP a turno per cinque round. Tu lo sai
+      perché l'hai contato. La domanda: lo dici? L'efficienza migliora,
+      la fiducia trema.
+    weight: 1
+    cooldown: 3
+    conditions:
+      mbti_t_min: 0.7
+      mbti_f_min: 0.0
+      max_repeats: 2
+
+  # ── F-leaning (empathic) ──
+  - id: ev_silent_witness
+    title: 'Testimone silenzioso'
+    text: >
+      Uno dei nemici caduti era giovane — quasi imberbe sotto la maschera.
+      L'hai tolto tu, è la tua mano che ha deciso. Nessuno ti chiede nulla,
+      perché tutti hanno il loro caduto da pensare.
+    weight: 2
+    cooldown: 2
+    conditions:
+      mbti_f_min: 0.65
+      min_victories: 1
+    choices:
+      - id: bury
+        text: 'Disponi una sepoltura, breve. Il rituale costa tempo.'
+      - id: continue
+        text: 'Continui. Avrai modo di pensarci dopo. Forse.'
+
+  - id: ev_nido_fragment
+    title: 'Frammento del Nido'
+    text: >
+      Tra le rovine trovi qualcosa che non è arma: una piccola carezza
+      modellata, forse un giocattolo. La pressione si ritira per un istante
+      e capisci di chi era. Lo metti via senza dirlo a nessuno.
+    weight: 1
+    cooldown: 4
+    conditions:
+      mbti_f_min: 0.6
+      ennea_any: [2, 4, 9]
+      max_repeats: 1
+
+  # ── N-leaning (intuitive / pattern-seeking) ──
+  - id: ev_pattern_loop
+    title: 'Anello del pattern'
+    text: >
+      I biomi cambiano ma le geometrie no. Lo riconosci: gli stessi
+      angoli, le stesse distanze, gli stessi punti dove il Sistema
+      preme. Non è ripetizione — è eco. Qualcosa ti sta dicendo dove
+      sta andando l'arc, ma non sai ancora come ascoltarlo.
+    weight: 2
+    cooldown: 3
+    conditions:
+      mbti_n_min: 0.7
+      min_turns_played: 10
+    choices:
+      - id: trace
+        text: 'Annota il pattern, traccia un arco mentale.'
+      - id: ignore
+        text: 'Lascialo perdere — questa missione è la priorità.'
+
+  # ── S-leaning (concrete / present-focused) ──
+  - id: ev_water_supply
+    title: 'Riserva idrica'
+    text: >
+      Il prossimo bioma, secondo i log, è arido. Le borracce sono
+      mezze. Decidi: razionare adesso o cercare una sorgente in
+      route. Niente filosofia — solo aritmetica.
+    weight: 2
+    cooldown: 1
+    conditions:
+      mbti_s_min: 0.65
+      min_turns_played: 4
+    choices:
+      - id: ration
+        text: 'Razionare: meno performance, più autonomia.'
+      - id: scout
+        text: 'Cercare una sorgente: tempo perso, possibili sorprese.'
+
+  # ── E-leaning (extraverted) ──
+  - id: ev_team_briefing
+    title: 'Riunione informale'
+    text: >
+      Convochi tutti attorno al fuoco improvvisato. Si parla di trauma
+      e tattica, di paura e di prossima mossa. La voce alta della squadra
+      ti dà energia — qualcuno cresce solo perché ha sentito gli altri farlo.
+    weight: 1
+    cooldown: 3
+    conditions:
+      mbti_e_min: 0.65
+      min_turns_played: 5
+
+  # ── I-leaning (introverted) ──
+  - id: ev_solitary_check
+    title: 'Cammino in disparte'
+    text: >
+      Ti allontani di venti passi. Il rumore della squadra si attenua.
+      Per la prima volta in giorni hai un secondo da solo. Non è fuga —
+      è ricarica. Quando torni, sei più nitido.
+    weight: 1
+    cooldown: 2
+    conditions:
+      mbti_i_min: 0.65
+
+  # ── Ennea-themed ──
+  - id: ev_ennea_3_recognition
+    title: 'Il riconoscimento'
+    text: >
+      Un sopravvissuto ti riconosce dal tuo nome di squadra. Lo dice
+      ad alta voce. Senti l'orgoglio di essere visto — e subito dopo
+      la trappola: chi sei senza l'occhio dell'altro?
+    weight: 1
+    cooldown: 4
+    conditions:
+      ennea_any: [3]
+      max_repeats: 1
+
+  - id: ev_ennea_5_archive
+    title: 'Frammenti d''archivio'
+    text: >
+      Trovi un archivio del pre-collasso: schede, testimonianze, mappe
+      di biomi che non esistono più. Potresti studiarlo per ore. Il
+      Sistema, però, non aspetta che tu impari abbastanza.
+    weight: 1
+    cooldown: 4
+    conditions:
+      ennea_any: [5]
+      max_repeats: 1
+
+  - id: ev_ennea_8_confront
+    title: 'Confronto frontale'
+    text: >
+      Una scelta della squadra ti irrita: non è abbastanza decisa.
+      Lo dici. Forte. La risposta è incerta. La direzione, dopo, è
+      tua. Ma a un costo invisibile.
+    weight: 1
+    cooldown: 3
+    conditions:
+      ennea_any: [8]
+
+  # ── Run-progression milestones ──
+  - id: ev_first_loss
+    title: 'La prima perdita'
+    text: >
+      Una unità è caduta per la prima volta nella tua run. Il fuoco
+      della rispetto si è acceso e spento in 30 secondi. Il resto della
+      squadra ti guarda per cercare cosa fare con questo silenzio.
+    weight: 3
+    cooldown: 0
+    conditions:
+      min_victories: 0
+      max_repeats: 1
+    choices:
+      - id: address
+        text: 'Parla. Nomina la perdita ad alta voce.'
+      - id: silent_march
+        text: 'Marcia silenziosa. Avete tempo di sentire dopo.'
+
+  - id: ev_apex_threshold
+    title: "Soglia dell'Apex"
+    text: >
+      Il Sistema escalation è cambiata. Per la prima volta hai sentito
+      l'Apex respirarti vicino. Non era retorica — era un secondo. È
+      tutto diverso da qui in poi.
+    weight: 2
+    cooldown: 0
+    conditions:
+      min_turns_played: 12
+      min_victories: 3
+      max_repeats: 1
+    choices:
+      - id: prepare
+        text: 'Prepara la squadra: prossima missione, no fronzoli.'
+      - id: pause
+        text: 'Tira il fiato. Forse dopo serve recovery.'

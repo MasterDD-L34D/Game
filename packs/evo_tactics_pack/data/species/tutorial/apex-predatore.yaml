@@ -1,0 +1,57 @@
+id: apex_predatore
+schema_version: '1.7'
+resistance_archetype: corazzato
+display_name: Predatore Apex
+display_name_en: Apex Predator
+biomes:
+  - savana
+  - badlands
+role_trofico: predatore_apex_boss
+functional_tags:
+  - nemico_tutorial
+  - boss
+  - apex_creature
+flags:
+  apex: true
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+  tutorial_phantom: true
+path: ../../packs/evo_tactics_pack/data/species/tutorial/apex-predatore.yaml
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: boss
+playable_unit: false
+morphotype: predatore_apex_bipede
+jobs_bias:
+  - vanguard
+combat_baseline:
+  hp: 11
+  ap: 3
+  mod: 3
+  dc: 13
+  attack_range: 2
+  guardia: 1
+  ai_profile: aggressive
+genetic_traits:
+  core:
+    - martello_osseo
+    - ferocia
+  optional: []
+  synergy:
+    - ferocia
+used_in_encounters:
+  - enc_tutorial_05
+description: |
+  BOSS finale tutorial curve (tutorial_05 "Apex"). HP 11 + guardia 1
+  + trait martello_osseo + ferocia = offensive threat stabile.
+  Target win rate iter-calibrato ~20% (demanding but winnable).
+  Stub M5-#3 (P0-D audit fix 2026-04-19).
+receipt:
+  source: M5-#3.stub
+  author: claude-agent
+  date: '2026-04-19'
+  note: phantom species stub, baseline estratto da tutorialScenario.js (tutorial_05 boss)

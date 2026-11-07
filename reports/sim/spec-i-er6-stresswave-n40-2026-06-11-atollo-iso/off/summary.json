@@ -1,0 +1,70 @@
+{
+  "arm": "off",
+  "args": {
+    "effect": "er6",
+    "runs": 40,
+    "seedBase": 53000,
+    "out": "reports/sim/spec-i-er6-stresswave-n40-2026-06-11-atollo-iso",
+    "commit": "unknown",
+    "scaling": {
+      "countAdd": 6,
+      "hpAdd": 4,
+      "modAdd": 6,
+      "dcAdd": 2
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "biome": "atollo_obsidiana",
+    "modulation": "duo_hardcore",
+    "arms": [
+      "off"
+    ]
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.575,
+    "win_ci95": [
+      0.4219480043605999,
+      0.7149083147518411
+    ],
+    "timeouts": 2,
+    "rounds": {
+      "mean": 102.475,
+      "sd": 19.410527806929665,
+      "ci95": [
+        96.45961511131878,
+        108.4903848886812
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 62.525,
+      "sd": 13.04427863579298,
+      "ci95": [
+        58.48253616954798,
+        66.56746383045201
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": null,
+      "sd": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "survivors": {
+      "mean": 1.2,
+      "sd": 0.966091783079296,
+      "ci95": [
+        0.9006050545962184,
+        1.4993949454037816
+      ],
+      "n": 40
+    }
+  }
+}

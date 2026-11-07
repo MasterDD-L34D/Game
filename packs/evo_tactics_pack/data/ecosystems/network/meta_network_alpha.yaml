@@ -1,0 +1,211 @@
+schema_version: 2.1
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: 0126a8e9d2f3831c9be07c912ac8617200c541ba3bfa9b01dceaec93414adb1c
+links:
+  ecosystems:
+  - packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
+  - packs/evo_tactics_pack/data/ecosystems/foresta_temperata.ecosystem.yaml
+  - packs/evo_tactics_pack/data/ecosystems/deserto_caldo.ecosystem.yaml
+  - packs/evo_tactics_pack/data/ecosystems/cryosteppe.ecosystem.yaml
+  - packs/evo_tactics_pack/data/ecosystems/rovine_planari.ecosystem.yaml
+network:
+  id: ET_NET_ALPHA
+  label: Evo-Tactics Meta‑Ecosystem Alpha
+  # Slice A (live routing, owner-gated): where a graph-routed run begins. The onboarding
+  # tutorials (enc_tutorial_01/02) stay static-only; graph mode routes the 5-node main arc.
+  start_node: DESERTO_CALDO
+  nodes:
+  # Per-node `encounters` = the encounter(s) a node serves (MVP N=1 -> first id). `terminal`
+  # marks the climax: reaching + clearing it ends a graph-routed run. Starter assignment
+  # (spec section 4, biome-aligned where it fits) — master-dd ratifies at the data-gate merge.
+  - id: BADLANDS
+    biome_id: canyons_risonanti
+    path: packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
+    weight: 0.45
+    encounters: [enc_tutorial_03]
+  - id: FORESTA_TEMPERATA
+    biome_id: foresta_miceliale
+    path: packs/evo_tactics_pack/data/ecosystems/foresta_temperata.ecosystem.yaml
+    weight: 0.55
+    encounters: [enc_caverna_02]
+  - id: DESERTO_CALDO
+    biome_id: savana
+    path: packs/evo_tactics_pack/data/ecosystems/deserto_caldo.ecosystem.yaml
+    weight: 0.4
+    encounters: [enc_savana_01]
+  - id: CRYOSTEPPE
+    biome_id: mezzanotte_orbitale
+    path: packs/evo_tactics_pack/data/ecosystems/cryosteppe.ecosystem.yaml
+    weight: 0.4
+    encounters: [enc_tutorial_04]
+  - id: ROVINE_PLANARI
+    biome_id: rovine_planari
+    path: packs/evo_tactics_pack/data/ecosystems/rovine_planari.ecosystem.yaml
+    weight: 0.5
+    encounters: [enc_tutorial_05, enc_tutorial_06_hardcore]
+    terminal: true
+  # Expansion PR2: Atollo Obsidiana, the 4th canonical biome (vault canvas C-CANVAS_NPG_BIOMI),
+  # now the graph's 6th node. Reached from CRYOSTEPPE, exits to the terminal ROVINE.
+  - id: ATOLLO_OBSIDIANA
+    biome_id: atollo_obsidiana
+    path: packs/evo_tactics_pack/data/ecosystems/atollo_obsidiana.ecosystem.yaml
+    weight: 0.45
+    encounters: [enc_tutorial_07_hardcore_pod_rush]
+  edges:
+  - from: BADLANDS
+    to: FORESTA_TEMPERATA
+    type: corridor
+    resistance: 0.6
+    seasonality: primavera/autunno
+    notes: gole ombreggiate e canyon → valichi boscosi
+  - from: FORESTA_TEMPERATA
+    to: BADLANDS
+    type: trophic_spillover
+    resistance: 0.4
+    seasonality: episodico
+    notes: boom detrito → pulse detritivoro in badlands
+  - from: BADLANDS
+    to: DESERTO_CALDO
+    type: corridor
+    resistance: 0.5
+    seasonality: estate
+    notes: canali wadi → dune mobili
+  - from: DESERTO_CALDO
+    to: BADLANDS
+    type: corridor
+    resistance: 0.55
+    seasonality: estate/notte
+    notes: carovane notturne sfruttano i canali raffreddati
+  - from: FORESTA_TEMPERATA
+    to: CRYOSTEPPE
+    type: seasonal_bridge
+    resistance: 0.6
+    seasonality: inverno
+    notes: valichi nevosi con copertura forestale rada
+    # fase-2 arc-condition (ADR-2026-05-31, Stage 1): il valico nevoso si apre
+    # solo d'inverno (lock-and-key). `seasonality` resta flavor; il gate usa
+    # l'enum EN canonico (seasonalEngine.SEASONS).
+    conditions:
+      season: [winter]
+  - from: CRYOSTEPPE
+    to: FORESTA_TEMPERATA
+    type: seasonal_bridge
+    resistance: 0.65
+    seasonality: inverno profondo
+    notes: coltri di ghiaccio creano corridoi di transito sotto chioma
+    conditions:
+      season: [winter]
+  - from: CRYOSTEPPE
+    to: BADLANDS
+    type: trophic_spillover
+    resistance: 0.5
+    seasonality: episodico
+    notes: pulse detrito post disgelo
+  - from: CRYOSTEPPE
+    to: BADLANDS
+    type: corridor
+    resistance: 0.7
+    seasonality: tarda_inverno
+    notes: gole ghiacciate convogliano tempeste di brina verso le gole ferrose
+  - from: ROVINE_PLANARI
+    to: FORESTA_TEMPERATA
+    type: corridor
+    resistance: 0.55
+    seasonality: primavera
+    notes: Portali stabilizzati collegano le radure miceliali alle rovine planari.
+  - from: FORESTA_TEMPERATA
+    to: ROVINE_PLANARI
+    type: trophic_spillover
+    resistance: 0.5
+    seasonality: primavera
+    notes: Impollinatori planari riforniscono i giardini sospesi delle rovine.
+  - from: ROVINE_PLANARI
+    to: DESERTO_CALDO
+    type: corridor
+    resistance: 0.6
+    seasonality: estate
+    notes: Spaccature dimensionali aprono varchi sulle dune termiche.
+  - from: DESERTO_CALDO
+    to: ROVINE_PLANARI
+    type: seasonal_bridge
+    resistance: 0.65
+    seasonality: notte
+    notes: Carovane planari sfruttano la quiete notturna per trasferire risorse.
+    # Topology follow-up 2B (data-only): il varco diretto al climax si apre solo dopo
+    # aver ripulito l'arco intermedio -> elimina la scorciatoia di 2 nodi al terminale.
+    # Il terminale resta raggiungibile via FORESTA_TEMPERATA -> ROVINE (no stranding).
+    conditions:
+      prior_node_cleared: [BADLANDS, FORESTA_TEMPERATA]
+  # Topology follow-up 1A (data-only): edge trophic dalla savana alla foresta, cosi' il
+  # bivio di partenza espone corridor(BADLANDS) + trophic(FORESTA) -> NT/SJ e NF/SP
+  # divergono al primo bivio (prima collassavano tutti su BADLANDS).
+  - from: DESERTO_CALDO
+    to: FORESTA_TEMPERATA
+    type: trophic_spillover
+    resistance: 0.5
+    seasonality: episodico
+    notes: Spore e detrito eolico dalla savana alimentano i margini miceliali.
+  # Expansion PR1 (1A 3-way, ungated): perennial passage savana -> mezzanotte orbitale, so the
+  # start node exposes corridor(BADLANDS) + trophic(FORESTA) + seasonal_bridge(CRYOSTEPPE) at
+  # once -> NT/SJ, NF and SP each pick a different node. No `conditions` => always eligible.
+  - from: DESERTO_CALDO
+    to: CRYOSTEPPE
+    type: seasonal_bridge
+    resistance: 0.6
+    seasonality: perenne
+    notes: Correnti ascensionali notturne aprono un valico stabile verso la mezzanotte orbitale.
+  # Expansion PR2: CRYOSTEPPE -> ATOLLO seasonal_bridge (ungated) so the SP temperament routes
+  # through the atoll; ATOLLO -> ROVINE corridor reaches the terminal (>=4 nodes, no shortcut).
+  - from: CRYOSTEPPE
+    to: ATOLLO_OBSIDIANA
+    type: seasonal_bridge
+    resistance: 0.55
+    seasonality: perenne
+    notes: Risacca obsidiana incanala i migratori dalle steppe orbitali verso l'atollo.
+  - from: ATOLLO_OBSIDIANA
+    to: ROVINE_PLANARI
+    type: corridor
+    resistance: 0.6
+    seasonality: estate
+    notes: Banchi corallini fossili formano un ponte verso le rovine planari.
+  bridge_species_map:
+  - species_id: echo-wing
+    roles:
+    - dispersore_ponte
+    - impollinatore
+    present_in_nodes:
+    - BADLANDS
+    - FORESTA_TEMPERATA
+    - DESERTO_CALDO
+    - ROVINE_PLANARI
+    - CRYOSTEPPE
+    # ATOLLO_OBSIDIANA: completes the #2587 6th-node bridge coverage
+    # (CRYOSTEPPE->ATOLLO + ATOLLO->ROVINE_PLANARI edges). master-dd ratified 2026-06-19.
+    - ATOLLO_OBSIDIANA
+  - species_id: ferrocolonia-magnetotattica
+    roles:
+    - sentinella
+    - ingegnere_ecosistema
+    present_in_nodes:
+    - BADLANDS
+  - species_id: archon-solare
+    roles:
+    - dispersore_ponte
+    - impollinatore
+    present_in_nodes:
+    - ROVINE_PLANARI
+  rules:
+    at_least:
+      sentient: 1
+      apex: 1
+      keystone: 2
+      bridge: 1
+      threat: 1
+      event: 1
+    per_biome_min:
+      predatori: 1
+      detritivori: 1
+      impollinatori: 1

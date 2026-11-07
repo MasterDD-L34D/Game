@@ -1,0 +1,46 @@
+{
+  "species": "Chemnotela toxica",
+  "ecotypes": [
+    {
+      "id": "CHT-ECO1",
+      "label": "Radura Acida",
+      "biome_class": "terrestre_forestale",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00005783"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "pressione_getto",
+          "delta": 200000,
+          "unit": "Pa",
+          "notes": "Umidità stabilizza getto acido",
+          "trait_id": "zanne_idracida"
+        }
+      ]
+    },
+    {
+      "id": "CHT-ECO2",
+      "label": "Chioma Elettrofilo",
+      "biome_class": "terrestre_forestale",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_01000228"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "tensione_picco",
+          "delta": 200,
+          "unit": "V",
+          "notes": "Secco in quota aumenta potenziale",
+          "trait_id": "seta_conduttiva_elettrica"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "chemnotela_toxica"
+}

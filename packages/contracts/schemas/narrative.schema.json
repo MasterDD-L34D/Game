@@ -1,0 +1,59 @@
+{
+  "$id": "contract://narrative/story-response",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NarrativeStoryResponse",
+  "description": "Response shape for narrative engine endpoints (POST /start, /choice). Pattern I1 (inkle/ink).",
+  "type": "object",
+  "required": ["storyId", "lines", "choices", "ended"],
+  "properties": {
+    "storyId": {
+      "type": "string",
+      "description": "UUID identifying the active story instance"
+    },
+    "lines": {
+      "type": "array",
+      "description": "Text lines emitted by the story since last interaction",
+      "items": {
+        "type": "object",
+        "required": ["text", "tags"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Narrative text line"
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Ink tags (e.g. 'speaker:commander', 'mood:determined')"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "choices": {
+      "type": "array",
+      "description": "Available player choices (empty if story ended or continuing without choice)",
+      "items": {
+        "type": "object",
+        "required": ["index", "text"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Choice index to pass back in POST /choice"
+          },
+          "text": {
+            "type": "string",
+            "description": "Choice display text"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ended": {
+      "type": "boolean",
+      "description": "True when the story has reached an END with no more choices"
+    }
+  },
+  "additionalProperties": false
+}

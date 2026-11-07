@@ -1,0 +1,5 @@
+node_modules/
+dist/
+playwright-phone-report.json
+playwright-report/
+test-results/

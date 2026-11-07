@@ -1,0 +1,94 @@
+M9 P6: turn_limit_defeat=35 for class 'hardcore' scenario=enc_tutorial_06_hardcore (Long War pattern)
+[1/20] L rounds=35 boss_hp=7 pa=5
+[2/20] V rounds=28 boss_hp=0 pa=6
+[3/20] V rounds=24 boss_hp=0 pa=7
+[4/20] L rounds=35 boss_hp=9 pa=6
+[5/20] V rounds=24 boss_hp=0 pa=6
+[6/20] V rounds=25 boss_hp=0 pa=6
+[7/20] L rounds=35 boss_hp=6 pa=5
+[8/20] L rounds=35 boss_hp=12 pa=5
+[9/20] V rounds=34 boss_hp=0 pa=6
+[10/20] V rounds=30 boss_hp=0 pa=4
+[11/20] L rounds=35 boss_hp=6 pa=4
+[12/20] L rounds=35 boss_hp=9 pa=4
+[13/20] V rounds=29 boss_hp=0 pa=6
+[14/20] L rounds=35 boss_hp=10 pa=5
+[15/20] V rounds=30 boss_hp=0 pa=3
+[16/20] L rounds=35 boss_hp=12 pa=5
+[17/20] L rounds=35 boss_hp=5 pa=4
+[18/20] V rounds=29 boss_hp=0 pa=5
+[19/20] V rounds=27 boss_hp=0 pa=5
+[20/20] V rounds=27 boss_hp=0 pa=5
+
+Wrote C:\dev\Game\docs\playtest\optuna-hardcore_06-smoke-3trials-v2\trial-000.json
+
+=== AGGREGATE ===
+{
+  "N": 20,
+  "encounter_class": "hardcore",
+  "target_bands": {
+    "win_rate": [
+      0.15,
+      0.25
+    ],
+    "defeat_rate": [
+      0.4,
+      0.55
+    ],
+    "timeout_rate": [
+      0.15,
+      0.25
+    ]
+  },
+  "verdict": "RED",
+  "verdict_reasons": [
+    "win_rate=0.55 out of band [0.15,0.25] (red)",
+    "timeout_rate=0.00 out of band [0.15,0.25] (red)"
+  ],
+  "win_rate": 0.55,
+  "defeat_rate": 0.45,
+  "timeout_rate": 0.0,
+  "win_count": 11,
+  "loss_count": 9,
+  "timeout_count": 0,
+  "turns_avg": 31.1,
+  "turns_median": 32.0,
+  "turns_stdev": 4.109744517606903,
+  "turns_min": 24,
+  "turns_max": 35,
+  "turns_hist": {
+    "1-5": 0,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 0,
+    "21-30": 10,
+    "31-40": 10,
+    "41+": 0
+  },
+  "kd_avg": 2.214166666666667,
+  "kd_median": 1.8333333333333335,
+  "dmg_dealt_avg": 53.2,
+  "dmg_taken_avg": 29.55,
+  "boss_hp_remaining_avg_on_loss": 8.444444444444445,
+  "players_alive_avg_on_win": 5.363636363636363,
+  "ai_intent_distribution": {
+    "Critical|move": 127,
+    "Critical|unknown": 40,
+    "Apex|unknown": 57,
+    "Apex|attack": 345,
+    "Apex|move": 206,
+    "Critical|attack": 19,
+    "High|attack": 1,
+    "High|move": 14
+  },
+  "player_action_distribution": {
+    "move": 1301,
+    "unknown": 2254,
+    "attack": 1064
+  },
+  "trait_used_distribution": {
+    "zampe_a_molla": 12
+  },
+  "elapsed_sec": 1367.2,
+  "failures": 0
+}

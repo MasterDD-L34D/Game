@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "offensivo"
+      ]
+    }
+  },
+  "traits": [
+    "antenne_flusso_mareale",
+    "artigli_induzione",
+    "biochip_memoria",
+    "camere_anticorrosione",
+    "cartilagini_biofibre",
+    "circolazione_supercritica",
+    "coda_stabilizzatrice_vortex",
+    "denti_chelatanti",
+    "enzimi_metanoossidanti",
+    "foliaggio_spugna",
+    "frusta_fiammeggiante",
+    "ghiandola_caustica",
+    "ghiandole_iodoattive",
+    "gusci_magnesio",
+    "mantelli_geotermici",
+    "sangue_piroforico"
+  ],
+  "type": "offensivo"
+}

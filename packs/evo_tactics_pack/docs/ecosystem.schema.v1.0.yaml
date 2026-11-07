@@ -1,0 +1,20 @@
+title: Evo-Tactics Ecosystem Schema v1.0
+type: object
+required: [schema_version, receipt, ecosistema, links]
+properties:
+  schema_version: {const: 1.0}
+  receipt: {type: object, required: [source, author, date, trace_hash]}
+  ecosistema:
+    type: object
+    required: [metadati, bioma, morfologia, composizione_aria, clima, abiotico, trofico, gruppi_funzionali, suolo, acque, servizi_ecosistemici, pressioni_stato_risposte]
+  links:
+    type: object
+    required: [biome_id, species_dir, foodweb]
+    properties:
+      biome_id: {type: string}
+      species_dir: {type: string}
+      foodweb: {type: string}
+      npg_dir: {type: string}
+  rules:
+    type: object
+    required: [at_least]

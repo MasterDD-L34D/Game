@@ -1,0 +1,41 @@
+schema_version: 1.0
+ecosistema:
+  id: MEZZANOTTE_ORBITALE
+  label: Mezzanotte Orbitale
+  biome_id: mezzanotte_orbitale
+  clima:
+    temperatura_C:
+      media_annua: 5.0
+      min_mese_piu_freddo: -40.0
+      max_mese_piu_caldo: 60.0
+    precipitazioni_mm:
+      totale_annuo: 0
+      indice_stagionalita: vuoto-ciclo-orbitale
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 75.0
+      O2: 21.0
+      Ar: 0.93
+      CO2: 1.5
+  abiotico:
+    salinita: synthetic-recycled
+    nutrienti:
+      N: basso
+      P: basso
+      K: basso
+  trofico:
+    produttori:
+    - funghi_melanici_radiotrofi
+    consumatori:
+      primari: []
+      secondari: []
+      terziari:
+      - noctipedis-umbrata
+    decompositori: []
+  note: 'Mezzanotte Orbitale (upland/artificiale): stazione orbitale in decadimento,
+    gravita variabile; atmosfera riciclata da scrubber in cedimento, base trofica
+    radiotrofa (funghi melanici su radiazione residua).'
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

@@ -1,0 +1,56 @@
+Hardcore 07 calibration: N=10 host=http://localhost:3342
+  run 1: timeout rounds=15 timer_expired=False KD=2.0
+  run 2: victory rounds=13 timer_expired=False KD=4.0
+  run 3: victory rounds=11 timer_expired=False KD=4.0
+  run 4: victory rounds=12 timer_expired=False KD=4.0
+  run 5: timeout rounds=15 timer_expired=False KD=3.0
+  run 6: victory rounds=9 timer_expired=False KD=4.0
+  run 7: timeout rounds=15 timer_expired=False KD=2.0
+  run 8: timeout rounds=15 timer_expired=False KD=2.0
+  run 9: victory rounds=10 timer_expired=False KD=4.0
+  run 10: timeout rounds=15 timer_expired=False KD=2.0
+
+=== SUMMARY ===
+{
+  "n": 10,
+  "win_rate": 50.0,
+  "win_rate_ci95": [
+    20.0,
+    80.0
+  ],
+  "defeat_rate": 0.0,
+  "defeat_rate_ci95": [
+    0,
+    0
+  ],
+  "timeout_rate": 50.0,
+  "timeout_rate_ci95": [
+    20.0,
+    80.0
+  ],
+  "timer_expire_rate": 0.0,
+  "rounds_avg": 13,
+  "rounds_ci95": [
+    11.6,
+    14.2
+  ],
+  "rounds_median": 14.0,
+  "kd_avg": 3.1,
+  "kd_ci95": [
+    2.5,
+    3.7
+  ],
+  "target_band": "win 30-50%",
+  "in_band": true,
+  "player_action_distribution": {
+    "move": 50,
+    "attack": 381,
+    "unknown": 17
+  },
+  "trait_used_distribution": {
+    "zampe_a_molla": 5
+  },
+  "elapsed_s": 336.0,
+  "failures": 0
+}
+Saved: C:\dev\Game\docs\playtest\parallel-hardcore_07-hc07-edm21-ratify-shard1.json

@@ -1,0 +1,18 @@
+{
+  "id": "TKT-PCG-FALLOUT-ENCOUNTER-CLI",
+  "title": "Fallout Tactics encounter authoring CLI YAML extension",
+  "pillar": "P5",
+  "effort_hours": 6,
+  "donor_game": {
+    "name": "Fallout Tactics",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#11-fallout-tactics-micro-forte-2001--p1p6"
+  },
+  "agent_owner": "pcg-level-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "`tools/py/master_dm.py` REPL → YAML generator + validator. Encounter editor custom."
+}

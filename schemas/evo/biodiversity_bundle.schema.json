@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.local/schemas/evo/biodiversity_bundle.schema.json",
+  "title": "Evo-Tactics Biodiversity Bundle (canonical)",
+  "description": "Snapshot canonical intermedio del dominio biodiversità: aggrega biomi, ecosistemi, foodwebs, species e meta-network in un unico bundle deterministico, riconciliando le tre viste (Game runtime + catalog publishing + Game-Database CMS).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "snapshot_id",
+    "network",
+    "ecosystems",
+    "foodwebs",
+    "species",
+    "biomes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Versione schema bundle. Bump major in caso di breaking change."
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp di generazione."
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{12,64}$",
+      "description": "Hash deterministico (sha256 prefix 12+) del payload normalizzato. Usato come checksum cross-repo."
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "nodes", "edges"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["id", "biome_id"],
+            "properties": {
+              "id": { "type": "string" },
+              "biome_id": { "type": "string" },
+              "path": { "type": "string" },
+              "weight": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["from", "to", "type"],
+            "properties": {
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "type": { "type": "string" },
+              "resistance": { "type": "number", "minimum": 0, "maximum": 1 },
+              "seasonality": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "rules": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "ecosystems": {
+      "type": "array",
+      "description": "Lista ecosistemi (uno per nodo network di tipo bioma).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "biome_id"],
+        "properties": {
+          "id": { "type": "string" },
+          "biome_id": { "type": "string" },
+          "label": { "type": "string" },
+          "source_path": { "type": "string" },
+          "trofico": { "type": "object", "additionalProperties": true },
+          "links": { "type": "object", "additionalProperties": true }
+        }
+      }
+    },
+    "foodwebs": {
+      "type": "array",
+      "description": "Lista foodweb (uno per ecosistema). Whitelist trofica statica.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["biome_slug", "nodes", "edges"],
+        "properties": {
+          "biome_slug": { "type": "string" },
+          "pack_slug": { "type": "string" },
+          "display_name_it": { "type": "string" },
+          "display_name_en": { "type": "string" },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": ["id", "kind"],
+              "properties": {
+                "id": { "type": "string" },
+                "kind": {
+                  "type": "string",
+                  "enum": ["species", "resource", "hazard"]
+                }
+              }
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": ["from", "to", "type"],
+              "properties": {
+                "from": { "type": "string" },
+                "to": { "type": "string" },
+                "type": { "type": "string" },
+                "weight": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "species": {
+      "type": "array",
+      "description": "Lista species canonical (id stabile + biome affinity opzionale).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "biome_id": { "type": "string" },
+          "source_path": { "type": "string" }
+        }
+      }
+    },
+    "biomes": {
+      "type": "array",
+      "description": "Lista biomi runtime canonical (data/core/biomes.yaml).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "diff_base": { "type": "number" }
+        }
+      }
+    },
+    "cross_events": {
+      "type": "array",
+      "description": "Eventi cross-bioma (propagation modifier flat).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["species_id"],
+        "properties": {
+          "species_id": { "type": "string" },
+          "from_nodes": { "type": "array", "items": { "type": "string" } },
+          "to_nodes": { "type": "array", "items": { "type": "string" } },
+          "propagate_via": { "type": "array", "items": { "type": "string" } },
+          "effect": { "type": "string" }
+        }
+      }
+    },
+    "bridge_species_map": {
+      "type": "array",
+      "description": "Specie ponte tra nodi network (echo-wing pattern).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["species_id", "present_in_nodes"],
+        "properties": {
+          "species_id": { "type": "string" },
+          "roles": { "type": "array", "items": { "type": "string" } },
+          "present_in_nodes": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "manifests": {
+      "type": "object",
+      "description": "Hash + counters per debug e drift detection.",
+      "additionalProperties": true,
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "biomes": { "type": "integer", "minimum": 0 },
+            "ecosystems": { "type": "integer", "minimum": 0 },
+            "foodwebs": { "type": "integer", "minimum": 0 },
+            "species": { "type": "integer", "minimum": 0 },
+            "network_nodes": { "type": "integer", "minimum": 0 },
+            "network_edges": { "type": "integer", "minimum": 0 },
+            "cross_events": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "source_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "probe": "fp-trait-delta-probe",
+  "spec": "docs/planning/2026-06-23-aa01-form-pulse-player-trait-spec-draft.md",
+  "posture": "L-069 REPORTS; ratification = master-dd verdict (N=40, MA3)",
+  "n": 40,
+  "seed": 20260623,
+  "baseline_branco_emergence_rate": 0.85,
+  "v2_branco_emergence_rate": 1,
+  "mean_minor_traits_per_team": 3.075,
+  "team_power_baseline": {
+    "n": 40,
+    "mean": 2.9754999999999985,
+    "std": 2.7613355650054747,
+    "ci95_lo": 2.119753242594365,
+    "ci95_hi": 3.831246757405632
+  },
+  "team_power_v2": {
+    "n": 40,
+    "mean": 7.112000000000002,
+    "std": 3.304135093780022,
+    "ci95_lo": 6.088037925862588,
+    "ci95_hi": 8.135962074137415
+  },
+  "power_added_per_team": {
+    "n": 40,
+    "mean": 4.136499999999999,
+    "std": 2.8160415479889496,
+    "ci95_lo": 3.2637996828234783,
+    "ci95_hi": 5.00920031717652
+  },
+  "power_added_per_creature": {
+    "n": 40,
+    "mean": 1.3069166666666665,
+    "std": 0.656255299802233,
+    "ci95_lo": 1.1035410422213596,
+    "ci95_hi": 1.5102922911119734
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "species": {
+    "scientific_name": "Noctilumen barocromicus",
+    "common_names": ["Trasvolatore Aurorale", "Custode dei Vortici"],
+    "classification": {
+      "macro_class": "Mammalo-artropode",
+      "habitat": "foreste pluviali e canyon notturni"
+    },
+    "functional_signature": "Veicolo da trasporto fotonico che alterna lampi accecanti a planate stabilizzate da membrane pressorie.",
+    "visual_description": "Corpo allungato con placche scure, sacche luminose sul petto e membrane che si aprono tra le zampe.",
+    "risk_profile": {
+      "danger_level": 3,
+      "vectors": ["accecamento", "detriti_ionici"]
+    },
+    "interactions": {
+      "predates_on": ["coleotteri_micelio"],
+      "predated_by": ["predatore_barocromico"],
+      "symbiosis": "Si sincronizza con miceli riflettenti per amplificare i lampi di segnalazione."
+    },
+    "constraints": [
+      "Richiede colonne aurorali attive per ricarica dei sacchi luminosi.",
+      "Membrane barocere degradano in biomi non canyonici con vento stabile."
+    ],
+    "sentience_index": "T3",
+    "ecotypes": ["Canyon Notturno", "Gole Ventose"],
+    "trait_refs": ["TR-9810", "TR-9811", "TR-9812"]
+  },
+  "version": "0.1.0",
+  "versioning": {
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "author": "sandbox-species-curator",
+    "status": "draft"
+  }
+}

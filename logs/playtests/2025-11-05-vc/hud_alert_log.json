@@ -1,0 +1,57 @@
+[
+  {
+    "alertId": "risk-high:skydock_siege_tier3_retest",
+    "status": "raised",
+    "missionId": "skydock_siege_tier3_retest",
+    "missionTag": "delta",
+    "turn": 11,
+    "weightedIndex": 0.62,
+    "timeLowHpTurns": 3,
+    "roster": ["Bulwark", "Cipher", "Aurora"],
+    "timestamp": "2025-11-05T10:11:42Z",
+    "ackCount": 0,
+    "ackRecipients": []
+  },
+  {
+    "alertId": "risk-high:skydock_siege_tier3_retest",
+    "status": "acknowledged",
+    "missionId": "skydock_siege_tier3_retest",
+    "missionTag": "delta",
+    "turn": 12,
+    "weightedIndex": 0.6,
+    "timeLowHpTurns": 3,
+    "roster": ["Bulwark", "Cipher", "Aurora"],
+    "timestamp": "2025-11-05T10:12:07Z",
+    "ackRecipient": "pi.balance.alerts",
+    "ackRecipients": ["pi.balance.alerts"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-11-05T10:12:07Z"
+  },
+  {
+    "alertId": "risk-high:skydock_siege_tier3_retest",
+    "status": "cleared",
+    "missionId": "skydock_siege_tier3_retest",
+    "missionTag": "delta",
+    "turn": 13,
+    "weightedIndex": 0.57,
+    "timeLowHpTurns": 2,
+    "roster": ["Bulwark", "Cipher", "Aurora"],
+    "timestamp": "2025-11-05T10:13:31Z",
+    "ackRecipients": ["pi.balance.alerts"],
+    "ackCount": 1,
+    "lastAckTimestamp": "2025-11-05T10:12:07Z"
+  },
+  {
+    "alertId": "risk-high:skydock_siege_tier3_coop",
+    "status": "filtered",
+    "missionId": "skydock_siege_tier3_coop",
+    "missionTag": "echo",
+    "turn": 9,
+    "weightedIndex": 0.55,
+    "timeLowHpTurns": 1,
+    "roster": ["Sentinel", "Cipher", "Helix"],
+    "timestamp": "2025-11-05T11:04:58Z",
+    "filterName": "stabilizerWindow",
+    "filterCount": 1
+  }
+]

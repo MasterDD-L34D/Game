@@ -1,0 +1,44 @@
+# TKT-M14-B Phase B — Conviction dialogue branch — Bond reaction trigger context.
+#
+# Trigger: morality alta (>=65), evento bond fra unit del branco.
+# Axis space: rinforzare bond (morality+) vs disciplinare (utility+) vs lasciar fluire (liberty+).
+
+id: conv_branch_pack_unity
+title: "Pack Unity"
+description_it: |
+  Due membri del branco si sono uniti contro la minaccia comune.
+  Hanno cacciato insieme senza ordini. Skiv osserva. Il bond cresce.
+  La domanda: incoraggiare, gestire, o lasciare libero?
+description_en: |
+  Two pack members united against the common threat. They hunted
+  together without orders. Skiv watches. The bond grows. The question:
+  encourage, manage, or let it flow free?
+trigger:
+  encounter_id: null
+  axis_threshold:
+    morality: 65
+choices:
+  - id: encourage
+    text_it: "Incoraggia. Bond rafforza branco intero."
+    text_en: "Encourage. Bond strengthens the whole pack."
+    delta:
+      utility: -2
+      liberty: +3
+      morality: +10
+    consequence: "Bond_hearts +2 fra le due unit. Branco celebra. Skiv annuisce."
+  - id: discipline
+    text_it: "Disciplina. Gli ordini esistono per ragione."
+    text_en: "Discipline. Orders exist for a reason."
+    delta:
+      utility: +10
+      liberty: -8
+      morality: -5
+    consequence: "Bond_hearts -1. Branco si irrigidisce. Skiv evita lo sguardo."
+  - id: let_flow
+    text_it: "Lascia che il branco trovi la sua forma."
+    text_en: "Let the pack find its own shape."
+    delta:
+      utility: 0
+      liberty: +12
+      morality: +3
+    consequence: "Branco si auto-organizza. Skiv: 'Sabbia segue ridge proprio.'"
