@@ -1,0 +1,18 @@
+{
+  "id": "TKT-BALANCE-STOCKFISH-SPRT",
+  "title": "Stockfish SPRT calibration early-stop",
+  "pillar": "P6",
+  "effort_hours": 4,
+  "donor_game": {
+    "name": "Stockfish",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#1-stockfish-sprt"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "SPRT loop H0 vs H1 alpha/beta=0.05 stop early. Wrapper su `tools/py/batch_calibrate_*.py`. scipy.stats."
+}

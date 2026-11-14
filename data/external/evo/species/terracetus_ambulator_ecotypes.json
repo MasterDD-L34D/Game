@@ -1,0 +1,46 @@
+{
+  "species": "Terracetus ambulator",
+  "ecotypes": [
+    {
+      "id": "TAM-ECO1",
+      "label": "Pianure Ventose",
+      "biome_class": "terrestre_pianeggiante",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00005776"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "velocita_max",
+          "delta": 0.2,
+          "unit": "m/s",
+          "notes": "Vento a favore",
+          "trait_id": "cinghia_iper_ciliare"
+        }
+      ]
+    },
+    {
+      "id": "TAM-ECO2",
+      "label": "Savanicola Notturno",
+      "biome_class": "terrestre_savanna",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_01000178"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "tolleranza_termica",
+          "delta": 10,
+          "unit": "K",
+          "notes": "Picco di crioproteine notturne",
+          "trait_id": "siero_anti_gelo_naturale"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "terracetus_ambulator"
+}

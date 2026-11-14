@@ -1,0 +1,36 @@
+# AI Intent Score Registry — Evo-Tactics
+# Estratto da pattern W3 (wesnoth scored candidate actions).
+# Centralizza tutte le costanti decisionali dell'IA SIS.
+# Modifica questo file per calibrare il comportamento del Sistema
+# senza toccare codice.
+#
+# Vedi docs/planning/tactical-architecture-patterns.md §W3
+
+version: "0.1.0"
+
+# --- Costanti combattimento ---
+combat:
+  default_attack_range: 2
+  default_max_hp_fallback: 10
+  kite_buffer: 1
+  default_damage_dice:
+    count: 1
+    sides: 6
+    modifier: 2
+
+# --- Soglie decisione ---
+thresholds:
+  retreat_hp_pct: 0.3 # REGOLA_002: hp_ratio <= questo → retreat
+
+# --- Threat assessment (AI War pattern) ---
+# REGOLA_004_THREAT: escalation reattiva basata su passivita/pressione
+threat:
+  passivity_threshold_turns: 3 # turni senza attacco player → tier 'passive'
+  escalation_damage_ratio: 0.6 # ratio danno subito SIS → tier 'critical'
+  aggression_weight: 0.4 # peso player_aggression nel threat_level composito
+  passivity_weight: 0.35 # peso player_passivity (invertito)
+  pressure_weight: 0.25 # peso damage_pressure
+
+# --- Griglia ---
+grid:
+  default_size: 6

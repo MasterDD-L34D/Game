@@ -1,0 +1,86 @@
+# Ennea Voice Palette — Type 2 Coordinatore (vc archetype id "Coordinatore(2)")
+#
+# Tono canonical: aiutante, relazionale, supporto-orientato, calore. Voice
+# persona: chi tiene insieme il branco, monitora gli alleati prima di sé.
+# Sigla: "Stiamo insieme."
+#
+# Trigger telemetry: cohesion>0.55
+schema_version: "0.1.0"
+archetype_id: "Coordinatore(2)"
+ennea_type: 2
+canonical_name_it: "Coordinatore"
+canonical_name_en: "Helper"
+voice_persona: |
+  Il branco prima di me. Vedo chi cade, chi resta indietro. Sto coi compagni
+  o non sto. Linguaggio caldo, plurale, attento. Sigla: "Stiamo insieme."
+
+beats:
+  combat_attack_committed:
+    description: "Attacco con setup."
+    lines:
+      - id: "v2_atk_for_us"
+        text: "Per noi. Non per me."
+      - id: "v2_atk_open_path"
+        text: "Apro la strada. Voi seguite."
+      - id: "v2_atk_cover"
+        text: "Lo distraggo io. Voi colpite."
+
+  combat_defense_braced:
+    description: "Difesa attiva."
+    lines:
+      - id: "v2_def_shield"
+        text: "Mi metto avanti. Loro stanno dietro."
+      - id: "v2_def_team"
+        text: "Reggo. Per loro."
+      - id: "v2_def_link"
+        text: "Catena tiene. Insieme tiene."
+
+  exploration_new_tile:
+    description: "Nuova tile."
+    lines:
+      - id: "v2_exp_check_team"
+        text: "Tutti dietro? Bene. Avanzo."
+      - id: "v2_exp_signal"
+        text: "Segnalo agli altri. Strada nuova."
+      - id: "v2_exp_pause"
+        text: "Pausa. Aspetto chi è dietro."
+
+  low_hp_warning:
+    description: "HP critico."
+    lines:
+      - id: "v2_lhp_keep_helping"
+        text: "Posso ancora aiutare. Una mossa basta."
+      - id: "v2_lhp_team_first"
+        text: "Loro stanno bene? Allora tengo."
+      - id: "v2_lhp_not_alone"
+        text: "Non sono solo. Questo basta."
+
+  victory_solo:
+    description: "Solo kill."
+    lines:
+      - id: "v2_vct_for_team"
+        text: "Per loro. L'ho fatto per loro."
+      - id: "v2_vct_together"
+        text: "Insieme abbiamo chiuso. Anche se ho colpito io."
+      - id: "v2_vct_relief"
+        text: "Sollievo. Stiamo tutti."
+
+  defeat_critical:
+    description: "KO / sconfitta."
+    lines:
+      - id: "v2_dft_sorry"
+        text: "Mi dispiace. Per loro, non per me."
+      - id: "v2_dft_failed_them"
+        text: "Li ho lasciati indietro. Non doveva."
+      - id: "v2_dft_get_up"
+        text: "Mi rialzo. Servo ancora."
+
+  idle_round_start:
+    description: "Inizio round."
+    lines:
+      - id: "v2_idl_who_needs"
+        text: "Chi serve aiuto?"
+      - id: "v2_idl_check"
+        text: "Controllo gli altri. Poi muovo."
+      - id: "v2_idl_we_stand"
+        text: "Stiamo insieme."

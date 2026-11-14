@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-04-19T22:25:35.751Z",
+  "kind": "freetext",
+  "player_name": "claude-agent",
+  "session_id": null,
+  "client_hash": "8f9a76fb7876f725",
+  "user_agent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; it-IT) WindowsPowerShell/5.1.26100.8115",
+  "text": "test smoke from agent"
+}

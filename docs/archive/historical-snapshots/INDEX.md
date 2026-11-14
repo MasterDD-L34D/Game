@@ -1,0 +1,28 @@
+---
+title: Archivio Incoming — Registro decisioni agentiche
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+
+# Archivio Incoming — Registro decisioni agentiche
+
+`AG-Orchestrator` utilizza questa tabella per registrare gli asset spostati in archivio o scartati con potenziale futuro. L'aggiornamento avviene durante il post-sync della "Incoming Review".
+
+| Data       | Percorso origine                                                                                                                                                           | Cartella archivio                                                                                                                        | Motivazione                                                                                                 | Spunti/Follow-up                                                                                                                           | Agente owner |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| YYYY-MM-DD | incoming/evo_tactics_unified_pack-v1.9.zip                                                                                                                                 | incoming/archive/2024/05/                                                                                                                | Sostituito da v1.9.8 ma contiene hook interessanti                                                          | Riprendere parametri stamina per DLC survival                                                                                              | `AG-Core`    |
+| 2025-11-15 | incoming/species/ + incoming/lavoro_da_classificare/{home/oai/share/, docs/wireframes/, traits/}                                                                           | incoming/archive/2025-11-15_evo_cleanup/                                                                                                 | Duplicati Evo spostati in archivio post-import                                                              | Vedi reports/evo/inventory_audit.md                                                                                                        | AG-Archive   |
+| 2025-11-25 | incoming/evo-tactics-final*, incoming/docs/*, incoming/decompressed/_, incoming/incoming_inventory.json, compat_map_.json, game_repo_map.json, pack_biome_jobs_v8_alt.json | incoming/archive_cold/backups/2025-11-25/, incoming/archive_cold/devkit_scripts/2025-11-25/, incoming/archive_cold/inventory/2025-11-25/ | Cleanup 03B (freeze 2025-11-25) con redirect verso archive_cold; checksum in manifest S3 e verifica locale. | Verifica periodica checksum `reports/backups/2025-11-25_freeze/manifest.txt` + `incoming/archive_cold/backups/2025-11-25/manifest.sha256`. | archivist    |
+| 2025-11-25 | incoming/idea_intake_site_package.zip, incoming/generator.html, incoming/index*.html, incoming/last_report.*, incoming/logs_48354746845.zip, incoming/species_index.html   | incoming/archive_cold/reports/2025-11-25_site/                                                                                           | Archiviazione fredda pacchetti/report intake (cleanup 03B); checksum in manifest locale.                    | Verifica `manifest.sha256` e riferimento freeze `reports/backups/2025-11-25_freeze/manifest.txt`.                                          | archivist    |
+
+## Note operative
+
+- Organizzare l'archivio per anno/mese (`incoming/archive/YYYY/MM/`).
+- Inserire eventuali asset derivati (documenti estratti) nella stessa cartella con README locale.
+- Quando un asset viene recuperato dall'archivio, segnare la riga come **Ripreso** e linkare a issue/PR gestite dall'agente owner.
+- 2025-12-01: confermata la coerenza dei redirect 03B post-merge 03A senza spostamenti aggiuntivi; checkpoint smoke mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2025-12-01-smoke/` a supporto di eventuali ripristini.

@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evo-Tactics — Play</title>
+    <!-- Visual base — Inter/Noto Sans (TV-first 42-STYLE-GUIDE-UI.md) + tactical display fonts (Cinzel/IM Fell English/VT323) per visual upgrade 2026-04-28 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Cinzel:wght@400;600;700;900&family=IM+Fell+English:ital@0;1&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+    <!-- Demo one-tunnel: runtime WS hint (no-op if dev Vite or static /play absent) -->
+    <script src="runtime-config.js" onerror="void 0"></script>
+  </head>
+  <body>
+    <div id="app" class="scanline-overlay">
+      <header class="tactical-frame">
+        <h1>🦴 Evo-Tactics</h1>
+        <div class="status">
+          <span id="turn-info">—</span>
+          <span id="active-info">—</span>
+        </div>
+        <div id="pressure-meter" class="pressure-meter">
+          <div class="pressure-label">SISTEMA — · 0/100 · cap 1 intents/round</div>
+          <div class="pressure-bar"><div class="pressure-fill" style="width: 0%"></div></div>
+        </div>
+        <!-- Sprint 9 (Surface-DEAD #5): objective HUD top-bar. -->
+        <div
+          id="objective-bar"
+          class="objective-bar obj-hidden"
+          role="status"
+          aria-live="polite"
+        ></div>
+        <!-- Sprint 11 (Surface-DEAD #6): biome chip HUD surface. -->
+        <div id="biome-chip" class="biome-chip biome-hidden" role="status" aria-live="polite"></div>
+        <!-- Action 7 (ADR-2026-04-28 §Action 7): CT bar lookahead 3 turni — FFT-style temporal legibility. -->
+        <div
+          id="ct-bar"
+          class="ct-bar ct-bar-hidden"
+          role="status"
+          aria-live="polite"
+          aria-label="Ordine prossimi turni"
+        ></div>
+        <!-- Action 6 (ADR-2026-04-28 §Action 6): Ambition HUD strip — long-arc campaign goal. -->
+        <div
+          id="ambition-hud"
+          class="ambition-hud ambition-hidden"
+          role="status"
+          aria-live="polite"
+          aria-label="Obiettivi long-arc"
+        ></div>
+        <div class="header-actions">
+          <button id="fullscreen-toggle" class="hud-btn" title="Schermo intero — Alt+Enter">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4" />
+            </svg>
+            <span class="hud-label">Schermo</span>
+          </button>
+          <button id="timer-toggle" class="hud-btn" title="Timer planning 30s ON/OFF">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="13" r="8" />
+              <path d="M12 9v4l2 2M9 1h6M12 5v1" />
+            </svg>
+            <span class="hud-label">Timer</span>
+          </button>
+          <button
+            id="codex-open"
+            class="hud-btn"
+            title="Codex — Guida meccanica + glossario + tips re-read"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"
+              />
+            </svg>
+            <span class="hud-label">Codex</span>
+          </button>
+          <button id="help-open" class="hud-btn" title="Aiuto — tutorial overlay (?)">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" />
+            </svg>
+            <span class="hud-label">Aiuto</span>
+          </button>
+          <button
+            id="progression-open"
+            class="hud-btn"
+            title="Progression — XP + perk pick (M13 P3)"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 17l6-6 4 4 8-8M14 7h7v7" />
+            </svg>
+            <span class="hud-label">📈 Lv</span>
+          </button>
+          <button
+            id="character-open"
+            class="hud-btn"
+            title="Carattere — MBTI assi + Ennea archetipi (sprint 2026-04-26)"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+            </svg>
+            <span class="hud-label">🎭 Carattere</span>
+          </button>
+          <button
+            id="thoughts-open"
+            class="hud-btn"
+            title="Thought Cabinet — MBTI thoughts sbloccati (P4)"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M9 3a4 4 0 0 0-4 4v3a4 4 0 0 0 2 3.46V17a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-3.54A4 4 0 0 0 19 10V7a4 4 0 0 0-4-4z"
+              />
+              <path d="M10 21h4" />
+            </svg>
+            <span class="hud-label">🧠 Mente</span>
+          </button>
+          <button
+            id="skiv-open"
+            class="hud-btn"
+            title="Skiv Monitor — feed live creatura da git events"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 12c2-3 6-5 9-5s7 2 9 5c-2 3-6 5-9 5s-7-2-9-5z" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+            <span class="hud-label">🦎 Skiv</span>
+          </button>
+          <button
+            id="nest-open"
+            class="hud-btn"
+            title="Nido — Squad / Mating / Lineage / Codex (OD-001 Path A)"
+            style="display: none"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 12L12 4l9 8M5 10v10h14V10" />
+              <path d="M9 20v-6h6v6" />
+            </svg>
+            <span class="hud-label">🏠 Nido</span>
+          </button>
+          <button id="forms-open" class="hud-btn" title="Evoluzione Form — scegli form MBTI (M12)">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 2v20M5 12h14M8 6l8 12M16 6l-8 12" />
+            </svg>
+            <span class="hud-label">🧬 Evo</span>
+          </button>
+          <button
+            id="campaign-open"
+            class="hud-btn hud-btn-primary"
+            title="Campagna — progressione e scelte narrative (M10)"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 6l7-3 7 3 4-2v15l-4 2-7-3-7 3z" />
+              <line x1="10" y1="3" x2="10" y2="18" />
+              <line x1="17" y1="6" x2="17" y2="21" />
+            </svg>
+            <span class="hud-label">🗺 Campagna</span>
+          </button>
+          <button
+            id="feedback-open"
+            class="hud-btn hud-btn-primary"
+            title="Invia feedback / report — raccolta playtest"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              />
+            </svg>
+            <span class="hud-label">📣 Feedback</span>
+          </button>
+        </div>
+      </header>
+      <main>
+        <section class="board">
+          <canvas id="grid" width="512" height="512"></canvas>
+          <div id="unit-tooltip" class="unit-tooltip hidden"></div>
+          <div class="controls">
+            <button id="end-turn">Fine turno</button>
+            <button id="undo-action" class="undo-btn hidden" title="Annulla ultima azione (Ctrl+Z)">
+              ↶ Undo
+            </button>
+            <!-- TKT-P6-FE — Rewind safety valve (3 snapshots post-action). P6 anti-frustration. -->
+            <button
+              id="rewind-action"
+              class="rewind-btn"
+              title="Annulla turno — rewind 1 azione completata (budget 3 per combat)"
+            >
+              ↶ Annulla turno <span id="rewind-budget" class="rewind-budget">3/3</span>
+            </button>
+            <button id="new-session">Nuova sessione</button>
+            <button id="reset-round" title="Emergency reset round state (se tutto bloccato)">
+              🔄 Reset
+            </button>
+            <button id="open-replay">📽 Replay</button>
+            <button id="download-eval" title="Scarica eval set Flint v0.3 (JSONL decision pairs)">
+              📊 Eval
+            </button>
+            <button id="toggle-mute" title="Mute SFX">🔊</button>
+            <select id="scenario-select">
+              <option value="enc_tutorial_01">Tutorial 01 · Primi passi</option>
+              <option value="enc_tutorial_02">Tutorial 02 · Pattuglia</option>
+              <option value="enc_tutorial_03">Tutorial 03 · Hazard savana</option>
+              <option value="enc_tutorial_04">Tutorial 04 · Bleeding foresta</option>
+              <option value="enc_tutorial_05">Tutorial 05 · BOSS Apex</option>
+              <option value="enc_tutorial_06_hardcore" disabled>
+                Tutorial 06 · HARDCORE 8p (WIP M9 — stalemate pattern)
+              </option>
+            </select>
+            <select id="modulation-select" title="Party composition (co-op 1-8 player)">
+              <option value="">Party: auto</option>
+            </select>
+          </div>
+        </section>
+        <aside class="sidebar tactical-frame">
+          <h2>Unità</h2>
+          <ul id="units"></ul>
+          <h2>Log</h2>
+          <div id="log"></div>
+        </aside>
+      </main>
+      <!-- M4 P0.1 — Ability bar sticky bottom, always-visible (user feedback) -->
+      <div id="ability-bar" class="ability-bar">
+        <span id="abilities-title" class="ability-bar-title hidden-empty">Abilities</span>
+        <div id="abilities" class="ability-bar-row"></div>
+      </div>
+      <footer>
+        <span id="selected-hint">Seleziona una tua unità per vedere azioni.</span>
+        <button id="cancel-pending" class="hidden">✕ Annulla ability</button>
+        <small class="credit-line">Pixel art: Luis Zuno (Ansimuz) — CC0 · UI: own SVG MIT</small>
+      </footer>
+      <!-- M7 demo feedback modal — playtest collection (2026-04-20) -->
+      <div id="feedback-overlay" class="hidden">
+        <div class="feedback-card tactical-frame">
+          <div class="feedback-header">
+            <h2>📣 Feedback playtest</h2>
+            <button id="feedback-close" class="feedback-close">✕</button>
+          </div>
+          <p class="feedback-intro">
+            Grazie per aver provato il gioco! Il tuo feedback è prezioso. Scegli un formato:
+          </p>
+          <div class="feedback-tabs">
+            <button id="feedback-tab-form" class="feedback-tab active">
+              📋 Form rapido (1 min)
+            </button>
+            <button id="feedback-tab-freetext" class="feedback-tab">✍️ Scrittura libera</button>
+          </div>
+          <div id="feedback-player-row">
+            <label
+              >Nome (opzionale):
+              <input
+                type="text"
+                id="feedback-player-name"
+                placeholder="Es. Marco"
+                maxlength="100"
+              />
+            </label>
+          </div>
+          <!-- FORM MODE -->
+          <div id="feedback-form-content" class="feedback-content">
+            <div class="feedback-q">
+              <label>1. Come ti è sembrato il gioco?</label>
+              <div class="feedback-rating" data-q="fun_rating">
+                <button class="rating-btn" data-value="1">😞 1</button>
+                <button class="rating-btn" data-value="2">😐 2</button>
+                <button class="rating-btn" data-value="3">🙂 3</button>
+                <button class="rating-btn" data-value="4">😃 4</button>
+                <button class="rating-btn" data-value="5">🤩 5</button>
+              </div>
+            </div>
+            <div class="feedback-q">
+              <label>2. Difficoltà percepita:</label>
+              <div class="feedback-choice" data-q="difficulty">
+                <button class="choice-btn" data-value="troppo_facile">Troppo facile</button>
+                <button class="choice-btn" data-value="giusta">Giusta</button>
+                <button class="choice-btn" data-value="troppo_difficile">Troppo difficile</button>
+              </div>
+            </div>
+            <div class="feedback-q">
+              <label>3. Il combat aveva tensione/rischio reale?</label>
+              <div class="feedback-choice" data-q="tension">
+                <button class="choice-btn" data-value="si">Sì</button>
+                <button class="choice-btn" data-value="a_tratti">A tratti</button>
+                <button class="choice-btn" data-value="no_stallo">No, stallava</button>
+              </div>
+            </div>
+            <div class="feedback-q">
+              <label>4. Hai notato differenze tra canali di attacco (fisico/psionico/ecc.)?</label>
+              <div class="feedback-choice" data-q="channels_felt">
+                <button class="choice-btn" data-value="si_chiaro">Sì, chiaramente</button>
+                <button class="choice-btn" data-value="si_vago">Un po'</button>
+                <button class="choice-btn" data-value="no">No</button>
+              </div>
+            </div>
+            <div class="feedback-q">
+              <label>5. Cosa ti è piaciuto di più? (opzionale)</label>
+              <textarea
+                id="fb-q-liked"
+                class="feedback-textarea"
+                rows="2"
+                placeholder="Scrivi liberamente..."
+              ></textarea>
+            </div>
+            <div class="feedback-q">
+              <label>6. Cosa miglioreresti? (opzionale)</label>
+              <textarea
+                id="fb-q-improve"
+                class="feedback-textarea"
+                rows="2"
+                placeholder="Scrivi liberamente..."
+              ></textarea>
+            </div>
+            <div class="feedback-q">
+              <label>7. Bug o problemi riscontrati? (opzionale)</label>
+              <textarea
+                id="fb-q-bugs"
+                class="feedback-textarea"
+                rows="2"
+                placeholder="Descrivi il problema..."
+              ></textarea>
+            </div>
+          </div>
+          <!-- FREETEXT MODE -->
+          <div id="feedback-freetext-content" class="feedback-content hidden">
+            <div class="feedback-q">
+              <label>Racconta tutto quello che vuoi sul gioco:</label>
+              <textarea
+                id="fb-freetext"
+                class="feedback-textarea feedback-textarea-large"
+                rows="12"
+                placeholder="Sensazioni generali, momenti divertenti, frustrazioni, bug, suggerimenti..."
+              ></textarea>
+            </div>
+          </div>
+          <div class="feedback-actions">
+            <button id="feedback-submit" class="feedback-submit">📤 Invia feedback</button>
+            <div id="feedback-status" class="feedback-status"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="endgame-overlay" class="hidden">
+        <div class="endgame-card tactical-frame">
+          <h2 id="endgame-title">—</h2>
+          <p id="endgame-stats">—</p>
+          <div class="endgame-actions">
+            <button id="endgame-next">Prossimo encounter</button>
+            <button id="endgame-retry">Rigioca</button>
+            <button id="endgame-close">Chiudi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

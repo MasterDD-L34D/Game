@@ -1,0 +1,79 @@
+{
+  "version": "v0.7",
+  "scrape_date": "2026-04-25T17:49:05Z",
+  "source": {
+    "site": "ancestors.fandom.com",
+    "method": "MediaWiki API (action=query, prop=revisions, rvslots=main)",
+    "index_page": "https://ancestors.fandom.com/wiki/Neurons",
+    "branch_pages": 18
+  },
+  "license": "CC BY-NC-SA 3.0 (Fandom default Terms of Use)",
+  "attribution": "Each row in CSV `sources` column carries branch name + neuron permalink. Per Fandom CC BY-NC-SA, derivative works (e.g., wiring into data/core/) must preserve attribution and apply same license.",
+  "total_entries": 297,
+  "branches_included": [
+    "Ambulation",
+    "Ardipithecus Ramidus",
+    "Attack",
+    "Australopithecus Afarensis",
+    "Communication",
+    "Dexterity",
+    "Dodge",
+    "Intelligence",
+    "Metabolism",
+    "Motricity",
+    "Omnivore",
+    "Orrorin Tugenensis",
+    "Preventive Medication",
+    "Self-Control",
+    "Senses",
+    "Settlement",
+    "Swim",
+    "Therapeutic Medication"
+  ],
+  "branches_count": {
+    "Ambulation": 26,
+    "Ardipithecus Ramidus": 13,
+    "Attack": 8,
+    "Australopithecus Afarensis": 12,
+    "Communication": 20,
+    "Dexterity": 33,
+    "Dodge": 10,
+    "Intelligence": 14,
+    "Metabolism": 4,
+    "Motricity": 20,
+    "Omnivore": 11,
+    "Orrorin Tugenensis": 8,
+    "Preventive Medication": 30,
+    "Self-Control": 12,
+    "Senses": 37,
+    "Settlement": 10,
+    "Swim": 5,
+    "Therapeutic Medication": 24
+  },
+  "rfc_promise_total": 297,
+  "pre_existing_dump_entries": 34,
+  "recovery_delta": 263,
+  "genetic_count": 89,
+  "regular_count": 208,
+  "csv_path_relative": "reports/incoming/ancestors/ancestors_neurons_dump_v07_wiki_recovery.csv",
+  "csv_sha256": "3e133990343181c546eced4e3f480eb27d3d0829cf6faca8d037e53890b6e65f",
+  "gaps": {
+    "effect_trigger_split": "Heuristic split between effect_short and unlock_trigger_hint based on imperative keywords (TAP/HOLD/SPRINT/COMBINE/etc.). Some rows may have empty unlock_trigger_hint when wiki description has no UI hint, or trigger_hint may carry leading \"TAP (button)\" copy needing manual cleanup.",
+    "image_codes_with_suffix": "Some neurons share image codes with -2/-3/-4 suffixes (e.g., BB SX 01-2). All preserved as distinct rows per wiki convention.",
+    "no_individual_page_fetch": "Effect descriptions taken from branch overview tables (sufficient signal). Individual neuron pages not fetched (would add ~297 requests, low marginal value vs branch tables)."
+  },
+  "notes_for_review": [
+    "Compare against existing reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv (34 entries, partial Attack/Dodge/Self-Control/Dexterity/Ambulation).",
+    "Pre-existing 01B dump has richer trigger_hints (manually curated). v07 wiki recovery has machine-extracted hints — may need normalization pass before merge.",
+    "Schema identical: code,branch,name,genetic,effect_short,unlock_trigger_hint,sources,notes",
+    "OD-011 Path B closure: this CSV provides candidate pool for RFC v0.2 mapping → trait_mechanics.yaml."
+  ],
+  "next_phase_handoff": {
+    "task": "User review v07 CSV → diff against 01B sanitized → produce merged v08 with conflict resolution + manual trigger_hint polish.",
+    "do_not": [
+      "commit",
+      "modify data/core/*",
+      "wire into trait_mechanics.yaml without RFC review"
+    ]
+  }
+}

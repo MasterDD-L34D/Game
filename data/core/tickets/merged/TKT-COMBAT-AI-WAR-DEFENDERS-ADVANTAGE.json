@@ -1,0 +1,20 @@
+{
+  "id": "TKT-COMBAT-AI-WAR-DEFENDERS-ADVANTAGE",
+  "title": "AI War Defender's advantage modifier",
+  "pillar": "P6",
+  "effort_hours": 3,
+  "donor_game": {
+    "name": "AI War: Fleet Command",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#10-ai-war-fleet-command-arcen-2009--p5p6"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "merged",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "+50% AI defensive vs player aggressive. 1 modifier in resolveAttack quando entity_type=ai + role=defender.",
+  "merged_pr": 1934,
+  "merged_at": "2026-04-27"
+}

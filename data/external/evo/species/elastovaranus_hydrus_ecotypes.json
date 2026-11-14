@@ -1,0 +1,60 @@
+{
+  "species": "Elastovaranus hydrus",
+  "ecotypes": [
+    {
+      "id": "EHY-ECO1",
+      "label": "Gole Ventose",
+      "biome_class": "terrestre_roccioso",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000173"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "soglia_udito",
+          "delta": -3,
+          "unit": "dB",
+          "notes": "Lamelle ottimizzate su roccia secca",
+          "trait_id": "organi_sismici_cutanei"
+        },
+        {
+          "metric": "tolleranza_termica",
+          "delta": 5,
+          "unit": "K",
+          "notes": "Termogenesi efficiente in correnti d'aria",
+          "trait_id": "ectotermia_dinamica"
+        }
+      ]
+    },
+    {
+      "id": "EHY-ECO2",
+      "label": "Letti Fluviali",
+      "biome_class": "terrestre_umido",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000025"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "energia_impattiva",
+          "delta": -200,
+          "unit": "J",
+          "notes": "Smorzamento in sabbia bagnata",
+          "trait_id": "scheletro_idraulico_a_pistoni"
+        },
+        {
+          "metric": "velocita_proiettile",
+          "delta": -10,
+          "unit": "m/s",
+          "notes": "Aria satura riduce velocità",
+          "trait_id": "rostro_emostatico_litico"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "elastovaranus_hydrus"
+}

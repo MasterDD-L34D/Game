@@ -1,0 +1,6 @@
+Pixel art assets by Luis Zuno (Ansimuz)
+License: Creative Commons Zero (CC0) — public domain
+No attribution required, commercial use permitted, modification OK.
+Source: https://ansimuz.itch.io/
+Original: Legacy Collection (provided 2026-04-28)
+Subset extracted via tools/py/extract_legacy_subset.py for Sprint G v3 asset swap.

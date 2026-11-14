@@ -1,0 +1,92 @@
+# Biome resolution -- 4-tuple imprint choices -> biome mapping data.
+#
+# Source: aa01 CAP-11 (audit Impronta CAP-10). Ported for C2-imprint as the data
+# behind the imprint biome-AFFINITY producer (services/imprint/imprintBiomeWeights.js).
+# The affinity is COSMETIC + NON-BINDING: biome stays route-canon. base_lookup is the
+# only part the weights producer reads; `modulation` is preserved design data (it was
+# the cap-11 binding-resolve variant system, NOT used by the cosmetic weights).
+#
+# 4 body-part axes (Jackbox L'Impronta):
+#   locomotion: VELOCE | SILENZIOSA
+#   offense:    PROFONDA | RAPIDA
+#   defense:    DURA | FLESSIBILE
+#   senses:     LONTANO | ACUTO
+# 16 combos (2^4) -> 7 core biomes. Key "L_O_D_S" = first letter of each choice.
+
+schema_version: '1.0'
+
+base_lookup:
+  # open-ground (veloce/lontano dominant)
+  V_P_D_L: savana # veloce profonda dura lontano
+  V_P_F_L: savana # veloce profonda flessibile lontano
+  V_R_D_L: badlands # veloce rapida dura lontano
+  V_R_F_L: badlands # veloce rapida flessibile lontano
+
+  # cavern/underground (silenzioso/acuto dominant)
+  S_P_D_A: caverna_risonante # silenziosa profonda dura acuto
+  S_P_F_A: caverna_risonante # silenziosa profonda flessibile acuto
+  S_R_D_A: rovine_planari # silenziosa rapida dura acuto
+  S_R_F_A: rovine_planari # silenziosa rapida flessibile acuto
+
+  # hybrids
+  V_P_D_A: rovine_planari # veloce profondo duro acuto
+  V_R_D_A: badlands # veloce rapido duro acuto
+  S_P_D_L: palude_tossica # silenziosa profonda dura lontano
+  S_R_D_L: palude_tossica # silenziosa rapida dura lontano
+
+  # extremes
+  V_P_F_A: canopia_ionica # veloce profondo flessibile acuto
+  V_R_F_A: canopia_ionica # veloce rapido flessibile acuto
+  S_P_F_L: reef_luminescente # silenziosa profonda flessibile lontano
+  S_R_F_L: reef_luminescente # silenziosa rapida flessibile lontano
+
+# Final distribution (sanity): savana 2, badlands 3, caverna_risonante 2,
+# rovine_planari 3, palude_tossica 2, canopia_ionica 2, reef_luminescente 2
+# -> max canalization 3/16 = 18.7% (target <20%).
+
+# Team-composition modulation -- PRESERVED design data from cap-11 (binding-resolve
+# variant affixes). NOT read by the cosmetic weights producer; kept for a future
+# route-vote-weighting / variant layer decision.
+modulation:
+  - rule_id: cryo_dominance
+    condition:
+      trait: defense
+      value: DURA
+      min_player_count: 3
+    affix: hardened
+    biome_variants:
+      savana: savana_arida_dura
+      badlands: badlands_pietrosi
+      palude_tossica: palude_indurita
+
+  - rule_id: silent_majority
+    condition:
+      trait: locomotion
+      value: SILENZIOSA
+      min_player_count: 3
+    affix: stealth_advantage
+    biome_variants:
+      caverna_risonante: caverna_silenziosa
+      rovine_planari: rovine_sussurranti
+
+  - rule_id: long_range_focus
+    condition:
+      trait: senses
+      value: LONTANO
+      min_player_count: 3
+    affix: open_ground
+    biome_variants:
+      savana: savana_aperta_orizzonte
+      badlands: badlands_orizzonte
+
+  - rule_id: deep_strike
+    condition:
+      trait: offense
+      value: PROFONDA
+      min_player_count: 3
+    affix: punishing_terrain
+    biome_variants:
+      caverna_risonante: caverna_profonda_eco
+
+# Fallback (should never fire if base_lookup is complete).
+fallback_biome: savana

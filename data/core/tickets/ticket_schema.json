@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ticket BACKLOG-ready (Standard level)",
+  "description": "Canonical ticket schema per agent auto-generation. Source: docs/research/2026-04-26-ticket-auto-gen-architecture-D.md",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "pillar",
+    "effort_hours",
+    "donor_game",
+    "agent_owner",
+    "audit_source_doc"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^TKT-(P[1-6]|UI|COMBAT|NARRATIVE|PCG|BALANCE|TELEMETRY|ECONOMY|CREATURE|COOP|AI|MUTATION|TRAIT|SPECIES|BIOME|META)-[A-Z0-9-]+$",
+      "description": "Format: TKT-{PILLAR_OR_AREA}-{DONOR-GAME-FEATURE}"
+    },
+    "title": { "type": "string", "minLength": 5, "maxLength": 120 },
+    "pillar": {
+      "enum": ["P1", "P2", "P3", "P4", "P5", "P6", "cross-cutting"]
+    },
+    "effort_hours": { "type": "number", "minimum": 0.25, "maximum": 50 },
+    "donor_game": {
+      "type": "object",
+      "required": ["name", "tier"],
+      "properties": {
+        "name": { "type": "string" },
+        "tier": { "enum": ["S", "A", "B", "E", "anti-ref"] },
+        "matrix_anchor": { "type": "string" }
+      }
+    },
+    "agent_owner": {
+      "enum": [
+        "balance-illuminator",
+        "balance-auditor",
+        "creature-aspect-illuminator",
+        "economy-design-illuminator",
+        "narrative-design-illuminator",
+        "pcg-level-design-illuminator",
+        "telemetry-viz-illuminator",
+        "ui-design-illuminator",
+        "coop-phase-validator",
+        "playtest-analyzer",
+        "repo-archaeologist",
+        "session-debugger",
+        "schema-ripple",
+        "migration-planner",
+        "sot-planner",
+        "species-reviewer"
+      ]
+    },
+    "status": {
+      "enum": ["proposed", "open", "in_progress", "review", "merged", "rejected", "duplicate", "blocked"],
+      "default": "proposed"
+    },
+    "reuse_level": { "enum": ["minimal", "moderate", "full"] },
+    "audit_source_doc": { "type": "string" },
+    "created_at": { "type": "string", "format": "date" },
+    "created_by_agent": { "type": "string" },
+    "summary": { "type": "string", "description": "1-2 sentence pattern + file targets" },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "museum_card": { "type": "string" }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "blueprint": {
+        "id": "fallback-species-1",
+        "name": "Specie batch A",
+        "traits": ["fallback-core-trait"],
+        "biome_id": "fallback-biome"
+      },
+      "validation": {
+        "messages": [
+          {
+            "level": "info",
+            "message": "Blueprint generato dal fallback"
+          }
+        ],
+        "discarded": [],
+        "corrected": null
+      },
+      "meta": {
+        "request_id": "fallback-species-1",
+        "endpoint_source": "fallback",
+        "fallback_used": true,
+        "fallback_active": true
+      }
+    }
+  ],
+  "errors": []
+}

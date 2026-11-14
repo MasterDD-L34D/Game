@@ -1,0 +1,766 @@
+validate-traits	Set up job	﻿2025-12-08T16:41:42.0729837Z Current runner version: '2.329.0'
+validate-traits	Set up job	2025-12-08T16:41:42.0754188Z ##[group]Runner Image Provisioner
+validate-traits	Set up job	2025-12-08T16:41:42.0755021Z Hosted Compute Agent
+validate-traits	Set up job	2025-12-08T16:41:42.0755625Z Version: 20251124.448
+validate-traits	Set up job	2025-12-08T16:41:42.0756236Z Commit: fda5086b43ec66ade217e5fcd18146c879571177
+validate-traits	Set up job	2025-12-08T16:41:42.0756887Z Build Date: 2025-11-24T21:16:26Z
+validate-traits	Set up job	2025-12-08T16:41:42.0757747Z ##[endgroup]
+validate-traits	Set up job	2025-12-08T16:41:42.0758307Z ##[group]Operating System
+validate-traits	Set up job	2025-12-08T16:41:42.0758825Z Ubuntu
+validate-traits	Set up job	2025-12-08T16:41:42.0759355Z 24.04.3
+validate-traits	Set up job	2025-12-08T16:41:42.0759775Z LTS
+validate-traits	Set up job	2025-12-08T16:41:42.0760230Z ##[endgroup]
+validate-traits	Set up job	2025-12-08T16:41:42.0760715Z ##[group]Runner Image
+validate-traits	Set up job	2025-12-08T16:41:42.0761303Z Image: ubuntu-24.04
+validate-traits	Set up job	2025-12-08T16:41:42.0761767Z Version: 20251126.144.1
+validate-traits	Set up job	2025-12-08T16:41:42.0762804Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251126.144/images/ubuntu/Ubuntu2404-Readme.md
+validate-traits	Set up job	2025-12-08T16:41:42.0764186Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251126.144
+validate-traits	Set up job	2025-12-08T16:41:42.0765367Z ##[endgroup]
+validate-traits	Set up job	2025-12-08T16:41:42.0766405Z ##[group]GITHUB_TOKEN Permissions
+validate-traits	Set up job	2025-12-08T16:41:42.0768726Z Contents: read
+validate-traits	Set up job	2025-12-08T16:41:42.0769584Z Metadata: read
+validate-traits	Set up job	2025-12-08T16:41:42.0770081Z Packages: read
+validate-traits	Set up job	2025-12-08T16:41:42.0770520Z ##[endgroup]
+validate-traits	Set up job	2025-12-08T16:41:42.0772543Z Secret source: Actions
+validate-traits	Set up job	2025-12-08T16:41:42.0773206Z Prepare workflow directory
+validate-traits	Set up job	2025-12-08T16:41:42.1087413Z Prepare all required actions
+validate-traits	Set up job	2025-12-08T16:41:42.1127570Z Getting action download info
+validate-traits	Set up job	2025-12-08T16:41:42.6129838Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+validate-traits	Set up job	2025-12-08T16:41:43.2134482Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+validate-traits	Set up job	2025-12-08T16:41:43.3629479Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+validate-traits	Set up job	2025-12-08T16:41:43.8529376Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+validate-traits	Set up job	2025-12-08T16:41:44.9292425Z Complete job name: validate-traits
+validate-traits	Run actions/checkout@v4	﻿2025-12-08T16:41:44.9946424Z ##[group]Run actions/checkout@v4
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9947284Z with:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9947496Z   repository: MasterDD-L34D/Game
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9947912Z   token: ***
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9948086Z   ssh-strict: true
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9948271Z   ssh-user: git
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9948465Z   persist-credentials: true
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9948687Z   clean: true
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9948881Z   sparse-checkout-cone-mode: true
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9949104Z   fetch-depth: 1
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9949282Z   fetch-tags: false
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9949468Z   show-progress: true
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9949663Z   lfs: false
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9949847Z   submodules: false
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9950035Z   set-safe-directory: true
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:44.9950468Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1017840Z Syncing repository: MasterDD-L34D/Game
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1019177Z ##[group]Getting Git version info
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1019534Z Working directory is '/home/runner/work/Game/Game'
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1020050Z [command]/usr/bin/git version
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1135910Z git version 2.52.0
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1161820Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1177606Z Temporarily overriding HOME='/home/runner/work/_temp/d6e6ff0b-2197-4036-aeef-bd18af0fc6b6' before making global git config changes
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1179067Z Adding repository directory to the temporary git global config as a safe directory
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1191552Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1232806Z Deleting the contents of '/home/runner/work/Game/Game'
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1236445Z ##[group]Initializing the repository
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1241397Z [command]/usr/bin/git init /home/runner/work/Game/Game
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1360040Z hint: Using 'master' as the name for the initial branch. This default branch name
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1361013Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1362284Z hint: to use in all of your new repositories, which will suppress this warning,
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1363035Z hint: call:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1363550Z hint:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1364130Z hint: 	git config --global init.defaultBranch <name>
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1364770Z hint:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1365409Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1366457Z hint: 'development'. The just-created branch can be renamed via this command:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1367207Z hint:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1367525Z hint: 	git branch -m <name>
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1367793Z hint:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1368186Z hint: Disable this message with "git config set advice.defaultBranchName false"
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1368835Z Initialized empty Git repository in /home/runner/work/Game/Game/.git/
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1379390Z [command]/usr/bin/git remote add origin https://github.com/MasterDD-L34D/Game
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1440722Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1441259Z ##[group]Disabling automatic garbage collection
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1447802Z [command]/usr/bin/git config --local gc.auto 0
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1479969Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1480530Z ##[group]Setting up auth
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1490488Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1524665Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1939671Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.1976051Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.2202243Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.2234473Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.2474130Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.2511002Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.2511792Z ##[group]Fetching the repository
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:45.2520420Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7128ef2f11718bab4eb38ee15f666dce51e65fb8:refs/remotes/origin/main
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2660298Z From https://github.com/MasterDD-L34D/Game
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2660913Z  * [new ref]         7128ef2f11718bab4eb38ee15f666dce51e65fb8 -> origin/main
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2690722Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2695020Z ##[group]Determining the checkout info
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2695882Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2700580Z [command]/usr/bin/git sparse-checkout disable
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2741409Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2770233Z ##[group]Checking out the ref
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.2775817Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.5051627Z Switched to a new branch 'main'
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.5052248Z branch 'main' set up to track 'origin/main'.
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.5068027Z ##[endgroup]
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.5108000Z [command]/usr/bin/git log -1 --format=%H
+validate-traits	Run actions/checkout@v4	2025-12-08T16:41:46.5130916Z 7128ef2f11718bab4eb38ee15f666dce51e65fb8
+validate-traits	Set up Node.js	﻿2025-12-08T16:41:46.5353053Z ##[group]Run actions/setup-node@v4
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5353408Z with:
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5353585Z   node-version: 20
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5353770Z   cache: npm
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5353937Z   always-auth: false
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5354139Z   check-latest: false
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5354445Z   token: ***
+validate-traits	Set up Node.js	2025-12-08T16:41:46.5354623Z ##[endgroup]
+validate-traits	Set up Node.js	2025-12-08T16:41:46.7125122Z Found in cache @ /opt/hostedtoolcache/node/20.19.6/x64
+validate-traits	Set up Node.js	2025-12-08T16:41:46.7131652Z ##[group]Environment details
+validate-traits	Set up Node.js	2025-12-08T16:41:48.8659683Z node: v20.19.6
+validate-traits	Set up Node.js	2025-12-08T16:41:48.8660178Z npm: 10.8.2
+validate-traits	Set up Node.js	2025-12-08T16:41:48.8660453Z yarn: 1.22.22
+validate-traits	Set up Node.js	2025-12-08T16:41:48.8661675Z ##[endgroup]
+validate-traits	Set up Node.js	2025-12-08T16:41:48.8684780Z [command]/opt/hostedtoolcache/node/20.19.6/x64/bin/npm config get cache
+validate-traits	Set up Node.js	2025-12-08T16:41:49.1368970Z /home/runner/.npm
+validate-traits	Set up Node.js	2025-12-08T16:41:49.4954716Z npm cache is not found
+validate-traits	Install Node.js dependencies	﻿2025-12-08T16:41:49.5155595Z ##[group]Run npm ci
+validate-traits	Install Node.js dependencies	2025-12-08T16:41:49.5155878Z [36;1mnpm ci[0m
+validate-traits	Install Node.js dependencies	2025-12-08T16:41:49.5199202Z shell: /usr/bin/bash -e {0}
+validate-traits	Install Node.js dependencies	2025-12-08T16:41:49.5199460Z ##[endgroup]
+validate-traits	Install Node.js dependencies	2025-12-08T16:41:53.4081528Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+validate-traits	Install Node.js dependencies	2025-12-08T16:41:53.5111943Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6098775Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6099298Z > prepare
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6099887Z > node scripts/husky-install.cjs
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6100193Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6603061Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6604042Z added 446 packages, and audited 458 packages in 37s
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6604513Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6612215Z 67 packages are looking for funding
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6613210Z   run `npm fund` for details
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6920618Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6921481Z 10 vulnerabilities (7 moderate, 3 high)
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6921822Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6922205Z To address issues that do not require attention, run:
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6922646Z   npm audit fix
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6922835Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6923237Z To address all issues possible (including breaking changes), run:
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6923835Z   npm audit fix --force
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6924051Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6924369Z Some issues need review, and may require choosing
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6924888Z a different dependency.
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6925141Z 
+validate-traits	Install Node.js dependencies	2025-12-08T16:42:26.6925346Z Run `npm audit` for details.
+validate-traits	Run actions/setup-python@v5	﻿2025-12-08T16:42:26.7176630Z ##[group]Run actions/setup-python@v5
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7176911Z with:
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7177257Z   python-version: 3.11
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7177455Z   cache: pip
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7177665Z   cache-dependency-path: requirements-dev.txt
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7177924Z   check-latest: false
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7178222Z   token: ***
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7178398Z   update-environment: true
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7178623Z   allow-prereleases: false
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7178824Z   freethreaded: false
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.7179016Z ##[endgroup]
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.8889852Z ##[group]Installed versions
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.9359638Z Successfully set up CPython (3.11.14)
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.9360499Z ##[endgroup]
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:26.9700281Z [command]/opt/hostedtoolcache/Python/3.11.14/x64/bin/pip cache dir
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:28.5203853Z /home/runner/.cache/pip
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:28.8608064Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.14-pip-b9b574b8481098235b20845dde01ba87a1205af071b29642fc1d1959e363a2dc
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:30.1610130Z Received 0 of 63186923 (0.0%), 0.0 MBs/sec
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:30.7343028Z Received 63186923 of 63186923 (100.0%), 38.3 MBs/sec
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:30.7345060Z Cache Size: ~60 MB (63186923 B)
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:30.7463937Z [command]/usr/bin/tar -xf /home/runner/work/_temp/cec46425-14e2-498b-8093-f89a297da05b/cache.tzst -P -C /home/runner/work/Game/Game --use-compress-program unzstd
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:30.8527398Z Cache restored successfully
+validate-traits	Run actions/setup-python@v5	2025-12-08T16:42:30.8663896Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.14-pip-b9b574b8481098235b20845dde01ba87a1205af071b29642fc1d1959e363a2dc
+validate-traits	Install dependencies	﻿2025-12-08T16:42:30.8824782Z ##[group]Run python -m pip install --upgrade pip
+validate-traits	Install dependencies	2025-12-08T16:42:30.8825180Z [36;1mpython -m pip install --upgrade pip[0m
+validate-traits	Install dependencies	2025-12-08T16:42:30.8825484Z [36;1mpip install -r requirements-dev.txt[0m
+validate-traits	Install dependencies	2025-12-08T16:42:30.8825747Z [36;1mpip install jsonschema[0m
+validate-traits	Install dependencies	2025-12-08T16:42:30.8860205Z shell: /usr/bin/bash -e {0}
+validate-traits	Install dependencies	2025-12-08T16:42:30.8860436Z env:
+validate-traits	Install dependencies	2025-12-08T16:42:30.8860672Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Install dependencies	2025-12-08T16:42:30.8861099Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate-traits	Install dependencies	2025-12-08T16:42:30.8861508Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Install dependencies	2025-12-08T16:42:30.8861852Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Install dependencies	2025-12-08T16:42:30.8862205Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Install dependencies	2025-12-08T16:42:30.8862549Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate-traits	Install dependencies	2025-12-08T16:42:30.8862833Z ##[endgroup]
+validate-traits	Install dependencies	2025-12-08T16:42:32.1638184Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (25.3)
+validate-traits	Install dependencies	2025-12-08T16:42:33.2689080Z Collecting pyyaml (from -r requirements-dev.txt (line 1))
+validate-traits	Install dependencies	2025-12-08T16:42:33.2715743Z   Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:33.4880082Z Collecting numpy (from -r requirements-dev.txt (line 2))
+validate-traits	Install dependencies	2025-12-08T16:42:33.4897747Z   Using cached numpy-2.3.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:33.7977254Z Collecting pymongo (from -r requirements-dev.txt (line 3))
+validate-traits	Install dependencies	2025-12-08T16:42:33.8546897Z   Downloading pymongo-4.15.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:33.8818233Z Collecting mongomock (from -r requirements-dev.txt (line 4))
+validate-traits	Install dependencies	2025-12-08T16:42:33.8834403Z   Using cached mongomock-4.3.0-py2.py3-none-any.whl.metadata (12 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:33.9666240Z Collecting mongita (from -r requirements-dev.txt (line 5))
+validate-traits	Install dependencies	2025-12-08T16:42:33.9667507Z   Using cached mongita-1.2.0-py3-none-any.whl
+validate-traits	Install dependencies	2025-12-08T16:42:34.0039882Z Collecting jsonschema>=4.25.1 (from -r requirements-dev.txt (line 6))
+validate-traits	Install dependencies	2025-12-08T16:42:34.0056640Z   Using cached jsonschema-4.25.1-py3-none-any.whl.metadata (7.6 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.3186083Z Collecting boto3 (from -r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:34.3218911Z   Downloading boto3-1.42.4-py3-none-any.whl.metadata (6.8 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.4955931Z Collecting matplotlib (from -r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:34.4973923Z   Using cached matplotlib-3.10.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.5141499Z Collecting dnspython<3.0.0,>=1.16.0 (from pymongo->-r requirements-dev.txt (line 3))
+validate-traits	Install dependencies	2025-12-08T16:42:34.5156697Z   Using cached dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.5336621Z Collecting packaging (from mongomock->-r requirements-dev.txt (line 4))
+validate-traits	Install dependencies	2025-12-08T16:42:34.5352250Z   Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.5677852Z Collecting pytz (from mongomock->-r requirements-dev.txt (line 4))
+validate-traits	Install dependencies	2025-12-08T16:42:34.5698507Z   Using cached pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.5804824Z Collecting sentinels (from mongomock->-r requirements-dev.txt (line 4))
+validate-traits	Install dependencies	2025-12-08T16:42:34.5819199Z   Using cached sentinels-1.1.1-py3-none-any.whl.metadata (3.0 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.6042162Z Collecting sortedcontainers<3.0,>=2.3 (from mongita->-r requirements-dev.txt (line 5))
+validate-traits	Install dependencies	2025-12-08T16:42:34.6056642Z   Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.6186667Z Collecting attrs>=22.2.0 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+validate-traits	Install dependencies	2025-12-08T16:42:34.6201202Z   Using cached attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.6312509Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+validate-traits	Install dependencies	2025-12-08T16:42:34.6326745Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.6544605Z Collecting referencing>=0.28.4 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+validate-traits	Install dependencies	2025-12-08T16:42:34.6560108Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:34.9325839Z Collecting rpds-py>=0.7.1 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+validate-traits	Install dependencies	2025-12-08T16:42:34.9359499Z   Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.3407778Z Collecting botocore<1.43.0,>=1.42.4 (from boto3->-r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:35.3445433Z   Downloading botocore-1.42.4-py3-none-any.whl.metadata (5.9 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.3577864Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3->-r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:35.3591443Z   Using cached jmespath-1.0.1-py3-none-any.whl.metadata (7.6 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.3759207Z Collecting s3transfer<0.17.0,>=0.16.0 (from boto3->-r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:35.3790481Z   Downloading s3transfer-0.16.0-py3-none-any.whl.metadata (1.7 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.3944554Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.43.0,>=1.42.4->boto3->-r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:35.3958622Z   Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.4234303Z Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.43.0,>=1.42.4->boto3->-r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:35.4273574Z   Downloading urllib3-2.6.1-py3-none-any.whl.metadata (6.6 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.4435522Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.43.0,>=1.42.4->boto3->-r requirements-dev.txt (line 8))
+validate-traits	Install dependencies	2025-12-08T16:42:35.4449468Z   Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.6575784Z Collecting contourpy>=1.0.1 (from matplotlib->-r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:35.6591940Z   Using cached contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.6689658Z Collecting cycler>=0.10 (from matplotlib->-r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:35.6702943Z   Using cached cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.8629931Z Collecting fonttools>=4.22.0 (from matplotlib->-r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:35.8645786Z   Using cached fonttools-4.61.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (113 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:35.9301590Z Collecting kiwisolver>=1.3.1 (from matplotlib->-r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:35.9316673Z   Using cached kiwisolver-1.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.3 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.0957573Z Collecting pillow>=8 (from matplotlib->-r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:36.0974277Z   Using cached pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.1225623Z Collecting pyparsing>=3 (from matplotlib->-r requirements-dev.txt (line 9))
+validate-traits	Install dependencies	2025-12-08T16:42:36.1240091Z   Using cached pyparsing-3.2.5-py3-none-any.whl.metadata (5.0 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.1721084Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+validate-traits	Install dependencies	2025-12-08T16:42:36.1733914Z   Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.1802562Z Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.1821715Z Using cached numpy-2.3.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2000220Z Downloading pymongo-4.15.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.5 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2248563Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 118.2 MB/s  0:00:00
+validate-traits	Install dependencies	2025-12-08T16:42:36.2261322Z Using cached dnspython-2.8.0-py3-none-any.whl (331 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2276690Z Using cached mongomock-4.3.0-py2.py3-none-any.whl (64 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2290246Z Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2302862Z Using cached jsonschema-4.25.1-py3-none-any.whl (90 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2332471Z Downloading boto3-1.42.4-py3-none-any.whl (140 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.2389294Z Downloading botocore-1.42.4-py3-none-any.whl (14.5 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3002250Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.5/14.5 MB 243.6 MB/s  0:00:00
+validate-traits	Install dependencies	2025-12-08T16:42:36.3016830Z Using cached jmespath-1.0.1-py3-none-any.whl (20 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3030974Z Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3064430Z Downloading s3transfer-0.16.0-py3-none-any.whl (86 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3117609Z Downloading urllib3-2.6.1-py3-none-any.whl (131 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3157129Z Using cached matplotlib-3.10.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.7 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3235980Z Using cached attrs-25.4.0-py3-none-any.whl (67 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3249921Z Using cached contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3264620Z Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3277862Z Using cached fonttools-4.61.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.0 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3327384Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3340664Z Using cached kiwisolver-1.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3364059Z Using cached packaging-25.0-py3-none-any.whl (66 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3377705Z Using cached pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3445829Z Using cached pyparsing-3.2.5-py3-none-any.whl (113 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3459307Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3494854Z Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (390 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3546355Z Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3559523Z Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3572237Z Using cached pytz-2025.2-py2.py3-none-any.whl (509 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.3588548Z Using cached sentinels-1.1.1-py3-none-any.whl (3.7 kB)
+validate-traits	Install dependencies	2025-12-08T16:42:36.5100891Z Installing collected packages: sortedcontainers, pytz, urllib3, typing-extensions, six, sentinels, rpds-py, pyyaml, pyparsing, pillow, packaging, numpy, kiwisolver, jmespath, fonttools, dnspython, cycler, attrs, referencing, python-dateutil, pymongo, mongomock, contourpy, mongita, matplotlib, jsonschema-specifications, botocore, s3transfer, jsonschema, boto3
+validate-traits	Install dependencies	2025-12-08T16:42:42.9390415Z 
+validate-traits	Install dependencies	2025-12-08T16:42:42.9413342Z Successfully installed attrs-25.4.0 boto3-1.42.4 botocore-1.42.4 contourpy-1.3.3 cycler-0.12.1 dnspython-2.8.0 fonttools-4.61.0 jmespath-1.0.1 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 kiwisolver-1.4.9 matplotlib-3.10.7 mongita-1.2.0 mongomock-4.3.0 numpy-2.3.5 packaging-25.0 pillow-12.0.0 pymongo-4.15.5 pyparsing-3.2.5 python-dateutil-2.9.0.post0 pytz-2025.2 pyyaml-6.0.3 referencing-0.37.0 rpds-py-0.30.0 s3transfer-0.16.0 sentinels-1.1.1 six-1.17.0 sortedcontainers-2.4.0 typing-extensions-4.15.0 urllib3-2.6.1
+validate-traits	Install dependencies	2025-12-08T16:42:44.1778945Z Requirement already satisfied: jsonschema in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (4.25.1)
+validate-traits	Install dependencies	2025-12-08T16:42:44.1790689Z Requirement already satisfied: attrs>=22.2.0 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (25.4.0)
+validate-traits	Install dependencies	2025-12-08T16:42:44.1797351Z Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (2025.9.1)
+validate-traits	Install dependencies	2025-12-08T16:42:44.1803414Z Requirement already satisfied: referencing>=0.28.4 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (0.37.0)
+validate-traits	Install dependencies	2025-12-08T16:42:44.1809559Z Requirement already satisfied: rpds-py>=0.7.1 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (0.30.0)
+validate-traits	Install dependencies	2025-12-08T16:42:44.1852836Z Requirement already satisfied: typing-extensions>=4.4.0 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from referencing>=0.28.4->jsonschema) (4.15.0)
+validate-traits	Validate trait dataset	﻿2025-12-08T16:42:44.2750903Z ##[group]Run python tools/py/trait_template_validator.py --summary
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2751444Z [36;1mpython tools/py/trait_template_validator.py --summary[0m
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2785098Z shell: /usr/bin/bash -e {0}
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2785359Z env:
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2785639Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2786139Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2786609Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2787198Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2787625Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2788066Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.2788411Z ##[endgroup]
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3527317Z [VALIDATION] Tutti i trait rispettano lo schema.
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3528150Z [TRAIT] ali_fono_risonanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3528725Z [TRAIT] ali_fulminee: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3529337Z [TRAIT] ali_ioniche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3529906Z [TRAIT] ali_membrana_sonica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3530481Z [TRAIT] ali_solari_fotoni: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3531114Z [TRAIT] antenne_dustsense: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3531731Z [TRAIT] antenne_eco_turbina: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3532368Z [TRAIT] antenne_flusso_mareale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3533066Z [TRAIT] antenne_microonde_cavernose: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3533673Z [TRAIT] antenne_plasmatiche_tempesta: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3534079Z [TRAIT] antenne_reagenti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3534422Z [TRAIT] antenne_tesla: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3534756Z [TRAIT] antenne_waveguide: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3535098Z [TRAIT] antenne_wideband: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3535506Z [TRAIT] appendici_risonanti_marea: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3535955Z [TRAIT] appendici_thermotattiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3536380Z [TRAIT] armatura_pietra_planare: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3536824Z [TRAIT] articolazioni_a_leva_idraulica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3537529Z [TRAIT] articolazioni_multiassiali: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3537917Z [TRAIT] artigli_acidofagi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3538268Z [TRAIT] artigli_induzione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3538654Z [TRAIT] artigli_ipo_termici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3539004Z [TRAIT] artigli_radice: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3539386Z [TRAIT] artigli_scivolo_silente: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3539755Z [TRAIT] artigli_sette_vie: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3540149Z [TRAIT] artigli_sghiaccio_glaciale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3540558Z [TRAIT] artigli_vetrificati: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3540952Z [TRAIT] artiglio_cinetico_a_urto: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3541383Z [TRAIT] aura_di_dispersione_mentale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3541802Z [TRAIT] aura_scudo_radianza: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3542153Z [TRAIT] baffi_mareomotori: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3542542Z [TRAIT] barbigli_sensori_plasma: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3542950Z [TRAIT] barriere_miasma_glaciale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3543343Z [TRAIT] batteri_endosimbionti_chemio: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3543682Z [TRAIT] batteri_termofili_endosimbiosi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3543995Z [TRAIT] bioantenne_gravitiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3544245Z [TRAIT] biochip_memoria: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3544478Z [TRAIT] biofilm_glow: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3544725Z [TRAIT] biofilm_iperarido: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3544966Z [TRAIT] bozzolo_magnetico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3545216Z [TRAIT] branchie_dual_mode: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3545455Z [TRAIT] branchie_eoliche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3545709Z [TRAIT] branchie_metalloidi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3545974Z [TRAIT] branchie_microfiltri: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3546251Z [TRAIT] branchie_osmotiche_salmastra: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3546550Z [TRAIT] branchie_solfatiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3547280Z [TRAIT] branchie_turbina: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3547553Z [TRAIT] bulbi_radici_permafrost: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3547832Z [TRAIT] camere_anticorrosione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3548078Z [TRAIT] camere_mirage: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3548325Z [TRAIT] camere_nutrienti_vent: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3548822Z [TRAIT] camere_risonanza_abyssal: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3549125Z [TRAIT] campo_di_interferenza_acustica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3549514Z [TRAIT] cannone_sonico_a_raggio: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3549827Z [TRAIT] canto_infrasonico_tattico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3550083Z [TRAIT] canto_risonante: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3550342Z [TRAIT] capillari_criogenici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3550607Z [TRAIT] capillari_fluoridici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3550878Z [TRAIT] capillari_fotovoltaici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3551174Z [TRAIT] capsule_paracadute: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3551444Z [TRAIT] carapace_fase_variabile: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3551743Z [TRAIT] carapace_luminiscente_abissale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3552037Z [TRAIT] carapace_segmenti_logici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3552332Z [TRAIT] carapaci_ferruginosi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3552627Z [TRAIT] cartilagine_flessotermica_venti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3552936Z [TRAIT] cartilagini_biofibre: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3553200Z [TRAIT] cartilagini_desertiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3553494Z [TRAIT] cartilagini_flessoacustiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3553813Z [TRAIT] cartilagini_pseudometalliche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3554112Z [TRAIT] cavita_risonanti_tundra: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3554400Z [TRAIT] cervelletto_equilibrio_statico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3554695Z [TRAIT] cervello_a_bassa_latenza: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3554973Z [TRAIT] chemiorecettori_bromuro: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3555256Z [TRAIT] chioma_parassita_canopica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3555538Z [TRAIT] cinghia_iper_ciliare: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3555803Z [TRAIT] circolazione_bifasica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3556089Z [TRAIT] circolazione_bifasica_palude: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3556390Z [TRAIT] circolazione_cooling_loop: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3556675Z [TRAIT] circolazione_doppia: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3557060Z [TRAIT] circolazione_supercritica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3557321Z [TRAIT] ciste_riduttive: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3557553Z [TRAIT] ciste_salmastre: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3557826Z [TRAIT] cisti_di_ibernazione_minerale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3558097Z [TRAIT] cisti_iperbariche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3558334Z [TRAIT] coda_balanciere: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3558562Z [TRAIT] coda_contrappeso: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3558826Z [TRAIT] coda_coppia_retroattiva: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3559094Z [TRAIT] coda_frusta_cinetica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3559358Z [TRAIT] coda_prensile_muscolare: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3559637Z [TRAIT] coda_stabilizzatrice_filo: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3559931Z [TRAIT] coda_stabilizzatrice_geiser: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3560228Z [TRAIT] coda_stabilizzatrice_vortex: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3560516Z [TRAIT] colonne_vibromagnetiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3560821Z [TRAIT] comunicazione_fotonica_coda_coda: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3561102Z [TRAIT] coralli_partner: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3561363Z [TRAIT] coralli_sinaptici_fotofase: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3561649Z [TRAIT] corazze_ferro_magnetico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3561923Z [TRAIT] corna_psico_conduttive: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3562208Z [TRAIT] coscienza_d_alveare_diffusa: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3562502Z [TRAIT] coscienza_dalveare_diffusa: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3562771Z [TRAIT] criostasi_adattiva: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3563032Z [TRAIT] cromofori_alert_acido: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3563335Z [TRAIT] cuore_multicamera_bassa_pressione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3563645Z [TRAIT] cuscinetti_elettrostatici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3563918Z [TRAIT] cute_resistente_sali: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3564159Z [TRAIT] cuticole_cerose: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3564415Z [TRAIT] cuticole_neutralizzanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3564662Z [TRAIT] denti_chelatanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3564893Z [TRAIT] denti_ossidoferro: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3565151Z [TRAIT] denti_silice_termici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3565543Z [TRAIT] denti_tuning_fork: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3565775Z [TRAIT] echi_risonanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3566020Z [TRAIT] eco_interno_riflesso: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3566278Z [TRAIT] ectotermia_dinamica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3566548Z [TRAIT] elettromagnete_biologico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3567072Z [TRAIT] emettitori_voidsong: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3567476Z [TRAIT] emolinfa_conducente: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3567743Z [TRAIT] empatia_coordinativa: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3568015Z [TRAIT] enzimi_antifase_termica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3568303Z [TRAIT] enzimi_antipredatori_algali: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3568559Z [TRAIT] enzimi_chelanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3568815Z [TRAIT] enzimi_chelatori_rapidi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3569087Z [TRAIT] enzimi_metanoossidanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3569364Z [TRAIT] epidermide_dielettrica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3569630Z [TRAIT] epitelio_fosforescente: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3569914Z [TRAIT] ermafroditismo_cronologico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3570224Z [TRAIT] estroflessione_gastrica_acida: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3570522Z [TRAIT] fagocitosi_assorbente: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3570823Z [TRAIT] filamenti_digestivi_compattanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3571093Z [TRAIT] filamenti_echo: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3571343Z [TRAIT] filamenti_guidalampo: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3571618Z [TRAIT] filamenti_magnetotrofi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3571900Z [TRAIT] filamenti_superconduttivi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3572184Z [TRAIT] filamenti_termoconduzione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3572463Z [TRAIT] filtrazione_osmotica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3572724Z [TRAIT] filtri_planctonici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3572989Z [TRAIT] filtro_metallofago: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3573237Z [TRAIT] flagelli_ancoranti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3573506Z [TRAIT] flusso_ameboide_controllato: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3573768Z [TRAIT] focus_frazionato: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3574022Z [TRAIT] foliage_fotocatodico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3574257Z [TRAIT] foliaggio_spugna: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3574511Z [TRAIT] frusta_fiammeggiante: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3574786Z [TRAIT] ghiaccio_piezoelettrico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3575070Z [TRAIT] ghiandola_caustica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3575329Z [TRAIT] ghiandole_cambio_salino: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3575611Z [TRAIT] ghiandole_condensa_ozono: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3575897Z [TRAIT] ghiandole_eco_mappanti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3576167Z [TRAIT] ghiandole_fango_calde: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3576430Z [TRAIT] ghiandole_fango_coesivo: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3576679Z [TRAIT] ghiandole_grafene: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3577121Z [TRAIT] ghiandole_inchiostro_luce: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3577465Z [TRAIT] ghiandole_iodoattive: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3577723Z [TRAIT] ghiandole_minerali: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3577983Z [TRAIT] ghiandole_mnemoniche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3578250Z [TRAIT] ghiandole_nebbia_acida: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3578522Z [TRAIT] ghiandole_nebbia_ionica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3578809Z [TRAIT] ghiandole_resina_conduttiva: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3579066Z [TRAIT] ghiandole_ventosa: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3579333Z [TRAIT] giunti_antitorsione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3579570Z [TRAIT] grassi_termici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3579796Z [TRAIT] gusci_criovetro: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3580017Z [TRAIT] gusci_magnesio: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3580278Z [TRAIT] impulsi_bioluminescenti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3580570Z [TRAIT] integumento_bipolare: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3580850Z [TRAIT] ipertrofia_muscolare_massiva: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3581109Z [TRAIT] lamelle_shear: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3581357Z [TRAIT] lamelle_sincroniche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3581619Z [TRAIT] lamelle_termoforetiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3581888Z [TRAIT] lamine_filtranti_aeree: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3582143Z [TRAIT] lamine_scudo_silice: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3582377Z [TRAIT] linfa_tampone: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3582620Z [TRAIT] lingua_cristallina: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3582875Z [TRAIT] lingua_tattile_trama: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3583139Z [TRAIT] lobi_risonanti_crepuscolo: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3583435Z [TRAIT] locomozione_miriapode_ibrida: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3583893Z [TRAIT] luminescenza_aurorale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3584175Z [TRAIT] luminescenza_hydrotermica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3584444Z [TRAIT] mantelli_geotermici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3584704Z [TRAIT] mantello_meteoritico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3585090Z [TRAIT] membrana_plastica_continua: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3585401Z [TRAIT] membrane_captura_rugiada: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3585680Z [TRAIT] membrane_eliofiltranti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3585963Z [TRAIT] membrane_fotoconvoglianti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3586251Z [TRAIT] membrane_planata_vectored: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3586523Z [TRAIT] membrane_pneumatofori: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3586842Z [TRAIT] metabolismo_di_condivisione_energetica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3587285Z [TRAIT] midollo_antivibrazione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3587573Z [TRAIT] mimetismo_cromatico_passivo: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3587866Z [TRAIT] moltiplicazione_per_fusione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3588161Z [TRAIT] motore_biologico_silenzioso: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3588474Z [TRAIT] mucillagine_simbionte_mangrovie: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3588770Z [TRAIT] mucose_aderenza_sonica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3589013Z [TRAIT] mucose_barofile: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3589239Z [TRAIT] nebbia_mnesica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3589509Z [TRAIT] nodi_micorrizici_oracolari: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3589800Z [TRAIT] nodi_sinaptici_superficiali: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3590084Z [TRAIT] nucleo_ovomotore_rotante: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3590384Z [TRAIT] occhi_analizzatori_di_tensione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3590653Z [TRAIT] occhi_cinetici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3590907Z [TRAIT] occhi_cristallo_modulare: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3591185Z [TRAIT] occhi_infrarosso_composti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3591478Z [TRAIT] olfatto_risonanza_magnetica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3591761Z [TRAIT] organi_metacronici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3592024Z [TRAIT] organi_sismici_cutanei: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3592267Z [TRAIT] pathfinder: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3592535Z [TRAIT] pelage_idrorepellente_avanzato: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3592834Z [TRAIT] pelle_piezo_satura: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3593070Z [TRAIT] pianificatore: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3593335Z [TRAIT] piume_solari_fotovoltaiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3593624Z [TRAIT] placca_diffusione_foschia: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3593910Z [TRAIT] placche_pressioniche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3594199Z [TRAIT] polmoni_cristallini_alta_quota: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3594454Z [TRAIT] random: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3594660Z [TRAIT] respiro_a_scoppio: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3594931Z [TRAIT] rete_filtro_polmonare: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3595201Z [TRAIT] risonanza_di_branco: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3595577Z [TRAIT] riverbero_memetico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3614907Z [TRAIT] rostro_emostatico_litico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3615410Z [TRAIT] rostro_linguale_prensile: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3615849Z [TRAIT] sacche_galleggianti_ascensoriali: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3616188Z [TRAIT] sacche_spore_stratosferiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3616461Z [TRAIT] sangue_piroforico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3616762Z [TRAIT] scheletro_idraulico_a_pistoni: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3617364Z [TRAIT] scheletro_idro_regolante: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3617683Z [TRAIT] scheletro_pneumatico_a_maglie: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3617982Z [TRAIT] scintilla_sinaptica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3618270Z [TRAIT] scivolamento_magnetico: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3618575Z [TRAIT] scudo_gluteale_cheratinizzato: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3618890Z [TRAIT] secrezione_rallentante_palmi: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3619182Z [TRAIT] secrezioni_antistatiche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3619468Z [TRAIT] sensori_geomagnetici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3619746Z [TRAIT] sensori_planctonici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3620022Z [TRAIT] seta_conduttiva_elettrica: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3620304Z [TRAIT] siero_anti_gelo_naturale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3988313Z [TRAIT] sinapsi_coraline_polifoniche: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3991067Z [TRAIT] sistemi_chimio_sonici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3991581Z [TRAIT] sonno_emisferico_alternato: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3992528Z [TRAIT] spicole_canalizzatrici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3993049Z [TRAIT] spore_psichiche_silenziate: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3993574Z [TRAIT] squame_diffusori_ionici: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3994038Z [TRAIT] squame_rifrangenti_deserto: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3994478Z [TRAIT] struttura_elastica_amorfa: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3995147Z [TRAIT] tattiche_di_branco: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3995533Z [TRAIT] traits_aggregate: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3995958Z [TRAIT] unghie_a_micro_adesione: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3996409Z [TRAIT] vello_condensatore_nebbie: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3996892Z [TRAIT] vello_di_assorbimento_totale: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3997561Z [TRAIT] ventriglio_gastroliti: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3998068Z [TRAIT] visione_multi_spettrale_amplificata: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3998554Z [TRAIT] vortice_nera_flash: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3998932Z [TRAIT] zampe_a_molla: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3999316Z [TRAIT] zanne_idracida: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.3999728Z [TRAIT] zoccoli_risonanti_steppe: OK
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4000242Z == Summary of fields (Campi per tipologia) ==
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4002645Z - Alimentazione/Digestione (2 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4006087Z - Ambiente/Supporto (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4009260Z - Analisi/Sensori Planctonici (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4012461Z - Cognitivo/Apprendimento (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4015884Z - Cognitivo/Sociale (4 trait): aliases, applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4019271Z - Controllo/Memoria (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4022864Z - Difensivo/Camuffamento (3 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4026505Z - Difensivo/Corazza (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4030407Z - Difensivo/Resistenze (2 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4034472Z - Difensivo/Termoregolazione (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4038454Z - Difesa/Antistatico (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4041725Z - Difesa/Elettrico (2 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4044850Z - Difesa/Foschia (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4047943Z - Difesa/Magnetico (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4050950Z - Difesa/Pressione (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4054326Z - Difesa/Strutturale (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4058013Z - Difesa/Termoregolazione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4061594Z - Digestivo/Alimentare (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4065326Z - Digestivo/Escretorio (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4069311Z - Digestivo/Metabolico (13 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4073200Z - Escretorio/Psichico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4077359Z - Esplorazione/Tattico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4081120Z - Fisiologico/Idrico (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4085432Z - Fisiologico/Metabolico (3 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4089805Z - Fisiologico/Respiratorio (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4093617Z - Fisiologico/Termico (2 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4097599Z - Flessibile/Generico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4101201Z - Idrostatico/Locomotorio (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4105504Z - Locomotivo/Aereo (2 trait): applicability, biome_tags, completion_flags, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, species_affinity, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4108948Z - Locomotivo/Arboricolo (2 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, species_affinity, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4112553Z - Locomotivo/Balistico (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, species_affinity, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4114998Z - Locomotivo/Terrestre (7 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, species_affinity, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4117443Z - Locomotorio/Adattivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4119516Z - Locomotorio/Difensivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4121977Z - Locomotorio/Mobilità (14 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4124386Z - Locomotorio/Predatorio (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4126459Z - Locomotorio/Prensile (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4128687Z - Locomotorio/Supporto (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4130805Z - Manipolativo/Alimentare (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4132905Z - Meta/Dataset (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4134953Z - Metabolico/Difensivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4137184Z - Metabolico/Resilienza (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4139641Z - Mobilità/Cinetico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4141688Z - Mobilità/Logistica (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4143633Z - Nervoso/Omeostatico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4145681Z - Offensivo/Assalto (13 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4147775Z - Offensivo/Assorbimento (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4150181Z - Offensivo/Chimico (3 trait): applicability, biome_tags, completion_flags, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4152538Z - Offensivo/Cinetico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4154789Z - Offensivo/Controllo (4 trait): applicability, biome_tags, completion_flags, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4157240Z - Offensivo/Contusivo (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4159526Z - Offensivo/Elettrico (2 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4161476Z - Offensivo/Illuminazione (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4163568Z - Offensivo/Perforante (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4165739Z - Offensivo/Termico (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4167982Z - Respiratorio/Aerobico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4170091Z - Respiratorio/Osmoregolazione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4172200Z - Respiratorio/Propulsivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4174276Z - Respiratorio/Protezione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4176400Z - Respiratorio/Termoregolazione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4178962Z - Riproduttivo/Cicli (2 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4181132Z - Riproduttivo/Locomotorio (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4183116Z - Risonanza/Crepuscolo (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4184928Z - Sensore/Gravitazionale (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4186881Z - Sensoriale/Alimentare (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4189105Z - Sensoriale/Analitico (14 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4191241Z - Sensoriale/Magneto-ricettivo (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4193367Z - Sensoriale/Navigazione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4195405Z - Sensoriale/Nervoso (2 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4197799Z - Sensoriale/Offensivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4199879Z - Sensoriale/Supporto (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4202069Z - Sensoriale/Tatto-Vibro (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione, version, versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4204464Z - Sensoriale/Uditivo-Olfattivo (1 trait): applicability, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, slot, slot_profile, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4207217Z - Sensoriale/Visivo (5 trait): applicability, biome_tags, completion_flags, conflitti, cost_profile, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, metrics, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, testability, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4209508Z - Simbiotico/Comunicazione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4211598Z - Simbiotico/Cooperativo (13 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4213659Z - Simbiotico/Difensivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4215693Z - Simbiotico/Nervoso (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4217844Z - Simbiotico/Nutrizione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4219900Z - Simbiotico/Supporto (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4221967Z - Simbiotico/Utility (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4224006Z - Strategico/Psionico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4226051Z - Strategico/Tattico (15 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4228176Z - Strutturale/Adattivo (13 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4230227Z - Strutturale/Difensivo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4232532Z - Strutturale/Locomotorio (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4234742Z - Strutturale/Omeostatico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4236811Z - Strutturale/Sensoriale (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4238908Z - Supporto/Anomalia (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4240864Z - Supporto/Coordinativo (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4242744Z - Supporto/Copia (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4245099Z - Supporto/Difesa (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4247462Z - Supporto/Empatico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4249363Z - Supporto/Energetico (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4251307Z - Supporto/Logistico (13 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4253202Z - Supporto/Risonanza (2 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4254965Z - Supporto/Sensore (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4256756Z - Supporto/Sequenziamento (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4258692Z - TODO/import_esterno (9 trait): completion_flags, conflitti, data_origin, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, sinergie, slot, slot_profile, spinta_selettiva, tier, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4260744Z - Tegumentario/Difensivo (17 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, species_affinity, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4262879Z - Tegumentario/Energetico (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4264966Z - Tegumentario/Idratazione (1 trait): biome_tags, completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, sinergie_pi, slot, slot_profile, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4266883Z - Temporaneo/Difesa (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4268761Z - Temporaneo/Memoria (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4270549Z - Temporaneo/Risonanza (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4272332Z - Temporaneo/Scarica (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4274125Z - Temporaneo/Traslazione (1 trait): completion_flags, conflitti, data_origin, debolezza, famiglia_tipologia, fattore_mantenimento_energetico, id, label, mutazione_indotta, requisiti_ambientali, sinergie, slot, spinta_selettiva, tier, usage_tags, uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4274957Z 
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4275053Z == Field inventory ==
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4275253Z  - aliases
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4275424Z  - applicability
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4275607Z  - biome_tags
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4275795Z  - completion_flags
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4276010Z  - conflitti
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4276175Z  - cost_profile
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4276348Z  - data_origin
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4276517Z  - debolezza
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4276696Z  - famiglia_tipologia
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4276929Z  - fattore_mantenimento_energetico
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4277255Z  - id
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4277416Z  - label
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4277574Z  - metrics
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4277737Z  - mutazione_indotta
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4277939Z  - requisiti_ambientali
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4278132Z  - sinergie
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4278297Z  - sinergie_pi
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4278466Z  - slot
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4278625Z  - slot_profile
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4278803Z  - species_affinity
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4278988Z  - spinta_selettiva
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4279164Z  - testability
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4279330Z  - tier
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4279484Z  - usage_tags
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4279655Z  - uso_funzione
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4279814Z  - version
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4280103Z  - versioning
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4280207Z 
+validate-traits	Validate trait dataset	2025-12-08T16:42:44.4280296Z Total traits: 263
+validate-traits	Build trait index	﻿2025-12-08T16:42:44.4302956Z ##[group]Run node scripts/build_trait_index.js
+validate-traits	Build trait index	2025-12-08T16:42:44.4303299Z [36;1mnode scripts/build_trait_index.js[0m
+validate-traits	Build trait index	2025-12-08T16:42:44.4336517Z shell: /usr/bin/bash -e {0}
+validate-traits	Build trait index	2025-12-08T16:42:44.4336741Z env:
+validate-traits	Build trait index	2025-12-08T16:42:44.4337155Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Build trait index	2025-12-08T16:42:44.4337578Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate-traits	Build trait index	2025-12-08T16:42:44.4337989Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Build trait index	2025-12-08T16:42:44.4338335Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Build trait index	2025-12-08T16:42:44.4338693Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Build trait index	2025-12-08T16:42:44.4339044Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate-traits	Build trait index	2025-12-08T16:42:44.4339323Z ##[endgroup]
+validate-traits	Build trait index	2025-12-08T16:42:44.4914796Z Indice generato (CSV): data/traits/index.csv
+validate-traits	Build trait index	2025-12-08T16:42:44.4918934Z Totale trait: 263
+validate-traits	Generate strict trait coverage report	﻿2025-12-08T16:42:44.4984542Z ##[group]Run python tools/py/report_trait_coverage.py --strict
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.4984998Z [36;1mpython tools/py/report_trait_coverage.py --strict[0m
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5019143Z shell: /usr/bin/bash -e {0}
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5019404Z env:
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5019672Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5020124Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5020578Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5020980Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5021372Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5021758Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5022089Z ##[endgroup]
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5913173Z Validazione species_affinity: impossibile verificare ID specie perché il catalogo non contiene elementi.
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5914219Z traits_with_species=0 sotto la soglia 27
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.5914958Z rules_missing_species_total=284 eccede il massimo consentito 0
+validate-traits	Generate strict trait coverage report	2025-12-08T16:42:44.6020936Z ##[error]Process completed with exit code 1.
+validate-traits	Upload trait reports	﻿2025-12-08T16:42:44.6098233Z ##[group]Run actions/upload-artifact@v4
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6098529Z with:
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6098723Z   name: trait-data-reports-20012325923
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6099214Z   path: reports/**
+validate-traits	Upload trait reports	data/derived/analysis/trait_coverage_report.json
+validate-traits	Upload trait reports	data/derived/analysis/trait_coverage_matrix.csv
+validate-traits	Upload trait reports	
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6099717Z   if-no-files-found: warn
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6099933Z   compression-level: 6
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6100129Z   overwrite: false
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6100318Z   include-hidden-files: false
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6100528Z env:
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6100758Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6101152Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6101571Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6101923Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6102266Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6102608Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+validate-traits	Upload trait reports	2025-12-08T16:42:44.6102934Z ##[endgroup]
+validate-traits	Upload trait reports	2025-12-08T16:42:44.8871538Z Multiple search paths detected. Calculating the least common ancestor of all paths
+validate-traits	Upload trait reports	2025-12-08T16:42:44.8874422Z The least common ancestor is /home/runner/work/Game/Game. This will be the root directory of the artifact
+validate-traits	Upload trait reports	2025-12-08T16:42:44.8875400Z With the provided path, there will be 227 files uploaded
+validate-traits	Upload trait reports	2025-12-08T16:42:44.8880178Z Artifact name is valid!
+validate-traits	Upload trait reports	2025-12-08T16:42:44.8881358Z Root directory input is valid!
+validate-traits	Upload trait reports	2025-12-08T16:42:45.2156248Z Beginning upload of artifact content to blob storage
+validate-traits	Upload trait reports	2025-12-08T16:42:45.9968021Z Uploaded bytes 243107
+validate-traits	Upload trait reports	2025-12-08T16:42:46.0765264Z Finished uploading artifact content to blob storage!
+validate-traits	Upload trait reports	2025-12-08T16:42:46.0768383Z SHA256 digest of uploaded artifact zip is e0a0fd3c98283f572817a0f56dabf1c0abb95d9035a7a560496c4d8c8d7f15a2
+validate-traits	Upload trait reports	2025-12-08T16:42:46.0771019Z Finalizing artifact upload
+validate-traits	Upload trait reports	2025-12-08T16:42:46.2331445Z Artifact trait-data-reports-20012325923.zip successfully finalized. Artifact ID 4800072264
+validate-traits	Upload trait reports	2025-12-08T16:42:46.2333283Z Artifact trait-data-reports-20012325923 has been successfully uploaded! Final size is 243107 bytes. Artifact ID is 4800072264
+validate-traits	Upload trait reports	2025-12-08T16:42:46.2340833Z Artifact download URL: https://github.com/MasterDD-L34D/Game/actions/runs/20012325923/artifacts/4800072264
+validate-traits	Post Run actions/checkout@v4	﻿2025-12-08T16:42:46.2528431Z Post job cleanup.
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3587982Z [command]/usr/bin/git version
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3626005Z git version 2.52.0
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3671824Z Temporarily overriding HOME='/home/runner/work/_temp/31a280ec-e0c1-4edf-b639-730c50202bb2' before making global git config changes
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3673370Z Adding repository directory to the temporary git global config as a safe directory
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3678695Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3720509Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.3756363Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.4005846Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.4030784Z http.https://github.com/.extraheader
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.4044054Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.4079070Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.4321134Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate-traits	Post Run actions/checkout@v4	2025-12-08T16:42:46.4355697Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate-traits	Complete job	﻿2025-12-08T16:42:46.4720438Z Cleaning up orphan processes

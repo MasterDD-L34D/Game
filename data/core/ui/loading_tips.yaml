@@ -1,0 +1,149 @@
+# =============================================================================
+# Loading Screen Tips — Evo-Tactics
+# SoT §26 · Open Question #26 (proposta 🟡 → chiusa via questo dataset)
+#
+# Scopo: testi didattici mostrati durante loading screen (1-2s min).
+# Content in it + en bilingue. ID stabili per localizzazione futura.
+# Covering 6 pilastri di design + meccaniche chiave.
+# =============================================================================
+
+version: 1
+updated: 2026-04-17
+tips:
+  # --- Pilastro 1: Tattica leggibile (FFT) ---
+  - id: tip_tact_01
+    category: tactics
+    pillar: 1
+    it: 'Attacco base = d20 + bonus vs CD. Margin of Success ≥ 10 = colpo critico.'
+    en: 'Base attack = d20 + bonus vs DC. Margin of Success ≥ 10 = critical hit.'
+    source_ref: docs/hubs/combat.md
+  - id: tip_tact_02
+    category: tactics
+    pillar: 1
+    it: "Copertura full blocca LoS, half dà +2 CD. Elevazione +1 livello = +2 ai danni."
+    en: 'Full cover blocks LoS, half gives +2 DC. +1 elevation = +2 to damage.'
+    source_ref: docs/core/15-LEVEL_DESIGN.md
+  - id: tip_tact_03
+    category: tactics
+    pillar: 1
+    it: "Parata reattiva costa 1 PT. Usala contro colpi annunciati, non contro tutto."
+    en: 'Reactive parry costs 1 PT. Use it against telegraphed hits, not everything.'
+    source_ref: docs/hubs/combat.md
+
+  # --- Pilastro 2: Evoluzione emergente (Spore) ---
+  - id: tip_evo_01
+    category: evolution
+    pillar: 2
+    it: "I trait si combinano: artigli + coda-frusta = sinergia DPS. Leggi le descrizioni."
+    en: 'Traits combine: claws + whip-tail = DPS synergy. Read the descriptions.'
+    source_ref: docs/core/00D-ENGINES_AS_GAME_FEATURES.md
+  - id: tip_evo_02
+    category: evolution
+    pillar: 2
+    it: 'Nido = reclutamento. Coppie con alto VC generano prole con trait emergenti.'
+    en: 'Nest = recruitment. High-VC pairs produce offspring with emergent traits.'
+    source_ref: docs/core/27-MATING_NIDO.md
+
+  # --- Pilastro 3: Identità Specie × Job ---
+  - id: tip_idy_01
+    category: identity
+    pillar: 3
+    it: 'Specie fornisce corpo e trait. Job fornisce ruolo tattico e abilità attive.'
+    en: 'Species provides body and traits. Job provides tactical role and active abilities.'
+    source_ref: docs/core/00-GDD_MASTER.md
+  - id: tip_idy_02
+    category: identity
+    pillar: 3
+    it: 'Ogni specie ha resistenze diverse. Controlla species_resistances.yaml prima di ingaggiare.'
+    en: 'Each species has different resistances. Check resistances before engaging.'
+    source_ref: packs/evo_tactics_pack/data/balance/species_resistances.yaml
+
+  # --- Pilastro 4: Temperamenti MBTI/Ennea ---
+  - id: tip_temp_01
+    category: temperament
+    pillar: 4
+    it: 'Le creature sotto stress (Panic/Rage) deviano dal pattern. Gestisci la pressione.'
+    en: 'Creatures under stress (Panic/Rage) deviate from pattern. Manage pressure.'
+    source_ref: docs/architecture/ai-policy-engine.md
+  - id: tip_temp_02
+    category: temperament
+    pillar: 4
+    it: 'Il VC (Vector Character) traccia come giochi. MBTI + Ennea emergono dalle scelte.'
+    en: 'VC (Vector Character) tracks how you play. MBTI + Ennea emerge from choices.'
+    source_ref: docs/core/24-TELEMETRIA_VC.md
+
+  # --- Pilastro 5: Co-op vs Sistema ---
+  - id: tip_coop_01
+    category: cooperation
+    pillar: 5
+    it: 'Il Sistema non è un nemico fisso: si adatta. Rompere il suo ritmo è metà della vittoria.'
+    en: 'The System is not a fixed enemy: it adapts. Breaking its rhythm is half the victory.'
+    source_ref: docs/core/00D-ENGINES_AS_GAME_FEATURES.md
+  - id: tip_coop_02
+    category: cooperation
+    pillar: 5
+    it: 'Reazioni coordinate = danni amplificati. Parlate tra voi prima di agire.'
+    en: 'Coordinated reactions = amplified damage. Talk before you act.'
+    source_ref: docs/hubs/combat.md
+  - id: tip_coop_03
+    category: cooperation
+    pillar: 5
+    it: 'Il Threat tracker mostra chi il Sistema considera priorità. Proteggi il top-threat.'
+    en: 'Threat tracker shows who the System considers priority. Protect the top-threat.'
+    source_ref: services/ai/policy.js
+
+  # --- Pilastro 6: Fairness ---
+  - id: tip_fair_01
+    category: fairness
+    pillar: 6
+    it: 'Il Sistema non bara sui roll. I dadi sono visibili nel combat log.'
+    en: 'The System does not cheat on rolls. Dice are visible in combat log.'
+    source_ref: docs/hubs/combat.md
+  - id: tip_fair_02
+    category: fairness
+    pillar: 6
+    it: 'Difficoltà regolabile in Settings. Non modifica le regole, solo scalatura HP/dmg.'
+    en: 'Adjustable difficulty in Settings. Does not change rules, only HP/dmg scaling.'
+    source_ref: docs/core/00-SOURCE-OF-TRUTH.md#15
+
+  # --- Generale / Onboarding ---
+  - id: tip_gen_01
+    category: general
+    it: 'Puoi ispezionare qualsiasi creatura tenendo premuto il tasto focus.'
+    en: 'You can inspect any creature by holding the focus button.'
+    source_ref: docs/core/17-SCREEN_FLOW.md
+  - id: tip_gen_02
+    category: general
+    it: 'Salva spesso. I round sono persistenti anche se chiudi il gioco mid-match.'
+    en: 'Save often. Rounds persist even if you close the game mid-match.'
+  - id: tip_gen_03
+    category: general
+    it: 'Il debrief mostra la replay completa con scelte alternative evidenziate.'
+    en: 'Debrief shows full replay with alternative choices highlighted.'
+    source_ref: docs/core/24-TELEMETRIA_VC.md
+  - id: tip_gen_04
+    category: general
+    it: "L'event log è un file JSON esportabile. Condividi match interessanti con la community."
+    en: 'Event log is an exportable JSON file. Share interesting matches with the community.'
+
+  # --- Accessibility ---
+  - id: tip_acc_01
+    category: accessibility
+    it: 'Modalità colorblind (Protanopia/Deuteranopia/Tritanopia) in Settings → Accessibility.'
+    en: 'Colorblind mode (Protanopia/Deuteranopia/Tritanopia) in Settings → Accessibility.'
+    source_ref: docs/core/00-SOURCE-OF-TRUTH.md#18
+  - id: tip_acc_02
+    category: accessibility
+    it: 'Indicatori visivi per eventi sonori attivabili (Deaf mode). Nessun gameplay solo-audio.'
+    en: 'Visual cues for sound events toggleable (Deaf mode). No audio-only gameplay.'
+    source_ref: docs/core/00-SOURCE-OF-TRUTH.md#23
+
+categories:
+  tactics: { display_it: 'Tattica', display_en: 'Tactics' }
+  evolution: { display_it: 'Evoluzione', display_en: 'Evolution' }
+  identity: { display_it: 'Identità', display_en: 'Identity' }
+  temperament: { display_it: 'Temperamento', display_en: 'Temperament' }
+  cooperation: { display_it: 'Cooperazione', display_en: 'Cooperation' }
+  fairness: { display_it: 'Equità', display_en: 'Fairness' }
+  general: { display_it: 'Generale', display_en: 'General' }
+  accessibility: { display_it: 'Accessibilità', display_en: 'Accessibility' }

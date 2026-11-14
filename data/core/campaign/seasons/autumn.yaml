@@ -1,0 +1,38 @@
+# TKT-P2 Brigandine seasonal — Phase B content (Autumn).
+#
+# Schema: cfr spring.yaml header.
+# Narrative beat: Vento cambia direzione. Migrazioni e tempeste.
+
+id: autumn
+display_name_it: "Autunno"
+display_name_en: "Autumn"
+description_it: |
+  Il vento cambia direzione. Migrazioni di creature dai biomi estivi
+  verso i nidi profondi. Tempeste di sabbia frequenti, encounter
+  con specie nuove (migratori).
+description_en: |
+  Wind shifts. Creatures migrate from summer biomes toward deep nests.
+  Frequent sandstorms, encounters with new species (migrants).
+duration_turns: 6
+modifiers:
+  resource_yield: 1.1
+  encounter_rate: 1.0
+  recruit_pool_delta: 0
+hazards:
+  - type: storm
+    intensity: 0.5
+    affected_biomes:
+      - dune
+      - pianura
+      - umido
+events_pool:
+  - id: autumn_migration
+    description_it: "Migrazione. +1 specie disponibile per recruit."
+    description_en: "Migration. +1 species available for recruit."
+    trigger: random
+    weight: 35
+  - id: autumn_sandstorm
+    description_it: "Tempesta di sabbia. Visibilità ridotta. Encounter difficile."
+    description_en: "Sandstorm. Reduced visibility. Hard encounter."
+    trigger: hazard_threshold
+    weight: 25

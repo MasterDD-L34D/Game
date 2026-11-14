@@ -1,0 +1,41 @@
+schema_version: 1.0
+ecosistema:
+  id: REEF_LUMINESCENTE
+  label: Reef Luminescente
+  biome_id: reef_luminescente
+  clima:
+    temperatura_C:
+      media_annua: 27.0
+      min_mese_piu_freddo: 22.0
+      max_mese_piu_caldo: 31.0
+    precipitazioni_mm:
+      totale_annuo: 2000
+      indice_stagionalita: marino
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.04
+  abiotico:
+    salinita: saline-marine
+    nutrienti:
+      N: medio
+      P: medio
+      K: alto
+  trofico:
+    produttori:
+    - alghe
+    - coralli_simbiotici
+    consumatori:
+      primari: []
+      secondari:
+      - lucinerva-filata
+      terziari: []
+    decompositori: []
+  note: 'Reef Luminescente (littoral): barriere coralline sintetiche, correnti luminescenti,
+    fauna risonante (vault card 07).'
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

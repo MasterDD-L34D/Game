@@ -1,0 +1,111 @@
+{
+  "scenario": "hardcore_06",
+  "iterations": 3,
+  "mode": "real",
+  "knob_space": {
+    "boss_hp_multiplier": ["float", 0.5, 1.0],
+    "turn_limit_defeat_override": ["int", 25, 35]
+  },
+  "wr_buckets": [
+    [0, 0.1],
+    [0.1, 0.2],
+    [0.2, 0.3],
+    [0.3, 0.4],
+    [0.4, 1.0]
+  ],
+  "turns_buckets": [
+    [0, 22],
+    [22, 24],
+    [24, 26],
+    [26, 30],
+    [30, 36]
+  ],
+  "feature_map": {
+    "4,1": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.612,
+        "turn_limit_defeat_override": 26
+      },
+      "features": [0.6, 22.6],
+      "fitness": 0.26034165586355457,
+      "iter_first": 2,
+      "iter_last": 2,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "4,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.871,
+        "turn_limit_defeat_override": 28
+      },
+      "features": [0.45, 26.075],
+      "fitness": 0.6365631733073405,
+      "iter_first": 1,
+      "iter_last": 1,
+      "origin": "random",
+      "n_eff": 40
+    }
+  },
+  "n_per_trial": 40,
+  "shards": 4,
+  "sprt": false,
+  "resumed_from_iter": null,
+  "stats": {
+    "cells_populated": 2,
+    "cells_replaced": 0,
+    "cells_skipped": 0,
+    "eval_failures": 0,
+    "n_shortfall": 0,
+    "sprt_truncated": 0,
+    "cells_active": 2,
+    "max_cells": 25,
+    "coverage_pct": 8.0
+  },
+  "history": [
+    {
+      "iter": 2,
+      "knobs": {
+        "boss_hp_multiplier": 0.612,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.6,
+      "turns": 22.6,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": "populated"
+    },
+    {
+      "iter": 0,
+      "knobs": {
+        "boss_hp_multiplier": 0.82,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.425,
+      "turns": 23.475,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 1,
+      "knobs": {
+        "boss_hp_multiplier": 0.871,
+        "turn_limit_defeat_override": 28
+      },
+      "wr": 0.45,
+      "turns": 26.075,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": "populated"
+    }
+  ],
+  "checkpoint": "C:\\dev\\Game\\.claude\\worktrees\\map-elites-v2\\docs\\playtest\\map-elites-hardcore_06-dryrun-gate\\checkpoint.jsonl",
+  "elapsed_sec": 72.12040281295776,
+  "method": "D-map-elites-qd-v2",
+  "method_ref": "docs/research/2026-07-02-map-elites-hc06-overnight-negative-result.md",
+  "seed": 42,
+  "status": "real-eval"
+}

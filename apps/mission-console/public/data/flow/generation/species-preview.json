@@ -1,0 +1,15 @@
+{
+  "previews": [
+    {
+      "id": "preview-1",
+      "name": "Anteprima fallback",
+      "traits": ["fallback-core-trait", "fallback-secondary-trait"],
+      "biome_id": "fallback-biome",
+      "meta": {
+        "endpoint_source": "fallback",
+        "notes": "Anteprima generata offline"
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,8 @@
+zip_file: evo-tactics-final (1).zip
+timestamp: 20251029-153215
+cli_origin: repository
+working_directory: /tmp/incoming_validation.9SlTyf/evo-tactics-final (1)
+validate_datasets_exit_code: 0
+validate_datasets_log: reports/incoming/validation/evo-tactics-final (1)-20251029-153215/validate-datasets.log
+validate_ecosystem_pack_exit_code: 0
+validate_ecosystem_pack_log: reports/incoming/validation/evo-tactics-final (1)-20251029-153215/validate-ecosystem-pack.log

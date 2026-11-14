@@ -1,0 +1,19 @@
+schema_version: 1.0
+ecosistema:
+  id: DORSALE_TERMALE_TROPICALE
+  label: Dorsale Termale Tropicale
+  biome_id: dorsale_termale_tropicale
+  trofico:
+    produttori:
+    - cianobatteri
+    - alghe_termali
+    consumatori:
+      primari:
+      - symbiotica-thermalis
+      secondari:
+      - umbra-alaris
+      terziari: []
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

@@ -1,0 +1,11 @@
+compat_forme:
+  sentinel_proto:
+    compatible:
+      - sentinel_proto
+    incompatible:
+      - sentinel_shadow
+base_scores:
+  sentinel_proto:
+    empathy: 2
+    strategy: 3
+    creativity: 1

@@ -1,0 +1,61 @@
+rollout:
+  name: Nebula Atlas Aggregator
+  featureFlag: featureFlags.rollout.nebulaAtlasAggregator
+  stageGate: nebula-pilot-go
+  cohorts:
+    - nebula-alpha
+    - nebula-beta
+    - qa-delta
+  playbook: docs/ops/nebula-rollout.md
+  pipeline:
+    job: nebula-atlas-rollout
+    config: config/jobs/nebula-atlas-rollout.yaml
+  contacts:
+    owner: nebula-ops@gamestudio.local
+    slack:
+      - '#nebula-ops'
+      - '#nebula-rollout'
+  steps:
+    - name: Pre-rollout baseline
+      checklist:
+        - 'Eseguire richiesta canary con stageGate e cohort autorizzati'
+        - 'Verificare header x-nebula-rollout-state=enabled'
+        - 'Controllare assenza di log di fallback nel namespace [nebula-aggregator]'
+    - name: Canary rollout
+      checklist:
+        - "Abilitare l'accesso per il cohort nebula-alpha"
+        - 'Monitorare metriche per 15 minuti'
+    - name: Estensione cohort
+      checklist:
+        - 'Abilitare nebula-beta e qa-delta in sequenza'
+        - "Confermare con QA l'accesso end-to-end"
+    - name: Stabilizzazione
+      checklist:
+        - 'Monitorare le metriche per 24h'
+        - 'Pianificare il passaggio a default=true se approvato'
+  verification:
+    metrics:
+      - name: nebula_atlas_aggregator_success_rate
+        target: '>=0.99'
+        window: 1h
+        alertChannel: ops-oncall
+      - name: nebula_atlas_fallback_ratio
+        target: '<=0.05'
+        window: 1h
+        alertChannel: '#nebula-rollout'
+      - name: nebula_atlas_latency_p95_ms
+        target: '<=4500'
+        window: 30m
+        alertChannel: observability
+    manualChecks:
+      - 'Header x-nebula-rollout-state e reason coerenti con lo stato atteso'
+      - 'Endpoint /nebula/atlas/orchestrator risponde 404 quando il flag è disabilitato'
+      - "Log [atlas-controller] riportano l'eventuale fallback con reason"
+  fallback:
+    actions:
+      - 'Rimuovere stageGate dalle richieste client o usare cohort non autorizzati per tornare al dataset statico'
+      - 'Aggiornare config/featureFlags.json impostando default=false se necessario'
+      - 'Notificare #nebula-ops e #nebula-rollout, allegando le metriche raccolte'
+    validation:
+      - 'Verificare header x-nebula-rollout-state=disabled'
+      - 'Controllare log [nebula-aggregator] per garantire che non emergano errori'

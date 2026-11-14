@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "id": "filtri_bioattivi",
+  "label": "i18n:traits.filtri_bioattivi.label",
+  "famiglia_tipologia": "Fisiologico/Morfologia",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T2",
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "morfologia"
+  },
+  "slot": [],
+  "sinergie": [
+    "membrane_osmotiche",
+    "tessuti_adattivi"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.filtri_bioattivi.mutazione_indotta",
+  "uso_funzione": "i18n:traits.filtri_bioattivi.uso_funzione",
+  "spinta_selettiva": "i18n:traits.filtri_bioattivi.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.filtri_bioattivi.debolezza"
+}

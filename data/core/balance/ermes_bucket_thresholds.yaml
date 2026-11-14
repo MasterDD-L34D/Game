@@ -1,0 +1,102 @@
+# ADR-2026-05-29-ermes-runtime-bridge sezione C (TKT-BR-05).
+# Bucket DISCRETI per output ERMES runtime (anti-ref Creatures + Niche Mendel
+# pattern). Substrate continuo 0-1 e' INPUT; output sui mod runtime e' band
+# (low/med/high) con delta cap +/-2 mirror ADR-21c.
+#
+# Consumer: apps/backend/services/traitEffects.applyErmesBiomeTraitCosts (TKT-BR-06)
+# + apps/backend/services/coop/ermesExporter.getErmesBucketed (TKT-BR-04).
+#
+# Schema gate: validato da AJV (TODO TKT-BR-04b se serve schema strict);
+# format YAML semplice + range tuple [lo, hi).
+
+schema_version: "1.0"
+ratified_by: "ADR-2026-05-29-ermes-runtime-bridge"
+ratified_at: "2026-05-29"
+
+buckets:
+  # input: ermesReport.biomes[bid].eco_pressure_score (float [0,1])
+  # output: discrete band + global delta_mod cap, narrative diegetico player-facing.
+  eco_pressure_score:
+    low:
+      range: [0.0, 0.33]
+      delta_mod: -1
+      narrative_it: "Bioma calmo."
+    med:
+      range: [0.33, 0.66]
+      delta_mod: 0
+      narrative_it: "Bioma in equilibrio."
+    high:
+      range: [0.66, 1.0]
+      delta_mod: 1
+      narrative_it: "Bioma in tensione."
+
+  # input: ermesReport.biomes[bid].mutation_bias.heat_resistance (float [0,1])
+  # output: discrete delta on defense_mod (heat-related traits).
+  mutation_bias.heat_resistance:
+    low:
+      range: [0.0, 0.10]
+      delta: { defense_mod: 0 }
+    med:
+      range: [0.10, 0.20]
+      delta: { defense_mod: 1 }
+    high:
+      range: [0.20, 1.0]
+      delta: { defense_mod: 2 }
+
+  mutation_bias.burst_mobility:
+    low:
+      range: [0.0, 0.10]
+      delta: { mobility: 0 }
+    med:
+      range: [0.10, 0.20]
+      delta: { mobility: 1 }
+    high:
+      range: [0.20, 1.0]
+      delta: { mobility: 2 }
+
+  mutation_bias.efficient_metabolism:
+    low:
+      range: [0.0, 0.10]
+      delta: { rest_recovery: 0 }
+    med:
+      range: [0.10, 0.20]
+      delta: { rest_recovery: 1 }
+    high:
+      range: [0.20, 1.0]
+      delta: { rest_recovery: 2 }
+
+  mutation_bias.sensory_alertness:
+    low:
+      range: [0.0, 0.10]
+      delta: { attack_mod: 0 }
+    med:
+      range: [0.10, 0.20]
+      delta: { attack_mod: 1 }
+    high:
+      range: [0.20, 1.0]
+      delta: { attack_mod: 2 }
+
+  # input: ermesReport.biomes[bid].encounter_bias.ambush (float [0,1])
+  # output: spawn weight modifier per biomeSpawnBias.js (W5.5 mirror Godot v2).
+  encounter_bias.ambush:
+    low:
+      range: [0.0, 0.10]
+      spawn_weight_mod: 0
+    med:
+      range: [0.10, 0.18]
+      spawn_weight_mod: 1
+    high:
+      range: [0.18, 1.0]
+      spawn_weight_mod: 2
+
+caps:
+  # mirror ADR-21c range strict +/-1/+/-2.
+  max_delta_any_stat: 2
+  max_delta_per_round: 2
+  # anti-overload: max 3 bucket attivi su singola unit (leggibilita gameplay).
+  max_buckets_active_per_unit: 3
+
+guards:
+  null_safe: true
+  bucket_miss_fallback: low
+  soft_fail_on_eco_pressure_missing: true  # mirror ADR-21c precedent

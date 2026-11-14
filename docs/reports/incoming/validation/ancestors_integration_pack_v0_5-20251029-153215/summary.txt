@@ -1,0 +1,8 @@
+zip_file: ancestors_integration_pack_v0_5.zip
+timestamp: 20251029-153215
+cli_origin: repository
+working_directory: /tmp/incoming_validation.9SlTyf/ancestors_integration_pack_v0_5
+validate_datasets_exit_code: 0
+validate_datasets_log: reports/incoming/validation/ancestors_integration_pack_v0_5-20251029-153215/validate-datasets.log
+validate_ecosystem_pack_exit_code: 0
+validate_ecosystem_pack_log: reports/incoming/validation/ancestors_integration_pack_v0_5-20251029-153215/validate-ecosystem-pack.log

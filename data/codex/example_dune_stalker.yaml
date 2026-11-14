@@ -1,0 +1,336 @@
+# encoding: UTF-8
+# Schema: codex_entry v1.0 (2026-04-27)
+# Entry esempio — dune_stalker / Predatore delle Dune
+#
+# Data cross-check:
+#   species.yaml:61-98  — id, genus, clade_tag, sentience_tier, biome_affinity, trait_plan, weight
+#   biomes.yaml:643-681 — savana entry (display_name_it, summary, narrative.tone, narrative.hooks)
+#   skiv_saga.json      — lifecycle_phase, mbti_axes, picked_perks, mutations, cabinet
+#   CANONICAL.md:22-34  — voice rule Skiv (prima persona, metafore desertiche, all'allenatore)
+#
+# NON modificare docs/skiv/CANONICAL.md né data/core/species/dune_stalker_lifecycle.yaml
+# Questo file è ADDITIVE — non sostituisce species.yaml, lo estende.
+
+codex_entry:
+  id: dune_stalker
+  type: species
+  display_name_it: Predatore delle Dune
+  display_name_en: Dune Stalker
+  subtitle_it: "Arenavenator vagans — clade Threat · Sentience T2"
+  # Cross-check: species.yaml:62-66
+
+  unlock:
+    triggers:
+      - encounter_completed        # fine scontro con dune_stalker nel roster nemici
+      - thought_internalized       # thought i_osservatore / n_intuizione_terrena internalized
+      - mating_success             # evento mating riuscito (OD-001 pending, hook futuro)
+    threshold: 1                   # OR — basta un trigger
+    locked_preview: >
+      Un predatore delle dune. I guardiani dicono che il suolo lo riconosce.
+      Completa uno scontro con questa specie per sbloccare il Codex.
+    persistence: "localStorage:evo:codex-seen-dune_stalker"
+
+  aliena_dimensions:
+
+    # -------------------------------------------------------------------------
+    # A — Ambiente
+    # -------------------------------------------------------------------------
+    A_ambiente:
+      heading: "Ambiente"
+      content: >
+        Pianeta lock mareale attorno a stella M-nana. Savana ionizzata:
+        dune fotoniche, substrato conduttivo con lenti magnetiche sub-superficiali.
+        Luce permanentemente radente (angolo < 15°), visibilità ottica quasi nulla
+        nelle ore centrali per riverbero. Tempeste ioniche stagionali fino a 120 km/h.
+        Rifugio obbligato nelle caverne salmastre iper-calde durante le ionostorm.
+      key_facts:
+        - "Luce radente perenne — visibilità ottica irrilevante per questa specie"
+        - "Substrato conduttivo: lenti magnetiche sotterranee attive"
+        - "Tempeste ioniche: frequenza alta, durata 2-4 cicli (biomes.yaml:savana)"
+        - "Caverna come rifugio stagionale (species.yaml:96-98)"
+      cross_ref:
+        - "biome:savana"     # biomes.yaml:643 — Savana Ionizzata, biome_class:arid
+        - "biome:caverna"    # biomes.yaml:277 — Caverna Risonante, rifugio tempeste
+      game_impact: >
+        Echolocation come sense primario. Synergy echo_backstab sfrutta l'ambiente
+        acromatico — +1 damage in qualsiasi lighting condition.
+        biome:savana stresswave baseline 0.28, escalation 0.04 (biomes.yaml:669-672).
+
+    # -------------------------------------------------------------------------
+    # L — Linee evolutive
+    # -------------------------------------------------------------------------
+    L_linee_evolutive:
+      heading: "Linee evolutive"
+      content: >
+        Discendente da arenavenator paleozoico del piano desertico costiero.
+        Tre pressioni principali: predazione in bassa luce (echolocation 45-120 kHz),
+        mobilità su sabbia instabile (locomotion burrower, 6 zampe palmati),
+        resistenza termica ciclica (heat_scales termoregolatrici).
+        Convergenza evolutiva con pipistrelli terrestri + elettroretti marini
+        — soluzione sensoriale simile, filogenesi distante.
+      pressures:
+        - "Bassa luce cronica → echolocation come sense primario"
+        - "Sabbia instabile → zampe burrower 6-fold"
+        - "Calore ciclico intenso → heat_scales termoregolatrici"
+      analogues_it: "Convergente con pipistrelli (acustica) + elettroretti marini (campo)"
+      cross_ref:
+        - "trait:sensori_geomagnetici"   # linea evolutiva elettrorecettori
+        - "trait:struttura_elastica_amorfa"  # mobilità sabbia
+      game_impact: >
+        Ogni trait core della trait_plan (species.yaml:81-85) riflette una pressione
+        evolutiva reale. Trait opzionali (species.yaml:86-89) = derive secondarie
+        esplorabili durante la campagna.
+
+    # -------------------------------------------------------------------------
+    # I — Impianto morfo-fisiologico
+    # -------------------------------------------------------------------------
+    I_impianto:
+      heading: "Impianto morfo-fisiologico"
+      content: >
+        Bilaterale basso appiattito — profilo ridotto per tunneling nelle dune.
+        6 zampe a molla burrower (palmati) per mobilità sabbiosa multidirezionale.
+        Artigli sette vie (6 artigli + falce retrattile) → in fase mature
+        si vetrificano in punte trasparenti come ossidiana (artigli_vetrificati).
+        Pelle elastomera con squame termoregolatrici. Peso 11 kg, budget biomassa 12.
+        Echolocation 45-120 kHz (primary) + elettrorecettori laterali.
+        Orecchie con conche scolpite — solchi visibili sul cranio adulto.
+      body_plan: "Bilaterale basso appiattito"
+      locomotion: "6 zampe burrower palmati"
+      senses:
+        - "Echolocation 45-120 kHz (primary) — conche scolpite sul cranio"
+        - "Elettrorecettori laterali — campo magnetico substrato"
+        - "Fotosensori vestigiali — solo luce diretta forte"
+      weight_kg: 11    # species.yaml:70
+      weight_budget: 12  # species.yaml:71
+      anatomy_diagram: null   # placeholder Wave 10 (asset pipeline W10+)
+      cross_ref:
+        - "trait:artigli_sette_vie"          # species.yaml:82
+        - "trait:scheletro_idro_regolante"   # species.yaml:84
+        - "trait:sensori_geomagnetici"       # species.yaml:85
+        - "mutation:artigli_grip_to_glass"   # skiv_saga.json:56-67 (fase mature)
+      game_impact: >
+        Synergy echo_backstab (species.yaml:91): echolocation × sand_claws → +1 damage.
+        Fase mature: mutation artigli_grip_to_glass (skiv_saga.json) — artigli vetrificati,
+        lasciano tracce iridescenti. Visuale: punte trasparenti riflettono sole.
+
+    # -------------------------------------------------------------------------
+    # E — Ecologia
+    # -------------------------------------------------------------------------
+    E_ecologia:
+      heading: "Ecologia"
+      content: >
+        Predatore apex notturno della savana ionizzata. Caccia solitaria
+        durante stagione stabile. Branco sciolto stagionale (2-4 unità)
+        durante migrazione inter-bioma: coordinazione via echolocation sincronizzata,
+        nessuna gerarchia formale emergente.
+        Prede principali: fauna burrower media classe, artiropodi di superficie.
+        Competitor: predoni_nomadi (npc_archetypes savana — biomes.yaml:664).
+        Rifugio temporaneo caverne salmastre durante ionostorm (species.yaml:96-98).
+      foodweb_position: apex
+      social_pattern: solitary_pack_seasonal
+      threat_level: 4       # su 5, usato come difficulty modifier
+      threat_stars: "⭐⭐⭐⭐"
+      habitat_primary: savana        # biomes.yaml:643
+      habitat_secondary:
+        - caverna                    # biomes.yaml:277 — rifugio stagionale
+      cross_ref:
+        - "biome:savana"
+        - "species:predoni_nomadi"   # competitor (biomes.yaml:savana.npc_archetypes.primary)
+      game_impact: >
+        Threat level 4 — diff_base savana 2 + mod_biome 1 (biomes.yaml:650-651).
+        Encounter savana: Western sci-fi e sopravvivenza carovaniera
+        (biomes.yaml:savana.narrative.tone).
+
+    # -------------------------------------------------------------------------
+    # N — Norme socio
+    # -------------------------------------------------------------------------
+    N_norme_socio:
+      heading: "Norme socio"
+      optional: false    # obbligatorio per sentience_tier >= T2
+      content: >
+        Solitario in età adulta. Territoriale post-juvenile (range 3-5 km²).
+        Branco sciolto (2-4) durante migrazione stagionale — coordinazione per
+        echolocation sincronizzata, non gerarchia formale.
+        Sentience T2 (species.yaml:65): proto-sociale — riconosce individui
+        del proprio branco, comunicazione gestuale + canto ultrasonico rudimentale.
+        Non struttura politica né distribuzione risorse formalizzata.
+        Il ruolo "predatore-stalker" è riconosciuto socialmente (skiv_saga.json:75).
+      social_pattern: solitary
+      sentience_tier: T2    # species.yaml:65
+      communication:
+        - "Canto ultrasonico (45-120 kHz) — coordinazione branco migratorio"
+        - "Segnali gestuali posturali — orecchie + coda + posizione artigli"
+      hierarchy: none
+      cross_ref:
+        - "docs/museum/cards/cognitive_traits-sentience-tiers-v1.md"
+          # Card M-001 score 5/5 — T2 proto-sociale definizione + interoception hooks
+      game_impact: >
+        T2 proto-sociale → eligible Thought Cabinet (già wired skiv_saga.json:39-52).
+        Voce interna emergente (skiv_saga.json:73 "primo segno di voce interna").
+        Base per future Disco Elysium inner voices se P4 espande skill-voices.
+
+    # -------------------------------------------------------------------------
+    # A_ancoraggio_narrativo — Ancoraggio narrativo
+    # -------------------------------------------------------------------------
+    A_ancoraggio_narrativo:
+      heading: "Ancoraggio narrativo"
+      content: >
+        Tema: autonomia evolutiva vs Sistema. Non è neutrale — ha già scelto
+        di non essere controllato. Il Sistema lo classifica come threat_node
+        variabile non-ridondante: un punto di resistenza imprevedibile.
+        Alleato potenziale ma imperscrutabile: agisce per logica propria,
+        non fedeltà. Le sue tracce iridescenti (artigli vetrificati) lasciano
+        segni leggibili come messaggi nel paesaggio.
+        Tono scenario: Western sci-fi e sopravvivenza carovaniera
+        (biomes.yaml:savana.narrative.tone).
+      theme_it: "Autonomia evolutiva vs Sistema"
+      story_hook_it: >
+        Alleato potenziale ma imperscrutabile — segue la propria logica,
+        non la fedeltà. I guardiani delle dune dicono che il suolo lo riconosce.
+      sistema_relation: >
+        threat_node — classificato variabile autonoma non-ridondante.
+        Non va eliminato ma monitorato: ogni sua scelta modifica il bioma.
+      lore_seed_it: >
+        «Lo si è visto camminare sul vetro vulcanico senza lasciare traccia
+        di bruciatura. I guardiani delle dune dicono che il suolo lo riconosce.»
+      lore_seed_source: "docs/planning/codex-in-game-aliena-integration.md:119"
+      cross_ref:
+        - "biome:savana"
+        - "docs/reports/2026-04-26-lore-alien-event-swarm-redig.md"
+      game_impact: >
+        Flavor text briefing_pre scenario savana (hardcoded in tutorialScenario.js /
+        hardcoreScenario.js — candidato per ink weave P0 Wave 10+).
+        Evento mutageno (lore-alien-redig.md:58-74): se player sceglie via C
+        (acquisisci mutazione), lore seed si espande con trait strappo_planare.
+
+  # ---------------------------------------------------------------------------
+  # Skiv-instance note — layer diegetic (prima persona, bioma-aware)
+  # ---------------------------------------------------------------------------
+  skiv_instance_note:
+    voice_rule: >
+      Prima persona. Italiano. Metafore desertiche (sabbia, vento, eco, ridge,
+      sole basso). Parla all'allenatore. Max 3 frasi. MAI puro tecnico.
+      Closing opzionale: "Sabbia segue." Dipende da biome_id della run.
+    selection_rule: "qbnEngine.draw(pool[biome_id] ?? pool.default) — no-repeat"
+
+    voice_pool:
+
+      savana:    # biome_id home di dune_stalker (biomes.yaml:643)
+        - >
+          Il terreno qui vibra in modo diverso. Non so se sono io che cambio,
+          o se il substrato impara. Sabbia segue.
+        - >
+          Ho sentito il mio stesso eco rimbalzare sulle dune prima che arrivassi.
+          Forse mi stavo aspettando.
+        - >
+          I guardiani delle dune li sento arrivare. Non per suono — per il modo
+          in cui il vento cambia traiettoria attorno a loro.
+
+      caverna:   # biome_id rifugio (biomes.yaml:277 — Caverna Risonante)
+        - >
+          Le caverne risonanti amplificano ogni errore. Qui il silenzio è informazione.
+          Ascolto prima di muovermi.
+        - >
+          Nelle cavità salmastre il mio eco ritorna cambiato. Come se il cristallo
+          volesse correggere la mia rotta.
+        - >
+          Qui sotto l'echolocation risuona troppo. Devo imparare a filtrare il rumore
+          del luogo dal rumore delle prede.
+
+      foresta_acida:   # biome_id ostile (biomes.yaml:390 — Foresta Acida)
+        - >
+          Le piogge acide dissolvono le tracce troppo presto. Devo costruire
+          mappe dal suono, non dai segni. È più onesto.
+        - >
+          La foresta non vuole essere letta. Io nemmeno. Forse è per questo
+          che non ci attacchiamo.
+
+      palude:    # biome_id sensorialmente degraded (biomes.yaml:316 — Palude Tossica)
+        - >
+          L'acqua stagnante distorce l'eco. I miei sensi si adattano ma ci vuole
+          un round. Nel primo round sono cieco come gli altri.
+        - >
+          La palude non ha un suolo fisso. Ogni passo è un'ipotesi.
+          Preferisco il deserto: almeno lì, la sabbia mente in modo prevedibile.
+
+      foresta_miceliale:   # biome_id (biomes.yaml:426)
+        - >
+          La rete fungina trasmette. Ogni passo è un messaggio che non capisco ancora.
+          Ma il mio corpo risponde prima della mia mente.
+
+      steppe_algoritmiche:   # biome_id (biomes.yaml:682)
+        - >
+          Questo posto è troppo ordinato. I pattern si ripetono. Quando i pattern
+          si ripetono, c'è qualcosa che li impone. Preferisco il caos delle dune.
+
+      default:   # fallback per biomi senza pool specifico
+        - >
+          Ogni bioma ha la sua grammatica. Sto ancora imparando le lettere di
+          questo posto. Ma il corpo capisce prima della mente.
+        - >
+          Non so dove siamo, ma so che le mie zampe già sentono la differenza
+          nel substrato. Basta aspettare che la mappa arrivi.
+        - >
+          L'echolocation funziona ovunque. Il problema è interpretare gli echi
+          di un posto che non conosco. Ci vuole tempo. Sabbia segue.
+
+  # ---------------------------------------------------------------------------
+  # Varianti biome-aware (override A_ambiente per run in bioma diverso da home)
+  # ---------------------------------------------------------------------------
+  variants:
+    biome_specific_overrides:
+      - biome: caverna
+        A_ambiente_override: >
+          In rifugio temporaneo: caverne salmastre iper-calde durante ionostorm.
+          Eco amplificato (biomes.yaml:caverna.affixes.eco) — vantaggio tattico.
+          Substrato umido riduce velocità burrower del 30%.
+        game_impact_override: >
+          Echolocation bonus in biome caverna (affix eco) — verifica con biomeResonance.js.
+          heat_scales operativi — calore elevato non è penalità in questo bioma.
+
+      - biome: foresta_acida
+        A_ambiente_override: >
+          Bioma ostile per heat_scales: piogge acide erodono progressivamente
+          le squame termoregolatrici. Ogni round fuori da copertura: degradazione
+          armor passiva (biomes.yaml:foresta_acida.hazard.acid_fall 0.05).
+        game_impact_override: >
+          heat_scales effectiveness -1 su round multipli. Compensare con
+          burrower mobility per cover positioning.
+
+  # ---------------------------------------------------------------------------
+  # Trait cross-ref (link a tab Tratti nel Codex)
+  # ---------------------------------------------------------------------------
+  traits_core:
+    - id: artigli_sette_vie
+      # species.yaml:82
+      note_it: >
+        6 artigli + falce retrattile. In fase mature: vetrificati per mutation
+        artigli_grip_to_glass (skiv_saga.json). Punte trasparenti come ossidiana.
+    - id: struttura_elastica_amorfa
+      # species.yaml:83
+      note_it: >
+        Mobilità sabbiosa — riduce penalità burrower su terreni misti.
+        Permette virata rapida senza perdita AP.
+    - id: scheletro_idro_regolante
+      # species.yaml:84
+      note_it: >
+        Regolazione idrica interna — sopravvivenza in ambienti iper-aridi.
+        Riduce stress damage da biome savana.exposure.
+    - id: sensori_geomagnetici
+      # species.yaml:85
+      note_it: >
+        Rilevamento campo magnetico — orientamento senza riferimenti ottici.
+        Attivo anche in totale oscurità. Synergy con echolocation.
+
+  traits_optional:
+    - id: coda_frusta_cinetica
+      note_it: "Frusta cinetica — knockback su hit. Combo con burrower repositioning."
+    - id: criostasi_adattiva
+      note_it: "Rallenta metabolismo in ambienti freddi — per biomi criogeologici."
+    - id: lamelle_termoforetiche
+      note_it: "Accumulo calore per burst termico. Sinergizza con biome:savana calore."
+
+  synergies:
+    - id: echo_backstab
+      # species.yaml:91, species.yaml catalog.synergies
+      note_it: "echolocation × sand_claws → +1 danno backstab. Attivo a ogni range."

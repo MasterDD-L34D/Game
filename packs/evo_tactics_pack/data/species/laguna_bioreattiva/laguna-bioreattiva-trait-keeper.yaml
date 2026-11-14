@@ -1,0 +1,14 @@
+resistance_archetype: adattivo
+id: laguna-bioreattiva-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- laguna_bioreattiva
+derived_from_environment:
+  suggested_traits:
+  - antenne_flusso_mareale
+  - appendici_risonanti_marea
+  - branchie_dual_mode
+  - ciste_riduttive
+  - filtri_planctonici
+  - flagelli_ancoranti
+  - ghiandole_cambio_salino

@@ -1,0 +1,943 @@
+# =============================================================================
+# DEPRECATED 2026-05-15 — ADR-2026-05-15 Option A canonical migration ACCEPTED.
+# =============================================================================
+#
+# This file is the LEGACY species expansion registry. Canonical source-of-truth
+# is now `data/core/species/species_catalog.json` (rich schema v0.3.0, 53
+# species absorbed via tools/etl/merge_pack_v2_species.py Phase 1).
+#
+# Read-only consumers may continue reading this file during Phase 2-3
+# transition. Phase 4 (master-dd authority) sostituirà definitively.
+#
+# Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+# =============================================================================
+
+# Expansion roster — 32 species (30 docx_2026-04-16 + 2 T3 ship 2026-05-11).
+# Bilingual display names (IT canonical + EN from docx).
+# Genus/epithet canonical per docs/core/00E-NAMING_STYLEGUIDE.md.
+#
+# Schema canonical migration ADR-2026-05-11 (Path B variant ACCEPTED):
+#   - `trait_plan` è il campo canonical (core/optional/synergies/environment_focus).
+#   - `morph_slots` è DEPRECATO ma preservato per backwards compat zero-runtime-consumer.
+#     NO new entries should add morph_slots. Edit trait_plan only.
+#   - 16 entries hanno trait_plan stub flag `_pending_lore_review: true` —
+#     master-dd lore review required pre completamento core/optional/synergies.
+#
+# Vedi: docs/adr/ADR-2026-05-11-species-expansion-schema-canonical-migration.md
+
+species_examples:
+  - id: sp_arenavolux_sagittalis
+    slug: arenavolux-sagittalis
+    genus: Arenavolux
+    epithet: sagittalis
+    clade_tag: Apex
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Saettatore delle Dune"
+    display_name_en: "Dune Skiver"
+    morph_slots:
+      locomotion: skimmer_legs
+      offense: fore_sickles
+      defense: dust_frill
+      senses: vibration_pinnae
+      metabolism: heat_saver
+    preferred_biomes: [cinder-dunes, ferrous-badlands]
+    role_tags: [apex, predator, playable]
+    trait_plan:
+      core: [coda_contrappeso]
+      optional: [midollo_iperattivo, pungiglione_paralizzante]
+      synergies: []
+    source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): apex sandstorm/dune predator.
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 2
+
+  - id: sp_ferriscroba_detrita
+    slug: ferriscroba-detrita
+    genus: Ferriscroba
+    epithet: detrita
+    clade_tag: Keystone
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Spazzino Ferroso"
+    display_name_en: "Rust Scavenger"
+    morph_slots:
+      locomotion: burrow_pads
+      offense: crushing_beak
+      defense: ferric_scutes
+      senses: chemic_whiskers
+      metabolism: scrap_ferment
+    preferred_biomes: [ferrous-badlands, ironbloom-wastes]
+    role_tags: [keystone, scavenger, playable]
+    source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): scavenger keystone, ferro-detrital.
+    ecology:
+      trophic_tier: scavenger
+      pack_size:
+        min: 1
+        max: 3
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_sonapteryx_resonans
+    slug: sonapteryx-resonans
+    genus: Sonapteryx
+    epithet: resonans
+    clade_tag: Bridge
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Ala Risonante"
+    display_name_en: "Echo Wing"
+    morph_slots:
+      locomotion: sail_wings
+      offense: dart_talons
+      defense: fold_fan
+      senses: echo_crests
+      metabolism: glide_lung
+    preferred_biomes: [redspur-mesa, zephyr-steppe]
+    role_tags: [bridge, disperser, playable]
+    trait_plan:
+      core: [ali_membrana_sonica]
+      optional: [canto_di_richiamo]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_lithoraptor_acutornis
+    slug: lithoraptor-acutornis
+    genus: Lithoraptor
+    epithet: acutornis
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Cacciatore di Schegge"
+    display_name_en: "Shard Prowler"
+    morph_slots:
+      locomotion: grip_claws
+      offense: jaw_spikes
+      defense: shard_plating
+      senses: slit_ocelli
+      metabolism: fast_burn
+    preferred_biomes: [shardfall-ridge, ferrous-badlands]
+    role_tags: [threat, predator]
+    trait_plan:
+      core: [intimidatore]
+      optional: [lamelle_shear]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_salifossa_tenebris
+    slug: salifossa-tenebris
+    genus: Salifossa
+    epithet: tenebris
+    clade_tag: Keystone
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Scavatore Salino"
+    display_name_en: "Salt Burrower"
+    morph_slots:
+      locomotion: tunnel_limbs
+      offense: rasp_mandibles
+      defense: salt_carapace
+      senses: pressure_whiskers
+      metabolism: brine_kidney
+    preferred_biomes: [saltglass-flats, brine-rift]
+    role_tags: [keystone, detritivore]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_ventornis_longiala
+    slug: ventornis-longiala
+    genus: Ventornis
+    epithet: longiala
+    clade_tag: Bridge
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Aliante della Mesa"
+    display_name_en: "Mesa Glider"
+    morph_slots:
+      locomotion: membrane_wings
+      offense: snap_beak
+      defense: thermal_hide
+      senses: horizon_eyes
+      metabolism: draft_sacs
+    preferred_biomes: [redspur-mesa, zephyr-steppe]
+    role_tags: [bridge, scout]
+    trait_plan:
+      core: [ali_fulminee]
+      optional: [membrane_pneumatofori]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_ferrimordax_rutilus
+    slug: ferrimordax-rutilus
+    genus: Ferrimordax
+    epithet: rutilus
+    clade_tag: Apex
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Martellatore Ferroso"
+    display_name_en: "Iron Mauler"
+    morph_slots:
+      locomotion: brace_legs
+      offense: hammer_jaws
+      defense: magnet_plate
+      senses: tremor_inner_ear
+      metabolism: ore_store
+    preferred_biomes: [ferrous-badlands, shardfall-ridge]
+    role_tags: [apex, predator]
+    trait_plan:
+      core: [denti_ossidoferro]
+      optional: [carapaci_ferruginosi]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_pyrosaltus_celeris
+    slug: pyrosaltus-celeris
+    genus: Pyrosaltus
+    epithet: celeris
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Saltatore di Cenere"
+    display_name_en: "Cinder Leaper"
+    morph_slots:
+      locomotion: spring_legs
+      offense: ember_fangs
+      defense: soot_quills
+      senses: heat_pits
+      metabolism: spark_gland
+    preferred_biomes: [cinder-dunes, ashen-sink]
+    role_tags: [threat, ambusher]
+    trait_plan:
+      core: [denti_silice_termici]
+      optional: [zampe_radianti]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_basaltocara_scutata
+    slug: basaltocara-scutata
+    genus: Basaltocara
+    epithet: scutata
+    clade_tag: Support
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Custode di Basalto"
+    display_name_en: "Basalt Warden"
+    morph_slots:
+      locomotion: rooted_stance
+      offense: shield_ram
+      defense: basalt_carapace
+      senses: deep_resonator
+      metabolism: slow_furnace
+    preferred_biomes: [basalt-grottos, hollow-fumaroles]
+    role_tags: [support, sentinel]
+    trait_plan:
+      core: [artigli_vetrificati]
+      optional: [ghiandole_fango_calde]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_arenaceros_placidus
+    slug: arenaceros-placidus
+    genus: Arenaceros
+    epithet: placidus
+    clade_tag: Keystone
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Brucatore di Polvere"
+    display_name_en: "Dust Grazer"
+    morph_slots:
+      locomotion: drift_hooves
+      offense: horn_sweep
+      defense: grit_hide
+      senses: wide_nares
+      metabolism: silica_gut
+    preferred_biomes: [cinder-dunes, redspur-mesa]
+    role_tags: [keystone, grazer]
+    trait_plan:
+      core: [artigli_radice]
+      optional: [membrane_eliofiltranti]
+      synergies: []
+    source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): grazer keystone, dust-eating herd.
+    ecology:
+      trophic_tier: primary_consumer
+      pack_size:
+        min: 4
+        max: 8
+
+  - id: sp_lucinerva_filata
+    slug: lucinerva-filata
+    genus: Lucinerva
+    epithet: filata
+    clade_tag: Bridge
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Tessitore di Luce"
+    display_name_en: "Lumen Weaver"
+    morph_slots:
+      locomotion: branch_hooklets
+      offense: filament_spur
+      defense: glare_veil
+      senses: prism_ocelli
+      metabolism: glow_sac
+    preferred_biomes: [lumen-canopy, paleroot-tangle]
+    role_tags: [bridge, disperser]
+    trait_plan:
+      core: []
+      optional: [carapace_segmenti_logici]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_radiluma_pendula
+    slug: radiluma-pendula
+    genus: Radiluma
+    epithet: pendula
+    clade_tag: Support
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Lanterna di Radici"
+    display_name_en: "Root Lantern"
+    morph_slots:
+      locomotion: tendril_steps
+      offense: seed_darts
+      defense: bark_folds
+      senses: sap_tasters
+      metabolism: biolamp_gland
+    preferred_biomes: [paleroot-tangle, lumen-canopy]
+    role_tags: [support, symbiont]
+    trait_plan:
+      core: []
+      optional: [biofilm_glow, carapace_luminiscente_abissale]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_limnofalcis_serrata
+    slug: limnofalcis-serrata
+    genus: Limnofalcis
+    epithet: serrata
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Trebbiatore di Palude"
+    display_name_en: "Mire Thresher"
+    morph_slots:
+      locomotion: reed_stride
+      offense: scythe_beak
+      defense: mire_slime
+      senses: ripple_line
+      metabolism: marsh_lung
+    preferred_biomes: [ember-marsh, silt-delta]
+    role_tags: [threat, predator]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_cavatympa_sonans
+    slug: cavatympa-sonans
+    genus: Cavatympa
+    epithet: sonans
+    clade_tag: Bridge
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Ascoltatore Cavo"
+    display_name_en: "Hollow Listener"
+    morph_slots:
+      locomotion: pad_feet
+      offense: hook_limbs
+      defense: cave_hide
+      senses: drum_ears
+      metabolism: low_oxygen_blood
+    preferred_biomes: [umbral-karst, basalt-grottos]
+    role_tags: [bridge, scout]
+    trait_plan:
+      core: []
+      optional: [antenne_microonde_cavernose, tentacoli_uncinati]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_calamipes_gracilis
+    slug: calamipes-gracilis
+    genus: Calamipes
+    epithet: gracilis
+    clade_tag: Playable
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Camminatore di Canne"
+    display_name_en: "Reed Strider"
+    morph_slots:
+      locomotion: stilt_legs
+      offense: spur_knuckles
+      defense: reed_hide
+      senses: storm_whiskers
+      metabolism: saline_filter
+    preferred_biomes: [thunder-reeds, ember-marsh]
+    role_tags: [playable, grazer, bridge]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_salisucta_alveata
+    slug: salisucta-alveata
+    genus: Salisucta
+    epithet: alveata
+    clade_tag: Keystone
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Filtratore Salmastro"
+    display_name_en: "Brine Filter"
+    morph_slots:
+      locomotion: fan_fins
+      offense: sieve_palps
+      defense: gel_mantle
+      senses: ion_pits
+      metabolism: brine_filter
+    preferred_biomes: [brine-rift, saltglass-flats]
+    role_tags: [keystone, filter_feeder]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_nebulocornis_mollis
+    slug: nebulocornis-mollis
+    genus: Nebulocornis
+    epithet: mollis
+    clade_tag: Support
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Cervo di Nebbia"
+    display_name_en: "Fog Antler"
+    morph_slots:
+      locomotion: soft_hooves
+      offense: antler_rake
+      defense: mist_coat
+      senses: scent_fans
+      metabolism: dew_collector
+    preferred_biomes: [cold-mirror-fen, mistral-hollows]
+    role_tags: [support, grazer]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_cryptolorca_medicata
+    slug: cryptolorca-medicata
+    genus: Cryptolorca
+    epithet: medicata
+    clade_tag: Keystone
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Riparatore Carsico"
+    display_name_en: "Karst Mender"
+    morph_slots:
+      locomotion: cling_pads
+      offense: anchor_claws
+      defense: shell_ribs
+      senses: mineral_tasters
+      metabolism: repair_gel
+    preferred_biomes: [umbral-karst, crystal-scree]
+    role_tags: [keystone, support]
+    trait_plan:
+      core: []
+      optional: [cartilagini_pseudometalliche, camere_mirage]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_glaciolabis_nitida
+    slug: glaciolabis-nitida
+    genus: Glaciolabis
+    epithet: nitida
+    clade_tag: Bridge
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Pattinatore Specchio"
+    display_name_en: "Mirror Skater"
+    morph_slots:
+      locomotion: glide_fins
+      offense: needle_beak
+      defense: reflective_scale
+      senses: glare_eyes
+      metabolism: cold_reserve
+    preferred_biomes: [cold-mirror-fen, silt-delta]
+    role_tags: [bridge, predator]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_tonitrudens_ferox
+    slug: tonitrudens-ferox
+    genus: Tonitrudens
+    epithet: ferox
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Rosicchiatore di Tuono"
+    display_name_en: "Thunder Gnawer"
+    morph_slots:
+      locomotion: charge_legs
+      offense: bolt_incisors
+      defense: static_fur
+      senses: field_whiskers
+      metabolism: capacitor_nodes
+    preferred_biomes: [thunder-reeds, redspur-mesa]
+    role_tags: [threat, omnivore]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_rubrospina_velox
+    slug: rubrospina-velox
+    genus: Rubrospina
+    epithet: velox
+    clade_tag: Playable
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Corriere Spinato"
+    display_name_en: "Spurback Courier"
+    morph_slots:
+      locomotion: courier_legs
+      offense: rear_spines
+      defense: spur_crest
+      senses: far_ears
+      metabolism: burst_liver
+    preferred_biomes: [redspur-mesa, zephyr-steppe]
+    role_tags: [playable, scout, bridge]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_paludogromus_magnus
+    slug: paludogromus-magnus
+    genus: Paludogromus
+    epithet: magnus
+    clade_tag: Keystone
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Colosso Palustre"
+    display_name_en: "Fen Colossus"
+    morph_slots:
+      locomotion: pillar_legs
+      offense: trunk_hammer
+      defense: peat_skin
+      senses: fog_trunk
+      metabolism: cold_ferment
+    preferred_biomes: [cold-mirror-fen, ember-marsh]
+    role_tags: [keystone, support]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_cinerastra_nodosa
+    slug: cinerastra-nodosa
+    genus: Cinerastra
+    epithet: nodosa
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Spirale di Cenere"
+    display_name_en: "Ash Coil"
+    morph_slots:
+      locomotion: coil_body
+      offense: constricting_ribs
+      defense: ash_scales
+      senses: ember_tongue
+      metabolism: soot_lung
+    preferred_biomes: [ashen-sink, hollow-fumaroles]
+    role_tags: [threat, ambusher]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_zephyrovum_fidelis
+    slug: zephyrovum-fidelis
+    genus: Zephyrovum
+    epithet: fidelis
+    clade_tag: Bridge
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Nidificatore del Maestrale"
+    display_name_en: "Mistral Nester"
+    morph_slots:
+      locomotion: kite_wings
+      offense: nesting_spurs
+      defense: down_cloak
+      senses: sky_barbs
+      metabolism: wind_crop
+    preferred_biomes: [mistral-hollows, zephyr-steppe]
+    role_tags: [bridge, disperser]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_vitricyba_punctata
+    slug: vitricyba-punctata
+    genus: Vitricyba
+    epithet: punctata
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Beccatore di Vetro"
+    display_name_en: "Glass Peck"
+    morph_slots:
+      locomotion: rapid_hops
+      offense: shard_beak
+      defense: glass_quills
+      senses: sparkle_eyes
+      metabolism: mineral_crop
+    preferred_biomes: [crystal-scree, saltglass-flats]
+    role_tags: [threat, forager]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_fumarisorba_sulfurea
+    slug: fumarisorba-sulfurea
+    genus: Fumarisorba
+    epithet: sulfurea
+    clade_tag: Keystone
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Bevitore di Fumarole"
+    display_name_en: "Fumarole Drinker"
+    morph_slots:
+      locomotion: vent_pads
+      offense: tube_jaws
+      defense: sulfur_hide
+      senses: gas_pits
+      metabolism: sulfur_ferment
+    preferred_biomes: [hollow-fumaroles, basalt-grottos]
+    role_tags: [keystone, detritivore]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_arboryxis_lenis
+    slug: arboryxis-lenis
+    genus: Arboryxis
+    epithet: lenis
+    clade_tag: Bridge
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Vagabondo della Volta"
+    display_name_en: "Canopy Drifter"
+    morph_slots:
+      locomotion: parachute_membrane
+      offense: hook_beak
+      defense: leaf_mimic
+      senses: canopy_ocelli
+      metabolism: nectar_ferment
+    preferred_biomes: [lumen-canopy, paleroot-tangle]
+    role_tags: [bridge, grazer]
+    source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+
+  - id: sp_noctipedis_umbrata
+    slug: noctipedis-umbrata
+    genus: Noctipedis
+    epithet: umbrata
+    clade_tag: Apex
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Corridore Notturno"
+    display_name_en: "Night Loper"
+    morph_slots:
+      locomotion: silent_legs
+      offense: crescent_claws
+      defense: shadow_pelt
+      senses: nocti_pinnae
+      metabolism: night_liver
+    preferred_biomes: [umbral-karst, mistral-hollows]
+    role_tags: [apex, predator]
+    trait_plan:
+      core: []
+      optional: [ghiandole_condensa_ozono]
+      synergies: []
+    source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): nocturnal apex, solitary stalker.
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 1
+
+  - id: sp_magnetocola_pastoris
+    slug: magnetocola-pastoris
+    genus: Magnetocola
+    epithet: pastoris
+    clade_tag: Support
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Pastore Ferrico"
+    display_name_en: "Ferric Shepherd"
+    morph_slots:
+      locomotion: steady_hooves
+      offense: crook_horns
+      defense: magnetic_mane
+      senses: signal_sacs
+      metabolism: iron_rumen
+    preferred_biomes: [ironbloom-wastes, ferrous-badlands]
+    role_tags: [support, playable, grazer]
+    trait_plan:
+      core: []
+      optional: [circolazione_bifasica]
+      synergies: []
+    source: docx_2026-04-16
+
+  - id: sp_siltovena_bifida
+    slug: siltovena-bifida
+    genus: Siltovena
+    epithet: bifida
+    clade_tag: Threat
+    sentience_tier: T1
+    sentience_index: T1
+    display_name_it: "Divisore del Delta"
+    display_name_en: "Delta Splitter"
+    morph_slots:
+      locomotion: fork_tail
+      offense: cleaving_rostrum
+      defense: silt_scutes
+      senses: current_line
+      metabolism: estuary_gills
+    preferred_biomes: [silt-delta, ember-marsh]
+    role_tags: [threat, predator]
+    source: docx_2026-04-16
+
+  # === Pulverator gregarius — pack apex savana (ADR-2026-05-02) ===
+  # Aggiunta 2026-05-02: prima entry con ecology block esteso. Compete
+  # con dune_stalker per nicchia apex savana. Howl-Strike combo:
+  # 3+ pack Manhattan <=2 same target -> panic + bleeding + rage_on_kill.
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
+  - id: pulverator_gregarius
+    slug: pulverator-gregarius
+    genus: Pulverator
+    epithet: gregarius
+    clade_tag: Apex
+    sentience_tier: T2
+    sentience_index: T2
+    display_name_it: "Razziatore di Polvere"
+    display_name_en: "Dust Reaver"
+    morph_slots:
+      locomotion: cursorial
+      offense: pack_jaws
+      defense: leather_hide
+      senses: scent_pack
+      metabolism: meat_pack
+    preferred_biomes: [savana]
+    role_tags: [apex, predator, pack_alpha]
+    biome_affinity: savana
+    estimated_weight: 11
+    weight_budget: 12
+    mbti_tendency: ESTJ-leaning-J
+    trait_plan:
+      core:
+        - denti_seghettati
+        - artigli_sette_vie
+        - voce_imperiosa
+        - circolazione_doppia
+        - olfatto_risonanza_magnetica
+      synergies:
+        - risonanza_di_branco
+        - tattiche_di_branco
+        - focus_frazionato
+    signature_hook: >-
+      Howl-Strike combo: quando 3+ pack Pulverator si trovano a Manhattan
+      <=2 dallo stesso bersaglio, applicano panic + bleeding + rage_on_kill
+      a cascata sul nodo focalizzato.
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 3
+        max: 5
+      competes_with:
+        - dune_stalker
+      prey_of: []
+      preys_on: []
+      scavenges_from:
+        - dune_stalker
+      mutualism_with:
+        - species_id: dune_stalker
+          type: indirect
+          note: >-
+            Pulverator pack drives prey from cover, indirectly aiding
+            dune_stalker (Skiv) ambush; reverse interaction rare.
+    source: pulverator-ecology-2026-05-02
+
+  # T3 Apex ships 2026-05-11 — A1 master-dd verdict batch + trait orphan A-keep
+  # residue closure (host antenne_plasmatiche_tempesta).
+  # Ref: docs/planning/2026-05-11-t3-species-lore-proposal.md
+  - id: sp_tempestarius_psionicus
+    slug: tempestarius-psionicus
+    genus: Tempestarius
+    epithet: psionicus
+    clade_tag: Apex
+    sentience_tier: T3
+    sentience_index: T3
+    display_name_it: "Maestro della Tempesta"
+    display_name_en: "Storm Master"
+    morph_slots:
+      locomotion: glide_pinions
+      offense: plasma_antennae
+      defense: ionized_carapace
+      senses: storm_eye
+      metabolism: psionic_charge
+    preferred_biomes: [cicloni_psionici, redspur-mesa]
+    role_tags: [apex, predator, playable, storm-channeler]
+    trait_plan:
+      core:
+        - antenne_plasmatiche_tempesta # T3 anchor — host trait
+        - sensori_geomagnetici
+        - carapace_luminiscente_abissale
+      optional:
+        - focus_frazionato
+        - risonanza_di_branco
+        - sinapsi_coraline_polifoniche
+      synergies:
+        - tattiche_di_branco
+    signature_hook: >-
+      Storm-Pulse strike: durante un ciclone psionico attivo, sp_tempestarius
+      canalizza la carica statica del fronte e la scarica in un raggio
+      Manhattan ≤3, applicando shock + marked al bersaglio + alleati adiacenti
+      (≤1 da target).
+    source: t3-species-lore-proposal-2026-05-11
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 3
+      preys_on: []
+      prey_of: []
+      competes_with: []
+      mutualism_with: []
+
+  # T3 Threat ships 2026-05-11 — A1 master-dd verdict batch + trait orphan
+  # A-keep residue closure (host circolazione_supercritica).
+  # NB tier T3 confermato canonical (audit doc 2026-05-10 + trigger lore-faithful
+  # rage controllato). Trait JSON metadata T1 → T3 fix shipped same PR.
+  # Ref: docs/planning/2026-05-11-t3-species-lore-proposal.md
+  - id: sp_magmocardium_furens
+    slug: magmocardium-furens
+    genus: Magmocardium
+    epithet: furens
+    clade_tag: Threat
+    sentience_tier: T3
+    sentience_index: T3
+    display_name_it: "Cuore Furente"
+    display_name_en: "Magma Heart"
+    morph_slots:
+      locomotion: pressure_treads
+      offense: shear_lamellae
+      defense: thermal_plating
+      senses: hydrothermal_chemoreception
+      metabolism: supercritical_core
+    preferred_biomes: [abisso_vulcanico, ferrous-badlands]
+    role_tags: [apex, predator, playable, rage-assault]
+    trait_plan:
+      core:
+        - circolazione_supercritica # T3 anchor — host trait
+        - sangue_piroforico
+        - coda_frusta_cinetica
+      optional:
+        - ferocia
+        - lamelle_shear
+        - midollo_iperattivo
+      synergies:
+        - focus_frazionato
+    signature_hook: >-
+      Supercritical-Surge: al kill, sp_magmocardium entra in rage controllato
+      3 turni con +1 dmg sostenuto. In abisso vulcanico, l'effetto persiste
+      1 turno extra per onda adrenalinica prolungata.
+    source: t3-species-lore-proposal-2026-05-11
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 2
+      preys_on: []
+      prey_of: []
+      competes_with: []
+      mutualism_with: []
