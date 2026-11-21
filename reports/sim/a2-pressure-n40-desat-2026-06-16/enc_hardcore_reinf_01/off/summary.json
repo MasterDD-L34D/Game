@@ -1,0 +1,68 @@
+{
+  "scenario": "enc_hardcore_reinf_01",
+  "arm": "off",
+  "args": {
+    "scenario": "enc_hardcore_reinf_01",
+    "arm": "off",
+    "runs": 40,
+    "seedBase": 70000,
+    "out": "reports/sim/a2-pressure-n40-desat-2026-06-16",
+    "commit": "2a7f3853",
+    "aggregate": false,
+    "scaling": {
+      "countAdd": 3,
+      "modAdd": 3
+    },
+    "roster": "weak"
+  },
+  "fire": {
+    "sistema_tier": "Calm",
+    "sistema_pressure": 0,
+    "floor": 4,
+    "expected_min": 75
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.075,
+    "win_ci95": [
+      0.025835556771858243,
+      0.19864530159097524
+    ],
+    "defeat_rate": 0.925,
+    "defeat_ci95": [
+      0.8013546984090248,
+      0.9741644432281419
+    ],
+    "timeout_rate": 0,
+    "wins": 3,
+    "defeats": 37,
+    "timeouts": 0,
+    "rounds": {
+      "mean": 68.3,
+      "sd": 9.92329556507287,
+      "ci95": [
+        65.22473884369356,
+        71.37526115630644
+      ],
+      "n": 40
+    },
+    "survivors": {
+      "mean": 0.15,
+      "sd": 0.533493565673837,
+      "ci95": [
+        -0.015331368888246794,
+        0.31533136888824675
+      ],
+      "n": 40
+    },
+    "spawns": {
+      "mean": 0,
+      "sd": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "n": 40
+    }
+  }
+}

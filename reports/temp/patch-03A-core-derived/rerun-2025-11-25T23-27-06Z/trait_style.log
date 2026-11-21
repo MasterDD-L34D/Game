@@ -1,0 +1,7 @@
+Trait style: 230 suggerimenti (error=0, warning=168, info=62) su 225 file
+  - [WARNING] antenne_plasmatiche_tempesta /requisiti_ambientali/0/meta/tier :: Allinea meta.tier (—) al tier del tratto (T3).
+  - [WARNING] articolazioni_a_leva_idraulica /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.articolazioni_a_leva_idraulica.debolezza).
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/complementare :: Compila il campo `complementare` in slot_profile (es. "metabolico").
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/core :: Compila il campo `core` in slot_profile (es. "metabolico").
+  - [WARNING] articolazioni_a_leva_idraulica /usage_tags :: Popola almeno un usage tag dal vocabolario ufficiale (breaker, controller, scout, support, sustain, tank).
+  … altri 225 suggerimenti

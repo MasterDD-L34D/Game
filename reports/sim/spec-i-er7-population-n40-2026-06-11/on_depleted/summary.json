@@ -1,0 +1,68 @@
+{
+  "arm": "on_depleted",
+  "args": {
+    "effect": "er7",
+    "runs": 40,
+    "seedBase": 62000,
+    "out": "reports/sim/spec-i-er7-population-n40-2026-06-11",
+    "commit": "ba5975d52",
+    "scaling": {
+      "countAdd": 6,
+      "hpAdd": 4,
+      "modAdd": 7,
+      "dcAdd": 2
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "arms": [
+      "on_depleted"
+    ]
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.375,
+    "win_ci95": [
+      0.24222773535791722,
+      0.529678399454681
+    ],
+    "timeouts": 0,
+    "rounds": {
+      "mean": 105.15,
+      "sd": 13.542998948269195,
+      "ci95": [
+        100.95298114347204,
+        109.34701885652797
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 63.55,
+      "sd": 8.264691658200455,
+      "ci95": [
+        60.98874551970709,
+        66.11125448029291
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": null,
+      "sd": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "survivors": {
+      "mean": 0.725,
+      "sd": 0.9604352645732545,
+      "ci95": [
+        0.4273580278426049,
+        1.0226419721573952
+      ],
+      "n": 40
+    }
+  }
+}

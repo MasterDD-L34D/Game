@@ -1,0 +1,770 @@
+{
+  "scenario": "hardcore_06",
+  "iterations": 50,
+  "mode": "real",
+  "knob_space": {
+    "boss_hp_multiplier": ["float", 0.5, 1.0],
+    "turn_limit_defeat_override": ["int", 25, 35]
+  },
+  "wr_buckets": [
+    [0, 0.1],
+    [0.1, 0.2],
+    [0.2, 0.3],
+    [0.3, 0.4],
+    [0.4, 1.0]
+  ],
+  "turns_buckets": [
+    [0, 22],
+    [22, 24],
+    [24, 26],
+    [26, 30],
+    [30, 36]
+  ],
+  "feature_map": {
+    "4,0": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.725, 20.225],
+      "fitness": 0.4213832563289825,
+      "iter_first": 2,
+      "iter_last": 34,
+      "origin": "mutate",
+      "n_eff": 40
+    },
+    "4,1": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.545,
+        "turn_limit_defeat_override": 26
+      },
+      "features": [0.7, 22.5],
+      "fitness": 0.25,
+      "iter_first": 0,
+      "iter_last": 14,
+      "origin": "mutate",
+      "n_eff": 40
+    },
+    "4,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.69,
+        "turn_limit_defeat_override": 30
+      },
+      "features": [0.75, 24.75],
+      "fitness": 0.15023130314433292,
+      "iter_first": 1,
+      "iter_last": 10,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "4,3": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.866,
+        "turn_limit_defeat_override": 32
+      },
+      "features": [0.7, 27.525],
+      "fitness": 0.11875000000000036,
+      "iter_first": 3,
+      "iter_last": 47,
+      "origin": "mutate",
+      "n_eff": 40
+    },
+    "3,1": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.711,
+        "turn_limit_defeat_override": 25
+      },
+      "features": [0.375, 23.4],
+      "fitness": 0.32015621187164206,
+      "iter_first": 4,
+      "iter_last": 4,
+      "origin": "random",
+      "n_eff": 40
+    },
+    "2,2": {
+      "knob_values": {
+        "boss_hp_multiplier": 0.886,
+        "turn_limit_defeat_override": 26
+      },
+      "features": [0.275, 24.9],
+      "fitness": 0.25495097567963965,
+      "iter_first": 8,
+      "iter_last": 8,
+      "origin": "mutate",
+      "n_eff": 40
+    }
+  },
+  "n_per_trial": 40,
+  "shards": 4,
+  "sprt": false,
+  "resumed_from_iter": null,
+  "stats": {
+    "cells_populated": 6,
+    "cells_replaced": 8,
+    "cells_skipped": 0,
+    "eval_failures": 0,
+    "n_shortfall": 0,
+    "sprt_truncated": 0,
+    "cells_active": 6,
+    "max_cells": 25,
+    "coverage_pct": 24.0
+  },
+  "history": [
+    {
+      "iter": 2,
+      "knobs": {
+        "boss_hp_multiplier": 0.612,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.8,
+      "turns": 21.7,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": "populated"
+    },
+    {
+      "iter": 0,
+      "knobs": {
+        "boss_hp_multiplier": 0.82,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.425,
+      "turns": 23.025,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": "populated"
+    },
+    {
+      "iter": 1,
+      "knobs": {
+        "boss_hp_multiplier": 0.871,
+        "turn_limit_defeat_override": 28
+      },
+      "wr": 0.55,
+      "turns": 25.625,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": "populated"
+    },
+    {
+      "iter": 3,
+      "knobs": {
+        "boss_hp_multiplier": 0.838,
+        "turn_limit_defeat_override": 33
+      },
+      "wr": 0.6,
+      "turns": 29.85,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": "populated"
+    },
+    {
+      "iter": 4,
+      "knobs": {
+        "boss_hp_multiplier": 0.711,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.375,
+      "turns": 23.4,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [3, 1],
+      "placement": "populated"
+    },
+    {
+      "iter": 5,
+      "knobs": {
+        "boss_hp_multiplier": 0.616,
+        "turn_limit_defeat_override": 34
+      },
+      "wr": 0.825,
+      "turns": 24.275,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 6,
+      "knobs": {
+        "boss_hp_multiplier": 0.599,
+        "turn_limit_defeat_override": 35
+      },
+      "wr": 0.825,
+      "turns": 25.125,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 7,
+      "knobs": {
+        "boss_hp_multiplier": 0.85,
+        "turn_limit_defeat_override": 31
+      },
+      "wr": 0.65,
+      "turns": 27.475,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": "replaced"
+    },
+    {
+      "iter": 9,
+      "knobs": {
+        "boss_hp_multiplier": 0.578,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.825,
+      "turns": 23.85,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 10,
+      "knobs": {
+        "boss_hp_multiplier": 0.69,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.75,
+      "turns": 24.75,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": "replaced"
+    },
+    {
+      "iter": 11,
+      "knobs": {
+        "boss_hp_multiplier": 0.71,
+        "turn_limit_defeat_override": 27
+      },
+      "wr": 0.45,
+      "turns": 24.725,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 8,
+      "knobs": {
+        "boss_hp_multiplier": 0.886,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.275,
+      "turns": 24.9,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [2, 2],
+      "placement": "populated"
+    },
+    {
+      "iter": 13,
+      "knobs": {
+        "boss_hp_multiplier": 0.813,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.475,
+      "turns": 24.375,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 15,
+      "knobs": {
+        "boss_hp_multiplier": 0.674,
+        "turn_limit_defeat_override": 27
+      },
+      "wr": 0.625,
+      "turns": 23.675,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": "replaced"
+    },
+    {
+      "iter": 14,
+      "knobs": {
+        "boss_hp_multiplier": 0.545,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.7,
+      "turns": 22.5,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": "replaced"
+    },
+    {
+      "iter": 12,
+      "knobs": {
+        "boss_hp_multiplier": 0.865,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.725,
+      "turns": 25.775,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 17,
+      "knobs": {
+        "boss_hp_multiplier": 0.678,
+        "turn_limit_defeat_override": 35
+      },
+      "wr": 0.85,
+      "turns": 25.2,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 19,
+      "knobs": {
+        "boss_hp_multiplier": 0.817,
+        "turn_limit_defeat_override": 33
+      },
+      "wr": 0.75,
+      "turns": 26.375,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 16,
+      "knobs": {
+        "boss_hp_multiplier": 0.818,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.8,
+      "turns": 25.1,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 18,
+      "knobs": {
+        "boss_hp_multiplier": 0.968,
+        "turn_limit_defeat_override": 35
+      },
+      "wr": 0.8,
+      "turns": 28.125,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 23,
+      "knobs": {
+        "boss_hp_multiplier": 0.516,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.85,
+      "turns": 21.25,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": null
+    },
+    {
+      "iter": 22,
+      "knobs": {
+        "boss_hp_multiplier": 0.507,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.625,
+      "turns": 21.475,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": "replaced"
+    },
+    {
+      "iter": 20,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 28
+      },
+      "wr": 0.75,
+      "turns": 22.15,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 21,
+      "knobs": {
+        "boss_hp_multiplier": 0.995,
+        "turn_limit_defeat_override": 35
+      },
+      "wr": 0.725,
+      "turns": 29.175,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 24,
+      "knobs": {
+        "boss_hp_multiplier": 0.533,
+        "turn_limit_defeat_override": 34
+      },
+      "wr": 0.875,
+      "turns": 23.45,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 27,
+      "knobs": {
+        "boss_hp_multiplier": 0.623,
+        "turn_limit_defeat_override": 33
+      },
+      "wr": 0.9,
+      "turns": 23.225,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 25,
+      "knobs": {
+        "boss_hp_multiplier": 0.602,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.675,
+      "turns": 23.725,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 26,
+      "knobs": {
+        "boss_hp_multiplier": 0.904,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.65,
+      "turns": 27.0,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 30,
+      "knobs": {
+        "boss_hp_multiplier": 0.638,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.55,
+      "turns": 22.375,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 31,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 27
+      },
+      "wr": 0.675,
+      "turns": 22.2,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 29,
+      "knobs": {
+        "boss_hp_multiplier": 0.739,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.825,
+      "turns": 25.25,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 28,
+      "knobs": {
+        "boss_hp_multiplier": 0.838,
+        "turn_limit_defeat_override": 27
+      },
+      "wr": 0.475,
+      "turns": 25.425,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 34,
+      "knobs": {
+        "boss_hp_multiplier": 0.5,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.725,
+      "turns": 20.225,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": "replaced"
+    },
+    {
+      "iter": 33,
+      "knobs": {
+        "boss_hp_multiplier": 0.719,
+        "turn_limit_defeat_override": 29
+      },
+      "wr": 0.675,
+      "turns": 25.45,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 35,
+      "knobs": {
+        "boss_hp_multiplier": 0.731,
+        "turn_limit_defeat_override": 32
+      },
+      "wr": 0.7,
+      "turns": 26.1,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 32,
+      "knobs": {
+        "boss_hp_multiplier": 0.786,
+        "turn_limit_defeat_override": 32
+      },
+      "wr": 0.725,
+      "turns": 26.5,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 37,
+      "knobs": {
+        "boss_hp_multiplier": 0.579,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.525,
+      "turns": 21.975,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": null
+    },
+    {
+      "iter": 36,
+      "knobs": {
+        "boss_hp_multiplier": 0.861,
+        "turn_limit_defeat_override": 29
+      },
+      "wr": 0.775,
+      "turns": 23.675,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 38,
+      "knobs": {
+        "boss_hp_multiplier": 0.722,
+        "turn_limit_defeat_override": 30
+      },
+      "wr": 0.5,
+      "turns": 26.8,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 39,
+      "knobs": {
+        "boss_hp_multiplier": 0.881,
+        "turn_limit_defeat_override": 33
+      },
+      "wr": 0.725,
+      "turns": 27.15,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 43,
+      "knobs": {
+        "boss_hp_multiplier": 0.514,
+        "turn_limit_defeat_override": 27
+      },
+      "wr": 0.75,
+      "turns": 21.275,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": null
+    },
+    {
+      "iter": 42,
+      "knobs": {
+        "boss_hp_multiplier": 0.62,
+        "turn_limit_defeat_override": 34
+      },
+      "wr": 0.9,
+      "turns": 24.775,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 40,
+      "knobs": {
+        "boss_hp_multiplier": 0.661,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.375,
+      "turns": 23.4,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [3, 1],
+      "placement": null
+    },
+    {
+      "iter": 41,
+      "knobs": {
+        "boss_hp_multiplier": 0.964,
+        "turn_limit_defeat_override": 31
+      },
+      "wr": 0.6,
+      "turns": 27.9,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": null
+    },
+    {
+      "iter": 46,
+      "knobs": {
+        "boss_hp_multiplier": 0.68,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.625,
+      "turns": 22.15,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    },
+    {
+      "iter": 45,
+      "knobs": {
+        "boss_hp_multiplier": 0.519,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.725,
+      "turns": 21.4,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": null
+    },
+    {
+      "iter": 44,
+      "knobs": {
+        "boss_hp_multiplier": 0.714,
+        "turn_limit_defeat_override": 27
+      },
+      "wr": 0.575,
+      "turns": 24.425,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 2],
+      "placement": null
+    },
+    {
+      "iter": 47,
+      "knobs": {
+        "boss_hp_multiplier": 0.866,
+        "turn_limit_defeat_override": 32
+      },
+      "wr": 0.7,
+      "turns": 27.525,
+      "origin": "mutate",
+      "n_eff": 40,
+      "cell": [4, 3],
+      "placement": "replaced"
+    },
+    {
+      "iter": 49,
+      "knobs": {
+        "boss_hp_multiplier": 0.532,
+        "turn_limit_defeat_override": 25
+      },
+      "wr": 0.675,
+      "turns": 21.375,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 0],
+      "placement": null
+    },
+    {
+      "iter": 48,
+      "knobs": {
+        "boss_hp_multiplier": 0.759,
+        "turn_limit_defeat_override": 26
+      },
+      "wr": 0.55,
+      "turns": 23.1,
+      "origin": "random",
+      "n_eff": 40,
+      "cell": [4, 1],
+      "placement": null
+    }
+  ],
+  "checkpoint": "C:\\dev\\Game\\docs\\playtest\\map-elites-hardcore_06-v2-run\\checkpoint.jsonl",
+  "elapsed_sec": 862.6480844020844,
+  "method": "D-map-elites-qd-v2",
+  "method_ref": "docs/research/2026-07-02-map-elites-hc06-overnight-negative-result.md",
+  "seed": 42,
+  "status": "real-eval"
+}

@@ -1,0 +1,182 @@
+{
+  "app": {
+    "title": "Evo-Tactics Mission Console",
+    "nav": {
+      "ariaLabel": "Main sections",
+      "missionConsole": "Mission Console",
+      "workflow": "Workflow Orchestrator",
+      "traits": "Trait Editor",
+      "atlas": "Nebula Atlas"
+    },
+    "languageSelector": {
+      "label": "Language",
+      "options": {
+        "it": "Italian",
+        "en": "English"
+      }
+    }
+  },
+  "breadcrumbs": {
+    "sectionLabel": "Page context",
+    "navLabel": "Application path",
+    "contextState": "Context state",
+    "goTo": "Go to {label}"
+  },
+  "components": {
+    "nebulaProgress": {
+      "header": {
+        "datasetLabel": "Dataset · {datasetId}",
+        "releaseWindow": "Release window",
+        "curator": "Curator"
+      },
+      "telemetry": {
+        "title": "Evolution progress bar",
+        "description": "Telemetry & readiness synchronized with the orchestrator.",
+        "demoBadge": "Demo",
+        "summaryLabel": "Telemetry {name}",
+        "owner": "Owner: {owner}",
+        "statusLive": "Telemetry live",
+        "statusDemo": "Telemetry in demo mode",
+        "offlineAnnouncement": "{label}.",
+        "offlineAnnouncementWithEntries": "{label}. Demo dataset for {entries}.",
+        "demoAnnouncement": "Demo telemetry active for {entries}."
+      },
+      "actions": {
+        "copyCanvas": "Copy Canvas snippet",
+        "exportJson": "Export JSON",
+        "copySuccess": "Snippet copied!",
+        "copyFailure": "Unable to copy automatically",
+        "exportSuccess": "JSON export generated"
+      }
+    }
+  },
+  "views": {
+    "consoleHub": {
+      "hero": {
+        "title": "Mission Console",
+        "body": "Manage the Nebula lifecycle orchestrating generation, QA and monitoring from dedicated modules."
+      },
+      "grid": {
+        "ariaLabel": "Primary areas",
+        "flow": {
+          "title": "Workflow Orchestrator",
+          "description": "Sequence species generation, validation and publishing steps.",
+          "cta": "Open flow →"
+        },
+        "traits": {
+          "title": "Trait Editor",
+          "description": "Edit canonical traits with real-time schema validation.",
+          "cta": "Open editor →"
+        },
+        "atlas": {
+          "title": "Nebula Atlas",
+          "description": "Browse datasets, telemetry and dedicated lab tools.",
+          "cta": "Go to Atlas →"
+        },
+        "telemetry": {
+          "title": "Live telemetry",
+          "description": "Monitor QA events, readiness and generator syncs.",
+          "cta": "Open dashboard →"
+        },
+        "generator": {
+          "title": "Nebula generator",
+          "description": "Check status, metrics and species generation trends.",
+          "cta": "View metrics →"
+        }
+      }
+    },
+    "notFound": {
+      "tag": "Error 404",
+      "title": "Page not found",
+      "body": "The resource you are looking for has been moved or is no longer available within the mission console.",
+      "cta": "Back to console"
+    },
+    "biomes": {
+      "tabs": {
+        "grid": "Biomes",
+        "validators": "Validators"
+      },
+      "cards": {
+        "orchestrator": "Orchestrator status",
+        "traits": "Traits & affinities",
+        "hazards": "Key hazards"
+      },
+      "actions": {
+        "resetFilters": "Reset filters"
+      },
+      "metrics": {
+        "readiness": "Readiness",
+        "riskLabel": "Risk {value}",
+        "activeBiomes": "Active biomes",
+        "readinessCoverage": "Readiness coverage",
+        "riskAverage": "Average risk",
+        "activeFilters": "Active filters"
+      },
+      "validator": {
+        "feedTitle": "Runtime validator feed",
+        "feedDescription": "Cross-monitoring of all anomalies."
+      },
+      "fallbacks": {
+        "hazard": "Hazard n/a"
+      }
+    },
+    "species": {
+      "header": {
+        "title": "Priority species",
+        "body": "Current curation and shortlist of selected organisms."
+      },
+      "sidebar": {
+        "title": "Orchestrator insight",
+        "tabs": {
+          "overview": "Overview",
+          "synergy": "Synergy",
+          "qa": "QA"
+        },
+        "emptyTelemetry": "No telemetry available.",
+        "request": {
+          "id": "Orchestrator ID",
+          "biome": "Biome",
+          "fallback": "Fallback",
+          "fallbackStates": {
+            "unknown": "Not calculated",
+            "enabled": "Enabled",
+            "disabled": "Not used"
+          }
+        },
+        "shortlist": "Shortlist",
+        "emptySynergy": "No synergy recorded in the catalogue.",
+        "compliance": {
+          "title": "Trait QA snapshot",
+          "updated": "Updated {timestamp}"
+        },
+        "telemetry": {
+          "curated": {
+            "label": "Curated species",
+            "description": "Confirmed species over orchestrated total"
+          },
+          "coverage": {
+            "label": "Shortlist coverage",
+            "descriptionFallback": "Shortlist/curation alignment"
+          },
+          "phaseFallback": "Phase {index}"
+        },
+        "qa": {
+          "title": "Runtime validation",
+          "messages": "{count} messages",
+          "intro": "Curated blueprint with runtime results. Preview of the first three events.",
+          "empty": "No validator messages for the last generation.",
+          "counters": {
+            "errors": "❗ Errors",
+            "warnings": "⚠ Warnings",
+            "corrected": "🔧 Corrected",
+            "discarded": "🗑 Discarded"
+          },
+          "syncing": "Synchronising coverage…"
+        }
+      },
+      "errors": {
+        "generic": "{message}"
+      }
+    }
+  }
+}

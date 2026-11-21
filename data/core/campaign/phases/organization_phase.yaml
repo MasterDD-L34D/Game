@@ -1,0 +1,31 @@
+# TKT-P2 Brigandine seasonal — Phase B content (Organization Phase).
+#
+# Reference: docs/planning/2026-05-11-big-items-scope-tickets-bundle.md §5.
+# Schema inline (NO contracts touch). Loader: seasonalContentLoader.js.
+# Engine: seasonalEngine.js PHASE_SPECS canonical match.
+#
+# Narrative beat: Tra una battaglia e l'altra. Recluta, riposa, allena.
+
+id: organization_phase
+display_name_it: "Fase Organizzativa"
+display_name_en: "Organization Phase"
+description_it: |
+  Tra una battaglia e l'altra. Recluta nuove creature, riposa il branco,
+  allena le abilità. Niente combattimento. Le decisioni qui modellano
+  la prossima Battle Phase.
+description_en: |
+  Between battles. Recruit new creatures, rest the pack, train abilities.
+  No combat. Decisions here shape the next Battle Phase.
+duration_turns: 3
+available_actions:
+  - recruit
+  - rest
+  - train
+  - equip
+  - deploy
+  - explore
+restricted_actions:
+  - combat
+  - engage
+auto_advance: true
+combat_enabled: false

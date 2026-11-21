@@ -1,0 +1,92 @@
+"""Test 2-tier existence gate -- tools/py/check_missing_traits.py.
+
+Tier-1 FAIL = phantom (trait in nessun registro). Tier-2 WARN = esiste in
+glossary ma non in active_effects (non-combat), o specie senza trait_refs.
+`--combat-strict` ri-promuove i Tier-2 a FAIL (audit combat legacy).
+"""
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+SCRIPT = REPO_ROOT / "tools/py/check_missing_traits.py"
+
+
+def _run(args):
+    return subprocess.run(
+        [sys.executable, str(SCRIPT), *args],
+        capture_output=True,
+        text=True,
+        cwd=REPO_ROOT,
+    )
+
+
+def _fixtures(tmp_path, trait_refs):
+    """Catalog + active_effects (t_combat only) + glossary (t_combat + t_glossary_only)."""
+    catalog = tmp_path / "catalog.json"
+    catalog.write_text(json.dumps({"catalog": [{"species_id": "s1", "trait_refs": trait_refs}]}))
+    active = tmp_path / "active_effects.yaml"
+    active.write_text("traits:\n  t_combat:\n    tier: T1\n")
+    glossary = tmp_path / "glossary.json"
+    glossary.write_text(json.dumps({"traits": {"t_combat": {}, "t_glossary_only": {}}}))
+    return ["--species", str(catalog), "--trait-reference", str(active), "--glossary", str(glossary)]
+
+
+def test_phantom_ref_fails_strict(tmp_path):
+    # Trait in nessun registro -> Tier-1 FAIL anche in default --strict.
+    r = _run([*_fixtures(tmp_path, ["t_phantom"]), "--strict"])
+    assert r.returncode == 1, r.stderr
+    assert "phantom" in (r.stderr + r.stdout)
+
+
+def test_glossary_only_warns_not_fails(tmp_path):
+    # Esiste in glossary, non in active_effects -> Tier-2 WARN, exit 0.
+    r = _run([*_fixtures(tmp_path, ["t_glossary_only"]), "--strict"])
+    assert r.returncode == 0, r.stderr
+    assert "WARN" in r.stderr and "t_glossary_only" in r.stderr
+
+
+def test_combat_strict_escalates_to_fail(tmp_path):
+    # --combat-strict ri-promuove il non-combat a FAIL (audit legacy).
+    r = _run([*_fixtures(tmp_path, ["t_glossary_only"]), "--combat-strict", "--strict"])
+    assert r.returncode == 1, r.stderr
+
+
+def test_combat_strict_rejects_json_reference(tmp_path):
+    # Codex P2 (#3124): --combat-strict + index JSON nasconderebbe i non-combat
+    # (taxonomy contiene i 15/17) -> audit falso-verde. Deve rifiutare (exit 2).
+    idx = tmp_path / "index.json"
+    idx.write_text(json.dumps({"traits": {"t_glossary_only": {}}}))
+    fx = _fixtures(tmp_path, ["t_glossary_only"])
+    # sostituisci il --trait-reference YAML con l'index JSON
+    fx[fx.index("--trait-reference") + 1] = str(idx)
+    r = _run([*fx, "--combat-strict", "--strict"])
+    assert r.returncode == 2, r.stderr
+    assert "combat-strict" in (r.stderr + r.stdout)
+
+
+def test_yaml_reference_case_insensitive(tmp_path):
+    # P3 (pre-merge review): un --trait-reference .YAML deve essere parsato come
+    # YAML (loader case-insensitive), coerente col guard combat-strict che usa
+    # .lower(). Altrimenti load_trait_reference cade nel branch JSON -> crash.
+    active = tmp_path / "active.YAML"
+    active.write_text("traits:\n  t_combat:\n    tier: T1\n")
+    glossary = tmp_path / "glossary.json"
+    glossary.write_text(json.dumps({"traits": {"t_combat": {}, "t_glossary_only": {}}}))
+    catalog = tmp_path / "catalog.json"
+    catalog.write_text(json.dumps({"catalog": [{"species_id": "s1", "trait_refs": ["t_glossary_only"]}]}))
+    r = _run([
+        "--species", str(catalog), "--trait-reference", str(active),
+        "--glossary", str(glossary), "--combat-strict", "--strict",
+    ])
+    # audit gira: t_glossary_only non in active -> combat_unauthored -> FAIL exit 1 (NON un traceback).
+    assert r.returncode == 1, r.stderr
+    assert "Traceback" not in r.stderr
+
+
+def test_real_catalog_strict_is_clean(tmp_path):
+    # Il vero gate: tutti i trait_refs del catalog esistono in glossary OR
+    # active_effects -> default --strict deve uscire 0 (i 17 non-combat = WARN).
+    r = _run(["--strict"])
+    assert r.returncode == 0, f"gate non pulito (phantom ref reale?):\n{r.stderr}"

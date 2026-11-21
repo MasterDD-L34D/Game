@@ -1,0 +1,10 @@
+PYTHONPATH=/tmp python scripts/db/seed_evo_generator.py --config config/mongodb.dev.json --dry-run
+Found 5 biomes, 21 species, 174 traits, 5 biome pools
+Dry run enabled: data was not written to MongoDB
+
+PYTHONPATH=/tmp python scripts/db/seed_evo_generator.py --config config/mongodb.dev.json --no-dry-run
+Found 5 biomes, 21 species, 174 traits, 5 biome pools
+[biomes] upserted: 5, modified: 0
+[species] upserted: 21, modified: 0
+[traits] upserted: 174, modified: 0
+[biome_pools] upserted: 5, modified: 0

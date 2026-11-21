@@ -1,0 +1,109 @@
+# Tunic decipher Codex — pilot 5 glyph progressively-decipherable.
+#
+# Source: docs/research/2026-04-27-indie-concept-rubabili.md (Tunic decipher pages).
+# Decision codified: docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md §H.4 ADOPT.
+#
+# Pattern: glyph language inizialmente locked (mostra glyph art come simbolo
+# ma description criptica). Gameplay events trigger unlock (decifrazione
+# progressiva). 1 page sample come narrative beat.
+#
+# Schema:
+#   glyph_id: { glyph: '◆', label_locked, label_unlocked, hint_unlock,
+#               unlock_condition: { event, threshold }, page_id }
+#
+# unlock_condition events:
+#   attacks_executed | defends_executed | mutations_applied |
+#   ally_adjacent_attacks | biomes_visited | victories | session_count
+
+schema_version: '1.0'
+codex_id: tunic_glyphs
+
+glyphs:
+  glyph_attacco:
+    glyph: '◆'
+    label_locked: 'Glifo angolare ◆'
+    label_unlocked: 'Furia — predazione'
+    hint_unlock: 'Compi 5 attacchi'
+    description_unlocked: |
+      Il glifo angolare nasce quando la creatura si lancia in avanti.
+      Le specie predatrici lo incidono sui denti e sugli artigli.
+      Suo opposto: glifo curvo (difesa).
+    unlock_condition:
+      event: attacks_executed
+      threshold: 5
+    page_id: page_predazione
+
+  glyph_difesa:
+    glyph: '◖'
+    label_locked: 'Glifo curvo ◖'
+    label_unlocked: 'Scudo — postura'
+    hint_unlock: 'Difendi 3 volte'
+    description_unlocked: |
+      La curva è un fianco esposto trasformato in muro. I corpi
+      che proteggono altri lasciano questa traccia. Suo opposto:
+      glifo angolare (predazione).
+    unlock_condition:
+      event: defends_executed
+      threshold: 3
+    page_id: page_postura
+
+  glyph_evoluzione:
+    glyph: '✺'
+    label_locked: 'Glifo radiante ✺'
+    label_unlocked: 'Mutamento — radice'
+    hint_unlock: 'Applica 1 mutazione'
+    description_unlocked: |
+      Il glifo radiante è la firma del cambiamento. Ogni raggio è
+      una scelta diversa che il corpo prende sotto pressione del
+      bioma. Le mutazioni lo accendono.
+    unlock_condition:
+      event: mutations_applied
+      threshold: 1
+    page_id: page_mutamento
+
+  glyph_alleanza:
+    glyph: '⌬'
+    label_locked: 'Glifo intrecciato ⌬'
+    label_unlocked: 'Vincolo — eco'
+    hint_unlock: 'Alleato adiacente attacca'
+    description_unlocked: |
+      Quando due creature combattono fianco a fianco, le loro
+      tracce si intrecciano. Il glifo intrecciato segna un legame
+      che amplifica entrambe.
+    unlock_condition:
+      event: ally_adjacent_attacks
+      threshold: 1
+    page_id: page_vincolo
+
+  glyph_mistero:
+    glyph: '⌑'
+    label_locked: 'Glifo cavo ⌑'
+    label_unlocked: 'Soglia — bioma'
+    hint_unlock: 'Visita 3 biomi diversi'
+    description_unlocked: |
+      Il glifo cavo è una soglia tra ambienti. Si rivela solo
+      a chi attraversa più biomi e ne osserva i bordi. Lega
+      la mappa al codex.
+    unlock_condition:
+      event: biomes_visited
+      threshold: 3
+    page_id: page_soglia
+
+# Page sample — composizione narrative beat con glyph references.
+# Player vede pagina con glyph misti (locked = simbolo only, unlocked = full text).
+pages:
+  page_predazione:
+    title_it: 'Sul cacciatore'
+    body_it: |
+      Quando la creatura ◆, il bioma ricorda. Non è la fame
+      — è la geometria della spinta. Il ◆ resta inciso nei
+      passi, finché un altro ◖ non lo cancella.
+    glyphs_referenced: [glyph_attacco, glyph_difesa]
+
+  page_mutamento:
+    title_it: 'Sulle mutazioni'
+    body_it: |
+      ✺ non è scelta. È pressione del bioma che trova un canale
+      libero. La creatura che cambia non sa di cambiare — solo
+      il glifo lo registra. Più ✺ accumuli, più la specie diverge.
+    glyphs_referenced: [glyph_evoluzione]

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/skiv_companion.schema.json",
+  "title": "SkivCompanionState",
+  "description": "Portable Skiv companion state v0.2.0 — S1 polish Phase 1 schema. Privacy whitelist enforced server-side: NO email, NO telemetria, NO session_id, NO IP. ADR-2026-04-27.",
+  "type": "object",
+  "required": ["schema_version", "lineage_id", "companion_card_signature"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^0\\.2\\.[0-9]+$",
+      "description": "Schema version pinned to 0.2.x. Reader fallback handles 0.1.x in-memory migration."
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "unit_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "species_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "biome_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "lineage_id": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9_-]+$",
+      "description": "Lineage chain identifier. Wired to metaProgression.recordOffspring(). UUID-like entropy recommended (160bit+) to mitigate enumeration attack."
+    },
+    "companion_card_signature": {
+      "type": ["string", "null"],
+      "description": "sha256 deterministic hash of canonical-JSON whitelist subset. Server verifies on /crossbreed import. Mismatch → reject 400.",
+      "anyOf": [{ "type": "null" }, { "type": "string", "pattern": "^[a-f0-9]{64}$" }]
+    },
+    "mbti_axes": {
+      "type": "object",
+      "properties": {
+        "E_I": { "$ref": "#/$defs/mbti_axis" },
+        "T_F": { "$ref": "#/$defs/mbti_axis" },
+        "S_N": { "$ref": "#/$defs/mbti_axis" },
+        "J_P": { "$ref": "#/$defs/mbti_axis" }
+      },
+      "additionalProperties": false
+    },
+    "progression": {
+      "type": "object",
+      "properties": {
+        "unit_id": { "type": "string" },
+        "job": { "type": "string" },
+        "xp_total": { "type": "integer", "minimum": 0 },
+        "level": { "type": "integer", "minimum": 1 },
+        "picked_perks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "level": { "type": "integer", "minimum": 1 },
+              "perk_id": { "type": "string" },
+              "choice": { "type": "string", "enum": ["a", "b"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "previous_job": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "cabinet": {
+      "type": "object",
+      "properties": {
+        "unlocked": { "type": "array", "items": { "type": "string" } },
+        "researching": { "type": "array", "items": { "type": "string" } },
+        "internalized": { "type": "array", "items": { "type": "string" } },
+        "slots_max": { "type": "integer", "minimum": 0 },
+        "slots_used": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "mutations": {
+      "type": "array",
+      "maxItems": 3,
+      "description": "Capped to 3 (Pokemon EV cap analogue, ADR-2026-04-27 §C).",
+      "items": { "type": "object" }
+    },
+    "aspect": {
+      "type": "object",
+      "properties": {
+        "lifecycle_phase": { "type": "string" },
+        "label_it": { "type": "string" },
+        "label_en": { "type": "string" },
+        "sprite_ascii": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "crossbreed_history": {
+      "type": "array",
+      "description": "Append-only log of crossbreed events. Max 10 entries (FIFO eviction, Q5 default cap ambassador per Nido).",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["ts"],
+        "properties": {
+          "ts": { "type": "string", "format": "date-time" },
+          "role": {
+            "type": "string",
+            "enum": ["parent_a", "parent_b", "offspring"]
+          },
+          "with_lineage_id": { "type": "string" },
+          "partner_card_signature": {
+            "type": ["string", "null"],
+            "anyOf": [{ "type": "null" }, { "type": "string", "pattern": "^[a-f0-9]{64}$" }]
+          },
+          "offspring_lineage_id": { "type": ["string", "null"] },
+          "biome_at_crossbreed": { "type": ["string", "null"] },
+          "biome_environmental_mutation": { "type": ["string", "null"] },
+          "tier": {
+            "type": ["string", "null"],
+            "enum": [null, "no-glow", "gold", "rainbow"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "voice_diary_portable": {
+      "type": "array",
+      "description": "Subset diary share-safe (max 5 entries). Whitelist: phase + voice_line + trigger_event only. NO session_id, NO PII.",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "ts": { "type": "string", "format": "date-time" },
+          "phase": { "type": "string" },
+          "voice_line": { "type": "string", "maxLength": 280 },
+          "trigger_event": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "share_url": {
+      "type": ["string", "null"],
+      "description": "Public share URL emitted at export. Null until export materialized.",
+      "anyOf": [{ "type": "null" }, { "type": "string", "format": "uri", "maxLength": 512 }]
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "mbti_axis": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "value": { "type": "number", "minimum": 0, "maximum": 1 },
+        "coverage": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

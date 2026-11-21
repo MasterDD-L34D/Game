@@ -1,0 +1,6 @@
+{
+  "sistema_tier": "Escalated",
+  "sistema_pressure": 50,
+  "floor": 3,
+  "expected_min": 50
+}

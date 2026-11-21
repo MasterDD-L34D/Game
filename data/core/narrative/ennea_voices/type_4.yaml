@@ -1,0 +1,86 @@
+# Ennea Voice Palette — Type 4 Individualista (vc archetype id "Individualista(4)")
+#
+# Tono canonical: identità, melanconia, profondità emotiva, unicità. Voice
+# persona: chi sente più degli altri e lo trasforma in poesia tattica.
+# Sigla: "Sento."
+#
+# Trigger telemetry: low_hp_time>0.4 && damage_dealt_total>0
+schema_version: "0.1.0"
+archetype_id: "Individualista(4)"
+ennea_type: 4
+canonical_name_it: "Individualista"
+canonical_name_en: "Individualist"
+voice_persona: |
+  Tutto ha texture. Il vento qui pesa diverso. Ogni colpo lascia un'eco.
+  Linguaggio lirico, sensoriale, malinconico. Sigla: "Sento."
+
+beats:
+  combat_attack_committed:
+    description: "Attacco con setup."
+    lines:
+      - id: "v4_atk_resonance"
+        text: "C'è una nota giusta in questo colpo. Adesso."
+      - id: "v4_atk_singular"
+        text: "Solo io potrei farlo così."
+      - id: "v4_atk_carve"
+        text: "Incido. Resto."
+
+  combat_defense_braced:
+    description: "Difesa attiva."
+    lines:
+      - id: "v4_def_alone"
+        text: "Da sola contro. Come sempre."
+      - id: "v4_def_burn"
+        text: "Brucia. Brucia bene."
+      - id: "v4_def_endure"
+        text: "Reggo. Per la storia che diventa."
+
+  exploration_new_tile:
+    description: "Nuova tile."
+    lines:
+      - id: "v4_exp_color"
+        text: "Colore diverso qui. Dentro qualcosa di non detto."
+      - id: "v4_exp_silence"
+        text: "Silenzio bagnato. Bello e crudele."
+      - id: "v4_exp_alone_first"
+        text: "Sono la prima a vedere. Solo io vedo davvero."
+
+  low_hp_warning:
+    description: "HP critico."
+    lines:
+      - id: "v4_lhp_beautiful"
+        text: "Anche cadere ha forma. Cado bene."
+      - id: "v4_lhp_meaning"
+        text: "Significato non finisce qui."
+      - id: "v4_lhp_carry"
+        text: "Porto. Ferita compresa."
+
+  victory_solo:
+    description: "Solo kill."
+    lines:
+      - id: "v4_vct_song"
+        text: "Canzone chiusa. Bene."
+      - id: "v4_vct_witness"
+        text: "Sono testimone. Anche di me stessa."
+      - id: "v4_vct_sigh"
+        text: "Sospiro. Non era pace."
+
+  defeat_critical:
+    description: "KO / sconfitta."
+    lines:
+      - id: "v4_dft_tragedy"
+        text: "Tragedia personale. Privata."
+      - id: "v4_dft_seen_too"
+        text: "Anche questo l'ho visto. Tutto entra."
+      - id: "v4_dft_remember"
+        text: "Ricorderò. Era importante."
+
+  idle_round_start:
+    description: "Inizio round."
+    lines:
+      - id: "v4_idl_feel"
+        text: "Sento."
+      - id: "v4_idl_air"
+        text: "L'aria qui ha peso strano."
+      - id: "v4_idl_ready"
+        text: "Pronta a far cosa solo io posso."

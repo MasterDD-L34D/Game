@@ -1,0 +1,46 @@
+{
+  "host": "http://localhost:8000",
+  "environment": "staging",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "error": 0
+  },
+  "results": [
+    {
+      "identifier": "R-01",
+      "source": "/data/species.yaml",
+      "target": "/data/core/species.yaml",
+      "expected_status": 301,
+      "actual_status": 301,
+      "expected_location": "http://localhost:8000/data/core/species.yaml",
+      "actual_location": "http://localhost:8000/data/core/species.yaml",
+      "outcome": "PASS",
+      "message": "Redirect conforme"
+    },
+    {
+      "identifier": "R-02",
+      "source": "/data/traits",
+      "target": "/data/core/traits",
+      "expected_status": 301,
+      "actual_status": 301,
+      "expected_location": "http://localhost:8000/data/core/traits",
+      "actual_location": "http://localhost:8000/data/core/traits",
+      "outcome": "PASS",
+      "message": "Redirect conforme"
+    },
+    {
+      "identifier": "R-03",
+      "source": "/data/analysis",
+      "target": "/data/derived/analysis",
+      "expected_status": 302,
+      "actual_status": 302,
+      "expected_location": "http://localhost:8000/data/derived/analysis",
+      "actual_location": "http://localhost:8000/data/derived/analysis",
+      "outcome": "PASS",
+      "message": "Redirect conforme"
+    }
+  ]
+}

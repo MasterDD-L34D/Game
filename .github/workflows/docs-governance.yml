@@ -1,0 +1,108 @@
+name: Docs Governance
+
+on:
+  # Run on every push and every PR, regardless of which files changed.
+  # The governance check is a required status on the protected `main` branch,
+  # so limiting the trigger to a path filter (as before) caused non-doc PRs
+  # to be stuck in "skipped" state and blocked from merging without a manual
+  # `gh workflow run docs-governance.yml --ref <branch>` workaround.
+  # The check itself is cheap (~8s), so running it always is fine.
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+env:
+  # Opt-in Node.js 24 runtime per actions JavaScript (checkout, setup-node,
+  # setup-python, upload-artifact, ecc.). Evita deprecation warning Node 20
+  # (rimosso 2026-09-16). Vedi https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Docs governance check (required — Fase 2)
+        id: governance_check
+        run: |
+          python tools/check_docs_governance.py \
+            --registry docs/governance/docs_registry.json \
+            --report reports/docs/governance_drift_report.json \
+            --strict
+
+      - name: Decisions log auto-sync (required -- fail-on-diff, anti-drift #19)
+        id: decisions_log_sync
+        run: python tools/generate_decisions_log.py --check
+
+      - name: Open decisions auto-sync (required -- fail-on-diff, anti-drift #19)
+        id: open_decisions_sync
+        run: python tools/generate_open_decisions.py --check
+
+      - name: Docs link integrity (warning-only)
+        id: link_check
+        continue-on-error: true
+        run: python tools/check_site_links.py docs
+
+      # 2026-05-21 — Trait mirror consistency (L-072 candidate, P1 #2351 prevention).
+      # Catches Engine LIVE Surface DEAD anti-pattern: traits shipped only in
+      # trait_mechanics.yaml but missing in active_effects.yaml = runtime no-op.
+      # Warning-only initially; promote to required once ionico mirror (PR #2355) lands main.
+      - name: Trait mirror consistency check (warning-only)
+        id: trait_mirror_check
+        continue-on-error: true
+        run: python tools/py/check_trait_mirror_consistency.py
+
+      - name: Upload governance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-governance-report-${{ github.run_id }}
+          path: reports/docs/governance_drift_report.json
+          if-no-files-found: warn
+
+      - name: Broken doc-pin visibility (warning-tier surface)
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, pathlib
+          rep = pathlib.Path("reports/docs/governance_drift_report.json")
+          pins = []
+          if rep.exists():
+              data = json.loads(rep.read_text(encoding="utf-8"))
+              pins = [i for i in data.get("issues", []) if i.get("code") == "broken_doc_pin"]
+          print("## Broken doc-pins (warning-tier)")
+          if pins:
+              print(f"{len(pins)} non-baselined code/config reference(s) to missing docs/ paths:")
+              for p in pins[:20]:
+                  print(f"- `{p.get('path','')}` -- {p.get('message','')}")
+              if len(pins) > 20:
+                  print(f"- ... and {len(pins) - 20} more (see the uploaded governance report)")
+          else:
+              print("None new (baseline clean).")
+          PY
+
+      - name: Workflow summary
+        if: always()
+        run: |
+          echo "## Docs governance (Fase 2 — governance required, link warning-only)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- governance check outcome: ${{ steps.governance_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- link check outcome: ${{ steps.link_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- trait mirror check outcome: ${{ steps.trait_mirror_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.governance_check.outcome }}" != "success" ]; then
+            echo "::warning::Docs governance check reported issues (non blocking in warning-only mode)."
+          fi
+          if [ "${{ steps.link_check.outcome }}" != "success" ]; then
+            echo "::warning::Docs link check reported issues (non blocking in warning-only mode)."
+          fi
+          if [ "${{ steps.trait_mirror_check.outcome }}" != "success" ]; then
+            echo "::warning::Trait mirror inconsistent — traits in trait_mechanics.yaml missing in active_effects.yaml. Will silently no-op at runtime."
+          fi

@@ -1,0 +1,38 @@
+# TKT-P2 Brigandine seasonal — Phase B content (Winter).
+#
+# Schema: cfr spring.yaml header.
+# Narrative beat: Gelo notturno. Risorse scarse. Reclutamento limitato.
+
+id: winter
+display_name_it: "Inverno"
+display_name_en: "Winter"
+description_it: |
+  Gelo notturno. Le creature ibernano o migrano in profondità.
+  Risorse scarse, reclutamento limitato, encounter più letali
+  per la scarsità di vie di fuga.
+description_en: |
+  Night frost. Creatures hibernate or migrate deep. Scarce resources,
+  limited recruitment, encounters more lethal due to lack of escape routes.
+duration_turns: 6
+modifiers:
+  resource_yield: 0.7
+  encounter_rate: 1.3
+  recruit_pool_delta: -1
+hazards:
+  - type: frost
+    intensity: 0.6
+    affected_biomes:
+      - alpino
+      - tundra
+      - dune
+events_pool:
+  - id: winter_freeze
+    description_it: "Gelo improvviso. -1 morale al branco."
+    description_en: "Sudden freeze. -1 morale to the pack."
+    trigger: hazard_threshold
+    weight: 30
+  - id: winter_cache
+    description_it: "Cache nascosta. +2 risorse stagionali."
+    description_en: "Hidden cache. +2 seasonal resources."
+    trigger: random
+    weight: 15

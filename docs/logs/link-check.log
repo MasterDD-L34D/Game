@@ -1,0 +1,666 @@
+Checking docs/00-INDEX.md
+
+FILE: docs/00-INDEX.md
+  [✓] INTEGRAZIONE_GUIDE.md → Status: 200
+  [✓] trait_reference_manual.md → Status: 200
+  [✓] README_SENTIENCE.md → Status: 200
+  [✓] traits_scheda_operativa.md → Status: 200
+  [✓] traits_template.md → Status: 200
+  [✓] README_HOWTO_AUTHOR_TRAIT.md → Status: 200
+  [✓] next_steps_trait_migration.md → Status: 200
+  [✓] 01-VISIONE.md → Status: 200
+  [✓] 02-PILASTRI.md → Status: 200
+  [✓] 03-LOOP.md → Status: 200
+  [✓] 10-SISTEMA_TATTICO.md → Status: 200
+  [✓] 11-REGOLE_D20_TV.md → Status: 200
+  [✓] 20-SPECIE_E_PARTI.md → Status: 200
+  [✓] 22-FORME_BASE_16.md → Status: 200
+  [✓] 24-TELEMETRIA_VC.md → Status: 200
+  [✓] 25-REGOLE_SBLOCCO_PE.md → Status: 200
+  [✓] 27-MATING_NIDO.md → Status: 200
+  [✓] 28-NPC_BIOMI_SPAWN.md → Status: 200
+  [✓] catalog/trait_reference.md → Status: 200
+  [✓] 30-UI_TV_IDENTITA.md → Status: 200
+  [✓] 40-ROADMAP.md → Status: 200
+  [✓] tutorials/README.md → Status: 200
+  [✓] appendici/A-CANVAS_ORIGINALE.txt → Status: 200
+  [✓] appendici/C-CANVAS_NPG_BIOMI.txt → Status: 200
+  [✓] appendici/D-CANVAS_ACCOPPIAMENTO.txt → Status: 200
+  [✓] appendici/prontuario_metriche_ucum.md → Status: 200
+  [✓] appendici/STYLE_GUIDE_NAMING.md → Status: 200
+  [✓] appendici/ALIENA_documento_integrato.md → Status: 200
+  [✓] ci-pipeline.md → Status: 200
+  [✓] ci.md → Status: 200
+  [✓] checklist/action-items.md → Status: 200
+  [✓] checklist/bug-intake.md → Status: 200
+  [✓] checklist/clone-setup.md → Status: 200
+  [✓] checklist/demo-release.md → Status: 200
+  [✓] checklist/milestones.md → Status: 200
+  [✓] checklist/project-setup-todo.md → Status: 200
+  [✓] checklist/telemetry.md → Status: 200
+  [✓] checklist/vc_playtest_plan.md → Status: 200
+  [✓] process/incident_reporting_table.md → Status: 200
+  [✓] process/qa_hud.md → Status: 200
+  [✓] process/qa_reporting_schema.md → Status: 200
+  [✓] process/telemetry_ingestion_pipeline.md → Status: 200
+  [✓] process/traits_checklist.md → Status: 200
+  [✓] process/training/trait_style_session.md → Status: 200
+  [✓] process/web_handoff.md → Status: 200
+  [✓] process/web_pipeline.md → Status: 200
+  [✓] ../logs/chatgpt_sync.log → Status: 200
+  [✓] ../logs/chatgpt_sync_last.json → Status: 200
+  [✓] ../logs/drive/2025-11-XX-dryrun.json → Status: 200
+  [✓] logs/exports/2025-11-08-filter-selections.md → Status: 200
+  [✓] logs/traits_tracking.md → Status: 200
+  [✓] logs/trait_audit.md → Status: 200
+  [✓] logs/web_status.md → Status: 200
+  [✓] reports/incoming/latest/report.html → Status: 200
+  [✓] ../logs/qa/latest-dashboard-metrics.json → Status: 200
+  [✓] ../logs/qa/dashboard_metrics.jsonl → Status: 200
+  [✓] logs/tooling/2025-10-24-tooling.md → Status: 200
+  [✓] piani/roadmap.md → Status: 200
+  [✓] roadmap/maintenance.md → Status: 200
+
+  59 links checked.
+
+Checking docs/01-VISIONE.md
+
+FILE: docs/01-VISIONE.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/02-PILASTRI.md
+
+FILE: docs/02-PILASTRI.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/03-LOOP.md
+
+FILE: docs/03-LOOP.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/10-SISTEMA_TATTICO.md
+
+FILE: docs/10-SISTEMA_TATTICO.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/11-REGOLE_D20_TV.md
+
+FILE: docs/11-REGOLE_D20_TV.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/20-SPECIE_E_PARTI.md
+
+FILE: docs/20-SPECIE_E_PARTI.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/22-FORME_BASE_16.md
+
+FILE: docs/22-FORME_BASE_16.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/24-TELEMETRIA_VC.md
+
+FILE: docs/24-TELEMETRIA_VC.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/25-REGOLE_SBLOCCO_PE.md
+
+FILE: docs/25-REGOLE_SBLOCCO_PE.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/27-MATING_NIDO.md
+
+FILE: docs/27-MATING_NIDO.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/28-NPC_BIOMI_SPAWN.md
+
+FILE: docs/28-NPC_BIOMI_SPAWN.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/30-UI_TV_IDENTITA.md
+
+FILE: docs/30-UI_TV_IDENTITA.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/40-ROADMAP.md
+
+FILE: docs/40-ROADMAP.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/CONTRIBUTING_SITE.md
+
+FILE: docs/CONTRIBUTING_SITE.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/DesignDoc-Overview.md
+
+FILE: docs/DesignDoc-Overview.md
+  [✓] ../assets/analytics/squadsync_mock.svg → Status: 200
+
+  1 link checked.
+
+Checking docs/Guida_Evo_Tactics_Pack_v2.md
+
+FILE: docs/Guida_Evo_Tactics_Pack_v2.md
+  [✓] ./traits_scheda_operativa.md → Status: 200
+  [✓] ./README_HOWTO_AUTHOR_TRAIT.md → Status: 200
+  [✓] ./traits_template.md → Status: 200
+  [✓] ./README_SENTIENCE.md → Status: 200
+  [✓] ../data/external/evo/traits/traits_aggregate.json → Status: 200
+  [✓] ../data/external/evo/species/species_catalog.json → Status: 200
+  [✓] ./next_steps_trait_migration.md → Status: 200
+  [✓] ./traits_evo_pack_alignment.md → Status: 200
+  [✓] ./traits_template.md#schema-base-obbligatorio → Status: 200
+  [✓] README_SENTIENCE.md → Status: 200
+  [✓] traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi → Status: 200
+  [✓] traits_scheda_operativa.md#box-flusso-operativo-end-to-end → Status: 200
+  [✓] traits_template.md → Status: 200
+
+  13 links checked.
+
+Checking docs/INDEX.md
+
+FILE: docs/INDEX.md
+  [✓] 00-INDEX.md → Status: 200
+  [✓] README.md → Status: 200
+  [✓] archive/ → Status: 200
+  [✓] evo-tactics/README.md → Status: 200
+  [✓] evo-tactics/guides/visione-struttura.md → Status: 200
+  [✓] evo-tactics/guides/template-ptpf.md → Status: 200
+  [✓] evo-tactics/guides/vision-and-structure-notes.md → Status: 200
+  [✓] evo-tactics/guides/ptpf-seed-template.md → Status: 200
+  [✓] evo-tactics/guides/codex-readme.md → Status: 200
+  [✓] evo-tactics/guides/security-ops.md → Status: 200
+  [✓] archive/evo-tactics/integration-log.md → Status: 200
+  [✓] archive/evo-tactics/README.md → Status: 200
+  [✓] traits_scheda_operativa.md → Status: 200
+  [✓] traits_template.md → Status: 200
+  [✓] README_HOWTO_AUTHOR_TRAIT.md → Status: 200
+  [✓] catalog/trait_reference.md → Status: 200
+  [✓] trait_reference_manual.md → Status: 200
+  [✓] templates/obsidian_template.md → Status: 200
+  [✓] ../incoming/docs/yaml_validator.py → Status: 200
+  [✓] ../incoming/docs/bioma_encounters.yaml → Status: 200
+  [✓] ../incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml → Status: 200
+  [✓] analysis/analytics-toolkit.md → Status: 200
+  [✓] ops/site-audit.md → Status: 200
+  [✓] ops/workflow_diff.md → Status: 200
+  [✓] ops/handbook/mongodb.md → Status: 200
+  [✓] presentations/walkthrough-demo-vc.md → Status: 200
+
+  26 links checked.
+
+Checking docs/INTEGRAZIONE_GUIDE.md
+
+FILE: docs/INTEGRAZIONE_GUIDE.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/Mating-Reclutamento-Nido.md
+
+FILE: docs/Mating-Reclutamento-Nido.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/PI-Pacchetti-Forme.md
+
+FILE: docs/PI-Pacchetti-Forme.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/QA.md
+
+FILE: docs/QA.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/README.md
+
+FILE: docs/README.md
+  [✓] reports/evo/inventory_audit.md → Status: 200
+  [✓] reports/evo/inventory_audit.md#bonifica-2025-12-19 → Status: 200
+  [✓] evo-tactics/guida-ai-tratti-1.md#evo-guida-ai-tratti-1 → Status: 200
+  [✓] evo-tactics/guida-ai-tratti-2.md#evo-guida-ai-tratti-2 → Status: 200
+  [✓] evo-tactics/guida-ai-tratti-3-evo-tactics.md#evo-guida-ai-tratti-3-evo-tactics → Status: 200
+  [✓] evo-tactics/guida-ai-tratti-3-database.md#evo-guida-ai-tratti-3-database → Status: 200
+  [✓] evo-tactics/integrazioni-v2.md#evo-integrazioni-v2 → Status: 200
+  [✓] ../README.md#storico-aggiornamenti--archivio → Status: 200
+  [✓] changelog.md → Status: 200
+  [✓] tutorials/idea-engine.md → Status: 200
+  [✓] ideas/changelog.md → Status: 200
+  [/] https://forms.gle/evoTacticsIdeaFeedback → Status: 0
+  [✓] ideas/index.html → Status: 200
+  [✓] ../config/idea_engine_taxonomy.json → Status: 200
+
+  14 links checked.
+
+Checking docs/README_HOWTO_AUTHOR_TRAIT.md
+
+FILE: docs/README_HOWTO_AUTHOR_TRAIT.md
+  [✓] ./traits_scheda_operativa.md → Status: 200
+  [✓] ./Guida_Evo_Tactics_Pack_v2.md → Status: 200
+  [✓] ./traits_template.md → Status: 200
+  [✓] ./next_steps_trait_migration.md → Status: 200
+  [✓] traits_template.md → Status: 200
+
+  5 links checked.
+
+Checking docs/README_SENTIENCE.md
+
+FILE: docs/README_SENTIENCE.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/README_TRAITS.md
+
+FILE: docs/README_TRAITS.md
+  [✓] traits-manuale/README.md → Status: 200
+  [/] https://json-schema.org/draft/2020-12/schema → Status: 0
+  [/] https://semver.org/ → Status: 0
+  [/] https://ucum.org/ → Status: 0
+  [/] http://purl.obolibrary.org/obo/envo.owl → Status: 0
+
+  5 links checked.
+
+Checking docs/SistemaNPG-PF-Mutazioni.md
+
+FILE: docs/SistemaNPG-PF-Mutazioni.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/Telemetria-VC.md
+
+FILE: docs/Telemetria-VC.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/biomes.md
+
+FILE: docs/biomes.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/changelog.md
+
+FILE: docs/changelog.md
+  [/] https://github.com/MasterDD-L34D/Game/pull/700 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/701 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/702 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/703 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/704 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/705 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/706 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/707 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/708 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/709 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/710 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/711 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/712 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/713 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/714 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/715 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/716 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/717 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/718 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/719 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/720 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-21.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/699 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-20.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/697 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-15.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/695 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/696 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-14.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/693 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/694 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-13.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/667 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/668 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/669 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/670 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/671 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/672 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/673 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/674 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/675 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/676 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/677 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/678 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/679 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/680 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/681 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/682 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/683 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/684 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/685 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/686 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/687 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/688 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/689 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/690 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/691 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-12.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/638 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/639 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/640 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/641 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/642 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/643 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/644 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/645 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/646 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/647 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/648 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/649 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/650 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/651 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/652 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/653 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/654 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/655 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/656 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/657 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/658 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/659 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/660 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/661 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/662 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/663 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/664 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/665 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/666 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-11.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/597 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/598 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/599 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/600 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/601 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/602 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/603 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/604 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/605 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/606 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/607 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/608 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/609 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/610 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/611 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/612 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/613 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/614 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/615 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/616 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/617 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/618 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/619 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/620 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/621 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/622 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/623 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/624 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/625 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/626 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/627 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/628 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/629 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/630 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/631 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/632 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/633 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/634 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/635 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/636 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/637 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-10.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/589 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/590 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/591 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/592 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/593 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/594 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/595 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/596 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-09.md → Status: 200
+  [/] https://github.com/MasterDD-L34D/Game/pull/579 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/580 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/581 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/582 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/583 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/584 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/585 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/586 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/587 → Status: 0
+  [/] https://github.com/MasterDD-L34D/Game/pull/588 → Status: 0
+  [✓] chatgpt_changes/daily-pr-summary-2025-11-08.md → Status: 200
+
+  150 links checked.
+
+Checking docs/chatgpt_sync_status.md
+
+FILE: docs/chatgpt_sync_status.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/ci-pipeline.md
+
+FILE: docs/ci-pipeline.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/ci.md
+
+FILE: docs/ci.md
+  [✓] ci-pipeline.md → Status: 200
+
+  1 link checked.
+
+Checking docs/data-guidelines.md
+
+FILE: docs/data-guidelines.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/dependency_audit.md
+
+FILE: docs/dependency_audit.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/drive-sync.md
+
+FILE: docs/drive-sync.md
+  [/] https://script.google.com → Status: 0
+  [✓] ../scripts/driveSync.gs → Status: 200
+  [✓] ../config/drive/recipients.yaml → Status: 200
+  [✓] ../logs/drive/2025-11-XX-dryrun.json → Status: 200
+  [✓] checklist/milestones.md → Status: 200
+
+  5 links checked.
+
+Checking docs/faq.md
+
+FILE: docs/faq.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/git-setup.md
+
+FILE: docs/git-setup.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/next_steps_trait_migration.md
+
+FILE: docs/next_steps_trait_migration.md
+  [✓] traits_scheda_operativa.md → Status: 200
+  [✓] Guida_Evo_Tactics_Pack_v2.md → Status: 200
+  [✓] README_HOWTO_AUTHOR_TRAIT.md → Status: 200
+
+  3 links checked.
+
+Checking docs/observability.md
+
+FILE: docs/observability.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/playtest-log-guidelines.md
+
+FILE: docs/playtest-log-guidelines.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/publishing_calendar.md
+
+FILE: docs/publishing_calendar.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/qa-checklist.md
+
+FILE: docs/qa-checklist.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/readme-refresh-notes.md
+
+FILE: docs/readme-refresh-notes.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/roadmap_generator.md
+
+FILE: docs/roadmap_generator.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/structure_overview.md
+
+FILE: docs/structure_overview.md
+  [✓] ../config/data_path_redirects.json → Status: 200
+  [✓] ../scripts/data_layout_migration.py → Status: 200
+
+  2 links checked.
+
+Checking docs/tool_run_report.md
+
+FILE: docs/tool_run_report.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/trait-editor-api.md
+
+FILE: docs/trait-editor-api.md
+  [✓] trait-editor.md → Status: 200
+  [✓] traits-manuale/05-workflow-strumenti.md → Status: 200
+  [✓] traits-manuale/06-standalone-trait-editor.md → Status: 200
+
+  3 links checked.
+
+Checking docs/trait-editor.md
+
+FILE: docs/trait-editor.md
+  [✓] ../Trait%20Editor/ → Status: 200
+
+  1 link checked.
+
+Checking docs/trait_reference_manual.md
+
+FILE: docs/trait_reference_manual.md
+  [✓] traits-manuale/01-introduzione.md → Status: 200
+  [✓] traits-manuale/02-modello-dati.md → Status: 200
+  [✓] traits-manuale/03-tassonomia-famiglie.md → Status: 200
+  [✓] traits-manuale/04-collegamenti-cross-dataset.md → Status: 200
+  [✓] traits-manuale/05-workflow-strumenti.md → Status: 200
+  [✓] traits-manuale/06-standalone-trait-editor.md → Status: 200
+  [✓] traits-manuale/README.md → Status: 200
+
+  7 links checked.
+
+Checking docs/traits_evo_pack_alignment.md
+
+FILE: docs/traits_evo_pack_alignment.md
+  No hyperlinks found!
+
+  0 links checked.
+
+Checking docs/traits_scheda_operativa.md
+
+FILE: docs/traits_scheda_operativa.md
+  [✓] ./Guida_Evo_Tactics_Pack_v2.md → Status: 200
+  [✓] ./README_HOWTO_AUTHOR_TRAIT.md → Status: 200
+  [✓] ./traits_template.md → Status: 200
+  [✓] ./catalog/trait_reference.md → Status: 200
+  [✓] ./next_steps_trait_migration.md → Status: 200
+  [✓] #checklist-di-validazione-automatica-comandi-rapidi → Status: 200
+  [✓] Guida_Evo_Tactics_Pack_v2.md#specifiche-standard-v2 → Status: 200
+  [✓] Guida_Evo_Tactics_Pack_v2.md#compatibilita-evo-pack-v2 → Status: 200
+  [✓] traits_evo_pack_alignment.md → Status: 200
+  [✓] evo-tactics/integrazioni-v2.md#evo-integrazioni-v2-pipeline-di-migrazione-v1-v2 → Status: 200
+  [✓] Guida_Evo_Tactics_Pack_v2.md#validazione-nel-repository-game → Status: 200
+  [✓] Guida_Evo_Tactics_Pack_v2.md#strumenti-di-validazione-e-qa → Status: 200
+
+  12 links checked.
+
+Checking docs/traits_template.md
+
+FILE: docs/traits_template.md
+  [✓] traits_scheda_operativa.md → Status: 200
+  [✓] README_HOWTO_AUTHOR_TRAIT.md → Status: 200
+  [✓] Guida_Evo_Tactics_Pack_v2.md → Status: 200
+  [✓] ../data/core/traits/glossary.json → Status: 200
+  [✓] catalog/trait_reference.md → Status: 200
+
+  5 links checked.
+

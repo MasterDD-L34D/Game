@@ -1,0 +1,60 @@
+{
+  "species": "Gulogluteus scutiger",
+  "ecotypes": [
+    {
+      "id": "GGS-ECO1",
+      "label": "Chioma Umida",
+      "biome_class": "terrestre_forestale",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_01000228"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "salto_verticale",
+          "delta": 0.2,
+          "unit": "m",
+          "notes": "Ramificazioni fitte favoriscono spinta",
+          "trait_id": "coda_prensile_muscolare"
+        },
+        {
+          "metric": "res_termica",
+          "delta": -0.01,
+          "unit": "K/W",
+          "notes": "Olio più fluido in microclima umido",
+          "trait_id": "pelage_idrorepellente_avanzato"
+        }
+      ]
+    },
+    {
+      "id": "GGS-ECO2",
+      "label": "Forre Umide",
+      "biome_class": "terrestre_forestale",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000173"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "accelerazione_0_10",
+          "delta": -0.3,
+          "unit": "m/s2",
+          "notes": "Fango riduce accelerazione",
+          "trait_id": "articolazioni_multiassiali"
+        },
+        {
+          "metric": "spessore_corazza",
+          "delta": 5,
+          "unit": "mm",
+          "notes": "Depositi minerali aumentano spessore",
+          "trait_id": "scudo_gluteale_cheratinizzato"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "gulogluteus_scutiger"
+}

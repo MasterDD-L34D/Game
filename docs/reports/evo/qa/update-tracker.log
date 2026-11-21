@@ -1,0 +1,2 @@
+python3 -m tools.automation.update_tracker_registry  --check 
+Tracker files are up-to-date.

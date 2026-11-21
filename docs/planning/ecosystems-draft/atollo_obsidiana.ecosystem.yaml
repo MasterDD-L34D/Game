@@ -1,0 +1,20 @@
+schema_version: 1.0
+ecosistema:
+  id: ATOLLO_OBSIDIANA
+  label: Atollo Obsidiana
+  biome_id: atollo_obsidiana
+  trofico:
+    produttori:
+    - alghe
+    - cianobatteri
+    consumatori:
+      primari: []
+      secondari:
+      - anguis-magnetica
+      terziari:
+      - vitricyba-punctata
+    decompositori:
+    - magnetocola-pastoris
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

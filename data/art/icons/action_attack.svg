@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" aria-label="Action attack (slash)">
+  <!-- Attack action: diagonal slash + hilt. Red accent for offensive intent. -->
+  <path d="M3 13 L13 3" stroke="#d44a4a" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="3" cy="13" r="1.5" fill="#d44a4a"/>
+</svg>
