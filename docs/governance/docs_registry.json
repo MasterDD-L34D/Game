@@ -962,7 +962,12 @@
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 180,
-      "tags": ["adr", "networking", "coop", "combat"],
+      "tags": [
+        "adr",
+        "networking",
+        "coop",
+        "combat"
+      ],
       "primary": false,
       "track": "new"
     },
@@ -7150,9 +7155,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-01-goal-coordinator-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-01-goal-coordinator-session-handoff.md",
       "title": "GOAL coordinator session handoff — PHASEC 22/32 + catalog + cross-session triage",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-01",
@@ -7163,9 +7168,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-01-master-goal-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-01-master-goal-handoff.md",
       "title": "Master GOAL handoff — chiusura backlog Evo-Tactics (PHASEC 32/32 + catalogo + cross-session)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-01",
@@ -7189,9 +7194,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-02-full-loop-build-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-02-full-loop-build-handoff.md",
       "title": "Handoff 2026-06-02 — H2 economy COMPLETE + full-loop AI-playtest runner MVP (build)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "ops-qa",
       "last_verified": "2026-06-02",
@@ -7215,9 +7220,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-02-full-loop-fase2-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-02-full-loop-fase2-handoff.md",
       "title": "Handoff full-loop AI-playtest fase-2 + slice extra (composition / routing / PI-sink)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "ops-qa",
       "last_verified": "2026-06-02",
@@ -7241,9 +7246,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-02-h2-economy-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-02-h2-economy-handoff.md",
       "title": "Handoff 2026-06-02 — H2 economy (SG+PP shipped) -> PT + rescales + resto Fase-2",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "combat",
       "last_verified": "2026-06-02",
@@ -7254,9 +7259,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-04-option-c-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-04-option-c-handoff.md",
       "title": "Option-C handoff -- meta-network graph-combat (C1 shipped, Phase 2+3 to flip)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-04",
@@ -7267,9 +7272,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-04-session-handoff-optionc-flip.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-04-session-handoff-optionc-flip.md",
       "title": "Session handoff 2026-06-04 -- option-C to the flip + Godot step-8",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-04",
@@ -7423,9 +7428,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-09-lenovo-handoff-item2-item3.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-09-lenovo-handoff-item2-item3.md",
       "title": "Lenovo handoff -- item 2 (N=40 OA2 calib) + item 3 (Godot surfaces)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-09",
@@ -7436,9 +7441,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-09-maintenance-hygiene-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-09-maintenance-hygiene-handoff.md",
       "title": "Handoff maintenance + hygiene (Ryzen 2026-06-09 sessione B)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-09",
@@ -7449,9 +7454,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-09-reconstruction-residuals-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-09-reconstruction-residuals-closure-handoff.md",
       "title": "Handoff reconstruction-residuals closure (Ryzen 2026-06-09)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-09",
@@ -7462,9 +7467,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-10-mega-session-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-10-mega-session-closure-handoff.md",
       "title": "Handoff chiusura mega-sessione 2026-06-10 (Ryzen) -- governance+SPEC-M/I+OD-058+chip-rounds",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-10",
@@ -7475,9 +7480,9 @@
       "track": "new"
     },
     {
-      "path": "docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-14-issue-2746-coop-ws-closure-handoff.md",
       "title": "Handoff issue #2746 -- coop WS/REST contract gaps closure (backend-side)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-14",
@@ -7488,9 +7493,9 @@
       "track": "new"
     },
     {
-      "path": "docs/planning/2026-06-16-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-16-session-handoff.md",
       "title": "Handoff sessione 2026-06-16 -- cron fix + #2744 pressure_tier + #1673 BiomeMemory",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-16",
@@ -7514,9 +7519,9 @@
       "track": "new"
     },
     {
-      "path": "docs/planning/2026-06-17-session-handoff-continuation.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-17-session-handoff-continuation.md",
       "title": "Handoff continuazione 2026-06-17 -- A2 prod-deploy LIVE + 4 PR (SPEC-A/F + OD-059 + hc06)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-17",
@@ -7527,9 +7532,9 @@
       "track": "new"
     },
     {
-      "path": "docs/planning/2026-06-17-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-17-session-handoff.md",
       "title": "Handoff sessione 2026-06-17 -- 14 PR (cron + recovery + A2 + item-1 flip 11/17 + chips P/Q)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-17",
@@ -7540,9 +7545,9 @@
       "track": "new"
     },
     {
-      "path": "docs/planning/2026-06-18-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-18-session-handoff.md",
       "title": "2026-06-18 session handoff -- item-1 build-residui + deep post-merge audit",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-18",
@@ -7577,9 +7582,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-20-pe-ratio-contestedness-switch-handoff.md",
       "title": "PE_ratio -- switch to contestedness (sec 4.5 negative-result branch) -- calib handoff",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "ops-qa",
       "last_verified": "2026-06-20",
@@ -7590,9 +7595,9 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/2026-06-20-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-20-session-handoff.md",
       "title": "Handoff 2026-06-20 -- SPEC-K closure + 2 seed-decisions + prod-resilience",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-20",
@@ -7684,9 +7689,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-22-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-22-session-handoff.md",
       "title": "Session handoff 2026-06-22 -- codex lore PHASE 1+2 + OD-024 sentience program",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-22",
@@ -7815,9 +7820,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-23-derived-canon-salvage-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-23-derived-canon-salvage-session-handoff.md",
       "title": "Derived-canon salvage -- session handoff (2026-06-23 close)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "dataset-pack",
       "last_verified": "2026-06-23",
@@ -7876,9 +7881,9 @@
       "review_cycle_days": 90
     },
     {
-      "path": "docs/planning/2026-06-24-form-pulse-trait-v2-coverage-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-24-form-pulse-trait-v2-coverage-handoff.md",
       "title": "Handoff -- Form-Pulse trait v2 coverage + ratify (2026-06-24)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-24",
@@ -7926,9 +7931,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
       "title": "Derived-canon reproducibility arc -- session handoff (2026-06-28/29)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "dataset-pack",
       "last_verified": "2026-06-29",
@@ -7965,9 +7970,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-29-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-29-session-handoff.md",
       "title": "2026-06-29 session handoff -- move terrain-cost: Godot telegraph + flip prereqs",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-29",
@@ -8004,9 +8009,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-30-session-handoff-aa01-codex-aisim.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-30-session-handoff-aa01-codex-aisim.md",
       "title": "2026-06-30 session handoff -- aa01 cluster + codex coherence + I2 + Codex-fix round + AI-sim re-baseline",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-30",
@@ -8017,9 +8022,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-30-session-handoff-closeout-residuals.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-30-session-handoff-closeout-residuals.md",
       "title": "2026-06-30 session handoff -- owner-residuals via ask + close-out Tier-2 round",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-30",
@@ -8030,9 +8035,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-30-session-handoff-lethal-flip-grilling.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-30-session-handoff-lethal-flip-grilling.md",
       "title": "2026-06-30 session handoff -- SPEC-J LETHAL flipped LIVE + Tier-3 value-pick grilling",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-30",
@@ -8043,9 +8048,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-06-30-session-handoff-tier2-infra-closeout.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-06-30-session-handoff-tier2-infra-closeout.md",
       "title": "2026-06-30 session handoff -- Tier-2 design-call batch DRAINED + Infra I3/I4 DEFERRED",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-30",
@@ -8056,9 +8061,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-fc1-tier2-o8-closeout.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-fc1-tier2-o8-closeout.md",
       "title": "Session handoff -- SPEC-F FC1 resync + Tier-2 owner-batch recon + O8 schema (2026-07-01 closeout)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8069,9 +8074,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-grilling-value-picks-drained.md",
       "title": "2026-07-01 session handoff -- Tier-3 grilling value-picks DRAINED (6/6) + W5 surfaced",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "ops-qa",
       "last_verified": "2026-07-01",
@@ -8082,9 +8087,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-spec-f-auth-isolation.md",
       "title": "Session handoff -- SPEC-F per-Nido auth isolation (Option A + D) (2026-07-01 cont)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8095,9 +8100,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-spec-f-fc1-resync.md",
       "title": "Session handoff -- SPEC-F B4 FC1 resync (returning Custode additive merge) (2026-07-01 cont)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8108,9 +8113,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-spec-f-import.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-spec-f-import.md",
       "title": "Session handoff -- SPEC-F B4 import slice (foreign card -> ambassador) (2026-07-01 cont)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8121,9 +8126,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-tkt-p6-tier1-spec-f-b4.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-tkt-p6-tier1-spec-f-b4.md",
       "title": "Session handoff -- TKT-P6 gate + Tier-1 reconciliation + SPEC-F B4 arc (2026-07-01)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8134,9 +8139,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-w5-d8-w6-close.md",
       "title": "W5 continuation close -- D8 NULL + W6 form-pulse graded ratify + staged-latent flip",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8147,9 +8152,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff-w5-inc123.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff-w5-inc123.md",
       "title": "W5 session handoff -- inc-1/2/3-ER6 shipped + graded pivot + grilling-decided continuation",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8160,9 +8165,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-01-session-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-01-session-handoff.md",
       "title": "Session handoff -- form-pulse v2 build + 7/8 imprint wiring + 12 trait mechanics (2026-07-01)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-01",
@@ -8173,9 +8178,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-02-session-handoff-w5-graded-close.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-02-session-handoff-w5-graded-close.md",
       "title": "W5 graded-lane close -- D6 REAL + ER7 re-confirm + G6 built + W6 flip LIVE @1.15",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-07-02",
@@ -8186,9 +8191,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-03-fase2c-grid-wiring-handoff.md",
       "title": "Handoff fase-2c grid-wiring (board_scale authored grid)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "combat",
       "last_verified": "2026-07-03",
@@ -8199,9 +8204,9 @@
       "track": "active"
     },
     {
-      "path": "docs/planning/2026-07-04-tkt-p6-ap3-closure-handoff.md",
+      "path": "docs/archive/historical-snapshots/documents/2026-07-04-tkt-p6-ap3-closure-handoff.md",
       "title": "Handoff TKT-P6-AP3 closure (reclassify-as-ultimate + outlier trim)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "dataset-pack",
       "last_verified": "2026-07-04",
