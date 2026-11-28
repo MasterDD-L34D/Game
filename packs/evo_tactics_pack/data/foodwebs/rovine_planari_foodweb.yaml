@@ -1,0 +1,183 @@
+pack_slug: rovine_planari
+display_name_it: "Foodweb Rovine Planari"
+display_name_en: "Planar Ruins Foodweb"
+biome_slug: rovine_planari
+biome_legacy_slug: rovine_planari
+nodes:
+  - id: reliquie_planari
+    node_id: reliquie_planari
+    legacy_slug: reliquie_planari
+    display_name_it: "Reliquie Planari"
+    display_name_en: "Planar Relics"
+    kind: resource
+  - id: spore_memetiche
+    node_id: spore_memetiche
+    legacy_slug: spore_memetiche
+    display_name_it: "Spore Memetiche"
+    display_name_en: "Memetic Spores"
+    kind: resource
+  - id: flussi_radianza
+    node_id: flussi_radianza
+    legacy_slug: flussi_radianza
+    display_name_it: "Flussi di Radianza"
+    display_name_en: "Radiance Flows"
+    kind: resource
+  - id: archon-solare
+    node_id: archon-solare
+    legacy_slug: archon_solare
+    display_name_it: "Archon Solare"
+    display_name_en: "Solar Archon"
+    kind: species
+  - id: balor-fission
+    node_id: balor-fission
+    legacy_slug: balor_fission
+    display_name_it: "Balor di Fissione"
+    display_name_en: "Fission Balor"
+    kind: species
+  - id: marilith-vault
+    node_id: marilith-vault
+    legacy_slug: marilith_vault
+    display_name_it: "Marilith del Vault"
+    display_name_en: "Vault Marilith"
+    kind: species
+  - id: treant-portale
+    node_id: treant-portale
+    legacy_slug: treant_portale
+    display_name_it: "Treant del Portale"
+    display_name_en: "Portal Treant"
+    kind: species
+  - id: couatl-aurora
+    node_id: couatl-aurora
+    legacy_slug: couatl_aurora
+    display_name_it: "Couatl Aurora"
+    display_name_en: "Aurora Couatl"
+    kind: species
+  - id: golem-runico
+    node_id: golem-runico
+    legacy_slug: golem_runico
+    display_name_it: "Golem Runico"
+    display_name_en: "Runic Golem"
+    kind: species
+  - id: banshee-risonante
+    node_id: banshee-risonante
+    legacy_slug: banshee_risonante
+    display_name_it: "Banshee Risonante"
+    display_name_en: "Resonant Banshee"
+    kind: species
+  - id: rakshasa-corte
+    node_id: rakshasa-corte
+    legacy_slug: rakshasa_corte
+    display_name_it: "Rakshasa di Corte"
+    display_name_en: "Court Rakshasa"
+    kind: species
+  - id: bulette-fase
+    node_id: bulette-fase
+    legacy_slug: bulette_fase
+    display_name_it: "Bulette di Fase"
+    display_name_en: "Phase Bulette"
+    kind: species
+  - id: otyugh-sentinella
+    node_id: otyugh-sentinella
+    legacy_slug: otyugh_sentinella
+    display_name_it: "Otyugh Sentinella"
+    display_name_en: "Sentinel Otyugh"
+    kind: species
+  - id: detrito
+    node_id: detrito
+    legacy_slug: detrito
+    display_name_it: "Detrito"
+    display_name_en: "Detritus"
+    kind: resource
+edges:
+  - from: reliquie_planari
+    to: treant-portale
+    type: mutualism
+    weight: 0.5
+  - from: treant-portale
+    to: archon-solare
+    type: support
+    weight: 0.4
+  - from: treant-portale
+    to: couatl-aurora
+    type: support
+    weight: 0.4
+  - from: flussi_radianza
+    to: archon-solare
+    type: energy
+    weight: 0.6
+  - from: flussi_radianza
+    to: couatl-aurora
+    type: energy
+    weight: 0.5
+  - from: spore_memetiche
+    to: otyugh-sentinella
+    type: detritus
+    weight: 0.6
+  - from: detrito
+    to: otyugh-sentinella
+    type: detritus
+    weight: 0.5
+  - from: otyugh-sentinella
+    to: treant-portale
+    type: nutrient_cycle
+    weight: 0.4
+  - from: bulette-fase
+    to: otyugh-sentinella
+    type: waste
+    weight: 0.3
+  - from: treant-portale
+    to: bulette-fase
+    type: herbivory
+    weight: 0.5
+  - from: couatl-aurora
+    to: treant-portale
+    type: pollination
+    weight: 0.5
+  - from: archon-solare
+    to: couatl-aurora
+    type: coordination
+    weight: 0.4
+  - from: balor-fission
+    to: bulette-fase
+    type: predation
+    weight: 0.5
+  - from: balor-fission
+    to: archon-solare
+    type: predation
+    weight: 0.3
+  - from: marilith-vault
+    to: balor-fission
+    type: contest
+    weight: 0.4
+  - from: marilith-vault
+    to: rakshasa-corte
+    type: suppression
+    weight: 0.4
+  - from: rakshasa-corte
+    to: archon-solare
+    type: parasitism
+    weight: 0.3
+  - from: rakshasa-corte
+    to: treant-portale
+    type: parasitism
+    weight: 0.3
+  - from: banshee-risonante
+    to: balor-fission
+    type: disruption
+    weight: 0.5
+  - from: banshee-risonante
+    to: rakshasa-corte
+    type: disruption
+    weight: 0.4
+  - from: golem-runico
+    to: archon-solare
+    type: fortification
+    weight: 0.4
+  - from: golem-runico
+    to: couatl-aurora
+    type: fortification
+    weight: 0.3
+  - from: golem-runico
+    to: treant-portale
+    type: support
+    weight: 0.5

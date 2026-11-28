@@ -1,0 +1,45 @@
+# TKT-M14-B Phase B — Conviction dialogue branch (Triangle Strategy pattern).
+#
+# Reference: docs/research/triangle-strategy-transfer-plan.md Mechanic 1.
+# Schema inline (NO contracts touch). Loader: apps/backend/services/dialogueLoader.js.
+#
+# Trigger semantica: post-encounter capture, prigioniero a discrezione del player.
+# Axis space coperto: Utility (interrogate per intel) vs Liberty (liberate) vs
+# Morality (execute = no, mercy = morality+).
+
+id: conv_branch_prisoner_choice
+title: "Prisoner Choice"
+description_it: |
+  Hai catturato un soldato del Sistema ferito. Le tue mani decideranno
+  il suo destino. Il branco osserva. Sabbia ricorda.
+description_en: |
+  You have captured a wounded Sistema soldier. Your hands will decide
+  his fate. The pack watches. Sand remembers.
+trigger:
+  encounter_id: null
+  axis_threshold: null
+choices:
+  - id: execute
+    text_it: "Esegui. Niente più minacce."
+    text_en: "Execute. No more threats."
+    delta:
+      utility: +8
+      liberty: 0
+      morality: -10
+    consequence: "Prigioniero rimosso dal campo. Branco silente. Skiv evita sguardo."
+  - id: liberate
+    text_it: "Lascialo andare. Che torni nel suo mondo."
+    text_en: "Let him go. Let him return to his world."
+    delta:
+      utility: -5
+      liberty: +12
+      morality: +5
+    consequence: "Prigioniero scompare nella sabbia. Branco mormora. Skiv annusa il vento."
+  - id: interrogate
+    text_it: "Interrogalo. Vogliamo sapere cosa sa il Sistema."
+    text_en: "Interrogate him. We want to know what Sistema knows."
+    delta:
+      utility: +10
+      liberty: -3
+      morality: -2
+    consequence: "Intel sblocca next encounter. Prigioniero trattenuto. Cella improvvisata."

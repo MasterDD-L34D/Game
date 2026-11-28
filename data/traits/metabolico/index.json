@@ -1,0 +1,32 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "metabolico"
+      ]
+    }
+  },
+  "traits": [
+    "antenne_dustsense",
+    "appendici_thermotattiche",
+    "batteri_endosimbionti_chemio",
+    "branchie_solfatiche",
+    "carapace_segmenti_logici",
+    "circolazione_bifasica_palude",
+    "circolazione_cooling_loop",
+    "coda_stabilizzatrice_filo",
+    "criostasi_adattiva",
+    "cuticole_cerose",
+    "enzimi_chelanti",
+    "flagelli_ancoranti",
+    "ghiandole_grafene",
+    "grassi_termici",
+    "luminescenza_aurorale"
+  ],
+  "type": "metabolico"
+}

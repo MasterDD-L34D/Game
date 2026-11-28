@@ -1,0 +1,45 @@
+# TKT-M14-B Phase B — Conviction dialogue branch — Skiv canonical lore tied.
+#
+# Reference: docs/skiv/CANONICAL.md (5w7 tritype: Investigator core + Enthusiast wing).
+# Voice line italiana, prima persona, metafore desertiche (sabbia, vento, ridge, sole basso).
+#
+# Trigger: Skiv affronta deriva del branco. Axis player guida la scelta.
+
+id: conv_branch_skiv_drift_choice
+title: "Skiv Drift Choice"
+description_it: |
+  Skiv si ferma sul ridge. Sole basso. Il branco si è diviso.
+  Una parte vuole tornare alla vecchia caccia. L'altra esplorare nord.
+  Skiv guarda l'allenatore. Sabbia non dice.
+description_en: |
+  Skiv stops on the ridge. Low sun. The pack is split.
+  Part wants to return to the old hunt. The other to explore north.
+  Skiv looks at the trainer. Sand does not speak.
+trigger:
+  encounter_id: null
+  axis_threshold: null
+choices:
+  - id: old_hunt
+    text_it: "Torniamo alla vecchia caccia. Conosciamo il terreno."
+    text_en: "We return to the old hunt. We know the terrain."
+    delta:
+      utility: +10
+      liberty: -5
+      morality: 0
+    consequence: "Branco si riallinea su rotta nota. Skiv: 'Sabbia ricorda. Vento meno.'"
+  - id: explore_north
+    text_it: "Nord. Niente che conosciamo. Tutto da scoprire."
+    text_en: "North. Nothing we know. All to discover."
+    delta:
+      utility: -3
+      liberty: +12
+      morality: +2
+    consequence: "Branco esplora ignoto. Skiv: 'Vento nuovo. Sabbia segue.'"
+  - id: ridge_meditation
+    text_it: "Restiamo sul ridge. Decidiamo dopo. Ascoltiamo."
+    text_en: "We stay on the ridge. We decide later. We listen."
+    delta:
+      utility: 0
+      liberty: +3
+      morality: +5
+    consequence: "Sole tramonta. Branco si calma. Skiv: 'Sole basso. Sabbia tace.'"

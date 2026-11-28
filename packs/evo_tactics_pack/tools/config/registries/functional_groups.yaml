@@ -1,0 +1,71 @@
+schema_version: '1.0'
+groups:
+  produttori:
+  - piante_superiori
+  - alghe
+  - cianobatteri
+  - chemiotrofi
+  consumatori_primari:
+  - erbivori
+  - grazers
+  - detritivori_primari
+  - filtratori_primari
+  consumatori_secondari:
+  - insettivori
+  - predatori_leggeri
+  - onnivori
+  consumatori_terziari:
+  - predatori_apicali
+  - superpredatori
+  decompositori:
+  - funghi
+  - batteri_suolo
+  - biofilm
+  impollinatori:
+  - diurni
+  - notturni
+  - vento
+  dispersori_semi:
+  - endozoo
+  - esozoo
+  - mirmecori
+  - idrocorie
+  simbionti:
+  - micorrize
+  - rizobi
+  - licheni
+  - endosimbionti
+  - commensali_strutturali
+  parassiti:
+  - ecto
+  - endo
+  - parasitoidi
+  - patogeni
+  detritivori:
+  - saprofagi
+  - necrofagi
+  filtratori:
+  - acqua_dolce
+  - acqua_marina
+  - aria
+  ingegneri_ecosistema:
+  - costruttori_barriere
+  - bioturbatori
+  - architetti_suolo
+  specie_chiave:
+  - keystone_predator
+  - keystone_engineer
+  - keystone_pollinator
+  ombrello_indicatori:
+  - ombrello
+  - indicatori
+  invasive_minaccia:
+  - invasive
+  - minaccia_microbica
+  - biofouling
+  evento_ecologico:
+  - pulse_climatico
+  - disturbo_periodico
+synonyms:
+  prede_erbivori: consumatori_primari
+  specie_chiave_di_volta: specie_chiave

@@ -1,0 +1,95 @@
+pack_slug: cryosteppe
+display_name_it: "Foodweb Criosteppa"
+display_name_en: "Cryosteppe Foodweb"
+biome_slug: cryosteppe
+biome_legacy_slug: cryosteppe
+nodes:
+- id: tappeti_muschio
+  node_id: tappeti_muschio
+  legacy_slug: tappeti_muschio
+  display_name_it: "Tappeti di Muschio"
+  display_name_en: "Moss Carpets"
+  kind: resource
+- id: arbusti_alpini
+  node_id: arbusti_alpini
+  legacy_slug: arbusti_alpini
+  display_name_it: "Arbusti Alpini"
+  display_name_en: "Alpine Shrubs"
+  kind: resource
+- id: licheni_borea
+  node_id: licheni_borea
+  legacy_slug: licheni_borea
+  display_name_it: "Licheni Boreali"
+  display_name_en: "Boreal Lichens"
+  kind: resource
+- id: steppe-bison-mini
+  node_id: steppe-bison-mini
+  legacy_slug: steppe_bison_mini
+  display_name_it: "Bisonte Mini della Steppa"
+  display_name_en: "Mini Steppe Bison"
+  kind: species
+- id: aurora-gull
+  node_id: aurora-gull
+  legacy_slug: aurora_gull
+  display_name_it: "Gabbiano Aurorale"
+  display_name_en: "Aurora Gull"
+  kind: species
+- id: cryo-lynx
+  node_id: cryo-lynx
+  legacy_slug: cryo_lynx
+  display_name_it: "Lince Crio"
+  display_name_en: "Cryo Lynx"
+  kind: species
+- id: thaw-rot
+  node_id: thaw-rot
+  legacy_slug: thaw_rot
+  display_name_it: "Marciume del Disgelo"
+  display_name_en: "Thaw Rot"
+  kind: hazard
+- id: evento-brinastorm
+  node_id: evento-brinastorm
+  legacy_slug: evento_brinastorm
+  display_name_it: "Evento Brinastorm"
+  display_name_en: "Frost Storm Event"
+  kind: hazard
+- id: detrito
+  node_id: detrito
+  legacy_slug: detrito
+  display_name_it: "Detrito"
+  display_name_en: "Detritus"
+  kind: resource
+- id: carcasse
+  node_id: carcasse
+  legacy_slug: carcasse
+  display_name_it: "Carcasse"
+  display_name_en: "Carcasses"
+  kind: resource
+edges:
+- from: tappeti_muschio
+  to: steppe-bison-mini
+  type: grazing
+  weight: 0.6
+- from: arbusti_alpini
+  to: steppe-bison-mini
+  type: herbivory
+  weight: 0.4
+- from: steppe-bison-mini
+  to: cryo-lynx
+  type: predation
+  weight: 0.6
+- from: aurora-gull
+  to: arbusti_alpini
+  type: dispersal
+  weight: 0.5
+- from: detrito
+  to: steppe-bison-mini
+  type: detritus
+  weight: 0.4
+- from: carcasse
+  to: steppe-bison-mini
+  type: scavenging
+  weight: 0.3
+- from: thaw-rot
+  to: steppe-bison-mini
+  type: suppression
+  weight: 0.5

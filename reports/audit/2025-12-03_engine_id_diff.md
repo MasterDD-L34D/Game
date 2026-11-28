@@ -1,0 +1,11 @@
+# Diff ID engine (incoming vs core)
+
+Canonical reference exists: True (data/core/telemetry.yaml)
+
+## Events (incoming scan)
+
+on_adjacent_ally, on_damage_taken_then_counter, on_setback, on_ally_downed, on_ambush_initiated, on_coordinate_action, on_finisher_hit, on_first_blood_received, on_goal_blocked, on_initiative_win, on_isolation, on_skill_check_under_pressure, on_stealth_start, on_ally_close, on_ally_down, on_ally_ko, on_ambush, on_bond_range, on_damage_spike, on_enter_stealth, on_fail_check, on_first_blood, on_first_hit_taken, on_help_action, on_hit_then_counter, on_interrupt, on_no_ally_near, on_objective_denied, on_objective_loss, on_skill_check_high_dc, on_skill_clutch, on_solo_state, on_surprise_round, on_team_action, on_win_initiative, on_new_area_discovered, on_, on_xxx, onXxx
+
+## Stats (incoming scan)
+
+burst, supporto, melee_damage, paura, on_damage_taken_then_counter, counter, bond_aura, burst_damage, support, hashpath, support_power, limit_per_encounter, atk_melee_damage, atk_ranged_damage, burst_anaerobic, hpmax, ranged_damage, solo, evasion, initiative, stealth, aura_radius, charisma_checks, counter_chance, hp_max, on_initiative_win, on_skill_check_under_pressure, on_stealth_start, skill_success, stamina_regen, base_damage, known_counters, aura, counters, dodge, evasione, add_flat_initiative, alpha_damage, aurarange, energy_regen, evasionrate, health_max, independent_bonus, initiative_adv, initiative_advantage, initiativescore, link_aura, max_hp, melee_dmg, on_bond_range, on_damage_spike, on_enter_stealth, on_hit_then_counter, on_skill_check_high_dc, on_skill_clutch, on_solo_state, on_win_initiative, per_encounter_activation, ranged_dmg, skill, skill_check_bonus, skill_success_rate, solo_bonus, stealth_score, teamauraradius, bioma_encounters.yaml, hp, counters_reference, once_per_encounter, triad.core_emotion.paura, until_end_of_encounter, compute_known_counters, computeknowncounters, ghp_, ghp_xxx, knowncounters, pkg_aura_arm_adj, ranged, bond, charisma, damage, encounter, energy, health, hp_bonus, independent, interaural, item.counter, item.counters, melee, paura., s.known_counters, stamina, supporto., x

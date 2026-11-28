@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/generationSnapshot.schema.json",
+  "title": "GenerationSnapshot",
+  "type": "object",
+  "required": ["overview", "biomeSummary", "encounterSummary"],
+  "properties": {
+    "overview": {
+      "type": "object",
+      "required": ["objectives"],
+      "properties": {
+        "objectives": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "completion": {
+          "type": "object",
+          "required": ["completed", "total"],
+          "properties": {
+            "completed": { "type": "number" },
+            "total": { "type": "number" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "species": {
+      "type": "object",
+      "properties": {
+        "curated": { "type": "number", "minimum": 0 },
+        "total": { "type": "number", "minimum": 0 },
+        "shortlist": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "biomeSummary": {
+      "type": "object",
+      "required": ["validated", "pending"],
+      "properties": {
+        "validated": { "type": "number", "minimum": 0 },
+        "pending": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "encounterSummary": {
+      "type": "object",
+      "required": ["variants", "seeds", "warnings"],
+      "properties": {
+        "variants": { "type": "number", "minimum": 0 },
+        "seeds": { "type": "number", "minimum": 0 },
+        "warnings": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "runtime": {
+      "type": ["object", "null"],
+      "required": ["lastBlueprintId", "fallbackUsed", "validationMessages", "lastRequestId"],
+      "properties": {
+        "lastBlueprintId": { "type": ["string", "null"] },
+        "fallbackUsed": { "type": ["boolean", "null"] },
+        "validationMessages": { "type": "number", "minimum": 0 },
+        "lastRequestId": { "type": ["string", "null"] },
+        "error": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "qualityRelease": {
+      "type": "object",
+      "properties": {
+        "checks": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "passed": { "type": "number", "minimum": 0 },
+              "total": { "type": "number", "minimum": 0 },
+              "conflicts": { "type": "number", "minimum": 0 }
+            },
+            "additionalProperties": true
+          }
+        },
+        "traitDiagnosticsSummary": { "type": ["object", "null"] },
+        "traitDiagnosticsGeneratedAt": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": true
+    },
+    "qualityReleaseContext": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "notifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "channel": { "type": "string" },
+          "message": { "type": "string" },
+          "time": { "type": "string" },
+          "severity": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "publishing": {
+      "type": "object",
+      "properties": {
+        "artifactsReady": { "type": "number", "minimum": 0 },
+        "totalArtifacts": { "type": "number", "minimum": 0 },
+        "channels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "workflow": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "status": { "type": "string" },
+              "owner": { "type": "string" },
+              "eta": { "type": "string" },
+              "notes": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "history": {
+          "type": "array",
+          "items": { "type": "object", "additionalProperties": true }
+        },
+        "notifications": {
+          "type": "array",
+          "items": { "type": "object", "additionalProperties": true }
+        }
+      },
+      "additionalProperties": true
+    },
+    "suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "scope": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "action": { "type": "string" },
+          "payload": {}
+        },
+        "additionalProperties": true
+      }
+    },
+    "biomes": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "encounter": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "initialSpeciesRequest": {
+      "type": "object",
+      "properties": {
+        "trait_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "fallback_trait_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "request_id": { "type": "string" },
+        "seed": { "type": ["string", "number"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

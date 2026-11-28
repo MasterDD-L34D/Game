@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvoTactics NPG",
+  "type": "object",
+  "required": [
+    "id",
+    "biome",
+    "role",
+    "species",
+    "job",
+    "gear",
+    "tactics",
+    "rewards"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "biome": {
+      "type": "string",
+      "enum": [
+        "desert",
+        "cavern",
+        "badlands"
+      ]
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "vanguard",
+        "skirmisher",
+        "warden",
+        "artificer",
+        "invoker",
+        "harvester"
+      ]
+    },
+    "attitude": {
+      "type": "string"
+    },
+    "species": {
+      "type": "object",
+      "required": [
+        "id",
+        "morph_budget",
+        "parts"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "morph_budget": {
+          "type": "integer"
+        },
+        "parts": {
+          "type": "object"
+        }
+      }
+    },
+    "job": {
+      "type": "object",
+      "required": [
+        "id",
+        "rank"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "integer"
+        },
+        "actives": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "passives": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "traits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gear": {
+      "type": "object",
+      "required": [
+        "weapon",
+        "tags"
+      ],
+      "properties": {
+        "weapon": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "surges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tactics": {
+      "type": "object"
+    },
+    "social_hooks": {
+      "type": "object"
+    },
+    "rewards": {
+      "type": "object"
+    }
+  }
+}

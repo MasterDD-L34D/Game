@@ -1,0 +1,12 @@
+id: ferrocolonia-magnetotattica
+environment_affinity:
+  multibiome:
+  - BADLANDS
+derived_from_environment:
+  jobs_bias:
+  - warden
+network_bridge_roles:
+- ingegnere_ecosistema
+- sentinella
+biomes_add:
+- BADLANDS

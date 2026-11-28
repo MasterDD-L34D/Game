@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="120" height="80" aria-label="Skiv juvenile — Predatore Giovane">
+  <defs>
+    <radialGradient id="sandBgJ" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#e8d4a8"/>
+      <stop offset="100%" stop-color="#c4a574"/>
+    </radialGradient>
+    <linearGradient id="bodyJuv" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#9a7d52"/>
+      <stop offset="100%" stop-color="#6a4f30"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="80" fill="url(#sandBgJ)"/>
+  <ellipse cx="60" cy="70" rx="36" ry="3" fill="#000" opacity="0.22"/>
+  <!-- longer tail -->
+  <path d="M 26 56 Q 8 52 4 60 Q 6 50 14 48 Q 28 48 36 52 Z" fill="url(#bodyJuv)" stroke="#3a2818" stroke-width="0.9"/>
+  <!-- body bigger -->
+  <ellipse cx="60" cy="56" rx="26" ry="12" fill="url(#bodyJuv)" stroke="#3a2818" stroke-width="0.9"/>
+  <!-- ridge along back (calibrazione visual cue) -->
+  <path d="M 40 47 Q 50 44 60 44 Q 70 44 80 47" stroke="#2a1a0e" stroke-width="1.2" fill="none"/>
+  <!-- legs (4, more defined) -->
+  <path d="M 46 66 L 44 72 M 50 66 L 52 72" stroke="#3a2818" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M 70 66 L 68 72 M 74 66 L 76 72" stroke="#3a2818" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- claws hint -->
+  <path d="M 44 72 L 42 74 M 44 72 L 44 74 M 44 72 L 46 74" stroke="#1a1208" stroke-width="0.5"/>
+  <path d="M 76 72 L 74 74 M 76 72 L 76 74 M 76 72 L 78 74" stroke="#1a1208" stroke-width="0.5"/>
+  <!-- head -->
+  <ellipse cx="88" cy="52" rx="11" ry="9" fill="url(#bodyJuv)" stroke="#3a2818" stroke-width="0.9"/>
+  <!-- eye watching -->
+  <ellipse cx="92" cy="50" rx="2.2" ry="2.8" fill="#1a1a1a"/>
+  <circle cx="92.5" cy="49" r="0.8" fill="#ffd864"/>
+  <!-- mouth waiting -->
+  <path d="M 94 54 Q 96 55 99 54" stroke="#1a1208" stroke-width="0.7" fill="none"/>
+  <text x="60" y="14" text-anchor="middle" fill="#3a2818" font-family="monospace" font-size="9" font-weight="bold">PRED. GIOVANE</text>
+  <text x="60" y="76" text-anchor="middle" fill="#5a4a2f" font-family="monospace" font-size="6" font-style="italic">"Aspetto. È calibrazione."</text>
+</svg>

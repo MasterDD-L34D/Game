@@ -1,0 +1,163 @@
+/* V1 Onboarding Phase B — 60s identity choice overlay */
+
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  background: radial-gradient(circle at 50% 50%, #18181c 0%, #050506 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.25s ease-out;
+}
+
+.onboarding-overlay.onboarding-fade-out {
+  opacity: 0;
+}
+
+.onboarding-stage {
+  max-width: 920px;
+  width: 92%;
+  padding: 2.5rem 2rem;
+  color: #eee;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  text-align: center;
+}
+
+/* ── Briefing stage ───────────────────────────────────────── */
+.onboarding-briefing {
+  opacity: 0;
+  transition: opacity 1.2s ease-in;
+}
+.onboarding-briefing.visible {
+  opacity: 1;
+}
+.onboarding-briefing-line {
+  font-size: 1.8rem;
+  font-style: italic;
+  margin: 1.2rem 0;
+  color: #e8d4a8;
+  text-shadow: 0 0 8px rgba(232, 212, 168, 0.25);
+  letter-spacing: 0.03em;
+}
+
+/* ── Choices stage ────────────────────────────────────────── */
+.onboarding-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.onboarding-countdown {
+  font-size: 1.4rem;
+  color: #a0a0a0;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+.onboarding-countdown-warn {
+  color: #e85b5b;
+  font-weight: 700;
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+.onboarding-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+@media (max-width: 720px) {
+  .onboarding-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.onboarding-card {
+  background: linear-gradient(180deg, #1f1f24 0%, #15151a 100%);
+  border: 2px solid #3a3a44;
+  border-radius: 12px;
+  padding: 1.5rem 1.2rem;
+  color: #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-family: inherit;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.onboarding-card:hover:not(:disabled) {
+  border-color: #e8d4a8;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(232, 212, 168, 0.2);
+}
+.onboarding-card.selected {
+  border-color: #e8d4a8;
+  background: linear-gradient(180deg, #2c2820 0%, #1a1810 100%);
+  box-shadow: 0 0 20px rgba(232, 212, 168, 0.4);
+}
+.onboarding-card.auto::after {
+  content: ' (auto)';
+  font-size: 0.85rem;
+  color: #a0a0a0;
+}
+.onboarding-card-grid.picked .onboarding-card:not(.selected) {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.onboarding-card-label {
+  font-size: 1.3rem;
+  margin: 0 0 0.8rem 0;
+  color: #e8d4a8;
+  font-weight: 600;
+}
+.onboarding-card-narrative {
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ccc;
+  margin: 0 0 1rem 0;
+}
+.onboarding-card-trait {
+  font-size: 0.8rem;
+  color: #888;
+  font-family: 'Menlo', 'Consolas', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* ── Transition stage ─────────────────────────────────────── */
+.onboarding-transition {
+  opacity: 0;
+  transition: opacity 1.5s ease-in;
+}
+.onboarding-transition.visible {
+  opacity: 1;
+}
+.onboarding-transition-line {
+  font-size: 2.4rem;
+  font-style: italic;
+  color: #e8d4a8;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 12px rgba(232, 212, 168, 0.4);
+}
+
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

@@ -1,0 +1,96 @@
+---
+title: 'Badlands S1 calibration -- ferrimordax elite + ambient pair (#2850 follow-up)'
+workstream: ops-qa
+category: playtest
+doc_status: active
+doc_owner: claude-code
+last_verified: '2026-06-18'
+language: en
+tags: [playtest, calibration, badlands, species, n100, ai-driven]
+---
+
+# Badlands S1 calibration -- ferrimordax elite + ambient pair
+
+S1 of the #2850 5-stub calibration (master-dd ratified plan:
+`docs/planning/2026-06-18-species-calib-5stub-ratification.md`). Two NEW badlands
+scenarios (the ratified pilot `enc_badlands_pilot_01` [0.40,0.60] is left untouched).
+
+Runtime: node 22 (canonical). Seed 424242. Host 127.0.0.1, 4 shards base-port 3400
+(prod 3334/3341 untouched). Multi-policy via calibrate_parallel.
+
+## Adapter role-map extension (prereq)
+
+The 5 #2850 species use legacy `role_trofico` (`predatore_terziario`,
+`consumatore_primario/secondario`, `decompositore`) absent from the adapter's
+`ROLE_TROFICO_MAP` -> all defaulted to `PREDATOR`. Extended the map (blast radius =
+only these 5): `predatore_terziario->APEX`, `consumatore_secondario->PREDATOR`,
+`consumatore_primario->PREY`, `decompositore->SUPPORT`. Canonical role_trofico kept
+(master-dd field); the registry warning is a tracked follow-up. Smoke-verified:
+ferrimordax -> APEX (hp 13, T3), rubrospina -> PREDATOR, ferriscroba -> SUPPORT.
+
+## enc_badlands_elite_01 -- ferrimordax (RATIFIED)
+
+Roster: ferrimordax-rutilus (T3 -> APEX, sole anchor) + ferrocolonia-magnetotattica
+(PREDATOR) + sand-burrower (PREY) + nano-rust-bloom (T3 HAZARD). Lever =
+`badlands_elite.enemy_damage_multiplier`.
+
+| edm  | N   | WR   | note                              |
+| ---- | --- | ---- | --------------------------------- |
+| 1.5  | 10  | 0.70 | 1-apex too soft                   |
+| 1.0  | 10  | 0.00 | 2-apex roster too hard (rejected) |
+| 2.0  | 40  | 0.15 | floor                             |
+| 1.8  | 40  | 0.30 | ceiling                           |
+| 2.0  | 10  | 0.20 | probe                             |
+| 1.9  | 100 | 0.16 | floor plateau                     |
+| 1.85 | 100 | 0.16 | floor plateau (== 1.9)            |
+| 1.8  | 100 | 0.29 | pre-cliff (ceiling)               |
+
+**RATIFIED: edm 1.85 -> WR 0.16, N=100, in-band [0.10,0.30]** (defeat 0.84, kd 1.04).
+Chosen on the stable 0.16 plateau (1.85 == 1.9 forensic).
+
+**STEEP LEVER (hc06-style cliff)**: ~13pp WR drop over 0.05 edm (1.8->0.29 vs
+1.85->0.16); the band mid (~0.22) is not reachable. **RESOLVED 2026-06-19 (master-dd
+"procedi con l'ottimale") -- band widened [0.15,0.30] -> [0.10,0.30]** (+ defeat
+[0.55,0.85] -> [0.55,0.90]), edm 1.85 kept. The widen absorbs the steep-lever N=100 CI
+variance (WR 0.16 CI95 ~[0.10,0.24]) so a same-knob re-run cannot read OOB-low on an
+unlucky seed -- mirrors the hc06 steep-lever resolution (decision A: widen band
+asymmetrically toward the variance, keep knob). Flatter-knob (enemy HP) was rejected:
+hc06 proved HP can cliff too (boss_hp WAS its steep lever), so it offers no guaranteed
+flatness and would need a re-calibration that changes the ratified WR. The scenario is
+non-oracle (out of the gated suite), so a centered band is not required.
+
+## enc_badlands_ambient_01 -- rubrospina + ferriscroba (DESIGNED-WINNABLE)
+
+Roster: rubrospina-velox (PREDATOR) + ferriscroba-detrita (SUPPORT) + sand-burrower +
+ferrocolonia. **NOT a balance-oracle** (master-dd 2026-06-18): the T1 ambient flavor
+pair die before dealing damage -> the party sweeps. WR 1.0 at N=10 AND N=40 even at
+edm 2.2; the damage knob barely moves WR (enemies dead before they hit). Re-classified
+as designed-winnable (tutorial-01-05 category). edm reset to 1.0 (neutral). The
+"calibration" = confirm adapter stats sane (PREDATOR/SUPPORT, no warnings) + the
+encounter stays winnable (floor band [0.70,1.00] for smoke). WR 1.0 N=40 -> winnable.
+
+## Archived measurement (greedy-policy diagnostic)
+
+The merged N=100 outputs are archived per the AI-playtest SoT contract rule 7
+(`docs/process/CANONICAL-AI-PLAYTEST.md` -- the win-rates above were originally
+asserted in-table only, with no machine-measured `.json`):
+
+- `docs/playtest/2026-06-18-badlands_elite_01-n100-merged.json` -- elite, edm 1.85
+- `docs/playtest/2026-06-18-badlands_ambient_01-n100-merged.json` -- ambient, edm 1.0
+
+**Single-policy (greedy) -- NOT a multi-policy canonical oracle.** Every run uses
+`policy: greedy`. These adapter scenarios are intentionally outside the gated oracle
+manifest (`canonical-suite.yaml`), so they are calibrated greedy-only -- mirroring the
+ratified `enc_badlands_pilot_01` precedent (also greedy-only). The multi-policy band
+requirement (SoT 1.1 / rule 6) applies to the gated oracles (hc06/hc07), not to these
+diagnostics; do NOT treat a greedy-only archive as a canonical multi-policy oracle.
+
+Re-run 2026-06-19 (node 22.22.3, seed 424242, greedy policy, 4 shards base-port 3410,
+`tools/py/calibrate_parallel.py`): elite WR **0.16** (defeat 0.84, kd 1.043), ambient
+WR **1.0** (defeat 0.0) -- both reproduce the merged (greedy) claims exactly. Steep-lever
+caveat unchanged.
+
+## vc
+
+The 5 species carry heuristic vc (S0). Telemetry-driven vc refinement (N>=50 via
+vcScoring) = S3, deferred.

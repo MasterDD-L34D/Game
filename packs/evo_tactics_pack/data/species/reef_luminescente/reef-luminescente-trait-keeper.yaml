@@ -1,0 +1,15 @@
+resistance_archetype: adattivo
+id: reef-luminescente-trait-keeper
+notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- reef_luminescente
+derived_from_environment:
+  suggested_traits:
+  - antenne_waveguide
+  - biofilm_glow
+  - branchie_microfiltri
+  - cartilagini_biofibre
+  - coralli_partner
+  - enzimi_antipredatori_algali
+  - epitelio_fosforescente
+  - ghiandole_inchiostro_luce

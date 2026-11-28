@@ -1,0 +1,43 @@
+# Pack Manifest — Evo-Tactics Ecosystem Pack v1.7
+# Pattern O2 (OpenRA mod.yaml).
+# Lista esplicita di tutti i file dati caricati dal engine.
+# Il validator legge questo manifest, non glob — cattura file drift.
+#
+# Vedi docs/planning/tactical-architecture-patterns.md §O2
+
+version: "1.7.0"
+pack_id: evo_tactics_pack
+
+# --- Balance data (consumato da rules engine) ---
+balance:
+  - data/balance/trait_mechanics.yaml
+  - data/balance/action_speed.yaml
+  - data/balance/ai_intent_scores.yaml
+  - data/balance/ai_profiles.yaml
+  - data/balance/terrain_defense.yaml
+  - data/balance/movement_profiles.yaml
+  - data/balance/species_resistances.yaml
+
+# --- Content data (consumato da generation + backend) ---
+content:
+  - data/species.yaml
+  - data/biomes.yaml
+  - data/biome_aliases.yaml
+  - data/mating.yaml
+  - data/telemetry.yaml
+
+# --- Ecosystem/foodweb data ---
+ecosystems:
+  - data/ecosystems/
+  - data/ecosistemi/
+  - data/foodwebs/
+  - data/npg/
+
+# --- Species definitions ---
+species:
+  - data/species/
+
+# --- Validation outputs (non caricati dal engine, solo CI) ---
+validation:
+  - out/validation/last_report.json
+  - out/validation/last_report.html

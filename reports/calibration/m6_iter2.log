@@ -1,0 +1,47 @@
+Could not find platform independent libraries <prefix>
+[1/10] T rounds=3 boss_hp=40 pa=8
+[2/10] T rounds=3 boss_hp=40 pa=8
+[3/10] T rounds=3 boss_hp=40 pa=8
+[4/10] T rounds=3 boss_hp=40 pa=8
+[5/10] T rounds=3 boss_hp=40 pa=8
+[6/10] T rounds=3 boss_hp=40 pa=8
+[7/10] T rounds=3 boss_hp=40 pa=8
+[8/10] T rounds=3 boss_hp=40 pa=8
+[9/10] T rounds=3 boss_hp=40 pa=8
+[10/10] T rounds=3 boss_hp=40 pa=8
+
+Wrote reports/calibration/m6_iter2.json
+
+=== AGGREGATE ===
+{
+  "N": 10,
+  "win_rate": 0.0,
+  "win_count": 0,
+  "loss_count": 0,
+  "timeout_count": 10,
+  "turns_avg": 3,
+  "turns_median": 3.0,
+  "turns_stdev": 0.0,
+  "turns_min": 3,
+  "turns_max": 3,
+  "turns_hist": {
+    "1-5": 10,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 0,
+    "21-30": 0,
+    "31-40": 0
+  },
+  "kd_avg": 0.0,
+  "kd_median": 0.0,
+  "dmg_dealt_avg": 0,
+  "dmg_taken_avg": 0,
+  "boss_hp_remaining_avg_on_loss": null,
+  "players_alive_avg_on_win": null,
+  "ai_intent_distribution": {
+    "Critical|move": 40,
+    "Critical|unknown": 20
+  },
+  "elapsed_sec": 143.7,
+  "failures": 0
+}

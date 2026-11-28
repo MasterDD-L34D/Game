@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 7,
+  "generations": 50,
+  "biomes": {
+    "savana": {
+      "environment": { "temperature": 0.7, "food": 0.5, "predators": 0.6, "volatility": 0.04 },
+      "species": [
+        {
+          "name": "dune_stalker",
+          "population": 80,
+          "traits": { "speed": 0.7, "size": 0.6, "resistance": 0.5 },
+          "reproduction_rate": 0.8,
+          "mutation_rate": 0.1,
+          "mutation_strength": 0.05
+        }
+      ]
+    },
+    "caverna_risonante": {
+      "environment": { "temperature": 0.4, "food": 0.4, "predators": 0.5, "volatility": 0.05 },
+      "species": [
+        {
+          "name": "bat_swarm",
+          "population": 100,
+          "traits": { "speed": 0.6, "size": 0.3, "resistance": 0.6 },
+          "reproduction_rate": 1.0,
+          "mutation_rate": 0.12,
+          "mutation_strength": 0.06
+        }
+      ]
+    },
+    "rovine_planari": {
+      "environment": { "temperature": 0.5, "food": 0.85, "predators": 0.15, "volatility": 0.04 },
+      "species": [
+        {
+          "name": "construct",
+          "population": 50,
+          "traits": { "speed": 0.4, "size": 0.7, "resistance": 0.8 },
+          "reproduction_rate": 0.6,
+          "mutation_rate": 0.05,
+          "mutation_strength": 0.03
+        }
+      ]
+    },
+    "cryosteppe_convergence": {
+      "environment": { "temperature": 0.05, "food": 0.2, "predators": 0.85, "volatility": 0.06 },
+      "species": [
+        {
+          "name": "cryo_lupus",
+          "population": 70,
+          "traits": { "speed": 0.65, "size": 0.55, "resistance": 0.75 },
+          "reproduction_rate": 0.75,
+          "mutation_rate": 0.1,
+          "mutation_strength": 0.05
+        }
+      ]
+    }
+  }
+}

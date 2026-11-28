@@ -1,0 +1,25 @@
+{
+  "schema_version": "2.0",
+  "id": "marchio_predatorio",
+  "label": "i18n:traits.marchio_predatorio.label",
+  "famiglia_tipologia": "Comportamentale/Istinto",
+  "fattore_mantenimento_energetico": "Basso (passivo)",
+  "tier": "T1",
+  "slot_profile": {
+    "core": "strategia",
+    "complementare": "istinto"
+  },
+  "slot": [],
+  "sinergie": [
+    "legame_di_branco"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.marchio_predatorio.mutazione_indotta",
+  "uso_funzione": "i18n:traits.marchio_predatorio.uso_funzione",
+  "spinta_selettiva": "i18n:traits.marchio_predatorio.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": false
+  },
+  "debolezza": "i18n:traits.marchio_predatorio.debolezza"
+}

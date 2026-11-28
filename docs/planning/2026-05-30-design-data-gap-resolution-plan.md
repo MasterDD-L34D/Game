@@ -1,0 +1,195 @@
+---
+title: 'Design-data gap resolution plan — 4 wave (decisioni master-dd bakate)'
+workstream: cross-cutting
+category: planning
+doc_status: active
+doc_owner: claude-code
+last_verified: '2026-05-30'
+source_of_truth: false
+language: it
+review_cycle_days: 30
+tags: [planning, gap-resolution, roadmap, design-data, atlas, waves]
+---
+
+# Design-data gap resolution plan (2026-05-30)
+
+> Piano di risoluzione dei gap mappati in [`docs/guide/DESIGN-DATA-ATLAS.md`](../guide/DESIGN-DATA-ATLAS.md)
+> (8 sistemi). Ogni gap -> resolution mode + effort + dipendenza + wave + execution-mode.
+> Decisioni master-dd 2026-05-30 bakate. **Principio** (dai 5 meta-pattern atlas): _wire
+> surface non costruire engine_ + _non aggiungere dato finche l'esistente non e wired_ +
+> _decisioni sbloccano_ -> ordino per ROI/sblocco, non per dimensione.
+
+> **REFRAME 2026-05-30** (post census [#2454](../superpowers/specs/2026-05-30-ecologia-combat-disconnect-strategy.md)):
+> il census ecologia-combat dimostra che la keystone di Wave 3/4 NON e il backfill-broad ma
+> l'**adapter ecologia->combat** -- 0/53 specie canoniche hanno hp/mod/dc (solo 6 tutorial).
+> Senza adapter ogni specie backfillata resta inusabile in combat. Wave 3 ristrutturata
+> adapter-first + backfill YAGNI; D4 demoted (foodweb-only); nuova D6 (rovine_planari).
+> Wave 1/2 invariate (gap ortogonali: mbti/ennea surface + combat-orphan engine).
+
+## Decisioni master-dd LOCKED (2026-05-30)
+
+- **D1 — Orphan combat (4)**: **WIRE TUTTI** (revive-culture pieno). morale + cumstate + woundperma + vcsnap.
+- **D2 — Pathfinder 1211**: **FULL SEED PASS** (30-50 creature/bioma in tutti i foodweb).
+- **D3 — Sequencing**: plan-doc-first (questo doc) -> esecuzione per wave sotto.
+- **D3b — Adapter-first reframe (2026-05-30, post census #2454)**: la keystone Wave 3/4 e l'adapter ecologia->combat (deriva hp/mod/dc deterministici da threat_tier/role_trofico + trait modifier). Backfill-broad = YAGNI (solo biomi/specie toccati dal gameplay). Pilota verticale su badlands prima di generalizzare. GAP-C (mondo a inizio partita) resta POST-MVP.
+- **D5 — SPECIES_BY_JOB (RESOLVED 2026-05-30)**: SoT = `species.jobs_bias` (1:many, gia esistente, 23/81 specie); `SPECIES_BY_JOB` = indice inverso **DERIVATO** a build-time (job -> specie eligibili). **soft-gate** (player non hard-locked; jobs_bias resta anche AI-bias). Sostituire l'hardcoded map (`hardcoreScenario.js:90-95`) con l'indice derivato (anti-drift L-075). Backfill `jobs_bias` per coprire gli 11 job. **Impl deferita al player-roster UI** (unico consumer reale, non ancora wired -- YAGNI): la SHAPE e decisa, l'infra si costruisce col consumer.
+- **D6 — rovine_planari (RESOLVED 2026-05-30)**: **NON toccare hardcore_06/07** (content shipped + bande ratificate 15-25%/30-50%, revive-culture). Riempire le 10 specie rovine_planari come **NUOVO contenuto** (Wave 3/4, YAGNI: solo se il gameplay le tocca) per encounter futuri. Retrofit di hardcore_06/07 con specie reali = **decisione separata gated dopo** (richiede band re-ratify N=40).
+- **D7 -- Bestiary unify, Option 1 (RESOLVED 2026-05-30, PR #2490)**: il canon (53 SoT) e le creature gameplay (43 pack) erano due bestiari quasi disgiunti (audit CANON-RECONCILE: 1 sola sovrapposizione; le "85 schede" erano 38 trait-keeper + 4 evento + 43 creature). Verdetto master-dd = **UNIRE in un unico canon**. Esecuzione a 2 strati: **Strato 1 (DONE)** = promozione STRUTTURALE delle 22 creature dei biomi gameplay multi-specie (badlands/cryosteppe/deserto_caldo/foresta_temperata) in `species_catalog.json` (53->75) come stub flaggati `_promote_stub` (`source: gameplay-promote`); **Strato 2 (follow-up)** = authoring incrementale dei campi design. Esclusi di proposito: rovine_planari (D6), tutorial generics (placeholder scenario), thin-biomi (YAGNI). Dettaglio: `docs/planning/2026-05-30-canon-reconcile-audit.md`.
+
+## Decisioni ANCORA pending (gate-ano Wave 3-4)
+
+- **D4 — biome-assignment heuristic** (DEMOTED post #2454): come assegnare biome_affinity alle 32 specie senza? (Phase-3 heuristic ADR-2026-05-15: functional_signature + clade + trait_plan). **Non piu critical-path**: serve a foodweb-membership (GAP-A), NON alla combat-usabilita (quella e l'adapter D3b). Si risolve per-bioma quando si estende un ecosystem.yaml a un bioma gameplay-touched.
+- **D5 + D6 — RESOLVED 2026-05-30** -> spostate in "Decisioni master-dd LOCKED" sopra (D5 = derive-from-jobs_bias DRY + impl deferita roster-UI; D6 = leave-hardcore + fill-as-new-content).
+- **L2-L5 lore**: resta gated da playtest AI-driven canonico (ADR-2026-05-18-df-levels, gia deciso). NON sblocca finche core-loop non validato.
+
+> Stato gate Wave 3-4: D3/D3b LOCKED, D4 demoted (foodweb-only, non critical-path), D5/D6 RESOLVED. Resta pending solo L2-L5 (playtest-gated). Il critical-path Wave 3 (adapter) NON e gated da decisioni aperte.
+
+---
+
+## Wave 1 — surface quick-win (NOW, max ROI, zero nuovo engine)
+
+| Ticket                   | Gap                                                | Sistema    | Mode          | Effort | Dip     |
+| ------------------------ | -------------------------------------------------- | ---------- | ------------- | ------ | ------- |
+| TKT-P4-ENNEAVOICE-FE     | ennea-voice endpoint 796 righe = dead surface      | mbti/ennea | frontend chip | ~4h    | nessuna |
+| TKT-P4-DIALOGUE-COLORS   | mbtiPalette helper shipped, pipeline non auto-wrap | mbti/ennea | frontend      | ~2h    | nessuna |
+| TKT-P4-CONVICTION-BADGES | conviction badge backend-computed, no render       | mbti/ennea | frontend      | ~1h    | nessuna |
+
+Outcome: **P4 🟡++ -> 🟢** (surface 60%->90%). Indipendente, eseguibile subito. Allineato meta-pattern #1 (wire surface).
+
+## Wave 2 — backend wiring (chip/sessione backend; D1 DECISO)
+
+| Ticket                | Gap                                                  | Mode         | Effort | Nota                                      |
+| --------------------- | ---------------------------------------------------- | ------------ | ------ | ----------------------------------------- |
+| TKT-ORPHAN-MORALE     | morale.js shipped #1959, mai wired roundOrchestrator | backend chip | ~3h    | D1 WIRE. P6 fairness                      |
+| TKT-ORPHAN-CUMSTATE   | cumulativeStateTracker.js Phase-7 TODO, 0 caller     | backend chip | ~4h    | D1 WIRE. sblocca trigger mutation Phase-6 |
+| TKT-ORPHAN-WOUNDPERMA | write-path morto (read live)                         | backend chip | ~3h    | D1 WIRE. apply wound in combat            |
+| TKT-ORPHAN-VCSNAP     | test-only Godot mirror                               | backend chip | ~2h    | D1 WIRE. debrief broadcast                |
+| TKT-JOB-PHASEC        | 24 passive-tag expansion senza handler               | backend chip | ~12h   | progressionEngine handlers + test         |
+
+Outcome: combat engine fully wired (34/34); job expansion perks attivi. Smoke obbligatorio (backend) + AI regression. Conflitto atteso minimo (chip 1 SEED gia merged).
+
+## Wave 3 — adapter-first + data backfill YAGNI (post census #2454; D3b)
+
+> **Ristrutturata 2026-05-30.** Keystone = adapter (TKT-ADAPTER-ECO-COMBAT), NON backfill-broad.
+> Ordine interno: adapter+pilota -> census/reconcile (data hygiene) -> backfill solo-gameplay-touched.
+> D4 non gate piu il critical-path. L'adapter e nuovo engine, ma e il _ponte minimo mancante_ (eccezione
+> motivata al meta-pattern "wire surface non engine": senza il ponte il materiale esistente resta morto).
+
+| Ticket                     | Gap                                                                                                                                                                                                                                                       | Mode                                                | Effort                | Dip                          |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | --------------------- | ---------------------------- |
+| TKT-ADAPTER-ECO-COMBAT     | 0/53 specie con hp/mod/dc; manca il ponte ecologia->combat. **Keystone.** Deriva stat deterministiche da threat_tier/role_trofico + trait modifier; pilota badlands (ri-ambienta 1 scenario su specie reali -> GAP-A accetta rinforzi veri, non fallback) | engine + pilota                                     | ~Mh (spec)            | D3b. **band re-verify N=40** |
+| TKT-SPECIE-CANON-RECONCILE | 85 dir-bioma vs 53 SOT canon non 1:1 + 13/14 creature-scenario orfane -> censire e ricondurre                                                                                                                                                             | data hygiene                                        | audit                 | -                            |
+| TKT-SPECIE-LIFECYCLE       | 38/53 specie senza lifecycle YAML                                                                                                                                                                                                                         | data-gen (seed_lifecycle_stubs.py esiste) + content | incrementale (OD-008) | -                            |
+| TKT-ECO-YAML-GEN           | 17/20 biomi senza ecosystem.yaml risolvibile -- **YAGNI: solo biomi gameplay-touched**                                                                                                                                                                    | data-gen                                            | ~Nh/bioma             | D4 (qualita, per-bioma)      |
+| TKT-SPECIE-BIOME           | 32/53 specie senza biome_affinity -- solo per i biomi estesi                                                                                                                                                                                              | data-gen heuristic                                  | ~Nh                   | D4 (demoted)                 |
+| TKT-TRAIT-RECONCILE        | 104 trait glossary senza meccanica + tassonomia 57->106                                                                                                                                                                                                   | data hygiene                                        | audit                 | -                            |
+
+Outcome: l'adapter sblocca la combat-usabilita del materiale esistente (pilota badlands verticale); il backfill diventa mirato (YAGNI) non broad. Foodweb consumer (#2447) riceve ecosistemi reali per i biomi che servono. NON prima di Wave 2.
+
+### Stato esecuzione Wave 3 (aggiornato 2026-05-30, post #2475 + #2490)
+
+- **TKT-ADAPTER-ECO-COMBAT** -- ✅ **DONE**. Phase 1 (#2460) + 2a pilota badlands (#2468) +
+  2b calibrazione N=40 (#2475, band badlands WR [0.40,0.60] ratificata GREEN, lever =
+  `turn_limit_defeat=37`, adapter DEFAULT_KNOBS invariati). Ref:
+  `docs/playtest/2026-05-30-badlands-pilot-calibration.md`.
+- **TKT-SPECIE-CANON-RECONCILE** -- ✅ **DONE (Strato 1)** via D7/#2490 (vedi sopra). Audit
+  completo + decisione unify + 22 promosse (53->75). Strato 2 = follow-up sotto.
+- **TKT-SPECIE-BIOME** -- ✅ **quasi-chiuso**: il claim "32/53 senza biome*affinity" e'
+  **STALE** -- ground-truth 2026-05-30 = **53/53 ce l'hanno**. Tool D4 (`suggest/apply*
+  biome_affinity`) shipped (#2466/#2473/#2476). Resta solo per-bioma se si estende un
+  ecosystem.yaml nuovo.
+- **TKT-ECO-YAML-GEN** -- 🟡 tool shipped (#2476); 5/20 biomi hanno ecosystem.yaml.
+  YAGNI: generare per-bioma quando entra nel gameplay.
+- **TKT-SPECIE-LIFECYCLE** -- 🟡 15/53 (38 mancanti). `seed_lifecycle_stubs.py` esiste.
+  Incrementale (data-gen, delegabile swarm).
+- **TKT-TRAIT-RECONCILE** -- ✅ **DONE** (2026-05-31, #2501/#2507). Audit: glossary 604 flavor /
+  active_effects 502 mechanic (4 orphan-mech, 106 flavor-only); 50 `TR-####` legacy refs su 10
+  specie canon erano dangling -> **remappati a slug glossary** (la mappa esisteva in
+  `data/external/evo/traits/TR-####.json`) + **guard CI** nuovo (`envelope-b` valida ogni
+  catalog trait_ref). Ref: `docs/planning/2026-05-31-trait-reconcile-audit.md`.
+
+#### Aggiornamento 2026-05-31 (sessione HUB lunga) -- Strato-2 + lifecycle + eventi
+
+- **TKT-SPECIE-STRATO2-AUTHOR** -- ✅ **DONE (derivabile)** (#2501/#2503/#2508/#2511). Le 22
+  creature `gameplay-promote`: **16 reali** ora hanno `trait_refs` (da suggested_traits glossary-
+  valid) + **prosa lore completa** (scientific_name/genus/epithet/classification/
+  functional_signature/visual_description/interactions/constraints), grounded su pack-data +
+  foodweb + naming-styleguide + voce "tassonomico/curioso/naturalista" (vault GM manuals come
+  metodo, no IP). Resta solo: lifecycle per-fase authoring (aspect/sprite, creativo) + ecotypes
+  cluster (vocab vincolato).
+- **TKT-SPECIE-LIFECYCLE (16 promosse)** -- ✅ **DONE stub** (#2514). 5-fasi grounded (biome-native)
+  per le 16 reali; linkati in catalog. Le altre 38 legacy = ancora da seedare (data-gen swarm).
+- **Eventi mal-promossi** -- ✅ **DONE** (#2515/#2517). 6 entry `role=evento_ecologico` (mis-promosse
+  da #2490) flaggate `is_event:true` (counts invariati) + filtro ETL `promote_gameplay_to_canon.py`
+  - esclusione dal `species-canonical-index.json` (mirror UI/Game-Database) con stats ricalcolati.
+
+#### Follow-up aperti da CANON-RECONCILE/D7 (nuovi ticket)
+
+| Ticket                       | Cosa                                                                                                                  | Mode            | Gate / nota                                                                                                            |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| TKT-SPECIE-STRATO2-AUTHOR    | authoring campi design delle stub `_promote_stub`                                                                     | writer / swarm  | ✅ **derivabile DONE** (16/22, #2501..#2511); resta lifecycle per-fase authoring (creativo) + ecotypes cluster (vocab) |
+| TKT-SPECIE-TRAITKEEPER-RELOC | spostare 38 `*-trait-keeper` + 4 `evento-*` fuori da `packs/.../species/` (non-specie in cartella errata)             | data hygiene    | **gated**: serve consumer-trace completo (pack-catalog gen + biome trait loader) prima di muovere                      |
+| TKT-SPECIE-TIER-FIX          | 6 creature gameplay con solo `threat_tier` mancante (magneto-ridge/slag-veil/aurora-bridge/zephyr/glowcap/myco-spire) | balance         | assegnare tier = giudizio balance, fare se servono in combat                                                           |
+| TKT-D6-ROVINE-CONTENT        | 10 creature rovine_planari = nuovo contenuto D&D-style (threat_tier+role+design)                                      | writer/designer | **D6 LOCKED gate**; escluse dall'unify                                                                                 |
+
+Stato gate post-2026-05-30: il **critical-path Wave 3 (adapter) e CHIUSO**; CANON-RECONCILE
+Strato 1 chiuso. Resta backfill incrementale YAGNI (lifecycle/eco-yaml/strato2) + audit
+TRAIT-RECONCILE + i 4 follow-up sopra. Wave 4 (Pathfinder-seed): **solo il gate adapter e'
+sgombro** (✅). Il secondo gate -- `ecosystem.yaml` per bioma -- resta APERTO (5/20 biomi),
+e TKT-PATHFINDER-SEED dipende da ENTRAMBI (adapter + ecosystem.yaml): NON avviare il seed
+30-50h prima che gli ecosystem.yaml dei biomi target esistano (Codex #2491 P2).
+
+## Wave 4 — content + Pathfinder seed (writer/designer; D2 DECISO; L2-L5 gated)
+
+| Ticket                    | Gap                                                                      | Mode             | Effort      | Nota                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------ | ---------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| TKT-PATHFINDER-SEED       | 1211 Pathfinder -> foodweb                                               | designer pass    | **~30-50h** | D2 FULL. Dip: **adapter (D3b)** + ecosystem.yaml (Wave 3) -- seedare specie con stat via adapter |
+| TKT-LORE-CANON            | premessa macro DRAFT -> docs/core                                        | writer/master-dd | ~2-4h       | + L2-L5 footnote gated                                                                           |
+| TKT-LORE-FRATTURA-SPECIES | 4 specie Frattura (Polpo/Sciame/Leviatano/Simbionte) non in species.yaml | designer         | ~18h        | arco flagship                                                                                    |
+| TKT-LORE-BRIEFINGS        | ~20 briefing encounter (narrative_pre/post)                              | writer           | ~12h        | writer bottleneck                                                                                |
+| TKT-CODEX                 | codex schema vuoto (0 entry)                                             | writer           | ~10h (M2)   | diegetic unlock                                                                                  |
+
+Gated (post-playtest, NON in questo plan): L3 artefatti/relics · L4 narrative surface full · L5 "losing is fun" · lineage-narrative UI · Chronicle/EventLog.
+
+---
+
+## Dipendenze (grafo)
+
+```
+Wave1 (ennea-voice FE) ---- indipendente ----> esegui ORA
+Wave2 (orphan-wire D1 + PhaseC) -- indipendente -> chip backend
+ADAPTER (D3b, keystone) --gate--> Wave3 backfill utile + Wave4 Pathfinder-seed
+D4 (biome-heuristic, demoted) --gate per-bioma--> eco-yaml di QUEL bioma (non critical-path)
+Wave3 (adapter + ecosystem.yaml mirati) --gate--> Wave4 (Pathfinder-seed: stat via adapter)
+D6 (rovine_planari) --gate--> specie di hardcore_06/07
+L2-L5 lore --gate--> playtest AI-driven canonico (CANONICAL-AI-PLAYTEST.md)
+```
+
+Sequenza consigliata: **Wave1 (ora) -> Wave2 (chip) -> ADAPTER pilota badlands (spec->impl->N=40) -> Wave3 backfill mirato + D6 verdict -> Wave4**.
+Pathfinder-seed (Wave4, il piu grosso) DOPO adapter (per le stat) + ecosystem.yaml mirati (Wave3), altrimenti si seedano specie senza numeri di combat.
+
+## Effort totale (rough)
+
+| Wave                                                  | Effort                             |
+| ----------------------------------------------------- | ---------------------------------- |
+| Wave1 surface                                         | ~7h                                |
+| Wave2 backend (orphan 12 + PhaseC 12)                 | ~24h                               |
+| Wave3 adapter+pilota badlands (keystone)              | ~TBD (spec first)                  |
+| Wave3 backfill YAGNI (mirato, non broad)              | ridotto vs ~20-30h originale       |
+| Wave4 content+Pathfinder (Pathfinder 30-50 + lore 35) | ~65-85h                            |
+| **Totale**                                            | multi-sprint (adapter da spec'are) |
+
+## Execution mode
+
+- **Wave1 + Wave2** = chip backend/frontend (sessione con backend up per smoke, ADR-0011 + QG). Pattern gia usato (chip seed/triangulate/worldgen).
+- **Wave3** = adapter (engine, sessione backend + band re-verify N=40) PRIMA, poi data-gen mirato + content review master-dd.
+- **Wave4** = writer (lore) + designer (Pathfinder). Master-dd content gate.
+- Ogni ticket: smoke + AI regression + band-neutrality (canonical AI-playtest) prima di merge.
+
+## Riferimenti
+
+- Atlas (mappa gap): [`docs/guide/DESIGN-DATA-ATLAS.md`](../guide/DESIGN-DATA-ATLAS.md) #2452
+- Census ecologia-combat (reframe adapter-first): [`docs/superpowers/specs/2026-05-30-ecologia-combat-disconnect-strategy.md`](../superpowers/specs/2026-05-30-ecologia-combat-disconnect-strategy.md) #2454
+- BACKLOG ticket esistenti: TKT-ORPHAN-\* · TKT-WORLDGEN-GAPA/B/C · TKT-PLAYTEST-SEED/TRIANGULATE/SUITE
+- Metodo playtest gate: [`docs/process/CANONICAL-AI-PLAYTEST.md`](../process/CANONICAL-AI-PLAYTEST.md)
+- Vault hub: `Atlas/evo-tactics-design-data-atlas-moc.md`

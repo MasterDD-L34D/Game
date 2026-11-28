@@ -1,0 +1,4 @@
+profile_id,label,difficulty,total_xp,target_xp,delta_vs_target_pct,xp_per_minute
+helix_cipher,Helix + Cipher (support blend),story,1172.5898,1175.0,-0.2051,50.3257
+helix_cipher,Helix + Cipher (support blend),standard,1429.9875,1430.0,-0.0009,61.3729
+helix_cipher,Helix + Cipher (support blend),veteran,1673.0852,1675.0,-0.1143,71.8062

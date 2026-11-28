@@ -1,0 +1,54 @@
+{
+  "species": {
+    "scientific_name": "Soniptera resonans",
+    "common_names": [
+      "Libellula Sonica"
+    ],
+    "classification": {
+      "macro_class": "Insecta",
+      "habitat": "savanes e bacini termici"
+    },
+    "functional_signature": "Manipolazione sonora: dal mascheramento al raggio sonico; volo fine a latenza ridotta.",
+    "visual_description": "Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi composti lucidi; addome segmentato aerodinamico.",
+    "risk_profile": {
+      "danger_level": 2,
+      "vectors": [
+        "onda sonora direzionale"
+      ]
+    },
+    "interactions": {
+      "predates_on": [
+        "sciami di insetti",
+        "uccelli molto piccoli"
+      ],
+      "predated_by": [
+        "uccelli rapaci",
+        "pipistrelli"
+      ],
+      "symbiosis": "nessuna"
+    },
+    "constraints": [
+      "Rendimento ridotto in pioggia intensa",
+      "Consumo energetico elevato in hovering prolungato"
+    ],
+    "sentience_index": "T1",
+    "ecotypes": [
+      "Oasi Termica",
+      "Prateria Arbustiva"
+    ],
+    "trait_refs": [
+      "ali_fono_risonanti",
+      "cannone_sonico_a_raggio",
+      "campo_di_interferenza_acustica",
+      "cervello_a_bassa_latenza",
+      "occhi_cinetici"
+    ],
+    "id": "soniptera_resonans"
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  }
+}

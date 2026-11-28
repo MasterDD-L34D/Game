@@ -1,0 +1,156 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CampaignProgress dashboard > renderizza layout funnel e heatmap coerente 1`] = `
+"<section data-v-adbb7110="" class="campaign-progress">
+  <header data-v-adbb7110="" class="campaign-progress__header">
+    <div data-v-adbb7110="">
+      <h2 data-v-adbb7110="">Progressione campagna</h2>
+      <p data-v-adbb7110=""> Monitoraggio continuo del funnel di conversione e della reattività dei canali operativi per la campagna in corso. </p>
+    </div>
+    <dl data-v-adbb7110="" class="campaign-progress__meta">
+      <div data-v-adbb7110="">
+        <dt data-v-adbb7110="">Ultimo aggiornamento</dt>
+        <dd data-v-adbb7110="">05 ott 2024, 10:30</dd>
+      </div>
+      <div data-v-adbb7110="">
+        <dt data-v-adbb7110="">Campagne attive</dt>
+        <dd data-v-adbb7110="">3</dd>
+      </div>
+    </dl>
+  </header>
+  <section data-v-adbb7110="" class="campaign-progress__summary">
+    <article data-v-adbb7110="" class="campaign-progress__card">
+      <h3 data-v-adbb7110="">Lead totali</h3>
+      <p data-v-adbb7110="" class="campaign-progress__value">12.840</p>
+      <p data-v-adbb7110="" class="campaign-progress__caption">Totale opportunità raccolte nel periodo</p>
+    </article>
+    <article data-v-adbb7110="" class="campaign-progress__card">
+      <h3 data-v-adbb7110="">Tasso di conversione</h3>
+      <p data-v-adbb7110="" class="campaign-progress__value">24.7%</p>
+      <p data-v-adbb7110="" class="campaign-progress__caption"> Target: 22.8% · 1.9% sopra target</p>
+    </article>
+    <article data-v-adbb7110="" class="campaign-progress__card">
+      <h3 data-v-adbb7110="">Momentum medio</h3>
+      <p data-v-adbb7110="" class="campaign-progress__value">5.0%</p>
+      <p data-v-adbb7110="" class="campaign-progress__caption">Var. media giornaliera sul funnel</p>
+    </article>
+    <article data-v-adbb7110="" class="campaign-progress__card">
+      <h3 data-v-adbb7110="">Segmento top</h3>
+      <p data-v-adbb7110="" class="campaign-progress__value">Campaign Alpha</p>
+      <p data-v-adbb7110="" class="campaign-progress__caption">Owner: Email</p>
+    </article>
+  </section>
+  <div data-v-adbb7110="" class="campaign-progress__layout">
+    <section data-v-adbb7110="" class="campaign-progress__panel campaign-progress__panel--funnel">
+      <header data-v-adbb7110="" class="campaign-progress__panel-header">
+        <div data-v-adbb7110="">
+          <h3 data-v-adbb7110="">Funnel di conversione</h3>
+          <p data-v-adbb7110="">Analisi dei passaggi dalla scoperta alla fidelizzazione.</p>
+        </div><span data-v-adbb7110="" class="campaign-progress__panel-meta">5 stadi</span>
+      </header>
+      <ol data-v-adbb7110="" class="funnel">
+        <li data-v-adbb7110="" class="funnel__stage">
+          <div data-v-adbb7110="" class="funnel__bar" style="--width: 100%; --index: 0;"><strong data-v-adbb7110="">Awareness</strong><span data-v-adbb7110="" class="funnel__metric">12.840 lead</span><span data-v-adbb7110="" class="funnel__metric">53.3% conv.</span></div>
+          <footer data-v-adbb7110="" class="funnel__footer"><span data-v-adbb7110="">Drop-off: 0.0%</span><span data-v-adbb7110="" class="funnel__delta--up">▲ 8.0%</span></footer>
+        </li>
+        <li data-v-adbb7110="" class="funnel__stage">
+          <div data-v-adbb7110="" class="funnel__bar" style="--width: 53.271028037383175%; --index: 1;"><strong data-v-adbb7110="">Considerazione</strong><span data-v-adbb7110="" class="funnel__metric">6840 lead</span><span data-v-adbb7110="" class="funnel__metric">51.5% conv.</span></div>
+          <footer data-v-adbb7110="" class="funnel__footer"><span data-v-adbb7110="">Drop-off: 0.0%</span><span data-v-adbb7110="" class="funnel__delta--up">▲ 4.0%</span></footer>
+        </li>
+        <li data-v-adbb7110="" class="funnel__stage">
+          <div data-v-adbb7110="" class="funnel__bar" style="--width: 27.41433021806853%; --index: 2;"><strong data-v-adbb7110="">Valutazione</strong><span data-v-adbb7110="" class="funnel__metric">3520 lead</span><span data-v-adbb7110="" class="funnel__metric">52.8% conv.</span></div>
+          <footer data-v-adbb7110="" class="funnel__footer"><span data-v-adbb7110="">Drop-off: 0.0%</span><span data-v-adbb7110="" class="funnel__delta--up">▲ 2.0%</span></footer>
+        </li>
+        <li data-v-adbb7110="" class="funnel__stage">
+          <div data-v-adbb7110="" class="funnel__bar" style="--width: 14.485981308411214%; --index: 3;"><strong data-v-adbb7110="">Attivazione</strong><span data-v-adbb7110="" class="funnel__metric">1860 lead</span><span data-v-adbb7110="" class="funnel__metric">52.7% conv.</span></div>
+          <footer data-v-adbb7110="" class="funnel__footer"><span data-v-adbb7110="">Drop-off: 0.0%</span><span data-v-adbb7110="" class="funnel__delta--down">▼ 1.0%</span></footer>
+        </li>
+        <li data-v-adbb7110="" class="funnel__stage">
+          <div data-v-adbb7110="" class="funnel__bar" style="--width: 12%; --index: 4;"><strong data-v-adbb7110="">Fidelizzazione</strong><span data-v-adbb7110="" class="funnel__metric">980 lead</span><span data-v-adbb7110="" class="funnel__metric">62.2% conv.</span></div>
+          <footer data-v-adbb7110="" class="funnel__footer"><span data-v-adbb7110="">Drop-off: 0.0%</span><span data-v-adbb7110="" class="funnel__delta--up">▲ 3.0%</span></footer>
+        </li>
+        <!--v-if-->
+      </ol>
+    </section>
+    <section data-v-adbb7110="" class="campaign-progress__panel campaign-progress__panel--heatmap">
+      <header data-v-adbb7110="" class="campaign-progress__panel-header">
+        <div data-v-adbb7110="">
+          <h3 data-v-adbb7110="">Heatmap canali</h3>
+          <p data-v-adbb7110="">Intensità settimanale dei touchpoint attivati per segmento.</p>
+        </div><span data-v-adbb7110="" class="campaign-progress__panel-meta">4 periodi</span>
+      </header>
+      <div data-v-adbb7110="" class="heatmap">
+        <table data-v-adbb7110="">
+          <thead data-v-adbb7110="">
+            <tr data-v-adbb7110="">
+              <th data-v-adbb7110="">Segmento</th>
+              <th data-v-adbb7110="">Settimana 1</th>
+              <th data-v-adbb7110="">Settimana 2</th>
+              <th data-v-adbb7110="">Settimana 3</th>
+              <th data-v-adbb7110="">Settimana 4</th>
+            </tr>
+          </thead>
+          <tbody data-v-adbb7110="">
+            <tr data-v-adbb7110="">
+              <th data-v-adbb7110="" scope="row">Email</th>
+              <td data-v-adbb7110="" style="--intensity: 0.23;"><span data-v-adbb7110="" class="heatmap__value">41.0%</span><small data-v-adbb7110="">520 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.37;"><span data-v-adbb7110="" class="heatmap__value">46.0%</span><small data-v-adbb7110="">610 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.51;"><span data-v-adbb7110="" class="heatmap__value">51.0%</span><small data-v-adbb7110="">690 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.71;"><span data-v-adbb7110="" class="heatmap__value">58.0%</span><small data-v-adbb7110="">810 lead</small></td>
+            </tr>
+            <tr data-v-adbb7110="">
+              <th data-v-adbb7110="" scope="row">Social</th>
+              <td data-v-adbb7110="" style="--intensity: 0.14;"><span data-v-adbb7110="" class="heatmap__value">38.0%</span><small data-v-adbb7110="">480 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.31;"><span data-v-adbb7110="" class="heatmap__value">44.0%</span><small data-v-adbb7110="">560 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.43;"><span data-v-adbb7110="" class="heatmap__value">48.0%</span><small data-v-adbb7110="">640 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.63;"><span data-v-adbb7110="" class="heatmap__value">55.0%</span><small data-v-adbb7110="">720 lead</small></td>
+            </tr>
+            <tr data-v-adbb7110="">
+              <th data-v-adbb7110="" scope="row">In-Game</th>
+              <td data-v-adbb7110="" style="--intensity: 0.54;"><span data-v-adbb7110="" class="heatmap__value">52.0%</span><small data-v-adbb7110="">690 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.69;"><span data-v-adbb7110="" class="heatmap__value">57.0%</span><small data-v-adbb7110="">740 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.80;"><span data-v-adbb7110="" class="heatmap__value">61.0%</span><small data-v-adbb7110="">810 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 1.00;"><span data-v-adbb7110="" class="heatmap__value">68.0%</span><small data-v-adbb7110="">920 lead</small></td>
+            </tr>
+            <tr data-v-adbb7110="">
+              <th data-v-adbb7110="" scope="row">LiveOps</th>
+              <td data-v-adbb7110="" style="--intensity: 0.00;"><span data-v-adbb7110="" class="heatmap__value">33.0%</span><small data-v-adbb7110="">320 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.17;"><span data-v-adbb7110="" class="heatmap__value">39.0%</span><small data-v-adbb7110="">380 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.31;"><span data-v-adbb7110="" class="heatmap__value">44.0%</span><small data-v-adbb7110="">450 lead</small></td>
+              <td data-v-adbb7110="" style="--intensity: 0.46;"><span data-v-adbb7110="" class="heatmap__value">49.0%</span><small data-v-adbb7110="">500 lead</small></td>
+            </tr>
+            <!--v-if-->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section data-v-adbb7110="" class="campaign-progress__panel campaign-progress__panel--highlights">
+      <header data-v-adbb7110="" class="campaign-progress__panel-header">
+        <div data-v-adbb7110="">
+          <h3 data-v-adbb7110="">Focus e follow-up</h3>
+          <p data-v-adbb7110="">Azioni prioritarie con ownership definita.</p>
+        </div><span data-v-adbb7110="" class="campaign-progress__panel-meta">3 elementi</span>
+      </header>
+      <ul data-v-adbb7110="" class="highlights">
+        <li data-v-adbb7110="" class="highlights__item">
+          <h4 data-v-adbb7110="">Campaign Alpha</h4>
+          <p data-v-adbb7110="">Stage awareness — period Settimana 4</p>
+          <footer data-v-adbb7110=""><span data-v-adbb7110="" class="highlights__owner">Owner: Email</span><span data-v-adbb7110="" class="highlights__eta">ETA: Sprint 42</span></footer>
+        </li>
+        <li data-v-adbb7110="" class="highlights__item">
+          <h4 data-v-adbb7110="">Campaign Beta</h4>
+          <p data-v-adbb7110="">Stage evaluation — period Settimana 3</p>
+          <footer data-v-adbb7110=""><span data-v-adbb7110="" class="highlights__owner">Owner: In-Game</span><span data-v-adbb7110="" class="highlights__eta">ETA: Sprint 43</span></footer>
+        </li>
+        <li data-v-adbb7110="" class="highlights__item">
+          <h4 data-v-adbb7110="">Campaign Gamma</h4>
+          <p data-v-adbb7110="">Stage activation — period Settimana 2</p>
+          <footer data-v-adbb7110=""><span data-v-adbb7110="" class="highlights__owner">Owner: LiveOps</span>
+            <!--v-if-->
+          </footer>
+        </li>
+      </ul>
+    </section>
+  </div>
+</section>"
+`;

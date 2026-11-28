@@ -1,0 +1,26 @@
+# workflow_file|destinazione|modalita|dispatch_inputs
+ci.yml|logs/ci_runs|auto|
+e2e.yml|logs/ci_runs|auto|
+deploy-test-interface.yml|logs/ci_runs|auto|
+daily-pr-summary.yml|logs/ci_runs|auto|
+daily-tracker-refresh.yml|logs/ci_runs|auto|
+data-quality.yml|logs/ci_runs|auto|
+lighthouse.yml|logs/ci_runs|auto|
+search-index.yml|logs/ci_runs|auto|
+telemetry-export.yml|logs/ci_runs|auto|
+idea-intake-index.yml|logs/ci_runs|auto|
+schema-validate.yml|logs/ci_runs|auto|
+validate-naming.yml|logs/ci_runs|auto|
+validate_traits.yml|logs/ci_runs|auto|
+update-evo-tracker.yml|logs/ci_runs|auto|
+traits-sync.yml|logs/ci_runs|auto|
+evo-doc-backfill.yml|logs/ci_runs|auto|
+evo-rollout-status.yml|logs/ci_runs|auto|
+qa-kpi-monitor.yml|logs/ci_runs|manual|
+qa-kpi-monitor.yml|logs/visual_runs|manual|
+qa-export.yml|logs/ci_runs|manual|
+qa-reports.yml|logs/ci_runs|manual|
+hud.yml|logs/ci_runs|manual|
+hud.yml|logs/visual_runs|manual|
+incoming-smoke.yml|logs/incoming_smoke|manual|-f path=<dataset> -f pack=<pack>
+evo-batch.yml|logs/ci_runs|manual|-f batch=traits -f execute=false
